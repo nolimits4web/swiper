@@ -1,6 +1,16 @@
 <h1>Swiper - Mobile touch slider with hardware accelerated transitions</h1>
 <h2>About</h2>
 <p><strong>Swiper</strong> - is the <strong>free and ultra lightweight</strong> mobile touch slider with hardware accelerated transitions (where supported) and amazing native behavior. It is intended to use in mobile websites, mobile web apps, and mobile native apps. Designed mostly for iOS, but also works on Android and latest Desktop browsers. <strong>Swiper</strong> is created by <a href="http://www.idangero.us">iDangero.us</a></p>
+<h2>Change Log</h2>
+<p>**Swiper 1.1 - Released on March 18, 2012**</p>
+<ul>
+	<li>Added <strong>autoPlay</strong> parameter to enable auto play</li>
+    <li><strong>mySwiper.startAutoPlay()</strong> - external function to start auto play</li>
+    <li><strong>mySwiper.startAutoPlay()</strong> - external function to stop auto play</li>
+    <li>Optimized for usage as a fallback for upcoming <strong>"iDangero.us S6"</strong> 3D slider</li>
+    <li>Added small plugin to use Swiper with <a href="http://zeptojs.com" target="_blank">Zepto.js</a></li>
+</ul>
+<h3>Swiper 1.0 - Initial release on March 15, 2012</h3>
 <h2>Demos</h2>
 <p><a href="http://www.idangero.us/sliders/swiper/">http://www.idangero.us/sliders/swiper/</a></p>
 <h2>Features</h2>
@@ -9,6 +19,7 @@
 	<li><p><strong>Touch emulation</strong>. This function will be useful if you are going to use Swiper on desktop sites. In this case Swiper will accept mouse events like touch events (click and drag to change slides)</p></li>
 	<li><p><strong>Vertical/Horizontal</strong>. Swiper comes with 2 main modes - horizontal (for horizontal animation and horizontal swipes) and vertical (for vertical animation and vertical swipes)</p></li>
 	<li><p><strong>Free Mode</strong>. When this mode enabled slides will not have fixed positions, like usual scroller (see demos bellow)</p></li>
+	<li><p><strong>Auto Play</strong>. Just set the delay and Swiper will change the slides automatically untill you touch it</p></li>
 	<li><p><strong>Rotation/resize adjustment</strong>. Swiper will be reinitialized after rotation of device</p></li>
 	<li><p><strong>Responsive</strong>. Can be used with a width or/and height defined in percents, not fixed. Useful for usage on devices with a different resolutions</p></li>
 	<li><p><strong>Scroll prevention</strong>. Swiper will prevent vertical scroll when you touch it in "horizontal" mode, and horizontal scroll in "vertical" mode</p></li>
@@ -87,7 +98,7 @@ window.onload = function() {
   <li><p><strong>container</strong> - <em>string</em>, <em>required</em>. CSS selector of Swiper's container. In the HTML code above it should be equal to '.swiper-container'</p></li>
   <li><p><strong>options</strong> - <em>object</em>, <em>optional</em>. Swiper parameters, see bellow</p></li>
 </ul>
-<h4>Usage:</h4>
+<p>**Usage:**</p>
 <code>
 var <strong>mySwiper</strong> = new Swiper('.swiper-container')
 </code>
@@ -99,9 +110,11 @@ var <strong>mySwiper</strong> = new Swiper('.swiper-container')
 	<li><p><strong>mySwiper.isSupportTouch()</strong> - returns <em>true</em> if browser supports Touch events</p></li>
 	<li><p><strong>mySwiper.isSupport3D()</strong> - returns <em>true</em> if browser supports CSS3 3D transforms</p></li>
 	<li><p><strong>mySwiper.activeSlide</strong> - returns the index number of currently active slide</p></li>
+	<li><p><strong>mySwiper.startAutoPlay()</strong> - start auto play. It may be useful for custom "Play" and "Pause" buttons.</p></li>
+	<li><p><strong>mySwiper.stopAutoPlay()</strong> - stop auto play. It may be useful for custom "Play" and "Pause" buttons.</p></li>
 </ul>
 
-<h3>"options"</h3>
+<h3>Options</h3>
 <p>Swiper support the following list of parameters on initialization:</p>
 <table>
 	<thead>
@@ -120,6 +133,13 @@ var <strong>mySwiper</strong> = new Swiper('.swiper-container')
 			<td>300</td>
 			<td>600</td>
 			<td>duration of animation between slides (in ms)</td>
+		</tr>
+		<tr>
+			<td>autoPlay</td>
+			<td>number</td>
+			<td>5000</td>
+			<td>-</td>
+			<td>delay between transitions (in ms). If this parameter is not specified, auto play will be disabled</td>
 		</tr>
 		<tr>
 			<td>mode</td>
