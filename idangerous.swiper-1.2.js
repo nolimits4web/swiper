@@ -1,5 +1,5 @@
 /*
- * Swiper 1.1 - Mobile Touch Slider
+ * Swiper 1.2 - Mobile Touch Slider
  * http://www.idangero.us/sliders/swiper/
  *
  * Copyright 2012, Vladimir Kharlampidi
@@ -8,7 +8,7 @@
  *
  * Licensed under GPL & MIT
  *
- * Released on: March 18, 2012
+ * Released on: March 31, 2012
 */
 Swiper = function(selector, params, callback) {
 	if (!document.querySelectorAll||document.querySelectorAll(selector).length==0) return;
@@ -135,13 +135,16 @@ Swiper = function(selector, params, callback) {
 		onTouchStart(event)
 	}, false);
 	
-	wrapper.addEventListener(touchEvents.touchMove, function(event) {
+	//Mouse 'mousemove' and 'mouseout' events should be assigned to document
+	var lestenEl = _this.isSupportTouch() ? wrapper : document
+	
+	lestenEl.addEventListener(touchEvents.touchMove, function(event) {
 		if (_this.isTouched && !params.onlyExternal)	
 			onTouchMove(event)
 	}, false);
 	
-	wrapper.addEventListener(touchEvents.touchEnd, function(event) {
-		if (params.onlyExternal) return
+	lestenEl.addEventListener(touchEvents.touchEnd, function(event) {
+		if ( params.onlyExternal || !_this.isTouched ) return
 		_this.isTouched = false
 		onTouchEnd(event)
 	}, false);
@@ -545,7 +548,7 @@ Swiper.prototype = {
 	
 }
 
-//Small jQuery and Zepto Plugin
+//Small jQuery and Zepto Plugins
 if (window.jQuery||window.Zepto) {
 	(function($){
 		$.fn.swiper = function(params) {
