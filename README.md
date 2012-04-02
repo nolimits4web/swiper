@@ -5,17 +5,17 @@
 <h3>Swiper 1.3 - Updated on April 2, 2012</h3>
 <ul>
 	<li>New and Reworked callbacks:
-	<ul>
-	<li>Added <strong>onSlideChangeStart</strong> callback</li>
-	<li>Added <strong>onSlideReset</strong> callback</li>
-	<li><strong>onSlideChange</strong> is renamed to <strong>onSlideChangeEnd</strong></li>
-	</ul>
+	  <ul>
+	    <li>Added <strong>onSlideChangeStart</strong> callback</li>
+	    <li>Added <strong>onSlideReset</strong> callback</li>
+	    <li><strong>onSlideChange</strong> is renamed to <strong>onSlideChangeEnd</strong></li>
+	  </ul>
 	</li>
     <li>Updated <strong>mySwiper.swipeTo()</strong> method:
-	<ul>
-	<li>Now it accepts 3 parameters - index <em>(number)</em>, speed <em>(number)</em> and runCallbacks <em>(boolean)</em></li>
-	<li>Now it will produce 'onSlideChangeStart' and 'onSlideChangeEnd' callback functions (if "runCallbacks" is not equal to "false")</li>
-	</ul>
+	  <ul>
+	    <li>Now it accepts 3 parameters - index <em>(number)</em>, speed <em>(number)</em> and runCallbacks <em>(boolean)</em></li>
+	    <li>Now it will produce 'onSlideChangeStart' and 'onSlideChangeEnd' callback functions (if "runCallbacks" is not equal to "false")</li>
+	  </ul>
     </li>
     <li>New <strong>mySwiper.destroy()</strong> method to release all events assigned by Swiper</li>
     <li>Fixed serious bug when using fluid (responsive) Swiper to re-calculate slides' position on window resize</li>
