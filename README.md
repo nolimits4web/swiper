@@ -2,6 +2,24 @@
 <h2>About</h2>
 <p><strong>Swiper</strong> - is the <strong>free and ultra lightweight</strong> mobile touch slider with hardware accelerated transitions (where supported) and amazing native behavior. It is intended to use in mobile websites, mobile web apps, and mobile native apps. Designed mostly for iOS, but also works on Android and latest Desktop browsers. <strong>Swiper</strong> is created by <a href="http://www.idangero.us">iDangero.us</a></p>
 <h2>Change Log</h2>
+<h3>Swiper 1.3 - Updated on April 2, 2012</h3>
+<ul>
+	<li>New and Reworked callbacks:
+	<ul>
+	<li>Added <strong>onSlideChangeStart</strong> callback</li>
+	<li>Added <strong>onSlideReset</strong> callback</li>
+	<li><strong>onSlideChange</strong> is renamed to <strong>onSlideChangeEnd</strong></li>
+	</ul>
+	</li>
+    <li>Updated <strong>mySwiper.swipeTo()</strong> method:
+	<ul>
+	<li>Now it accepts 3 parameters - index <em>(number)</em>, speed <em>(number)</em> and runCallbacks <em>(boolean)</em></li>
+	<li>Now it will produce 'onSlideChangeStart' and 'onSlideChangeEnd' callback functions (if "runCallbacks" is not equal to "false")</li>
+	</ul>
+    </li>
+    <li>New <strong>mySwiper.destroy()</strong> method to release all events assigned by Swiper</li>
+    <li>Fixed serious bug when using fluid (responsive) Swiper to re-calculate slides' position on window resize</li>
+</ul>
 <h3>Swiper 1.2 - Updated on March 31, 2012</h3>
 <ul>
 	<li>Improved mouse events to get the same behaviour as on touch devices</li>
@@ -43,7 +61,7 @@
 &lt;head&gt;
   ....
   &lt;link rel=&quot;stylesheet&quot; href=&quot;path_to_css/<strong>idangerous.swiper-1.0.css</strong>&quot;&gt;
-  &lt;script defer src=&quot;path_to_js/<strong>idangerous.swiper-1.0.js</strong>&quot;&gt;&lt;/script&gt;
+  &lt;script defer src=&quot;path_to_js/<strong>idangerous.swiper-1.3.min.js</strong>&quot;&gt;&lt;/script&gt;
   ....
 &lt;/head&gt;
 </pre>
@@ -84,13 +102,13 @@
 &lt;script type=&quot;text/javascript&quot;&gt;
 <em>//Use document ready or window load events
 // For example:
-// With jQuery: $(function() { ...code here... })
+// With jQuery / Zepto: $(function() { ...code here... })
 // Or window.onload = function() { ...code here ...}
 // Or document.addEventListener('DOMContentLoaded', function(){ ...code here... }, false)</em>
 
 window.onload = function() {
   var mySwiper = new Swiper('.slider-container',options);
-  <em>//Or with jQuery</em>
+  <em>//Or with jQuery or Zepto</em>
   var mySwiper = $('.slider-container').swiper(options);
 }
 &lt;/script&gt;
@@ -110,12 +128,13 @@ var <strong>mySwiper</strong> = new Swiper('.swiper-container')
 <ul>
 	<li><p><strong>mySwiper.swipeNext()</strong> - run transition to next slide</p></li>
 	<li><p><strong>mySwiper.swipePrev()</strong> - run transition to previous slide</p></li>
-	<li><p><strong>mySwiper.swipeTo(index)</strong> - run transition to the slide with index number equal to number argument</p></li>
+	<li><p><strong>mySwiper.swipeTo(index, speed, runCallbacks)</strong> - run transition to the slide with index number equal to 'index' parameter for the speed equal to 'speed' parameter. You can set 'runCallbacks' to false (by default it is 'true') and transition will not produce onSlideChange(Start/End) callback functions.</p></li>
 	<li><p><strong>mySwiper.isSupportTouch()</strong> - returns <em>true</em> if browser supports Touch events</p></li>
 	<li><p><strong>mySwiper.isSupport3D()</strong> - returns <em>true</em> if browser supports CSS3 3D transforms</p></li>
 	<li><p><strong>mySwiper.activeSlide</strong> - returns the index number of currently active slide</p></li>
 	<li><p><strong>mySwiper.startAutoPlay()</strong> - start auto play. It may be useful for custom "Play" and "Pause" buttons.</p></li>
 	<li><p><strong>mySwiper.stopAutoPlay()</strong> - stop auto play. It may be useful for custom "Play" and "Pause" buttons.</p></li>
+	<li><p><strong>mySwiper.destroy(<em>removeResizeEvent</em>)</strong> - will remove all attached event listeners (resize event on window (if <em>removeResizeEvent</em> not equal to 'false') , touch events on wrapper, and mouse events on document). Useful if you add/remove swiper(s) to document dynamically to release browser's memory.</p></li>
 </ul>
 
 <h3>Options</h3>
@@ -209,13 +228,6 @@ var <strong>mySwiper</strong> = new Swiper('.swiper-container')
 			<td>if true, then Swiper will create as many SPAN element as many slides in slider. All these spans will be created in the container specified in the "pagination" parameter. Every SPAN will have a 'swiper-pagination-switch' class, active span (of the current slide) will have a 'swiper-active-switch' class. They will be useful for styling them.</td>
 		</tr>
 		<tr>
-			<td>followFinger</td>
-			<td>boolean</td>
-			<td>true</td>
-			<td>false</td>
-			<td>If false, then slider will be animated only when you release it, it will not move while you hold your finger on it</td>
-		</tr>
-		<tr>
 			<td>wrapperClass</td>
 			<td>string</td>
 			<td>'swiper-wrapper'</td>
@@ -233,7 +245,7 @@ var <strong>mySwiper</strong> = new Swiper('.swiper-container')
 			<td>paginationActiveClass</td>
 			<td>string</td>
 			<td>'swiper-active-switch'</td>
-			<td>'my-wrapper'</td>
+			<td>'my-active-switch'</td>
 			<td>CSS class of the active Swiper's pagination switch</td>
 		</tr>
 		<tr>
@@ -258,11 +270,25 @@ var <strong>mySwiper</strong> = new Swiper('.swiper-container')
 			<td>Callback function, will be executed when you release the slider</td>
 		</tr>
 		<tr>
-			<td>onSlideSwitch</td>
+			<td>onSlideReset</td>
 			<td>function</td>
 			<td>-</td>
 			<td>function(){ do something }</td>
-			<td>Callback function, will be executed after the animation to other slide (next or previous). Don't work with freeMode</td>
+			<td>Callback function, will be executed when you release the slide and it going to be reseted to currently active slide. Don't work with freeMode.</td>
+		</tr>
+		<tr>
+			<td>onSlideChangeStart</td>
+			<td>function</td>
+			<td>-</td>
+			<td>function(){ do something }</td>
+			<td>Callback function, will be executed in the beginning of animation to other slide (next or previous). Don't work with freeMode. </td>
+		</tr>
+		<tr>
+			<td>onSlideChangeEnd</td>
+			<td>function</td>
+			<td>-</td>
+			<td>function(){ do something }</td>
+			<td>Callback function, will be executed after animation to other slide (next or previous). Don't work with freeMode. <strong>Changed name from "onSlideChange" to "onSlideChangeEnd" in 1.3</strong></td>
 		</tr>
 		
 		
@@ -272,7 +298,7 @@ var <strong>mySwiper</strong> = new Swiper('.swiper-container')
 <h3>Example</h3>
 <pre>
 &lt;script type=&quot;text/javascript&quot;&gt;
-$(function(){
+$(document).ready(function(){
   var mySwiper = new Swiper('.swiper-container', {
     mode : 'vertical', <em>//Switch to vertical mode</em>
     speed : 500, <em>//Set animation duration to 500ms</em>
