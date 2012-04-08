@@ -487,7 +487,7 @@ Swiper.prototype = {
 	transitionEnd : function(callback) {
 		var a = this
 		var el = a.wrapper
-		var events = ['webkitTransitionEnd','transitionend', 'oTransitionEnd', 'MSTransitionEnd'];
+		var events = ['webkitTransitionEnd','transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'];
 		if (callback) {
 			function fireCallBack() {
 				callback(a)
@@ -540,7 +540,7 @@ Swiper.prototype = {
 			var transformMatrix = new WebKitCSSMatrix(window.getComputedStyle(el, null).webkitTransform)
 		}
 		else {
-			var transformMatrix = 	window.getComputedStyle(el, null).MozTransform || window.getComputedStyle(el, null).OTransform || window.getComputedStyle(el, null).MsTransform || window.getComputedStyle(el, null).transform
+			var transformMatrix = 	window.getComputedStyle(el, null).MozTransform || window.getComputedStyle(el, null).OTransform || window.getComputedStyle(el, null).MsTransform || window.getComputedStyle(el, null).msTransform  || window.getComputedStyle(el, null).transform
 		}
 		if (axis=='x') {
 			var curTransform = parseInt( transformMatrix.toString().split(',')[4], 10 )
@@ -560,17 +560,17 @@ Swiper.prototype = {
 		y=y||0;
 		z=z||0;
 		if (this.use3D) {
-			es.webkitTransform = es.MsTransform = es.MozTransform = es.OTransform = es.transform = 'translate3d('+x+'px, '+y+'px, '+z+'px)'
+			es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate3d('+x+'px, '+y+'px, '+z+'px)'
 		}
 		else {
-			es.webkitTransform = es.MsTransform = es.MozTransform = es.OTransform = es.transform = 'translate('+x+'px, '+y+'px)'
+			es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate('+x+'px, '+y+'px)'
 		}
 	},
 	
 	//Set Transition
 	setTransition : function(duration) {
 		var es = this.wrapper.style
-		es.webkitTransitionDuration = es.MsTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = duration/1000+'s'
+		es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = duration/1000+'s'
 	}
 	
 }
