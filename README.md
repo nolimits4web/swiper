@@ -118,8 +118,8 @@ var <strong>mySwiper</strong> = new Swiper('.swiper-container')
 </code>
 <p>Returns the object with couple of useful functions and methods:</p>
 <ul>
-	<li><p><strong>mySwiper.swipeNext()</strong> - run transition to next slide</p></li>
-	<li><p><strong>mySwiper.swipePrev()</strong> - run transition to previous slide</p></li>
+	<li><p><strong>mySwiper.swipeNext()</strong> - run transition to next slide. returns true/false.</p></li>
+	<li><p><strong>mySwiper.swipePrev()</strong> - run transition to previous slide. returns true/false.</p></li>
 	<li><p><strong>mySwiper.swipeTo(index, speed, runCallbacks)</strong> - run transition to the slide with index number equal to 'index' parameter for the speed equal to 'speed' parameter. You can set 'runCallbacks' to false (by default it is 'true') and transition will not produce onSlideChange(Start/End) callback functions.</p></li>
 	<li><p><strong>mySwiper.isSupportTouch()</strong> - returns <em>true</em> if browser supports Touch events</p></li>
 	<li><p><strong>mySwiper.isSupport3D()</strong> - returns <em>true</em> if browser supports CSS3 3D transforms</p></li>

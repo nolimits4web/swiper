@@ -363,7 +363,7 @@ Swiper = function(selector, params, callback) {
 		if (!_this.positions.current) _this.positions.current = -sliderSize;
 		//--
 		var newPosition = Math.ceil(-_this.positions.current/sliderSize)*sliderSize
-		if (newPosition==wrapperSize) return
+		if (newPosition==wrapperSize) return false
 		if (isHorizontal) {
 			_this.setTransform(-newPosition,0,0)
 		}
@@ -389,7 +389,7 @@ Swiper = function(selector, params, callback) {
 	_this.swipePrev = function() {
 		
 		var getTranslate = isHorizontal ? _this.getTranslate('x') : _this.getTranslate('y')
-		if(getTranslate == 0) return
+		if(getTranslate == 0) return false
 		var newPosition = (Math.ceil(-_this.positions.current/sliderSize)-1)*sliderSize
 		/* For external swipePrev Function */
 		if ( newPosition == - getTranslate   ) {
@@ -436,7 +436,7 @@ Swiper = function(selector, params, callback) {
 	}
 	
 	_this.swipeTo = function (index, speed, runCallbacks) {
-		if (index<0 || index > (numOfSlides-1)) return
+		if (index<0 || index > (numOfSlides-1)) return false
 		runCallbacks = runCallbacks===false ? false : runCallbacks || true
 		var speed = speed===0 ? speed : speed || params.speed
 		var newPosition =  -index*sliderSize ;
@@ -446,6 +446,7 @@ Swiper = function(selector, params, callback) {
 		//Run Callbacks
 		if (runCallbacks) 
 			slideChangeCallbacks()
+        return true
 	}
 	
 	function slideChangeCallbacks() {
