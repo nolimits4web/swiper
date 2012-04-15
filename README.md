@@ -40,7 +40,7 @@
 	<li><p><strong>Resistant bounds</strong>. Swiper will increase resistance when you try to swipe it over than most left and most right positions (most top and most bottom for "vertical" mode)</p></li>
 	<li><p><strong>Built-in pagination control</strong>. Can be disabled</p></li>
 	<li><p><strong>Any HTML</strong>. You can put any HTML content inside of slide, not only images</p></li>
-	<li><p><strong>Rich API</strong>. Swiper comes with very rich API. It allows to create your own pagination, "next" and "previous" buttons and comes with 4 callbacks - onTouchStart, onTouchMove, onTouchEnd, onSlideSwitch </p></li>
+	<li><p><strong>Rich API</strong>. Swiper comes with very rich API. It allows to create your own pagination, "next" and "previous" buttons and comes with 7 callbacks - onTouchStart, onTouchMove, onTouchEnd, onSlideReset, onSlideChangeStart, onSlideChangeEnd, onSlideInitialize.</p></li>
 	<li><p><strong>Flexible configuration</strong>. Swiper accepts a lot of parameters on initialization to make it much flexible as possible. You can configure animation speed, mode (vertical or horizontal), free mode, enable/disable pagination, touch ratio, etc.</p></li>
 	<li><p><strong>Good compatibility</strong>. Swiper compatible and tested with: Mobile Safari (tested on iOS5), Android 2.1+, latest desktop versions of Google Chrome, Safari, Firefox and Opera</p></li>
 	<li><p><strong>Standalone</strong>. Swiper doesn't require any JavaScript libraries like jQuery, it makes Swiper much more smaller and faster. </p></li>
@@ -118,12 +118,13 @@ var <strong>mySwiper</strong> = new Swiper('.swiper-container')
 </code>
 <p>Returns the object with couple of useful functions and methods:</p>
 <ul>
-	<li><p><strong>mySwiper.swipeNext()</strong> - run transition to next slide</p></li>
-	<li><p><strong>mySwiper.swipePrev()</strong> - run transition to previous slide</p></li>
+	<li><p><strong>mySwiper.swipeNext()</strong> - run transition to next slide. returns true/false.</p></li>
+	<li><p><strong>mySwiper.swipePrev()</strong> - run transition to previous slide. returns true/false.</p></li>
 	<li><p><strong>mySwiper.swipeTo(index, speed, runCallbacks)</strong> - run transition to the slide with index number equal to 'index' parameter for the speed equal to 'speed' parameter. You can set 'runCallbacks' to false (by default it is 'true') and transition will not produce onSlideChange(Start/End) callback functions.</p></li>
 	<li><p><strong>mySwiper.isSupportTouch()</strong> - returns <em>true</em> if browser supports Touch events</p></li>
 	<li><p><strong>mySwiper.isSupport3D()</strong> - returns <em>true</em> if browser supports CSS3 3D transforms</p></li>
 	<li><p><strong>mySwiper.activeSlide</strong> - returns the index number of currently active slide</p></li>
+	<li><p><strong>mySwiper.previousSlide</strong> - returns the index number of previously displayed slide</p></li>
 	<li><p><strong>mySwiper.startAutoPlay()</strong> - start auto play. It may be useful for custom "Play" and "Pause" buttons.</p></li>
 	<li><p><strong>mySwiper.stopAutoPlay()</strong> - stop auto play. It may be useful for custom "Play" and "Pause" buttons.</p></li>
 	<li><p><strong>mySwiper.destroy(<em>removeResizeEvent</em>)</strong> - will remove all attached event listeners (resize event on window (if <em>removeResizeEvent</em> not equal to 'false') , touch events on wrapper, and mouse events on document). Useful if you add/remove swiper(s) to document dynamically to release browser's memory.</p></li>
@@ -282,8 +283,13 @@ var <strong>mySwiper</strong> = new Swiper('.swiper-container')
 			<td>function(){ do something }</td>
 			<td>Callback function, will be executed after animation to other slide (next or previous). Don't work with freeMode. <strong>Changed name from "onSlideChange" to "onSlideChangeEnd" in 1.3</strong></td>
 		</tr>
-		
-		
+		<tr>
+		    <td>onSlideInitialize</td>
+		    <td>function</td>
+		    <td>-</td>
+		    <td>function(mySwiper, slide) { do something }</td>
+		    <td>Callback function, will be executed when init() is run. Note that this callback is executed for each slide elements.</td>
+		</tr>
 	</tbody>
 
 </table>
