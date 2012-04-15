@@ -124,6 +124,7 @@ var <strong>mySwiper</strong> = new Swiper('.swiper-container')
 	<li><p><strong>mySwiper.isSupportTouch()</strong> - returns <em>true</em> if browser supports Touch events</p></li>
 	<li><p><strong>mySwiper.isSupport3D()</strong> - returns <em>true</em> if browser supports CSS3 3D transforms</p></li>
 	<li><p><strong>mySwiper.activeSlide</strong> - returns the index number of currently active slide</p></li>
+	<li><p><strong>mySwiper.previousSlide</strong> - returns the index number of previously displayed slide</p></li>
 	<li><p><strong>mySwiper.startAutoPlay()</strong> - start auto play. It may be useful for custom "Play" and "Pause" buttons.</p></li>
 	<li><p><strong>mySwiper.stopAutoPlay()</strong> - stop auto play. It may be useful for custom "Play" and "Pause" buttons.</p></li>
 	<li><p><strong>mySwiper.destroy(<em>removeResizeEvent</em>)</strong> - will remove all attached event listeners (resize event on window (if <em>removeResizeEvent</em> not equal to 'false') , touch events on wrapper, and mouse events on document). Useful if you add/remove swiper(s) to document dynamically to release browser's memory.</p></li>

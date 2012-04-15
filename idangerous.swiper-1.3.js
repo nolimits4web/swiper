@@ -21,6 +21,7 @@ Swiper = function(selector, params, callback) {
 	_this.times = {};
 	_this.isTouched = false;
 	_this.activeSlide = 0;
+    _this.previousSlide = null;
 	_this.use3D = _this.isSupport3D()
 	params = params || {};
 	_this.params = params;
@@ -462,6 +463,7 @@ Swiper = function(selector, params, callback) {
 	}
 	
 	_this.updateActiveSlide = function(position) {
+        _this.previousSlide = _this.activeSlide
 		_this.activeSlide = Math.round(-position/sliderSize)
 		if (_this.activeSlide==numOfSlides) _this.activeSlide = numOfSlides-1
 		if (_this.activeSlide<0) _this.activeSlide = 0
