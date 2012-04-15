@@ -79,8 +79,12 @@ Swiper = function(selector, params, callback) {
 		numOfSlides = dQ(selector + ' .' + params.slideClass).length
 		
 		for (var i=0; i<numOfSlides; i++ ) {
-			dQ(selector + ' .' + params.slideClass).item(i).style.width=sliderWidth+"px"
-			dQ(selector + ' .' + params.slideClass).item(i).style.height=sliderHeight+"px"
+            var el = dQ(selector + ' .' + params.slideClass).item(i);
+            el.style.width=sliderWidth+"px"
+            el.style.height=sliderHeight+"px"
+            if (params.onSlideInitialize) {
+                params.onSlideInitialize(_this, el);
+            }
 		}
 		var wrapperWidth = numOfSlides*sliderWidth;
 		var wrapperHeight = numOfSlides*sliderHeight;
