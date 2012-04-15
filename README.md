@@ -2,6 +2,12 @@
 <h2>About</h2>
 <p><strong>Swiper</strong> - is the <strong>free and ultra lightweight</strong> mobile touch slider with hardware accelerated transitions (where supported) and amazing native behavior. It is intended to use in mobile websites, mobile web apps, and mobile native apps. Designed mostly for iOS, but also works on Android and latest Desktop browsers. <strong>Swiper</strong> is created by <a href="http://www.idangero.us">iDangero.us</a></p>
 <h2>Change Log</h2>
+<h3>Swiper 1.3 - Updated on April 15, 2012</h3>
+<ul>
+	<li>External functions swipeNext, swipePrev, swipeTo now return true or false.</li>
+	<li><strong>.previousSlide</strong> property returns the index of previously displayed slide</li>
+	<li>Added <strong>onSlideInitialize</strong> callback</li>
+</ul>
 <h3>Swiper 1.3 - Updated on April 2, 2012</h3>
 <ul>
 	<li>Added <strong>onSlideChangeStart</strong> callback</li>
