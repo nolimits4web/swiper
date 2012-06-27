@@ -448,6 +448,7 @@ Swiper = function(selector, params, callback) {
 		_this.setTransform(newPosition,0,0)
 		_this.setTransition( speed )	
 		_this.updateActiveSlide(newPosition)
+		_this.positions.current = newPosition;
 		//Run Callbacks
 		if (runCallbacks) 
 			slideChangeCallbacks()
