@@ -396,6 +396,7 @@ Swiper = function(selector, params, callback) {
 		var getTranslate = isHorizontal ? _this.getTranslate('x') : _this.getTranslate('y')
 		if(getTranslate == 0) return false
 		var newPosition = (Math.ceil(-_this.positions.current/sliderSize)-1)*sliderSize
+		if (-newPosition > 0) return false
 		/* For external swipePrev Function */
 		if ( newPosition == - getTranslate   ) {
 			newPosition = newPosition-sliderSize
