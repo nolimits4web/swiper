@@ -2,10 +2,15 @@
 <h2>About</h2>
 <p><strong>Swiper</strong> - is the <strong>free and ultra lightweight</strong> mobile touch slider with hardware accelerated transitions (where supported) and amazing native behavior. It is intended to use in mobile websites, mobile web apps, and mobile native apps. Designed mostly for iOS, but also works on Android and latest Desktop browsers. <strong>Swiper</strong> is created by <a href="http://www.idangero.us">iDangero.us</a></p>
 <h2>Change Log</h2>
+<h3>Swiper 1.5.5 - Updated on October 20, 2012</h3>
+<ul>
+	<li>Internet Explorer 8 support (without animation)</li>
+	<li>FireFox below 11 support</li>
+</ul>
 <h3>Swiper 1.5 - Updated on October 6, 2012</h3>
 <ul>
 	<li>A lot of major and minor fixes, core optimization</li>
-	<li>Not it works in Internet Explorer 9 (without animation) and Internet Explorer 10</li>
+	<li>Now it works in Internet Explorer 9 (without animation) and Internet Explorer 10</li>
 	<li>Improved perfomance</li>
 	<li>New "loop" mode with infinite scroll (see demo below)</li>
 	<li>New carousel mode, now you can show few slides per slider container (see demo below)</li>
