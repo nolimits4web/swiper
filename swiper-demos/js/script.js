@@ -20,7 +20,7 @@ $(function(){
 		freeMode : true,
 		freeModeFluid: true,
 		slidesPerSlide : 1,
-		loop: true
+		loop: false
 	});
 	
 	/* Carousel mode: */
@@ -35,6 +35,11 @@ $(function(){
 		slidesPerSlide : 3,
 		loop:true
 	});
+	
+	/* Scroll container: */
+	var sScroll = $('.swiper-scroll-container').swiper({
+		scrollContainer : true
+	})
 	
 	/* Nested Swipers. Vertical Swiper inside of horizontal: */
 	var swiperN1 = $('.swiper-n1').swiper({

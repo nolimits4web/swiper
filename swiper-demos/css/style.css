@@ -680,6 +680,18 @@ pre em {
 .pagination-nested2 .swiper-active-switch {
     background: none repeat scroll 0 0 #FFFFFF;
 }
+
+
+/* Scroll Container */
+.swiper-scroll-container {
+	width:640px;
+	height:300px;
+}
+.swiper-scroll-container .swiper-slide {
+	width: 1520px !important;	
+	height:300px;
+}
+
 /* ==|== non-semantic helper classes ========================================
    Please define your styles before this section.
    ========================================================================== */
