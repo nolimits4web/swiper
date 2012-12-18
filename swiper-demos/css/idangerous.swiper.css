@@ -11,7 +11,6 @@
  *
  * Licensed under GPL & MIT
  *
- * Updated on: October 1, 2012
 */
 
 /* Swiper Styles */
@@ -24,6 +23,8 @@
 	-ms-backface-visibility:hidden;
 	-o-backface-visibility:hidden;
 	backface-visibility:hidden;
+	/* Fix of Webkit flickering */
+	z-index:1;
 }
 .swiper-wrapper {
 	position:relative;
@@ -57,6 +58,18 @@
 .swiper-slide {
 	float:left;
 	-webkit-transform:translate3d(0,0,0);
+	-o-transform:translate3d(0,0,0);
+	-moz-transform:translate3d(0,0,0);
+	-ms-transform:translate3d(0,0,0);
+	transform:translate3d(0,0,0);
+}
+
+/* IE10 Windows Phone 8 Fixes */
+.swiper-wp8-horizontal {
+	-ms-touch-action: pan-y;
+}
+.swiper-wp8-vertical {
+	-ms-touch-action: pan-x;
 }
 
 /* Specify Swiper's Size: */

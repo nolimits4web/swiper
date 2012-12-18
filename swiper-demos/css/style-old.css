@@ -41,7 +41,8 @@ body { margin: 0; font-size: 1em; line-height: 1.4; }
    Links
    ========================================================================== */
 
-a { color: #069deb; }
+a { color: #000; }
+a:visited { color: #000; }
 a:hover { color: #000; }
 a:focus { outline: 0; }
 
@@ -197,68 +198,48 @@ table { border-collapse: collapse; border-spacing: 0; }
 td { vertical-align: top; }
 
 
+/* =============================================================================
+   Chrome Frame Prompt 
+   ========================================================================== */
+
+.chromeframe { margin: 0.2em 0; background: #ccc; color: black; padding: 0.2em 0; }
+
 
 /* ==|== primary styles =====================================================
    Author: Vladimir Kharlampidi, The iDangero.us
    ========================================================================== */
 
 body {
-	background: #eee;
+	background: #bcf4be url(../img/bg.png) repeat-x left top;
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:13px;
 	color:#333;
-	line-height:1.5;
+	line-height:1.3em;
 	position: relative;
-	min-width: 920px;
+	min-width: 640px;
 }
-.center {
-	width:900px;
-	margin:0 auto;
+header {
+	width: 640px;
+	height: 200px;
+	margin: 0 auto 50px;
 	position: relative;
+	z-index: 1;
+}
+.logo {
+	
 }
 .main {
-	width: 820px;
+	width: 640px;
 	margin: 0 auto;
-	padding: 60px 40px;
-	background: #fff;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
 }
-.home-device {
-	width:640px;
-	height:300px;
-	padding:30px 40px;
-	border-radius:20px;
-	background:#111;
-	border: 3px solid white;
-	margin:0 auto;
-	position:relative;	
-	box-shadow: 0px 0px 5px #000;
-}
-.home-device .arrow-left {
-	background:url(../img/arrows.png) no-repeat left top;
-	position:absolute;
-	left:10px;
-	top:50%;
-	margin-top:-15px;
-	width:17px;
-	height:30px;
-}
-.home-device .arrow-right {
-	background:url(../img/arrows.png) no-repeat left bottom;
-	position:absolute;
-	right:10px;
-	top:50%;
-	margin-top:-15px;
-	width:17px;
-	height:30px;
-}
+
 .swiper-main {
 	width: 640px;
 	height: 300px;
 	position: relative;
+	margin-bottom: 20px;
 }
+
 .sm-shadow {
 	position: absolute;
 	bottom: -15px;
@@ -282,7 +263,6 @@ body {
 }
 .pagination1 {
 	text-align: center;
-	margin-top: 5px;
 }
 .content-slide {
 	background: #fff;
@@ -310,27 +290,32 @@ body {
 	width: 10px;
 	height: 10px;
 	border-radius: 10px;
-	background: #999;
+	background: #a8f3aa;
 	box-shadow: 0px 1px 2px #555 inset;
 	margin: 0 3px;
 }
 .pagination1 .swiper-active-switch {
-	background: #fff;2f9933
+	background: #2f9933;2f9933
 }
 
 .sw-title {
-	padding: 5px 20px;
-	font-size: 41px;
-	margin: 50px 0 20px;
-	font-family: 'Lato', sans-serif;
+	border-bottom: 1px solid #3d4d09;
+	padding-bottom: 10px;
+	font-size: 48px;
+	font-style: italic;
+	width: 400px;
+	margin: 20px auto 10px;
+	font-family: "Lobster Two", Arial, Helvetica;
+	text-align: center;
 	line-height: 50px;
-	color: #222;
-	font-weight: 300;
-	border-bottom: 1px solid #555;
+	color: #364210;
+	text-shadow: 0px 1px 2px #fff;
 }
 .sw-content {
 	background: #fff;
 	border-radius: 5px;
+	border: 1px solid #ccc;
+	padding: 40px;
 }
 .swiper-v, .swiper-v .swiper-slide, .swiper-free, .swiper-free .swiper-slide {
 	width: 640px;
@@ -356,11 +341,7 @@ body {
 .demo-title {
 	margin-bottom: 5px;
 	text-align: center;
-	font-size: 31px;
-	font-family: "Lato", Arial, Helvetica;
-	font-weight: 300;
-	line-height: 35px;
-	margin: 50px 0 20px;
+	font-size: 16px;
 }
 .swiper-v,.swiper-free {
 	margin-bottom: 30px;
@@ -412,10 +393,6 @@ body {
 }
 
 /* Tabs */
-.tabs {
-	width: 642px;
-	margin: 0 auto;
-}
 .tabs a {
 	display: block;
 	float: left;
@@ -470,8 +447,6 @@ body {
 .swiper-tabs .content-slide2 {
 	padding: 40px;
 }
-
-/* Puzzle */
 .puzzle {
 	width: 630px;
 	height: 300px;
@@ -485,36 +460,33 @@ body {
 	float: left;
 }
 
-/* Movies App */
-.mc-device {
-	width:640px;
-	padding:30px;
-	background:#111;
-	border:4px solid #fff;
-	box-shadow:0px 0px 5px #000;
-	border-radius:10px;
-	margin:0 auto;
-}
 .mc1 {
-	background: #fff;
+	background: #444;
+	-moz-border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
 	height: 240px;
 	border-bottom: 1px solid #777;
-	margin: 0 auto;
+	box-shadow: 0px 2px 5px #000 inset;
 }
 .mc2 {
-	background: #ccc;
+	background: #111;
+	-moz-border-radius: 0 0 5p 5px;
+	-webkit-border-radius: 0 0 5p 5px;
+	border-radius: 0 0 5px 5px;
 	height: 80px;
-	margin: 0 auto;
+	border-bottom: 1px solid #777;
+	box-shadow: 0px 2px 5px #000 inset;
 }
 
 
 .mc2 .swiper-container, .mc2 .swiper-slide {
-	width: auto;
+	width: 525px;
 	height: 60px;
 }
 .mc2 .swiper-container {
 	position:relative;
-	padding:10px 0
+	top: 7px;
 }
 .mc-control .swiper-slide {
 	text-align: center;
@@ -524,13 +496,9 @@ body {
 	height: 50px;
 	position: relative;
 	top: 5px;
-	box-shadow:0px 2px 3px #000;
-	border-radius:3px;
+	border: 1px solid #fff;
 	display: inline-block;
 	margin: 0 5px;
-}
-.mc-control img.active {
-	top: -2px;
 }
 .mc1 .swiper-container, .mc-posters .swiper-slide {
 	width:640px;
@@ -548,14 +516,112 @@ body {
 .m-content .m-right {
 	float: left;
 	width: 370px;
+	color: #fff;
 }
 .m-content h3 {
 	margin-top: 0;
 }
 
 
+pre, code {
+	font-size: 12px;
+	background: #eee;
+	border:1px solid #ccc;
+	padding: 10px;
+	border-radius: 3px;
+}
+pre em {
+	color: #777;
+}
+.lobster {
+	font-family: "Lobster Two", Arial, Helvetica;
+}
+.params td, .params th {
+	border-right: 1px solid #ccc !important;
+	border-bottom: 1px solid #ccc !important;
+	padding: 3px 5px;
+	font-size: 12px;
+}
+.params tr {
+	border-left: 1px solid #ccc;
+}
+.params {
+	border-top: 1px solid #ccc;
+}
+.params tbody td:nth-child(1) {
+	font-weight: bold;
+}
+.params tbody td:nth-child(2) {
+	color: #923434;	
+}
+.params tbody td:nth-child(4), .params tbody td:nth-child(3) {
+	width: 100px;	
+}
+.social-share {
+	text-align: center;
+	margin: 0px auto 0px;
+	width: 400px;
+}
+.gh-button {
+	color: #fff !important;
+	text-decoration: none;
+	padding: 15px 20px;
+	font-size: 22px;
+	margin: 0px auto 10px;
+	border-radius: 10px;
+	border: 1px solid #2565a6;
+	display: inline-block;
+	text-shadow: 0px -1px #333;
+	background-color: #5498dd;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#5498dd), to(#1960a8)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(top, #5498dd, #1960a8); /* Chrome 10+, Saf5.1+, iOS 5+ */
+	background-image:    -moz-linear-gradient(top, #5498dd, #1960a8); /* FF3.6 */
+	background-image:     -ms-linear-gradient(top, #5498dd, #1960a8); /* IE10 */
+	background-image:      -o-linear-gradient(top, #5498dd, #1960a8); /* Opera 11.10+ */
+	background-image:         linear-gradient(to bottom, #5498dd, #1960a8);
+	
+}
+.gh-button:hover {
+	color: #fff;
+}
 
-
+.logo-big {
+	font-size: 62px;
+	font-style: italic;
+	font-weight: bold;
+	color: #832928;
+	line-height: 65px;
+	position: absolute;
+	left: 136px;
+	top: 108px;
+	text-shadow: 0px 1px 1px #fff;
+}
+.slogan {
+	font-size: 25px;
+	font-style: italic;
+	color: #832928;
+	line-height: 35px;
+	position: absolute;
+	left: 65px;
+	top: 174px;
+	text-shadow: 0px 1px 1px #fff;
+	
+}
+.logo-by {
+	font-size: 18px;
+	font-style: italic;
+	color: #832928;
+	line-height: 25px;
+	position: absolute;
+	left: 250px;
+	top: 104px;
+	
+}
+.new-in {
+	color:#F00;
+	font-style:italic;
+	font-weight:bold;
+}
 
 /* Swiper cArousel*/
 .swiper-car {
@@ -567,7 +633,7 @@ body {
 	color:#fff;
 	text-align:center;
 	line-height:250px;
-	font-size: 40px;
+	font-size:50px;
 }
 .pagination-car {
     left: 10px;
@@ -601,7 +667,7 @@ body {
 	color:#fff;
 	text-align:center;
 	line-height:250px;
-	font-size: 40px;
+	font-size:50px;
 }
 .pagination-loop {
     left: 10px;
@@ -635,7 +701,7 @@ body {
 	color:#fff;
 	text-align:center;
 	line-height:250px;
-	font-size: 40px;
+	font-size:50px;
 }
 .pagination-nested1 {
     left: 10px;
@@ -666,7 +732,7 @@ body {
 	color:#fff;
 	text-align:center;
 	line-height:125px;
-	font-size: 24px;
+	font-size:30px;
 }
 .pagination-nested2 {
     right: 5px;
@@ -692,7 +758,6 @@ body {
 .swiper-scroll-container {
 	width:640px;
 	height:300px;
-	border: 1px solid #aaa;
 }
 .swiper-scroll-container .swiper-slide {
 	width: 1520px !important;	
