@@ -9,7 +9,7 @@
  *
  * Licensed under GPL & MIT
  *
- * Updated on: December 19, 2012
+ * Released on: December 22, 2012
 */
 
 Swiper.prototype.plugins.scrollbar = function(swiper, params){
@@ -181,6 +181,7 @@ Swiper.prototype.plugins.scrollbar = function(swiper, params){
 			moveDivider = divider*(trackWidth/swiper.width);
 			dragWidth = track.offsetWidth*divider;
 			drag.style.width = dragWidth+'px';
+			
 		}
 		else {
 			trackHeight = track.offsetHeight;
@@ -256,7 +257,7 @@ Swiper.prototype.plugins.scrollbar = function(swiper, params){
 		onSetTransition: function(args){
 			setTransition(drag,args.duration)
 			
-		},
+		}
 
 		
 	}
