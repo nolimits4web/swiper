@@ -98,6 +98,7 @@ Swiper = function(selector, params, callback) {
 		resistance : true,
 		scrollContainer : false,
 		preventLinks : true,
+		initialSlide: 0, 
 		//Namespace
 		slideClass : 'swiper-slide',
 		wrapperClass : 'swiper-wrapper',
@@ -247,6 +248,20 @@ Swiper = function(selector, params, callback) {
 		
 		wrapper.style.width = wrapperWidth+"px";
 		wrapper.style.height = wrapperHeight+"px";
+		
+		// Set Initial Slide Position	
+		if(params.initialSlide > 0 && params.initialSlide < numOfSlides-1) {
+			_this.realIndex = params.initialSlide;
+						
+			if (isHorizontal) {
+				_this.positions.current = -params.initialSlide * slideWidth;
+				_this.setTransform( _this.positions.current, 0, 0);
+			}
+			else {	
+				_this.positions.current = -params.initialSlide * slideHeight;
+				_this.setTransform( 0, _this.positions.current, 0);
+			}
+		}
 		
 		if (params.slidesPerSlide && params.slidesPerSlide > 1) {
 			slideSize = slideSize/params.slidesPerSlide	
@@ -770,12 +785,13 @@ Swiper = function(selector, params, callback) {
 		return true
 	}
 	
-	_this.swipeTo = function (index, speed, runCallbacks) {
-		
-
+	var firstTimeLoopPositioning = true;
+	
+	_this.swipeTo = function (index, speed, runCallbacks) {	
+	
 		index = parseInt(index, 10); //type cast to int
 		_this.callPlugins('onSwipeTo', {index:index, speed:speed});
-		
+			
 		if (index > (numOfSlides-1)) return;
 		if (index<0 && !params.loop) return;
 		runCallbacks = runCallbacks===false ? false : runCallbacks || true
@@ -785,6 +801,11 @@ Swiper = function(selector, params, callback) {
 		
 		if (index > numOfSlides - params.slidesPerSlide) index = numOfSlides - params.slidesPerSlide;
 		var newPosition =  -index*slideSize ;
+		
+		if(firstTimeLoopPositioning && params.loop && params.initialSlide > 0 && params.initialSlide < numOfSlides-1){
+			newPosition = newPosition - params.initialSlide * slideSize;
+			firstTimeLoopPositioning = false;
+		}
 		
 		if (isHorizontal) {
 			_this.setTransform(newPosition,0,0)
@@ -863,7 +884,7 @@ Swiper = function(selector, params, callback) {
 	/*=========================
 	  Loop Fixes
 	  ===========================*/
-	_this.fixLoop = function(){
+	_this.fixLoop = function(){		
 		//Fix For Negative Oversliding
 		if (_this.realIndex < params.slidesPerSlide) {
 			var newIndex = numOfSlides - params.slidesPerSlide*3 + _this.realIndex;
