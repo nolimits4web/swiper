@@ -250,7 +250,7 @@ Swiper = function(selector, params, callback) {
 		wrapper.style.height = wrapperHeight+"px";
 		
 		// Set Initial Slide Position	
-		if(params.initialSlide > 0 && params.initialSlide < numOfSlides-1) {
+		if(params.initialSlide > 0 && params.initialSlide < numOfSlides) {
 			_this.realIndex = params.initialSlide;
 						
 			if (isHorizontal) {
@@ -802,7 +802,7 @@ Swiper = function(selector, params, callback) {
 		if (index > numOfSlides - params.slidesPerSlide) index = numOfSlides - params.slidesPerSlide;
 		var newPosition =  -index*slideSize ;
 		
-		if(firstTimeLoopPositioning && params.loop && params.initialSlide > 0 && params.initialSlide < numOfSlides-1){
+		if(firstTimeLoopPositioning && params.loop && params.initialSlide > 0 && params.initialSlide < numOfSlides){
 			newPosition = newPosition - params.initialSlide * slideSize;
 			firstTimeLoopPositioning = false;
 		}
