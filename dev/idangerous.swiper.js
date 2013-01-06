@@ -251,7 +251,7 @@ Swiper = function(selector, params, callback) {
 		
 		// Set Initial Slide Position	
 		if(params.initialSlide > 0 && params.initialSlide < numOfSlides) {
-			_this.realIndex = params.initialSlide;
+			_this.realIndex = _this.activeSlide = params.initialSlide;
 			
 			if (_this.params.loop) {
                 _this.activeSlide = _this.realIndex-params.slidesPerSlide
