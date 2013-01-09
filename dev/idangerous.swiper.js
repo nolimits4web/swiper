@@ -1,5 +1,5 @@
 /*
- * Swiper 1.7 - Mobile Touch Slider
+ * Swiper 1.7+ - Mobile Touch Slider
  * http://www.idangero.us/sliders/swiper/
  *
  * Copyright 2012, Vladimir Kharlampidi
@@ -193,12 +193,11 @@ Swiper = function(selector, params, callback) {
 	//Init Function
 	var firstInit = false;
 
-	_this.init = function() {
+	_this.init = function(reInit) {
 		var newWidth = parseInt(window.getComputedStyle(_this.container, null).getPropertyValue('width'),10);
 		var newHeight  = parseInt(window.getComputedStyle(_this.container, null).getPropertyValue('height'),10);
-		
 
-		//IE8 Fix
+		//IE8 Fixes
 		if(isNaN(newWidth)) {
 			newWidth = _this.container.offsetWidth - parseInt(window.getComputedStyle(_this.container, null).getPropertyValue('padding-left'),10) - parseInt(window.getComputedStyle(_this.container, null).getPropertyValue('padding-right'),10) 
 		}
@@ -206,8 +205,10 @@ Swiper = function(selector, params, callback) {
 			newHeight = _this.container.offsetHeight - parseInt(window.getComputedStyle(_this.container, null).getPropertyValue('padding-top'),10) - parseInt(window.getComputedStyle(_this.container, null).getPropertyValue('padding-bottom'),10) 		
 		}
 		
-		
-		if (_this.width==newWidth && _this.height==newHeight) return
+		if (!reInit) {
+			if (_this.width==newWidth && _this.height==newHeight) return			
+		}
+
 		_this.width  = newWidth;
 		_this.height  = newHeight;
 		
@@ -276,6 +277,11 @@ Swiper = function(selector, params, callback) {
 		firstInit = true;
 	}
 	_this.init()
+
+	//ReInitizize function. Good to use after dynamically changes of Swiper, like after add/remove slides
+	_this.reInit = function () {
+	  	_this.init(true)
+	}
 	
 	//Get Max And Min Positions
 	function maxPos() {
@@ -892,12 +898,12 @@ Swiper = function(selector, params, callback) {
 		//Fix For Negative Oversliding
 		if (_this.realIndex < params.slidesPerSlide) {
 			var newIndex = numOfSlides - params.slidesPerSlide*3 + _this.realIndex;
-			_this.swipeTo(newIndex,0)
+			_this.swipeTo(newIndex,0, false)
 		}
 		//Fix For Positive Oversliding
 		if (_this.realIndex > numOfSlides - params.slidesPerSlide*2) {
 			var newIndex = -numOfSlides + _this.realIndex + params.slidesPerSlide
-			_this.swipeTo(newIndex,0)
+			_this.swipeTo(newIndex,0, false)
 		}
 	}
 	if (params.loop) {
