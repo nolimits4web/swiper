@@ -1,0 +1,383 @@
+
+
+
+.swiper-v, .swiper-v .swiper-slide, .swiper-free, .swiper-free .swiper-slide, .swiper-dynamic, .swiper-dynamic .swiper-slide {
+	width: 640px;
+	height: 250px;
+	color: #fff;
+}
+
+.swiper-v, .swiper-free, .swiper-dynamic {
+	box-shadow: 0px -1px 4px rgba(0,0,0,0.5);
+	text-align: center;
+}
+.swiper-v h2, .swiper-free h2, .swiper-dynamic h2 {
+	font-style: italic;
+	font-size: 42px;
+	margin-top: 80px;
+	margin-bottom: 0;
+	line-height: 45px;
+}
+.swiper-v p,.swiper-free p, .swiper-dynamic p {
+	font-style: italic;
+	font-size: 25px;
+}
+.swiper-v,.swiper-free, .swiper-dynamic {
+	margin-bottom: 30px;
+}
+/* Pagination V*/
+.pagination-v .swiper-pagination-switch, .pagination-free .swiper-pagination-switch {
+	display: block;
+	width: 8px;
+	height: 8px;
+	border-radius: 8px;
+	background: #555;
+	margin: 0 0px 5px;
+	opacity: 0.8;
+	border: 1px solid #fff;
+}
+.pagination-v .swiper-active-switch, .pagination-free .swiper-active-switch {
+	background: #fff;
+}
+.pagination-v, .pagination-free  {
+	position: absolute;
+	z-index: 20;
+	left: 10px;
+	top: 10px;
+}
+.pagination-free  {
+	width: 140px;
+	left: 10px;
+	top: 230px;
+}
+.pagination-free .swiper-pagination-switch {
+	display: block;
+	margin: 0 5px;
+	float: left;
+}
+.red-slide {
+	background: #ca4040;
+}
+.blue-slide {
+	background: #4390ee;
+}
+.orange-slide {
+	background: #ff8604;
+}
+.green-slide {
+	background: #49a430;
+}
+.pink-slide {
+	background: #973e76;
+}
+
+/* Tabs */
+.tabs {
+	width: 642px;
+	margin: 0 auto;
+}
+.tabs a {
+	display: block;
+	float: left;
+	width: 200px;
+	color: #333;
+	text-align: center;
+	border-radius: 5px 5px 0 0;
+	border: 1px solid #ccc;
+	background: #fff;
+	line-height: 40px;
+	font-size: 25px;
+	font-style: italic;
+	text-decoration: none;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ddd)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(top, #ffffff, #ddd); /* Chrome 10+, Saf5.1+, iOS 5+ */
+	background-image:    -moz-linear-gradient(top, #ffffff, #ddd); /* FF3.6 */
+	background-image:     -ms-linear-gradient(top, #ffffff, #ddd); /* IE10 */
+	background-image:      -o-linear-gradient(top, #ffffff, #ddd); /* Opera 11.10+ */
+	background-image:         linear-gradient(to bottom, #ffffff, #ddd);
+}
+.tabs a.active {
+	color: #fff;
+	background: #333;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#000)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(top, #333, #000); /* Chrome 10+, Saf5.1+, iOS 5+ */
+	background-image:    -moz-linear-gradient(top, #333, #000); /* FF3.6 */
+	background-image:     -ms-linear-gradient(top, #333, #000); /* IE10 */
+	background-image:      -o-linear-gradient(top, #333, #000); /* Opera 11.10+ */
+	background-image:         linear-gradient(to bottom, #333, #000);
+	border-bottom: 1px solid #000;
+}
+.swiper-tabs {
+	background: #333;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#000), to(#333)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(top, #000, #333); /* Chrome 10+, Saf5.1+, iOS 5+ */
+	background-image:    -moz-linear-gradient(top, #000, #333); /* FF3.6 */
+	background-image:     -ms-linear-gradient(top, #000, #333); /* IE10 */
+	background-image:      -o-linear-gradient(top, #000, #333); /* Opera 11.10+ */
+	background-image:         linear-gradient(to bottom, #000, #333);
+	height: 250px;
+	border-radius: 0 0 5px 5px;
+	border: 1px solid #ccc;
+	
+	width: 640px;
+	border-top: 0;
+}
+.swiper-tabs .swiper-slide {
+	height: 250px;
+	width: 640px;
+	background: none;
+	color: #fff;
+}
+.swiper-tabs .content-slide2 {
+	padding: 40px;
+}
+.puzzle {
+	width: 630px;
+	height: 300px;
+	margin: 0 auto;
+	background: #fff;
+	box-shadow: 0px 1px 2px #000;
+}
+.puzzle .swiper-container, .puzzle .swiper-slide {
+	width: 210px;
+	height: 150px;
+	float: left;
+}
+.mc-device {
+	width:640px;
+	padding:30px;
+	background:#111;
+	border:4px solid #fff;
+	box-shadow:0px 0px 5px #000;
+	border-radius:10px;
+	margin:0 auto;
+}
+.mc1 {
+	background: #fff;
+	height: 240px;
+	border-bottom: 1px solid #777;
+	margin: 0 auto;
+}
+.mc2 {
+	background: #ccc;
+	height: 80px;
+	margin: 0 auto;
+}
+
+
+.mc2 .swiper-container, .mc2 .swiper-slide {
+	width: auto;
+	height: 60px;
+}
+.mc2 .swiper-container {
+	position:relative;
+	padding:10px 0
+}
+.mc-control .swiper-slide {
+	text-align: center;
+}
+.mc-control .swiper-slide img {
+	width: 50px;
+	height: 50px;
+	position: relative;
+	top: 5px;
+	box-shadow:0px 2px 3px #000;
+	border-radius:3px;
+	display: inline-block;
+	margin: 0 5px;
+}
+.mc-control img.active {
+	top: -2px;
+}
+.mc1 .swiper-container, .mc-posters .swiper-slide {
+	width:640px;
+	height: 240px;
+}
+.m-content {
+	padding: 40px;
+}
+.m-content img {
+	float: left;
+	border: 2px solid #ccc;
+	margin-right: 30px;
+	border-radius: 5px;
+}
+.m-content .m-right {
+	float: left;
+	width: 370px;
+}
+.m-content h3 {
+	margin-top: 0;
+}
+
+/* Swiper cArousel*/
+.swiper-car {
+	margin-bottom:30px;
+}
+.swiper-car, .swiper-car .swiper-slide {
+	width:630px;
+	height:250px;
+	color:#fff;
+	text-align:center;
+	line-height:250px;
+	font-size: 40px;
+}
+.pagination-car {
+    left: 10px;
+    top: 230px;
+    width: 160px;
+	position:absolute;
+	z-index:20;
+}
+.pagination-car .swiper-pagination-switch {
+    background: none repeat scroll 0 0 #555555;
+    border: 1px solid #FFFFFF;
+    border-radius: 8px 8px 8px 8px;
+    display: block;
+    height: 8px;
+    margin: 0 5px;
+    opacity: 0.8;
+    width: 8px;
+    float: left;
+}
+.pagination-car .swiper-active-switch {
+    background: none repeat scroll 0 0 #FFFFFF;
+}
+
+/* Swiper cArousel & loop*/
+.swiper-loop {
+	margin-bottom:30px;
+}
+.swiper-loop, .swiper-loop .swiper-slide {
+	width:630px;
+	height:250px;
+	color:#fff;
+	text-align:center;
+	line-height:250px;
+	font-size: 40px;
+}
+.pagination-loop {
+    left: 10px;
+    top: 230px;
+    width: 160px;
+	position:absolute;
+	z-index:20;
+}
+.pagination-loop .swiper-pagination-switch {
+    background: none repeat scroll 0 0 #555555;
+    border: 1px solid #FFFFFF;
+    border-radius: 8px 8px 8px 8px;
+    display: block;
+    height: 8px;
+    margin: 0 5px;
+    opacity: 0.8;
+    width: 8px;
+    float: left;
+}
+.pagination-loop .swiper-active-switch {
+    background: none repeat scroll 0 0 #FFFFFF;
+}
+
+/* Nested Swipers*/
+.swiper-nested1 {
+	margin-bottom:30px;
+}
+.swiper-nested1, .swiper-nested1 .swiper-slide {
+	width:630px;
+	height:250px;
+	color:#fff;
+	text-align:center;
+	line-height:250px;
+	font-size: 40px;
+}
+.pagination-nested1 {
+    left: 10px;
+    top: 230px;
+    width: 160px;
+	position:absolute;
+	z-index:20;
+}
+.pagination-nested1 .swiper-pagination-switch {
+    background: none repeat scroll 0 0 #555555;
+    border: 1px solid #FFFFFF;
+    border-radius: 8px 8px 8px 8px;
+    display: block;
+    height: 8px;
+    margin: 0 5px;
+    opacity: 0.8;
+    width: 8px;
+    float: left;
+}
+.pagination-nested1 .swiper-active-switch {
+    background: none repeat scroll 0 0 #FFFFFF;
+}
+
+
+.swiper-nested2, .swiper-nested2 .swiper-slide {
+	width:100%;
+	height:250px;
+	color:#fff;
+	text-align:center;
+	line-height:125px;
+	font-size: 24px;
+}
+.pagination-nested2 {
+    right: 5px;
+    top: 5px;
+	position:absolute;
+	z-index:20;
+}
+.pagination-nested2 .swiper-pagination-switch {
+    background: none repeat scroll 0 0 #555555;
+    border: 1px solid #FFFFFF;
+    border-radius: 8px 8px 8px 8px;
+    display: block;
+    height: 8px;
+    margin: 0 0px 5px;
+    opacity: 0.8;
+    width: 8px;
+}
+.pagination-nested2 .swiper-active-switch {
+    background: none repeat scroll 0 0 #FFFFFF;
+}
+
+/* Scroll Container */
+.swiper-scroll-container {
+	width:640px;
+	height:300px;
+	border: 1px solid #aaa;
+}
+.swiper-scroll-container .swiper-slide {
+	width: 1520px !important;	
+	height:300px;
+}
+
+/* Swyper Dynamic */
+.swiper-dynamic-links {
+	text-align: center;
+}
+.swiper-dynamic-links a {
+	display: inline-block;
+	padding: 5px;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+	margin: 5px;
+	font-size: 12px;
+	text-decoration: none;
+	color: #333;
+	background: #eee;
+}
+.pagination-sd {
+	text-align: center;
+}
+.pagination-sd .swiper-pagination-switch {
+	border-radius: 10px;
+	width: 10px;
+	height: 10px;
+	display: inline-block;
+	margin: 0 3px;
+	background: #aaa;
+}
+.pagination-sd .swiper-active-switch {
+	background: #333;
+}

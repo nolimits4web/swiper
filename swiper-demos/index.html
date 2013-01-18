@@ -15,14 +15,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="css/idangerous.swiper.css">
-<link rel="stylesheet" href="css/style.css?v=1.7">
+<link rel="stylesheet" href="css/style.css?v=1.8">
+<link rel="stylesheet" href="css/swiper-demos.css?v=1.8">
 <script  src="js/libs/jquery-1.7.1.min.js"></script>
 <!-- Swiper -->
-<script  src="js/idangerous.swiper-1.7.min.js"></script>
+<script  src="js/idangerous.swiper-1.8.min.js"></script>
 <!-- Swiper Scrollbar plugin -->
 <script  src="js/idangerous.swiper.scrollbar-1.0.js"></script>
 <!-- Demos code -->
-<script  src="js/swiper-demos.js?v=1.7"></script>
+<script  src="js/swiper-demos.js?v=1.8"></script>
 </head>
 
 <body>
@@ -75,6 +76,40 @@
       </div>
     </div>
   </div>
+
+  <p class="demo-title">Dynamic Slides</p>
+  <p style="text-align:center">This demo shows how easy and fun to work <a href="api.php#slidesapi">Slides API</a>.</p>
+  <div class="swiper-container swiper-dynamic">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide blue-slide">
+        <h2>Slide 1</h2>
+        <p>Swipe to the Top or to the Bottom</p>
+      </div>
+      <div class="swiper-slide red-slide">
+        <h2>Slide 2</h2>
+        <p>Keep swiping</p>
+      </div>
+      <div class="swiper-slide orange-slide">
+        <h2>Slide 4</h2>
+        <p>The last one</p>
+      </div>
+      <div class="swiper-slide green-slide">
+        <h2>Slide 5</h2>
+        <p>The last one</p>
+      </div>
+    </div>
+  </div>
+  <div class="pagination-sd"></div>
+  <p class="swiper-dynamic-links">
+    <a class="sdl-append" href="#">Append slide</a> 
+    <a class="sdl-prepend" href="#">Prepend slide</a> 
+    <a class="sdl-swap" href="#">Swap 1st and 2nd slides</a> 
+    <a class="sdl-insert" href="#">Insert after first slide</a> 
+    <a class="sdl-remove1" href="#">Remove first slide</a> 
+    <a class="sdl-removel" href="#">Remove last slide</a> 
+    <a class="sdl-remove2" href="#">Remove 2nd slide</a>
+  </p>
+
   <p class="demo-title">Scroll Container</p>
   <p style="text-align:center">This demo also uses a <a href="plugins.php">Scrollbar</a> plugin.</p>
   <div class="swiper-container swiper-scroll-container">
