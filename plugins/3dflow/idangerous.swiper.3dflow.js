@@ -1,6 +1,6 @@
 /*
- * Swiper 3D Flow 1.0
- * Plugin for Swiper 1.7+
+ * Swiper 3D Flow 1.1
+ * Plugin for Swiper 1.8+
  * http://www.idangero.us/sliders/swiper/
  *
  * Copyright 2012, Vladimir Kharlampidi
@@ -14,7 +14,7 @@
 
 Swiper.prototype.plugins.tdFlow = function(swiper, params) {
 	if (!swiper.support.threeD) return;
-	var slides, wrapperSize, slideSize;
+	var slides, wrapperSize, slideSize, initialized;
 	var isH = swiper.params.mode == 'horizontal';
 	/*=========================
 	  Default Parameters
@@ -43,6 +43,8 @@ Swiper.prototype.plugins.tdFlow = function(swiper, params) {
 		es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = transform
 	}
 	function init() {
+		initialized = true;
+		slides = swiper.slides
 		for (var i=0; i<slides.length; i++) {
 			setTransition(slides[i], 0)
 		}
@@ -65,6 +67,7 @@ Swiper.prototype.plugins.tdFlow = function(swiper, params) {
 	}
 	
 	function threeDSlides(transform) {
+		if (!initialized) return;
 		var transform = transform || {x:0, y:0, z:0};
 		var center = isH ? -transform.x+swiper.width/2 : -transform.y+swiper.height/2 ;
 		
@@ -72,9 +75,9 @@ Swiper.prototype.plugins.tdFlow = function(swiper, params) {
 		var translate = params.depth;
 
 		//Each slide offset from center
-		for (var i=0; i<slides.length; i++) {
+		for (var i=0; i<swiper.slides.length; i++) {
 			
-			var slideOffset = slides[i].swiperSlideOffset
+			var slideOffset = swiper.slides[i].swiperSlideOffset
 			
 			var offsetMultiplier = (center - slideOffset - slideSize/2)/slideSize*params.modifier;
 			
@@ -95,12 +98,12 @@ Swiper.prototype.plugins.tdFlow = function(swiper, params) {
 			var slideTransform = 'translate3d('+translateX+'px,'+translateY+'px,'+translateZ+'px)  rotateX('+rotateX+'deg) rotateY('+rotateY+'deg)';
 			
 			
-			setTransform(slides[i], slideTransform);
-			slides[i].style.zIndex =-Math.abs(Math.round(offsetMultiplier))+1
+			setTransform(swiper.slides[i], slideTransform);
+			swiper.slides[i].style.zIndex =-Math.abs(Math.round(offsetMultiplier))+1
 			if (params.shadows) {
 				//Set shadows
-				var shadowBefore = isH ? slides[i].querySelector('.swiper-slide-shadow-left') : slides[i].querySelector('.swiper-slide-shadow-top');
-				var shadowAfter = isH ? slides[i].querySelector('.swiper-slide-shadow-right') : slides[i].querySelector('.swiper-slide-shadow-bottom');
+				var shadowBefore = isH ? swiper.slides[i].querySelector('.swiper-slide-shadow-left') : swiper.slides[i].querySelector('.swiper-slide-shadow-top');
+				var shadowAfter = isH ? swiper.slides[i].querySelector('.swiper-slide-shadow-right') : swiper.slides[i].querySelector('.swiper-slide-shadow-bottom');
 				shadowAfter.style.opacity = (-offsetMultiplier)>0 ? (-offsetMultiplier) : 0;
 				shadowBefore.style.opacity = offsetMultiplier>0 ? offsetMultiplier : 0;
 			}
@@ -117,10 +120,10 @@ Swiper.prototype.plugins.tdFlow = function(swiper, params) {
 	//Plugin Hooks
 	var hooks = {
 		onFirstInit : function(args){
-			slides = swiper.wrapper.querySelectorAll('.'+swiper.params.slideClass);
-			
+			slides = swiper.slides //swiper.wrapper.querySelectorAll('.'+swiper.params.slideClass);
 			if (params.shadows) {
 				//Add Shadows
+				
 				var shadowHTML = isH 
 					? '<div class="swiper-slide-shadow-left"></div><div class="swiper-slide-shadow-right"></div>'
 					: '<div class="swiper-slide-shadow-top"></div><div class="swiper-slide-shadow-bottom"></div>'
@@ -129,31 +132,30 @@ Swiper.prototype.plugins.tdFlow = function(swiper, params) {
 					slides[i].innerHTML+=shadowHTML;
 				}
 			}
-			
 			//Update Dimensions
 			init();
-			
 			//Set in 3D
-			threeDSlides();
+			threeDSlides({x:swiper.getTranslate('x'), y:swiper.getTranslate('y'), z:swiper.getTranslate('z')});
 		},
 		onInit : function(args) {
 			init();
+			//Set in 3D
+			threeDSlides({x:swiper.getTranslate('x'), y:swiper.getTranslate('y'), z:swiper.getTranslate('z')});
 		},
 		onSetTransform: function(transform){
-			threeDSlides(transform);
 			threeDSlides(transform);
 		},
 		onSetTransition: function(args){
 			
-			for (var i=0; i<slides.length; i++) {
-				setTransition(slides[i], args.duration)
+			for (var i=0; i<swiper.slides.length; i++) {
+				setTransition(swiper.slides[i], args.duration)
 				if (isH && params.shadows) {
-					setTransition(slides[i].querySelector('.swiper-slide-shadow-left'), args.duration)
-					setTransition(slides[i].querySelector('.swiper-slide-shadow-right'), args.duration)
+					setTransition(swiper.slides[i].querySelector('.swiper-slide-shadow-left'), args.duration)
+					setTransition(swiper.slides[i].querySelector('.swiper-slide-shadow-right'), args.duration)
 				}
 				else if(params.shadows) {
-					setTransition(slides[i].querySelector('.swiper-slide-shadow-top'), args.duration)
-					setTransition(slides[i].querySelector('.swiper-slide-shadow-bottom'), args.duration)
+					setTransition(swiper.slides[i].querySelector('.swiper-slide-shadow-top'), args.duration)
+					setTransition(swiper.slides[i].querySelector('.swiper-slide-shadow-bottom'), args.duration)
 				}
 			}
 	
