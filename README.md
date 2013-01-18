@@ -2,6 +2,20 @@
 <h2>About</h2>
 <p><strong>Swiper</strong> - is the <strong>free and ultra lightweight</strong> mobile touch slider with hardware accelerated transitions (where supported) and amazing native behavior. It is intended to use in mobile websites, mobile web apps, and mobile native apps. Designed mostly for iOS, but also works on Android and latest Desktop browsers. <strong>Swiper</strong> is created by <a href="http://www.idangero.us">iDangero.us</a></p>
 <h2>Change Log</h2>
+<h3>Swiper 1.8 - Updated on January 18, 2013</h3>
+<ul>
+  <li>New huge and awesome <a href="http://www.idangero.us/sliders/swiper/api.php#slidesapi">Slides API</a></li>
+  <li>
+    New <a href="http://www.idangero.us/sliders/swiper/api.php">API</a> features:
+    <ul>
+      <li>New initialization option "initialSlide"</li>
+      <li>New methods: ".reInit()", ".currentSlide()", ".clickedSlide"</li>
+      <li>New callbacks: "onSlideClick" and "onSlideTouch"</li>
+    </ul>
+  </li>
+  <li>Update <a href="http://www.idangero.us/sliders/swiper/plugins/3dflow.php">3D Flow</a> plugin to work with new features</li>
+  <li>Lot of minor and few major core fixes</li>
+</ul>
 <h3>Swiper 1.7 - Updated on December 19, 2012</h3>
 <ul>
 	<li>New API features</li>
