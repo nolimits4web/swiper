@@ -700,7 +700,7 @@ Swiper = function(selector, params, callback) {
 		  isScrolling = !!( isScrolling || Math.abs(pageY - _this.touches.startY) < Math.abs( pageX - _this.touches.startX ) )
 		}
 		if (isScrolling ) {
-			
+			_this.isTouched = false;
 			return
 		}
 		
