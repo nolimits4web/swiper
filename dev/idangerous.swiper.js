@@ -98,7 +98,9 @@ Swiper = function(selector, params, callback) {
 		resistance : true,
 		scrollContainer : false,
 		preventLinks : true,
-		initialSlide: 0, 
+		initialSlide: 0,
+		keyboardControl: false, 
+		mousewheelControl : false,
 		//Namespace
 		slideClass : 'swiper-slide',
 		wrapperClass : 'swiper-wrapper',
@@ -222,7 +224,7 @@ Swiper = function(selector, params, callback) {
 	_this.createSlide = function (html, slideClassList, el) {
 	  	var slideClassList = slideClassList || _this.params.slideClass;
 		var el = el||'div';
-		var newSlide = document.createElement('div')
+		var newSlide = document.createElement(el)
 		newSlide.innerHTML = html||'';
 		newSlide.className = slideClassList;
 		return _this._extendSwiperSlide(newSlide);
@@ -504,10 +506,7 @@ Swiper = function(selector, params, callback) {
 	
 	
 	//Window Resize Re-init
-	_this.resizeEvent = 'resize';
-	if ('onorientationchange' in window)
-		_this.resizeEvent = 'orientationchange';
-
+	_this.resizeEvent = ('onorientationchange' in window) ? 'orientationchange' : 'resize';
 	_this.resizeFix = function(){
 		_this.callPlugins('beforeResizeFix');
 		_this.init()
@@ -576,9 +575,16 @@ Swiper = function(selector, params, callback) {
 		if (removeResizeFix) {
 			window.removeEventListener(_this.resizeEvent, _this.resizeFix, false);
 		}
-		wrapper.removeEventListener(_this.touchEvents.touchStart, onTouchStart, true);
-		lestenEl.removeEventListener(_this.touchEvents.touchMove, onTouchMove, true);
-		lestenEl.removeEventListener(_this.touchEvents.touchEnd, onTouchEnd, true);
+		wrapper.removeEventListener(_this.touchEvents.touchStart, onTouchStart, false);
+		lestenEl.removeEventListener(_this.touchEvents.touchMove, onTouchMove, false);
+		lestenEl.removeEventListener(_this.touchEvents.touchEnd, onTouchEnd, false);
+		if (params.keyboardControl) {
+			document.removeEventListener('keydown', handleKeyboardKeys, false);
+		}
+		if (params.mousewheelControl && _this._wheelEvent) {
+			document.removeEventListener(_this._wheelEvent, handleMousewheel, false);
+		}
+
 		_this.callPlugins('onDestroy');
 	}
 	/*=========================
@@ -595,7 +601,63 @@ Swiper = function(selector, params, callback) {
 	function preventClick(e) {
 		if (!_this.allowLinks) e.preventDefault();	
 	}
+
+	/*========================================== 
+		Keyboard Control 
+	============================================*/
+	if (params.keyboardControl) {
+		function handleKeyboardKeys (e) {
+			var kc = e.keyCode || e.charCode;
+			if (isHorizontal) {
+				if (kc==37 || kc==39) e.preventDefault();
+				if (kc == 39) _this.swipeNext()
+				if (kc == 37) _this.swipePrev()
+			}
+			else {
+				if (kc==38 || kc==40) e.preventDefault();
+				if (kc == 40) _this.swipeNext()
+				if (kc == 38) _this.swipePrev()
+			}
+		}
+		document.addEventListener('keydown',handleKeyboardKeys, false);
 		
+		
+	}
+
+	/*========================================== 
+		Mousewheel Control. Beta! 
+	============================================*/
+	// detect available wheel event
+    _this._wheelEvent = false;
+	
+	if (params.mousewheelControl) {
+		if ( document.onmousewheel !== undefined ) {
+	        _this._wheelEvent = "mousewheel"
+	    }
+	    try {
+	        WheelEvent("wheel");
+	        _this._wheelEvent = "wheel";
+	    } catch (e) {}
+	    if ( !_this._wheelEvent ) {
+			_this._wheelEvent = "DOMMouseScroll";
+	    }
+		function handleMousewheel (e) {
+			var we = _this._wheelEvent;
+			var delta;
+			if (we == 'mousewheel') delta = e.wheelDelta; 
+			if (we == 'DOMMouseScroll') delta = -e.detail;
+			if (we == 'wheel') delta = Math.abs(e.deltaX)>Math.abs(e.deltaY) ? - e.deltaX : - e.deltaY;
+
+			if(delta<0) _this.swipeNext()
+			else _this.swipePrev()
+
+			e.preventDefault();
+			return false;
+		}
+		if (_this._wheelEvent) {
+			_this.container.addEventListener(_this._wheelEvent, handleMousewheel, false);
+		}
+	}
 	/*=========================
 	  Handle Touches
 	  ===========================*/
@@ -691,8 +753,8 @@ Swiper = function(selector, params, callback) {
 		
 		var pageX = _this.support.touch ? event.targetTouches[0].pageX : (event.pageX || event.clientX)
 		var pageY = _this.support.touch ? event.targetTouches[0].pageY : (event.pageY || event.clientY)
-		
 		//check for scrolling
+		
 		if ( typeof isScrolling == 'undefined' && isHorizontal) {
 		  isScrolling = !!( isScrolling || Math.abs(pageY - _this.touches.startY) > Math.abs( pageX - _this.touches.startX ) )
 		}
@@ -703,7 +765,6 @@ Swiper = function(selector, params, callback) {
 			_this.isTouched = false;
 			return
 		}
-		
 		
 		//Check For Nested Swipers
 		if (event.assignedToSwiper) {
@@ -728,8 +789,6 @@ Swiper = function(selector, params, callback) {
 
 			if(event.preventDefault) event.preventDefault();
 			else event.returnValue = false;
-			
-			
 			
 			_this.touches.current = isHorizontal ? pageX : pageY ;
 			
@@ -784,6 +843,11 @@ Swiper = function(selector, params, callback) {
 				_this.updateActiveSlide(_this.positions.current)
 			}
 
+			//Prevent onSlideClick Fallback if slide is moved
+			if (params.onSlideClick && _this.clickedSlide) {
+				_this.clickedSlide = false
+			}
+
 			//Callbacks
 			if (params.onTouchMove) params.onTouchMove(_this)
 			_this.callPlugins('onTouchMoveEnd');
@@ -805,7 +869,7 @@ Swiper = function(selector, params, callback) {
 		}
 
 		//onSlideClick
-		if (params.onSlideClick) {
+		if (params.onSlideClick && _this.clickedSlide) {
 			params.onSlideClick(_this);
 			_this.callPlugins('onSlideClick')
 		}

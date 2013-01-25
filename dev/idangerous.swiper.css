@@ -43,6 +43,7 @@
 	-o-transition-duration:0s;
 	-o-transform:translate3d(0px,0,0);
 	-o-transition-timing-function:ease;
+	-o-transform:translate(0px,0px);
 	
 	-ms-transition-property:-ms-transform;
 	-ms-transition-duration:0s;
@@ -57,11 +58,6 @@
 }
 .swiper-slide {
 	float:left;
-	-webkit-transform:translate3d(0,0,0);
-	-o-transform:translate3d(0,0,0);
-	-moz-transform:translate3d(0,0,0);
-	-ms-transform:translate3d(0,0,0);
-	transform:translate3d(0,0,0);
 }
 
 /* IE10 Windows Phone 8 Fixes */
