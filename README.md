@@ -2,6 +2,22 @@
 <h2>About</h2>
 <p><strong>Swiper</strong> - is the <strong>free and ultra lightweight</strong> mobile touch slider with hardware accelerated transitions (where supported) and amazing native behavior. It is intended to use in mobile websites, mobile web apps, and mobile native apps. Designed mostly for iOS, but also works on Android and latest Desktop browsers. <strong>Swiper</strong> is created by <a href="http://www.idangero.us">iDangero.us</a></p>
 <h2>Change Log</h2>
+<h3>Swiper 1.8.5 - Updated on February 5, 2013</h3>
+<ul>
+  <li>
+    New <a href="http://www.idangero.us/sliders/swiper/api.php">API</a> features:
+    <ul>
+      <li>New keyboard arrows navigation with "keyboardControl" option</li>
+      <li>New mousewheel navigation with "mousewheelControl" option</li>
+    </ul>
+  </li>
+  <li>Now it is possible to pass HTMLElement on initialization, not only css selector like before</li>
+  <li>Updated <a href="http://www.idangero.us/sliders/swiper/plugins/3dflow.php">3D Flow</a></li>
+  <li>Updated <a href="http://www.idangero.us/sliders/swiper/plugins/scrollbar.php">Scrollbar</a></li>
+  <li>Fixed small Android and IE8 bugs</li>
+  <li>Improved "scrollContainer" to be more responsive</li>
+  <li>Other minor core fixes</li>
+</ul>
 <h3>Swiper 1.8 - Updated on January 18, 2013</h3>
 <ul>
   <li>New huge and awesome <a href="http://www.idangero.us/sliders/swiper/api.php#slidesapi">Slides API</a></li>
