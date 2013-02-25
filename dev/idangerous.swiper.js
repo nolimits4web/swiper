@@ -1,5 +1,5 @@
 /*
- * Swiper 1.8.7+ - Mobile Touch Slider
+ * Swiper 1.8.7 - Mobile Touch Slider
  * http://www.idangero.us/sliders/swiper/
  *
  * Copyright 2012-2013, Vladimir Kharlampidi
@@ -243,11 +243,13 @@ Swiper = function(selector, params, callback) {
 	  		_this.createPagination();
 	  		_this.callPlugins('numberOfSlidesChanged')
 	  	}
+	  	/*
 	  	if (_this.langDirection=='rtl') {
 	  		for (var i = 0; i < _this.slides.length; i++) {
 	  			_this.slides[i].style.float="right"
 	  		};
 	  	}
+	  	*/
 	}
 	_this._calcSlides();
 
@@ -401,7 +403,9 @@ Swiper = function(selector, params, callback) {
 		}
 		if (reInit || firstInit) {
 			_this._calcSlides();
-			_this.updatePagination();
+			if (params.pagination) {
+				_this.updatePagination()
+			}
 		}
 		_this.width  = newWidth;
 		_this.height  = newHeight;

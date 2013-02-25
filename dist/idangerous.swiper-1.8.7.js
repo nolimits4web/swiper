@@ -8,7 +8,7 @@
  *
  * Licensed under GPL & MIT
  *
- * Updated on: February 22, 2013
+ * Updated on: February 5, 2013
 */
 Swiper = function(selector, params, callback) {
 	
@@ -243,11 +243,13 @@ Swiper = function(selector, params, callback) {
 	  		_this.createPagination();
 	  		_this.callPlugins('numberOfSlidesChanged')
 	  	}
+	  	/*
 	  	if (_this.langDirection=='rtl') {
 	  		for (var i = 0; i < _this.slides.length; i++) {
 	  			_this.slides[i].style.float="right"
 	  		};
 	  	}
+	  	*/
 	}
 	_this._calcSlides();
 
@@ -401,7 +403,9 @@ Swiper = function(selector, params, callback) {
 		}
 		if (reInit || firstInit) {
 			_this._calcSlides();
-			_this.updatePagination();
+			if (params.pagination) {
+				_this.updatePagination()
+			}
 		}
 		_this.width  = newWidth;
 		_this.height  = newHeight;
