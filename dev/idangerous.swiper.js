@@ -529,9 +529,7 @@ Swiper = function(selector, params, callback) {
 		var activeSwitch = dQ(params.pagination+' .'+params.paginationActiveClass)
 		if(!activeSwitch) return
 		for (var i=0; i < activeSwitch.length; i++) {
-			if (activeSwitch.item(i).className.indexOf('active')>=0) {
-				activeSwitch.item(i).className = params.paginationClass
-			}	
+			activeSwitch.item(i).className = params.paginationClass
 		}
 		var pagers = dQ(params.pagination+' .'+params.paginationClass).length;
 		var minPagerIndex = params.loop ? _this.realIndex-params.slidesPerSlide : _this.realIndex;
@@ -545,7 +543,6 @@ Swiper = function(selector, params, callback) {
 			}
 			if (i==minPagerIndex) dQ(params.pagination+' .'+params.paginationClass).item( j ).className+=' swiper-activeslide-switch'
 		}
-		
 	}
 	_this.createPagination = function () {
 	  	if (params.pagination && params.createPagination) {
