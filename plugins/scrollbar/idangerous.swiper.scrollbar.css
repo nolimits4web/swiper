@@ -10,5 +10,7 @@
 	position: relative;
 	background: rgba(0,0,0,0.5);
 	border-radius: 10px;
-	cursor:move
+}
+.swiper-scrollbar-cursor-drag {
+	cursor: move;
 }

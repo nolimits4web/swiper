@@ -1,5 +1,5 @@
 /*
- * Swiper 1.8.8+ - Mobile Touch Slider
+ * Swiper 1.8.8 - Mobile Touch Slider
  * http://www.idangero.us/sliders/swiper/
  *
  * Copyright 2012-2013, Vladimir Kharlampidi
