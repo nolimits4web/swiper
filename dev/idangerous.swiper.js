@@ -684,19 +684,19 @@ Swiper = function(selector, params, callback) {
 		Mousewheel Control. Beta! 
 	============================================*/
 	// detect available wheel event
-    _this._wheelEvent = false;
+	_this._wheelEvent = false;
 	
 	if (params.mousewheelControl) {
 		if ( document.onmousewheel !== undefined ) {
-	        _this._wheelEvent = "mousewheel"
-	    }
-	    try {
-	        WheelEvent("wheel");
-	        _this._wheelEvent = "wheel";
-	    } catch (e) {}
-	    if ( !_this._wheelEvent ) {
-			_this._wheelEvent = "DOMMouseScroll";
-	    }
+            _this._wheelEvent = "mousewheel"
+		}
+			try {
+				WheelEvent("wheel");
+				_this._wheelEvent = "wheel";
+			} catch (e) {}
+			if ( !_this._wheelEvent ) {
+				_this._wheelEvent = "DOMMouseScroll";
+			}
 		function handleMousewheel (e) {
 			if(e.preventDefault) e.preventDefault();
 			var we = _this._wheelEvent;
