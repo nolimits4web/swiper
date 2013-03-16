@@ -2,6 +2,23 @@
 <h2>About</h2>
 <p><strong>Swiper</strong> - is the <strong>free and ultra lightweight</strong> mobile touch slider with hardware accelerated transitions (where supported) and amazing native behavior. It is intended to use in mobile websites, mobile web apps, and mobile native apps. Designed mostly for iOS, but also works on Android and latest Desktop browsers. <strong>Swiper</strong> is created by <a href="http://www.idangero.us">iDangero.us</a></p>
 <h2>Change Log</h2>
+<h3>Swiper 1.9 - Updated on March 16, 2013</h3>
+<ul>
+  <li>Added support for devices that can use both mouse and touch "pointers" at the same time, like many of Windows 8 tablets and notebooks</li>
+  <li>New <a href="http://www.idangero.us/sliders/swiper/api.php">API</a> features:
+    <ul>
+      <li>New feature to set "group sliding" with <code>slidesPerGroup</code> parameter</li>
+      <li>Now you can hardcode resize event (for example "resize" instead of "orientationchange" for mobiles) with <code>resizeEvent</code> parameter</li>
+    </ul>
+  </li> 
+  <li>Fixes:
+    <ul>
+      <li>Fixed situation when slider can get stuck between slides when tapped during transition</li>
+      <li>Now clickedSlide will return correct slide in loop mode</li>
+    </ul>
+  </li> 
+  <li>Minor fixes</li>
+</ul>
 <h3>Swiper 1.8.8 - Updated on March 4, 2013</h3>
 <ul>
   <li>Improved cursors usablity with autmatic grab cursors for container and drag cursor for scrollbar</li> 
