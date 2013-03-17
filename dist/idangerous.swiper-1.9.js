@@ -170,7 +170,7 @@ var Swiper = function (selector, params, callback) {
             return el;
         }
         el.insertAfter = function (index) {
-            if(typeof index === undefined) return false;
+            if(typeof index === 'undefined') return false;
             var beforeSlide = _this.slides[index+1]
             _this.wrapper.insertBefore(el, beforeSlide)
             _this.reInit();
@@ -184,7 +184,7 @@ var Swiper = function (selector, params, callback) {
             _this.reInit()
         }
         el.html = function (html) {
-            if (typeof html === undefined) {
+            if (typeof html === 'undefined') {
                 return el.innerHTML
             }
             else {
@@ -865,12 +865,13 @@ var Swiper = function (selector, params, callback) {
         var pageX = isTouchEvent ? event.targetTouches[0].pageX : (event.pageX || event.clientX)
         var pageY = isTouchEvent ? event.targetTouches[0].pageY : (event.pageY || event.clientY)
         //check for scrolling
-        if ( typeof isScrolling === undefined && isHorizontal) {
+        if ( typeof isScrolling === 'undefined' && isHorizontal) {
           isScrolling = !!( isScrolling || Math.abs(pageY - _this.touches.startY) > Math.abs( pageX - _this.touches.startX ) )
         }
-        if ( typeof isScrolling === undefined && !isHorizontal) {
+        if ( typeof isScrolling === 'undefined' && !isHorizontal) {
           isScrolling = !!( isScrolling || Math.abs(pageY - _this.touches.startY) < Math.abs( pageX - _this.touches.startX ) )
         }
+
         if (isScrolling ) {
             return
         }

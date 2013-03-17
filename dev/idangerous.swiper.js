@@ -170,7 +170,7 @@ var Swiper = function (selector, params, callback) {
             return el;
         }
         el.insertAfter = function (index) {
-            if(typeof index === undefined) return false;
+            if(typeof index === 'undefined') return false;
             var beforeSlide = _this.slides[index+1]
             _this.wrapper.insertBefore(el, beforeSlide)
             _this.reInit();
@@ -184,7 +184,7 @@ var Swiper = function (selector, params, callback) {
             _this.reInit()
         }
         el.html = function (html) {
-            if (typeof html === undefined) {
+            if (typeof html === 'undefined') {
                 return el.innerHTML
             }
             else {
@@ -753,62 +753,6 @@ var Swiper = function (selector, params, callback) {
                 _this.setTransform(x,y,0)
             }
 
-<<<<<<< HEAD
-	/*========================================== 
-		Mousewheel Control. Beta! 
-	============================================*/
-	// detect available wheel event
-	_this._wheelEvent = false;
-	
-	if (params.mousewheelControl) {
-		if ( document.onmousewheel !== undefined ) {
-            _this._wheelEvent = "mousewheel"
-		}
-			try {
-				WheelEvent("wheel");
-				_this._wheelEvent = "wheel";
-			} catch (e) {}
-			if ( !_this._wheelEvent ) {
-				_this._wheelEvent = "DOMMouseScroll";
-			}
-		function handleMousewheel (e) {
-			if(e.preventDefault) e.preventDefault();
-			var we = _this._wheelEvent;
-			var delta;
-			//Opera & IE
-			if (e.detail) delta = -e.detail;
-			//WebKits	
-			else if (we == 'mousewheel') delta = e.wheelDelta; 
-			//Old FireFox
-			else if (we == 'DOMMouseScroll') delta = -e.detail;
-			//New FireFox
-			else if (we == 'wheel') {
-				delta = Math.abs(e.deltaX)>Math.abs(e.deltaY) ? - e.deltaX : - e.deltaY;
-			}
-			if (!params.freeMode) {
-				if(delta<0) _this.swipeNext()
-				else _this.swipePrev()
-			}
-			else {
-				//Freemode or scrollContainer:
-				var currentTransform =isHorizontal ? _this.getTranslate('x') : _this.getTranslate('y')
-				var x,y;
-				if (isHorizontal) {
-					x = _this.getTranslate('x') + delta;
-					y = _this.getTranslate('y');
-					if (x>0) x = 0;
-					if (x<-maxPos()) x = -maxPos();
-				}
-				else {
-					x = _this.getTranslate('x');
-					y = _this.getTranslate('y')+delta;
-					if (y>0) y = 0;
-					if (y<-maxPos()) y = -maxPos();
-				}
-				_this.setTransition(0)
-				_this.setTransform(x,y,0)
-			}
-=======
             e.preventDefault();
             return false;
         }
@@ -897,7 +841,6 @@ var Swiper = function (selector, params, callback) {
                         if (clickedIndex<0) {
                             clickedIndex = _this.slides.length+clickedIndex-(params.slidesPerSlide*2);
                         }
->>>>>>> 1.9 Update
 
                     }
                     _this.clickedSlideIndex = clickedIndex
@@ -922,12 +865,13 @@ var Swiper = function (selector, params, callback) {
         var pageX = isTouchEvent ? event.targetTouches[0].pageX : (event.pageX || event.clientX)
         var pageY = isTouchEvent ? event.targetTouches[0].pageY : (event.pageY || event.clientY)
         //check for scrolling
-        if ( typeof isScrolling === undefined && isHorizontal) {
+        if ( typeof isScrolling === 'undefined' && isHorizontal) {
           isScrolling = !!( isScrolling || Math.abs(pageY - _this.touches.startY) > Math.abs( pageX - _this.touches.startX ) )
         }
-        if ( typeof isScrolling === undefined && !isHorizontal) {
+        if ( typeof isScrolling === 'undefined' && !isHorizontal) {
           isScrolling = !!( isScrolling || Math.abs(pageY - _this.touches.startY) < Math.abs( pageX - _this.touches.startX ) )
         }
+
         if (isScrolling ) {
             return
         }
