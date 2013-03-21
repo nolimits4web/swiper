@@ -595,7 +595,8 @@ var Swiper = function (selector, params, callback) {
         }
         else if (params.autoPlay && params.loop) {
             autoPlay = setInterval(function(){
-                _this.swipeNext()
+                _this.fixLoop();
+                _this.swipeNext(true)
             }, params.autoPlay)
         }
         _this.callPlugins('onAutoPlayStart');
