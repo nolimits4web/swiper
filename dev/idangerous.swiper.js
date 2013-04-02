@@ -91,6 +91,8 @@ var Swiper = function (selector, params, callback) {
         slidesPerGroup : 1,
         simulateTouch : true,
         followFinger : true,
+        shortSwipes : true,
+        moveStartThreshold:false,
         autoPlay:false,
         onlyExternal : false,
         createPagination : true,
@@ -103,6 +105,7 @@ var Swiper = function (selector, params, callback) {
         mousewheelControl : false,
         resizeEvent : 'auto', //or 'resize' or 'orientationchange'
         //Namespace
+        slideElement : 'div',
         slideClass : 'swiper-slide',
         wrapperClass : 'swiper-wrapper',
         paginationClass: 'swiper-pagination-switch' ,
@@ -154,7 +157,7 @@ var Swiper = function (selector, params, callback) {
         touchMove : _this.support.touch || !params.simulateTouch ? 'touchmove' : (_this.ie10 ? 'MSPointerMove' : 'mousemove'),
         touchEnd : _this.support.touch || !params.simulateTouch ? 'touchend' : (_this.ie10 ? 'MSPointerUp' : 'mouseup')
     };
-    
+
     /*=========================
       Slide API
       ===========================*/
@@ -257,7 +260,7 @@ var Swiper = function (selector, params, callback) {
     //Create Slide
     _this.createSlide = function (html, slideClassList, el) {
         var slideClassList = slideClassList || _this.params.slideClass;
-        var el = el||'div';
+        var el = el||params.slideElement;
         var newSlide = document.createElement(el)
         newSlide.innerHTML = html||'';
         newSlide.className = slideClassList;
@@ -365,7 +368,8 @@ var Swiper = function (selector, params, callback) {
       ===========================*/
     if (params.loop) {
         (function(){
-            numOfSlides = _this.slides.length
+            numOfSlides = _this.slides.length;
+            if (_this.slides.length==0) return;
             var slideFirstHTML = '';
             var slideLastHTML = '';
             //Grab First Slides
@@ -384,7 +388,10 @@ var Swiper = function (selector, params, callback) {
     
     //Init Function
     var firstInit = false;
-
+    //ReInitizize function. Good to use after dynamically changes of Swiper, like after add/remove slides
+    _this.reInit = function () {
+        _this.init(true)
+    }
     _this.init = function(reInit) {
         var _width = window.getComputedStyle(_this.container, null).getPropertyValue('width')
         var _height = window.getComputedStyle(_this.container, null).getPropertyValue('height')
@@ -398,7 +405,6 @@ var Swiper = function (selector, params, callback) {
         if(isNaN(newHeight) || _this.ie8 && (_height.indexOf('%')>0) ) {
             newHeight = _this.container.offsetHeight - parseInt(window.getComputedStyle(_this.container, null).getPropertyValue('padding-top'),10) - parseInt(window.getComputedStyle(_this.container, null).getPropertyValue('padding-bottom'),10)         
         }
-        
         if (!reInit) {
             if (_this.width==newWidth && _this.height==newHeight) return            
         }
@@ -489,12 +495,10 @@ var Swiper = function (selector, params, callback) {
         else _this.callPlugins('onInit');
         firstInit = true;
     }
+
     _this.init()
 
-    //ReInitizize function. Good to use after dynamically changes of Swiper, like after add/remove slides
-    _this.reInit = function () {
-        _this.init(true)
-    }
+    
     
     //Get Max And Min Positions
     function maxPos() {
@@ -620,9 +624,11 @@ var Swiper = function (selector, params, callback) {
             wrapper.addEventListener('touchmove', onTouchMove, false);
             wrapper.addEventListener('touchend', onTouchEnd, false);    
         }
-        wrapper.addEventListener('mousedown', onTouchStart, false);
-        document.addEventListener('mousemove', onTouchMove, false);
-        document.addEventListener('mouseup', onTouchEnd, false);
+        if (params.simulateTouch) {
+            wrapper.addEventListener('mousedown', onTouchStart, false);
+            document.addEventListener('mousemove', onTouchMove, false);
+            document.addEventListener('mouseup', onTouchEnd, false);
+        }
     }
     else {
         wrapper.addEventListener(_this.touchEvents.touchStart, onTouchStart, false);
@@ -774,7 +780,8 @@ var Swiper = function (selector, params, callback) {
       Handle Touches
       ===========================*/
     //Detect event type for devices with both touch and mouse support
-    var isTouchEvent = false;  
+    var isTouchEvent = false; 
+    var allowThresholdMove; 
     function onTouchStart(event) {
         //Exit if slider is already was touched
         if (_this.isTouched || params.onlyExternal) {
@@ -852,7 +859,8 @@ var Swiper = function (selector, params, callback) {
                     }
                 })();
             }
-
+            //Set Treshold
+            if (params.moveStartThreshold>0) allowThresholdMove = false;
             //CallBack
             if (params.onTouchStart) params.onTouchStart(_this)
             _this.callPlugins('onTouchStartEnd');
@@ -946,8 +954,22 @@ var Swiper = function (selector, params, callback) {
             
             //Move Slides
             if (!params.followFinger) return
-            if (isHorizontal) _this.setTransform( _this.positions.current, 0, 0)
-            else _this.setTransform( 0, _this.positions.current, 0)
+
+            if (!params.moveStartThreshold) {
+                if (isHorizontal) _this.setTransform( _this.positions.current, 0, 0)
+                else _this.setTransform( 0, _this.positions.current, 0)    
+            }
+            else {
+                if ( Math.abs(_this.touches.current - _this.touches.start)>params.moveStartThreshold || allowThresholdMove) {
+                    allowThresholdMove = true;
+                    if (isHorizontal) _this.setTransform( _this.positions.current, 0, 0)
+                    else _this.setTransform( 0, _this.positions.current, 0)  
+                }
+                else {
+                    _this.positions.current = _this.positions.start
+                }
+            }    
+            
             
             if (params.freeMode) {
                 _this.updateActiveSlide(_this.positions.current)
@@ -1005,8 +1027,10 @@ var Swiper = function (selector, params, callback) {
         }
         
         //For case if slider touched but not moved
-        if (isHorizontal) _this.setTransform( _this.positions.current, 0, 0)
-        else _this.setTransform( 0, _this.positions.current, 0)
+        if (params.followFinger) {
+            if (isHorizontal) _this.setTransform( _this.positions.current, 0, 0)
+            else _this.setTransform( 0, _this.positions.current, 0)
+        }
         //--
         
         // TouchEndTime
@@ -1072,13 +1096,13 @@ var Swiper = function (selector, params, callback) {
         
         //Short Touches
         if (direction=="toNext" && ( _this.times.end - _this.times.start <= 300 ) ) {
-            if (diffAbs < 30) _this.swipeReset()
+            if (diffAbs < 30 || !params.shortSwipes) _this.swipeReset()
             else _this.swipeNext(true);
         }
         
         if (direction=="toPrev" && ( _this.times.end - _this.times.start <= 300 ) ) {
         
-            if (diffAbs < 30) _this.swipeReset()
+            if (diffAbs < 30 || !params.shortSwipes) _this.swipeReset()
             else _this.swipePrev(true);
         }
         //Long Touches
@@ -1174,7 +1198,6 @@ var Swiper = function (selector, params, callback) {
     
     _this.swipeReset = function(prevention) {
         _this.callPlugins('onSwipeReset');
-
         var getTranslate = isHorizontal ? _this.getTranslate('x') : _this.getTranslate('y');
         var groupSize = slideSize * params.slidesPerGroup
         var newPosition = getTranslate<0 ? Math.round(getTranslate/groupSize)*groupSize : 0
@@ -1314,15 +1337,17 @@ var Swiper = function (selector, params, callback) {
 Swiper.prototype = {
     plugins : {},
     //Transition End
-    transitionEnd : function(callback) {
+    transitionEnd : function(callback, permanent) {
         var a = this
         var el = a.wrapper
         var events = ['webkitTransitionEnd','transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'];
         if (callback) {
             function fireCallBack() {
                 callback(a)
-                for (var i=0; i<events.length; i++) {
-                    el.removeEventListener(events[i], fireCallBack, false)
+                if (!permanent) {
+                    for (var i=0; i<events.length; i++) {
+                        el.removeEventListener(events[i], fireCallBack, false)
+                    }
                 }
             }
             for (var i=0; i<events.length; i++) {
