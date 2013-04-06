@@ -2,6 +2,18 @@
 <h2>About</h2>
 <p><strong>Swiper</strong> - is the <strong>free and ultra lightweight</strong> mobile touch slider with hardware accelerated transitions (where supported) and amazing native behavior. It is intended to use in mobile websites, mobile web apps, and mobile native apps. Designed mostly for iOS, but also works on Android and latest Desktop browsers. <strong>Swiper</strong> is created by <a href="http://www.idangero.us">iDangero.us</a></p>
 <h2>Change Log</h2>
+<h3>Swiper 1.9.1 - Updated on April 6, 2013</h3>
+<ul>
+  <li>New <a href="http://www.idangero.us/sliders/swiper/api.php">API</a> features:
+    <ul>
+      <li>New feature to disable short swipes with <code>shortSwipes</code> parameter</li>
+      <li>New feature to add "start" threshold <code>moveStartThreshold</code> parameter</li>
+      <li>New feature to use left/top wrapper position offset instead of use of css3 transforms <code>useCSS3Transforms</code> parameter</li>
+    </ul>
+  </li> 
+  <li>Updates CSS file</li>
+  <li>Minor fixes and improvements</li>
+</ul>
 <h3>Swiper 1.9 - Updated on March 16, 2013</h3>
 <ul>
   <li>Added support for devices that can use both mouse and touch "pointers" at the same time, like many of Windows 8 tablets and notebooks</li>
