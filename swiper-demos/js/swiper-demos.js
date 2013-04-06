@@ -1,13 +1,18 @@
 /*
 Author: Vladimir Kharlampidi, The iDangero.us
 */
+document.createElement('header');
+document.createElement('footer');
+
 $(function(){
 	
 	//Main Swiper
-	swiper = new Swiper('.swiper1', {
+	var swiper = new Swiper('.swiper1', {
 		pagination : '.pagination1',
-		loop:true
+		loop:true,
+		grabCursor: true
 	});
+	//Navigation arrows
 	$('.arrow-left').click(function(e) {
         e.preventDefault()
 		swiper.swipePrev()
@@ -16,7 +21,11 @@ $(function(){
         e.preventDefault()
 		swiper.swipeNext()
     });
-	
+    //Clickable pagination
+    $('.pagination1 .swiper-pagination-switch').click(function(){
+    	swiper.swipeTo($(this).index())
+    })
+
 	/* Vertical mode: */
 	swiperV = $('.swiper-v').swiper({
 		mode : "vertical", 
@@ -53,7 +62,6 @@ $(function(){
 			container : '.swiper-scrollbar'	
 		}
 	})	
-	
 	
 	/* Nested Swipers. Vertical Swiper inside of horizontal: */	
 	var swiperN1 = $('.swiper-n1').swiper({
@@ -189,6 +197,17 @@ $(function(){
 		e.preventDefault();
 		swiperDyn.removeSlide(1)
 	});
+
+	//Partial Slides
+	$('.swiper-partial').swiper({
+		slidesPerSlide:'auto'
+	})
+
+	//Threshold
+	$('.swiper-threshold').swiper({
+		moveStartThreshold:100
+	})
+
 	
 })
 

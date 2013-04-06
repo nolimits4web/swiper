@@ -313,6 +313,7 @@ body {
 	background: #999;
 	box-shadow: 0px 1px 2px #555 inset;
 	margin: 0 3px;
+	cursor: pointer;
 }
 .pagination1 .swiper-active-switch {
 	background: #fff;2f9933

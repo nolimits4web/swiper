@@ -1,6 +1,6 @@
 /*
- * Swiper Scrollbar 1.0
- * Plugin for Swiper 1.7+
+ * Swiper Scrollbar 1.2
+ * Plugin for Swiper 1.8.8+
  * http://www.idangero.us/sliders/swiper/
  *
  * Copyright 2012, Vladimir Kharlampidi
@@ -9,12 +9,12 @@
  *
  * Licensed under GPL & MIT
  *
- * Updated on: December 19, 2012
+ * Released on: March 4, 2013
 */
 
 Swiper.prototype.plugins.scrollbar = function(swiper, params){
 	
-	var enabled = params && params.container.length>0;
+	var enabled = params && params.container;
 	if(!enabled) return;
 	
 	/*=========================
@@ -22,7 +22,8 @@ Swiper.prototype.plugins.scrollbar = function(swiper, params){
 	  ===========================*/
 	var defaults = {
 		hide : true,
-		draggable : true
+		draggable : true,
+		snapOnRelease: false
 	}
 	params = params || {};	
 	for (var prop in defaults) {
@@ -34,14 +35,17 @@ Swiper.prototype.plugins.scrollbar = function(swiper, params){
 	var dq = function(q) {
 		return document.querySelectorAll(q)
 	}
-	if (dq(params.container).length==0) return;
+	if(!(params.container instanceof HTMLElement) && dq(params.container).length==0) return
+	var container = params.container instanceof HTMLElement ? params.container : dq(params.container)[0]
 	var isH = swiper.params.mode=='horizontal',
-		track = dq(params.container)[0],
-		dragHTML = '<div class="swiper-scrollbar-drag"></div>',
+		track = container,
 		trackWidth, trackHeight, divider, moveDivider, dragWidth, dragHeight;
 
-	dq(params.container)[0].innerHTML=dragHTML;
-	var drag = dq(params.container+' '+'.swiper-scrollbar-drag')[0];
+	//Define Drag
+	var drag = document.createElement('div')
+	drag.className = 'swiper-scrollbar-drag';
+	if (params.draggable) drag.className += ' swiper-scrollbar-cursor-drag';
+	track.appendChild(drag)	
 	if (params.hide) {
 		track.style.opacity=0
 	}
@@ -129,12 +133,11 @@ Swiper.prototype.plugins.scrollbar = function(swiper, params){
 				},1000)
 				
 			}
+			if (params.snapOnRelease) {
+				swiper.swipeReset()
+			}
 
 		}, false)
-
-		
-
-		
 
 		function setDragPosition(e){
 			var x = y = 0;
@@ -169,9 +172,6 @@ Swiper.prototype.plugins.scrollbar = function(swiper, params){
 		}
 	}
 	
-
-
-	
 	function setScrollBars() {
 		drag.style.width = ''
 		drag.style.height = ''
@@ -181,6 +181,7 @@ Swiper.prototype.plugins.scrollbar = function(swiper, params){
 			moveDivider = divider*(trackWidth/swiper.width);
 			dragWidth = track.offsetWidth*divider;
 			drag.style.width = dragWidth+'px';
+			
 		}
 		else {
 			trackHeight = track.offsetHeight;
@@ -216,7 +217,6 @@ Swiper.prototype.plugins.scrollbar = function(swiper, params){
 					track.style.opacity=0;
 					setTransition(track,400)
 				},1000)
-				
 			}
 		},
 		
@@ -251,12 +251,20 @@ Swiper.prototype.plugins.scrollbar = function(swiper, params){
 				transform(drag,{y:-newTop})
 				drag.style.height  = newHeight+'px';
 			}
+			if (swiper.params.freeMode && params.hide) {
+				clearTimeout(timeout)
+				track.style.opacity=1;
+				timeout = setTimeout(function(){
+					track.style.opacity=0;
+					setTransition(track,400)
+				},1000)
+			}
 			
 		},
 		onSetTransition: function(args){
 			setTransition(drag,args.duration)
 			
-		},
+		}
 
 		
 	}

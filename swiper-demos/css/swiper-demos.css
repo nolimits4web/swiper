@@ -381,3 +381,31 @@
 .pagination-sd .swiper-active-switch {
 	background: #333;
 }
+
+/* Partial Slides */
+.swiper-partial {
+	width: 640px;
+	height: 250px;
+	color: #fff;
+}
+.swiper-partial .swiper-slide {
+	height: 250px;
+	width: 500px;
+	text-align: center;
+	line-height: 250px;
+	font-size: 40px;
+}
+
+/* Treshold Slides */
+.swiper-threshold {
+	width: 640px;
+	height: 250px;
+	color: #fff;
+}
+.swiper-threshold .swiper-slide {
+	height: 250px;
+	width: 500px;
+	text-align: center;
+	line-height: 250px;
+	font-size: 40px;
+}
