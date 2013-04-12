@@ -101,6 +101,7 @@ var Swiper = function (selector, params, callback) {
         nopeek : false,
         scrollContainer : false,
         preventLinks : true,
+        preventClassNoSwiping : true,
         initialSlide: 0,
         keyboardControl: false, 
         mousewheelControl : false,
@@ -789,6 +790,9 @@ var Swiper = function (selector, params, callback) {
         if (_this.isTouched || params.onlyExternal) {
             return false
         }
+        
+        if (params.preventClassNoSwiping && event.target.className.indexOf('NoSwiping') > -1) return false;
+        
         //Check For Nested Swipers
         _this.isTouched = true;
         isTouchEvent = event.type=='touchstart';
