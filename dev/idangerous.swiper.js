@@ -98,8 +98,10 @@ var Swiper = function (selector, params, callback) {
         createPagination : true,
         pagination : false,
         resistance : true,
+        nopeek : false,
         scrollContainer : false,
         preventLinks : true,
+        preventClassNoSwiping : true,
         initialSlide: 0,
         keyboardControl: false, 
         mousewheelControl : false,
@@ -788,6 +790,9 @@ var Swiper = function (selector, params, callback) {
         if (_this.isTouched || params.onlyExternal) {
             return false
         }
+        
+        if (params.preventClassNoSwiping && event.target.className.indexOf('NoSwiping') > -1) return false;
+        
         //Check For Nested Swipers
         _this.isTouched = true;
         isTouchEvent = event.type=='touchstart';
@@ -928,6 +933,9 @@ var Swiper = function (selector, params, callback) {
                         _this.positions.current = (containerSize/2)
                     else 
                         _this.positions.current = _this.positions.current * resistance
+                        
+                    if (params.nopeek)
+                        _this.positions.current = 0;
                     
                 }
                 //Resistance for After-End Sliding
@@ -945,6 +953,11 @@ var Swiper = function (selector, params, callback) {
                         var newPos = _this.positions.current-diff*(1-resistance)/2
                         var stopPos = -maxPos() - containerSize/2;
                     }
+                    
+                    if (params.nopeek) {
+                        newPos = _this.positions.current-diff;
+						stopPos = -maxPos();
+					}
                     
                     if (newPos < stopPos || resistance<=0)
                         _this.positions.current = stopPos;
