@@ -98,6 +98,7 @@ var Swiper = function (selector, params, callback) {
         createPagination : true,
         pagination : false,
         resistance : true,
+        nopeek : false,
         scrollContainer : false,
         preventLinks : true,
         initialSlide: 0,
@@ -928,6 +929,9 @@ var Swiper = function (selector, params, callback) {
                         _this.positions.current = (containerSize/2)
                     else 
                         _this.positions.current = _this.positions.current * resistance
+                        
+                    if (params.nopeek)
+                        _this.positions.current = 0;
                     
                 }
                 //Resistance for After-End Sliding
@@ -945,6 +949,11 @@ var Swiper = function (selector, params, callback) {
                         var newPos = _this.positions.current-diff*(1-resistance)/2
                         var stopPos = -maxPos() - containerSize/2;
                     }
+                    
+                    if (params.nopeek) {
+                        newPos = _this.positions.current-diff;
+						stopPos = -maxPos();
+					}
                     
                     if (newPos < stopPos || resistance<=0)
                         _this.positions.current = stopPos;
