@@ -291,8 +291,8 @@ var Swiper = function (selector, params, callback) {
     }
     _this.insertSlideAfter = function (index, html, slideClassList, el) {
         if (!index) return false;
-        if (index.nodeType) {
-            return _this._extendSwiperSlide(index).insertAfter(index)
+        if (html.nodeType) {
+            return _this._extendSwiperSlide(html).insertAfter(index)
         }
         else {
             return _this.createSlide(html, slideClassList, el).insertAfter(index)
