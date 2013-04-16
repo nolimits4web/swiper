@@ -402,10 +402,10 @@ var Swiper = function (selector, params, callback) {
         var newHeight  = parseInt(_height,10);
         
         //IE8 Fixes
-        if(isNaN(newWidth) || _this.ie8 && (_width.indexOf('%')>0)  ) {
+        if(isNaN(newWidth) || _width.indexOf('%')>0) {
             newWidth = _this.container.offsetWidth - parseInt(window.getComputedStyle(_this.container, null).getPropertyValue('padding-left'),10) - parseInt(window.getComputedStyle(_this.container, null).getPropertyValue('padding-right'),10) 
         }
-        if(isNaN(newHeight) || _this.ie8 && (_height.indexOf('%')>0) ) {
+        if(isNaN(newHeight) || _height.indexOf('%')>0) {
             newHeight = _this.container.offsetHeight - parseInt(window.getComputedStyle(_this.container, null).getPropertyValue('padding-top'),10) - parseInt(window.getComputedStyle(_this.container, null).getPropertyValue('padding-bottom'),10)         
         }
         if (!reInit) {
@@ -790,7 +790,6 @@ var Swiper = function (selector, params, callback) {
         if (_this.isTouched || params.onlyExternal) {
             return false
         }
-        
         if (params.preventClassNoSwiping && event.target.className.indexOf('NoSwiping') > -1) return false;
         
         //Check For Nested Swipers
@@ -818,7 +817,7 @@ var Swiper = function (selector, params, callback) {
             
             //Get Start Translate Position
             _this.positions.start = _this.positions.current = isHorizontal ? _this.getTranslate('x') : _this.getTranslate('y');
-            
+
             //Set Transform
             if (isHorizontal) {
                 _this.setTransform( _this.positions.start, 0, 0)
@@ -1419,24 +1418,29 @@ Swiper.prototype = {
             if (axis=='x') {
                 //Crazy IE10 Matrix
                 if (matrix.length==16) 
-                    curTransform = parseInt( matrix[12], 10 )
+                    curTransform = parseFloat( matrix[12] )
+                //Latest Chrome and webkits Fix
+                else if (window.WebKitCSSMatrix)
+                    curTransform = transformMatrix.m41
                 //Normal Browsers
                 else 
-                    curTransform = parseInt( matrix[4], 10 )
-                    
+                    curTransform = parseFloat( matrix[4] )
             }
             if (axis=='y') {
                 //Crazy IE10 Matrix
                 if (matrix.length==16) 
-                    curTransform = parseInt( matrix[13], 10 )
+                    curTransform = parseFloat( matrix[13] )
+                //Latest Chrome and webkits Fix
+                else if (window.WebKitCSSMatrix)
+                    curTransform = transformMatrix.m42
                 //Normal Browsers
                 else 
-                    curTransform = parseInt( matrix[5], 10 )
+                    curTransform = parseFloat( matrix[5] )
             }
         }
         else {
-            if (axis=='x') curTransform = parseInt(el.style.left,10) || 0
-            if (axis=='y') curTransform = parseInt(el.style.top,10) || 0
+            if (axis=='x') curTransform = parseFloat(el.style.left,10) || 0
+            if (axis=='y') curTransform = parseFloat(el.style.top,10) || 0
         }
         return curTransform;
     },
