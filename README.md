@@ -2,6 +2,19 @@
 <h2>About</h2>
 <p><strong>Swiper</strong> - is the <strong>free and ultra lightweight</strong> mobile touch slider with hardware accelerated transitions (where supported) and amazing native behavior. It is intended to use in mobile websites, mobile web apps, and mobile native apps. Designed mostly for iOS, but also works on Android and latest Desktop browsers. <strong>Swiper</strong> is created by <a href="http://www.idangero.us">iDangero.us</a></p>
 <h2>Change Log</h2>
+<h3>Swiper 1.9.2 - Updated on April 19, 2013</h3>
+<ul>
+  <li>New <a href="http://www.idangero.us/sliders/swiper/api.php">API</a> features:
+    <ul>
+      <li>New feature to enable 100% resitance with <code>nopeek</code> parameter</li>
+      <li>New feature to disable "swiping" on some slide with additional <code>NoSwiping</code> element's class</li>
+      <li><code>.activeSlide</code> became <code>.activeIndex</code></li>
+      <li><code>.previousSlide</code> became <code>.previousIndex</code></li>
+    </ul>
+  </li> 
+  <li>IE9 fix for with in percents</li>
+  <li>Other minor fixes and improvements</li>
+</ul> 
 <h3>Swiper 1.9.1 - Updated on April 6, 2013</h3>
 <ul>
   <li>New <a href="http://www.idangero.us/sliders/swiper/api.php">API</a> features:
