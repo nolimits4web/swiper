@@ -887,6 +887,7 @@ var Swiper = function (selector, params, callback) {
         }
 
         if (isScrolling ) {
+            _this.isTouched = false;
             return
         }
         
@@ -1009,6 +1010,8 @@ var Swiper = function (selector, params, callback) {
         }
     }
     function onTouchEnd(event) {
+        //Check For scrolling
+        if (isScrolling) _this.swipeReset();
         // If slider is not touched exit
         if ( params.onlyExternal || !_this.isTouched ) return
         _this.isTouched = false
@@ -1285,15 +1288,23 @@ var Swiper = function (selector, params, callback) {
         return true
     }
     
+    //Prevent Multiple Callbacks 
+    _this._queueStartCallbacks = false;
+    _this._queueEndCallbacks = false;
     function slideChangeCallbacks() {
         //Transition Start Callback
         _this.callPlugins('onSlideChangeStart');
-        if (params.onSlideChangeStart) {
+        if (params.onSlideChangeStart && !_this._queueStartCallbacks) {
+            _this._queueStartCallbacks = true;
             params.onSlideChangeStart(_this)
+            _this.transitionEnd(function(){
+                _this._queueStartCallbacks = false;
+            })
         }
         
         //Transition End Callback
-        if (params.onSlideChangeEnd) {
+        if (params.onSlideChangeEnd && !_this._queueEndCallbacks) {
+            _this._queueEndCallbacks = true;
             _this.transitionEnd(params.onSlideChangeEnd)
         }
         
@@ -1357,6 +1368,7 @@ Swiper.prototype = {
         if (callback) {
             function fireCallBack() {
                 callback(a)
+                a._queueEndCallbacks = false
                 if (!permanent) {
                     for (var i=0; i<events.length; i++) {
                         el.removeEventListener(events[i], fireCallBack, false)
