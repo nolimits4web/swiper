@@ -1192,7 +1192,7 @@ var Swiper = function (selector, params, callback) {
 
         _this.callPlugins('onSwipePrev');
 
-        var getTranslate = isHorizontal ? _this.getTranslate('x') : _this.getTranslate('y')
+        var getTranslate = Math.ceil( isHorizontal ? _this.getTranslate('x') : _this.getTranslate('y') );
         
         var groupSize = slideSize * params.slidesPerGroup;
         var newPosition = (Math.ceil(-getTranslate/groupSize)-1)*groupSize;
