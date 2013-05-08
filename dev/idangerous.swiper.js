@@ -1334,12 +1334,13 @@ var Swiper = function (selector, params, callback) {
         _this.activeSlide = _this.activeIndex;
 
         // mark active slide
+        var activeClassRegexp = new RegExp( "\\s*" + params.slideActiveClass );
         for ( var i = 0; i < numOfSlides; ++i )
         {
-            _this.slides[ i ].classList.remove( params.slideActiveClass );
+            _this.slides[ i ].className = _this.slides[ i ].className.replace( activeClassRegexp, '' );
         }
         
-        _this.slides[ _this.activeIndex ].classList.add( params.slideActiveClass );
+        _this.slides[ _this.activeIndex ].className += ' ' + params.slideActiveClass;
 
         //Update Pagination
         if (params.pagination) {
