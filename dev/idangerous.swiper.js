@@ -113,6 +113,7 @@ var Swiper = function (selector, params, callback) {
         //Namespace
         slideElement : 'div',
         slideClass : 'swiper-slide',
+        slideActiveClass : 'swiper-slide-active',
         wrapperClass : 'swiper-wrapper',
         paginationClass: 'swiper-pagination-switch' ,
         paginationActiveClass : 'swiper-active-switch' 
@@ -1336,6 +1337,16 @@ var Swiper = function (selector, params, callback) {
         if (_this.realIndex<0) _this.realIndex = 0
         //Legacy
         _this.activeSlide = _this.activeIndex;
+
+        // mark active slide
+        var activeClassRegexp = new RegExp( "\\s*" + params.slideActiveClass );
+        for ( var i = 0; i < numOfSlides; ++i )
+        {
+            _this.slides[ i ].className = _this.slides[ i ].className.replace( activeClassRegexp, '' );
+        }
+        
+        _this.slides[ _this.activeIndex ].className += ' ' + params.slideActiveClass;
+
         //Update Pagination
         if (params.pagination) {
             _this.updatePagination()
