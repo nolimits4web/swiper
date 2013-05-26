@@ -103,6 +103,7 @@ var Swiper = function (selector, params, callback) {
         resistance : true,
         nopeek : false,
         scrollContainer : false,
+        fluidContainerWidth: false,
         preventLinks : true,
         preventClassNoSwiping : true,
         initialSlide: 0,
@@ -456,9 +457,22 @@ var Swiper = function (selector, params, callback) {
                 _this.slides[0].style.width='';
                 _this.slides[0].style.height='';
             }
+
+            if (params.fluidContainerWidth && isHorizontal) {
+                slideWidth = 0;
+                slideHeight = 0;
+                for (var i=0; i<_this.slides[0].children.length; i++) {
+                    slideWidth += _this.slides[0].children[i].offsetWidth;
+                    if (_this.slides[0].children[i].offsetHeight > slideHeight) {
+                        slideHeight = _this.slides[0].children[i].offsetHeight;
+                    }
+                }
+            }
+            else {
+                slideWidth = _this.slides[0].offsetWidth;
+                slideHeight = _this.slides[0].offsetHeight;
+            }
             
-            slideWidth = _this.slides[0].offsetWidth;
-            slideHeight = _this.slides[0].offsetHeight;
             containerSize = isHorizontal ? _this.width : _this.height;
             
             slideSize = isHorizontal ? slideWidth : slideHeight;
