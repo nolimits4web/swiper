@@ -1,5 +1,5 @@
 /*
- * Swiper 2.0RC - Mobile Touch Slider
+ * Swiper 2.0 RC1 - Mobile Touch Slider
  * http://www.idangero.us/sliders/swiper/
  *
  * Copyright 2012-2013, Vladimir Kharlampidi
@@ -8,7 +8,7 @@
  *
  * Licensed under GPL & MIT
  *
- * Updated on: May 29, 2013
+ * Updated on: May 31, 2013
 */
 var Swiper = function (selector, params, callback) {
     /*=========================
@@ -99,6 +99,7 @@ var Swiper = function (selector, params, callback) {
     _this.isTouched = false;
     _this.isMoved = false;
     _this.activeIndex = 0;
+    _this.activeLoaderIndex = 0;
     _this.loopIndex = 0;
     _this.previousIndex = null;
     _this.velocity = 0;
@@ -171,6 +172,12 @@ var Swiper = function (selector, params, callback) {
         autoResize : true,
         //DOMAnimation
         DOMAnimation : true,
+        //Slides Loader
+        loader: {
+            slides:[], //array with slides
+            slidesHTMLType:'inner', // or 'outer'
+            surroundGroups: 1 //keep preloaded slides groups around view
+        },
         //Namespace
         slideElement : 'div',
         slideClass : 'swiper-slide',
@@ -183,7 +190,14 @@ var Swiper = function (selector, params, callback) {
     }
     params = params || {};  
     for (var prop in defaults) {
-        if (! (prop in params)) {
+        if (prop in params && typeof params[prop]==='object') {
+            for (var subProp in defaults[prop]) {
+                if (! (subProp in params[prop])) {       
+                    params[prop][subProp] = defaults[prop][subProp]
+                }
+            }
+        }
+        else if (! (prop in params)) {
             params[prop] = defaults[prop]   
         }
     }
@@ -328,7 +342,7 @@ var Swiper = function (selector, params, callback) {
     }
 
     //Calculate information about number of slides
-    _this.calcSlides = function () {
+    _this.calcSlides = function (forceCalcSlides) {
         var oldNumber = _this.slides ? _this.slides.length : false;
         _this.slides = [];
         _this.displaySlides = [];
@@ -347,12 +361,12 @@ var Swiper = function (selector, params, callback) {
             _this._extendSwiperSlide(_this.slides[i]);
         };
         if (!oldNumber) return;
-        if(oldNumber!=_this.slides.length) {
+        if(oldNumber!=_this.slides.length || forceCalcSlides) {
             // Number of slides has been changed
             removeSlideEvents();
             addSlideEvents();
-            if (params.createPagination && _this.params.pagination) _this.createPagination();
             _this.updateActiveSlide();
+            if (params.createPagination && _this.params.pagination) _this.createPagination();
             _this.callPlugins('numberOfSlidesChanged')
         }
     }
@@ -483,7 +497,7 @@ var Swiper = function (selector, params, callback) {
         Init/Re-init/Resize Fix
     ====================================================*/
     _this.initialized = false;
-    _this.init = function(force) {
+    _this.init = function(force, forceCalcSlides) {
         var _width = _this.h.getWidth(_this.container);
         var _height = _this.h.getHeight(_this.container);
         if (_width==_this.width && _height==_this.height && !force) return;
@@ -494,7 +508,7 @@ var Swiper = function (selector, params, callback) {
         var wrapper = _this.wrapper;
 
         if (force) {
-            _this.calcSlides()
+            _this.calcSlides(forceCalcSlides)
         }
 
         if (params.slidesPerView=='auto') {
@@ -690,8 +704,8 @@ var Swiper = function (selector, params, callback) {
         else _this.callPlugins('onInit');
         _this.initialized = true;
     }
-    _this.reInit = function () {
-        _this.init(true)
+    _this.reInit = function (forceCalcSlides) {
+        _this.init(true, forceCalcSlides)
     }
     _this.resizeFix = function(e){
         _this.callPlugins('beforeResizeFix');
@@ -1939,10 +1953,58 @@ var Swiper = function (selector, params, callback) {
         }
     }
     /*==================================================
+        Slides Loader
+    ====================================================*/
+    _this.loadSlides = function(){
+        var slidesHTML = '';
+        _this.activeLoaderIndex = 0;
+        for (var i=0; i< params.slidesPerView*(1+params.loader.surroundGroups); i++) {
+            if (params.loader.slidesHTMLType=='outer') slidesHTML+=params.loader.slides[i];
+            else {
+                slidesHTML+='<'+params.slideElement+' class="'+params.slideClass+'" data-swiperindex="'+i+'">'+params.loader.slides[i]+'</'+params.slideElement+'>'
+            }
+        }
+        _this.wrapper.innerHTML = slidesHTML;
+        _this.calcSlides(true);
+        //Add permanent transitionEnd callback
+        _this.wrapperTransitionEnd(_this.reloadSlides, true)
+    }
+    _this.reloadSlides = function(){
+
+        var newActiveIndex = parseInt(_this.activeSlide().data('swiperindex'),10)
+        if (newActiveIndex<0 || newActiveIndex>params.loader.slides.length-1) return //<-- Exit 
+        _this.activeLoaderIndex = newActiveIndex;
+        var firstIndex = Math.max(0, newActiveIndex - params.slidesPerView*params.loader.surroundGroups)
+        var lastIndex = Math.min(newActiveIndex+params.slidesPerView*(1+params.loader.surroundGroups)-1, params.loader.slides.length-1)
+
+        //Remove All Slides
+        _this.wrapper.innerHTML = '';
+
+        //New Slides
+        var slidesHTML = '';
+        for (var i = firstIndex; i<=lastIndex; i++) {
+            slidesHTML += params.loader.slidesHTMLType == 'outer' ? params.loader.slides[i] : '<'+params.slideElement+' class="'+params.slideClass+'" data-swiperindex="'+i+'">'+params.loader.slides[i]+'</'+params.slideElement+'>'
+        }
+        _this.wrapper.innerHTML = slidesHTML;
+        
+        //Update Transforms
+        if (newActiveIndex>0) {
+            var newTransform = -slideSize*(newActiveIndex-firstIndex)
+            _this.setWrapperTransition(0)
+            if (isH) _this.setWrapperTranslate(newTransform,0,0)
+            else _this.setWrapperTranslate(0,newTransform,0)
+        }
+        //reInit
+        _this.reInit(true);
+    }
+    /*==================================================
         Make Swiper
     ====================================================*/
     function makeSwiper(){
         _this.calcSlides();
+        if (params.loader.slides.length>0 && _this.slides.length==0) {
+            _this.loadSlides();
+        }
         if (params.loop) {
             _this.createLoop();
         }
@@ -1951,16 +2013,11 @@ var Swiper = function (selector, params, callback) {
         if (params.pagination && params.createPagination) {
             _this.createPagination(true);
         }
-        if (params.loop) {
+        if (params.loop || params.initialSlide>0) {
             _this.swipeTo( params.initialSlide, 0, false );
         }
         else {
-            if (params.initialSlide>0) {
-                _this.swipeTo( params.initialSlide, 0, false );
-            }
-            else {
-                _this.updateActiveSlide(0);
-            }    
+            _this.updateActiveSlide(0);
         }
         if (params.autoplay) {
             _this.startAutoplay();
