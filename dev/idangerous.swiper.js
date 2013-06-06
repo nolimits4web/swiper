@@ -812,7 +812,7 @@ var Swiper = function (selector, params, callback) {
         if (_this.isTouched || params.onlyExternal) {
             return false
         }
-        if (params.preventClassNoSwiping && event.target && event.target.className.indexOf('NoSwiping') > -1) return false;
+        if (params.preventClassNoSwiping && event.target && event.target.className && event.target.className.indexOf('NoSwiping') > -1) return false;
         
         //Check For Nested Swipers
         _this.isTouched = true;
