@@ -1284,6 +1284,7 @@ var Swiper = function (selector, params, callback) {
         if (params.loop) index = index + params.slidesPerSlide;
         
         if (index > numOfSlides - params.slidesPerSlide) index = numOfSlides - params.slidesPerSlide;
+        if (numOfSlides < params.slidesPerSlide) index = 0;
         var newPosition =  -index*slideSize ;
         
         if(firstTimeLoopPositioning && params.loop && params.initialSlide > 0 && params.initialSlide < numOfSlides){
