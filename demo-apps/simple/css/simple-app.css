@@ -1,0 +1,155 @@
+body,html {
+	position: relative;
+	height: 100%;
+}
+body {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	line-height: 1.5;
+	background: #222;
+	color: #fff;
+}
+.swiper-nav {
+	height: 40px;
+	width: 100%;
+	background-color: #111;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#111));
+	background-image: -webkit-linear-gradient(top, #333, #111);
+	background-image:    -moz-linear-gradient(top, #333, #111);
+	background-image:      -o-linear-gradient(top, #333, #111);
+	background-image:         linear-gradient(to bottom, #333, #111);
+}
+.swiper-nav .swiper-wrapper {
+	margin: 0 auto;
+}
+.swiper-nav span {
+	cursor: pointer;
+	display: block;
+	line-height: 40px;
+	padding: 0 20px;
+	color: #fff;
+	text-align: center;
+	border-right: 1px solid #000;
+	border-left: 1px solid #333;
+}
+.swiper-nav span:active {
+	background: #000;
+}
+.swiper-nav .swiper-slide:first-child span {
+	border-left: none;
+}
+.swiper-nav .swiper-slide:last-child span {
+	border-right: none;
+}
+.swiper-pages {
+	height: 100%;
+}
+.scroll-container {
+	height: 100%;
+	width: 100%;
+}
+.scroll-container .swiper-slide {
+	width: 100%;
+}
+.page-inner {
+	padding: 15px 20px;
+}
+input[type="text"], textarea {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background-color: #262626;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#262626), to(#333));
+	background-image: -webkit-linear-gradient(top, #262626, #333);
+	background-image:    -moz-linear-gradient(top, #262626, #333);
+	background-image:      -o-linear-gradient(top, #262626, #333);
+	background-image:         linear-gradient(to bottom, #262626, #333);
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3) inset, 0px 1px 0px rgba(255, 255, 255, 0.2);
+	border:1px solid #000;
+	border-radius: 5px;
+	padding: 9px 10px;
+	color: #fff;
+	width: 100%;
+
+}
+input[type="submit"] {
+	border-radius: 5px;
+	display: block;
+	text-align: center;
+	padding: 12px 20px;
+	font-weight: bold;
+	text-decoration: none;
+	border:1px solid #000;
+	font-size: 16px;
+	cursor: pointer;
+	box-shadow: 0px 0px 1px rgba(255,255,255,.4) inset, 0px 1px 1px rgba(0,0,0,0.5);
+	color: #fff;
+	text-shadow: 0px 1px 0px rgba(0,0,0,1);
+	width: 100%;
+	background-color: #242424;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#242424), to(#070707));
+	background-image: -webkit-linear-gradient(top, #242424, #070707);
+	background-image:    -moz-linear-gradient(top, #242424, #070707);
+	background-image:      -o-linear-gradient(top, #242424, #070707);
+	background-image:         linear-gradient(to bottom, #242424, #070707);
+}
+input[type="submit"]:hover {
+	background-color: #282828;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#282828), to(#171717));
+	background-image: -webkit-linear-gradient(top, #282828, #171717);
+	background-image:    -moz-linear-gradient(top, #282828, #171717);
+	background-image:      -o-linear-gradient(top, #282828, #171717);
+	background-image:         linear-gradient(to bottom, #282828, #171717);
+}
+input[type="submit"]:active {
+	background: #111;
+	box-shadow: 0px 2px 2px rgba(0,0,0,0.4) inset;
+}
+
+/* Gallery */
+.swiper-gallery {
+	width: 100%;
+	height: 100%;
+}
+.swiper-gallery .swiper-slide {
+	width: 100%;
+	position: relative;
+	text-align: center;
+}
+.swiper-gallery .swiper-slide img {
+	opacity: 0.2;
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	-webkit-transition: 1000ms;
+	-moz-transition: 1000ms;
+	-ms-transition: 1000ms;
+	-o-transition: 1000ms;
+	transition: 1000ms;
+	-webkit-transform: translate3d(0,0,0);
+	-moz-transform: translate3d(0,0,0);
+	-ms-transform: translate3d(0,0,0);
+	-o-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+.swiper-gallery .swiper-slide-visible img {
+	opacity: 1;
+}
+
+/* Scrollbars */
+.swiper-scrollbar {
+	position: absolute;
+	right: 5px;
+	top: 2%;
+	width: 5px;
+	height: 96%;
+	background: rgba(0,0,0,0.2);
+	z-index: 10;
+}
+.swiper-scrollbar-drag {
+	height: 100%;
+	width: 100%;
+	position: relative;
+	background: rgba(255,255,255,0.5);
+	border-radius: 10px;
+}

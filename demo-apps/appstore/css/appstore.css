@@ -1,0 +1,101 @@
+body {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	line-height: 1.5;
+	background: #eee;
+	color: #333;
+}
+.featured {
+	height: 160px;
+	padding: 20px 0 50px;
+	margin-bottom: -25px;
+	background-color: #aaa;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#aaa), to(#eeeeee));
+	background-image: -webkit-linear-gradient(top, #aaa, #eeeeee);
+	background-image:    -moz-linear-gradient(top, #aaa, #eeeeee);
+	background-image:      -o-linear-gradient(top, #aaa, #eeeeee);
+    background-image:         linear-gradient(to bottom, #aaa, #eee);
+}
+.featured .swiper-slide {
+	border-radius: 5px;
+	height: 160px;
+	width: 273px;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	backface-visibility: hidden;
+    -webkit-box-reflect: below 1px -webkit-linear-gradient(bottom, rgba(0,0,0,0.5) 0px, rgba(0,0,0,0) 20px);
+}
+.featured a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.thumbs-title {
+	position: absolute;
+	left: 25px;
+	top: 15px;
+	font-weight: bold;
+	text-shadow: 0px 1px 0px #fff;
+	color: #555;
+	font-size: 15px;
+}
+.thumbs-cotnainer {
+	padding-bottom: 20px;
+	padding-top: 45px;
+}
+.border-gradient {
+	background-color: #dddddd;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#dddddd), to(#eeeeee));
+	background-image: -webkit-linear-gradient(top, #dddddd, #eeeeee);
+	background-image:    -moz-linear-gradient(top, #dddddd, #eeeeee);
+	background-image:      -o-linear-gradient(top, #dddddd, #eeeeee);
+	background-image:         linear-gradient(to bottom, #dddddd, #eeeeee);
+	border-top: 1px solid #fff;
+	box-shadow: 0px 1px 2px rgba(0,0,0,0.1) inset;
+}
+.thumbs-cotnainer .swiper-slide {
+	width: 105px;
+	text-align: left;
+	line-height: 1.3;
+}
+.thumbs-cotnainer img {
+	width: 80px;
+	height: 80px;
+	border-radius: 10px;
+	box-shadow: 0px 1px 0px #000;
+}
+.app-title {
+	font-size: 13px;
+	font-weight: bold;
+	text-shadow: 0px 1px 0px #fff;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+	position: relative;
+	overflow: hidden;
+	max-width: 90%
+}
+.app-category {
+	font-weight: 300;
+}
+.app-price {
+	font-weight: bold;
+	color: #999;
+	text-shadow: 0px 1px 0px #fff;
+}
+.banners-container {
+	height: 100px;
+	padding: 18px 0;
+}
+.banners-container .swiper-slide {
+	height: 100px;
+	width: 233px; /* 208+25*/
+}
+.banner {
+	width: 208px;
+	height: 100px;
+	-webkit-background-size: cover;
+	background-size: cover;
+	border-radius: 10px;
+	box-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+}
