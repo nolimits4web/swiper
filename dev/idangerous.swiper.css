@@ -5,7 +5,7 @@
  * Vladimir Kharlampidi, The iDangero.us
  * http://www.idangero.us/
  * 
- * Copyright 2012, Vladimir Kharlampidi
+ * Copyright 2012-2013, Vladimir Kharlampidi
  * The iDangero.us
  * http://www.idangero.us
  *
@@ -13,7 +13,9 @@
  *
 */
 
-/* Swiper Styles */
+/* ===============================================================
+Basic Swiper Styles 
+================================================================*/
 .swiper-container {
 	margin:0 auto;
 	position:relative;
@@ -54,7 +56,14 @@
 	transition-duration:0s;
 	transform:translate3d(0px,0,0);
 	transition-timing-function:ease;
-	
+}
+.swiper-free-mode > .swiper-wrapper {
+	-webkit-transition-timing-function: ease-out;
+	-moz-transition-timing-function: ease-out;
+	-ms-transition-timing-function: ease-out;
+	-o-transition-timing-function: ease-out;
+	transition-timing-function: ease-out;
+	margin: 0 auto;
 }
 .swiper-slide {
 	float: left;
@@ -68,10 +77,42 @@
 	-ms-touch-action: pan-x;
 }
 
-/* Specify Swiper's Size: */
-/*.swiper-container, .swiper-slide {
-	width: 500px;
-	height: 200px;
-}*/
+/* ===============================================================
+Your custom styles, here you need to specify container's and slide's
+sizes, pagination, etc.
+================================================================*/
+.swiper-container {
+	/* Specify Swiper's Size: */
 
+	/*width:200px;
+	height: 100px;*/
+}
+.swiper-slide {
+	/* Specify Slides's Size: */
+	
+	/*width: 100%;
+	height: 100%;*/
+}
+.swiper-slide-active {
+	/* Specific active slide styling: */
+	
+}
+.swiper-slide-visible {
+	/* Specific visible slide styling: */	
 
+}
+/* ===============================================================
+Pagination Styles
+================================================================*/
+.swiper-pagination-switch {
+	/* Stylize pagination button: */	
+
+}
+.swiper-active-switch {
+	/* Specific active button style: */	
+	
+}
+.swiper-visible-switch {
+	/* Specific visible button style: */	
+	
+}

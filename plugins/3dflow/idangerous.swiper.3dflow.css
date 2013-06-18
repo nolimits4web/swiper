@@ -16,14 +16,13 @@
 	-ms-perspective:1200px;
 }
 
-
 .swiper-slide-shadow-left, .swiper-slide-shadow-right, .swiper-slide-shadow-top, .swiper-slide-shadow-bottom {
 	position:absolute;
 	left:0;
 	top:0;
 	width:100%;
 	height:100%;
-	z-index:0;	
+	pointer-events:none;
 }
 .swiper-slide-shadow-left {	
 	background-image: -webkit-gradient(linear, left top, right top, from(rgba(0,0,0,0.5)), to(rgba(0,0,0,0))); /* Safari 4+, Chrome */
