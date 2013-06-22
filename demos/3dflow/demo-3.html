@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Demo</title>
+	<link rel="stylesheet" href="css/idangerous.swiper.css">
+	<link rel="stylesheet" href="css/idangerous.swiper.scrollbar.css">
+	<link rel="stylesheet" href="css/idangerous.swiper.3dflow.css">
+	<style>
+/* 3D Flow demos Syling */
+body {
+	margin: 0;
+}
+.swiper-container {
+	padding:30px 0;
+	width: 880px;
+}
+.swiper-slide {
+	width:auto;
+	height:180px;	
+	background-size:cover;
+	background-repeat:no-repeat;
+	background-position:center;
+	border-radius:5px;
+	border-bottom:1px solid #555;
+}
+.reflection  {
+  width: 100%;
+  height: 15px;
+  border-radius: 3px 3px 0 0;
+  position: absolute;
+  left: 0;
+  bottom: -17px;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0.3)), to(rgba(0,0,0,0))); /* Safari 4+, Chrome */
+  background-image: -webkit-linear-gradient(top, rgba(0,0,0,0.3), rgba(0,0,0,0)); /* Chrome 10+, Safari 5.1+, iOS 5+ */
+  background-image:    -moz-linear-gradient(top, rgba(0,0,0,0.3), rgba(0,0,0,0)); /* Firefox 3.6-15 */
+  background-image:      -o-linear-gradient(top, rgba(0,0,0,0.3), rgba(0,0,0,0)); /* Opera 11.10-12.00 */
+  background-image:         linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0)); /* Firefox 16+, IE10, Opera 12.50+ */
+}
+.swiper-slide a {
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	z-index:1
+}
+	</style>
+</head>
+<body>
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide" style="background-image:url(img/2.jpg)">
+				<a href="http://www.idangero.us/sliders/moover/" target="_blank"></a>
+				<div class="reflection"></div>
+			</div>
+			<div class="swiper-slide" style="background-image:url(img/1.jpg)">
+				<a href="http://www.idangero.us/" target="_blank"></a>
+				<div class="reflection"></div>
+			</div>
+			<div class="swiper-slide" style="background-image:url(img/4.jpg)">
+				<a href="http://www.idangero.us/sliders/" target="_blank"></a>
+				<div class="reflection"></div>
+			</div>
+			<div class="swiper-slide" style="background-image:url(img/7.jpg)">
+				<a href="http://www.idangero.us/cs/" target="_blank"></a>
+				<div class="reflection"></div>
+			</div>
+			<div class="swiper-slide" style="background-image:url(img/6.jpg)">
+				<a href="http://www.idangero.us/sliders/s6/" target="_blank"></a>
+				<div class="reflection"></div>
+			</div>
+		</div>
+	</div>
+	<script src="js/idangerous.swiper-2.0.min.js"></script>
+	<script src="js/idangerous.swiper.3dflow-2.0.js"></script>
+	<script>
+	var mySwiper = new Swiper('.swiper-container',{
+		slidesPerView:3,
+		loop:true,
+		//Enable 3D Flow
+		tdFlow: {
+			rotate : -30,
+			stretch :0,
+			depth: 120,
+			modifier : 1,
+			shadows:true
+		}
+	})
+	</script>
+</body>
+</html>

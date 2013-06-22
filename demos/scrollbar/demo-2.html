@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo</title>
+  <link rel="stylesheet" href="css/idangerous.swiper.css">
+  <link rel="stylesheet" href="css/idangerous.swiper.scrollbar.css">
+  <style>
+/* Demo Syles */
+body {
+  margin: 0;
+}
+.swiper-container {
+  width: 880px;
+  height: 200px;
+}
+.swiper-slide {
+  color:#fff;
+  font-size:25px;
+  text-align:center;
+  line-height:200px;
+}
+.swiper-scrollbar {
+  height:10px;
+  margin:20px auto;
+  width: 880px;
+}
+.red-slide {
+  background:#900;
+}
+.blue-slide {
+  background:#06C;
+}
+.orange-slide {
+  background:#F63;
+}
+  </style>
+</head>
+<body>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide red-slide">
+          Slide 1
+      </div>
+      <div class="swiper-slide blue-slide">
+        Slide 2
+      </div>
+      <div class="swiper-slide orange-slide">
+        Slide 3
+      </div>
+      <div class="swiper-slide blue-slide">
+        Slide 4
+      </div>
+    </div>
+  </div>
+  <div class="swiper-scrollbar"></div>
+
+  <script src="js/idangerous.swiper-2.0.min.js"></script>
+  <script src="js/idangerous.swiper.scrollbar-2.0.js"></script>
+  <script>
+  var mySwiper = new Swiper('.swiper-container',{
+    //Enable Scrollbar
+    scrollbar: {
+      container :'.swiper-scrollbar',
+      hide: false,
+      draggable: true  
+    }
+  })
+  </script>
+</body>
+</html>

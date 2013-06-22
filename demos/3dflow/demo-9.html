@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Demo</title>
+	<link rel="stylesheet" href="css/idangerous.swiper.css">
+	<link rel="stylesheet" href="css/idangerous.swiper.scrollbar.css">
+	<link rel="stylesheet" href="css/idangerous.swiper.3dflow.css">
+	<style>
+/* 3D Flow demos Syling */
+.device {
+	padding: 30px 40px;
+	border:3px solid #fff;
+	border-radius: 20px;
+	box-shadow: 0px 0px 5px #000;
+	background: #000;
+	height:330px;	
+	width: 640px;
+	margin: 10px auto;
+}
+body {
+	margin: 0;
+}
+.swiper-container {
+	height:330px;	
+	width: 640px;
+}
+.swiper-slide {
+	background:#eee;
+	text-align:center;
+	font-size:25px;
+	color:#222;	
+	line-height:110px;
+	font-weight:bold;
+}
+	</style>
+</head>
+<body>
+	<div class="device">
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+	        <div class="swiper-slide">
+	        	<div>This is Slide 1</div>
+	        </div>
+	        <div class="swiper-slide">
+	        	<div>This is Slide 2</div>
+	        </div>
+	        <div class="swiper-slide">
+	        	<div>This is Slide 3</div>
+	        </div>
+	        <div class="swiper-slide">
+	        	<div>This is Slide 4</div>
+	        </div>
+	        <div class="swiper-slide">
+	        	<div>This is Slide 5</div>
+	        </div>
+	    </div>
+		</div>
+	</div>
+	<script src="js/idangerous.swiper-2.0.min.js"></script>
+	<script src="js/idangerous.swiper.3dflow-2.0.js"></script>
+	<script>
+	var mySwiper = new Swiper('.swiper-container',{
+		slidesPerView:3,
+		loop:true,
+		mode:'vertical',
+		//Enable 3D Flow
+		tdFlow: {
+			rotate:10,
+			depth:50
+		}
+	})
+	</script>
+</body>
+</html>

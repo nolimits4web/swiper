@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo</title>
+  <link rel="stylesheet" href="css/idangerous.swiper.css">
+  <style>
+/* Demo Syles */
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.device {
+  width: 640px;
+  height: 300px;
+  padding: 30px 40px;
+  border-radius: 20px;
+  background: #111;
+  border: 3px solid white;
+  margin: 5px auto;
+  position: relative;
+  box-shadow: 0px 0px 5px #000;
+}
+.device .arrow-left {
+  background: url(img/arrows.png) no-repeat left top;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  margin-top: -15px;
+  width: 17px;
+  height: 30px;
+}
+.device .arrow-right {
+  background: url(img/arrows.png) no-repeat left bottom;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-top: -15px;
+  width: 17px;
+  height: 30px;
+}
+.swiper-container {
+  height: 300px;
+  width: 640px;
+}
+.content-slide {
+  padding: 20px;
+  color: #fff;
+}
+.title {
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+.pagination {
+  position: absolute;
+  left: 0;
+  text-align: center;
+  bottom:5px;
+  width: 100%;
+}
+.swiper-pagination-switch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  background: #999;
+  box-shadow: 0px 1px 2px #555 inset;
+  margin: 0 3px;
+  cursor: pointer;
+}
+.swiper-active-switch {
+  background: #fff;
+}
+  </style>
+</head>
+<body>
+  <div class="device">
+    <a class="arrow-left" href="#"></a> 
+    <a class="arrow-right" href="#"></a>
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"> <img src="img/slider1-1.png"> </div>
+        <div class="swiper-slide"> <img src="img/slider1-2.png"> </div>
+        <div class="swiper-slide">
+          <div class="content-slide">
+            <p class="title">Slide with HTML</p>
+            <p>You can put any HTML inside of slide with any layout, not only images, even another Swiper!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pagination"></div>
+  </div>
+  <script src="js/jquery-1.10.1.min.js"></script>
+  <script src="js/idangerous.swiper-2.0.min.js"></script>
+  <script>
+  var mySwiper = new Swiper('.swiper-container',{
+    pagination: '.pagination',
+    loop:true,
+    grabCursor: true,
+    paginationClickable: true
+  })
+  $('.arrow-left').on('click', function(e){
+    e.preventDefault()
+    mySwiper.swipePrev()
+  })
+  $('.arrow-right').on('click', function(e){
+    e.preventDefault()
+    mySwiper.swipeNext()
+  })
+  </script>
+</body>
+</html>

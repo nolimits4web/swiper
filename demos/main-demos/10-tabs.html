@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo</title>
+  <link rel="stylesheet" href="css/idangerous.swiper.css">
+  <style>
+/* Demo Styles */
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.tabs {
+  width: 642px;
+  margin: 0 auto;
+}
+.tabs a {
+  display: block;
+  float: left;
+  width: 200px;
+  color: #333;
+  text-align: center;
+  border-radius: 5px 5px 0 0;
+  border: 1px solid #ccc;
+  background: #fff;
+  line-height: 40px;
+  font-size: 25px;
+  font-style: italic;
+  text-decoration: none;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ddd)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #ffffff, #ddd); /* Chrome 10+, Saf5.1+, iOS 5+ */
+  background-image:    -moz-linear-gradient(top, #ffffff, #ddd); /* FF3.6 */
+  background-image:     -ms-linear-gradient(top, #ffffff, #ddd); /* IE10 */
+  background-image:      -o-linear-gradient(top, #ffffff, #ddd); /* Opera 11.10+ */
+  background-image:         linear-gradient(to bottom, #ffffff, #ddd);
+}
+.tabs a.active {
+  color: #fff;
+  background: #333;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#000)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #333, #000); /* Chrome 10+, Saf5.1+, iOS 5+ */
+  background-image:    -moz-linear-gradient(top, #333, #000); /* FF3.6 */
+  background-image:     -ms-linear-gradient(top, #333, #000); /* IE10 */
+  background-image:      -o-linear-gradient(top, #333, #000); /* Opera 11.10+ */
+  background-image:         linear-gradient(to bottom, #333, #000);
+  border-bottom: 1px solid #000;
+}
+.swiper-container {
+  background: #333;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#000), to(#333)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #000, #333); /* Chrome 10+, Saf5.1+, iOS 5+ */
+  background-image:    -moz-linear-gradient(top, #000, #333); /* FF3.6 */
+  background-image:     -ms-linear-gradient(top, #000, #333); /* IE10 */
+  background-image:      -o-linear-gradient(top, #000, #333); /* Opera 11.10+ */
+  background-image:         linear-gradient(to bottom, #000, #333);
+  height: 250px;
+  border-radius: 0 0 5px 5px;
+  border: 1px solid #ccc;
+  
+  width: 640px;
+  border-top: 0;
+}
+.swiper-slide {
+  height: 250px;
+  width: 640px;
+  background: none;
+  color: #fff;
+}
+.content-slide {
+  padding: 40px;
+}
+  </style>
+</head>
+<body>
+  <div class="tabs"> <a href="#" class="active">Tab 1</a> <a href="#" style="margin:0 17px">Tab 2</a> <a href="#">Tab 3</a> </div>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <div class="content-slide">
+          <h2>Tabs Example</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lacinia vulputate hendrerit. Suspendisse potenti. Etiam rutrum egestas massa, ut facilisis magna tristique nec. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc interdum tempus turpis ut tempus. Mauris dictum blandit lectus, a dictum erat dictum non. Etiam ultrices convallis interdum. Curabitur varius auctor enim, quis dictum nibh fringilla ut. Sed vel lacus ac odio molestie sodales quis sit amet lacus. Curabitur id porta eros. Fusce in varius nisi.</p>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="content-slide">
+          <h2>Tab 2</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lacinia vulputate hendrerit. Suspendisse potenti. Etiam rutrum egestas massa, ut facilisis magna tristique nec. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc interdum tempus turpis ut tempus. Mauris dictum blandit lectus, a dictum erat dictum non. Etiam ultrices convallis interdum. Curabitur varius auctor enim, quis dictum nibh fringilla ut. Sed vel lacus ac odio molestie sodales quis sit amet lacus. Curabitur id porta eros. Fusce in varius nisi.</p>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="content-slide">
+          <h2>Tab 3</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lacinia vulputate hendrerit. Suspendisse potenti. Etiam rutrum egestas massa, ut facilisis magna tristique nec. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nunc interdum tempus turpis ut tempus. Mauris dictum blandit lectus, a dictum erat dictum non. Etiam ultrices convallis interdum. Curabitur varius auctor enim, quis dictum nibh fringilla ut. Sed vel lacus ac odio molestie sodales quis sit amet lacus. Curabitur id porta eros. Fusce in varius nisi.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/jquery-1.10.1.min.js"></script>
+  <script src="js/idangerous.swiper-2.0.min.js"></script>
+  <script>
+  var tabsSwiper = new Swiper('.swiper-container',{
+    onlyExternal : true,
+    speed:500
+  })
+  $(".tabs a").on('touchstart mousedown',function(e){
+    e.preventDefault()
+    $(".tabs .active").removeClass('active')
+    $(this).addClass('active')
+    tabsSwiper.swipeTo( $(this).index() )
+  })
+  $(".tabs a").click(function(e){
+    e.preventDefault()
+  })
+  </script>
+</body>
+</html>
