@@ -1914,7 +1914,7 @@ var Swiper = function (selector, params) {
             }, params.autoplay)
         }
         if (params.autoplay && params.loop) {
-            autoPlay = setInterval(function(){
+            autoPlayInterval = setInterval(function(){
                 _this.swipeNext();
             }, params.autoplay)
         }
