@@ -1905,24 +1905,24 @@ var Swiper = function (selector, params) {
     /*========================================== 
         Autoplay 
     ============================================*/
-    var autoPlayInterval = undefined;
-    _this.startAutoplay = function() {
-        if (typeof autoPlayInterval !== 'undefined') return false;
+    _this.autoPlayIntervalId = undefined;
+    _this.startAutoplay = function () {
+        if (typeof _this.autoPlayIntervalId !== 'undefined') return false;
         if (params.autoplay && !params.loop) {
-            autoPlayInterval = setInterval(function(){
+            _this.autoPlayIntervalId = setInterval(function(){
                 if (!_this.swipeNext(true)) _this.swipeTo(0);
             }, params.autoplay)
         }
         if (params.autoplay && params.loop) {
-            autoPlayInterval = setInterval(function(){
+            _this.autoPlayIntervalId = setInterval(function(){
                 _this.swipeNext();
             }, params.autoplay)
         }
         _this.callPlugins('onAutoplayStart');
     }
-    _this.stopAutoplay = function() {
-        if (autoPlayInterval) clearInterval(autoPlayInterval);
-        autoPlayInterval = undefined;
+    _this.stopAutoplay = function () {
+        if (_this.autoPlayIntervalId) clearInterval(_this.autoPlayIntervalId);
+        _this.autoPlayIntervalId = undefined;
         _this.callPlugins('onAutoplayStop');
     }
     /*==================================================
