@@ -1105,8 +1105,11 @@ var Swiper = function (selector, params) {
             _this.callPlugins('onTouchStartBegin');
 
             if(!isTouchEvent) {
-                if(event.preventDefault) event.preventDefault();
-                else event.returnValue = false;
+                // Added check for input element since we are getting a mousedown event even on some touch devices.
+                if (!(params.releaseFormElements && event.srcElement.tagName.toLowerCase() === 'input')) {
+                    if (event.preventDefault) event.preventDefault();
+                    else event.returnValue = false;
+                }
             }
 
             var pageX = isTouchEvent ? event.targetTouches[0].pageX : (event.pageX || event.clientX);
