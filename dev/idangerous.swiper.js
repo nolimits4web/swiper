@@ -647,9 +647,10 @@ var Swiper = function (selector, params) {
                     if (!isH) wrapperHeight+=_this.slides[i].getHeight(true);
                 }
                 var slideHeight = slideMaxHeight;
-                if (isH) var wrapperHeight = slideHeight;
-                containerSize = _this.height = slideHeight;
-                if (!isH) _this.container.style.height= containerSize+'px';
+                _this.height = slideHeight;
+
+                if (isH) wrapperHeight = slideHeight;
+                else containerSize = slideHeight, _this.container.style.height= containerSize+'px';
             }
             else {
                 var slideHeight = isH ? _this.height : _this.height/params.slidesPerView ;    
