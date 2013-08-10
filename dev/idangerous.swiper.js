@@ -229,16 +229,7 @@ var Swiper = function (selector, params) {
     /*=========================
       Wrapper
       ===========================*/
-    for (var i = _this.container.childNodes.length - 1; i >= 0; i--) {
-        if (_this.container.childNodes[i].className) {
-            var _wrapperClasses = _this.container.childNodes[i].className.split(' ')
-            for (var j = 0; j < _wrapperClasses.length; j++) {
-                if (_wrapperClasses[j]===params.wrapperClass) {
-                    wrapper = _this.container.childNodes[i];
-                }
-            };
-        }
-    };
+    wrapper = _this.container.getElementsByClassName(params.wrapperClass)[0];
 
     _this.wrapper = wrapper;
     /*=========================
@@ -351,17 +342,11 @@ var Swiper = function (selector, params) {
         var oldNumber = _this.slides ? _this.slides.length : false;
         _this.slides = [];
         _this.displaySlides = [];
-        for (var i = 0; i < _this.wrapper.childNodes.length; i++) {
-            if (_this.wrapper.childNodes[i].className) {
-                var _className = _this.wrapper.childNodes[i].className;
-                var _slideClasses = _className.split(' ');
-                for (var j = 0; j < _slideClasses.length; j++) {
-                    if(_slideClasses[j]===params.slideClass) {
-                        _this.slides.push(_this.wrapper.childNodes[i]);
-                    }
-                }
-            }
+
+        for (var i = 0; i < _this.wrapper.getElementsByClassName(params.slideClass).length; i++) {
+            _this.slides.push(_this.wrapper.getElementsByClassName(params.slideClass)[i]);
         }
+
         for (i = _this.slides.length - 1; i >= 0; i--) {
             _this._extendSwiperSlide(_this.slides[i]);
         }
