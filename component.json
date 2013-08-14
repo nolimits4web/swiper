@@ -9,6 +9,7 @@
   "scripts": [
     "dev/idangerous.swiper.js"
   ],
+  "main": "dev/idangerous.swiper.js",
   "styles": [
     "dev/idangerous.swiper.css"
   ],
