@@ -22,7 +22,7 @@ var Swiper = function (selector, params) {
             }
         }
     }
-    
+
     if (!window.getComputedStyle) {
         window.getComputedStyle = function (el, pseudo) {
             this.el = el;
@@ -113,7 +113,7 @@ var Swiper = function (selector, params) {
     _this.wrapperTop=0;
     _this.wrapperBottom=0;
     var wrapper, slideSize, wrapperSize, direction, isScrolling, containerSize;
-    
+
     /*=========================
       Default Parameters
       ===========================*/
@@ -215,7 +215,7 @@ var Swiper = function (selector, params) {
         params.resistance = '100%';
     }
     var isH = params.mode==='horizontal';
-    
+
     /*=========================
       Define Touch Events
       ===========================*/
@@ -225,7 +225,7 @@ var Swiper = function (selector, params) {
         touchMove : _this.support.touch || !params.simulateTouch ? 'touchmove' : (_this.browser.ie10 ? 'MSPointerMove' : 'mousemove'),
         touchEnd : _this.support.touch || !params.simulateTouch ? 'touchend' : (_this.browser.ie10 ? 'MSPointerUp' : 'mouseup')
     };
-    
+
     /*=========================
       Wrapper
       ===========================*/
@@ -246,7 +246,7 @@ var Swiper = function (selector, params) {
             else {
                 _this.wrapper.appendChild(el);
             }
-            
+
             _this.reInit();
             return el;
         }
@@ -371,7 +371,7 @@ var Swiper = function (selector, params) {
         return _this._extendSwiperSlide(newSlide);
     }
 
-    //Append Slide  
+    //Append Slide
     _this.appendSlide = function (html, slideClassList, el) {
         if (!html) return;
         if (html.nodeType) {
@@ -577,7 +577,7 @@ var Swiper = function (selector, params) {
                 else {
                     if (_slideSize>containerSize) {
                         for (var j=0; j<=Math.floor(_slideSize/containerSize); j++) {
-                            _this.snapGrid.push(slideLeft+containerSize*j);         
+                            _this.snapGrid.push(slideLeft+containerSize*j);
                         }
                     }
                     else {
@@ -585,7 +585,7 @@ var Swiper = function (selector, params) {
                     }
                     _this.slidesGrid.push(slideLeft);
                 }
-                
+
                 slideLeft += _slideSize;
 
                 slidesWidth += slideWidth;
@@ -602,7 +602,7 @@ var Swiper = function (selector, params) {
                 wrapper.style.width = (_this.width)+'px';
                 wrapper.style.height = (slidesHeight)+'px';
             }
-            
+
         }
         else if (params.scrollContainer) {
             //Scroll Container
@@ -614,7 +614,7 @@ var Swiper = function (selector, params) {
             wrapper.style.width = wrapperWidth+'px';
             wrapper.style.height = wrapperHeight+'px';
             slideSize = isH ? wrapperWidth : wrapperHeight;
-            
+
         }
         else {
             //For usual slides
@@ -638,7 +638,7 @@ var Swiper = function (selector, params) {
                 else containerSize = slideHeight, _this.container.style.height= containerSize+'px';
             }
             else {
-                var slideHeight = isH ? _this.height : _this.height/params.slidesPerView ;    
+                var slideHeight = isH ? _this.height : _this.height/params.slidesPerView ;
                 var wrapperHeight = isH ? _this.height : _this.slides.length*slideHeight;
             }
             var slideWidth = isH ? _this.width/params.slidesPerView : _this.width;
@@ -669,7 +669,7 @@ var Swiper = function (selector, params) {
                 else {
                     _this.wrapperTop = (containerSize - slideSize)/2;
                     _this.wrapperBottom = (containerSize - slideSize)/2;
-                } 
+                }
             }
             if (isH) {
                 if (_this.wrapperLeft>0) wrapper.style.paddingLeft = _this.wrapperLeft+'px';
@@ -721,8 +721,8 @@ var Swiper = function (selector, params) {
         }
         _this.callPlugins('afterResizeFix');
     }
-    
-    /*========================================== 
+
+    /*==========================================
         Max and Min Positions
     ============================================*/
     function maxWrapperPosition() {
@@ -738,11 +738,11 @@ var Swiper = function (selector, params) {
     function minWrapperPosition() {
         var a = 0;
         // if (params.loop) a = containerSize;
-        return a;   
+        return a;
     }
 
-    /*========================================== 
-        Event Listeners 
+    /*==========================================
+        Event Listeners
     ============================================*/
     function initEvents() {
         //Touch Events
@@ -782,9 +782,9 @@ var Swiper = function (selector, params) {
             if ( !_this._wheelEvent ) {
                 _this._wheelEvent = "DOMMouseScroll";
             }
-            
+
             if (_this._wheelEvent) {
-                _this.h.addEventListener(_this.container, _this._wheelEvent, handleMousewheel, false);
+                _this.h.addEventListener(_this.container, _this._wheelEvent, debounce(handleMousewheel, 600), false);
             }
         }
 
@@ -813,8 +813,8 @@ var Swiper = function (selector, params) {
         }
     }
 
-    
-    
+
+
     //Remove Event Listeners
     _this.destroy = function(removeResizeFix){
         //Touch Events
@@ -841,7 +841,7 @@ var Swiper = function (selector, params) {
         }
         //Init Slide Events
         removeSlideEvents();
-        
+
         //Pagination
         if (params.paginationClickable) {
             removePaginationEvents();
@@ -849,7 +849,7 @@ var Swiper = function (selector, params) {
 
         //Mousewheel
         if (params.mousewheelControl && _this._wheelEvent) {
-           _this.h.removeEventListener(_this.container, _this._wheelEvent, handleMousewheel, false); 
+           _this.h.removeEventListener(_this.container, _this._wheelEvent, handleMousewheel, false);
         }
 
         //Keyboard
@@ -921,7 +921,7 @@ var Swiper = function (selector, params) {
         if (params.preventLinks) {
             var links = [];
             if (document.querySelectorAll) {
-                links = _this.container.querySelectorAll('a');  
+                links = _this.container.querySelectorAll('a');
             }
             else if (window.jQuery) {
                 links = $$(_this.container).find('a');
@@ -931,8 +931,8 @@ var Swiper = function (selector, params) {
             }
         }
     }
-    /*========================================== 
-        Keyboard Control 
+    /*==========================================
+        Keyboard Control
     ============================================*/
     function handleKeyboardKeys (e) {
         var kc = e.keyCode || e.charCode;
@@ -953,12 +953,12 @@ var Swiper = function (selector, params) {
             for (var i=0; i<swiperCoord.length; i++) {
                 var point = swiperCoord[i];
                 if (
-                    point[0]>=scrollLeft && point[0]<=scrollLeft+windowWidth && 
+                    point[0]>=scrollLeft && point[0]<=scrollLeft+windowWidth &&
                     point[1]>=scrollTop && point[1]<=scrollTop+windowHeight
                 ) {
                     inView = true;
                 }
-                    
+
             }
             if (!inView) return;
         }
@@ -979,8 +979,8 @@ var Swiper = function (selector, params) {
             if (kc == 38) _this.swipePrev();
         }
     }
-        
-    /*========================================== 
+
+    /*==========================================
         Mousewheel Control
     ============================================*/
     function handleMousewheel (e) {
@@ -988,8 +988,8 @@ var Swiper = function (selector, params) {
         var delta;
         //Opera & IE
         if (e.detail) delta = -e.detail;
-        //WebKits   
-        else if (we == 'mousewheel') delta = e.wheelDelta; 
+        //WebKits
+        else if (we == 'mousewheel') delta = e.wheelDelta;
         //Old FireFox
         else if (we == 'DOMMouseScroll') delta = -e.detail;
         //New FireFox
@@ -1065,7 +1065,7 @@ var Swiper = function (selector, params) {
         else e.returnValue = false;
         return false;
     }
-    
+
     /*==================================================
         Event Handlers
     ====================================================*/
@@ -1100,16 +1100,16 @@ var Swiper = function (selector, params) {
 
             var pageX = isTouchEvent ? event.targetTouches[0].pageX : (event.pageX || event.clientX);
             var pageY = isTouchEvent ? event.targetTouches[0].pageY : (event.pageY || event.clientY);
-            
+
             //Start Touches to check the scrolling
             _this.touches.startX = _this.touches.currentX = pageX;
             _this.touches.startY = _this.touches.currentY = pageY;
-            
+
             _this.touches.start = _this.touches.current = isH ? pageX : pageY ;
-            
+
             //Set Transition Time to 0
             _this.setWrapperTransition(0);
-            
+
             //Get Start Translate Position
             _this.positions.start = _this.positions.current = isH ? _this.getWrapperTranslate('x') : _this.getWrapperTranslate('y');
 
@@ -1120,20 +1120,20 @@ var Swiper = function (selector, params) {
             else {
                 _this.setWrapperTranslate( 0, _this.positions.start, 0);
             }
-            
+
             //TouchStartTime
             _this.times.start = (new Date()).getTime();
-            
+
             //Unset Scrolling
             isScrolling = undefined;
-            
+
             //Set Treshold
             if (params.moveStartThreshold>0) allowThresholdMove = false;
 
             //CallBack
             if (params.onTouchStart) params.onTouchStart(_this);
             _this.callPlugins('onTouchStartEnd');
-            
+
         }
     }
     var velocityPrevPosition, velocityPrevTime;
@@ -1156,7 +1156,7 @@ var Swiper = function (selector, params) {
             _this.isTouched = false;
             return
         }
-        
+
         //Check For Nested Swipers
         if (event.assignedToSwiper) {
             _this.isTouched = false;
@@ -1165,31 +1165,31 @@ var Swiper = function (selector, params) {
         event.assignedToSwiper = true;
 
         //Moved Flag
-        _this.isMoved = true;  
-        
+        _this.isMoved = true;
+
         //Block inner links
         if (params.preventLinks) {
-            _this.allowLinks = false;   
+            _this.allowLinks = false;
         }
         if (params.onSlideClick) {
             _this.allowSlideClick = false;
         }
-        
+
         //Stop AutoPlay if exist
         if (params.autoplay) {
             _this.stopAutoplay();
         }
         if (!isTouchEvent || event.touches.length == 1) {
-            
+
             _this.callPlugins('onTouchMoveStart');
 
             if(event.preventDefault) event.preventDefault();
             else event.returnValue = false;
-            
+
             _this.touches.current = isH ? pageX : pageY ;
-            
-            _this.positions.current = (_this.touches.current - _this.touches.start) * params.touchRatio + _this.positions.start;            
-            
+
+            _this.positions.current = (_this.touches.current - _this.touches.start) * params.touchRatio + _this.positions.start;
+
             //Resistance Callbacks
             if(_this.positions.current > 0 && params.onResistanceBefore) {
                 params.onResistanceBefore(_this, _this.positions.current);
@@ -1202,22 +1202,22 @@ var Swiper = function (selector, params) {
                 //Resistance for Negative-Back sliding
                 if(_this.positions.current > 0) {
                     var resistance = 1 - _this.positions.current/containerSize/2;
-                    if (resistance < 0.5) 
+                    if (resistance < 0.5)
                         _this.positions.current = (containerSize/2);
-                    else 
+                    else
                         _this.positions.current = _this.positions.current * resistance;
                 }
                 //Resistance for After-End Sliding
                 if ( _this.positions.current < -maxWrapperPosition() ) {
-                    
+
                     var diff = (_this.touches.current - _this.touches.start)*params.touchRatio + (maxWrapperPosition()+_this.positions.start);
                     var resistance = (containerSize+diff)/(containerSize);
                     var newPos = _this.positions.current-diff*(1-resistance)/2;
                     var stopPos = -maxWrapperPosition() - containerSize/2;
-                    
+
                     if (newPos < stopPos || resistance<=0)
                         _this.positions.current = stopPos;
-                    else 
+                    else
                         _this.positions.current = newPos;
                 }
             }
@@ -1247,7 +1247,7 @@ var Swiper = function (selector, params) {
                 else {
                     _this.positions.current = _this.positions.start;
                 }
-            }    
+            }
 
             if (params.freeMode || params.watchActiveIndex) {
                 _this.updateActiveSlide(_this.positions.current);
@@ -1259,7 +1259,7 @@ var Swiper = function (selector, params) {
                 _this.container.style.cursor = 'grabbing';
                 _this.container.style.cursor = '-moz-grabbin';
                 _this.container.style.cursor = '-webkit-grabbing';
-            }  
+            }
             //Velocity
             if (!velocityPrevPosition) velocityPrevPosition = _this.touches.current;
             if (!velocityPrevTime) velocityPrevTime = (new Date).getTime();
@@ -1289,30 +1289,30 @@ var Swiper = function (selector, params) {
             _this.container.style.cursor = 'grab';
             _this.container.style.cursor = '-moz-grab';
             _this.container.style.cursor = '-webkit-grab';
-        } 
+        }
 
         //Check for Current Position
         if (!_this.positions.current && _this.positions.current!==0) {
-            _this.positions.current = _this.positions.start 
+            _this.positions.current = _this.positions.start
         }
-        
+
         //For case if slider touched but not moved
         if (params.followFinger) {
             if (isH) _this.setWrapperTranslate( _this.positions.current, 0, 0)
             else _this.setWrapperTranslate( 0, _this.positions.current, 0)
         }
         //--
-        
+
         // TouchEndTime
         _this.times.end = (new Date()).getTime();
-        
+
         //Difference
-        _this.touches.diff = _this.touches.current - _this.touches.start        
+        _this.touches.diff = _this.touches.current - _this.touches.start
         _this.touches.abs = Math.abs(_this.touches.diff)
-        
+
         _this.positions.diff = _this.positions.current - _this.positions.start
         _this.positions.abs = Math.abs(_this.positions.diff)
-        
+
         var diff = _this.positions.diff ;
         var diffAbs =_this.positions.abs ;
         var timeDiff = _this.times.end - _this.times.start
@@ -1346,9 +1346,9 @@ var Swiper = function (selector, params) {
             return;
         }
         _this.isMoved = false;
-        
+
         var maxPosition = maxWrapperPosition();
-        
+
         //Prevent Negative Back Sliding
         if (_this.positions.current > 0) {
             _this.swipeReset()
@@ -1363,7 +1363,7 @@ var Swiper = function (selector, params) {
             _this.callPlugins('onTouchEnd');
             return;
         }
-        
+
         //Free Mode
         if (params.freeMode) {
             if ( params.freeModeFluid ) {
@@ -1393,7 +1393,7 @@ var Swiper = function (selector, params) {
                 }
                 //Fix duration
                 if (_this.velocity!=0) momentumDuration = Math.abs((newPosition - _this.positions.current)/_this.velocity)
-                
+
                 if (isH) _this.setWrapperTranslate( newPosition, 0, 0);
                 else _this.setWrapperTranslate( 0, newPosition, 0);
 
@@ -1417,16 +1417,16 @@ var Swiper = function (selector, params) {
             _this.callPlugins('onTouchEnd');
             return;
         }
-        
+
         //Direction
         direction = diff < 0 ? "toNext" : "toPrev"
-        
+
         //Short Touches
         if (direction=="toNext" && ( timeDiff <= 300 ) ) {
             if (diffAbs < 30 || !params.shortSwipes) _this.swipeReset()
             else _this.swipeNext(true);
         }
-        
+
         if (direction=="toPrev" && ( timeDiff <= 300 ) ) {
             if (diffAbs < 30 || !params.shortSwipes) _this.swipeReset()
             else _this.swipePrev(true);
@@ -1471,7 +1471,7 @@ var Swiper = function (selector, params) {
         if (params.onTouchEnd) params.onTouchEnd(_this)
         _this.callPlugins('onTouchEnd');
     }
-    
+
     /*==================================================
         Swipe Functions
     ====================================================*/
@@ -1490,13 +1490,13 @@ var Swiper = function (selector, params) {
         }
         else {
             var groupSize = slideSize * params.slidesPerGroup;
-            newPosition = -(Math.floor(Math.abs(currentPosition)/Math.floor(groupSize))*groupSize + groupSize); 
+            newPosition = -(Math.floor(Math.abs(currentPosition)/Math.floor(groupSize))*groupSize + groupSize);
         }
         if (newPosition < - maxWrapperPosition()) {
             newPosition = - maxWrapperPosition()
         };
-        
-        if (newPosition == currentPosition) return false;        
+
+        if (newPosition == currentPosition) return false;
 
         swipeToPosition(newPosition, 'next');
         return true
@@ -1525,13 +1525,13 @@ var Swiper = function (selector, params) {
             var groupSize = slideSize * params.slidesPerGroup;
             newPosition = -(Math.ceil(-currentPosition/groupSize)-1)*groupSize;
         }
-        
+
         if (newPosition > 0) newPosition = 0;
 
-        if (newPosition == currentPosition) return false;        
+        if (newPosition == currentPosition) return false;
         swipeToPosition(newPosition, 'prev');
         return true;
-        
+
     }
     _this.swipeReset = function(){
         _this.callPlugins('onSwipeReset');
@@ -1545,7 +1545,7 @@ var Swiper = function (selector, params) {
                 if (-currentPosition===_this.snapGrid[i]) return;
                 if (-currentPosition >= _this.snapGrid[i] && -currentPosition<_this.snapGrid[i+1]) {
                     if(_this.positions.diff>0) newPosition = -_this.snapGrid[i+1]
-                    else newPosition = -_this.snapGrid[i]    
+                    else newPosition = -_this.snapGrid[i]
                     break;
                 }
             }
@@ -1571,7 +1571,7 @@ var Swiper = function (selector, params) {
         return true;
     }
     _this.swipeTo = function(index, speed, runCallbacks){
-        index = parseInt(index, 10); 
+        index = parseInt(index, 10);
         _this.callPlugins('onSwipeTo', {index:index, speed:speed});
         if (params.loop) index = index + _this.loopedSlides;
         var currentPosition = isH ? _this.getWrapperTranslate('x') : _this.getWrapperTranslate('y');
@@ -1587,7 +1587,7 @@ var Swiper = function (selector, params) {
         if (newPosition < - maxWrapperPosition()) {
             newPosition = - maxWrapperPosition();
         };
-        
+
         if (newPosition == currentPosition) return false;
 
         runCallbacks = runCallbacks===false ? false : true;
@@ -1599,7 +1599,7 @@ var Swiper = function (selector, params) {
             if (isH) _this.setWrapperTranslate(newPosition,0,0);
             else _this.setWrapperTranslate(0,newPosition,0);
             var speed = (action=='to' && toOptions.speed>=0) ? toOptions.speed : params.speed;
-            _this.setWrapperTransition(speed);    
+            _this.setWrapperTransition(speed);
         }
         else {
             //Try the DOM animation
@@ -1609,7 +1609,7 @@ var Swiper = function (selector, params) {
             var direction = currentPosition > newPosition ? 'toNext' : 'toPrev';
             var condition = direction=='toNext' ? currentPosition > newPosition : currentPosition < newPosition;
             if (_this._DOMAnimating) return;
-            
+
             anim()
         }
         function anim(){
@@ -1653,7 +1653,7 @@ var Swiper = function (selector, params) {
     /*==================================================
         Transition Callbacks
     ====================================================*/
-    //Prevent Multiple Callbacks 
+    //Prevent Multiple Callbacks
     _this._queueStartCallbacks = false;
     _this._queueEndCallbacks = false;
     function slideChangeCallbacks() {
@@ -1666,7 +1666,7 @@ var Swiper = function (selector, params) {
                 params.onSlideChangeStart(_this)
                 _this.wrapperTransitionEnd(function(){
                     _this._queueStartCallbacks = false;
-                })    
+                })
             }
             else params.onSlideChangeStart(_this)
         }
@@ -1732,7 +1732,7 @@ var Swiper = function (selector, params) {
         for (var i = 0; i < _this.slides.length; i++) {
             _this.slides[ i ].className = _this.slides[ i ].className.replace( activeClassRegexp, '' ).replace( inViewClassRegexp, '' );
             if ( _this.visibleSlides.indexOf( _this.slides[ i ] )>=0 ) {
-                _this.slides[ i ].className += ' ' + params.slideVisibleClass;        
+                _this.slides[ i ].className += ' ' + params.slideVisibleClass;
             }
 
         }
@@ -1813,7 +1813,7 @@ var Swiper = function (selector, params) {
             var activePagers = _this.paginationContainer.querySelectorAll('.'+params.paginationActiveClass)
         else if (window.jQuery)
             var activePagers = $$(_this.paginationContainer).find('.'+params.paginationActiveClass);
-        
+
         if(!activePagers) return
         //Reset all Buttons' class to not active
         var pagers = _this.paginationButtons;
@@ -1823,7 +1823,7 @@ var Swiper = function (selector, params) {
         var indexOffset = params.loop ? _this.loopedSlides : 0;
         if (params.paginationAsRange) {
             if (!_this.visibleSlides) _this.calcVisibleSlides(position)
-            //Get Visible Indexes    
+            //Get Visible Indexes
             var visibleIndexes = [];
             for (var i = 0; i < _this.visibleSlides.length; i++) {
                 var visIndex = _this.slides.indexOf( _this.visibleSlides[i] ) - indexOffset
@@ -1844,7 +1844,7 @@ var Swiper = function (selector, params) {
                 pagers[ _this.activeLoopIndex ].className += ' ' + params.paginationActiveClass;
             }
             else {
-                pagers[ _this.activeIndex ].className += ' ' + params.paginationActiveClass;   
+                pagers[ _this.activeIndex ].className += ' ' + params.paginationActiveClass;
             }
         }
         else {
@@ -1852,11 +1852,11 @@ var Swiper = function (selector, params) {
                 pagers[ _this.activeLoopIndex ].className+=' '+params.paginationActiveClass+' '+params.paginationVisibleClass;
             }
             else {
-                pagers[ _this.activeIndex ].className+=' '+params.paginationActiveClass+' '+params.paginationVisibleClass;    
+                pagers[ _this.activeIndex ].className+=' '+params.paginationActiveClass+' '+params.paginationVisibleClass;
             }
-            
+
         }
-        
+
     }
     _this.calcVisibleSlides = function(position){
         var visibleSlides = [];
@@ -1882,7 +1882,7 @@ var Swiper = function (selector, params) {
                 if (_slideLeft >= -position && _slideLeft < ((-position+containerSize))) isVisibile = true;
                 if (_slideLeft < -position && _slideRight > ((-position+containerSize))) isVisibile = true;
             }
-                
+
             if (isVisibile) visibleSlides.push(_this.slides[i])
 
         }
@@ -1891,8 +1891,8 @@ var Swiper = function (selector, params) {
         _this.visibleSlides = visibleSlides;
     }
 
-    /*========================================== 
-        Autoplay 
+    /*==========================================
+        Autoplay
     ============================================*/
     _this.autoPlayIntervalId = undefined;
     _this.startAutoplay = function () {
@@ -1916,7 +1916,7 @@ var Swiper = function (selector, params) {
     }
     /*==================================================
         Loop
-    ====================================================*/  
+    ====================================================*/
     _this.loopCreated = false;
     _this.removeLoopedSlides = function(){
         if (_this.loopCreated) {
@@ -1952,7 +1952,7 @@ var Swiper = function (selector, params) {
         _this.callPlugins('onCreateLoop');
 
     }
-    _this.fixLoop = function(){  
+    _this.fixLoop = function(){
         //Fix For Negative Oversliding
         if (_this.activeIndex < _this.loopedSlides) {
             var newIndex = _this.slides.length - _this.loopedSlides*3 + _this.activeIndex;
@@ -1988,7 +1988,7 @@ var Swiper = function (selector, params) {
     _this.reloadSlides = function(){
         var slides = params.loader.slides;
         var newActiveIndex = parseInt(_this.activeSlide().data('swiperindex'),10)
-        if (newActiveIndex<0 || newActiveIndex>slides.length-1) return //<-- Exit 
+        if (newActiveIndex<0 || newActiveIndex>slides.length-1) return //<-- Exit
         _this.activeLoaderIndex = newActiveIndex;
         var firstIndex = Math.max(0, newActiveIndex - params.slidesPerView*params.loader.surroundGroups)
         var lastIndex = Math.min(newActiveIndex+params.slidesPerView*(1+params.loader.surroundGroups)-1, slides.length-1)
@@ -2006,10 +2006,10 @@ var Swiper = function (selector, params) {
             for (var i = firstIndex; i<=lastIndex; i++) {
                 slidesHTML += params.loader.slidesHTMLType == 'outer' ? slides[i] : '<'+params.slideElement+' class="'+params.slideClass+'" data-swiperindex="'+i+'">'+slides[i]+'</'+params.slideElement+'>';
             }
-            _this.wrapper.innerHTML = slidesHTML;    
+            _this.wrapper.innerHTML = slidesHTML;
         }
         else {
-            var minExistIndex=1000; 
+            var minExistIndex=1000;
             var maxExistIndex=0;
             for (var i=0; i<_this.slides.length; i++) {
                 var index = _this.slides[i].data('swiperindex');
@@ -2066,7 +2066,7 @@ var Swiper = function (selector, params) {
         if (params.autoplay) {
             _this.startAutoplay();
         }
-        
+
     }
     makeSwiper();
 }
@@ -2107,29 +2107,29 @@ Swiper.prototype = {
         else {
             var transformMatrix =   window.getComputedStyle(el, null).MozTransform || window.getComputedStyle(el, null).OTransform || window.getComputedStyle(el, null).MsTransform || window.getComputedStyle(el, null).msTransform  || window.getComputedStyle(el, null).transform|| window.getComputedStyle(el, null).getPropertyValue("transform").replace("translate(", "matrix(1, 0, 0, 1,");
             matrix = transformMatrix.toString().split(',');
-            
+
         }
-        if (this.params.useCSS3Transforms) { 
+        if (this.params.useCSS3Transforms) {
             if (axis=='x') {
                 //Crazy IE10 Matrix
-                if (matrix.length==16) 
+                if (matrix.length==16)
                     curTransform = parseFloat( matrix[12] )
                 //Latest Chrome and webkits Fix
                 else if (window.WebKitCSSMatrix)
                     curTransform = transformMatrix.m41
                 //Normal Browsers
-                else 
+                else
                     curTransform = parseFloat( matrix[4] )
             }
             if (axis=='y') {
                 //Crazy IE10 Matrix
-                if (matrix.length==16) 
+                if (matrix.length==16)
                     curTransform = parseFloat( matrix[13] )
                 //Latest Chrome and webkits Fix
                 else if (window.WebKitCSSMatrix)
                     curTransform = transformMatrix.m42
                 //Normal Browsers
-                else 
+                else
                     curTransform = parseFloat( matrix[5] )
             }
         }
@@ -2150,7 +2150,7 @@ Swiper.prototype = {
                 es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate3d('+x+'px, '+y+'px, '+z+'px)'
             }
             else {
-                
+
                 es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate('+x+'px, '+y+'px)'
                 if (!this.support.transforms) {
                     es.left = x+'px'
@@ -2164,7 +2164,7 @@ Swiper.prototype = {
         }
         this.callPlugins('onSetWrapperTransform', {x:x, y:y, z:z})
     },
-    
+
     setWrapperTransition : function(duration) {
         var es = this.wrapper.style
         es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = duration/1000+'s';
@@ -2188,7 +2188,7 @@ Swiper.prototype = {
         },
         getHeight: function(el, outer) {
             if (outer) return el.offsetHeight;
-            
+
             var height = window.getComputedStyle(el, null).getPropertyValue('height')
             var returnHeight = parseFloat(height);
             //IE Fixes
@@ -2217,11 +2217,11 @@ Swiper.prototype = {
         },
         windowWidth : function() {
             if (window.innerWidth) return window.innerWidth
-            else if (document.documentElement && document.documentElement.clientWidth) return document.documentElement.clientWidth; 
+            else if (document.documentElement && document.documentElement.clientWidth) return document.documentElement.clientWidth;
         },
         windowHeight : function() {
             if (window.innerHeight) return window.innerHeight
-            else if (document.documentElement && document.documentElement.clientHeight) return document.documentElement.clientHeight; 
+            else if (document.documentElement && document.documentElement.clientHeight) return document.documentElement.clientHeight;
         },
         windowScroll : function() {
             var left=0, top=0;
@@ -2286,7 +2286,7 @@ Swiper.prototype = {
         touch : (window.Modernizr && Modernizr.touch===true) || (function() {
             return !!(("ontouchstart" in window) || window.DocumentTouch && document instanceof DocumentTouch);
         })(),
-            
+
         transforms3d : (window.Modernizr && Modernizr.csstransforms3d===true) || (function() {
             var div = document.createElement('div');
             return ( "webkitPerspective" in div.style || "MozPerspective" in div.style || "OPerspective" in div.style || "MsPerspective" in div.style || "perspective" in div.style );
@@ -2322,7 +2322,7 @@ Swiper.prototype = {
 
 /*=========================
   jQuery & Zepto Plugins
-  ===========================*/   
+  ===========================*/
 if (window.jQuery||window.Zepto) {
     (function($){
         $.fn.swiper = function(params) {
