@@ -1107,7 +1107,8 @@ var Swiper = function (selector, params) {
 
             if(!isTouchEvent) {
                 // Added check for input element since we are getting a mousedown event even on some touch devices.
-                if (!(params.releaseFormElements && event.srcElement.tagName.toLowerCase() === 'input')) {
+                target = event.srcElement || event.target;
+                if (!(params.releaseFormElements && target.tagName.toLowerCase() === 'input')) {
                     if (event.preventDefault) event.preventDefault();
                     else event.returnValue = false;
                 }
