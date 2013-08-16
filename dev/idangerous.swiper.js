@@ -10,6 +10,29 @@
  *
  * Updated on: June 9, 2013
 */
+
+// debounce function taken from underscore.js (https://raw.github.com/jashkenas/underscore/master/underscore.js)
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+var debounce = function(func, wait, immediate) {
+  var result;
+  var timeout = null;
+  return function() {
+    var context = this, args = arguments;
+    var later = function() {
+      timeout = null;
+      if (!immediate) result = func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) result = func.apply(context, args);
+    return result;
+  };
+};
+
 var Swiper = function (selector, params) {
     /*=========================
       A little bit dirty but required part for IE8 and old FF support
@@ -147,6 +170,7 @@ var Swiper = function (selector, params) {
         initialSlide: 0,
         keyboardControl: false,
         mousewheelControl : false,
+        mousewheelDebounce: 600,
         useCSS3Transforms : true,
         //Loop mode
         loop:false,
@@ -784,7 +808,7 @@ var Swiper = function (selector, params) {
             }
 
             if (_this._wheelEvent) {
-                _this.h.addEventListener(_this.container, _this._wheelEvent, debounce(handleMousewheel, 600), false);
+                _this.h.addEventListener(_this.container, _this._wheelEvent, debounce(handleMousewheel, params.mousewheelDebounce), false);
             }
         }
 
@@ -1092,7 +1116,8 @@ var Swiper = function (selector, params) {
 
             if(!isTouchEvent) {
                 // Added check for input element since we are getting a mousedown event even on some touch devices.
-                if (!(params.releaseFormElements && event.srcElement.tagName.toLowerCase() === 'input')) {
+                target = event.srcElement || event.target;
+                if (!(params.releaseFormElements && target.tagName.toLowerCase() === 'input')) {
                     if (event.preventDefault) event.preventDefault();
                     else event.returnValue = false;
                 }
