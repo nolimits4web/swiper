@@ -2347,3 +2347,9 @@ if (window.jQuery||window.Zepto) {
         }
     })(window.jQuery||window.Zepto)
 }
+
+// component
+if ( typeof( module ) !== 'undefined' )
+{
+    module.exports = Swiper;
+}

@@ -1,0 +1,17 @@
+{
+  "name": "swiper",
+  "repo": "andyburke/Swiper",
+  "description": "Mobile touch slider and framework with hardware accelerated transitions",
+  "version": "2.0.0",
+  "keywords": ["swiper", "swipe", "slider"],
+  "dependencies": {
+  },
+  "scripts": [
+    "dev/idangerous.swiper.js"
+  ],
+  "main": "dev/idangerous.swiper.js",
+  "styles": [
+    "dev/idangerous.swiper.css"
+  ],
+  "license": "MIT"
+}
