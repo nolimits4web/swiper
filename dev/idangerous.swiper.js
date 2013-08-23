@@ -484,9 +484,14 @@ var Swiper = function (selector, params, callback) {
                 _this.setTransform( 0, _this.positions.current, 0);
             }
         }
-        
-        if (!firstInit) _this.callPlugins('onFirstInit');
-        else _this.callPlugins('onInit');
+        if (!_this.initialized) {
+            _this.callPlugins('onFirstInit');
+            if (params.onFirstInit) params.onFirstInit(_this);
+        }
+        else {
+            _this.callPlugins('onInit');
+            if (params.onInit) params.onInit(_this);
+        }
         firstInit = true;
     }
     _this.init()
