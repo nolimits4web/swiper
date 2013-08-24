@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo</title>
+  <link rel="stylesheet" href="css/idangerous.swiper.css">
+  <meta name="viewport" content="width=device-width">
+  <style>
+/* Demo Styles */
+html {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  position: relative;
+  height: 100%;
+  background: #333;
+  box-shadow: 0px 0px 100px #000 inset;
+}
+.preloader {
+  position: absolute;
+  left: 0;
+  top: -100px;
+  z-index: 0;
+  color: #fff;
+  text-align: center;
+  line-height: 100px;
+  height: 100px;
+  width: 100%;
+  opacity: 0;
+  font-size: 25px;
+  -webkit-transition: 300ms;
+  -moz-transition: 300ms;
+  -ms-transition: 300ms;
+  -o-transition: 300ms;
+  transition: 300ms;
+  background: rgba(0,0,0,0.1);
+}
+.preloader.visible {
+  top: 0;
+  opacity: 1;
+}
+.swiper-container {
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+  
+}
+.red-slide {
+  background: #ca4040;
+}
+.blue-slide {
+  background: #4390ee;
+}
+.orange-slide {
+  background: #ff8604;
+}
+.green-slide {
+  background: #49a430;
+}
+.pink-slide {
+  background: #973e76;
+}
+.swiper-slide {
+  height: 100px;
+  width: 100%;
+  line-height: 100px;
+  opacity: 0.2;
+  -webkit-transition: 300ms;
+  -moz-transition: 300ms;
+  -ms-transition: 300ms;
+  -o-transition: 300ms;
+  transition: 300ms;
+}
+.swiper-slide-visible {
+  opacity: 1;
+}
+.swiper-slide .title {
+  font-style: italic;
+  font-size: 42px;
+}
+  </style>
+</head>
+<body>
+  <div class="preloader">
+    Loading...
+  </div>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide red-slide">
+        <div class="title">Slide 1</div>
+      </div>
+      <div class="swiper-slide blue-slide">
+        <div class="title">Slide 2</div>
+      </div>
+      <div class="swiper-slide orange-slide">
+        <div class="title">Slide 3</div>
+      </div>
+      <div class="swiper-slide green-slide">
+        <div class="title">Slide 4</div>
+      </div>
+      <div class="swiper-slide pink-slide">
+        <div class="title">Slide 5</div>
+      </div>
+      <div class="swiper-slide red-slide">
+        <div class="title">Slide 6</div>
+      </div>
+      <div class="swiper-slide blue-slide">
+        <div class="title">Slide 7</div>
+      </div>
+      <div class="swiper-slide orange-slide">
+        <div class="title">Slide 8</div>
+      </div>
+    </div>
+  </div>
+  <script src="js/jquery-1.10.1.min.js"></script>
+  <script src="js/idangerous.swiper-2.1.min.js"></script>
+  <script>
+  var holdPosition = 0;
+  var mySwiper = new Swiper('.swiper-container',{
+    slidesPerView:'auto',
+    mode:'vertical',
+    watchActiveIndex: true,
+    onTouchStart: function() {
+      holdPosition = 0;
+    },
+    onResistanceBefore: function(s, pos){
+      holdPosition = pos;
+    },
+    onTouchEnd: function(){
+      if (holdPosition>100) {
+        // Hold Swiper in required position
+        mySwiper.setWrapperTranslate(0,100,0)
+
+        //Dissalow futher interactions
+        mySwiper.params.onlyExternal=true
+
+        //Show loader
+        $('.preloader').addClass('visible');
+
+        //Load slides
+        loadNewSlides();
+      }
+    }
+  })
+  var slideNumber = 0;
+  function loadNewSlides() {
+    /* 
+    Probably you should do some Ajax Request here
+    But we will just use setTimeout
+    */
+    setTimeout(function(){
+      //Prepend new slide
+      var colors = ['red','blue','green','orange','pink'];
+      var color = colors[Math.floor(Math.random()*colors.length)];
+      mySwiper.prependSlide('<div class="title">New slide '+slideNumber+'</div>', 'swiper-slide '+color+'-slide')
+
+      //Release interactions and set wrapper
+      mySwiper.setWrapperTranslate(0,0,0)
+      mySwiper.params.onlyExternal=false;
+
+      //Update active slide
+      mySwiper.updateActiveSlide(0)
+
+      //Hide loader
+      $('.preloader').removeClass('visible')
+    },1000)
+
+    slideNumber++;
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!-- I have adapted your own demo page to have shorter content than the container and visible scrollbars... what I'm basically is asking for is to emulate overflow:auto behavior instead of the current overflow:scroll (again for responsive documents which alter their div heights depending on device screen size) -->
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Demo</title>
+<link rel="stylesheet" href="http://www.idangero.us/sliders/swiper/demos/scrollbar/css/idangerous.swiper.css">
+<link rel="stylesheet" href="http://www.idangero.us/sliders/swiper/demos/scrollbar/css/idangerous.swiper.scrollbar.css">
+<style>body{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.5;}.device{padding:30px 20px;border:3px solid #fff;border-radius:20px;box-shadow:0px 0px 5px #000;background:#000;height:480px;width:320px;margin:10px auto;}.swiper-container{background:#222;height:100%;}.slide-inner{padding:20px;color:#fff;}.title{font-size:18px;margin-bottom:15px;}.swiper-scrollbar{background:none;position:absolute;right:3px;top:0;height:100%;width:5px;}.swiper-scrollbar .swiper-scrollbar-drag{background:rgba(255,255,255,0.3);}</style>
+</head>
+<body>
+<div class="device">
+<div class="swiper-container">
+<div class="swiper-wrapper">
+<div class="swiper-slide">
+<div class="slide-inner">
+<div class="title">Page Title</div>
+<p>If you look to the right you will see a very tall scrollbar where none is currently needed. However, I still want to use your scrollbar plug-in, because using your plug-in enables consistently themed and visible scrollbars across all devices (iOS/OS X likes to hide scrollbars, for example, which is bad from a usability point of view since it's not apparent that you actually can scroll).</p>
+</div>
+</div>
+</div>
+<div class="swiper-scrollbar"></div>
+</div>
+</div>
+<script src="http://www.idangero.us/sliders/swiper/demos/scrollbar/js/idangerous.swiper-2.0.min.js"></script>
+<script src="http://www.idangero.us/sliders/swiper/demos/scrollbar/js/idangerous.swiper.scrollbar-2.0.js"></script>
+<script>
+  var mySwiper = new Swiper('.swiper-container', {
+    scrollContainer:true,
+    mousewheelControl : true,
+    mode:'vertical',
+    //Enable Scrollbar
+    scrollbar: {
+      container :'.swiper-scrollbar',
+      hide: false,
+      draggable: false  
+    }
+  })
+  </script>
+</body>
+</html>

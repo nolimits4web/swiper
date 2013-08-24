@@ -1,5 +1,5 @@
 /*
- * Swiper 2.0 - Mobile Touch Slider
+ * Swiper 2.1 - Mobile Touch Slider
  * http://www.idangero.us/sliders/swiper/
  *
  * Copyright 2012-2013, Vladimir Kharlampidi
@@ -8,7 +8,7 @@
  *
  * Licensed under GPL & MIT
  *
- * Updated on: June 9, 2013
+ * Updated on: August 22, 2013
 */
 var Swiper = function (selector, params) {
     /*=========================
@@ -1139,7 +1139,7 @@ var Swiper = function (selector, params) {
                 if(event.preventDefault) event.preventDefault();
                 else event.returnValue = false;
             }
-            
+
             var pageX = isTouchEvent ? event.targetTouches[0].pageX : (event.pageX || event.clientX);
             var pageY = isTouchEvent ? event.targetTouches[0].pageY : (event.pageY || event.clientY);
 
