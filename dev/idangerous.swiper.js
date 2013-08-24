@@ -1488,6 +1488,41 @@ var Swiper = function (selector, params) {
         _this.callPlugins('onTouchEnd');
     }
 
+
+    /*==================================================
+        noSwiping Bubble Check
+    ====================================================*/
+    function noSwipingSlide(el){
+        /*This function is specifically designed to check the parent elements for the noSwiping class, up to the wrapper.
+        We need to check parents because while onTouchStart bubbles, _this.isTouched is checked in onTouchStart, which stops the bubbling.
+        So, if a text box, for example, is the initial target, and the parent slide container has the noSwiping class, the _this.isTouched
+        check will never find it, and what was supposed to be noSwiping is able to be swiped.
+        This function will iterate up and check for the noSwiping class in parents, up through the wrapperClass.*/
+
+        // First we create a truthy variable, which is that swiping is allowd (noSwiping = false)
+        var noSwiping = false;
+    
+        // Now we iterate up (parentElements) until we reach the node with the wrapperClass.
+        
+        do{
+
+            // Each time, we check to see if there's a 'swiper-no-swiping' class (noSwipingClass).
+            if (el.className.indexOf(params.noSwipingClass)>-1)
+            {
+                noSwiping = true; // If there is, we set noSwiping = true;
+            }
+
+            el = el.parentElement;  // now we iterate up (parent node)
+
+        } while(!noSwiping && el.parentElement && el.className.indexOf(params.wrapperClass)==-1); // also include el.parentElement truthy, just in case.
+
+        // because we didn't check the wrapper itself, we do so now, if noSwiping is false:
+        if (!noSwiping && el.className.indexOf(params.wrapperClass)>-1 && el.className.indexOf(params.noSwipingClass)>-1)
+            noSwiping = true; // if the wrapper has the noSwipingClass, we set noSwiping = true;
+
+        return noSwiping;
+    }
+
     /*==================================================
         Swipe Functions
     ====================================================*/
