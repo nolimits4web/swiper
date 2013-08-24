@@ -1094,7 +1094,8 @@ var Swiper = function (selector, params) {
             return false;
         }
 
-        if (params.noSwiping && event.target && event.target.className && event.target.className.indexOf(params.noSwipingClass) > -1) return false;
+        //if (params.noSwiping && event.target && event.target.className && event.target.className.indexOf(params.noSwipingClass) > -1) return false;
+        if (params.noSwiping && event.target && event.target.className && noSwipingSlide(event.target)) return false;
         allowMomentumBounce = false;
 
         //Check For Nested Swipers
