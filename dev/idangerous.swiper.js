@@ -718,7 +718,7 @@ var Swiper = function (selector, params) {
         }
         else {
             _this.callPlugins('onInit');
-            if (params.onFirstInit) params.onInit(_this);
+            if (params.onInit) params.onInit(_this);
         }
         _this.initialized = true;
     }
