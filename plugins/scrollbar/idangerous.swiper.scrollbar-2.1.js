@@ -9,7 +9,7 @@
  *
  * Licensed under GPL & MIT
  *
- * Released on: June 9, 2013
+ * Released on: August 28, 2013
 */
 
 Swiper.prototype.plugins.scrollbar = function(swiper, params){
@@ -92,6 +92,9 @@ Swiper.prototype.plugins.scrollbar = function(swiper, params){
 			swiper.setWrapperTransition(0);
 			swiper.setTransition(track,0)
 			swiper.setTransition(drag,0)
+			if(params.onScrollbarDrag) {
+				params.onScrollbarDrag(swiper)
+			}
 		}
 		function dragEnd(e) {
 			isTouched = false;
