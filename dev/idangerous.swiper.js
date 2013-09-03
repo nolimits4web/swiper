@@ -487,8 +487,7 @@ var Swiper = function (selector, params) {
       WP8 Fix
       ===========================*/
     if (_this.browser.ie10 && !params.onlyExternal) {
-        if (isH) _this.wrapper.classList.add('swiper-wp8-horizontal');
-        else _this.wrapper.classList.add('swiper-wp8-vertical');
+        _this.wrapper.classList.add('swiper-wp8-' + (isH ? 'horizontal' : 'vertical'));
     }
 
     /*=========================
@@ -654,7 +653,7 @@ var Swiper = function (selector, params) {
                 else containerSize = slideHeight, _this.container.style.height= containerSize+'px';
             }
             else {
-                var slideHeight = isH ? _this.height : _this.height/params.slidesPerView ;
+                var slideHeight = isH ? _this.height : _this.height/params.slidesPerView;
                 var wrapperHeight = isH ? _this.height : _this.slides.length*slideHeight;
             }
             var slideWidth = isH ? _this.width/params.slidesPerView : _this.width;
@@ -733,7 +732,7 @@ var Swiper = function (selector, params) {
             else _this.swipeTo(_this.activeIndex, 0, false);
         }
         else {
-            var pos = isH ? _this.getWrapperTranslate('x') : _this.getWrapperTranslate('y');
+            var pos = _this.getWrapperTranslate(isH ? 'x' : 'y');
             if (pos < -maxWrapperPosition()) {
                 var x = isH ? -maxWrapperPosition() : 0;
                 var y = isH ? 0 : -maxWrapperPosition();
@@ -1000,24 +999,22 @@ var Swiper = function (selector, params) {
         }
         else {
             //Freemode or scrollContainer:
-            var currentTransform =isH ? _this.getWrapperTranslate('x') : _this.getWrapperTranslate('y');
-            var x,y;
+            var x = _this.getWrapperTranslate('x'),
+            	y = _this.getWrapperTranslate('y');
             if (isH) {
-                x = _this.getWrapperTranslate('x') + delta;
-                y = _this.getWrapperTranslate('y');
+                x += delta;
                 if (x>0) x = 0;
                 if (x<-maxWrapperPosition()) x = -maxWrapperPosition();
             }
             else {
-                x = _this.getWrapperTranslate('x');
-                y = _this.getWrapperTranslate('y')+delta;
+                y += delta;
                 if (y>0) y = 0;
                 if (y<-maxWrapperPosition()) y = -maxWrapperPosition();
             }
+
             _this.setWrapperTransition(0);
-            _this.setWrapperTranslate(x,y,0);
-            if (isH) _this.updateActiveSlide(x);
-            else _this.updateActiveSlide(y);
+            _this.setWrapperTranslate(x, y);
+            _this.updateActiveSlide(isH ? x : y);
         }
         if (params.autoplay) _this.stopAutoplay();
 
@@ -1120,20 +1117,20 @@ var Swiper = function (selector, params) {
             _this.touches.startX = _this.touches.currentX = pageX;
             _this.touches.startY = _this.touches.currentY = pageY;
 
-            _this.touches.start = _this.touches.current = isH ? pageX : pageY ;
+            _this.touches.start = _this.touches.current = isH ? pageX : pageY;
 
             //Set Transition Time to 0
             _this.setWrapperTransition(0);
 
             //Get Start Translate Position
-            _this.positions.start = _this.positions.current = isH ? _this.getWrapperTranslate('x') : _this.getWrapperTranslate('y');
+            _this.positions.start = _this.positions.current = _this.getWrapperTranslate(isH ? 'x' : 'y');
 
             //Set Transform
             if (isH) {
-                _this.setWrapperTranslate( _this.positions.start, 0, 0);
+                _this.setWrapperTranslate( _this.positions.start, 0);
             }
             else {
-                _this.setWrapperTranslate( 0, _this.positions.start, 0);
+                _this.setWrapperTranslate( 0, _this.positions.start);
             }
 
             //TouchStartTime
@@ -1443,7 +1440,7 @@ var Swiper = function (selector, params) {
         var targetSlideSize = 0;
         if(params.slidesPerView == 'auto') {
             //Define current slide's width
-            var currentPosition = Math.abs( isH ? _this.getWrapperTranslate('x') : _this.getWrapperTranslate('y') );
+            var currentPosition = Math.abs(_this.getWrapperTranslate(isH ? 'x' : 'y'));
             var slidesOffset = 0;
             var _slideSize;
             for (var i=0; i<_this.slides.length; i++) {
@@ -1519,7 +1516,7 @@ var Swiper = function (selector, params) {
     _this.swipeNext = function(internal){
         if (!internal && params.loop) _this.fixLoop();
         _this.callPlugins('onSwipeNext');
-        var currentPosition = isH ? _this.getWrapperTranslate('x') : _this.getWrapperTranslate('y');
+        var currentPosition = _this.getWrapperTranslate(isH ? 'x' : 'y');
         var newPosition = currentPosition;
         if (params.slidesPerView=='auto') {
             for (var i=0; i<_this.snapGrid.length; i++) {
@@ -1547,7 +1544,7 @@ var Swiper = function (selector, params) {
         if (!internal && params.autoplay) _this.stopAutoplay();
         _this.callPlugins('onSwipePrev');
 
-        var currentPosition = Math.ceil( isH ? _this.getWrapperTranslate('x') : _this.getWrapperTranslate('y') );
+        var currentPosition = Math.ceil(_this.getWrapperTranslate(isH ? 'x' : 'y'));
         var newPosition;
         if (params.slidesPerView=='auto') {
             newPosition = 0;
@@ -1576,7 +1573,7 @@ var Swiper = function (selector, params) {
     }
     _this.swipeReset = function(){
         _this.callPlugins('onSwipeReset');
-        var currentPosition = isH ? _this.getWrapperTranslate('x') : _this.getWrapperTranslate('y');
+        var currentPosition = _this.getWrapperTranslate(isH ? 'x' : 'y');
         var groupSize = slideSize * params.slidesPerGroup;
         var newPosition;
         var maxPosition = -maxWrapperPosition();
@@ -1615,9 +1612,8 @@ var Swiper = function (selector, params) {
         index = parseInt(index, 10);
         _this.callPlugins('onSwipeTo', {index:index, speed:speed});
         if (params.loop) index = index + _this.loopedSlides;
-        var currentPosition = isH ? _this.getWrapperTranslate('x') : _this.getWrapperTranslate('y');
-        if (index > (_this.slides.length-1)) return;
-        if (index<0) return;
+        var currentPosition = _this.getWrapperTranslate(isH ? 'x' : 'y');
+        if (index > (_this.slides.length-1) || index < 0) return;
         var newPosition
         if (params.slidesPerView=='auto') {
             newPosition = -_this.slidesGrid[ index ];
@@ -1644,7 +1640,7 @@ var Swiper = function (selector, params) {
         }
         else {
             //Try the DOM animation
-            var currentPosition = isH ? _this.getWrapperTranslate('x') : _this.getWrapperTranslate('y');
+            var currentPosition = _this.getWrapperTranslate(isH ? 'x' : 'y');
             var speed = (action=='to' && toOptions.speed>=0) ? toOptions.speed : params.speed;
             var animationStep = Math.ceil( (newPosition - currentPosition)/speed*(1000/60) );
             var direction = currentPosition > newPosition ? 'toNext' : 'toPrev';
@@ -1738,7 +1734,7 @@ var Swiper = function (selector, params) {
         if (_this.slides.length==0) return;
         _this.previousIndex = _this.activeIndex;
         if (position>0) position=0;
-        if (typeof position=='undefined') position = isH ? _this.getWrapperTranslate('x') : _this.getWrapperTranslate('y');
+        if (typeof position=='undefined') position = _this.getWrapperTranslate(isH ? 'x' : 'y');
 
         if (params.slidesPerView == 'auto') {
             var slidesOffset = 0;
@@ -2144,37 +2140,37 @@ Swiper.prototype = {
         	transformMatrix = new WebKitCSSMatrix(curStyle.webkitTransform);
         }
         else {
-        	transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform  || curStyle.transform|| curStyle.getPropertyValue("transform").replace("translate(", "matrix(1, 0, 0, 1,");
+        	transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform  || curStyle.transform || curStyle.getPropertyValue("transform").replace("translate(", "matrix(1, 0, 0, 1,");
+        	matrix = transformMatrix.toString().split(',');
         }
-        matrix = transformMatrix.toString().split(',');
         
         if (this.support.transforms && this.params.useCSS3Transforms) {
             if (axis=='x') {
                 //Crazy IE10 Matrix
                 if (matrix.length==16)
-                    curTransform = parseFloat( matrix[12] )
+                    curTransform = parseFloat( matrix[12] );
                 //Latest Chrome and webkits Fix
                 else if (window.WebKitCSSMatrix)
-                    curTransform = transformMatrix.m41
+                    curTransform = transformMatrix.m41;
                 //Normal Browsers
                 else
-                    curTransform = parseFloat( matrix[4] )
+                    curTransform = parseFloat( matrix[4] );
             }
             if (axis=='y') {
                 //Crazy IE10 Matrix
                 if (matrix.length==16)
-                    curTransform = parseFloat( matrix[13] )
+                    curTransform = parseFloat( matrix[13] );
                 //Latest Chrome and webkits Fix
                 else if (window.WebKitCSSMatrix)
-                    curTransform = transformMatrix.m42
+                    curTransform = transformMatrix.m42;
                 //Normal Browsers
                 else
-                    curTransform = parseFloat( matrix[5] )
+                    curTransform = parseFloat( matrix[5] );
             }
         }
         else {
-            if (axis=='x') curTransform = parseFloat(el.style.left,10) || 0
-            if (axis=='y') curTransform = parseFloat(el.style.top,10) || 0
+            if (axis=='x') curTransform = parseFloat(el.style.left,10) || 0;
+            if (axis=='y') curTransform = parseFloat(el.style.top,10) || 0;
         }
         return curTransform || 0;
     },
