@@ -50,11 +50,11 @@ var Swiper = function (selector, params) {
     if (!document.querySelectorAll) {
         if (!window.jQuery) return;
     }
-    function $$(s) {
+    function $$(selector, context) {
         if (document.querySelectorAll)
-            return document.querySelectorAll(s);
+            return (context || document).querySelectorAll(selector);
         else
-            return jQuery(s);
+            return jQuery(selector, context);
     }
 
     /*=========================
@@ -767,24 +767,15 @@ var Swiper = function (selector, params) {
         Event Listeners
     ============================================*/
     function initEvents() {
+        
         //Touch Events
-        if (!_this.browser.ie10) {
-            if (_this.support.touch) {
-                _this.h.addEventListener(_this.wrapper, 'touchstart', onTouchStart, false);
-                _this.h.addEventListener(_this.wrapper, 'touchmove', onTouchMove, false);
-                _this.h.addEventListener(_this.wrapper, 'touchend', onTouchEnd, false);
-            }
-            if (params.simulateTouch) {
-                _this.h.addEventListener(_this.wrapper, 'mousedown', onTouchStart, false);
-                _this.h.addEventListener(document, 'mousemove', onTouchMove, false);
-                _this.h.addEventListener(document, 'mouseup', onTouchEnd, false);
-            }
-        }
-        else {
-            _this.h.addEventListener(_this.wrapper, _this.touchEvents.touchStart, onTouchStart, false);
-            _this.h.addEventListener(document, _this.touchEvents.touchMove, onTouchMove, false);
-            _this.h.addEventListener(document, _this.touchEvents.touchEnd, onTouchEnd, false);
-        }
+        if (_this.support.touch || params.simulateTouch) {
+        	var elem = _this.support.touch ? _this.wrapper : document;
+        	_this.h.addEventListener(_this.wrapper, _this.touchEvents.touchStart, onTouchStart, false);
+        	_this.h.addEventListener(elem, _this.touchEvents.touchMove, onTouchMove, false);
+        	_this.h.addEventListener(elem, _this.touchEvents.touchEnd, onTouchEnd, false);
+		}
+
         //Resize Event
         if (params.autoResize) {
             _this.h.addEventListener(window, 'resize', _this.resizeFix, false);
@@ -815,8 +806,7 @@ var Swiper = function (selector, params) {
             _this.h.addEventListener(document, 'keydown', handleKeyboardKeys, false);
         }
         if (params.updateOnImagesReady) {
-            if (document.querySelectorAll) _this.imagesToLoad = _this.container.querySelectorAll('img');
-            else if (window.jQuery) _this.imagesToLoad = $$(_this.container).find('img');
+            _this.imagesToLoad = $$('img', _this.container);
 
             for (var i=0; i<_this.imagesToLoad.length; i++) {
                 _loadImage(_this.imagesToLoad[i].getAttribute('src'))
@@ -839,24 +829,15 @@ var Swiper = function (selector, params) {
 
     //Remove Event Listeners
     _this.destroy = function(removeResizeFix){
+    	
         //Touch Events
-        if (!_this.browser.ie10) {
-            if (_this.support.touch) {
-                _this.h.removeEventListener(_this.wrapper, 'touchstart', onTouchStart, false);
-                _this.h.removeEventListener(_this.wrapper, 'touchmove', onTouchMove, false);
-                _this.h.removeEventListener(_this.wrapper, 'touchend', onTouchEnd, false);
-            }
-            if (params.simulateTouch) {
-                _this.h.removeEventListener(_this.wrapper, 'mousedown', onTouchStart, false);
-                _this.h.removeEventListener(document, 'mousemove', onTouchMove, false);
-                _this.h.removeEventListener(document, 'mouseup', onTouchEnd, false);
-            }
-        }
-        else {
-            _this.h.removeEventListener(_this.wrapper, _this.touchEvents.touchStart, onTouchStart, false);
-            _this.h.removeEventListener(document, _this.touchEvents.touchMove, onTouchMove, false);
-            _this.h.removeEventListener(document, _this.touchEvents.touchEnd, onTouchEnd, false);
-        }
+        if (_this.support.touch || params.simulateTouch) {
+        	var elem = _this.support.touch ? _this.wrapper : document;
+        	_this.h.removeEventListener(_this.wrapper, _this.touchEvents.touchStart, onTouchStart, false);
+        	_this.h.removeEventListener(elem, _this.touchEvents.touchMove, onTouchMove, false);
+        	_this.h.removeEventListener(elem, _this.touchEvents.touchEnd, onTouchEnd, false);
+		}
+
         //Resize Event
         if (params.autoResize) {
             _this.h.removeEventListener(window, 'resize', _this.resizeFix, false);
@@ -889,68 +870,60 @@ var Swiper = function (selector, params) {
         _this = null;
     }
     function addSlideEvents() {
+    	var i;
+
         //Prevent Links Events
         if (params.preventLinks) {
-            var links = [];
-            if (document.querySelectorAll) {
-                links = _this.container.querySelectorAll('a');
-            }
-            else if (window.jQuery) {
-                links = $$(_this.container).find('a');
-            }
-            for (var i=0; i<links.length; i++) {
+            var links = $$('a', _this.container);
+            for (i=0; i<links.length; i++) {
                 _this.h.addEventListener(links[i], 'click', preventClick, false);
             }
         }
         //Release Form Elements
         if (params.releaseFormElements) {
-            var formElements = document.querySelectorAll ? _this.container.querySelectorAll('input, textarea, select') : $$(_this.container).find('input, textarea, select');
-            for (var i=0; i<formElements.length; i++) {
+            var formElements = $$('input, textarea, select', _this.container);
+            for (i=0; i<formElements.length; i++) {
                 _this.h.addEventListener(formElements[i], _this.touchEvents.touchStart, releaseForms, true);
             }
         }
 
         //Slide Clicks & Touches
         if (params.onSlideClick) {
-            for (var i=0; i<_this.slides.length; i++) {
+            for (i=0; i<_this.slides.length; i++) {
                 _this.h.addEventListener(_this.slides[i], 'click', slideClick, false);
             }
         }
         if (params.onSlideTouch) {
-            for (var i=0; i<_this.slides.length; i++) {
+            for (i=0; i<_this.slides.length; i++) {
                 _this.h.addEventListener(_this.slides[i], _this.touchEvents.touchStart, slideTouch, false);
             }
         }
     }
     function removeSlideEvents() {
+    	var i;
+
         //Slide Clicks & Touches
         if (params.onSlideClick) {
-            for (var i=0; i<_this.slides.length; i++) {
+            for (i=0; i<_this.slides.length; i++) {
                 _this.h.removeEventListener(_this.slides[i], 'click', slideClick, false);
             }
         }
         if (params.onSlideTouch) {
-            for (var i=0; i<_this.slides.length; i++) {
+            for (i=0; i<_this.slides.length; i++) {
                 _this.h.removeEventListener(_this.slides[i], _this.touchEvents.touchStart, slideTouch, false);
             }
         }
         //Release Form Elements
         if (params.releaseFormElements) {
-            var formElements = document.querySelectorAll ? _this.container.querySelectorAll('input, textarea, select') : $$(_this.container).find('input, textarea, select');
-            for (var i=0; i<formElements.length; i++) {
+            var formElements = $$('input, textarea, select', _this.container);
+            for (i=0; i<formElements.length; i++) {
                 _this.h.removeEventListener(formElements[i], _this.touchEvents.touchStart, releaseForms, true);
             }
         }
         //Prevent Links Events
         if (params.preventLinks) {
-            var links = [];
-            if (document.querySelectorAll) {
-                links = _this.container.querySelectorAll('a');
-            }
-            else if (window.jQuery) {
-                links = $$(_this.container).find('a');
-            }
-            for (var i=0; i<links.length; i++) {
+            var links = $$('a', _this.container);
+            for (i=0; i<links.length; i++) {
                 _this.h.removeEventListener(links[i], 'click', preventClick, false);
             }
         }
@@ -1390,17 +1363,10 @@ var Swiper = function (selector, params) {
 
         var maxPosition = maxWrapperPosition();
 
-        //Prevent Negative Back Sliding
-        if (_this.positions.current > 0) {
-            _this.swipeReset()
-            if (params.onTouchEnd) params.onTouchEnd(_this)
-            _this.callPlugins('onTouchEnd');
-            return;
-        }
-        //Prevent After-End Sliding
-        if (_this.positions.current < -maxPosition) {
-            _this.swipeReset()
-            if (params.onTouchEnd) params.onTouchEnd(_this)
+        //Prevent Negative Back Sliding/After-End Sliding
+        if (_this.positions.current > 0 || _this.positions.current < -maxPosition) {
+            _this.swipeReset();
+            if (params.onTouchEnd) params.onTouchEnd(_this);
             _this.callPlugins('onTouchEnd');
             return;
         }
@@ -1848,11 +1814,7 @@ var Swiper = function (selector, params) {
         }
         _this.paginationContainer = params.pagination.nodeType ? params.pagination : $$(params.pagination)[0];
         _this.paginationContainer.innerHTML = paginationHTML;
-        _this.paginationButtons = []
-        if (document.querySelectorAll)
-            _this.paginationButtons = _this.paginationContainer.querySelectorAll('.'+params.paginationElementClass);
-        else if (window.jQuery)
-            _this.paginationButtons = $$(_this.paginationContainer).find('.'+params.paginationElementClass);
+        _this.paginationButtons = $$('.'+params.paginationElementClass, _this.paginationContainer);
         if (!firstInit) _this.updatePagination()
         _this.callPlugins('onCreatePagination');
         if (params.paginationClickable) {
@@ -1884,10 +1846,7 @@ var Swiper = function (selector, params) {
         if (!params.pagination) return;
         if (_this.slides.length<1) return;
 
-        if (document.querySelectorAll)
-            var activePagers = _this.paginationContainer.querySelectorAll('.'+params.paginationActiveClass)
-        else if (window.jQuery)
-            var activePagers = $$(_this.paginationContainer).find('.'+params.paginationActiveClass);
+        var activePagers = $$('.'+params.paginationActiveClass, _this.paginationContainer);
         if(!activePagers) return;
 
         //Reset all Buttons' class to not active
@@ -2177,19 +2136,19 @@ Swiper.prototype = {
     },
 
     getWrapperTranslate : function(axis){
-        var el = this.wrapper
-        var matrix;
-        var curTransform;
+        var el = this.wrapper,
+        	matrix, curTransform, curStyle, transformMatrix;
+        
+        curStyle = window.getComputedStyle(el, null);
         if (window.WebKitCSSMatrix) {
-            var transformMatrix = new WebKitCSSMatrix(window.getComputedStyle(el, null).webkitTransform)
-            matrix = transformMatrix.toString().split(',');
+        	transformMatrix = new WebKitCSSMatrix(curStyle.webkitTransform);
         }
         else {
-            var transformMatrix =   window.getComputedStyle(el, null).MozTransform || window.getComputedStyle(el, null).OTransform || window.getComputedStyle(el, null).MsTransform || window.getComputedStyle(el, null).msTransform  || window.getComputedStyle(el, null).transform|| window.getComputedStyle(el, null).getPropertyValue("transform").replace("translate(", "matrix(1, 0, 0, 1,");
-            matrix = transformMatrix.toString().split(',');
-
+        	transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform  || curStyle.transform|| curStyle.getPropertyValue("transform").replace("translate(", "matrix(1, 0, 0, 1,");
         }
-        if (this.params.useCSS3Transforms) {
+        matrix = transformMatrix.toString().split(',');
+        
+        if (this.support.transforms && this.params.useCSS3Transforms) {
             if (axis=='x') {
                 //Crazy IE10 Matrix
                 if (matrix.length==16)
@@ -2221,34 +2180,28 @@ Swiper.prototype = {
     },
 
     setWrapperTranslate : function(x,y,z) {
-        var es = this.wrapper.style
+        var es = this.wrapper.style,
+        	func;
+
         x=x||0;
         y=y||0;
         z=z||0;
-        if (this.params.useCSS3Transforms) {
-            if (this.support.transforms3d) {
-                es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate3d('+x+'px, '+y+'px, '+z+'px)'
-            }
-            else {
-
-                es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate('+x+'px, '+y+'px)'
-                if (!this.support.transforms) {
-                    es.left = x+'px'
-                    es.top = y+'px'
-                }
-            }
+        
+        if (this.support.transforms && this.params.useCSS3Transforms) {
+        	func = this.support.transforms3d ? 'translate3d('+x+'px, '+y+'px, '+z+'px)' : 'translate('+x+'px, '+y+'px)';
+            es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = func;
         }
         else {
             es.left = x+'px';
             es.top = y+'px';
         }
-        this.callPlugins('onSetWrapperTransform', {x:x, y:y, z:z})
+        this.callPlugins('onSetWrapperTransform', {x:x, y:y, z:z});
     },
 
     setWrapperTransition : function(duration) {
         var es = this.wrapper.style
         es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = duration/1000+'s';
-        this.callPlugins('onSetWrapperTransition', {duration: duration})
+        this.callPlugins('onSetWrapperTransition', {duration: duration});
     },
 
     /*==================================================
