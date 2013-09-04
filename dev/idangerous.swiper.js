@@ -458,6 +458,12 @@ var Swiper = function (selector, params) {
     _this.getFirstSlide = function () {
         return _this.slides[0]
     }
+    _this.isInSlides = function(el) {
+        for (var i = 0; i < _this.slides.length; i++) {
+            if (_this.slides[i] == el) return true;
+        }
+        return false;
+    }
 
     //Currently Active Slide
     _this.activeSlide = function () {
@@ -1117,6 +1123,7 @@ var Swiper = function (selector, params) {
     var isTouchEvent = false;
     var allowThresholdMove;
     var allowMomentumBounce = true;
+    var target;
     function onTouchStart(event) {
         if (params.preventLinks) _this.allowLinks = true;
         //Exit if slider is already was touched
@@ -1124,7 +1131,8 @@ var Swiper = function (selector, params) {
             return false;
         }
 
-        if (params.noSwiping && (event.target || event.srcElement) && noSwipingSlide(event.target || event.srcElement)) return false;
+        target = (event.target || event.srcElement);
+        if (target && !canBeSwiped(target)) return false;
         allowMomentumBounce = false;
 
         //Check For Nested Swipers
@@ -1513,38 +1521,20 @@ var Swiper = function (selector, params) {
         _this.callPlugins('onTouchEnd');
     }
 
-
-    /*==================================================
-        noSwiping Bubble Check by Isaac Strack
-    ====================================================*/
-    function noSwipingSlide(el){
-        /*This function is specifically designed to check the parent elements for the noSwiping class, up to the wrapper.
-        We need to check parents because while onTouchStart bubbles, _this.isTouched is checked in onTouchStart, which stops the bubbling.
-        So, if a text box, for example, is the initial target, and the parent slide container has the noSwiping class, the _this.isTouched
-        check will never find it, and what was supposed to be noSwiping is able to be swiped.
-        This function will iterate up and check for the noSwiping class in parents, up through the wrapperClass.*/
-
-        // First we create a truthy variable, which is that swiping is allowd (noSwiping = false)
-        var noSwiping = false;
-    
-        // Now we iterate up (parentElements) until we reach the node with the wrapperClass.
-        do{
-
-            // Each time, we check to see if there's a 'swiper-no-swiping' class (noSwipingClass).
-            if (el.className.indexOf(params.noSwipingClass)>-1)
-            {
-                noSwiping = true; // If there is, we set noSwiping = true;
-            }
-
-            el = el.parentElement;  // now we iterate up (parent node)
-
-        } while(!noSwiping && el.parentElement && el.className.indexOf(params.wrapperClass)==-1); // also include el.parentElement truthy, just in case.
-
-        // because we didn't check the wrapper itself, we do so now, if noSwiping is false:
-        if (!noSwiping && el.className.indexOf(params.wrapperClass)>-1 && el.className.indexOf(params.noSwipingClass)>-1)
-            noSwiping = true; // if the wrapper has the noSwipingClass, we set noSwiping = true;
-
-        return noSwiping;
+    // Iterate up the DOM tree and check if slide can be swiped.
+    // Slide can be swiped if:
+    // - closest el's parent slide is this swiper's slide
+    // - slide has not noSwipingClass
+    // - wrapper nor container doesn't have noSwipingClass
+    // NoSwipingClass can be set only on this swiper's slides, container or wrapper.
+    function canBeSwiped(el) {
+        while (true) {
+            // Return false if closest el's parent slide doesn't belong to this swiper
+            if (el.className.indexOf(params.slideClass) > -1 && !_this.isInSlides(el)) return false;
+            if (params.noSwiping && el.className.indexOf(params.noSwipingClass) > -1 && (_this.isInSlides(el) || el == _this.wrapper || el == _this.container)) return false;
+            if (el == _this.container) return true;
+            el = el.parentElement;
+        }
     }
 
     /*==================================================

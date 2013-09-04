@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo</title>
+  <link rel="stylesheet" href="css/idangerous.swiper.css">
+  <style>body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .swiper-container {
+    width: 660px;
+    height: 250px;
+    color: #fff;
+    text-align: center;
+  }
+
+  .swiper-nested-1 {
+    width: 100%;
+  }
+
+  .red-slide {
+    background: #ca4040;
+  }
+
+  .blue-slide {
+    background: #4390ee;
+  }
+
+  .orange-slide {
+    background: #ff8604;
+  }
+
+  .green-slide {
+    background: #49a430;
+  }
+
+  .pink-slide {
+    background: #973e76;
+  }
+
+  .swiper-slide {
+    font-style: italic;
+    font-size: 42px;
+    margin-bottom: 0;
+    line-height: 250px;
+  }
+
+  .swiper-nested-1 .swiper-slide {
+    line-height: 125px;
+    font-size: 21px
+  }
+
+  .pagination {
+    position: absolute;
+    z-index: 100;
+    left: 10px;
+    bottom: 10px;
+  }
+
+  .swiper-pagination-switch {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+    background: #222;
+    margin-right: 5px;
+    opacity: 0.8;
+    border: 1px solid #fff;
+    cursor: pointer;
+  }
+
+  .swiper-visible-switch {
+    background: #aaa;
+  }
+
+  .swiper-active-switch {
+    background: #fff;
+  }
+
+  .buttons {
+    text-align: center;
+    color: #333;
+  }
+  </style>
+</head>
+<body>
+
+
+<div class="swiper-container swiper-parent">
+  <div class="pagination pagination-parent"></div>
+  <div class="swiper-wrapper">
+    <div class="swiper-slide red-slide">
+      <div class="swiper-container swiper-nested-1" style="width: 500px; height: 100px">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide green-slide" style="width: 200px">Nested Slide 1</div>
+          <div class="swiper-slide blue-slide" style="width: 200px">Nested Slide 2</div>
+          <div class="swiper-slide pink-slide" style="width: 400px">Nested Slide 3</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="swiper-slide orange-slide"> Slide 2</div>
+  </div>
+</div>
+<div class="buttons">
+  <input type="submit" class="toggle-parent" value="Toggle no-swipe on parent's first slide"/>
+  <input type="submit" class="toggle-nested" value="Toggle no-swipe on nested swiper"/>
+</div>
+
+
+<script src="js/jquery-1.10.1.min.js"></script>
+<script src="js/idangerous.swiper-2.1.min.js"></script>
+<!--<script src="../../dev/idangerous.swiper.js"></script>-->
+<script>
+  var swiperParent = new Swiper('.swiper-parent', {
+    pagination: '.pagination-parent',
+    paginationClickable: true,
+    noSwiping: true
+  });
+  var swiperNested1 = new Swiper('.swiper-nested-1', {
+    slidesPerView: 'auto',
+    noSwiping: true
+  });
+  $(".toggle-parent").click(function () {
+    $(".red-slide").toggleClass("swiper-no-swiping");
+    return false;
+  });
+  $(".toggle-nested").click(function () {
+    $('.swiper-nested-1').toggleClass("swiper-no-swiping");
+    return false;
+  })
+</script>
+</body>
+</html>
