@@ -728,8 +728,7 @@ var Swiper = function (selector, params) {
         _this.callPlugins('beforeResizeFix');
         _this.init(params.resizeReInit||reInit);
         if (!params.freeMode) {
-            if (params.loop) _this.swipeTo(_this.activeLoopIndex, 0, false);
-            else _this.swipeTo(_this.activeIndex, 0, false);
+            _this.swipeTo((params.loop ? _this.activeLoopIndex : _this.activeIndex), 0, false);
         }
         else {
             var pos = _this.getWrapperTranslate(isH ? 'x' : 'y');
@@ -737,7 +736,7 @@ var Swiper = function (selector, params) {
                 var x = isH ? -maxWrapperPosition() : 0;
                 var y = isH ? 0 : -maxWrapperPosition();
                 _this.setWrapperTransition(0);
-                _this.setWrapperTranslate(x,y,0);
+                _this.setWrapperTranslate(x,y);
             }
         }
         _this.callPlugins('afterResizeFix');
@@ -1962,18 +1961,23 @@ var Swiper = function (selector, params) {
     }
     _this.createLoop = function(){
         if (_this.slides.length==0) return;
-        _this.loopedSlides = params.slidesPerView+params.loopAdditionalSlides;
-
-        var slideFirstHTML = '';
-        var slideLastHTML = '';
+        
+        _this.loopedSlides = params.slidesPerView + params.loopAdditionalSlides;
+        if (_this.loopedSlides > _this.slides.length) {
+			_this.loopedSlides = _this.slides.length;
+        }
+        
+        var slideFirstHTML = '',
+        	slideLastHTML = '',
+        	i;
 
         //Grab First Slides
-        for (var i=0; i<_this.loopedSlides; i++) {
-            slideFirstHTML+=_this.slides[i].outerHTML
+        for (i=0; i<_this.loopedSlides; i++) {
+            slideFirstHTML += _this.slides[i].outerHTML;
         }
         //Grab Last Slides
         for (i=_this.slides.length-_this.loopedSlides; i<_this.slides.length; i++) {
-            slideLastHTML+=_this.slides[i].outerHTML
+            slideLastHTML += _this.slides[i].outerHTML;
         }
         wrapper.innerHTML = slideLastHTML + wrapper.innerHTML + slideFirstHTML;
 
@@ -2146,23 +2150,23 @@ Swiper.prototype = {
         
         if (this.support.transforms && this.params.useCSS3Transforms) {
             if (axis=='x') {
-                //Crazy IE10 Matrix
-                if (matrix.length==16)
-                    curTransform = parseFloat( matrix[12] );
-                //Latest Chrome and webkits Fix
-                else if (window.WebKitCSSMatrix)
+            	//Latest Chrome and webkits Fix
+                if (window.WebKitCSSMatrix)
                     curTransform = transformMatrix.m41;
+                //Crazy IE10 Matrix
+                else if (matrix.length==16)
+                    curTransform = parseFloat( matrix[12] );
                 //Normal Browsers
                 else
                     curTransform = parseFloat( matrix[4] );
             }
             if (axis=='y') {
-                //Crazy IE10 Matrix
-                if (matrix.length==16)
-                    curTransform = parseFloat( matrix[13] );
-                //Latest Chrome and webkits Fix
-                else if (window.WebKitCSSMatrix)
+            	//Latest Chrome and webkits Fix
+                if (window.WebKitCSSMatrix)
                     curTransform = transformMatrix.m42;
+                //Crazy IE10 Matrix
+                else if (matrix.length==16)
+                    curTransform = parseFloat( matrix[13] );
                 //Normal Browsers
                 else
                     curTransform = parseFloat( matrix[5] );
@@ -2177,15 +2181,15 @@ Swiper.prototype = {
 
     setWrapperTranslate : function(x,y,z) {
         var es = this.wrapper.style,
-        	func;
+        	translate;
 
         x=x||0;
         y=y||0;
         z=z||0;
-        
+
         if (this.support.transforms && this.params.useCSS3Transforms) {
-        	func = this.support.transforms3d ? 'translate3d('+x+'px, '+y+'px, '+z+'px)' : 'translate('+x+'px, '+y+'px)';
-            es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = func;
+        	translate = this.support.transforms3d ? 'translate3d('+x+'px, '+y+'px, '+z+'px)' : 'translate('+x+'px, '+y+'px)';
+            es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = translate;
         }
         else {
             es.left = x+'px';
@@ -2195,7 +2199,8 @@ Swiper.prototype = {
     },
 
     setWrapperTransition : function(duration) {
-        var es = this.wrapper.style
+        var es = this.wrapper.style;
+        
         es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = duration/1000+'s';
         this.callPlugins('onSetWrapperTransition', {duration: duration});
     },
