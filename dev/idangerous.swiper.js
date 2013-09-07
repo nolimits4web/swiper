@@ -1035,37 +1035,43 @@ var Swiper = function (selector, params) {
     /*=========================
       Slides Events Handlers
       ===========================*/
-    function findSlide(el) {
-        var found = false;
-        while(!found) {
-            if (el.className.indexOf(params.slideClass)>-1)
-            {
-                found = el;
-            }
-            el = el.parentElement;
-        }
-        return found;
-    }
+    
     _this.allowSlideClick = true;
-    function slideClick(e) {
-        if(_this.allowSlideClick) {
-            if (!e.target) {
-                _this.clickedSlide = findSlide(e.srcElement);
-                _this.clickedSlideIndex = _this.slides.indexOf(_this.clickedSlide);    
-            }
-            else {
-                _this.clickedSlide = this;
-                _this.clickedSlideIndex = _this.slides.indexOf(this);
-            }
+    function slideClick(event) {
+        if (_this.allowSlideClick) {
+            
+            setClickedSlide(event);
             params.onSlideClick(_this);
         }
     }
-    function slideTouch(e) {
-        if (!e.target) _this.clickedSlide = findSlide(e.srcElement);
-        else _this.clickedSlide = this;
-        _this.clickedSlideIndex = _this.slides.indexOf(_this.clickedSlide);
+    
+    function slideTouch(event) {
+    	
+        setClickedSlide(event);
         params.onSlideTouch(_this);
     }
+    
+    function setClickedSlide(event) {
+		
+		// IE 6-8 support
+		if (!event.currentTarget) {
+			var element = event.srcElement;
+			do {
+				if (element.className.indexOf(params.slideClass) > -1) {
+                	break;
+        		}
+			}
+			while (element = element.parentNode);
+			_this.clickedSlide = element;
+		}
+		else {
+			_this.clickedSlide = event.currentTarget;
+		}
+		
+        _this.clickedSlideIndex     = _this.slides.indexOf(_this.clickedSlide);
+        _this.clickedSlideLoopIndex = _this.clickedSlideIndex - _this.loopedSlides;
+    }
+    
     _this.allowLinks = true;
     function preventClick(e) {
         if (!_this.allowLinks) {
@@ -1959,7 +1965,8 @@ var Swiper = function (selector, params) {
             }
         }
     }
-    _this.createLoop = function(){
+    
+    _this.createLoop = function() {
         if (_this.slides.length==0) return;
         
         _this.loopedSlides = params.slidesPerView + params.loopAdditionalSlides;
@@ -1991,16 +1998,19 @@ var Swiper = function (selector, params) {
         _this.callPlugins('onCreateLoop');
 
     }
-    _this.fixLoop = function(){
+    
+    _this.fixLoop = function() {
+    	var newIndex;
+    	
         //Fix For Negative Oversliding
         if (_this.activeIndex < _this.loopedSlides) {
-            var newIndex = _this.slides.length - _this.loopedSlides*3 + _this.activeIndex;
-            _this.swipeTo(newIndex, 0, false)
+            newIndex = _this.slides.length - _this.loopedSlides*3 + _this.activeIndex;
+            _this.swipeTo(newIndex, 0, false);
         }
         //Fix For Positive Oversliding
         else if (_this.activeIndex > _this.slides.length - params.slidesPerView*2) {
-            var newIndex = -_this.slides.length + _this.activeIndex + _this.loopedSlides
-            _this.swipeTo(newIndex,0, false)
+            newIndex = -_this.slides.length + _this.activeIndex + _this.loopedSlides
+            _this.swipeTo(newIndex, 0, false);
         }
     }
     /*==================================================
@@ -2322,18 +2332,18 @@ Swiper.prototype = {
         })(),
 
         transforms3d : (window.Modernizr && Modernizr.csstransforms3d===true) || (function() {
-            var div = document.createElement('div');
-            return ( "webkitPerspective" in div.style || "MozPerspective" in div.style || "OPerspective" in div.style || "MsPerspective" in div.style || "perspective" in div.style );
+            var div = document.createElement('div').style;
+            return ("webkitPerspective" in div || "MozPerspective" in div || "OPerspective" in div || "MsPerspective" in div || "perspective" in div);
         })(),
 
         transforms : (window.Modernizr && Modernizr.csstransforms===true) || (function(){
-            var div = document.createElement('div').style
-            return ('transform' in div) || ('WebkitTransform' in div) || ('MozTransform' in div) || ('msTransform' in div) || ('MsTransform' in div) || ('OTransform' in div);
+            var div = document.createElement('div').style;
+            return ('transform' in div || 'WebkitTransform' in div || 'MozTransform' in div || 'msTransform' in div || 'MsTransform' in div || 'OTransform' in div);
         })(),
 
         transitions : (window.Modernizr && Modernizr.csstransitions===true) || (function(){
-            var div = document.createElement('div').style
-            return ('transition' in div) || ('WebkitTransition' in div) || ('MozTransition' in div) || ('msTransition' in div) || ('MsTransition' in div) || ('OTransition' in div);
+            var div = document.createElement('div').style;
+            return ('transition' in div || 'WebkitTransition' in div || 'MozTransition' in div || 'msTransition' in div || 'MsTransition' in div || 'OTransition' in div);
         })()
     },
 
@@ -2362,7 +2372,7 @@ if (window.jQuery||window.Zepto) {
         $.fn.swiper = function(params) {
             var s = new Swiper($(this)[0], params)
             $(this).data('swiper',s);
-            return s
+            return s;
         }
     })(window.jQuery||window.Zepto)
 }
