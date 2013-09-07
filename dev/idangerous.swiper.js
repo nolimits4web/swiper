@@ -1069,7 +1069,7 @@ var Swiper = function (selector, params) {
 		}
 		
         _this.clickedSlideIndex     = _this.slides.indexOf(_this.clickedSlide);
-        _this.clickedSlideLoopIndex = _this.clickedSlideIndex - _this.loopedSlides;
+        _this.clickedSlideLoopIndex = _this.clickedSlideIndex - (_this.loopedSlides || 0);
     }
     
     _this.allowLinks = true;
