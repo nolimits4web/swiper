@@ -117,13 +117,13 @@
 <script src="js/idangerous.swiper-2.1.min.js"></script>
 <!--<script src="../../dev/idangerous.swiper.js"></script>-->
 <script>
+  var swiperNested1 = new Swiper('.swiper-nested-1', {
+    slidesPerView: 'auto',
+    noSwiping: true
+  });
   var swiperParent = new Swiper('.swiper-parent', {
     pagination: '.pagination-parent',
     paginationClickable: true,
-    noSwiping: true
-  });
-  var swiperNested1 = new Swiper('.swiper-nested-1', {
-    slidesPerView: 'auto',
     noSwiping: true
   });
   $(".toggle-parent").click(function () {

@@ -1132,7 +1132,8 @@ var Swiper = function (selector, params) {
         }
 
         target = (event.target || event.srcElement);
-        if (target && !canBeSwiped(target)) return false;
+        _this.canBeSwiped = target && canBeSwiped(target);
+        if (!_this.canBeSwiped) return false;
         allowMomentumBounce = false;
 
         //Check For Nested Swipers
@@ -1202,7 +1203,7 @@ var Swiper = function (selector, params) {
         if ( typeof isScrolling === 'undefined' && !isH) {
           isScrolling = !!( isScrolling || Math.abs(pageY - _this.touches.startY) < Math.abs( pageX - _this.touches.startX ) );
         }
-        if (isScrolling ) {
+        if (isScrolling || !_this.canBeSwiped) {
             _this.isTouched = false;
             return
         }
@@ -1523,14 +1524,11 @@ var Swiper = function (selector, params) {
 
     // Iterate up the DOM tree and check if slide can be swiped.
     // Slide can be swiped if:
-    // - closest el's parent slide is this swiper's slide
-    // - slide has not noSwipingClass
+    // - slide belongs to this swiper and has not noSwipingClass
     // - wrapper nor container doesn't have noSwipingClass
     // NoSwipingClass can be set only on this swiper's slides, container or wrapper.
     function canBeSwiped(el) {
         while (true) {
-            // Return false if closest el's parent slide doesn't belong to this swiper
-            if (el.className.indexOf(params.slideClass) > -1 && !_this.isInSlides(el)) return false;
             if (params.noSwiping && el.className.indexOf(params.noSwipingClass) > -1 && (_this.isInSlides(el) || el == _this.wrapper || el == _this.container)) return false;
             if (el == _this.container) return true;
             el = el.parentElement;
