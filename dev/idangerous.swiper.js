@@ -1151,7 +1151,7 @@ var Swiper = function (selector, params) {
             _this.positions.start = _this.positions.current = _this.getWrapperTranslate();
 
             //Set Transform
-            _this.setWrapperTranslate(_this.positions.start);
+            //_this.setWrapperTranslate(_this.positions.start);
 
             //TouchStartTime
             _this.times.start = (new Date()).getTime();
@@ -1196,13 +1196,6 @@ var Swiper = function (selector, params) {
         }
         event.assignedToSwiper = true;
 
-        //Moved Flag
-        if (!_this.isMoved) {
-			if (params.loop) _this.fixLoop();
-			if (params.onTouchMoveStart) params.onTouchMoveStart(_this);
-        }
-        _this.isMoved = true;
-
         //Block inner links
         if (params.preventLinks) {
             _this.allowLinks = false;
@@ -1217,7 +1210,19 @@ var Swiper = function (selector, params) {
         }
         if (!isTouchEvent || event.touches.length == 1) {
 
-            _this.callPlugins('onTouchMoveStart');
+        	//Moved Flag
+        	if (!_this.isMoved) {
+        		_this.callPlugins('onTouchMoveStart');
+        		
+				if (params.loop) {
+					_this.fixLoop();
+					_this.positions.start = _this.getWrapperTranslate();
+				}
+				if (params.onTouchMoveStart) params.onTouchMoveStart(_this);
+        	}
+        	_this.isMoved = true;
+        	
+        	// cancel event
             if(event.preventDefault) event.preventDefault();
             else event.returnValue = false;
 
