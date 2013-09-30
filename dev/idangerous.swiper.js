@@ -656,8 +656,8 @@ var Swiper = function (selector, params) {
                 var slideHeight = isH ? _this.height : _this.height/params.slidesPerView;
                 var wrapperHeight = isH ? _this.height : _this.slides.length*slideHeight;
             }
-            var slideWidth = isH ? _this.width/params.slidesPerView : _this.width;
-            var wrapperWidth = isH ? _this.slides.length*slideWidth : _this.width;
+            var slideWidth = isH ? Math.round(_this.width/params.slidesPerView) : _this.width;
+            var wrapperWidth = isH ? Math.round(_this.slides.length*slideWidth) : _this.width;
             slideSize = isH ? slideWidth : slideHeight;
 
             if (params.offsetSlidesBefore>0) {
