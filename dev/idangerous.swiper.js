@@ -738,7 +738,7 @@ var Swiper = function (selector, params) {
         
         // move wrapper to the beginning in free mode
         else if (_this.getWrapperTranslate() < -maxWrapperPosition()) {
-        	_this.setWrapperTransition(0);
+            _this.setWrapperTransition(0);
             _this.setWrapperTranslate(-maxWrapperPosition());
         }
         
@@ -840,8 +840,8 @@ var Swiper = function (selector, params) {
 
     //Remove Event Listeners
     _this.destroy = function(removeResizeFix){
-    	var unbind = _this.h.removeEventListener;
-    	
+        var unbind = _this.h.removeEventListener;
+        
         //Touch Events
         if (!_this.browser.ie10) {
             if (_this.support.touch) {
@@ -894,8 +894,8 @@ var Swiper = function (selector, params) {
         _this = null;
     }
     function addSlideEvents() {
-    	var bind = _this.h.addEventListener,
-    		i;
+        var bind = _this.h.addEventListener,
+            i;
 
         //Prevent Links Events
         if (params.preventLinks) {
@@ -925,8 +925,8 @@ var Swiper = function (selector, params) {
         }
     }
     function removeSlideEvents() {
-    	var unbind = _this.h.removeEventListener,
-    		i;
+        var unbind = _this.h.removeEventListener,
+            i;
 
         //Slide Clicks & Touches
         if (params.onSlideClick) {
@@ -1046,7 +1046,7 @@ var Swiper = function (selector, params) {
       Grab Cursor
       ===========================*/
     if (params.grabCursor) {
-    	var containerStyle = _this.container.style;
+        var containerStyle = _this.container.style;
         containerStyle.cursor = 'move';
         containerStyle.cursor = 'grab';
         containerStyle.cursor = '-moz-grab';
@@ -1060,35 +1060,33 @@ var Swiper = function (selector, params) {
     _this.allowSlideClick = true;
     function slideClick(event) {
         if (_this.allowSlideClick) {
-            
             setClickedSlide(event);
-            params.onSlideClick(_this);
+            params.onSlideClick(_this, event);
         }
     }
     
     function slideTouch(event) {
-    	
         setClickedSlide(event);
-        params.onSlideTouch(_this);
+        params.onSlideTouch(_this, event);
     }
     
     function setClickedSlide(event) {
-		
-		// IE 6-8 support
-		if (!event.currentTarget) {
-			var element = event.srcElement;
-			do {
-				if (element.className.indexOf(params.slideClass) > -1) {
-                	break;
-        		}
-			}
-			while (element = element.parentNode);
-			_this.clickedSlide = element;
-		}
-		else {
-			_this.clickedSlide = event.currentTarget;
-		}
-		
+        
+        // IE 6-8 support
+        if (!event.currentTarget) {
+            var element = event.srcElement;
+            do {
+                if (element.className.indexOf(params.slideClass) > -1) {
+                    break;
+                }
+            }
+            while (element = element.parentNode);
+            _this.clickedSlide = element;
+        }
+        else {
+            _this.clickedSlide = event.currentTarget;
+        }
+        
         _this.clickedSlideIndex     = _this.slides.indexOf(_this.clickedSlide);
         _this.clickedSlideLoopIndex = _this.clickedSlideIndex - (_this.loopedSlides || 0);
     }
@@ -1105,6 +1103,7 @@ var Swiper = function (selector, params) {
         if (e.stopPropagation) e.stopPropagation();
         else e.returnValue = false;
         return false;
+        
     }
 
     /*==================================================
@@ -1210,19 +1209,19 @@ var Swiper = function (selector, params) {
         }
         if (!isTouchEvent || event.touches.length == 1) {
 
-        	//Moved Flag
-        	if (!_this.isMoved) {
-        		_this.callPlugins('onTouchMoveStart');
-        		
-				if (params.loop) {
-					_this.fixLoop();
-					_this.positions.start = _this.getWrapperTranslate();
-				}
-				if (params.onTouchMoveStart) params.onTouchMoveStart(_this);
-        	}
-        	_this.isMoved = true;
-        	
-        	// cancel event
+            //Moved Flag
+            if (!_this.isMoved) {
+                _this.callPlugins('onTouchMoveStart');
+                
+                if (params.loop) {
+                    _this.fixLoop();
+                    _this.positions.start = _this.getWrapperTranslate();
+                }
+                if (params.onTouchMoveStart) params.onTouchMoveStart(_this);
+            }
+            _this.isMoved = true;
+            
+            // cancel event
             if(event.preventDefault) event.preventDefault();
             else event.returnValue = false;
 
@@ -1658,8 +1657,8 @@ var Swiper = function (selector, params) {
     }
     
     function swipeToPosition(newPosition, action, toOptions) {
-    	var speed = (action=='to' && toOptions.speed >= 0) ? toOptions.speed : params.speed;
-    	
+        var speed = (action=='to' && toOptions.speed >= 0) ? toOptions.speed : params.speed;
+        
         if (_this.support.transitions || !params.DOMAnimation) {
             _this.setWrapperTranslate(newPosition);
             _this.setWrapperTransition(speed);
@@ -1776,7 +1775,7 @@ var Swiper = function (selector, params) {
             }
         }
         else {
-        	_this.activeIndex = Math[params.visibilityFullFit ? 'ceil' : 'round']( -position/slideSize );
+            _this.activeIndex = Math[params.visibilityFullFit ? 'ceil' : 'round']( -position/slideSize );
         }
         
         if (_this.activeIndex == _this.slides.length ) _this.activeIndex = _this.slides.length - 1;
@@ -1993,12 +1992,12 @@ var Swiper = function (selector, params) {
         
         _this.loopedSlides = params.slidesPerView + params.loopAdditionalSlides;
         if (_this.loopedSlides > _this.slides.length) {
-			_this.loopedSlides = _this.slides.length;
+            _this.loopedSlides = _this.slides.length;
         }
         
         var slideFirstHTML = '',
-        	slideLastHTML = '',
-        	i;
+            slideLastHTML = '',
+            i;
 
         //Grab First Slides
         for (i=0; i<_this.loopedSlides; i++) {
@@ -2022,7 +2021,7 @@ var Swiper = function (selector, params) {
     }
     
     _this.fixLoop = function() {
-    	var newIndex;
+        var newIndex;
         //Fix For Negative Oversliding
         if (_this.activeIndex < _this.loopedSlides) {
             newIndex = _this.slides.length - _this.loopedSlides*3 + _this.activeIndex;
@@ -2152,9 +2151,9 @@ Swiper.prototype = {
     ====================================================*/
     wrapperTransitionEnd : function(callback, permanent) {
         var a = this,
-        	el = a.wrapper,
-        	events = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'],
-        	i;
+            el = a.wrapper,
+            events = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'],
+            i;
         
         function fireCallBack() {
             callback(a);
@@ -2175,25 +2174,25 @@ Swiper.prototype = {
 
     getWrapperTranslate : function (axis) {
         var el = this.wrapper,
-        	matrix, curTransform, curStyle, transformMatrix;
+            matrix, curTransform, curStyle, transformMatrix;
         
         // automatic axis detection
         if (typeof axis == 'undefined') {
-			axis = this.params.mode == 'horizontal' ? 'x' : 'y';
+            axis = this.params.mode == 'horizontal' ? 'x' : 'y';
         }
         
         curStyle = window.getComputedStyle(el, null);
         if (window.WebKitCSSMatrix) {
-        	transformMatrix = new WebKitCSSMatrix(curStyle.webkitTransform);
+            transformMatrix = new WebKitCSSMatrix(curStyle.webkitTransform);
         }
         else {
-        	transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform  || curStyle.transform || curStyle.getPropertyValue("transform").replace("translate(", "matrix(1, 0, 0, 1,");
-        	matrix = transformMatrix.toString().split(',');
+            transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform  || curStyle.transform || curStyle.getPropertyValue("transform").replace("translate(", "matrix(1, 0, 0, 1,");
+            matrix = transformMatrix.toString().split(',');
         }
         
         if (this.support.transforms && this.params.useCSS3Transforms) {
             if (axis=='x') {
-            	//Latest Chrome and webkits Fix
+                //Latest Chrome and webkits Fix
                 if (window.WebKitCSSMatrix)
                     curTransform = transformMatrix.m41;
                 //Crazy IE10 Matrix
@@ -2204,7 +2203,7 @@ Swiper.prototype = {
                     curTransform = parseFloat( matrix[4] );
             }
             if (axis=='y') {
-            	//Latest Chrome and webkits Fix
+                //Latest Chrome and webkits Fix
                 if (window.WebKitCSSMatrix)
                     curTransform = transformMatrix.m42;
                 //Crazy IE10 Matrix
@@ -2224,26 +2223,26 @@ Swiper.prototype = {
 
     setWrapperTranslate : function (x, y, z) {
         var es = this.wrapper.style,
-        	coords = {x: 0, y: 0, z: 0},
-        	translate;
+            coords = {x: 0, y: 0, z: 0},
+            translate;
 
         // passed all coordinates
         if (arguments.length == 3) {
-			coords.x = x;
-			coords.y = y;
-			coords.z = z;
+            coords.x = x;
+            coords.y = y;
+            coords.z = z;
         }
         
         // passed one coordinate and optional axis
         else {
-        	if (typeof y == 'undefined') {
-				y = this.params.mode == 'horizontal' ? 'x' : 'y';
-        	}
-        	coords[y] = x;
+            if (typeof y == 'undefined') {
+                y = this.params.mode == 'horizontal' ? 'x' : 'y';
+            }
+            coords[y] = x;
         }
 
         if (this.support.transforms && this.params.useCSS3Transforms) {
-        	translate = this.support.transforms3d ? 'translate3d(' + coords.x + 'px, ' + coords.y + 'px, ' + coords.z + 'px)' : 'translate(' + coords.x + 'px, ' + coords.y + 'px)';
+            translate = this.support.transforms3d ? 'translate3d(' + coords.x + 'px, ' + coords.y + 'px, ' + coords.z + 'px)' : 'translate(' + coords.x + 'px, ' + coords.y + 'px)';
             es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = translate;
         }
         else {
@@ -2328,10 +2327,10 @@ Swiper.prototype = {
         },
 
         addEventListener : function (el, event, listener, useCapture) {
-        	if (typeof useCapture == 'undefined') {
-				useCapture = false;
-        	}
-        	
+            if (typeof useCapture == 'undefined') {
+                useCapture = false;
+            }
+            
             if (el.addEventListener) {
                 el.addEventListener(event, listener, useCapture);
             }
@@ -2341,10 +2340,10 @@ Swiper.prototype = {
         },
         
         removeEventListener : function (el, event, listener, useCapture) {
-        	if (typeof useCapture == 'undefined') {
-				useCapture = false;
-        	}
-        	
+            if (typeof useCapture == 'undefined') {
+                useCapture = false;
+            }
+            
             if (el.removeEventListener) {
                 el.removeEventListener(event, listener, useCapture);
             }

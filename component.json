@@ -1,8 +1,8 @@
 {
   "name": "swiper",
-  "repo": "andyburke/Swiper",
+  "repo": "nolimits4web/Swiper",
   "description": "Mobile touch slider and framework with hardware accelerated transitions",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "keywords": ["swiper", "swipe", "slider"],
   "dependencies": {
   },

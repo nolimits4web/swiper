@@ -82,7 +82,9 @@ Swiper.prototype.plugins.scrollbar = function(swiper, params){
 			track.style.opacity = 1;
 			swiper.setWrapperTransition(100);
 			swiper.setTransition(drag,100)
-			
+			if(params.onScrollbarDrag) {
+				params.onScrollbarDrag(swiper)
+			}
 		}
 		function dragMove(e){
 			if(!isTouched) return;
