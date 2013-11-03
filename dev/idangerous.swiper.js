@@ -1,5 +1,5 @@
 /*
- * Swiper 2.2+ - Mobile Touch Slider
+ * Swiper 2.3+ - Mobile Touch Slider
  * http://www.idangero.us/sliders/swiper/
  *
  * Copyright 2012-2013, Vladimir Kharlampidi
@@ -8,7 +8,7 @@
  *
  * Licensed under GPL & MIT
  *
- * Updated on: September 15, 2013
+ * Updated on: November 2, 2013
 */
 var Swiper = function (selector, params) {
     /*=========================
@@ -100,6 +100,7 @@ var Swiper = function (selector, params) {
     _this.isTouched = false;
     _this.isMoved = false;
     _this.activeIndex = 0;
+    _this.centerIndex = 0;
     _this.activeLoaderIndex = 0;
     _this.activeLoopIndex = 0;
     _this.previousIndex = null;
@@ -149,6 +150,9 @@ var Swiper = function (selector, params) {
         mousewheelControl : false,
         mousewheelDebounce: 600,
         useCSS3Transforms : true,
+        // Autoplay
+        autoplay: false,
+        autoplayDisableOnInteraction: false,
         //Loop mode
         loop:false,
         loopAdditionalSlides:0,
@@ -366,13 +370,13 @@ var Swiper = function (selector, params) {
         for (i = _this.slides.length - 1; i >= 0; i--) {
             _this._extendSwiperSlide(_this.slides[i]);
         }
-        if (!oldNumber) return;
+        if (oldNumber===false) return;
         if(oldNumber!==_this.slides.length || forceCalcSlides) {
             // Number of slides has been changed
             removeSlideEvents();
             addSlideEvents();
             _this.updateActiveSlide();
-            if (params.createPagination && _this.params.pagination) _this.createPagination();
+            if (_this.params.pagination) _this.createPagination();
             _this.callPlugins('numberOfSlidesChanged');
         }
     }
@@ -1035,7 +1039,7 @@ var Swiper = function (selector, params) {
             _this.setWrapperTranslate(position);
             _this.updateActiveSlide(position);
         }
-        if (params.autoplay) _this.stopAutoplay();
+        if (params.autoplay) _this.stopAutoplay(true);
 
         if(e.preventDefault) e.preventDefault();
         else e.returnValue = false;
@@ -1205,7 +1209,7 @@ var Swiper = function (selector, params) {
 
         //Stop AutoPlay if exist
         if (params.autoplay) {
-            _this.stopAutoplay();
+            _this.stopAutoplay(true);
         }
         if (!isTouchEvent || event.touches.length == 1) {
 
@@ -1538,6 +1542,7 @@ var Swiper = function (selector, params) {
     ====================================================*/
     _this.swipeNext = function(internal){
         if (!internal && params.loop) _this.fixLoop();
+        if (!internal && params.autoplay) _this.stopAutoplay(true);
         _this.callPlugins('onSwipeNext');
         var currentPosition = _this.getWrapperTranslate();
         var newPosition = currentPosition;
@@ -1564,7 +1569,7 @@ var Swiper = function (selector, params) {
     }
     _this.swipePrev = function(internal){
         if (!internal && params.loop) _this.fixLoop();
-        if (!internal && params.autoplay) _this.stopAutoplay();
+        if (!internal && params.autoplay) _this.stopAutoplay(true);
         _this.callPlugins('onSwipePrev');
 
         var currentPosition = Math.ceil(_this.getWrapperTranslate());
@@ -1826,15 +1831,17 @@ var Swiper = function (selector, params) {
         if (params.paginationClickable && _this.paginationButtons) {
             removePaginationEvents();
         }
-        var paginationHTML = "";
-        var numOfSlides = _this.slides.length;
-        var numOfButtons = numOfSlides;
-        if (params.loop) numOfButtons -= _this.loopedSlides*2
-        for (var i = 0; i < numOfButtons; i++) {
-            paginationHTML += '<'+params.paginationElement+' class="'+params.paginationElementClass+'"></'+params.paginationElement+'>'
-        }
         _this.paginationContainer = params.pagination.nodeType ? params.pagination : $$(params.pagination)[0];
-        _this.paginationContainer.innerHTML = paginationHTML;
+        if (params.createPagination) {
+            var paginationHTML = "";
+            var numOfSlides = _this.slides.length;
+            var numOfButtons = numOfSlides;
+            if (params.loop) numOfButtons -= _this.loopedSlides*2
+            for (var i = 0; i < numOfButtons; i++) {
+                paginationHTML += '<'+params.paginationElement+' class="'+params.paginationElementClass+'"></'+params.paginationElement+'>'
+            }
+            _this.paginationContainer.innerHTML = paginationHTML;    
+        }
         _this.paginationButtons = $$('.'+params.paginationElementClass, _this.paginationContainer);
         if (!firstInit) _this.updatePagination()
         _this.callPlugins('onCreatePagination');
@@ -1866,7 +1873,6 @@ var Swiper = function (selector, params) {
     _this.updatePagination = function(position) {
         if (!params.pagination) return;
         if (_this.slides.length<1) return;
-
         var activePagers = $$('.'+params.paginationActiveClass, _this.paginationContainer);
         if(!activePagers) return;
 
@@ -1957,16 +1963,11 @@ var Swiper = function (selector, params) {
     _this.autoPlayIntervalId = undefined;
     _this.startAutoplay = function () {
         if (typeof _this.autoPlayIntervalId !== 'undefined') return false;
-        if (params.autoplay && !params.loop) {
-            _this.autoPlayIntervalId = setInterval(function(){
-                if (!_this.swipeNext(true)) _this.swipeTo(0);
-            }, params.autoplay)
-        }
-        if (params.autoplay && params.loop) {
-            _this.autoPlayIntervalId = setInterval(function(){
-                _this.swipeNext();
-            }, params.autoplay)
-        }
+        if (!params.autoplay) return;
+        _this.autoPlayIntervalId = setInterval(function(){
+            if (params.loop) _this.swipeNext();
+            else if (!_this.swipeNext(true)) _this.swipeTo(0);
+        }, params.autoplay)
         _this.callPlugins('onAutoplayStart');
     }
     _this.stopAutoplay = function () {
@@ -1974,7 +1975,6 @@ var Swiper = function (selector, params) {
         _this.autoPlayIntervalId = undefined;
         _this.callPlugins('onAutoplayStop');
     }
-    
     /*==================================================
         Loop
     ====================================================*/
@@ -1989,8 +1989,13 @@ var Swiper = function (selector, params) {
     
     _this.createLoop = function() {
         if (_this.slides.length==0) return;
+        if (params.slidesPerView=='auto') {
+            _this.loopedSlides = params.loopedSlides;
+        }
+        else {
+            _this.loopedSlides = params.slidesPerView + params.loopAdditionalSlides;    
+        }
         
-        _this.loopedSlides = params.slidesPerView + params.loopAdditionalSlides;
         if (_this.loopedSlides > _this.slides.length) {
             _this.loopedSlides = _this.slides.length;
         }
@@ -1998,16 +2003,38 @@ var Swiper = function (selector, params) {
         var slideFirstHTML = '',
             slideLastHTML = '',
             i;
-
-        //Grab First Slides
-        for (i=0; i<_this.loopedSlides; i++) {
-            slideFirstHTML += _this.slides[i].outerHTML;
+        var slidesSetFullHTML = '';
+        /**
+                loopedSlides is too large if loopAdditionalSlides are set.
+                Need to divide the slides by maximum number of slides existing.
+                
+                @author        Tomaz Lovrec <tomaz.lovrec@blanc-noir.at>
+        */
+        var numSlides = _this.slides.length;
+        var fullSlideSets = Math.floor(_this.loopedSlides / numSlides);
+        var remainderSlides = _this.loopedSlides % numSlides;
+        // assemble full sets of slides
+        for (i = 0; i<(fullSlideSets*numSlides);i++) {
+                var j = i;
+                if (i >= numSlides) {
+                        var over = Math.floor(i / numSlides);
+                        j = i - (numSlides * over);
+                }
+                slidesSetFullHTML+=_this.slides[j].outerHTML;
         }
-        //Grab Last Slides
-        for (i=_this.slides.length-_this.loopedSlides; i<_this.slides.length; i++) {
-            slideLastHTML += _this.slides[i].outerHTML;
+        // assemble remainder slides
+        // assemble remainder appended to existing slides
+        for(i = 0;i<remainderSlides;i++) {
+                slideLastHTML+=_this.slides[i].outerHTML;
         }
-        wrapper.innerHTML = slideLastHTML + wrapper.innerHTML + slideFirstHTML;
+        // assemble slides that get preppended to existing slides
+        for(i = numSlides - remainderSlides;i<numSlides;i++) {
+                slideFirstHTML+=_this.slides[i].outerHTML;
+        }
+        // assemble all slides
+        var slides = slideFirstHTML + slidesSetFullHTML + wrapper.innerHTML + slidesSetFullHTML + slideLastHTML;
+        // set the slides
+        wrapper.innerHTML = slides;
 
         _this.loopCreated = true;
         _this.calcSlides();
@@ -2125,9 +2152,10 @@ var Swiper = function (selector, params) {
         }
         _this.init();
         initEvents();
-        if (params.pagination && params.createPagination) {
+        if (params.pagination) {
             _this.createPagination(true);
         }
+
         if (params.loop || params.initialSlide>0) {
             _this.swipeTo( params.initialSlide, 0, false );
         }
@@ -2137,7 +2165,16 @@ var Swiper = function (selector, params) {
         if (params.autoplay) {
             _this.startAutoplay();
         }
+        /**
+         * Set center slide index.
+         * 
+         * @author        Tomaz Lovrec <tomaz.lovrec@gmail.com> 
+         */
+        _this.centerIndex = _this.activeIndex;
 
+        // Callbacks
+        if (params.onSwiperCreated) params.onSwiperCreated(this);
+        _this.callPlugins('onSwiperCreated');
     }
     
     makeSwiper();
@@ -2250,12 +2287,15 @@ Swiper.prototype = {
             es.top  = coords.y + 'px';
         }
         this.callPlugins('onSetWrapperTransform', coords);
+        if (this.params.onSetWrapperTransform) this.params.onSetWrapperTransform(this,coords);
     },
 
     setWrapperTransition : function (duration) {
         var es = this.wrapper.style;
         es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = (duration / 1000) + 's';
         this.callPlugins('onSetWrapperTransition', {duration: duration});
+        if (this.params.onSetWrapperTransition) this.params.onSetWrapperTransition(this);
+        
     },
 
     /*==================================================
