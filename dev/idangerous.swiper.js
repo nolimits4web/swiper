@@ -133,7 +133,6 @@ var Swiper = function (selector, params) {
         followFinger : true,
         shortSwipes : true,
         moveStartThreshold:false,
-        autoplay: false,
         onlyExternal : false,
         createPagination : true,
         pagination : false,
@@ -1965,7 +1964,7 @@ var Swiper = function (selector, params) {
         if (typeof _this.autoPlayIntervalId !== 'undefined') return false;
         if (!params.autoplay) return;
         _this.autoPlayIntervalId = setInterval(function(){
-            if (params.loop) _this.swipeNext();
+            if (params.loop) _this.swipeNext(true);
             else if (!_this.swipeNext(true)) _this.swipeTo(0);
         }, params.autoplay)
         _this.callPlugins('onAutoplayStart');
