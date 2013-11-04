@@ -525,10 +525,10 @@ var Swiper = function (selector, params) {
 
             //Unset Styles
             if (params.slidesOffset>0) {
-                wrapper.style.paddingLeft = '';
-                wrapper.style.paddingRight = '';
-                wrapper.style.paddingTop = '';
-                wrapper.style.paddingBottom = '';
+                wrapper.style.marginLeft = '';
+                wrapper.style.marginRight = '';
+                wrapper.style.marginTop = '';
+                wrapper.style.marginBottom = '';
             }
             wrapper.style.width = '';
             wrapper.style.height = '';
@@ -553,12 +553,12 @@ var Swiper = function (selector, params) {
             }
 
             if (isH) {
-                if (_this.wrapperLeft>=0) wrapper.style.paddingLeft = _this.wrapperLeft+'px';
-                if (_this.wrapperRight>=0) wrapper.style.paddingRight = _this.wrapperRight+'px';
+                if (_this.wrapperLeft>=0) wrapper.style.marginLeft = _this.wrapperLeft+'px';
+                if (_this.wrapperRight>=0) wrapper.style.marginRight = _this.wrapperRight+'px';
             }
             else {
-                if (_this.wrapperTop>=0) wrapper.style.paddingTop = _this.wrapperTop+'px';
-                if (_this.wrapperBottom>=0) wrapper.style.paddingBottom = _this.wrapperBottom+'px';
+                if (_this.wrapperTop>=0) wrapper.style.marginTop = _this.wrapperTop+'px';
+                if (_this.wrapperBottom>=0) wrapper.style.marginBottom = _this.wrapperBottom+'px';
             }
             var slideLeft = 0;
             var centeredSlideLeft=0;
@@ -690,12 +690,12 @@ var Swiper = function (selector, params) {
                 }
             }
             if (isH) {
-                if (_this.wrapperLeft>0) wrapper.style.paddingLeft = _this.wrapperLeft+'px';
-                if (_this.wrapperRight>0) wrapper.style.paddingRight = _this.wrapperRight+'px';
+                if (_this.wrapperLeft>0) wrapper.style.marginLeft = _this.wrapperLeft+'px';
+                if (_this.wrapperRight>0) wrapper.style.marginRight = _this.wrapperRight+'px';
             }
             else {
-                if (_this.wrapperTop>0) wrapper.style.paddingTop = _this.wrapperTop+'px';
-                if (_this.wrapperBottom>0) wrapper.style.paddingBottom = _this.wrapperBottom+'px';
+                if (_this.wrapperTop>0) wrapper.style.marginTop = _this.wrapperTop+'px';
+                if (_this.wrapperBottom>0) wrapper.style.marginBottom = _this.wrapperBottom+'px';
             }
 
             wrapperSize = isH ? wrapperWidth + _this.wrapperRight + _this.wrapperLeft : wrapperHeight + _this.wrapperTop + _this.wrapperBottom;
