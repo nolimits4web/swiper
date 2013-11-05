@@ -1834,14 +1834,12 @@ var Swiper = function (selector, params) {
         for (var i = 0; i < numOfButtons; i++) {
             paginationHTML += '<'+params.paginationElement+' class="'+params.paginationElementClass+'"></'+params.paginationElement+'>'
         }
-        _this.paginationContainer = params.pagination.nodeType ? params.pagination : $$(params.pagination)[0];
+        
         _this.paginationContainer.innerHTML = paginationHTML;
-        _this.paginationButtons = $$('.'+params.paginationElementClass, _this.paginationContainer);
+       
         if (!firstInit) _this.updatePagination()
+        
         _this.callPlugins('onCreatePagination');
-        if (params.paginationClickable) {
-            addPaginationEvents();
-        }
     }
     function removePaginationEvents() {
         var pagers = _this.paginationButtons;
@@ -2126,8 +2124,19 @@ var Swiper = function (selector, params) {
         }
         _this.init();
         initEvents();
-        if (params.pagination && params.createPagination) {
-            _this.createPagination(true);
+        if (params.pagination) {
+        	
+        	_this.paginationButtons = $$('.'+params.paginationElementClass, _this.paginationContainer);
+
+			_this.paginationContainer = params.pagination.nodeType ? params.pagination : $$(params.pagination)[0];
+        
+	        if (params.paginationClickable) {
+	            addPaginationEvents();
+	        }
+	        
+        	if (params.createPagination){
+           		_this.createPagination(true);
+       		}
         }
         if (params.loop || params.initialSlide>0) {
             _this.swipeTo( params.initialSlide, 0, false );
