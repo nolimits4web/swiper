@@ -2173,7 +2173,7 @@ var Swiper = function (selector, params) {
         _this.centerIndex = _this.activeIndex;
 
         // Callbacks
-        if (params.onSwiperCreated) params.onSwiperCreated(this);
+        if (params.onSwiperCreated) params.onSwiperCreated(_this);
         _this.callPlugins('onSwiperCreated');
     }
     
