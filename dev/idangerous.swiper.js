@@ -2294,7 +2294,7 @@ Swiper.prototype = {
         var es = this.wrapper.style;
         es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = (duration / 1000) + 's';
         this.callPlugins('onSetWrapperTransition', {duration: duration});
-        if (this.params.onSetWrapperTransition) this.params.onSetWrapperTransition(this);
+        if (this.params.onSetWrapperTransition) this.params.onSetWrapperTransition(this, duration);
         
     },
 
