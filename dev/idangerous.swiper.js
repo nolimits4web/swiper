@@ -172,6 +172,7 @@ var Swiper = function (selector, params) {
         offsetSlidesBefore : 0,
         offsetSlidesAfter : 0,
         centeredSlides: false,
+        cssWidthAndHeight: false,
         //Queue callbacks
         queueStartCallbacks : false,
         queueEndCallbacks : false,
@@ -699,19 +700,23 @@ var Swiper = function (selector, params) {
                 if (_this.wrapperBottom>0) wrapper.style.paddingBottom = _this.wrapperBottom+'px';
             }
 
-            wrapperSize = isH ? wrapperWidth + _this.wrapperRight + _this.wrapperLeft : wrapperHeight + _this.wrapperTop + _this.wrapperBottom;
+          wrapperSize = isH ? wrapperWidth + _this.wrapperRight + _this.wrapperLeft : wrapperHeight + _this.wrapperTop + _this.wrapperBottom;
+          if(!params.cssWidthAndHeight) {
             wrapper.style.width = wrapperWidth+'px';
             wrapper.style.height = wrapperHeight+'px';
-            var slideLeft = 0;
-            _this.snapGrid = [];
-            _this.slidesGrid = [];
-            for (var i=0; i<_this.slides.length; i++) {
-                _this.snapGrid.push(slideLeft);
-                _this.slidesGrid.push(slideLeft);
-                slideLeft+=slideSize;
-                _this.slides[i].style.width = slideWidth+'px';
-                _this.slides[i].style.height = slideHeight+'px';
+          }
+          var slideLeft = 0;
+          _this.snapGrid = [];
+          _this.slidesGrid = [];
+          for (var i=0; i<_this.slides.length; i++) {
+            _this.snapGrid.push(slideLeft);
+            _this.slidesGrid.push(slideLeft);
+            slideLeft+=slideSize;
+            if(!params.cssWidthAndHeight) {
+              _this.slides[i].style.width = slideWidth+'px';
+              _this.slides[i].style.height = slideHeight+'px';
             }
+          }
 
         }
 
