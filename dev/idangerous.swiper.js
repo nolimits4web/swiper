@@ -2218,16 +2218,16 @@ Swiper.prototype = {
             axis = this.params.mode == 'horizontal' ? 'x' : 'y';
         }
         
-        curStyle = window.getComputedStyle(el, null);
-        if (window.WebKitCSSMatrix) {
-            transformMatrix = new WebKitCSSMatrix(curStyle.webkitTransform);
-        }
-        else {
-            transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform  || curStyle.transform || curStyle.getPropertyValue("transform").replace("translate(", "matrix(1, 0, 0, 1,");
-            matrix = transformMatrix.toString().split(',');
-        }
-        
         if (this.support.transforms && this.params.useCSS3Transforms) {
+            curStyle = window.getComputedStyle(el, null);
+            if (window.WebKitCSSMatrix) {
+                transformMatrix = new WebKitCSSMatrix(curStyle.webkitTransform);
+            }
+            else {
+                transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform  || curStyle.transform || curStyle.getPropertyValue("transform").replace("translate(", "matrix(1, 0, 0, 1,");
+                matrix = transformMatrix.toString().split(',');
+            }
+
             if (axis=='x') {
                 //Latest Chrome and webkits Fix
                 if (window.WebKitCSSMatrix)
