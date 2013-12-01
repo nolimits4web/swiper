@@ -509,9 +509,9 @@ var Swiper = function (selector, params) {
     }
 
     /**
-     * Allows user to add callbacks, rather than replace them
-     * @param callback
-     * @param func
+     * Allows user to add callbacks, rather than replace them.
+     * @param callback string the name of the callback that you want to call a function on
+     * @param func function the function that you want to add to it
      * @return {*}
      */
     _this.addCallback = function (callback, func) {
