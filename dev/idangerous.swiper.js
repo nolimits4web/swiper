@@ -531,6 +531,11 @@ var Swiper = function (selector, params) {
             return this.params['on' + callback].push(func);
         }
     }
+    _this.removeCallbacks = function (callback) {
+        if (_this.params['on' + callback]) {
+            return _this.params['on' + callback] = null;
+        }
+    }
 
     /*=========================
      WP8 Fix
