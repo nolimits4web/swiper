@@ -700,8 +700,12 @@ var Swiper = function (selector, params) {
             }
 
             wrapperSize = isH ? wrapperWidth + _this.wrapperRight + _this.wrapperLeft : wrapperHeight + _this.wrapperTop + _this.wrapperBottom;
-            wrapper.style.width = wrapperWidth+'px';
-            wrapper.style.height = wrapperHeight+'px';
+            if (parseFloat(wrapperWidth) > 0) {
+                wrapper.style.width = wrapperWidth+'px';
+            }
+            if (parseFloat(wrapperHeight) > 0) {
+                wrapper.style.height = wrapperHeight+'px';
+            }
             var slideLeft = 0;
             _this.snapGrid = [];
             _this.slidesGrid = [];
@@ -709,8 +713,12 @@ var Swiper = function (selector, params) {
                 _this.snapGrid.push(slideLeft);
                 _this.slidesGrid.push(slideLeft);
                 slideLeft+=slideSize;
-                _this.slides[i].style.width = slideWidth+'px';
-                _this.slides[i].style.height = slideHeight+'px';
+                if (parseFloat(slideWidth) > 0) {
+                    _this.slides[i].style.width = slideWidth+'px';
+                }
+                if (parseFloat(slideHeight) > 0) {
+                    _this.slides[i].style.height = slideHeight+'px';
+                }    
             }
 
         }
