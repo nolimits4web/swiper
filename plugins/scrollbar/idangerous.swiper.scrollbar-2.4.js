@@ -1,5 +1,5 @@
 /*
- * Swiper Scrollbar 2.4+
+ * Swiper Scrollbar 2.4
  * Plugin for Swiper 2.0+
  * http://www.idangero.us/sliders/swiper/
  *

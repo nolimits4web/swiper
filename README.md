@@ -2,6 +2,15 @@
 <h2>About</h2>
 <p><strong>Swiper</strong> - is the <strong>free and ultra lightweight</strong> mobile touch slider with hardware accelerated transitions (where supported) and amazing native behavior. It is intended to use in mobile websites, mobile web apps, and mobile native apps. Designed mostly for iOS, but also works on Android and latest Desktop browsers. <strong>Swiper</strong> is created by <a href="http://www.idangero.us">iDangero.us</a></p>
 <h2>Change Log</h2>
+<h3>Swiper 2.4.0 - Updated on December 6, 2013</h3>
+<ul>
+  <li>New callbacks onSlideNext, onSlidePrev</li>
+  <li>New additive callbacks API</li>
+  <li>Highly improved mouse wheel behavior, especially for OSX inertia scrolling in usual mode, and now it returns page scrolling for edge positions in scrollContainer mode</li>
+  <li>Fully reworked autoplay with new ability to restart it using new autoplayDisableOnInteraction parameter</li>
+  <li>Updated <a href="http://www.idangero.us/sliders/swiper/plugins/scrollbar.php">Scrollbar</a> plugin, fix for centeredSlides mode</li>
+  <li>A bit of IE fixes</li>
+</ul>
 <h3>Swiper 2.3.0 - Updated on November 2, 2013</h3>
 <ul>
   <li>Small fixes and code improvements</li>
