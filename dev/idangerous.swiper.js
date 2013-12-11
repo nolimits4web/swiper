@@ -1746,6 +1746,7 @@ var Swiper = function (selector, params) {
     }
     
     function swipeToPosition(newPosition, action, toOptions) {
+        var timeOld = +newDate();
         var speed = (action=='to' && toOptions.speed >= 0) ? toOptions.speed : params.speed;
         
         if (_this.support.transitions || !params.DOMAnimation) {
@@ -1763,7 +1764,9 @@ var Swiper = function (selector, params) {
             anim();
         }
         function anim(){
-            currentPosition += animationStep;
+            var timeNew = +newDate();
+            var time = timeNew - timeOld;
+            currentPosition += animationStep * time / (1000/60);
             condition = direction=='toNext' ? currentPosition > newPosition : currentPosition < newPosition;
             if (condition) {
                 _this.setWrapperTranslate(Math.round(currentPosition));
