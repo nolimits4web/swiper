@@ -1,5 +1,5 @@
 /*
- * Swiper 2.4+ - Mobile Touch Slider
+ * Swiper 2.4.1 - Mobile Touch Slider
  * http://www.idangero.us/sliders/swiper/
  *
  * Copyright 2012-2013, Vladimir Kharlampidi
@@ -8,7 +8,7 @@
  *
  * Licensed under GPL & MIT
  *
- * Updated on: December 6, 2013
+ * Updated on: December 15, 2013
 */
 var Swiper = function (selector, params) {
     /*=========================
