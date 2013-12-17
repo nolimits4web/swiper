@@ -1229,11 +1229,6 @@ var Swiper = function (selector, params) {
 
         if (!isTouchEvent || event.targetTouches.length == 1 ) {
             _this.callPlugins('onTouchStartBegin');
-
-            if(!isTouchEvent) {
-                if(event.preventDefault) event.preventDefault();
-                else event.returnValue = false;
-            }
             
             var pageX = isTouchEvent ? event.targetTouches[0].pageX : (event.pageX || event.clientX);
             var pageY = isTouchEvent ? event.targetTouches[0].pageY : (event.pageY || event.clientY);
