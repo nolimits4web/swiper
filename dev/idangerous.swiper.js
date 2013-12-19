@@ -149,6 +149,7 @@ var Swiper = function (selector, params) {
         mousewheelControl : false,
         mousewheelControlForceToAxis : false,
         useCSS3Transforms : true,
+        eventTarget: 'wrapper',
         // Autoplay
         autoplay: false,
         autoplayDisableOnInteraction: true,
@@ -839,18 +840,18 @@ var Swiper = function (selector, params) {
         //Touch Events
         if (!_this.browser.ie10) {
             if (_this.support.touch) {
-                bind(_this.wrapper, 'touchstart', onTouchStart);
-                bind(_this.wrapper, 'touchmove', onTouchMove);
-                bind(_this.wrapper, 'touchend', onTouchEnd);
+                bind(params.eventTarget=='wrapper'?_this.wrapper:_this.container, 'touchstart', onTouchStart); // sajat modositas
+                bind(params.eventTarget=='wrapper'?_this.wrapper:_this.container, 'touchmove', onTouchMove); // sajat modositas
+                bind(params.eventTarget=='wrapper'?_this.wrapper:_this.container, 'touchend', onTouchEnd); // sajat modositas
             }
             if (params.simulateTouch) {
-                bind(_this.wrapper, 'mousedown', onTouchStart);
+                bind(params.eventTarget=='wrapper'?_this.wrapper:_this.container, 'mousedown', onTouchStart); // sajat modositas
                 bind(document, 'mousemove', onTouchMove);
                 bind(document, 'mouseup', onTouchEnd);
             }
         }
         else {
-            bind(_this.wrapper, _this.touchEvents.touchStart, onTouchStart);
+            bind(params.eventTarget=='wrapper'?_this.wrapper:_this.container, _this.touchEvents.touchStart, onTouchStart);
             bind(document, _this.touchEvents.touchMove, onTouchMove);
             bind(document, _this.touchEvents.touchEnd, onTouchEnd);
         }
@@ -911,18 +912,18 @@ var Swiper = function (selector, params) {
         //Touch Events
         if (!_this.browser.ie10) {
             if (_this.support.touch) {
-                unbind(_this.wrapper, 'touchstart', onTouchStart);
-                unbind(_this.wrapper, 'touchmove', onTouchMove);
-                unbind(_this.wrapper, 'touchend', onTouchEnd);
+                unbind(params.eventTarget=='wrapper'?_this.wrapper:_this.container, 'touchstart', onTouchStart); // sajat modositas
+                unbind(params.eventTarget=='wrapper'?_this.wrapper:_this.container, 'touchmove', onTouchMove); // sajat modositas
+                unbind(params.eventTarget=='wrapper'?_this.wrapper:_this.container, 'touchend', onTouchEnd); // sajat modositas
             }
             if (params.simulateTouch) {
-                unbind(_this.wrapper, 'mousedown', onTouchStart);
+                unbind(params.eventTarget=='wrapper'?_this.wrapper:_this.container, 'mousedown', onTouchStart); // sajat modositas
                 unbind(document, 'mousemove', onTouchMove);
                 unbind(document, 'mouseup', onTouchEnd);
             }
         }
         else {
-            unbind(_this.wrapper, _this.touchEvents.touchStart, onTouchStart);
+            unbind(params.eventTarget=='wrapper'?_this.wrapper:_this.container, _this.touchEvents.touchStart, onTouchStart); // sajat modositas
             unbind(document, _this.touchEvents.touchMove, onTouchMove);
             unbind(document, _this.touchEvents.touchEnd, onTouchEnd);
         }
