@@ -2127,32 +2127,48 @@ var Swiper = function (selector, params) {
             slideLastHTML = '',
             i;
         var slidesSetFullHTML = '';
-        /**
-                loopedSlides is too large if loopAdditionalSlides are set.
-                Need to divide the slides by maximum number of slides existing.
-                
-                @author        Tomaz Lovrec <tomaz.lovrec@blanc-noir.at>
-        */
-        var numSlides = _this.slides.length;
-        var fullSlideSets = Math.floor(_this.loopedSlides / numSlides);
-        var remainderSlides = _this.loopedSlides % numSlides;
-        // assemble full sets of slides
-        for (i = 0; i<(fullSlideSets*numSlides);i++) {
-                var j = i;
-                if (i >= numSlides) {
-                        var over = Math.floor(i / numSlides);
-                        j = i - (numSlides * over);
+        if (params.loader.slides && !params.loader.loadAllSlides) {
+            var currentLoopIndex;
+            for (var i = 1; i<=_this.loopedSlides; i++) {
+                currentLoopIndex = parseInt(_this.slides[0].data('swiperindex'),10) - i;
+                if (currentLoopIndex < 0) {
+                    currentLoopIndex = params.loader.slides.length + currentLoopIndex;
                 }
-                slidesSetFullHTML+=_this.slides[j].outerHTML;
-        }
-        // assemble remainder slides
-        // assemble remainder appended to existing slides
-        for(i = 0;i<remainderSlides;i++) {
-                slideLastHTML+=_this.slides[i].outerHTML;
-        }
-        // assemble slides that get preppended to existing slides
-        for(i = numSlides - remainderSlides;i<numSlides;i++) {
-                slideFirstHTML+=_this.slides[i].outerHTML;
+                slideFirstHTML += params.loader.slidesHTMLType=='outer'?params.loader.slides[ currentLoopIndex ]:'<'+params.slideElement+' class="'+params.slideClass+'" data-swiperindex="'+currentLoopIndex+'">'+params.loader.slides[currentLoopIndex]+'</'+params.slideElement+'>';
+                currentLoopIndex = parseInt(_this.slides[ _this.slides.length - 1 ].data('swiperindex'),10) + i;
+                if( currentLoopIndex >= params.loader.slides.length ) {
+                    currentLoopIndex = currentLoopIndex - params.loader.slides.length;
+                }
+                slideLastHTML += params.loader.slidesHTMLType=='outer'?params.loader.slides[ currentLoopIndex ]:'<'+params.slideElement+' class="'+params.slideClass+'" data-swiperindex="'+currentLoopIndex+'">'+params.loader.slides[currentLoopIndex]+'</'+params.slideElement+'>';
+            }
+        } else {
+            /**
+                    loopedSlides is too large if loopAdditionalSlides are set.
+                    Need to divide the slides by maximum number of slides existing.
+
+                    @author        Tomaz Lovrec <tomaz.lovrec@blanc-noir.at>
+            */
+            var numSlides = _this.slides.length;
+            var fullSlideSets = Math.floor(_this.loopedSlides / numSlides);
+            var remainderSlides = _this.loopedSlides % numSlides;
+            // assemble full sets of slides
+            for (i = 0; i<(fullSlideSets*numSlides);i++) {
+                    var j = i;
+                    if (i >= numSlides) {
+                            var over = Math.floor(i / numSlides);
+                            j = i - (numSlides * over);
+                    }
+                    slidesSetFullHTML+=_this.slides[j].outerHTML;
+            }
+            // assemble remainder slides
+            // assemble remainder appended to existing slides
+            for(i = 0;i<remainderSlides;i++) {
+                    slideLastHTML+=_this.slides[i].outerHTML;
+            }
+            // assemble slides that get preppended to existing slides
+            for(i = numSlides - remainderSlides;i<numSlides;i++) {
+                    slideFirstHTML+=_this.slides[i].outerHTML;
+            }
         }
         // assemble all slides
         var slides = slideFirstHTML + slidesSetFullHTML + wrapper.innerHTML + slidesSetFullHTML + slideLastHTML;
@@ -2215,7 +2231,7 @@ var Swiper = function (selector, params) {
         var lastIndex = Math.min(newActiveIndex+params.slidesPerView*(1+params.loader.surroundGroups)-1, slides.length-1)
         //Update Transforms
         if (newActiveIndex>0) {
-            var newTransform = -slideSize*(newActiveIndex-firstIndex)
+            var newTransform = -slideSize*(newActiveIndex-firstIndex+(_this.loopedSlides||0)) // itt a +_this.loopedSlides sajat fejlesztes
             _this.setWrapperTranslate(newTransform);
             _this.setWrapperTransition(0);
         }
@@ -2227,6 +2243,11 @@ var Swiper = function (selector, params) {
                 slidesHTML += params.loader.slidesHTMLType == 'outer' ? slides[i] : '<'+params.slideElement+' class="'+params.slideClass+'" data-swiperindex="'+i+'">'+slides[i]+'</'+params.slideElement+'>';
             }
             _this.wrapper.innerHTML = slidesHTML;
+            if (params.loop) { // ez a blokk sajat fejlesztes
+                _this.calcSlides();
+                _this.createLoop();
+                _this.fixLoop();
+            }
         }
         else {
             var minExistIndex=1000;
