@@ -1644,6 +1644,18 @@ var Swiper = function (selector, params) {
 
         return noSwiping;
     }
+    
+    function addClassToHtmlString(parent, klass, outerHtml) {
+        var par = document.createElement(parent);
+        var child;
+
+        par.innerHTML = outerHtml;
+        child = par.firstChild;
+        child.className += klass;
+
+        return child.outerHTML;
+    }
+    
 
     /*==================================================
         Swipe Functions
@@ -2148,11 +2160,11 @@ var Swiper = function (selector, params) {
         // assemble remainder slides
         // assemble remainder appended to existing slides
         for(i = 0;i<remainderSlides;i++) {
-                slideLastHTML+=_this.slides[i].outerHTML;
+                slideLastHTML += addClassToHtmlString('ul', ' is-duplicate', _this.slides[i].outerHTML);
         }
         // assemble slides that get preppended to existing slides
         for(i = numSlides - remainderSlides;i<numSlides;i++) {
-                slideFirstHTML+=_this.slides[i].outerHTML;
+                slideFirstHTML += addClassToHtmlString('ul', ' is-duplicate', _this.slides[i].outerHTML);
         }
         // assemble all slides
         var slides = slideFirstHTML + slidesSetFullHTML + wrapper.innerHTML + slidesSetFullHTML + slideLastHTML;
