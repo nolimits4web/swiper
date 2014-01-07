@@ -194,6 +194,7 @@ var Swiper = function (selector, params) {
         slideClass : 'swiper-slide',
         slideActiveClass : 'swiper-slide-active',
         slideVisibleClass : 'swiper-slide-visible',
+        slideDuplicateClass: 'swiper-slide-duplicate',
         wrapperClass : 'swiper-wrapper',
         paginationElementClass: 'swiper-pagination-switch',
         paginationActiveClass : 'swiper-active-switch',
@@ -1651,7 +1652,7 @@ var Swiper = function (selector, params) {
 
         par.innerHTML = outerHtml;
         child = par.firstChild;
-        child.className += klass;
+        child.className += ' '+ klass;
 
         return child.outerHTML;
     }
@@ -2160,11 +2161,11 @@ var Swiper = function (selector, params) {
         // assemble remainder slides
         // assemble remainder appended to existing slides
         for(i = 0;i<remainderSlides;i++) {
-                slideLastHTML += addClassToHtmlString('ul', ' is-duplicate', _this.slides[i].outerHTML);
+                slideLastHTML += addClassToHtmlString('ul', slideDuplicateClass, _this.slides[i].outerHTML);
         }
         // assemble slides that get preppended to existing slides
         for(i = numSlides - remainderSlides;i<numSlides;i++) {
-                slideFirstHTML += addClassToHtmlString('ul', ' is-duplicate', _this.slides[i].outerHTML);
+                slideFirstHTML += addClassToHtmlString('ul', slideDuplicateClass, _this.slides[i].outerHTML);
         }
         // assemble all slides
         var slides = slideFirstHTML + slidesSetFullHTML + wrapper.innerHTML + slidesSetFullHTML + slideLastHTML;
