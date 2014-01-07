@@ -113,6 +113,7 @@ var Swiper = function (selector, params) {
     _this.wrapperRight=0;
     _this.wrapperTop=0;
     _this.wrapperBottom=0;
+    _this.isAndroid = navigator.userAgent.toLowerCase().indexOf('android')>=0;
     var wrapper, slideSize, wrapperSize, direction, isScrolling, containerSize;
 
     /*=========================
@@ -1241,10 +1242,10 @@ var Swiper = function (selector, params) {
         if (!isTouchEvent || event.targetTouches.length == 1 ) {
             _this.callPlugins('onTouchStartBegin');
 
-            // if(!isTouchEvent) {
-            //     if(event.preventDefault) event.preventDefault();
-            //     else event.returnValue = false;
-            // }
+            if(!isTouchEvent && !_this.isAndroid) {
+                if(event.preventDefault) event.preventDefault();
+                else event.returnValue = false;
+            }
             
             var pageX = isTouchEvent ? event.targetTouches[0].pageX : (event.pageX || event.clientX);
             var pageY = isTouchEvent ? event.targetTouches[0].pageY : (event.pageY || event.clientY);
