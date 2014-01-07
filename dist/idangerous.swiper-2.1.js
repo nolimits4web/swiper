@@ -2009,18 +2009,40 @@ var Swiper = function (selector, params) {
         if (_this.slides.length==0) return;
         _this.loopedSlides = params.slidesPerView+params.loopAdditionalSlides;
 
-        var slideFirstHTML = '';
+		var slideFirstHTML = '';
         var slideLastHTML = '';
-
-        //Grab First Slides
-        for (var i=0; i<_this.loopedSlides; i++) {
-            slideFirstHTML+=_this.slides[i].outerHTML
-        }
-        //Grab Last Slides
-        for (i=_this.slides.length-_this.loopedSlides; i<_this.slides.length; i++) {
-            slideLastHTML+=_this.slides[i].outerHTML
-        }
-        wrapper.innerHTML = slideLastHTML + wrapper.innerHTML + slideFirstHTML;
+		var slidesSetFullHTML = '';
+		/**
+			loopedSlides is too large if loopAdditionalSlides are set.
+			Need to divide the slides by maximum number of slides existing.
+			
+			@author	Tomaz Lovrec <tomaz.lovrec@blanc-noir.at>
+		*/
+		var numSlides = _this.slides.length;
+		var fullSlideSets = Math.floor(_this.loopedSlides / numSlides);
+		var remainderSlides = _this.loopedSlides % numSlides;
+		// assemble full sets of slides
+		for (i = 0; i<(fullSlideSets*numSlides);i++) {
+			var j = i;
+			if (i >= numSlides) {
+				var over = Math.floor(i / numSlides);
+				j = i - (numSlides * over);
+			}
+			slidesSetFullHTML+=_this.slides[j].outerHTML;
+		}
+		// assemble remainder slides
+		// assemble remainder appended to existing slides
+		for(i = 0;i<remainderSlides;i++) {
+			slideLastHTML+=_this.slides[i].outerHTML;
+		}
+		// assemble slides that get preppended to existing slides
+		for(i = numSlides - remainderSlides;i<numSlides;i++) {
+			slideFirstHTML+=_this.slides[i].outerHTML;
+		}
+		// assemble all slides
+		var slides = slideFirstHTML + slidesSetFullHTML + wrapper.innerHTML + slidesSetFullHTML + slideLastHTML;
+		// set the slides
+		wrapper.innerHTML = slides;
 
         _this.loopCreated = true;
         _this.calcSlides();

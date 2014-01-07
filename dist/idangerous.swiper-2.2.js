@@ -100,6 +100,7 @@ var Swiper = function (selector, params) {
     _this.isTouched = false;
     _this.isMoved = false;
     _this.activeIndex = 0;
+	_this.centerIndex = 0;
     _this.activeLoaderIndex = 0;
     _this.activeLoopIndex = 0;
     _this.previousIndex = null;
@@ -2022,17 +2023,55 @@ var Swiper = function (selector, params) {
     }
     
     _this.fixLoop = function() {
-    	var newIndex;
-        //Fix For Negative Oversliding
-        if (_this.activeIndex < _this.loopedSlides) {
-            newIndex = _this.slides.length - _this.loopedSlides*3 + _this.activeIndex;
-            _this.swipeTo(newIndex, 0, false);
-        }
-        //Fix For Positive Oversliding
-        else if (_this.activeIndex > _this.slides.length - params.slidesPerView*2) {
-            newIndex = -_this.slides.length + _this.activeIndex + _this.loopedSlides
-            _this.swipeTo(newIndex, 0, false);
-        }
+    	/**
+    	 * When we slide on the slider, the active slide
+    	 * gets changed too late and it is set back too late.
+    	 * This fix checks this each time and always switches over
+    	 * to the orignal slides, so each time you slide, you slide
+    	 * from the center of the swiper.
+    	 * 
+    	 * @author	Tomaz Lovrec <tomaz.lovrec@gmail.com>
+    	 */
+    	// Get the original number of slides
+    	var originalSlides = _this.slides.length - (2*_this.loopedSlides);
+    	/**
+    	 *  Get the index range of the original slides for "swipeTo".
+    	 * Example: if we have 4 original slides the index range
+    	 * should be from -1 to 2: -1,0,1,2
+    	 */
+    	var maxOriginalRange = Math.floor(originalSlides / 2);
+    	var minOriginalRange = -(Math.ceil(originalSlides / 2) - 1); // -1 to make room for the 0
+    	// Check if currently active slide is in that range, then we can skip this step
+    	if((_this.activeIndex - _this.centerIndex) >= minOriginalRange && (_this.activeIndex - _this.centerIndex) <= maxOriginalRange) {
+    		return;
+    	}
+    	/**
+    	 * Fix for negative oversliding.
+    	 * When we swipe too far to the right.
+    	 * Take the current active index and add the original number of slides,
+    	 * as long as it takes that we hit the index range of the original slides.
+    	 */
+    	var newIndex = 0;
+    	if(_this.activeIndex < _this.centerIndex) {
+    		newIndex = (_this.activeIndex + originalSlides) - _this.centerIndex;
+	    	while(newIndex < minOriginalRange) {
+	    		newIndex += originalSlides;
+	    	}
+    	}
+    	/**
+    	 * Fix for positive oversliding.
+    	 * When we swipe too far to the left.
+    	 * Subtract the center index from the currently active index.
+    	 * Then subtract the original number of slides so long that
+    	 * we hit the index range of the original slides. 
+    	 */ 
+    	else {
+    		newIndex = _this.activeIndex - _this.centerIndex;
+    		while(newIndex > maxOriginalRange) {
+    			newIndex -= originalSlides;
+    		}
+    	}
+		_this.swipeTo(newIndex, 0, false);
     }
     
     /*==================================================
@@ -2138,7 +2177,12 @@ var Swiper = function (selector, params) {
         if (params.autoplay) {
             _this.startAutoplay();
         }
-
+		/**
+         * Set center slide index.
+         * 
+         * @author	Tomaz Lovrec <tomaz.lovrec@gmail.com> 
+         */
+        _this.centerIndex = _this.activeIndex;
     }
     
     makeSwiper();
