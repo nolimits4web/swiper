@@ -259,15 +259,12 @@ var Swiper = function (selector, params) {
         el.append = function () {
             if (params.loop) {
                 el.insertAfter(_this.slides.length-_this.loopedSlides);
-                _this.removeLoopedSlides();
-                _this.calcSlides();
-                _this.createLoop();
             }
             else {
                 _this.wrapper.appendChild(el);
+                _this.reInit();
             }
 
-            _this.reInit();
             return el;
         }
         el.prepend = function () {
@@ -383,6 +380,7 @@ var Swiper = function (selector, params) {
         }
         if (oldNumber===false) return;
         if(oldNumber!==_this.slides.length || forceCalcSlides) {
+
             // Number of slides has been changed
             removeSlideEvents();
             addSlideEvents();
@@ -1942,6 +1940,7 @@ var Swiper = function (selector, params) {
             if (_this.activeLoopIndex<0) {
                 _this.activeLoopIndex = _this.slides.length - ls*2 + _this.activeLoopIndex;
             }
+            if (_this.activeLoopIndex<0) _this.activeLoopIndex = 0;
         }
         else {
             _this.activeLoopIndex = _this.activeIndex;
@@ -2042,7 +2041,7 @@ var Swiper = function (selector, params) {
         }
         else {
             if (params.loop) {
-                pagers[ _this.activeLoopIndex ].className+=' '+params.paginationActiveClass+' '+params.paginationVisibleClass;
+                if (pagers[ _this.activeLoopIndex ]) pagers[ _this.activeLoopIndex ].className+=' '+params.paginationActiveClass+' '+params.paginationVisibleClass;
             }
             else {
                 pagers[ _this.activeIndex ].className+=' '+params.paginationActiveClass+' '+params.paginationVisibleClass;
@@ -2088,22 +2087,43 @@ var Swiper = function (selector, params) {
         Autoplay
     ============================================*/
     var autoplayTimeoutId = undefined;
+    var autoplayIntervalId = undefined;
     _this.startAutoplay = function () {
-        if (typeof autoplayTimeoutId !== 'undefined') return false;
-        if (!params.autoplay) return;
-        _this.callPlugins('onAutoplayStart');
-        autoplay();
+        if (_this.support.transitions) {
+            if (typeof autoplayTimeoutId !== 'undefined') return false;
+            if (!params.autoplay) return;
+            _this.callPlugins('onAutoplayStart');
+            autoplay();    
+        }
+        else {
+            if (typeof autoplayIntervalId !== 'undefined') return false;
+            if (!params.autoplay) return;
+            _this.callPlugins('onAutoplayStart');
+            autoplayIntervalId = setInterval(function(){
+                if (params.loop) _this.swipeNext(true);
+                else if (!_this.swipeNext(true)) _this.swipeTo(0);
+            }, params.autoplay)
+        }
     }
     _this.stopAutoplay = function (internal) {
-        if (!autoplayTimeoutId) return;
-        if (autoplayTimeoutId) clearTimeout(autoplayTimeoutId);
-        autoplayTimeoutId = undefined;
-        if (internal && !params.autoplayDisableOnInteraction) {
-            _this.wrapperTransitionEnd(function(){
-                autoplay();
-            })
+        if (_this.support.transitions) {
+            if (!autoplayTimeoutId) return;
+            if (autoplayTimeoutId) clearTimeout(autoplayTimeoutId);
+            autoplayTimeoutId = undefined;
+            if (internal && !params.autoplayDisableOnInteraction) {
+                _this.wrapperTransitionEnd(function(){
+                    autoplay();
+                })
+            }
+            _this.callPlugins('onAutoplayStop');
         }
-        _this.callPlugins('onAutoplayStop');
+        else {
+            if (autoplayIntervalId) clearInterval(autoplayIntervalId);
+            autoplayIntervalId = undefined;
+            _this.callPlugins('onAutoplayStop');
+        }
+            
+        
     }
     function autoplay(){
         autoplayTimeoutId = setTimeout(function(){
@@ -2167,11 +2187,11 @@ var Swiper = function (selector, params) {
         // assemble remainder slides
         // assemble remainder appended to existing slides
         for(i = 0;i<remainderSlides;i++) {
-                slideLastHTML += addClassToHtmlString(slideDuplicateClass, _this.slides[i].outerHTML);
+                slideLastHTML += addClassToHtmlString(params.slideDuplicateClass, _this.slides[i].outerHTML);
         }
         // assemble slides that get preppended to existing slides
         for(i = numSlides - remainderSlides;i<numSlides;i++) {
-                slideFirstHTML += addClassToHtmlString(slideDuplicateClass, _this.slides[i].outerHTML);
+                slideFirstHTML += addClassToHtmlString(params.slideDuplicateClass, _this.slides[i].outerHTML);
         }
         // assemble all slides
         var slides = slideFirstHTML + slidesSetFullHTML + wrapper.innerHTML + slidesSetFullHTML + slideLastHTML;
