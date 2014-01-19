@@ -1,5 +1,5 @@
 /*
- * Swiper 2.4.2+ - Mobile Touch Slider
+ * Swiper 2.4.2 - Mobile Touch Slider
  * http://www.idangero.us/sliders/swiper/
  *
  * Copyright 2012-2013, Vladimir Kharlampidi
