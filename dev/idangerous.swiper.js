@@ -236,7 +236,7 @@ var Swiper = function (selector, params) {
 
     _this.touchEvents = {
         touchStart : _this.support.touch || !params.simulateTouch  ? 'touchstart' : desktopEvents[0],
-        touchMove : _this.support.touch || !params.simulateTouch ? 'touchmove' : desktopEvents[1],
+        touchMove : _this.support.touch || !params.simulateTouch ? 'tou//Fix For Positive Overslidingchmove' : desktopEvents[1],
         touchEnd : _this.support.touch || !params.simulateTouch ? 'touchend' : desktopEvents[2]
     };
 
@@ -2252,8 +2252,8 @@ var Swiper = function (selector, params) {
             _this.swipeTo(newIndex, 0, false);
         }
         //Fix For Positive Oversliding
-        else if (_this.activeIndex > _this.slides.length - params.slidesPerView*2) {
-            newIndex = -_this.slides.length + _this.activeIndex + _this.loopedSlides
+        else if ((params.slidesPerView == "auto" && _this.activeIndex >= _this.loopedSlides*2) || (_this.activeIndex > _this.slides.length - params.slidesPerView*2)) {
+            newIndex = -_this.slides.length + _this.activeIndex + _this.loopedSlides;
             _this.swipeTo(newIndex, 0, false);
         }
     }
