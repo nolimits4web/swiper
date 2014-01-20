@@ -236,7 +236,7 @@ var Swiper = function (selector, params) {
 
     _this.touchEvents = {
         touchStart : _this.support.touch || !params.simulateTouch  ? 'touchstart' : desktopEvents[0],
-        touchMove : _this.support.touch || !params.simulateTouch ? 'tou//Fix For Positive Overslidingchmove' : desktopEvents[1],
+        touchMove : _this.support.touch || !params.simulateTouch ? 'touchmove' : desktopEvents[1],
         touchEnd : _this.support.touch || !params.simulateTouch ? 'touchend' : desktopEvents[2]
     };
 
