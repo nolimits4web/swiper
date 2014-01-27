@@ -658,7 +658,7 @@ var Swiper = function (selector, params) {
 
                 }
                 else {
-                    if (_slideSize>containerSize) {
+                    if (_slideSize>containerSize && containerSize > 0) {
                         for (var j=0; j<=Math.floor(_slideSize/containerSize); j++) {
                             _this.snapGrid.push(slideLeft+containerSize*j);
                         }
