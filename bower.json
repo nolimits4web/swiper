@@ -7,11 +7,11 @@
   "dependencies": {
   },
   "scripts": [
-    "dev/idangerous.swiper.js"
+    "dist/idangerous.swiper.js"
   ],
-  "main": "dev/idangerous.swiper.js",
+  "main": "dist/idangerous.swiper.js",
   "styles": [
-    "dev/idangerous.swiper.css"
+    "dist/idangerous.swiper.css"
   ],
   "license": "MIT"
 }
