@@ -2125,7 +2125,10 @@ var Swiper = function (selector, params) {
             if (!params.autoplay) return;
             _this.callPlugins('onAutoplayStart');
             autoplayIntervalId = setInterval(function(){
-                if (params.loop) _this.swipeNext(true);
+                if (params.loop) {
+                    _this.fixLoop();
+                    _this.swipeNext(true);
+                }
                 else if (!_this.swipeNext(true)) {
                     if (!params.autoplayStopOnLast) _this.swipeTo(0);
                     else {
