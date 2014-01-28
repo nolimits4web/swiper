@@ -1,14 +1,16 @@
 /*
- * Swiper 2.4.2 - Mobile Touch Slider
- * http://www.idangero.us/sliders/swiper/
+ * Swiper 2.4.2
+ * Mobile touch slider and framework with hardware accelerated transitions
  *
- * Copyright 2012-2013, Vladimir Kharlampidi
+ * http://www.idangero.us/sliders/swiper
+ *
+ * Copyright 2010-2014, Vladimir Kharlampidi
  * The iDangero.us
  * http://www.idangero.us/
  *
- * Licensed under GPL & MIT
+ * Licensed under GPL, MIT
  *
- * Updated on: January 19, 2014
+ * Released on: January 28, 2014
 */
 var Swiper = function (selector, params) {
     /*=========================
@@ -2252,8 +2254,8 @@ var Swiper = function (selector, params) {
             _this.swipeTo(newIndex, 0, false);
         }
         //Fix For Positive Oversliding
-        else if (_this.activeIndex > _this.slides.length - params.slidesPerView*2) {
-            newIndex = -_this.slides.length + _this.activeIndex + _this.loopedSlides
+        else if ((params.slidesPerView == "auto" && _this.activeIndex >= _this.loopedSlides*2) || (_this.activeIndex > _this.slides.length - params.slidesPerView*2)) {
+            newIndex = -_this.slides.length + _this.activeIndex + _this.loopedSlides;
             _this.swipeTo(newIndex, 0, false);
         }
     }
