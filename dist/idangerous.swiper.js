@@ -1,5 +1,5 @@
 /*
- * swiper 2.4.2
+ * swiper 2.4.3
  * Mobile touch slider and framework with hardware accelerated transitions
  *
  * http://www.idangero.us/sliders/swiper/
@@ -2127,7 +2127,10 @@ var Swiper = function (selector, params) {
             if (!params.autoplay) return;
             _this.callPlugins('onAutoplayStart');
             autoplayIntervalId = setInterval(function(){
-                if (params.loop) _this.swipeNext(true);
+                if (params.loop) {
+                    _this.fixLoop();
+                    _this.swipeNext(true);
+                }
                 else if (!_this.swipeNext(true)) {
                     if (!params.autoplayStopOnLast) _this.swipeTo(0);
                     else {
