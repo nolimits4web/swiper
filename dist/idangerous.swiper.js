@@ -1,16 +1,16 @@
 /*
- * Swiper 2.4.2
+ * swiper 2.4.2
  * Mobile touch slider and framework with hardware accelerated transitions
  *
- * http://www.idangero.us/sliders/swiper
+ * http://www.idangero.us/sliders/swiper/
  *
  * Copyright 2010-2014, Vladimir Kharlampidi
  * The iDangero.us
  * http://www.idangero.us/
  *
- * Licensed under GPL, MIT
+ * Licensed under GPL & MIT
  *
- * Released on: January 28, 2014
+ * Released on: January 29, 2014
 */
 var Swiper = function (selector, params) {
     /*=========================
