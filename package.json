@@ -1,0 +1,36 @@
+{
+  "name": "Swiper",
+  "version": "2.4.3",
+  "description": "Mobile touch slider and framework with hardware accelerated transitions",
+  "main": "dist/idangerous.swiper.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nolimits4web/Swiper.git"
+  },
+  "keywords": [
+    "mobile",
+    "slider"
+  ],
+  "author": "Vladimir Kharlampidi",
+  "license": [
+    "GPL, MIT"
+  ],
+  "bugs": {
+    "url": "https://github.com/nolimits4web/Swiper/issues"
+  },
+  "homepage": "http://www.idangero.us/sliders/swiper",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "load-grunt-tasks": "~0.2.0",
+    "jshint": "~0.9",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-watch": "~0.5.3",
+    "jshint-stylish": "~0.1.5",
+    "time-grunt": "~0.2.8"
+  }
+}

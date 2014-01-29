@@ -2,6 +2,10 @@
 <h2>About</h2>
 <p><strong>Swiper</strong> - is the <strong>free and ultra lightweight</strong> mobile touch slider with hardware accelerated transitions (where supported) and amazing native behavior. It is intended to use in mobile websites, mobile web apps, and mobile native apps. Designed mostly for iOS, but also works on Android and latest Desktop browsers. <strong>Swiper</strong> is created by <a href="http://www.idangero.us">iDangero.us</a></p>
 <h2>Change Log</h2>
+<h3>Swiper 2.4.3 - Updated on January 29, 2014</h3>
+<ul>
+  <li>Fix loop and autoplay bug</li>
+</ul>
 <h3>Swiper 2.4.2 - Updated on January 19, 2014</h3>
 <ul>
   <li>New <a href="http://www.idangero.us/sliders/swiper/api.php">api</a> parameters: autoplayStopOnLast, longSwipesRatio, eventTarger, preventLinksPropagation</li>
