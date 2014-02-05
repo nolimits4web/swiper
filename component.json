@@ -1,13 +1,8 @@
 {
   "name": "swiper",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nolimits4web/Swiper.git"
-  },
+  "repo": "https://github.com/nolimits4web/Swiper.git",
   "description": "Mobile touch slider and framework with hardware accelerated transitions",
   "version": "2.4.3",
-  "author": "Vladimir Kharlampidi",
-  "homepage": "http://www.idangero.us/sliders/swiper/",
   "keywords": ["swiper", "swipe", "slider"],
   "dependencies": {
   },
