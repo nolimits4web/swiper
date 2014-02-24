@@ -1133,7 +1133,7 @@ var Swiper = function (selector, params) {
         //New FireFox
         else if (we == 'wheel') {
             if (params.mousewheelControlForceToAxis) {
-                if (isH) {
+                if (isH) { // cancel event
                     if (Math.abs(e.deltaX)>Math.abs(e.deltaY)) delta = -e.deltaX;
                     else return;
                 }
@@ -1361,10 +1361,6 @@ var Swiper = function (selector, params) {
             }
             _this.isMoved = true;
             
-            // cancel event
-            if(event.preventDefault) event.preventDefault();
-            else event.returnValue = false;
-
             _this.touches.current = isH ? pageX : pageY ;
 
             _this.positions.current = (_this.touches.current - _this.touches.start) * params.touchRatio + _this.positions.start;
@@ -1451,6 +1447,14 @@ var Swiper = function (selector, params) {
             //Callbacks
             _this.callPlugins('onTouchMoveEnd');
             if (params.onTouchMove) _this.fireCallback(params.onTouchMove, _this);
+
+            //Cancel event
+            if (_this.positions.current == 0 || _this.positions.current == -maxWrapperPosition())
+                return;
+            if (event.preventDefault)
+                event.preventDefault();
+            else 
+                event.returnValue = false;
 
             return false;
         }
