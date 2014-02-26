@@ -1069,6 +1069,16 @@ var Swiper = function (selector, params) {
         }
     }
 
+    _this.disableKeyboardControl = function () {
+        params.keyboardControl = false;
+        _this.h.removeEventListener(document, 'keydown', handleKeyboardKeys);
+    };
+
+    _this.enableKeyboardControl = function () {
+        params.keyboardControl = true;
+        _this.h.addEventListener(document, 'keydown', handleKeyboardKeys);
+    };
+
     /*==========================================
         Mousewheel Control
     ============================================*/
