@@ -1,5 +1,13 @@
 # Change Log
 
+## Swiper 2.5.0 - Updated on March 6, 2014
+
+  * New API parameter: slidesPerViewFit
+  * New API methods: disableKeyboardControl, enableKeyboardControl
+  * Require JS support
+  * JS Hinted
+  * Lot of minor fixes
+
 ## Swiper 2.4.3 - Updated on January 29, 2014
 
   * Fix loop and autoplay bug
