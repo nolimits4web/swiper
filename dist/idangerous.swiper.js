@@ -2729,7 +2729,8 @@ Swiper.prototype = {
 
         classList : (function () {
             'use strict';
-            return 'classList' in document.body;
+            var div = document.createElement('div').style;
+            return 'classList' in div;
         })()
     },
 
