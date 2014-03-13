@@ -59,7 +59,3 @@ _**With all these features you can build amazing touch interfaces and apps with 
 Swiper is licensed under GPL & MIT
 
    [1]: http://www.idangero.us
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/nolimits4web/swiper/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-

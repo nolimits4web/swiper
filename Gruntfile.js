@@ -17,7 +17,7 @@ module.exports = function (grunt) {
         // Metadata.
         pkg: grunt.file.readJSON('bower.json'),
         banner: '/*\n' +
-          ' * <%= pkg.name %> <%= pkg.version %>\n' +
+          ' * Swiper <%= pkg.version %>\n' +
           ' * <%= pkg.description %>\n' +
           ' *\n' +
           ' * <%= pkg.homepage %>\n' +
@@ -37,11 +37,11 @@ module.exports = function (grunt) {
                 stripBanners: true
             },
             js: {
-                src: ['lib/<%= swiper.filename %>.js'],
+                src: ['src/<%= swiper.filename %>.js'],
                 dest: 'dist/<%= swiper.filename %>.js'
             },
             css: {
-                src: ['lib/<%= swiper.filename %>.css'],
+                src: ['src/<%= swiper.filename %>.css'],
                 dest: 'dist/<%= swiper.filename %>.css'
             }
         },
@@ -63,7 +63,7 @@ module.exports = function (grunt) {
                 src: ['Gruntfile.js']
             },
             lib: {
-                src: ['lib/*.js']
+                src: ['src/*.js']
             },
         },
         watch: {

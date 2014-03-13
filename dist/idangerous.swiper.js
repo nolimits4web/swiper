@@ -1,5 +1,5 @@
 /*
- * swiper 2.5.0
+ * Swiper 2.5.1
  * Mobile touch slider and framework with hardware accelerated transitions
  *
  * http://www.idangero.us/sliders/swiper/
@@ -10,7 +10,7 @@
  *
  * Licensed under GPL & MIT
  *
- * Released on: March 6, 2014
+ * Released on: March 13, 2014
 */
 var Swiper = function (selector, params) {
     'use strict';
@@ -576,7 +576,7 @@ var Swiper = function (selector, params) {
         var _width = _this.h.getWidth(_this.container);
         var _height = _this.h.getHeight(_this.container);
         if (_width === _this.width && _height === _this.height && !force) return;
-        if (_width === 0 || _height === 0) return;
+        
         _this.width = _width;
         _this.height = _height;
 
@@ -674,8 +674,13 @@ var Swiper = function (selector, params) {
                             _this.snapGrid.push(slideLeft + _slideSize - containerSize);
                         }
                         else {
-                            for (var k = 0; k <= Math.floor(_slideSize / containerSize); k++) {
-                                _this.snapGrid.push(slideLeft + containerSize * k);
+                            if (containerSize !== 0) {
+                                for (var k = 0; k <= Math.floor(_slideSize / containerSize); k++) {
+                                    _this.snapGrid.push(slideLeft + containerSize * k);
+                                }
+                            }
+                            else {
+                                _this.snapGrid.push(slideLeft);
                             }
                         }
                             
@@ -1854,7 +1859,15 @@ var Swiper = function (selector, params) {
                 }, 1000 / 60);
             }
             else {
-                if (params.onSlideChangeEnd) _this.fireCallback(params.onSlideChangeEnd, _this);
+                if (params.onSlideChangeEnd) {
+                    if (action === 'to') {
+                        if (toOptions.runCallbacks === true) _this.fireCallback(params.onSlideChangeEnd, _this);
+                    }
+                    else {
+                        _this.fireCallback(params.onSlideChangeEnd, _this);
+                    }
+                    
+                }
                 _this.setWrapperTranslate(newPosition);
                 _this._DOMAnimating = false;
             }
@@ -1949,12 +1962,12 @@ var Swiper = function (selector, params) {
         _this.previousIndex = _this.activeIndex;
         if (typeof position === 'undefined') position = _this.getWrapperTranslate();
         if (position > 0) position = 0;
-
+        var i;
         if (params.slidesPerView === 'auto') {
             var slidesOffset = 0;
             _this.activeIndex = _this.slidesGrid.indexOf(-position);
             if (_this.activeIndex < 0) {
-                for (var i = 0; i < _this.slidesGrid.length - 1; i++) {
+                for (i = 0; i < _this.slidesGrid.length - 1; i++) {
                     if (-position > _this.slidesGrid[i] && -position < _this.slidesGrid[i + 1]) {
                         break;
                     }
@@ -1979,17 +1992,30 @@ var Swiper = function (selector, params) {
         _this.calcVisibleSlides(position);
 
         // Mark visible and active slides with additonal classes
-        var activeClassRegexp = new RegExp('\\s*' + params.slideActiveClass);
-        var inViewClassRegexp = new RegExp('\\s*' + params.slideVisibleClass);
-
-        for (var j = 0; j < _this.slides.length; j++) {
-            _this.slides[j].className = _this.slides[j].className.replace(activeClassRegexp, '').replace(inViewClassRegexp, '');
-            if (_this.visibleSlides.indexOf(_this.slides[j]) >= 0) {
-                _this.slides[j].className += ' ' + params.slideVisibleClass;
+        if (_this.support.classList) {
+            var slide;
+            for (i = 0; i < _this.slides.length; i++) {
+                slide = _this.slides[i];
+                slide.classList.remove(params.slideActiveClass);
+                if (_this.visibleSlides.indexOf(slide) >= 0) {
+                    slide.classList.add(params.slideVisibleClass);
+                } else {
+                    slide.classList.remove(params.slideVisibleClass);
+                }
             }
+            _this.slides[_this.activeIndex].classList.add(params.slideActiveClass);
+        } else {
+            var activeClassRegexp = new RegExp('\\s*' + params.slideActiveClass);
+            var inViewClassRegexp = new RegExp('\\s*' + params.slideVisibleClass);
 
+            for (i = 0; i < _this.slides.length; i++) {
+                _this.slides[i].className = _this.slides[i].className.replace(activeClassRegexp, '').replace(inViewClassRegexp, '');
+                if (_this.visibleSlides.indexOf(_this.slides[i]) >= 0) {
+                    _this.slides[i].className += ' ' + params.slideVisibleClass;
+                }
+            }
+            _this.slides[_this.activeIndex].className += ' ' + params.slideActiveClass;
         }
-        _this.slides[_this.activeIndex].className += ' ' + params.slideActiveClass;
 
         //Update loop index
         if (params.loop) {
@@ -2156,12 +2182,14 @@ var Swiper = function (selector, params) {
             if (typeof autoplayTimeoutId !== 'undefined') return false;
             if (!params.autoplay) return;
             _this.callPlugins('onAutoplayStart');
+            if (params.onAutoplayStart) _this.fireCallback(params.onAutoplayStart, _this);
             autoplay();
         }
         else {
             if (typeof autoplayIntervalId !== 'undefined') return false;
             if (!params.autoplay) return;
             _this.callPlugins('onAutoplayStart');
+            if (params.onAutoplayStart) _this.fireCallback(params.onAutoplayStart, _this);
             autoplayIntervalId = setInterval(function () {
                 if (params.loop) {
                     _this.fixLoop();
@@ -2188,11 +2216,13 @@ var Swiper = function (selector, params) {
                 });
             }
             _this.callPlugins('onAutoplayStop');
+            if (params.onAutoplayStop) _this.fireCallback(params.onAutoplayStop, _this);
         }
         else {
             if (autoplayIntervalId) clearInterval(autoplayIntervalId);
             autoplayIntervalId = undefined;
             _this.callPlugins('onAutoplayStop');
+            if (params.onAutoplayStop) _this.fireCallback(params.onAutoplayStop, _this);
         }
     };
     function autoplay() {
@@ -2695,6 +2725,11 @@ Swiper.prototype = {
             'use strict';
             var div = document.createElement('div').style;
             return ('transition' in div || 'WebkitTransition' in div || 'MozTransition' in div || 'msTransition' in div || 'MsTransition' in div || 'OTransition' in div);
+        })(),
+
+        classList : (function () {
+            'use strict';
+            return 'classList' in document.body;
         })()
     },
 
