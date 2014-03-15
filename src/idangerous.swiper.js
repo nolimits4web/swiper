@@ -1818,6 +1818,7 @@ var Swiper = function (selector, params) {
             newPosition = -index * slideSize;
         }
         if (newPosition < - maxWrapperPosition()) {
+            _this.updateActiveSlide(newPosition);
             newPosition = - maxWrapperPosition();
         }
 
