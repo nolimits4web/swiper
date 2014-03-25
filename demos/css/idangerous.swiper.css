@@ -16,6 +16,13 @@
 /* ===============================================================
 Basic Swiper Styles 
 ================================================================*/
+<head>
+  ....
+  <link rel="stylesheet" href="path_to_css/idangerous.swiper.css">
+  <script defer src="path_to_js/idangerous.swiper-2.x.min.js"></script>
+  ....
+</head>
+      
 .swiper-container {
 	margin:0 auto;
 	position:relative;
