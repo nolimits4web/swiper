@@ -2485,7 +2485,9 @@ Swiper.prototype = {
         if (this.support.transforms && this.params.useCSS3Transforms) {
             curStyle = window.getComputedStyle(el, null);
             if (window.WebKitCSSMatrix) {
-                transformMatrix = new WebKitCSSMatrix(curStyle.webkitTransform);
+                // Some old versions of Webkit choke when 'none' is passed; pass
+                // empty string instead in this case
+                transformMatrix = new WebKitCSSMatrix(curStyle.webkitTransform === 'none' ? '' : curStyle.webkitTransform);
             }
             else {
                 transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform  || curStyle.transform || curStyle.getPropertyValue('transform').replace('translate(', 'matrix(1, 0, 0, 1,');
