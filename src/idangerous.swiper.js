@@ -1323,7 +1323,7 @@ var Swiper = function (selector, params) {
             }
 
             //CallBack
-            if (params.onTouchStart) _this.fireCallback(params.onTouchStart, _this);
+            if (params.onTouchStart) _this.fireCallback(params.onTouchStart, _this, event);
             _this.callPlugins('onTouchStartEnd');
 
         }
@@ -1472,7 +1472,7 @@ var Swiper = function (selector, params) {
             velocityPrevTime = (new Date()).getTime();
             //Callbacks
             _this.callPlugins('onTouchMoveEnd');
-            if (params.onTouchMove) _this.fireCallback(params.onTouchMove, _this);
+            if (params.onTouchMove) _this.fireCallback(params.onTouchMove, _this, event);
 
             return false;
         }
@@ -1544,13 +1544,13 @@ var Swiper = function (selector, params) {
         //Not moved or Prevent Negative Back Sliding/After-End Sliding
         if (!_this.isMoved && params.freeMode) {
             _this.isMoved = false;
-            if (params.onTouchEnd) _this.fireCallback(params.onTouchEnd, _this);
+            if (params.onTouchEnd) _this.fireCallback(params.onTouchEnd, _this, event);
             _this.callPlugins('onTouchEnd');
             return;
         }
         if (!_this.isMoved || _this.positions.current > 0 || _this.positions.current < -maxPosition) {
             _this.swipeReset();
-            if (params.onTouchEnd) _this.fireCallback(params.onTouchEnd, _this);
+            if (params.onTouchEnd) _this.fireCallback(params.onTouchEnd, _this, event);
             _this.callPlugins('onTouchEnd');
             return;
         }
@@ -1606,7 +1606,7 @@ var Swiper = function (selector, params) {
             }
             if (!params.freeModeFluid || timeDiff >= 300) _this.updateActiveSlide(_this.positions.current);
 
-            if (params.onTouchEnd) _this.fireCallback(params.onTouchEnd, _this);
+            if (params.onTouchEnd) _this.fireCallback(params.onTouchEnd, _this, event);
             _this.callPlugins('onTouchEnd');
             return;
         }
@@ -1661,7 +1661,7 @@ var Swiper = function (selector, params) {
                 _this.swipeReset();
             }
         }
-        if (params.onTouchEnd) _this.fireCallback(params.onTouchEnd, _this);
+        if (params.onTouchEnd) _this.fireCallback(params.onTouchEnd, _this, event);
         _this.callPlugins('onTouchEnd');
     }
 
