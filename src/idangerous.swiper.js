@@ -1351,7 +1351,7 @@ var Swiper = function (selector, params) {
 
         //Check For Nested Swipers
         if (event.assignedToSwiper) {
-            _this.isTouched = false;
+            //_this.isTouched = false;
             return;
         }
         event.assignedToSwiper = true;
@@ -1426,10 +1426,12 @@ var Swiper = function (selector, params) {
                 //Resistance for Negative-Back sliding
                 if (_this.positions.current > 0 && !(params.freeMode && !params.freeModeFluid)) {
                     _this.positions.current = 0;
+                    event.assignedToSwiper = false;
                 }
                 //Resistance for After-End Sliding
                 if (_this.positions.current < -maxWrapperPosition() && !(params.freeMode && !params.freeModeFluid)) {
                     _this.positions.current = -maxWrapperPosition();
+                    event.assignedToSwiper = false;
                 }
             }
             //Move Slides
@@ -1474,7 +1476,7 @@ var Swiper = function (selector, params) {
             _this.callPlugins('onTouchMoveEnd');
             if (params.onTouchMove) _this.fireCallback(params.onTouchMove, _this, event);
 
-            return false;
+            return !event.assignedToSwiper;
         }
     }
     function onTouchEnd(event) {
