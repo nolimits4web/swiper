@@ -1198,6 +1198,19 @@ var Swiper = function (selector, params) {
         else e.returnValue = false;
         return false;
     }
+    _this.disableMousewheelControl = function () {
+        if (!_this._wheelEvent) return false;
+        params.mousewheelControl = false;
+        _this.h.removeEventListener(_this.container, _this._wheelEvent, handleMousewheel);
+        return true;
+    };
+
+    _this.enableMousewheelControl = function () {
+        if (!_this._wheelEvent) return false;
+        params.mousewheelControl = true;
+        _this.h.addEventListener(_this.container, _this._wheelEvent, handleMousewheel);
+        return true;
+    };
 
     /*=========================
       Grab Cursor
