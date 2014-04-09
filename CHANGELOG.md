@@ -1,5 +1,15 @@
 # Change Log
 
+## Swiper 2.6.0 - Updated on April 9, 2014
+
+  * New methods to enable/disable mousewheel control: enableMousewheeControl/disableMousewheeControl
+  * Minor fixes
+
+## Swiper 2.5.5 - Updated on March 23, 2014
+
+  * New API parameter: roundLengths
+  * Lot of minor fixes
+
 ## Swiper 2.5.0 - Updated on March 6, 2014
 
   * New API parameter: slidesPerViewFit
