@@ -433,7 +433,12 @@ var Swiper = function (selector, params) {
                 _this.calcSlides();
                 _this.createLoop();
             }
-            else _this.slides[index].remove();
+            else {
+                if (index < _this.activeIndex) {
+                    _this.swipeTo(_this.activeIndex - 1, 0, false);
+                }
+                _this.slides[index].remove();
+            }
             return true;
         }
         else return false;
