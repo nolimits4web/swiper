@@ -408,12 +408,17 @@ var Swiper = function (selector, params) {
     };
     _this.prependSlide = function (html, slideClassList, el) {
         if (!html) return;
+
+        var slide;
+
         if (html.nodeType) {
-            return _this._extendSwiperSlide(html).prepend();
+            slide = _this._extendSwiperSlide(html).prepend();
         }
         else {
-            return _this.createSlide(html, slideClassList, el).prepend();
+            slide = _this.createSlide(html, slideClassList, el).prepend();
         }
+        _this.swipeTo(_this.activeIndex + 1, 0, false);
+        return slide;
     };
     _this.insertSlideAfter = function (index, html, slideClassList, el) {
         if (typeof index === 'undefined') return false;
