@@ -75,7 +75,7 @@ module.exports = function (grunt) {
                         if (filename === 'wrap-start.js' || filename === 'wrap-end.js') {
                             addIndent = '';
                         }
-                        if (filename === 'swiper-intro.js' || filename === 'swiper-outro.js' || filename === 'dom.js') addIndent = '    ';
+                        if (filename === 'swiper-intro.js' || filename === 'swiper-outro.js' || filename === 'dom.js' || filename === 'proto-start.js' || filename === 'proto-end.js') addIndent = '    ';
                         src = grunt.util.normalizelf(src);
                         return src.split(grunt.util.linefeed).map(function (line) {
                             return addIndent + line;
@@ -88,8 +88,13 @@ module.exports = function (grunt) {
                 src: [
                     'src/js/wrap-start.js',
                     'src/js/swiper-intro.js',
+                    'src/js/callbacks-api.js',
+                    'src/js/plugins.js',
                     'src/js/init.js',
                     'src/js/swiper-outro.js',
+                    'src/js/proto-start.js',
+                    'src/js/proto-support.js',
+                    'src/js/proto-end.js',
                     'src/js/dom.js',
                     'src/js/wrap-end.js'
                 ],

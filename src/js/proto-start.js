@@ -1,0 +1,2 @@
+Swiper.prototype = {
+    plugins: {},

@@ -1,7 +1,7 @@
 /*===========================
 jQuery-like DOM library
 ===========================*/
-var Dom7 = function (arr) {
+var SwiperDom = function (arr) {
     var _this = this, i = 0;
     // Create array-like object
     for (i = 0; i < arr.length; i++) {
@@ -11,7 +11,7 @@ var Dom7 = function (arr) {
     // Return collection with methods
     return this;
 };
-Dom7.prototype = {
+SwiperDom.prototype = {
     // Classes and attriutes
     addClass: function (className) {
         var classes = className.split(' ');
@@ -144,22 +144,6 @@ Dom7.prototype = {
         function fireCallBack(e) {
             /*jshint validthis:true */
             callback.call(this, e);
-            for (i = 0; i < events.length; i++) {
-                dom.off(events[i], fireCallBack);
-            }
-        }
-        if (callback) {
-            for (i = 0; i < events.length; i++) {
-                dom.on(events[i], fireCallBack);
-            }
-        }
-        return this;
-    },
-    animationEnd: function (callback) {
-        var events = ['webkitAnimationEnd', 'OAnimationEnd', 'MSAnimationEnd', 'animationend'],
-            i, j, dom = this;
-        function fireCallBack(e) {
-            callback(e);
             for (i = 0; i < events.length; i++) {
                 dom.off(events[i], fireCallBack);
             }
@@ -364,17 +348,17 @@ Dom7.prototype = {
     },
     next: function () {
         if (this.length > 0) {
-            if (this[0].nextElementSibling) return new Dom7([this[0].nextElementSibling]);
-            else return new Dom7([]);
+            if (this[0].nextElementSibling) return new SwiperDom([this[0].nextElementSibling]);
+            else return new SwiperDom([]);
         }
-        else return new Dom7([]);
+        else return new SwiperDom([]);
     },
     prev: function () {
         if (this.length > 0) {
-            if (this[0].previousElementSibling) return new Dom7([this[0].previousElementSibling]);
-            else return new Dom7([]);
+            if (this[0].previousElementSibling) return new SwiperDom([this[0].previousElementSibling]);
+            else return new SwiperDom([]);
         }
-        else return new Dom7([]);
+        else return new SwiperDom([]);
     },
     parent: function (selector) {
         var parents = [];
@@ -412,7 +396,7 @@ Dom7.prototype = {
                 foundElements.push(found[j]);
             }
         }
-        return new Dom7(foundElements);
+        return new SwiperDom(foundElements);
     },
     children: function (selector) {
         var children = [];
@@ -428,7 +412,7 @@ Dom7.prototype = {
                 }
             }
         }
-        return new Dom7($.unique(children));
+        return new SwiperDom($.unique(children));
     },
     remove: function () {
         for (var i = 0; i < this.length; i++) {
@@ -459,19 +443,9 @@ var $ = function (selector, context) {
             }
         }
     }
-    return new Dom7(arr);
+    return new SwiperDom(arr);
 };
 // Utilites
-$.parseUrlQuery = function (url) {
-    var query = {}, i, params, param;
-    if (url.indexOf('?') >= 0) url = url.split('?')[1];
-    params = url.split('&');
-    for (i = 0; i < params.length; i++) {
-        param = params[i].split('=');
-        query[param[0]] = param[1];
-    }
-    return query;
-};
 $.isArray = function (arr) {
     if (Object.prototype.toString.apply(arr) === '[object Array]') return true;
     else return false;
@@ -486,9 +460,6 @@ $.unique = function (arr) {
 $.trim = function (str) {
     return str.trim();
 };
-$.supportTouch = (function () {
-    return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
-})();
-$.fn = Dom7.prototype;
+$.fn = SwiperDom.prototype;
 // Export Selectors engine to global Swiper
-Swiper.$ = $;
+Swiper.prototype.$ = $;
