@@ -478,6 +478,20 @@ var Swiper = function (selector, params) {
         return _this.slides[0];
     };
 
+    _this.lockPrev = function () {
+        _this.lockedPrev = true;
+    };
+    _this.unlockPrev = function () {
+        _this.lockedPrev = false;
+    };
+
+    _this.lockNext = function () {
+        _this.lockedNext = true;
+    };
+    _this.unlockNext = function () {
+        _this.lockedNext = false;
+    };
+
     //Currently Active Slide
     _this.activeSlide = function () {
         return _this.slides[_this.activeIndex];
@@ -1081,6 +1095,12 @@ var Swiper = function (selector, params) {
     function handleKeyboardKeys(e) {
         var kc = e.keyCode || e.charCode;
         if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) return;
+        if (_this.lockedPrev && (kc === 37 || kc === 38)) {
+            return;
+        }
+        if (_this.lockedNext && (kc === 39 || kc === 40)) {
+            return;
+        }
         if (kc === 37 || kc === 39 || kc === 38 || kc === 40) {
             var inView = false;
             //Check that swiper should be inside of visible area of window
@@ -1392,14 +1412,27 @@ var Swiper = function (selector, params) {
             }
             _this.isMoved = true;
 
-            // cancel event
-            if (event.preventDefault) event.preventDefault();
-            else event.returnValue = false;
-
             _this.touches.current = isH ? pageX : pageY;
 
-            _this.positions.current = (_this.touches.current - _this.touches.start) * params.touchRatio + _this.positions.start;
+            var distance = _this.touches.current - _this.touches.start;
 
+            if (_this.lockedPrev && distance > 0) {
+                distance = 0;
+                event.assignedToSwiper = false;
+            } else if (_this.lockedNext && distance < 0) {
+                distance = 0;
+                event.assignedToSwiper = false;
+            } else {
+                // cancel event
+                if (event.preventDefault) {
+                    event.preventDefault();
+                } else {
+                    event.returnValue = false;
+                }
+            }
+
+            _this.positions.current = distance * params.touchRatio + _this.positions.start;
+           
             //Resistance Callbacks
             if (_this.positions.current > 0 && params.onResistanceBefore) {
                 _this.fireCallback(params.onResistanceBefore, _this, _this.positions.current);
