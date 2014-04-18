@@ -491,6 +491,14 @@ var Swiper = function (selector, params) {
     _this.unlockNext = function () {
         _this.lockedNext = false;
     };
+    _this.lock = function () {
+        _this.lockNext();
+        _this.lockPrev();
+    };
+    _this.unlock = function () {
+        _this.unlockNext();
+        _this.unlockPrev();
+    };
 
     //Currently Active Slide
     _this.activeSlide = function () {
