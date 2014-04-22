@@ -57,7 +57,10 @@ Basic Swiper Styles
 .swiper-slide {
 	float: left;
 }
-
+/* Bootstrap fix */
+.swiper-slide img {
+	height:none;
+}
 /* IE10 Windows Phone 8 Fixes */
 .swiper-wp8-horizontal {
 	-ms-touch-action: pan-y;
