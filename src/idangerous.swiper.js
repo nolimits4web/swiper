@@ -1608,6 +1608,16 @@ var Swiper = function (selector, params) {
             return;
         }
 
+        // if resistance = 100% and has swiped beyond the max and min position,
+        // triggers transitionend event programmatically so that the queued
+        // transitionend callbacks will be invoked
+        if (params.resistance && params.resistance === '100%') {
+            if (_this.positions.current >= 0 || _this.positions.current <= -maxWrapperPosition()) {
+                var transitionEnd = new TransitionEvent('transitionend');
+                _this.wrapper.dispatchEvent(transitionEnd);
+            }
+        }
+
         _this.isMoved = false;
 
         //Free Mode
