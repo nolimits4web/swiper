@@ -485,7 +485,7 @@ var Swiper = function (selector, params) {
                 }
             }
         } else if (Object.prototype.toString.call(callback) === '[object String]') {
-            if (params['on' + callback]) _this.fireCallback(params['on' + callback]);
+            if (params['on' + callback]) _this.fireCallback(params['on' + callback], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
         } else {
             callback(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
         }
