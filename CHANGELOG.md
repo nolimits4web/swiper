@@ -1,5 +1,9 @@
 # Change Log
 
+## Swiper 2.6.1 - Updated on May 6, 2014
+
+  * Fix for fireCallback function when it is called externally
+
 ## Swiper 2.6.0 - Updated on April 9, 2014
 
   * New methods to enable/disable mousewheel control: enableMousewheeControl/disableMousewheeControl

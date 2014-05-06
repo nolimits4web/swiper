@@ -1,5 +1,5 @@
 /*
- * Swiper 2.6.0
+ * Swiper 2.6.1
  * Mobile touch slider and framework with hardware accelerated transitions
  *
  * http://www.idangero.us/sliders/swiper/
@@ -10,7 +10,7 @@
  *
  * Licensed under GPL & MIT
  *
- * Released on: April 9, 2014
+ * Released on: May 6, 2014
 */
 var Swiper = function (selector, params) {
     'use strict';
@@ -499,7 +499,7 @@ var Swiper = function (selector, params) {
                 }
             }
         } else if (Object.prototype.toString.call(callback) === '[object String]') {
-            if (params['on' + callback]) _this.fireCallback(params['on' + callback]);
+            if (params['on' + callback]) _this.fireCallback(params['on' + callback], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
         } else {
             callback(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
         }
