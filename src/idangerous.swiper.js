@@ -258,7 +258,7 @@ var Swiper = function (selector, params) {
             }
             else {
                 _this.wrapper.appendChild(el);
-                _this.reInit();
+                _this.reInit(null, _this.slides.length - 1);
             }
 
             return el;
@@ -273,7 +273,7 @@ var Swiper = function (selector, params) {
             else {
                 _this.wrapper.insertBefore(el, _this.wrapper.firstChild);
             }
-            _this.reInit();
+            _this.reInit(null, _this.activeIndex);
             return el;
         };
         el.insertAfter = function (index) {
@@ -356,7 +356,7 @@ var Swiper = function (selector, params) {
     };
 
     //Calculate information about number of slides
-    _this.calcSlides = function (forceCalcSlides) {
+    _this.calcSlides = function (forceCalcSlides, targetActiveIndex) {
         var oldNumber = _this.slides ? _this.slides.length : false;
         _this.slides = [];
         _this.displaySlides = [];
@@ -380,7 +380,9 @@ var Swiper = function (selector, params) {
             // Number of slides has been changed
             removeSlideEvents();
             addSlideEvents();
-            _this.updateActiveSlide();
+
+            _this.updateActiveSlide(undefined, targetActiveIndex);
+
             if (_this.params.pagination) _this.createPagination();
             _this.callPlugins('numberOfSlidesChanged');
         }
@@ -592,7 +594,7 @@ var Swiper = function (selector, params) {
         Init/Re-init/Resize Fix
     ====================================================*/
     _this.initialized = false;
-    _this.init = function (force, forceCalcSlides) {
+    _this.init = function (force, forceCalcSlides, targetActiveIndex) {
         var _width = _this.h.getWidth(_this.container, false, params.roundLengths);
         var _height = _this.h.getHeight(_this.container, false, params.roundLengths);
         if (_width === _this.width && _height === _this.height && !force) return;
@@ -606,7 +608,7 @@ var Swiper = function (selector, params) {
         var wrapper = _this.wrapper;
 
         if (force) {
-            _this.calcSlides(forceCalcSlides);
+            _this.calcSlides(forceCalcSlides, targetActiveIndex);
         }
 
         if (params.slidesPerView === 'auto') {
@@ -849,8 +851,8 @@ var Swiper = function (selector, params) {
         _this.initialized = true;
     };
 
-    _this.reInit = function (forceCalcSlides) {
-        _this.init(true, forceCalcSlides);
+    _this.reInit = function (forceCalcSlides, targetActiveIndex) {
+        _this.init(true, forceCalcSlides, targetActiveIndex);
     };
 
     _this.resizeFix = function (reInit) {
@@ -2078,7 +2080,7 @@ var Swiper = function (selector, params) {
     /*==================================================
         Update Active Slide Index
     ====================================================*/
-    _this.updateActiveSlide = function (position) {
+    _this.updateActiveSlide = function (position, targetActiveIndex) {
         if (!_this.initialized) return;
         if (_this.slides.length === 0) return;
         _this.previousIndex = _this.activeIndex;
@@ -2099,8 +2101,10 @@ var Swiper = function (selector, params) {
                 if (leftDistance <= rightDistance) _this.activeIndex = i;
                 else _this.activeIndex = i + 1;
             }
-        }
-        else {
+        } else if (typeof targetActiveIndex !== 'undefined') {
+            _this.activeIndex = targetActiveIndex;
+            position = - targetActiveIndex * slideSize;
+        } else {
             _this.activeIndex = Math[params.visibilityFullFit ? 'ceil' : 'round'](-position / slideSize);
         }
 
