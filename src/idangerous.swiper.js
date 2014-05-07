@@ -84,6 +84,8 @@ var Swiper = function (selector, params) {
         start: 0,
         end: 0
     };
+    _this.lockedNext = false;
+    _this.lockedPrev = false;
 
     _this.id = (new Date()).getTime();
     _this.container = (selector.nodeType) ? selector : $$(selector)[0];
