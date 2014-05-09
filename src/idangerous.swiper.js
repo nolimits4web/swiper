@@ -2588,7 +2588,7 @@ Swiper.prototype = {
             var width = window.getComputedStyle(el, null).getPropertyValue('width');
             var returnWidth = parseFloat(width);
             //IE Fixes
-            if (isNaN(returnWidth) || width.indexOf('%') > 0) {
+            if (isNaN(returnWidth) || width.indexOf('%') > 0 || returnWidth < 0) {
                 returnWidth = el.offsetWidth - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-left')) - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-right'));
             }
             if (outer) returnWidth += parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-left')) + parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-right'));
@@ -2602,7 +2602,7 @@ Swiper.prototype = {
             var height = window.getComputedStyle(el, null).getPropertyValue('height');
             var returnHeight = parseFloat(height);
             //IE Fixes
-            if (isNaN(returnHeight) || height.indexOf('%') > 0) {
+            if (isNaN(returnHeight) || height.indexOf('%') > 0 || returnHeight < 0) {
                 returnHeight = el.offsetHeight - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-top')) - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-bottom'));
             }
             if (outer) returnHeight += parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-top')) + parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-bottom'));
