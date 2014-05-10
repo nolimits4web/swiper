@@ -735,11 +735,11 @@ var Swiper = function (selector, params) {
             }
             else {
                 slideHeight = isH ? _this.height : _this.height / params.slidesPerView;
-                if (params.roundLengths) slideHeight = Math.round(slideHeight);
+                if (params.roundLengths) slideHeight = Math.ceil(slideHeight);
                 wrapperHeight = isH ? _this.height : _this.slides.length * slideHeight;
             }
             slideWidth = isH ? _this.width / params.slidesPerView : _this.width;
-            if (params.roundLengths) slideWidth = Math.round(slideWidth);
+            if (params.roundLengths) slideWidth = Math.ceil(slideWidth);
             wrapperWidth = isH ? _this.slides.length * slideWidth : _this.width;
             slideSize = isH ? slideWidth : slideHeight;
 
@@ -1804,7 +1804,7 @@ var Swiper = function (selector, params) {
             if (currentPosition <= -maxWrapperPosition()) newPosition = -maxWrapperPosition();
         }
         else {
-            newPosition = currentPosition < 0 ? Math.round(currentPosition / groupSize) * groupSize : 0;
+            newPosition = currentPosition < 0 ? Math.ceil(currentPosition / groupSize) * groupSize : 0;
         }
         if (params.scrollContainer)  {
             newPosition = currentPosition < 0 ? currentPosition : 0;
@@ -1856,7 +1856,7 @@ var Swiper = function (selector, params) {
             currentPosition += animationStep * time / (1000 / 60);
             condition = direction === 'toNext' ? currentPosition > newPosition : currentPosition < newPosition;
             if (condition) {
-                _this.setWrapperTranslate(Math.round(currentPosition));
+                _this.setWrapperTranslate(Math.ceil(currentPosition));
                 _this._DOMAnimating = true;
                 window.setTimeout(function () {
                     anim();
@@ -2588,11 +2588,11 @@ Swiper.prototype = {
             var width = window.getComputedStyle(el, null).getPropertyValue('width');
             var returnWidth = parseFloat(width);
             //IE Fixes
-            if (isNaN(returnWidth) || width.indexOf('%') > 0) {
+            if (isNaN(returnWidth) || width.indexOf('%') > 0 || returnWidth < 0) {
                 returnWidth = el.offsetWidth - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-left')) - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-right'));
             }
             if (outer) returnWidth += parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-left')) + parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-right'));
-            if (round) return Math.round(returnWidth);
+            if (round) return Math.ceil(returnWidth);
             else return returnWidth;
         },
         getHeight: function (el, outer, round) {
@@ -2602,11 +2602,11 @@ Swiper.prototype = {
             var height = window.getComputedStyle(el, null).getPropertyValue('height');
             var returnHeight = parseFloat(height);
             //IE Fixes
-            if (isNaN(returnHeight) || height.indexOf('%') > 0) {
+            if (isNaN(returnHeight) || height.indexOf('%') > 0 || returnHeight < 0) {
                 returnHeight = el.offsetHeight - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-top')) - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-bottom'));
             }
             if (outer) returnHeight += parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-top')) + parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-bottom'));
-            if (round) return Math.round(returnHeight);
+            if (round) return Math.ceil(returnHeight);
             else return returnHeight;
         },
         getOffset: function (el) {
