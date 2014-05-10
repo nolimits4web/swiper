@@ -1428,10 +1428,10 @@ var Swiper = function (selector, params) {
 
             var distance = _this.touches.current - _this.touches.start;
 
-            if (_this.lockedPrev && distance > 0) {
+            if (!params.freeMode && _this.lockedPrev && distance > 0) {
                 distance = 0;
                 event.assignedToSwiper = false;
-            } else if (_this.lockedNext && distance < 0) {
+            } else if (!params.freeMode && _this.lockedNext && distance < 0) {
                 distance = 0;
                 event.assignedToSwiper = false;
             } else {
