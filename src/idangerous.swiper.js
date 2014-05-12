@@ -128,6 +128,8 @@ var Swiper = function (selector, params) {
         followFinger : true,
         shortSwipes : true,
         longSwipesRatio: 0.5,
+        longSwipesMs: 300,
+        minSwipePx: 30,
         moveStartThreshold: false,
         onlyExternal : false,
         createPagination : true,
@@ -1690,12 +1692,12 @@ var Swiper = function (selector, params) {
 
         //Short Touches
         if (direction === 'toNext' && (timeDiff <= 300)) {
-            if (diffAbs < 30 || !params.shortSwipes) _this.swipeReset();
+            if (diffAbs < params.minSwipePx || !params.shortSwipes) _this.swipeReset();
             else _this.swipeNext(true);
         }
 
         if (direction === 'toPrev' && (timeDiff <= 300)) {
-            if (diffAbs < 30 || !params.shortSwipes) _this.swipeReset();
+            if (diffAbs < params.minSwipePx || !params.shortSwipes) _this.swipeReset();
             else _this.swipePrev(true);
         }
 
@@ -1719,7 +1721,7 @@ var Swiper = function (selector, params) {
         else {
             targetSlideSize = slideSize * params.slidesPerView;
         }
-        if (direction === 'toNext' && (timeDiff > 300)) {
+        if (direction === 'toNext' && (timeDiff > params.longSwipesMs)) {
             if (diffAbs >= targetSlideSize * params.longSwipesRatio) {
                 _this.swipeNext(true);
             }
@@ -1727,7 +1729,7 @@ var Swiper = function (selector, params) {
                 _this.swipeReset();
             }
         }
-        if (direction === 'toPrev' && (timeDiff > 300)) {
+        if (direction === 'toPrev' && (timeDiff > params.longSwipesMs)) {
             if (diffAbs >= targetSlideSize * params.longSwipesRatio) {
                 _this.swipePrev(true);
             }
