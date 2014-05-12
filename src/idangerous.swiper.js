@@ -1617,7 +1617,14 @@ var Swiper = function (selector, params) {
         // transitionend callbacks will be invoked
         if (params.resistance && params.resistance === '100%') {
             if (_this.positions.current >= 0 || _this.positions.current <= -maxWrapperPosition()) {
-                var transitionEnd = new TransitionEvent('transitionend');
+                var transitionEnd;
+                if (window.TransitionEvent) {
+                    transitionEnd = new window.TransitionEvent('transitionend');
+                } else if (window.Event) {
+                    transitionEnd = new window.Event('transitionend');
+                } else {
+                    transitionEnd = document.createEvent('transitionend');
+                }
                 _this.wrapper.dispatchEvent(transitionEnd);
             }
         }
