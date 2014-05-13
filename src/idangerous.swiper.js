@@ -1667,6 +1667,21 @@ var Swiper = function (selector, params) {
 
                 _this.setWrapperTransition(momentumDuration);
 
+                var eventObject = {
+                    type: 'scroll',
+                    position: afterBouncePosition !== undefined ? afterBouncePosition : newPosition,
+                };
+
+                if (isH) {
+                    eventObject.isAtLeft = eventObject.position === 0;
+                    eventObject.isAtRight = eventObject.position === -maxPosition;
+                    eventObject.direction = _this.velocity > 0 ? 'left': 'right';
+                } else {
+                    eventObject.isAtTop = eventObject.position === 0;
+                    eventObject.isAtBottom = eventObject.position === -maxPosition;
+                    eventObject.direction = _this.velocity > 0 ? 'up': 'down';
+                }
+
                 if (params.momentumBounce && doBounce) {
                     _this.wrapperTransitionEnd(function () {
                         if (!allowMomentumBounce) return;
@@ -1675,7 +1690,16 @@ var Swiper = function (selector, params) {
 
                         _this.setWrapperTranslate(afterBouncePosition);
                         _this.setWrapperTransition(300);
+                        _this.wrapperTransitionEnd(function () {
+                            _this.fireCallback(params.onScrollEnd, eventObject);
+                        });
                     });
+                } else if (_this.velocity) {
+                    _this.wrapperTransitionEnd(function () {
+                        _this.fireCallback(params.onScrollEnd, eventObject);
+                    });
+                } else {
+                    _this.fireCallback(params.onScrollEnd, eventObject);
                 }
 
                 _this.updateActiveSlide(newPosition);
