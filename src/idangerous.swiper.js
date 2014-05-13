@@ -1358,6 +1358,8 @@ var Swiper = function (selector, params) {
             //TouchStartTime
             _this.times.start = (new Date()).getTime();
 
+            _this.velocity = 0;
+
             //Unset Scrolling
             isScrolling = undefined;
 
@@ -1372,7 +1374,7 @@ var Swiper = function (selector, params) {
 
         }
     }
-    var velocityPrevPosition, velocityPrevTime;
+    var velocityPrevPosition, velocityPrevTime, lastVelocities = [], currentVelocitiesIndex = 0;
     function onTouchMove(event) {
         // If slider is not touched - exit
         if (!_this.isTouched || params.onlyExternal) return;
@@ -1522,13 +1524,41 @@ var Swiper = function (selector, params) {
                 _this.container.style.cursor = '-moz-grabbin';
                 _this.container.style.cursor = '-webkit-grabbing';
             }
+            
             //Velocity
-            if (!velocityPrevPosition) velocityPrevPosition = _this.touches.current;
-            if (!velocityPrevTime) velocityPrevTime = (new Date()).getTime();
-            _this.velocity = (_this.touches.current - velocityPrevPosition) / ((new Date()).getTime() - velocityPrevTime) / 2;
-            if (Math.abs(_this.touches.current - velocityPrevPosition) < 2) _this.velocity = 0;
+            if (!velocityPrevPosition) {
+                velocityPrevPosition = _this.touches.start;
+            }
+            if (!velocityPrevTime) {
+                velocityPrevTime = _this.times.start;
+            }
+            var now = (new Date()).getTime();
+            var distanceSinceLastEvent = _this.touches.current - velocityPrevPosition;
+            var timeSinceLastEvent = now - velocityPrevTime;
+            var currentVelocity = (distanceSinceLastEvent) / (timeSinceLastEvent);
+
+            if (lastVelocities[currentVelocitiesIndex - 1] && // the direction switches
+                (lastVelocities[currentVelocitiesIndex - 1] < 0) !== (currentVelocity < 0)) {
+                lastVelocities.length = 0;
+                currentVelocitiesIndex = 0;
+            }
+            lastVelocities[currentVelocitiesIndex] = currentVelocity;
+            currentVelocitiesIndex += 1;
+            if (currentVelocitiesIndex === 4) {
+                currentVelocitiesIndex = 0;
+            }
             velocityPrevPosition = _this.touches.current;
-            velocityPrevTime = (new Date()).getTime();
+            velocityPrevTime = now;
+
+            var sumOfVelocities = 0;
+            for (var i = 0; i < lastVelocities.length; i += 1) {
+                sumOfVelocities += lastVelocities[i];
+            }
+            _this.velocity = sumOfVelocities / lastVelocities.length;
+            _this.velocity = _this.velocity / 2;
+            _this.velocity = Math.max(-10, _this.velocity);
+            _this.velocity = Math.min(10, _this.velocity);
+
             //Callbacks
             _this.callPlugins('onTouchMoveEnd');
             if (params.onTouchMove) _this.fireCallback(params.onTouchMove, _this, event);
@@ -1541,6 +1571,11 @@ var Swiper = function (selector, params) {
         if (isScrolling) {
             _this.swipeReset();
         }
+        lastVelocities.length = 0;
+        currentVelocitiesIndex = 0;
+        velocityPrevTime = false;
+        velocityPrevPosition = false;
+
         // If slider is not touched exit
         if (params.onlyExternal || !_this.isTouched) return;
         _this.isTouched = false;
@@ -1732,8 +1767,8 @@ var Swiper = function (selector, params) {
             var currentPosition = Math.abs(_this.getWrapperTranslate());
             var slidesOffset = 0;
             var _slideSize;
-            for (var i = 0; i < _this.slides.length; i++) {
-                _slideSize = isH ? _this.slides[i].getWidth(true, params.roundLengths) : _this.slides[i].getHeight(true, params.roundLengths);
+            for (var j = 0; j < _this.slides.length; j++) {
+                _slideSize = isH ? _this.slides[j].getWidth(true, params.roundLengths) : _this.slides[j].getHeight(true, params.roundLengths);
                 slidesOffset += _slideSize;
                 if (slidesOffset > currentPosition) {
                     targetSlideSize = _slideSize;
