@@ -1555,9 +1555,9 @@ var Swiper = function (selector, params) {
                 sumOfVelocities += lastVelocities[i];
             }
             _this.velocity = sumOfVelocities / lastVelocities.length;
-            _this.velocity = _this.velocity / 2;
-            _this.velocity = Math.max(-10, _this.velocity);
-            _this.velocity = Math.min(10, _this.velocity);
+            _this.velocity = _this.velocity / 3;
+            _this.velocity = Math.max(-7, _this.velocity);
+            _this.velocity = Math.min(7, _this.velocity);
 
             //Callbacks
             _this.callPlugins('onTouchMoveEnd');
