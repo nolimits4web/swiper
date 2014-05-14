@@ -1561,7 +1561,7 @@ var Swiper = function (selector, params) {
 
             //Callbacks
             _this.callPlugins('onTouchMoveEnd');
-            if (params.onTouchMove) _this.fireCallback(params.onTouchMove, _this, event);
+            if (params.onTouchMove && event.assignedToSwiper) _this.fireCallback(params.onTouchMove, _this, event);
 
             return !event.assignedToSwiper;
         }
