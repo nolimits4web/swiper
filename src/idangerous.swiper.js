@@ -143,6 +143,7 @@ var Swiper = function (selector, params) {
         preventLinksPropagation: false,
         noSwiping : false, // or class
         noSwipingClass : 'swiper-no-swiping', //:)
+        ignoreTouchClass: false,
         initialSlide: 0,
         keyboardControl: false,
         mousewheelControl : false,
@@ -1324,6 +1325,10 @@ var Swiper = function (selector, params) {
         }
 
         if (params.noSwiping && (event.target || event.srcElement) && noSwipingSlide(event.target || event.srcElement)) return false;
+        if (params.ignoreTouchClass && (event.target || event.srcElement) && isIgnoreElement(event.target || event.srcElement)) {
+            _this.isTouched = false;
+            return;
+        }
         allowMomentumBounce = false;
         //Check For Nested Swipers
         _this.isTouched = true;
@@ -1804,7 +1809,7 @@ var Swiper = function (selector, params) {
     /*==================================================
         noSwiping Bubble Check by Isaac Strack
     ====================================================*/
-    function noSwipingSlide(el) {
+    function elementOrParentHasClass(el, klass) {
         /*This function is specifically designed to check the parent elements for the noSwiping class, up to the wrapper.
         We need to check parents because while onTouchStart bubbles, _this.isTouched is checked in onTouchStart, which stops the bubbling.
         So, if a text box, for example, is the initial target, and the parent slide container has the noSwiping class, the _this.isTouched
@@ -1812,26 +1817,37 @@ var Swiper = function (selector, params) {
         This function will iterate up and check for the noSwiping class in parents, up through the wrapperClass.*/
 
         // First we create a truthy variable, which is that swiping is allowd (noSwiping = false)
-        var noSwiping = false;
+        var matchesClass = false;
 
         // Now we iterate up (parentElements) until we reach the node with the wrapperClass.
         do {
 
             // Each time, we check to see if there's a 'swiper-no-swiping' class (noSwipingClass).
-            if (el.className.indexOf(params.noSwipingClass) > -1)
+            if (el.className.indexOf(klass) > -1)
             {
-                noSwiping = true; // If there is, we set noSwiping = true;
+                matchesClass = true; // If there is, we set noSwiping = true;
             }
 
             el = el.parentElement;  // now we iterate up (parent node)
 
-        } while (!noSwiping && el.parentElement && el.className.indexOf(params.wrapperClass) === -1); // also include el.parentElement truthy, just in case.
+        } while (!matchesClass && el.parentElement && el.className.indexOf(params.wrapperClass) === -1); // also include el.parentElement truthy, just in case.
 
         // because we didn't check the wrapper itself, we do so now, if noSwiping is false:
-        if (!noSwiping && el.className.indexOf(params.wrapperClass) > -1 && el.className.indexOf(params.noSwipingClass) > -1)
-            noSwiping = true; // if the wrapper has the noSwipingClass, we set noSwiping = true;
+        if (!matchesClass && el.className.indexOf(params.wrapperClass) > -1 && el.className.indexOf(klass) > -1)
+            matchesClass = true; // if the wrapper has the noSwipingClass, we set noSwiping = true;
 
-        return noSwiping;
+        return matchesClass;
+    }
+
+    function noSwipingSlide(el) {
+        return elementOrParentHasClass(el, params.noSwipingClass);
+    }
+    function isIgnoreElement(el) {
+        if (params.ignoreTouchClass) {
+            return elementOrParentHasClass(el, params.ignoreTouchClass);
+        } else {
+            return false;
+        }
     }
 
     function addClassToHtmlString(klass, outerHtml) {
