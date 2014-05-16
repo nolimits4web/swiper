@@ -1355,7 +1355,11 @@ var Swiper = function (selector, params) {
             _this.setWrapperTransition(0);
 
             //Get Start Translate Position
-            _this.positions.start = _this.positions.current = _this.getWrapperTranslate();
+            if (!params.scrollContainer) {
+                _this.positions.start = _this.positions.current = - _this.activeIndex * slideSize;
+            } else {
+                _this.positions.start = _this.positions.current = _this.getWrapperTranslate();
+            }
 
             //Set Transform
             _this.setWrapperTranslate(_this.positions.start);
@@ -1452,6 +1456,9 @@ var Swiper = function (selector, params) {
                 }
             }
 
+            if (!params.scrollContainer) {
+                _this.positions.start = _this.positions.current = - _this.activeIndex * slideSize;
+            }
             _this.positions.current = distance * params.touchRatio + _this.positions.start;
            
             //Resistance Callbacks
