@@ -1617,7 +1617,7 @@ var Swiper = function (selector, params) {
         var diffAbs = _this.positions.abs;
         var timeDiff = _this.times.end - _this.times.start;
 
-        if (diffAbs < 5 && (timeDiff) < 300 && _this.allowLinks === false) {
+        if (diffAbs < 5 && (timeDiff) < params.longSwipesMs && _this.allowLinks === false) {
             if (!params.freeMode && diffAbs !== 0) _this.swipeReset();
             //Release inner links
             if (params.preventLinks) {
@@ -1744,7 +1744,7 @@ var Swiper = function (selector, params) {
 
                 _this.updateActiveSlide(newPosition);
             }
-            if (!params.freeModeFluid || timeDiff >= 300) _this.updateActiveSlide(_this.positions.current);
+            if (!params.freeModeFluid || timeDiff >= params.longSwipesMs) _this.updateActiveSlide(_this.positions.current);
 
             if (params.onTouchEnd) _this.fireCallback(params.onTouchEnd, _this, event);
             _this.callPlugins('onTouchEnd');
@@ -1755,12 +1755,12 @@ var Swiper = function (selector, params) {
         direction = diff < 0 ? 'toNext' : 'toPrev';
 
         //Short Touches
-        if (direction === 'toNext' && (timeDiff <= 300)) {
+        if (direction === 'toNext' && (timeDiff <= params.longSwipesMs)) {
             if (diffAbs < params.minSwipePx || !params.shortSwipes) _this.swipeReset();
             else _this.swipeNext(true);
         }
 
-        if (direction === 'toPrev' && (timeDiff <= 300)) {
+        if (direction === 'toPrev' && (timeDiff <= params.longSwipesMs)) {
             if (diffAbs < params.minSwipePx || !params.shortSwipes) _this.swipeReset();
             else _this.swipePrev(true);
         }
