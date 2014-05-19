@@ -1549,15 +1549,17 @@ var Swiper = function (selector, params) {
             var timeSinceLastEvent = now - velocityPrevTime;
             var currentVelocity = (distanceSinceLastEvent) / (timeSinceLastEvent);
 
-            if (lastVelocities[currentVelocitiesIndex - 1] && // the direction switches
-                (lastVelocities[currentVelocitiesIndex - 1] < 0) !== (currentVelocity < 0)) {
-                lastVelocities.length = 0;
-                currentVelocitiesIndex = 0;
-            }
-            lastVelocities[currentVelocitiesIndex] = currentVelocity;
-            currentVelocitiesIndex += 1;
-            if (currentVelocitiesIndex === 4) {
-                currentVelocitiesIndex = 0;
+            if (currentVelocity !== 0) {
+                if (lastVelocities[currentVelocitiesIndex - 1] && // the direction switches
+                    (lastVelocities[currentVelocitiesIndex - 1] < 0) !== (currentVelocity < 0)) {
+                    lastVelocities.length = 0;
+                    currentVelocitiesIndex = 0;
+                }
+                lastVelocities[currentVelocitiesIndex] = currentVelocity;
+                currentVelocitiesIndex += 1;
+                if (currentVelocitiesIndex === 4) {
+                    currentVelocitiesIndex = 0;
+                }
             }
             velocityPrevPosition = _this.touches.current;
             velocityPrevTime = now;
@@ -1567,7 +1569,7 @@ var Swiper = function (selector, params) {
                 sumOfVelocities += lastVelocities[i];
             }
             _this.velocity = sumOfVelocities / lastVelocities.length;
-            _this.velocity = _this.velocity / 3;
+            _this.velocity = _this.velocity / 4;
             _this.velocity = Math.max(-7, _this.velocity);
             _this.velocity = Math.min(7, _this.velocity);
 
@@ -1736,7 +1738,7 @@ var Swiper = function (selector, params) {
                         _this.callPlugins('onMomentumBounce');
 
                         _this.setWrapperTranslate(afterBouncePosition);
-                        _this.setWrapperTransition(300);
+                        _this.setWrapperTransition(params.speed);
                         _this.wrapperTransitionEnd(function () {
                             _this.fireCallback(params.onScrollEnd, eventObject);
                         });
