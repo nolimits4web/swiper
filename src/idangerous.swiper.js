@@ -1832,17 +1832,18 @@ var Swiper = function (selector, params) {
         do {
 
             // Each time, we check to see if there's a 'swiper-no-swiping' class (noSwipingClass).
-            if (el.className.indexOf(klass) > -1)
+            // el.className is an object if el is inside a svg
+            if (typeof el.className === 'string' && el.className.indexOf(klass) > -1)
             {
                 matchesClass = true; // If there is, we set noSwiping = true;
             }
 
             el = el.parentElement;  // now we iterate up (parent node)
 
-        } while (!matchesClass && el.parentElement && el.className.indexOf(params.wrapperClass) === -1); // also include el.parentElement truthy, just in case.
+        } while (!matchesClass && el.parentElement && typeof el.className === 'string' && el.className.indexOf(params.wrapperClass) === -1); // also include el.parentElement truthy, just in case.
 
         // because we didn't check the wrapper itself, we do so now, if noSwiping is false:
-        if (!matchesClass && el.className.indexOf(params.wrapperClass) > -1 && el.className.indexOf(klass) > -1)
+        if (!matchesClass && typeof el.className === 'string' && el.className.indexOf(params.wrapperClass) > -1 && el.className.indexOf(klass) > -1)
             matchesClass = true; // if the wrapper has the noSwipingClass, we set noSwiping = true;
 
         return matchesClass;
