@@ -1,3 +1,0 @@
-    //Return instance        
-    return swiper;
-};

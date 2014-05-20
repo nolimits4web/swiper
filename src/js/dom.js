@@ -1,7 +1,7 @@
 /*===========================
 jQuery-like DOM library
 ===========================*/
-var SwiperDom = function (arr) {
+var Dom7 = function (arr) {
     var _this = this, i = 0;
     // Create array-like object
     for (i = 0; i < arr.length; i++) {
@@ -11,7 +11,7 @@ var SwiperDom = function (arr) {
     // Return collection with methods
     return this;
 };
-SwiperDom.prototype = {
+Dom7.prototype = {
     // Classes and attriutes
     addClass: function (className) {
         var classes = className.split(' ');
@@ -55,14 +55,23 @@ SwiperDom.prototype = {
             return this;
         }
     },
-    val: function (value) {
+    data: function (key, value) {
         if (typeof value === 'undefined') {
-            if (this[0]) return this[0].value;
-            else return null;
+            // Get value
+            if (this[0]) {
+                var dataKey = this[0].getAttribute('data-' + key);
+                if (dataKey) return dataKey;
+                else if (this[0].f7ElementDataStorage && this[0].f7ElementDataStorage[key]) return this[0].f7ElementDataStorage[key];
+                else return undefined;
+            }
+            else return undefined;
         }
         else {
+            // Set value
             for (var i = 0; i < this.length; i++) {
-                this[i].value = value;
+                var el = this[i];
+                if (!el.f7ElementDataStorage) el.f7ElementDataStorage = {};
+                el.f7ElementDataStorage[key] = value;
             }
             return this;
         }
@@ -155,6 +164,22 @@ SwiperDom.prototype = {
         }
         return this;
     },
+    animationEnd: function (callback) {
+        var events = ['webkitAnimationEnd', 'OAnimationEnd', 'MSAnimationEnd', 'animationend'],
+            i, j, dom = this;
+        function fireCallBack(e) {
+            callback(e);
+            for (i = 0; i < events.length; i++) {
+                dom.off(events[i], fireCallBack);
+            }
+        }
+        if (callback) {
+            for (i = 0; i < events.length; i++) {
+                dom.on(events[i], fireCallBack);
+            }
+        }
+        return this;
+    },
     // Sizing/Styles
     width: function () {
         if (this[0] === window) {
@@ -232,19 +257,28 @@ SwiperDom.prototype = {
         }
         return this;
     },
-    css: function (props) {
-        if (typeof props === 'string') {
-            if (this[0]) return window.getComputedStyle(this[0], null).getPropertyValue(props);
-        }
-        else {
-            for (var i = 0; i < this.length; i++) {
-                for (var prop in props) {
-                    this[i].style[prop] = props[prop];
+    css: function (props, value) {
+        var i;
+        if (arguments.length === 1) {
+            if (typeof props === 'string') {
+                if (this[0]) return window.getComputedStyle(this[0], null).getPropertyValue(props);
+            }
+            else {
+                for (i = 0; i < this.length; i++) {
+                    for (var prop in props) {
+                        this[i].style[prop] = props[prop];
+                    }
                 }
+                return this;
+            }
+        }
+        if (arguments.length === 2 && typeof props === 'string') {
+            for (i = 0; i < this.length; i++) {
+                this[i].style[props] = value;
             }
             return this;
         }
-        
+        return this;
     },
     
     //Dom manipulation
@@ -256,26 +290,13 @@ SwiperDom.prototype = {
     },
     html: function (html) {
         if (typeof html === 'undefined') {
-            return this[0].innerHTML;
+            return this[0] ? this[0].innerHTML : undefined;
         }
         else {
             for (var i = 0; i < this.length; i++) {
                 this[i].innerHTML = html;
             }
             return this;
-        }
-    },
-    text: function (text) {
-        if (typeof text === 'undefined') {
-            if (this[0]) {
-                return this[0].textContent.trim();
-            }
-            else return null;
-        }
-        else {
-            for (var i = 0; i < this.length; i++) {
-                this[0].textContent = text;
-            }
         }
     },
     is: function (selector) {
@@ -288,20 +309,30 @@ SwiperDom.prototype = {
         }
         return false;
     },
-    indexOf: function (el) {
-        for (var i = 0; i < this.length; i++) {
-            if (this[i] === el) return i;
-        }
-    },
     index: function () {
         if (this[0]) {
             var child = this[0];
             var i = 0;
-            while ((child = child.previousSibling) != null)
-                i++;
+            while ((child = child.previousSibling) != null) {
+                if (child.nodeType === 1) i++;
+            }
             return i;
         }
         else return undefined;
+    },
+    eq: function (index) {
+        if (typeof index === 'undefined') return this;
+        var length = this.length;
+        var returnIndex;
+        if (index > length - 1) {
+            return new Dom7([]);
+        }
+        if (index < 0) {
+            returnIndex = length + index;
+            if (returnIndex < 0) return new Dom7([]);
+            else return new Dom7([this[returnIndex]]);
+        }
+        return new Dom7([this[index]]);
     },
     append: function (newChild) {
         for (var i = 0; i < this.length; i++) {
@@ -346,19 +377,32 @@ SwiperDom.prototype = {
             }
         }
     },
+    insertAfter: function (selector) {
+        var after = $(selector);
+        for (var i = 0; i < this.length; i++) {
+            if (after.length === 1) {
+                after[0].parentNode.insertBefore(this[i], after[0].nextSibling);
+            }
+            else if (after.length > 1) {
+                for (var j = 0; j < after.length; j++) {
+                    after[j].parentNode.insertBefore(this[i].cloneNode(true), after[j].nextSibling);
+                }
+            }
+        }
+    },
     next: function () {
         if (this.length > 0) {
-            if (this[0].nextElementSibling) return new SwiperDom([this[0].nextElementSibling]);
-            else return new SwiperDom([]);
+            if (this[0].nextElementSibling) return new Dom7([this[0].nextElementSibling]);
+            else return new Dom7([]);
         }
-        else return new SwiperDom([]);
+        else return new Dom7([]);
     },
     prev: function () {
         if (this.length > 0) {
-            if (this[0].previousElementSibling) return new SwiperDom([this[0].previousElementSibling]);
-            else return new SwiperDom([]);
+            if (this[0].previousElementSibling) return new Dom7([this[0].previousElementSibling]);
+            else return new Dom7([]);
         }
-        else return new SwiperDom([]);
+        else return new Dom7([]);
     },
     parent: function (selector) {
         var parents = [];
@@ -396,7 +440,7 @@ SwiperDom.prototype = {
                 foundElements.push(found[j]);
             }
         }
-        return new SwiperDom(foundElements);
+        return new Dom7(foundElements);
     },
     children: function (selector) {
         var children = [];
@@ -412,7 +456,7 @@ SwiperDom.prototype = {
                 }
             }
         }
-        return new SwiperDom($.unique(children));
+        return new Dom7($.unique(children));
     },
     remove: function () {
         for (var i = 0; i < this.length; i++) {
@@ -420,8 +464,9 @@ SwiperDom.prototype = {
         }
         return this;
     },
-    
 };
+
+// Selector 
 var $ = function (selector, context) {
     var arr = [], i = 0;
     if (selector) {
@@ -443,9 +488,10 @@ var $ = function (selector, context) {
             }
         }
     }
-    return new SwiperDom(arr);
+    return new Dom7(arr);
 };
-// Utilites
+
+// DOM Library Utilites
 $.isArray = function (arr) {
     if (Object.prototype.toString.apply(arr) === '[object Array]') return true;
     else return false;
@@ -457,9 +503,52 @@ $.unique = function (arr) {
     }
     return unique;
 };
-$.trim = function (str) {
-    return str.trim();
+$.getTranslate = function (el, axis) {
+    var matrix, curTransform, curStyle, transformMatrix;
+
+    // automatic axis detection
+    if (typeof axis === 'undefined') {
+        axis = 'x';
+    }
+
+    curStyle = window.getComputedStyle(el, null);
+    if (window.WebKitCSSMatrix) {
+        // Some old versions of Webkit choke when 'none' is passed; pass
+        // empty string instead in this case
+        transformMatrix = new WebKitCSSMatrix(curStyle.webkitTransform === 'none' ? '' : curStyle.webkitTransform);
+    }
+    else {
+        transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform  || curStyle.transform || curStyle.getPropertyValue('transform').replace('translate(', 'matrix(1, 0, 0, 1,');
+        matrix = transformMatrix.toString().split(',');
+    }
+
+    if (axis === 'x') {
+        //Latest Chrome and webkits Fix
+        if (window.WebKitCSSMatrix)
+            curTransform = transformMatrix.m41;
+        //Crazy IE10 Matrix
+        else if (matrix.length === 16)
+            curTransform = parseFloat(matrix[12]);
+        //Normal Browsers
+        else
+            curTransform = parseFloat(matrix[4]);
+    }
+    if (axis === 'y') {
+        //Latest Chrome and webkits Fix
+        if (window.WebKitCSSMatrix)
+            curTransform = transformMatrix.m42;
+        //Crazy IE10 Matrix
+        else if (matrix.length === 16)
+            curTransform = parseFloat(matrix[13]);
+        //Normal Browsers
+        else
+            curTransform = parseFloat(matrix[5]);
+    }
+    
+    return curTransform || 0;
 };
-$.fn = SwiperDom.prototype;
+
+$.fn = Dom7.prototype;
+
 // Export Selectors engine to global Swiper
-Swiper.prototype.$ = $;
+Swiper.$ = $;

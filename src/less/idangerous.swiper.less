@@ -1,3 +1,9 @@
+.preserve3d() {
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
 /* ===============================================================
 Basic Swiper Styles 
 ================================================================*/
@@ -12,35 +18,36 @@ Basic Swiper Styles
     backface-visibility:hidden;
     /* Fix of Webkit flickering */
     z-index:1;
+    .preserve3d();
+    &.swiper-container-vertical .swiper-wrapper{
+        -webkit-box-orient: vertical;
+        -moz-box-orient: vertical;
+        -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+    }
 }
 .swiper-wrapper {
     position:relative;
-    width:100%;
+    width: 100%;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    .preserve3d();
+
     -webkit-transition-property:-webkit-transform, left, top;
-    -webkit-transition-duration:0s;
-    -webkit-transform:translate3d(0px,0,0);
-    -webkit-transition-timing-function:ease;
-    
     -moz-transition-property:-moz-transform, left, top;
-    -moz-transition-duration:0s;
-    -moz-transform:translate3d(0px,0,0);
-    -moz-transition-timing-function:ease;
-    
     -o-transition-property:-o-transform, left, top;
-    -o-transition-duration:0s;
-    -o-transform:translate3d(0px,0,0);
-    -o-transition-timing-function:ease;
-    -o-transform:translate(0px,0px);
-    
     -ms-transition-property:-ms-transform, left, top;
-    -ms-transition-duration:0s;
-    -ms-transform:translate3d(0px,0,0);
-    -ms-transition-timing-function:ease;
-    
     transition-property:transform, left, top;
-    transition-duration:0s;
+    
+    -webkit-transform:translate3d(0px,0,0);
+    -moz-transform:translate3d(0px,0,0);
+    -o-transform:translate(0px,0px);
+    -ms-transform:translate3d(0px,0,0);
     transform:translate3d(0px,0,0);
-    transition-timing-function:ease;
 
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
@@ -53,9 +60,17 @@ Basic Swiper Styles
     -o-transition-timing-function: ease-out;
     transition-timing-function: ease-out;
     margin: 0 auto;
+
 }
 .swiper-slide {
-    float: left;
+    // float: left;
+    .preserve3d();
+    -webkit-flex-shrink: 0;
+    -ms-flex: 0 0 auto;
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    width: 350px;
 }
 
 /* IE10 Windows Phone 8 Fixes */
@@ -90,18 +105,26 @@ sizes, pagination, etc.
     /* Specific visible slide styling: */   
 
 }
+.swiper-slide-next {
+    /* Specific next slide styling: */   
+
+}
+.swiper-slide-prev {
+    /* Specific prev slide styling: */   
+
+}
 /* ===============================================================
 Pagination Styles
 ================================================================*/
-.swiper-pagination-switch {
-    /* Stylize pagination button: */    
+.swiper-pagination-bullet {
+    /* Stylize pagination bullet: */    
 
 }
-.swiper-active-switch {
-    /* Specific active button style: */ 
+.swiper-pagination-bullet-active {
+    /* Specific active bullet style: */ 
     
 }
-.swiper-visible-switch {
-    /* Specific visible button style: */    
+.swiper-pagination-bullet-visible {
+    /* Specific visible bullet style: */    
     
 }

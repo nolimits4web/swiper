@@ -22,8 +22,7 @@ support: {
         return ('transition' in div || 'WebkitTransition' in div || 'MozTransition' in div || 'msTransition' in div || 'MsTransition' in div || 'OTransition' in div);
     })(),
 
-    classList : (function () {
-        var div = document.createElement('div').style;
-        return 'classList' in div;
+    observer: (function () {
+        return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
     })()
 },
