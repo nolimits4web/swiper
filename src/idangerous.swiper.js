@@ -1383,7 +1383,7 @@ var Swiper = function (selector, params) {
 
         }
     }
-    var velocityPrevPosition, velocityPrevTime, lastVelocities = [], currentVelocitiesIndex = 0;
+    var moveEventInfos = [];
     function onTouchMove(event) {
         // If slider is not touched - exit
         if (!_this.isTouched || params.onlyExternal) return;
@@ -1538,40 +1538,17 @@ var Swiper = function (selector, params) {
             }
             
             //Velocity
-            if (!velocityPrevPosition) {
-                velocityPrevPosition = _this.touches.start;
+            if (moveEventInfos.length === 0) {
+                moveEventInfos.push({
+                    position: _this.touches.start,
+                    time: _this.times.start
+                });
             }
-            if (!velocityPrevTime) {
-                velocityPrevTime = _this.times.start;
-            }
-            var now = (new Date()).getTime();
-            var distanceSinceLastEvent = _this.touches.current - velocityPrevPosition;
-            var timeSinceLastEvent = now - velocityPrevTime;
-            var currentVelocity = (distanceSinceLastEvent) / (timeSinceLastEvent);
 
-            if (currentVelocity !== 0) {
-                if (lastVelocities[currentVelocitiesIndex - 1] && // the direction switches
-                    (lastVelocities[currentVelocitiesIndex - 1] < 0) !== (currentVelocity < 0)) {
-                    lastVelocities.length = 0;
-                    currentVelocitiesIndex = 0;
-                }
-                lastVelocities[currentVelocitiesIndex] = currentVelocity;
-                currentVelocitiesIndex += 1;
-                if (currentVelocitiesIndex === 4) {
-                    currentVelocitiesIndex = 0;
-                }
-            }
-            velocityPrevPosition = _this.touches.current;
-            velocityPrevTime = now;
-
-            var sumOfVelocities = 0;
-            for (var i = 0; i < lastVelocities.length; i += 1) {
-                sumOfVelocities += lastVelocities[i];
-            }
-            _this.velocity = sumOfVelocities / lastVelocities.length;
-            _this.velocity = _this.velocity / 4;
-            _this.velocity = Math.max(-7, _this.velocity);
-            _this.velocity = Math.min(7, _this.velocity);
+            moveEventInfos.push({
+                position: _this.touches.current,
+                time: (new Date()).getTime()
+            });
 
             //Callbacks
             _this.callPlugins('onTouchMoveEnd');
@@ -1585,10 +1562,6 @@ var Swiper = function (selector, params) {
         if (isScrolling) {
             _this.swipeReset();
         }
-        lastVelocities.length = 0;
-        currentVelocitiesIndex = 0;
-        velocityPrevTime = false;
-        velocityPrevPosition = false;
 
         // If slider is not touched exit
         if (params.onlyExternal || !_this.isTouched) return;
@@ -1685,8 +1658,36 @@ var Swiper = function (selector, params) {
         //Free Mode
         if (params.freeMode) {
             if (params.freeModeFluid) {
+
+                if (moveEventInfos.length > 1) {
+                    var lastMoveEvent = moveEventInfos.pop(), velocityEvent = moveEventInfos.pop();
+                    for (var i = moveEventInfos.length - 1; moveEventInfos[i] && moveEventInfos[i].time - lastMoveEvent.time < 150; i--) {
+                        velocityEvent = moveEventInfos[i];
+                    }
+
+                    var distance = lastMoveEvent.position - velocityEvent.position;
+                    var time = lastMoveEvent.time - velocityEvent.time;
+
+                    _this.velocity = distance / time;
+                    _this.velocity = _this.velocity / 3;
+                    console.log(_this.velocity);
+                    if (Math.abs(_this.velocity) < 0.02) {
+                        _this.velocity = 0;
+                    }
+                    // this implies that the user stopped moving a finger then released.
+                    // There would be no events with distance zero, so the last event is stale.
+                    if (Math.abs(_this.velocity) < 0.1 && time > 150) {
+                        _this.velocity = 0;
+                    }
+                } else {
+                    _this.velocity = 0;
+                }
+
+                moveEventInfos.length = 0;
+
                 var momentumDuration = 1000 * params.momentumRatio;
                 var momentumDistance = _this.velocity * momentumDuration;
+
                 var newPosition = _this.positions.current + momentumDistance;
                 var doBounce = false;
                 var afterBouncePosition;
