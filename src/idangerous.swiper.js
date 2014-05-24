@@ -2557,6 +2557,11 @@ Swiper.prototype = {
             }
             coords[y] = x;
         }
+        
+        // Change the x position value to positive if the language direction is RTL
+        if (document.documentElement.dir == 'rtl') {
+            coords.x = Math.abs(coords.x);
+        }
 
         if (this.support.transforms && this.params.useCSS3Transforms) {
             translate = this.support.transforms3d ? 'translate3d(' + coords.x + 'px, ' + coords.y + 'px, ' + coords.z + 'px)' : 'translate(' + coords.x + 'px, ' + coords.y + 'px)';
