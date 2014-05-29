@@ -14,8 +14,8 @@
   "scripts": [
     "dist/idangerous.swiper.js"
   ],
-  "main": "dist/idangerous.swiper.js",
-  "styles": [
+  "main": [
+    "dist/idangerous.swiper.js",
     "dist/idangerous.swiper.css"
   ],
   "license": ["GPL", "MIT"],
