@@ -253,6 +253,10 @@ var Swiper = function (selector, params) {
     }
 
     _this.wrapper = wrapper;
+
+    if (params.scrollContainer) {
+        wrapper.style.webkitTransitionTimingFunction = wrapper.style.MsTransitionTimingFunction = wrapper.style.msTransitionTimingFunction = wrapper.style.MozTransitionTimingFunction = wrapper.style.OTransitionTimingFunction = wrapper.style.transitionTimingFunction = 'cubic-bezier(0.103, 0.389, 0.307, 0.966)';
+    }
     /*=========================
       Slide API
       ===========================*/
@@ -1669,7 +1673,7 @@ var Swiper = function (selector, params) {
                     var time = lastMoveEvent.time - velocityEvent.time;
 
                     _this.velocity = distance / time;
-                    _this.velocity = _this.velocity / 3;
+                    _this.velocity = _this.velocity / 1.5;
                     console.log(_this.velocity);
                     if (Math.abs(_this.velocity) < 0.02) {
                         _this.velocity = 0;
