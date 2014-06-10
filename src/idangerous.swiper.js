@@ -927,6 +927,7 @@ var Swiper = function (selector, params) {
                 bind(eventTarget, 'touchstart', onTouchStart);
                 bind(eventTarget, 'touchmove', onTouchMove);
                 bind(eventTarget, 'touchend', onTouchEnd);
+                bind(eventTarget, 'touchcancel', onTouchEnd);
             }
             if (params.simulateTouch) {
                 bind(eventTarget, 'mousedown', onTouchStart);
@@ -1001,6 +1002,7 @@ var Swiper = function (selector, params) {
                 unbind(eventTarget, 'touchstart', onTouchStart);
                 unbind(eventTarget, 'touchmove', onTouchMove);
                 unbind(eventTarget, 'touchend', onTouchEnd);
+                unbind(eventTarget, 'touchcancel', onTouchEnd);
             }
             if (params.simulateTouch) {
                 unbind(eventTarget, 'mousedown', onTouchStart);
