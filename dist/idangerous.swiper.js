@@ -10,7 +10,7 @@
  *
  * Licensed under GPL & MIT
  *
- * Released on: June 10, 2014
+ * Released on: May 6, 2014
 */
 var Swiper = function (selector, params) {
     'use strict';
@@ -169,8 +169,7 @@ var Swiper = function (selector, params) {
         roundLengths: false,
         //Auto Height
         calculateHeight: false,
-        //Apply CSS for width and/or height
-        cssWidthAndHeight: false, // or true or 'width' or 'height'
+        cssWidthAndHeight: false,
         //Images Preloader
         updateOnImagesReady : true,
         //Form elements
@@ -750,11 +749,11 @@ var Swiper = function (selector, params) {
             }
             else {
                 slideHeight = isH ? _this.height : _this.height / params.slidesPerView;
-                if (params.roundLengths) slideHeight = Math.ceil(slideHeight);
+                if (params.roundLengths) slideHeight = Math.round(slideHeight);
                 wrapperHeight = isH ? _this.height : _this.slides.length * slideHeight;
             }
             slideWidth = isH ? _this.width / params.slidesPerView : _this.width;
-            if (params.roundLengths) slideWidth = Math.ceil(slideWidth);
+            if (params.roundLengths) slideWidth = Math.round(slideWidth);
             wrapperWidth = isH ? _this.slides.length * slideWidth : _this.width;
             slideSize = isH ? slideWidth : slideHeight;
 
@@ -794,11 +793,13 @@ var Swiper = function (selector, params) {
             }
 
             wrapperSize = isH ? wrapperWidth + _this.wrapperRight + _this.wrapperLeft : wrapperHeight + _this.wrapperTop + _this.wrapperBottom;
-            if (parseFloat(wrapperWidth) > 0 && !params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
-                wrapper.style.width = wrapperWidth + 'px';
-            }
-            if (parseFloat(wrapperHeight) > 0 && (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width')) {
-                wrapper.style.height = wrapperHeight + 'px';
+            if (!params.cssWidthAndHeight) {
+                if (parseFloat(wrapperWidth) > 0) {
+                    wrapper.style.width = wrapperWidth + 'px';
+                }
+                if (parseFloat(wrapperHeight) > 0) {
+                    wrapper.style.height = wrapperHeight + 'px';
+                }
             }
             slideLeft = 0;
             _this.snapGrid = [];
@@ -807,11 +808,13 @@ var Swiper = function (selector, params) {
                 _this.snapGrid.push(slideLeft);
                 _this.slidesGrid.push(slideLeft);
                 slideLeft += slideSize;
-                if (parseFloat(slideWidth) > 0 && !params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
-                    _this.slides[i].style.width = slideWidth + 'px';
-                }
-                if (parseFloat(slideHeight) > 0 && !params.cssWidthAndHeight || params.cssWidthAndHeight === 'width') {
-                    _this.slides[i].style.height = slideHeight + 'px';
+                if (!params.cssWidthAndHeight) {
+                    if (parseFloat(slideWidth) > 0) {
+                        _this.slides[i].style.width = slideWidth + 'px';
+                    }
+                    if (parseFloat(slideHeight) > 0) {
+                        _this.slides[i].style.height = slideHeight + 'px';
+                    }
                 }
             }
 
@@ -1815,7 +1818,7 @@ var Swiper = function (selector, params) {
             if (currentPosition <= -maxWrapperPosition()) newPosition = -maxWrapperPosition();
         }
         else {
-            newPosition = currentPosition < 0 ? Math.ceil(currentPosition / groupSize) * groupSize : 0;
+            newPosition = currentPosition < 0 ? Math.round(currentPosition / groupSize) * groupSize : 0;
         }
         if (params.scrollContainer)  {
             newPosition = currentPosition < 0 ? currentPosition : 0;
@@ -1867,7 +1870,7 @@ var Swiper = function (selector, params) {
             currentPosition += animationStep * time / (1000 / 60);
             condition = direction === 'toNext' ? currentPosition > newPosition : currentPosition < newPosition;
             if (condition) {
-                _this.setWrapperTranslate(Math.ceil(currentPosition));
+                _this.setWrapperTranslate(Math.round(currentPosition));
                 _this._DOMAnimating = true;
                 window.setTimeout(function () {
                     anim();
@@ -2599,11 +2602,11 @@ Swiper.prototype = {
             var width = window.getComputedStyle(el, null).getPropertyValue('width');
             var returnWidth = parseFloat(width);
             //IE Fixes
-            if (isNaN(returnWidth) || width.indexOf('%') > 0 || returnWidth < 0) {
+            if (isNaN(returnWidth) || width.indexOf('%') > 0) {
                 returnWidth = el.offsetWidth - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-left')) - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-right'));
             }
             if (outer) returnWidth += parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-left')) + parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-right'));
-            if (round) return Math.ceil(returnWidth);
+            if (round) return Math.round(returnWidth);
             else return returnWidth;
         },
         getHeight: function (el, outer, round) {
@@ -2613,11 +2616,11 @@ Swiper.prototype = {
             var height = window.getComputedStyle(el, null).getPropertyValue('height');
             var returnHeight = parseFloat(height);
             //IE Fixes
-            if (isNaN(returnHeight) || height.indexOf('%') > 0 || returnHeight < 0) {
+            if (isNaN(returnHeight) || height.indexOf('%') > 0) {
                 returnHeight = el.offsetHeight - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-top')) - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-bottom'));
             }
             if (outer) returnHeight += parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-top')) + parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-bottom'));
-            if (round) return Math.ceil(returnHeight);
+            if (round) return Math.round(returnHeight);
             else return returnHeight;
         },
         getOffset: function (el) {
