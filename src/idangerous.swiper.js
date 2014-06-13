@@ -155,7 +155,8 @@ var Swiper = function (selector, params) {
         roundLengths: false,
         //Auto Height
         calculateHeight: false,
-        cssWidthAndHeight: false,
+        //Apply CSS for width and/or height
+        cssWidthAndHeight: false, // or true or 'width' or 'height'
         //Images Preloader
         updateOnImagesReady : true,
         //Form elements
@@ -779,13 +780,11 @@ var Swiper = function (selector, params) {
             }
 
             wrapperSize = isH ? wrapperWidth + _this.wrapperRight + _this.wrapperLeft : wrapperHeight + _this.wrapperTop + _this.wrapperBottom;
-            if (!params.cssWidthAndHeight) {
-                if (parseFloat(wrapperWidth) > 0) {
-                    wrapper.style.width = wrapperWidth + 'px';
-                }
-                if (parseFloat(wrapperHeight) > 0) {
-                    wrapper.style.height = wrapperHeight + 'px';
-                }
+            if (parseFloat(wrapperWidth) > 0 && !params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
+                wrapper.style.width = wrapperWidth + 'px';
+            }
+            if (parseFloat(wrapperHeight) > 0 && (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width')) {
+                wrapper.style.height = wrapperHeight + 'px';
             }
             slideLeft = 0;
             _this.snapGrid = [];
@@ -794,13 +793,11 @@ var Swiper = function (selector, params) {
                 _this.snapGrid.push(slideLeft);
                 _this.slidesGrid.push(slideLeft);
                 slideLeft += slideSize;
-                if (!params.cssWidthAndHeight) {
-                    if (parseFloat(slideWidth) > 0) {
-                        _this.slides[i].style.width = slideWidth + 'px';
-                    }
-                    if (parseFloat(slideHeight) > 0) {
-                        _this.slides[i].style.height = slideHeight + 'px';
-                    }
+                if (parseFloat(slideWidth) > 0 && !params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
+                    _this.slides[i].style.width = slideWidth + 'px';
+                }
+                if (parseFloat(slideHeight) > 0 && !params.cssWidthAndHeight || params.cssWidthAndHeight === 'width') {
+                    _this.slides[i].style.height = slideHeight + 'px';
                 }
             }
 
