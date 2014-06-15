@@ -33,7 +33,7 @@ Dom7.prototype = {
     },
     hasClass: function (className) {
         if (!this[0]) return false;
-        else return this[0].className.indexOf(className) >= 0;
+        else return this[0].classList.contains(className);
     },
     toggleClass: function (className) {
         var classes = className.split(' ');
@@ -46,7 +46,8 @@ Dom7.prototype = {
     },
     attr: function (attr, value) {
         if (typeof value === 'undefined') {
-            return this[0].getAttribute(attr);
+            if (this[0]) return this[0].getAttribute(attr);
+            else return undefined;
         }
         else {
             for (var i = 0; i < this.length; i++) {
@@ -61,7 +62,7 @@ Dom7.prototype = {
             if (this[0]) {
                 var dataKey = this[0].getAttribute('data-' + key);
                 if (dataKey) return dataKey;
-                else if (this[0].f7ElementDataStorage && this[0].f7ElementDataStorage[key]) return this[0].f7ElementDataStorage[key];
+                else if (this[0].swiperElementDataStorage && this[0].swiperElementDataStorage[key]) return this[0].swiperElementDataStorage[key];
                 else return undefined;
             }
             else return undefined;
@@ -70,8 +71,8 @@ Dom7.prototype = {
             // Set value
             for (var i = 0; i < this.length; i++) {
                 var el = this[i];
-                if (!el.f7ElementDataStorage) el.f7ElementDataStorage = {};
-                el.f7ElementDataStorage[key] = value;
+                if (!el.swiperElementDataStorage) el.swiperElementDataStorage = {};
+                el.swiperElementDataStorage[key] = value;
             }
             return this;
         }
@@ -126,9 +127,12 @@ Dom7.prototype = {
 
         return this;
     },
-    off: function (event, listener) {
-        for (var i = 0; i < this.length; i++) {
-            this[i].removeEventListener(event, listener, false);
+    off: function (eventName, listener) {
+        var events = eventName.split(' ');
+        for (var i = 0; i < events.length; i++) {
+            for (var j = 0; j < this.length; j++) {
+                this[j].removeEventListener(events[i], listener, false);
+            }
         }
         return this;
     },
@@ -300,14 +304,38 @@ Dom7.prototype = {
         }
     },
     is: function (selector) {
-        var compareWith;
-        if (typeof selector === 'string') compareWith = document.querySelectorAll(selector);
-        else if (selector.nodeType) compareWith = [selector];
-        else compareWith = selector;
-        for (var i = 0; i < compareWith.length; i++) {
-            if (compareWith[i] === this[0]) return true;
+        if (!this[0]) return false;
+        var compareWith, i;
+        if (typeof selector === 'string') {
+            var el = this[0];
+            if (el === document) return selector === document;
+            if (el === window) return selector === window;
+
+            if (el.matches) return el.matches(selector);
+            else if (el.webkitMatchesSelector) return el.webkitMatchesSelector(selector);
+            else if (el.mozMatchesSelector) return el.mozMatchesSelector(selector);
+            else if (el.msMatchesSelector) return el.msMatchesSelector(selector);
+            else {
+                compareWith = $(selector);
+                for (i = 0; i < compareWith.length; i++) {
+                    if (compareWith[i] === this[0]) return true;
+                }
+                return false;
+            }
         }
-        return false;
+        else if (selector === document) return this[0] === document;
+        else if (selector === window) return this[0] === window;
+        else {
+            if (selector.nodeType || selector instanceof Dom7) {
+                compareWith = selector.nodeType ? [selector] : selector;
+                for (i = 0; i < compareWith.length; i++) {
+                    if (compareWith[i] === this[0]) return true;
+                }
+                return false;
+            }
+            return false;
+        }
+        
     },
     index: function () {
         if (this[0]) {
@@ -397,12 +425,36 @@ Dom7.prototype = {
         }
         else return new Dom7([]);
     },
+    nextAll: function (selector) {
+        var nextEls = [];
+        var el = this[0];
+        if (!el) return new Dom7([]);
+        while (el.nextElementSibling) {
+            var next = el.nextElementSibling;
+            if (selector && $(next).is(selector)) nextEls.push(next);
+            else nextEls.push(next);
+            el = next;
+        }
+        return new Dom7(nextEls);
+    },
     prev: function () {
         if (this.length > 0) {
             if (this[0].previousElementSibling) return new Dom7([this[0].previousElementSibling]);
             else return new Dom7([]);
         }
         else return new Dom7([]);
+    },
+    prevAll: function (selector) {
+        var prevEls = [];
+        var el = this[0];
+        if (!el) return new Dom7([]);
+        while (el.previousElementSibling) {
+            var prev = el.previousElementSibling;
+            if (selector && $(prev).is(selector)) prevEls.push(prev);
+            else prevEls.push(prev);
+            el = prev;
+        }
+        return new Dom7(prevEls);
     },
     parent: function (selector) {
         var parents = [];

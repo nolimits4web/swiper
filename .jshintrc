@@ -30,6 +30,7 @@
     "DocumentTouch": true,
     "Modernizr": true,
     "WebKitCSSMatrix": true,
-    "jQuery": true
+    "jQuery": true,
+    "$": true
   }
 }

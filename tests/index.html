@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../build/css/idangerous.swiper.css">
 </head>
 <body>
-    <div class="swiper-container">
+    <div class="swiper-container" dir="rtl">
         <div class="swiper-wrapper">
             <div class="swiper-slide">1</div>
             <div class="swiper-slide">2</div>
@@ -28,17 +28,26 @@
     }
     .swiper-container {
         width: 100%;
-        height: 100%;
+        height: 300px;
     }
     .swiper-slide {
         background: #aaa;
+        width: 33.333333%;
+        width: -webkit-calc(33.333333% - 100px/3);
+        /*margin-left: 50px;*/
+    }
+    .swiper-slide:last-child {
+        /*width: 500px;*/
+        /*margin-left: 0;*/
     }
     </style>
     <script src="../build/js/idangerous.swiper.js"></script>
     <script>
         var swiper = new Swiper('.swiper-container', {
-            spaceBetween: 100,
-            slidesPerView: 1
+            spaceBetween: 50,
+            // slidesPerView: 'auto',
+            slidesPerView: 3,
+            centeredSlides: true
         });
     </script>
 </body>
