@@ -780,7 +780,7 @@ var Swiper = function (selector, params) {
             }
 
             wrapperSize = isH ? wrapperWidth + _this.wrapperRight + _this.wrapperLeft : wrapperHeight + _this.wrapperTop + _this.wrapperBottom;
-            if (parseFloat(wrapperWidth) > 0 && !params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
+            if (parseFloat(wrapperWidth) > 0 && (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'height')) {
                 wrapper.style.width = wrapperWidth + 'px';
             }
             if (parseFloat(wrapperHeight) > 0 && (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width')) {
@@ -793,10 +793,10 @@ var Swiper = function (selector, params) {
                 _this.snapGrid.push(slideLeft);
                 _this.slidesGrid.push(slideLeft);
                 slideLeft += slideSize;
-                if (parseFloat(slideWidth) > 0 && !params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
+                if (parseFloat(slideWidth) > 0 && (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'height')) {
                     _this.slides[i].style.width = slideWidth + 'px';
                 }
-                if (parseFloat(slideHeight) > 0 && !params.cssWidthAndHeight || params.cssWidthAndHeight === 'width') {
+                if (parseFloat(slideHeight) > 0 && (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width')) {
                     _this.slides[i].style.height = slideHeight + 'px';
                 }
             }
