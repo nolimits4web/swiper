@@ -1801,7 +1801,7 @@ var Swiper = function (selector, params) {
             if (currentPosition <= -maxWrapperPosition()) newPosition = -maxWrapperPosition();
         }
         else {
-            newPosition = currentPosition < 0 ? Math.ceil(currentPosition / groupSize) * groupSize : 0;
+            newPosition = currentPosition < 0 ? Math.round(currentPosition / groupSize) * groupSize : 0;
         }
         if (params.scrollContainer)  {
             newPosition = currentPosition < 0 ? currentPosition : 0;
