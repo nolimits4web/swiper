@@ -4,7 +4,7 @@ var Swiper = function (selector, params) {
     /*=========================
       A little bit dirty but required part for IE8 and old FF support
       ===========================*/
-    if (document.body.__defineGetter__) {
+    if (!document.body.outerHTML && document.body.__defineGetter__) {
         if (HTMLElement) {
             var element = HTMLElement.prototype;
             if (element.__defineGetter__) {
@@ -187,6 +187,9 @@ var Swiper = function (selector, params) {
             logic: 'reload', //or 'change'
             loadAllSlides: false
         },
+        // One way swipes
+        swipeToPrev: true,
+        swipeToNext: true,
         //Namespace
         slideElement: 'div',
         slideClass: 'swiper-slide',
@@ -924,7 +927,8 @@ var Swiper = function (selector, params) {
         function _loadImage(src) {
             var image = new Image();
             image.onload = function () {
-                if (_this && _this.imagesLoaded !== undefined) _this.imagesLoaded++;
+                if (typeof _this === 'undefined' || _this === null) return;
+                if (_this.imagesLoaded !== undefined) _this.imagesLoaded++;
                 if (_this.imagesLoaded === _this.imagesToLoad.length) {
                     _this.reInit();
                     if (params.onImagesReady) _this.fireCallback(params.onImagesReady, _this);
@@ -1167,6 +1171,18 @@ var Swiper = function (selector, params) {
             }
         }
 
+        function normalizeWheelSpeed(event) {
+            var normalized;
+            if (event.wheelDelta) {
+                normalized = (event.wheelDelta % 120 - 0) === -0 ? event.wheelDelta / 120 : event.wheelDelta / 12;
+            } else {
+                var rawAmmount = event.deltaY ? event.deltaY : event.detail;
+                normalized = rawAmmount % 3 ? (rawAmmount % 1 ? rawAmmount * 10 : rawAmmount) : rawAmmount / 3;
+            }
+            return normalized;
+        }
+
+        // console.log(we, delta, normalizeWheelSpeed(e));
         if (!params.freeMode) {
             if ((new Date()).getTime() - lastScrollTime > 60) {
                 if (delta < 0) _this.swipeNext();
@@ -1289,7 +1305,17 @@ var Swiper = function (selector, params) {
             return false;
         }
 
-        if (params.noSwiping && (event.target || event.srcElement) && noSwipingSlide(event.target || event.srcElement)) return false;
+        // Blur active elements
+        var eventTarget = event.target || event.srcElement;
+        if (document.activeElement) {
+            if (document.activeElement !== eventTarget) document.activeElement.blur();
+        }
+
+        // Form tag names
+        var formTagNames = ('input select textarea').split(' ');
+
+        // Check for no swiping
+        if (params.noSwiping && (eventTarget) && noSwipingSlide(eventTarget)) return false;
         allowMomentumBounce = false;
         //Check For Nested Swipers
         _this.isTouched = true;
@@ -1297,8 +1323,8 @@ var Swiper = function (selector, params) {
 
         if (!isTouchEvent || event.targetTouches.length === 1) {
             _this.callPlugins('onTouchStartBegin');
+            if (!isTouchEvent && !_this.isAndroid && formTagNames.indexOf(eventTarget.tagName.toLowerCase()) < 0) {
 
-            if (!isTouchEvent && !_this.isAndroid) {
                 if (event.preventDefault) event.preventDefault();
                 else event.returnValue = false;
             }
@@ -1357,6 +1383,18 @@ var Swiper = function (selector, params) {
         if (isScrolling) {
             _this.isTouched = false;
             return;
+        }
+
+        // One way swipes
+        if (isH) {
+            if ((!params.swipeToNext && pageX < _this.touches.startX) || ((!params.swipeToPrev && pageX > _this.touches.startX))) {
+                return;
+            }
+        }
+        else {
+            if ((!params.swipeToNext && pageY < _this.touches.startY) || ((!params.swipeToPrev && pageY > _this.touches.startY))) {
+                return;
+            }
         }
 
         //Check For Nested Swipers
@@ -1541,6 +1579,7 @@ var Swiper = function (selector, params) {
 
         setTimeout(function () {
             //Release inner links
+            if (typeof _this === 'undefined' || _this === null) return;
             if (params.preventLinks) {
                 _this.allowLinks = true;
             }
@@ -1802,6 +1841,7 @@ var Swiper = function (selector, params) {
         }
         else {
             newPosition = currentPosition < 0 ? Math.round(currentPosition / groupSize) * groupSize : 0;
+            if (currentPosition <= -maxWrapperPosition()) newPosition = -maxWrapperPosition();
         }
         if (params.scrollContainer)  {
             newPosition = currentPosition < 0 ? currentPosition : 0;
@@ -1862,10 +1902,10 @@ var Swiper = function (selector, params) {
             else {
                 if (params.onSlideChangeEnd) {
                     if (action === 'to') {
-                        if (toOptions.runCallbacks === true) _this.fireCallback(params.onSlideChangeEnd, _this);
+                        if (toOptions.runCallbacks === true) _this.fireCallback(params.onSlideChangeEnd, _this, direction);
                     }
                     else {
-                        _this.fireCallback(params.onSlideChangeEnd, _this);
+                        _this.fireCallback(params.onSlideChangeEnd, _this, direction);
                     }
                     
                 }
@@ -2086,6 +2126,7 @@ var Swiper = function (selector, params) {
         for (var i = 0; i < pagers.length; i++) {
             if (target === pagers[i]) index = i;
         }
+        if (params.autoplay) _this.stopAutoplay(true);
         _this.swipeTo(index);
     }
     _this.updatePagination = function (position) {
@@ -2465,7 +2506,8 @@ Swiper.prototype = {
             events = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'],
             i;
 
-        function fireCallBack() {
+        function fireCallBack(e) {
+            if (e.target !== el) return;
             callback(a);
             if (a.params.queueEndCallbacks) a._queueEndCallbacks = false;
             if (!permanent) {
