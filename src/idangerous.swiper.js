@@ -260,7 +260,31 @@ var Swiper = function (selector, params) {
     /*=========================
       Slide API
       ===========================*/
-    _this._extendSwiperSlide = function  (el) {
+    _this.setMode = function (mode) {
+        var oldIsH = isH;
+        /*=========================
+          Windows Phone 8 Fix
+          ===========================*/
+        if ((_this.browser.ie10 || _this.browser.ie11) && !params.onlyExternal) {
+            _this.wrapper.classList.remove('swiper-wp8-' + _this.getMode());
+        }
+
+        _this.isH = isH = mode === 'horizontal';
+
+        if ((_this.browser.ie10 || _this.browser.ie11) && !params.onlyExternal) {
+            _this.wrapper.classList.add('swiper-wp8-' + _this.getMode());
+        }
+
+        if (oldIsH !== isH) {
+            _this.reInit(false, _this.activeIndex);
+        }
+    };
+
+    _this.getMode = function () {
+        return isH ? 'horizontal' : 'vertical';
+    };
+
+    _this._extendSwiperSlide = function (el) {
         el.append = function () {
             if (params.loop) {
                 el.insertAfter(_this.slides.length - _this.loopedSlides);
@@ -566,6 +590,9 @@ var Swiper = function (selector, params) {
         }
     };
 
+    //this ensures that the WP8 fix is applied.
+    _this.setMode(params.mode);
+
     /*=========================
       Plugins API
       ===========================*/
@@ -584,13 +611,6 @@ var Swiper = function (selector, params) {
             }
         }
     };
-
-    /*=========================
-      Windows Phone 8 Fix
-      ===========================*/
-    if ((_this.browser.ie10 || _this.browser.ie11) && !params.onlyExternal) {
-        _this.wrapper.classList.add('swiper-wp8-' + (isH ? 'horizontal' : 'vertical'));
-    }
 
     /*=========================
       Free Mode Class
@@ -2717,7 +2737,7 @@ Swiper.prototype = {
 
         // automatic axis detection
         if (typeof axis === 'undefined') {
-            axis = this.params.mode === 'horizontal' ? 'x' : 'y';
+            axis = this.isH ? 'x' : 'y';
         }
 
         if (this.support.transforms && this.params.useCSS3Transforms) {
@@ -2778,7 +2798,7 @@ Swiper.prototype = {
         // passed one coordinate and optional axis
         else {
             if (typeof y === 'undefined') {
-                y = this.params.mode === 'horizontal' ? 'x' : 'y';
+                y = this.isH ? 'x' : 'y';
             }
             coords[y] = x;
         }
