@@ -43,7 +43,7 @@
 
   * **Hardware accelerated**. Swiper uses hardware accelerated technics (where supported) to achive ultra smooth animation and perfomance, especially on iOS devices.
 
-  * **Awesome compatibility**. Swiper compatible and tested with: Mobile Safari (tested on iOS5), Android 2.1%2B, latest desktop versions of Google Chrome, Safari, Firefox, Internet Explorer 10 and Opera. It also works in Internet Explorer 9 but without animation.
+  * **Awesome compatibility**. Swiper compatible and tested with: Mobile Safari (tested on iOS5), Android 2.1+, latest desktop versions of Google Chrome, Safari, Firefox, Internet Explorer 10 and Opera. It also works in Internet Explorer 9 but without animation.
 
   * **Standalone**. Swiper doesn't require any JavaScript libraries like jQuery, it makes Swiper much more smaller and faster. So it can be safely used with such libraries as jQuery, jQuery Mobile, jQTouch, etc.
 
