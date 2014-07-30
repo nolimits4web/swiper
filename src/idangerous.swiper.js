@@ -1359,6 +1359,7 @@ var Swiper = function (selector, params) {
         allowMomentumBounce = false;
         //Check For Nested Swipers
         _this.isTouched = true;
+        _this.receivedMove = false;
         isTouchEvent = event.type === 'touchstart';
 
         if (!isTouchEvent || event.targetTouches.length === 1) {
@@ -1413,6 +1414,7 @@ var Swiper = function (selector, params) {
     var moveEventInfos = [];
     function onTouchMove(event) {
         // If slider is not touched - exit
+        _this.receivedMove = true;
         if (!_this.isTouched || params.onlyExternal) return;
         if (isTouchEvent && event.type === 'mousemove') return;
 
@@ -1840,6 +1842,7 @@ var Swiper = function (selector, params) {
         }
         if (params.onTouchEnd) _this.fireCallback(params.onTouchEnd, _this, event);
         _this.callPlugins('onTouchEnd');
+        _this.receivedMove = false;
     }
 
 
@@ -1992,7 +1995,13 @@ var Swiper = function (selector, params) {
             newPosition = 0;
         }
 
-        if (newPosition === currentPosition) return false;
+        if (newPosition === currentPosition) {
+            //'Reset' Callback
+            if (params.onSlideReset && _this.receivedMove) {
+                _this.fireCallback(params.onSlideReset, _this, newPosition);
+            }
+            return false;
+        }
 
         swipeToPosition(newPosition, 'reset');
         return true;
