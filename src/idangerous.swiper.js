@@ -277,6 +277,7 @@ var Swiper = function (selector, params) {
 
         if (oldIsH !== isH) {
             _this.reInit(false, _this.activeIndex);
+            _this.swipeTo(_this.activeIndex, 0, false);
         }
     };
 
