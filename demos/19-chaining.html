@@ -113,12 +113,12 @@ body {
   <script src="js/jquery-1.10.1.min.js"></script>
   <script src="../src/idangerous.swiper.js"></script>
   <script>
-  $('.swiper-container').swiper({
+  var mySwiper = $('.swiper-container').swiper({
     pagination: '.pagination',
     loop:true,
     grabCursor: true,
     paginationClickable: true
-  }).addClass('test-chaining');
+  });
   $('.arrow-left').on('click', function(e){
     e.preventDefault()
     var swiper = $(this).siblings('.swiper-container').data('swiper');

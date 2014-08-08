@@ -2809,13 +2809,16 @@ if (window.jQuery || window.Zepto) {
     (function ($) {
         'use strict';
         $.fn.swiper = function (params) {
-            return this.each(function() {
+            var firstInstance;
+            this.each(function(i) {
                 var that = $(this);
                 if (!that.data('swiper')) {
                     var s = new Swiper(that[0], params);
+                    if (!i) firstInstance = s;
                     that.data('swiper', s);
                 }
             });
+            return firstInstance;
         };
     })(window.jQuery || window.Zepto);
 }
