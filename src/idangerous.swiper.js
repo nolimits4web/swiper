@@ -1171,18 +1171,6 @@ var Swiper = function (selector, params) {
             }
         }
 
-        function normalizeWheelSpeed(event) {
-            var normalized;
-            if (event.wheelDelta) {
-                normalized = (event.wheelDelta % 120 - 0) === -0 ? event.wheelDelta / 120 : event.wheelDelta / 12;
-            } else {
-                var rawAmmount = event.deltaY ? event.deltaY : event.detail;
-                normalized = rawAmmount % 3 ? (rawAmmount % 1 ? rawAmmount * 10 : rawAmmount) : rawAmmount / 3;
-            }
-            return normalized;
-        }
-
-        // console.log(we, delta, normalizeWheelSpeed(e));
         if (!params.freeMode) {
             if ((new Date()).getTime() - lastScrollTime > 60) {
                 if (delta < 0) _this.swipeNext();
