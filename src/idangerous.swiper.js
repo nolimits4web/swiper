@@ -2798,7 +2798,7 @@ if (window.jQuery || window.Zepto) {
         'use strict';
         $.fn.swiper = function (params) {
             var firstInstance;
-            this.each(function(i) {
+            this.each(function (i) {
                 var that = $(this);
                 if (!that.data('swiper')) {
                     var s = new Swiper(that[0], params);
