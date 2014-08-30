@@ -2,7 +2,6 @@
     Feature Detection
 ====================================================*/
 support: {
-
     touch : (window.Modernizr && Modernizr.touch === true) || (function () {
         return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
     })(),
@@ -20,6 +19,14 @@ support: {
     transitions : (window.Modernizr && Modernizr.csstransitions === true) || (function () {
         var div = document.createElement('div').style;
         return ('transition' in div || 'WebkitTransition' in div || 'MozTransition' in div || 'msTransition' in div || 'MsTransition' in div || 'OTransition' in div);
+    })(),
+
+    flexbox: (function () {
+        var div = document.createElement('div').style;
+        var styles = ('WebkitBox msFlexbox MsFlexbox WebkitFlex MozBox fles').split(' ');
+        for (var i = 0; i < styles.length; i++) {
+            if (styles[i] in div) return true;
+        }
     })(),
 
     observer: (function () {

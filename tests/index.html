@@ -6,10 +6,10 @@
     <link rel="stylesheet" href="../build/css/idangerous.swiper.css">
 </head>
 <body>
-    <div class="swiper-container" dir="rtl">
+    <div class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide">1</div>
-            <div class="swiper-slide">2</div>
+            <div class="swiper-slide" style="">2</div>
             <div class="swiper-slide">3</div>
             <div class="swiper-slide">4</div>
             <div class="swiper-slide">5</div>
@@ -18,6 +18,7 @@
             <div class="swiper-slide">8</div>
             <div class="swiper-slide">9</div>
         </div>
+        <div class="swiper-pagination"></div>
     </div>
     <style>
     body, html {
@@ -34,10 +35,11 @@
         background: #aaa;
         width: 33.333333%;
         width: -webkit-calc(33.333333% - 100px/3);
+        width: 200px;
         /*margin-left: 50px;*/
     }
-    .swiper-slide:last-child {
-        /*width: 500px;*/
+    .swiper-slide:nth-child(2n) {
+        width: 500px;
         /*margin-left: 0;*/
     }
     </style>
@@ -45,9 +47,12 @@
     <script>
         var swiper = new Swiper('.swiper-container', {
             spaceBetween: 50,
-            // slidesPerView: 'auto',
-            slidesPerView: 3,
-            centeredSlides: true
+            slidesPerView: 'auto',
+            // slidesPerView: 4,
+            // slidesPerGroup: 4,
+            // observer: true,
+            // centeredSlides: true,
+            pagination: '.swiper-pagination',
         });
     </script>
 </body>

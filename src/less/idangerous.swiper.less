@@ -19,19 +19,20 @@ Basic Swiper Styles
     /* Fix of Webkit flickering */
     z-index:1;
     .preserve3d();
-    &.swiper-container-vertical .swiper-wrapper{
-        -webkit-box-orient: vertical;
-        -moz-box-orient: vertical;
-        -ms-flex-direction: column;
-        -webkit-flex-direction: column;
-        flex-direction: column;
-    }
+}
+.swiper-container-vertical > .swiper-wrapper{
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
 }
 .swiper-wrapper {
     position:relative;
     width: 100%;
     height: 100%;
     display: -webkit-box;
+    display: -moz-box;
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
@@ -60,10 +61,8 @@ Basic Swiper Styles
     -o-transition-timing-function: ease-out;
     transition-timing-function: ease-out;
     margin: 0 auto;
-
 }
 .swiper-slide {
-    // float: left;
     .preserve3d();
     -webkit-flex-shrink: 0;
     -ms-flex: 0 0 auto;
@@ -75,9 +74,11 @@ Basic Swiper Styles
 /* IE10 Windows Phone 8 Fixes */
 .swiper-wp8-horizontal {
     -ms-touch-action: pan-y;
+    touch-action: pan-y;
 }
 .swiper-wp8-vertical {
     -ms-touch-action: pan-x;
+    touch-action: pan-x;
 }
 
 /* ===============================================================
@@ -87,14 +88,10 @@ sizes, pagination, etc.
 .swiper-container {
     /* Specify Swiper's Size: */
 
-    /*width:200px;
-    height: 100px;*/
 }
 .swiper-slide {
     /* Specify Slides's Size: */
     
-    /*width: 100%;
-    height: 100%;*/
 }
 .swiper-slide-active {
     /* Specific active slide styling: */
@@ -115,15 +112,45 @@ sizes, pagination, etc.
 /* ===============================================================
 Pagination Styles
 ================================================================*/
+.swiper-pagination {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: 10px;
+    text-align: center;
+}
 .swiper-pagination-bullet {
-    /* Stylize pagination bullet: */    
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    margin: 0 5px;
+    border-radius: 100%;
+    background: #000;
+    opacity: 0.2;
 
 }
 .swiper-pagination-bullet-active {
-    /* Specific active bullet style: */ 
-    
+    opacity: 1;
+    background: #007aff;
 }
 .swiper-pagination-bullet-visible {
-    /* Specific visible bullet style: */    
-    
+    opacity: 1;
+}
+.swiper-container-vertical {
+    .swiper-pagination {
+        right: 10px;
+        top: 50%;
+        left: auto;
+        bottom: auto;
+        width: 8px;
+        -webkit-transform:translate3d(0px,-50%,0);
+        -moz-transform:translate3d(0px,-50%,0);
+        -o-transform:translate(0px,-50%);
+        -ms-transform:translate3d(0px,-50%,0);
+        transform:translate3d(0px,-50%,0);
+    }
+    .swiper-pagination-bullet {
+        margin: 5px 0;
+        display: block;
+    }
 }
