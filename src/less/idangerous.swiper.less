@@ -38,11 +38,11 @@ Basic Swiper Styles
     display: flex;
     .preserve3d();
 
-    -webkit-transition-property:-webkit-transform, left, top;
-    -moz-transition-property:-moz-transform, left, top;
-    -o-transition-property:-o-transform, left, top;
-    -ms-transition-property:-ms-transform, left, top;
-    transition-property:transform, left, top;
+    -webkit-transition-property:-webkit-transform;
+    -moz-transition-property:-moz-transform;
+    -o-transition-property:-o-transform;
+    -ms-transition-property:-ms-transform;
+    transition-property:transform;
     
     -webkit-transform:translate3d(0px,0,0);
     -moz-transform:translate3d(0px,0,0);
@@ -114,20 +114,15 @@ Pagination Styles
 ================================================================*/
 .swiper-pagination {
     position: absolute;
-    left: 0;
-    width: 100%;
-    bottom: 10px;
     text-align: center;
 }
 .swiper-pagination-bullet {
     width: 8px;
     height: 8px;
     display: inline-block;
-    margin: 0 5px;
     border-radius: 100%;
     background: #000;
     opacity: 0.2;
-
 }
 .swiper-pagination-bullet-active {
     opacity: 1;
@@ -137,20 +132,27 @@ Pagination Styles
     opacity: 1;
 }
 .swiper-container-vertical {
-    .swiper-pagination {
+    > .swiper-pagination {
         right: 10px;
         top: 50%;
-        left: auto;
-        bottom: auto;
-        width: 8px;
         -webkit-transform:translate3d(0px,-50%,0);
         -moz-transform:translate3d(0px,-50%,0);
         -o-transform:translate(0px,-50%);
         -ms-transform:translate3d(0px,-50%,0);
         transform:translate3d(0px,-50%,0);
+        .swiper-pagination-bullet {
+            margin: 5px 0;
+            display: block;
+        }
     }
-    .swiper-pagination-bullet {
-        margin: 5px 0;
-        display: block;
+}
+.swiper-container-horizontal {
+    > .swiper-pagination {
+        bottom: 10px;
+        left: 0;
+        width: 100%;
+        .swiper-pagination-bullet {
+            margin: 0 5px;
+        }
     }
 }
