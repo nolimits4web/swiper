@@ -1758,8 +1758,10 @@ var Swiper = function (selector, params) {
         if (!internal && params.loop) _this.fixLoop();
         if (!internal && params.autoplay) _this.stopAutoplay(true);
         _this.callPlugins('onSwipeNext');
-        var currentPosition = _this.getWrapperTranslate();
+
+        var currentPosition = Math.floor(_this.getWrapperTranslate());
         var newPosition = currentPosition;
+
         if (params.slidesPerView === 'auto') {
             for (var i = 0; i < _this.snapGrid.length; i++) {
                 if (-currentPosition >= _this.snapGrid[i] && -currentPosition < _this.snapGrid[i + 1]) {
@@ -1786,6 +1788,7 @@ var Swiper = function (selector, params) {
 
         var currentPosition = Math.ceil(_this.getWrapperTranslate());
         var newPosition;
+
         if (params.slidesPerView === 'auto') {
             newPosition = 0;
             for (var i = 1; i < _this.snapGrid.length; i++) {
