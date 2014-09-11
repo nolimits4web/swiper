@@ -77,7 +77,24 @@ body {
 </head>
 <body>
   <div class="device">
-    <a class="arrow-left" href="#"></a> 
+    <a class="arrow-left" href="#"></a>
+    <a class="arrow-right" href="#"></a>
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"> <img src="img/slider1-1.png"> </div>
+        <div class="swiper-slide"> <img src="img/slider1-2.png"> </div>
+        <div class="swiper-slide">
+          <div class="content-slide">
+            <p class="title">Slide with HTML</p>
+            <p>You can put any HTML inside of slide with any layout, not only images, even another Swiper!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pagination"></div>
+  </div>
+  <div class="device">
+    <a class="arrow-left" href="#"></a>
     <a class="arrow-right" href="#"></a>
     <div class="swiper-container">
       <div class="swiper-wrapper">
@@ -94,22 +111,24 @@ body {
     <div class="pagination"></div>
   </div>
   <script src="js/jquery-1.10.1.min.js"></script>
-  <script src="../dist/js/idangerous.swiper.min.js"></script>
+  <script src="../dist/idangerous.swiper.min.js"></script>
   <script>
-  var mySwiper = new Swiper('.swiper-container',{
+  var mySwiper = $('.swiper-container').swiper({
     pagination: '.pagination',
     loop:true,
     grabCursor: true,
     paginationClickable: true
-  })
+  });
   $('.arrow-left').on('click', function(e){
     e.preventDefault()
-    mySwiper.swipePrev()
-  })
+    var swiper = $(this).siblings('.swiper-container').data('swiper');
+    swiper.swipePrev();
+  });
   $('.arrow-right').on('click', function(e){
     e.preventDefault()
-    mySwiper.swipeNext()
-  })
+    var swiper = $(this).siblings('.swiper-container').data('swiper');
+    swiper.swipeNext();
+  });
   </script>
 </body>
 </html>

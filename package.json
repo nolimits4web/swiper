@@ -1,6 +1,6 @@
 {
   "name": "Swiper",
-  "version": "2.5.5",
+  "version": "2.7.0",
   "description": "Mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/idangerous.swiper.js",
   "repository": {
