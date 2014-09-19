@@ -9,6 +9,31 @@ module.exports = function (grunt) {
     var swiper = {
         filename: 'idangerous.swiper'
     };
+    // List of js files to concatenate
+
+    var jsFilesList = [
+        'src/js/wrap-start.js',
+        'src/js/swiper-intro.js',
+        'src/js/sizes.js',
+        'src/js/progress.js',
+        'src/js/resize.js',
+        'src/js/classes.js',
+        'src/js/pagination.js',
+        'src/js/events.js',
+        'src/js/clicks.js',
+        'src/js/touches.js',
+        'src/js/slide.js',
+        'src/js/translate.js',
+        'src/js/observer.js',
+        'src/js/init.js',
+        'src/js/swiper-outro.js',
+        'src/js/dom.js',
+        'src/js/dom-export.js',
+        'src/js/proto-start.js',
+        'src/js/proto-support.js',
+        'src/js/proto-end.js',
+        'src/js/wrap-end.js'
+    ];
 
     // Project configuration.
     grunt.initConfig({
@@ -76,7 +101,7 @@ module.exports = function (grunt) {
                         if (filename === 'wrap-start.js' || filename === 'wrap-end.js') {
                             addIndent = '';
                         }
-                        if (filename === 'swiper.js' || filename === 'dom.js' || filename === 'proto-start.js' || filename === 'proto-end.js') addIndent = '    ';
+                        if (filename === 'swiper-intro.js' || filename === 'swiper-outro.js' || filename === 'dom.js' || filename === 'dom-export.js' || filename === 'proto-start.js' || filename === 'proto-end.js') addIndent = '    ';
                         src = grunt.util.normalizelf(src);
                         return src.split(grunt.util.linefeed).map(function (line) {
                             return addIndent + line;
@@ -86,15 +111,7 @@ module.exports = function (grunt) {
                 }
             },
             js: {
-                src: [
-                    'src/js/wrap-start.js',
-                    'src/js/swiper.js',
-                    'src/js/proto-start.js',
-                    'src/js/proto-support.js',
-                    'src/js/proto-end.js',
-                    'src/js/dom.js',
-                    'src/js/wrap-end.js'
-                ],
+                src: jsFilesList,
                 dest: 'build/js/<%= swiper.filename %>.js'
             },
             css_build: {

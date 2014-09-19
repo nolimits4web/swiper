@@ -93,18 +93,6 @@ var Dom7 = (function () {
                 this[i].removeAttribute(attr);
             }
         },
-        prop: function (prop, value) {
-            if (typeof value === 'undefined') {
-                if (this[0]) return this[0][prop];
-                else return undefined;
-            }
-            else {
-                for (var i = 0; i < this.length; i++) {
-                    this[i][prop] = value;
-                }
-                return this;
-            }
-        },
         data: function (key, value) {
             if (typeof value === 'undefined') {
                 // Get value
@@ -122,18 +110,6 @@ var Dom7 = (function () {
                     var el = this[i];
                     if (!el.dom7ElementDataStorage) el.dom7ElementDataStorage = {};
                     el.dom7ElementDataStorage[key] = value;
-                }
-                return this;
-            }
-        },
-        val: function (value) {
-            if (typeof value === 'undefined') {
-                if (this[0]) return this[0].value;
-                else return null;
-            }
-            else {
-                for (var i = 0; i < this.length; i++) {
-                    this[i].value = value;
                 }
                 return this;
             }
@@ -252,22 +228,6 @@ var Dom7 = (function () {
             }
             return this;
         },
-        animationEnd: function (callback) {
-            var events = ['webkitAnimationEnd', 'OAnimationEnd', 'MSAnimationEnd', 'animationend'],
-                i, j, dom = this;
-            function fireCallBack(e) {
-                callback(e);
-                for (i = 0; i < events.length; i++) {
-                    dom.off(events[i], fireCallBack);
-                }
-            }
-            if (callback) {
-                for (i = 0; i < events.length; i++) {
-                    dom.on(events[i], fireCallBack);
-                }
-            }
-            return this;
-        },
         // Sizing/Styles
         width: function () {
             if (this[0] === window) {
@@ -332,18 +292,6 @@ var Dom7 = (function () {
             else {
                 return null;
             }
-        },
-        hide: function () {
-            for (var i = 0; i < this.length; i++) {
-                this[i].style.display = 'none';
-            }
-            return this;
-        },
-        show: function () {
-            for (var i = 0; i < this.length; i++) {
-                this[i].style.display = 'block';
-            }
-            return this;
         },
         css: function (props, value) {
             var i;
@@ -433,11 +381,6 @@ var Dom7 = (function () {
                 return false;
             }
             
-        },
-        indexOf: function (el) {
-            for (var i = 0; i < this.length; i++) {
-                if (this[i] === el) return i;
-            }
         },
         index: function () {
             if (this[0]) {
@@ -642,49 +585,15 @@ var Dom7 = (function () {
             }
             return this;
         },
-        detach: function () {
-            return this.remove();
+    };
+    $.fn = Dom7.prototype;
+    $.unique = function (arr) {
+        var unique = [];
+        for (var i = 0; i < arr.length; i++) {
+            if (unique.indexOf(arr[i]) === -1) unique.push(arr[i]);
         }
+        return unique;
     };
 
-    // Shortcuts
-    (function () {
-        var shortcuts = ('click blur focus focusin focusout keyup keydown keypress submit change mousedown mousemove mouseup mouseenter mouseleave mouseout mouseover touchstart touchend touchmove resize scroll').split(' ');
-        var notTrigger = ('resize scroll').split(' ');
-        function createMethod(name) {
-            Dom7.prototype[name] = function (handler) {
-                var i;
-                if (typeof handler === 'undefined') {
-                    for (i = 0; i < this.length; i++) {
-                        if (notTrigger.indexOf(name) < 0) this[i][name]();
-                    }
-                    return this;
-                }
-                else {
-                    return this.on(name, handler);
-                }
-            };
-        }
-        for (var i = 0; i < shortcuts.length; i++) {
-            createMethod(shortcuts[i]);
-        }
-    })();
     return $;
 })();
-
-// Export to local scope
-var $ = Dom7;
-
-// Link to prototype
-$.fn = Dom7.prototype;
-
-// Export to Window
-window.Dom7 = Dom7;
-
-$.unique = function (arr) {
-    var unique = [];
-    for (var i = 0; i < arr.length; i++) {
-        if (unique.indexOf(arr[i]) === -1) unique.push(arr[i]);
-    }
-    return unique;
-};
