@@ -691,13 +691,21 @@ var Swiper = function (selector, params) {
             if (params.calculateHeight) _this.height = slideMaxHeight;
             if (isH) {
                 wrapperSize = slidesWidth + _this.wrapperRight + _this.wrapperLeft;
-                wrapper.style.width = (slidesWidth) + 'px';
-                wrapper.style.height = (_this.height) + 'px';
+                if(!params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
+                    wrapper.style.width = (slidesWidth) + 'px';
+                }
+                if(!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width') {
+                    wrapper.style.height = (_this.height) + 'px';
+                }
             }
             else {
+                if(!params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
+                    wrapper.style.width = (_this.width) + 'px';
+                }
+                if(!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width') {
+                    wrapper.style.height = (slidesHeight) + 'px';
+                }
                 wrapperSize = slidesHeight + _this.wrapperTop + _this.wrapperBottom;
-                wrapper.style.width = (_this.width) + 'px';
-                wrapper.style.height = (slidesHeight) + 'px';
             }
 
         }
