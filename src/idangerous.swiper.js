@@ -1769,11 +1769,11 @@ var Swiper = function (selector, params) {
         if (!internal && params.loop) _this.fixLoop();
         if (!internal && params.autoplay) _this.stopAutoplay(true);
         _this.callPlugins('onSwipeNext');
-        var currentPosition = _this.getWrapperTranslate();
+        var currentPosition = _this.getWrapperTranslate().toFixed(2);
         var newPosition = currentPosition;
         if (params.slidesPerView === 'auto') {
             for (var i = 0; i < _this.snapGrid.length; i++) {
-                if (-currentPosition >= _this.snapGrid[i] && -currentPosition < _this.snapGrid[i + 1]) {
+                if (-currentPosition >= _this.snapGrid[i].toFixed(2) && -currentPosition < _this.snapGrid[i + 1].toFixed(2)) {
                     newPosition = -_this.snapGrid[i + 1];
                     break;
                 }
