@@ -1678,12 +1678,12 @@ var Swiper = function (selector, params) {
         //Short Touches
         if (direction === 'toNext' && (timeDiff <= 300)) {
             if (diffAbs < 30 || !params.shortSwipes) _this.swipeReset();
-            else _this.swipeNext(true);
+            else _this.swipeNext(true, true);
         }
 
         if (direction === 'toPrev' && (timeDiff <= 300)) {
             if (diffAbs < 30 || !params.shortSwipes) _this.swipeReset();
-            else _this.swipePrev(true);
+            else _this.swipePrev(true, true);
         }
 
         //Long Touches
@@ -1708,7 +1708,7 @@ var Swiper = function (selector, params) {
         }
         if (direction === 'toNext' && (timeDiff > 300)) {
             if (diffAbs >= targetSlideSize * params.longSwipesRatio) {
-                _this.swipeNext(true);
+                _this.swipeNext(true, true);
             }
             else {
                 _this.swipeReset();
@@ -1716,7 +1716,7 @@ var Swiper = function (selector, params) {
         }
         if (direction === 'toPrev' && (timeDiff > 300)) {
             if (diffAbs >= targetSlideSize * params.longSwipesRatio) {
-                _this.swipePrev(true);
+                _this.swipePrev(true, true);
             }
             else {
                 _this.swipeReset();
@@ -1775,7 +1775,8 @@ var Swiper = function (selector, params) {
     /*==================================================
         Swipe Functions
     ====================================================*/
-    _this.swipeNext = function (internal) {
+    _this.swipeNext = function (runCallbacks, internal) {
+        if (typeof runCallbacks === 'undefined') runCallbacks = true;
         if (!internal && params.loop) _this.fixLoop();
         if (!internal && params.autoplay) _this.stopAutoplay(true);
         _this.callPlugins('onSwipeNext');
@@ -1797,10 +1798,11 @@ var Swiper = function (selector, params) {
             newPosition = -maxWrapperPosition();
         }
         if (newPosition === currentPosition) return false;
-        swipeToPosition(newPosition, 'next');
+        swipeToPosition(newPosition, 'next', {runCallbacks: runCallbacks});
         return true;
     };
-    _this.swipePrev = function (internal) {
+    _this.swipePrev = function (runCallbacks, internal) {
+        if (typeof runCallbacks === 'undefined') runCallbacks = true;
         if (!internal && params.loop) _this.fixLoop();
         if (!internal && params.autoplay) _this.stopAutoplay(true);
         _this.callPlugins('onSwipePrev');
@@ -1828,11 +1830,12 @@ var Swiper = function (selector, params) {
         if (newPosition > 0) newPosition = 0;
 
         if (newPosition === currentPosition) return false;
-        swipeToPosition(newPosition, 'prev');
+        swipeToPosition(newPosition, 'prev', {runCallbacks: runCallbacks});
         return true;
 
     };
-    _this.swipeReset = function () {
+    _this.swipeReset = function (runCallbacks) {
+        if (typeof runCallbacks === 'undefined') runCallbacks = true;
         _this.callPlugins('onSwipeReset');
         var currentPosition = _this.getWrapperTranslate();
         var groupSize = slideSize * params.slidesPerGroup;
@@ -1867,7 +1870,7 @@ var Swiper = function (selector, params) {
 
         if (newPosition === currentPosition) return false;
 
-        swipeToPosition(newPosition, 'reset');
+        swipeToPosition(newPosition, 'reset', {runCallbacks: runCallbacks});
         return true;
     };
 
@@ -1890,7 +1893,7 @@ var Swiper = function (selector, params) {
 
         if (newPosition === currentPosition) return false;
 
-        runCallbacks = runCallbacks === false ? false : true;
+        if (typeof runCallbacks === 'undefined') runCallbacks = true;
         swipeToPosition(newPosition, 'to', {index: index, speed: speed, runCallbacks: runCallbacks});
         return true;
     };
@@ -1945,19 +1948,19 @@ var Swiper = function (selector, params) {
         _this.updateActiveSlide(newPosition);
 
         //Callbacks
-        if (params.onSlideNext && action === 'next') {
+        if (params.onSlideNext && action === 'next' && toOptions.runCallbacks === true) {
             _this.fireCallback(params.onSlideNext, _this, newPosition);
         }
-        if (params.onSlidePrev && action === 'prev') {
+        if (params.onSlidePrev && action === 'prev' && toOptions.runCallbacks === true) {
             _this.fireCallback(params.onSlidePrev, _this, newPosition);
         }
         //'Reset' Callback
-        if (params.onSlideReset && action === 'reset') {
+        if (params.onSlideReset && action === 'reset' && toOptions.runCallbacks === true) {
             _this.fireCallback(params.onSlideReset, _this, newPosition);
         }
 
         //'Next', 'Prev' and 'To' Callbacks
-        if (action === 'next' || action === 'prev' || (action === 'to' && toOptions.runCallbacks === true))
+        if ((action === 'next' || action === 'prev' || action === 'to') && toOptions.runCallbacks === true)
             slideChangeCallbacks(action);
     }
     /*==================================================
@@ -2247,9 +2250,9 @@ var Swiper = function (selector, params) {
             autoplayIntervalId = setInterval(function () {
                 if (params.loop) {
                     _this.fixLoop();
-                    _this.swipeNext(true);
+                    _this.swipeNext(true, true);
                 }
-                else if (!_this.swipeNext(true)) {
+                else if (!_this.swipeNext(true, true)) {
                     if (!params.autoplayStopOnLast) _this.swipeTo(0);
                     else {
                         clearInterval(autoplayIntervalId);
@@ -2283,9 +2286,9 @@ var Swiper = function (selector, params) {
         autoplayTimeoutId = setTimeout(function () {
             if (params.loop) {
                 _this.fixLoop();
-                _this.swipeNext(true);
+                _this.swipeNext(true, true);
             }
-            else if (!_this.swipeNext(true)) {
+            else if (!_this.swipeNext(true, true)) {
                 if (!params.autoplayStopOnLast) _this.swipeTo(0);
                 else {
                     clearTimeout(autoplayTimeoutId);
