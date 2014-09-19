@@ -962,7 +962,7 @@ var Swiper = function (selector, params) {
     }
 
     //Remove Event Listeners
-    _this.destroy = function () {
+    _this.destroy = function (removeStyles) {
         var unbind = _this.h.removeEventListener;
         var eventTarget = params.eventTarget === 'wrapper' ? _this.wrapper : _this.container;
         //Touch Events
@@ -1011,7 +1011,23 @@ var Swiper = function (selector, params) {
         if (params.autoplay) {
             _this.stopAutoplay();
         }
+        // Remove styles
+        if (removeStyles) {
+            _this.wrapper.removeAttribute('style');
+            for (var i = 0; i < _this.slides.length; i++) {
+                _this.slides[i].removeAttribute('style');
+            }
+        }
+        // Plugins
         _this.callPlugins('onDestroy');
+
+        // Check jQuery/Zepto data
+        if (window.jQuery && window.jQuery(_this.container).data('swiper')) {
+            window.jQuery(_this.container).removeData('swiper');
+        }
+        if (window.Zepto && window.Zepto(_this.container).data('swiper')) {
+            window.Zepto(_this.container).removeData('swiper');
+        }
 
         //Destroy variable
         _this = null;
@@ -2824,11 +2840,9 @@ if (window.jQuery || window.Zepto) {
             var firstInstance;
             this.each(function (i) {
                 var that = $(this);
-                if (!that.data('swiper')) {
-                    var s = new Swiper(that[0], params);
-                    if (!i) firstInstance = s;
-                    that.data('swiper', s);
-                }
+                var s = new Swiper(that[0], params);
+                if (!i) firstInstance = s;
+                that.data('swiper', s);
             });
             return firstInstance;
         };
