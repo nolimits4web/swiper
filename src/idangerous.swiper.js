@@ -1033,6 +1033,9 @@ var Swiper = function (selector, params) {
             var formElements = $$('input, textarea, select', _this.container);
             for (i = 0; i < formElements.length; i++) {
                 bind(formElements[i], _this.touchEvents.touchStart, releaseForms, true);
+                if (_this.support.touch && params.simulateTouch) {
+                    bind(formElements[i], 'mousedown', releaseForms, true);
+                }
             }
         }
 
@@ -1068,6 +1071,9 @@ var Swiper = function (selector, params) {
             var formElements = $$('input, textarea, select', _this.container);
             for (i = 0; i < formElements.length; i++) {
                 unbind(formElements[i], _this.touchEvents.touchStart, releaseForms, true);
+                if (_this.support.touch && params.simulateTouch) {
+                    unbind(formElements[i], 'mousedown', releaseForms, true);
+                }
             }
         }
         //Prevent Links Events
