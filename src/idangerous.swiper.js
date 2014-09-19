@@ -1310,7 +1310,10 @@ var Swiper = function (selector, params) {
         isTouchEvent = event.type === 'touchstart';
 
         // prevent user enter with right and the swiper move (needs isTouchEvent)
-        if (!isTouchEvent && 'which' in event && event.which === 3) return false;
+        if (!isTouchEvent && 'which' in event && event.which === 3) {
+            _this.isTouched = false;
+            return false;
+        }
 
         if (!isTouchEvent || event.targetTouches.length === 1) {
             _this.callPlugins('onTouchStartBegin');
