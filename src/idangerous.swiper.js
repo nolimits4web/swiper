@@ -2177,7 +2177,7 @@ var Swiper = function (selector, params) {
                 }
             }
             else {
-                pagers[_this.activeIndex].className += ' ' + params.paginationActiveClass;
+                if (pagers[_this.activeIndex]) pagers[_this.activeIndex].className += ' ' + params.paginationActiveClass;
             }
         }
         else {
@@ -2185,7 +2185,7 @@ var Swiper = function (selector, params) {
                 if (pagers[_this.activeLoopIndex]) pagers[_this.activeLoopIndex].className += ' ' + params.paginationActiveClass + ' ' + params.paginationVisibleClass;
             }
             else {
-                pagers[_this.activeIndex].className += ' ' + params.paginationActiveClass + ' ' + params.paginationVisibleClass;
+                if (pagers[_this.activeIndex]) pagers[_this.activeIndex].className += ' ' + params.paginationActiveClass + ' ' + params.paginationVisibleClass;
             }
         }
     };
