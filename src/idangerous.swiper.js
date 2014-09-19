@@ -458,8 +458,12 @@ var Swiper = function (selector, params) {
         }
     };
     _this.removeAllSlides = function () {
+        var num = _this.slides.length;
         for (var i = _this.slides.length - 1; i >= 0; i--) {
             _this.slides[i].remove();
+            if (i === num - 1) {
+                _this.setWrapperTranslate(0);
+            }
         }
     };
     _this.getSlide = function (index) {
