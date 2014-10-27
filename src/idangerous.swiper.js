@@ -936,29 +936,43 @@ var Swiper = function (selector, params) {
         }
 
         //Keyboard
-        function _loadImage(src) {
-            var image = new Image();
-            image.onload = function () {
-                if (typeof _this === 'undefined' || _this === null) return;
-                if (_this.imagesLoaded !== undefined) _this.imagesLoaded++;
-                if (_this.imagesLoaded === _this.imagesToLoad.length) {
-                    _this.reInit();
-                    if (params.onImagesReady) _this.fireCallback(params.onImagesReady, _this);
-                }
-            };
-            image.src = src;
-        }
+		function _loadImage(img) {
+			var image, src;
+			var onReady = function () {
+				if (typeof _this === 'undefined' || _this === null) return;
+				if (_this.imagesLoaded !== undefined) _this.imagesLoaded++;
+				if (_this.imagesLoaded === _this.imagesToLoad.length) {
+					_this.reInit();
+					if (params.onImagesReady) _this.fireCallback(params.onImagesReady, _this);
+				}
+			};
 
-        if (params.keyboardControl) {
-            bind(document, 'keydown', handleKeyboardKeys);
-        }
-        if (params.updateOnImagesReady) {
-            _this.imagesToLoad = $$('img', _this.container);
+			if(!img.complete){
+				src = (img.currentSrc || img.getAttribute('src'))
+				if( src ){
+					image = new Image();
+					image.onload = onReady;
+					image.onerror = onReady;
+					image.src = src;
+				} else {
+					onReady();
+				}
 
-            for (var i = 0; i < _this.imagesToLoad.length; i++) {
-                _loadImage(_this.imagesToLoad[i].getAttribute('src'));
-            }
-        }
+			} else {//image already loaded...
+				onReady();
+			}
+		}
+
+		if (params.keyboardControl) {
+			bind(document, 'keydown', handleKeyboardKeys);
+		}
+		if (params.updateOnImagesReady) {
+			_this.imagesToLoad = $$('img', _this.container);
+
+			for (var i = 0; i < _this.imagesToLoad.length; i++) {
+				_loadImage(_this.imagesToLoad[i]);
+			}
+		}
     }
 
     //Remove Event Listeners
