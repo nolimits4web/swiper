@@ -9,6 +9,7 @@ window.Swiper = function (container, params) {
         spaceBetween: 0,
         speed: 300,
         slidesPerView: 'auto',
+        slidesRows: 1,
         slidesPerGroup: 1,
         centeredSlides: false,
         simulateTouch: true,
@@ -90,6 +91,12 @@ window.Swiper = function (container, params) {
         onTouchEnd: function (swiper, e) {
             console.log('touchend');
         },
+        onReachBeginning: function (swiper) {
+            console.log('reach beginning');
+        },
+        onReachEnd: function (swiper) {
+            console.log('reach end');
+        },
         */
         
         observer: true,
@@ -169,6 +176,11 @@ window.Swiper = function (container, params) {
     s.unlockSwipes = function () {
         s.params.allowSwipeToNext = s.params.allowSwipeToPrev = true;
     };
+
+    // Columns
+    if (s.params.slidesRows > 1) {
+        s.container.addClass('swiper-container-multirow');
+    }
     
 
     /*=========================

@@ -27,10 +27,36 @@ s.updateSlidesSize = function () {
     if (s.rtl) s.slides.css({marginLeft: '', marginTop: ''});
     else s.slides.css({marginRight: '', marginBottom: ''});
 
+    var slidesEvenRows;
+    if (s.params.slidesRows > 1) {
+        if (Math.floor(s.slides.length / s.params.slidesRows) === s.slides.length / s.params.slidesRows) {
+            slidesEvenRows = s.slides.length;
+        }
+        else {
+            slidesEvenRows = Math.ceil(s.slides.length / s.params.slidesRows) * s.params.slidesRows;
+        }
+    }
+
     // Calc slides
     for (i = 0; i < s.slides.length; i++) {
         var slideSize = 0;
         var slide = s.slides.eq(i);
+        if (s.params.slidesRows > 1) {
+            // Set slides order
+            var newSlideOrderIndex;
+            var column, row;
+            var slidesPerColumn = s.params.slidesRows;
+            column = Math.floor(i / slidesPerColumn);
+            row = i - column * s.params.slidesRows;
+            newSlideOrderIndex = column + row * s.params.slidesRows;
+            slide.css({
+                '-webkit-box-ordinal-group': newSlideOrderIndex,
+                '-moz-box-ordinal-group': newSlideOrderIndex,
+                '-ms-flex-order': newSlideOrderIndex,
+                '-webkit-order': newSlideOrderIndex,
+                'order': newSlideOrderIndex
+            });
+        }
         if (slide.css('display') === 'none') continue;
         if (s.params.slidesPerView === 'auto') {
             slideSize = isH() ? slide.outerWidth(true) : slide.outerHeight(true);
@@ -68,6 +94,12 @@ s.updateSlidesSize = function () {
     }
     s.virtualWidth = Math.max(s.virtualWidth, s.size);
 
+    if (s.params.slidesRows > 1) {
+        s.virtualWidth = s.slides[0].offsetWidth * slidesEvenRows + s.params.spaceBetween * slidesEvenRows;
+        s.virtualWidth = Math.ceil(s.virtualWidth / s.params.slidesRows) - s.params.spaceBetween;
+        s.wrapper.css({width: s.virtualWidth + s.params.spaceBetween + 'px'});
+    }
+
     // Remove last grid elements depending on width
     if (!s.params.centeredSlides) {
         var newSlidesGrid = [];
@@ -81,6 +113,7 @@ s.updateSlidesSize = function () {
             s.snapGrid.push(s.virtualWidth - s.size);
         }
     }
+    if (s.snapGrid.length === 0) s.snapGrid = [0];
         
     if (s.params.spaceBetween !== 0) {
         if (isH()) {

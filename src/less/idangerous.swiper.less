@@ -20,6 +20,7 @@ Basic Swiper Styles
     z-index:1;
     .preserve3d();
 }
+
 .swiper-container-vertical > .swiper-wrapper{
     -webkit-box-orient: vertical;
     -moz-box-orient: vertical;
@@ -53,6 +54,13 @@ Basic Swiper Styles
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
+}
+.swiper-container-multirow > .swiper-wrapper {
+    -webkit-box-lines: multiple;
+    -moz-box-lines: multiple;
+    -ms-fles-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
 }
 .swiper-free-mode > .swiper-wrapper {
     -webkit-transition-timing-function: ease-out;
