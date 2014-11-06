@@ -50,30 +50,48 @@ window.Swiper = function (container, params) {
         bulletVisibleClass: 'swiper-pagination-bullet-visible',
         buttonDisabledClass: 'swiper-button-disabled',
         paginationHiddenClass: 'swiper-pagination-hidden',
-        onClick: function () {
+        onClick: function (swiper, e) {
             console.log('clicked');
         },
-        onTap: function () {
+        onTap: function (swiper, e) {
             console.log('tapped');
         },
-        onDoubleTap: function () {
+        onDoubleTap: function (swiper, e) {
             console.log('doubletapped');
         },
-        onSlideChangeStart: function () {
+        onSliderMove: function (swiper, e) {
+            console.log('onslidermove');
+        },
+        onSlideChangeStart: function (swiper) {
             console.log('slidechangestart');
         },
-        onSlideChangeEnd: function () {
+        onSlideChangeEnd: function (swiper) {
             console.log('slidechangeend');
         },
-        onTransitionStart: function () {
+        onTransitionStart: function (swiper) {
             console.log('transitionstart');
         },
-        onTransitionEnd: function () {
+        onTransitionEnd: function (swiper) {
             console.log('transitionend');
         },
-        onProgress: function () {
-            console.log('progressChanged');
+        /*
+        onProgress: function (swiper, progress) {
+            console.log('progressChanged',);
         },
+        onDestroy: function () {
+            console.log('destroy');
+        },
+        onTouchStart: function (swiper, e) {
+            console.log('touchstart');
+        },
+        onTouchMove: function (swiper, e) {
+            console.log('touchmove');
+        },
+        onTouchEnd: function (swiper, e) {
+            console.log('touchend');
+        },
+        */
+        
         observer: true,
         observeParents: true,
     };
@@ -131,6 +149,27 @@ window.Swiper = function (container, params) {
     function isH() {
         return s.params.direction === 'horizontal';
     }
+
+    // Locks, unlocks
+    s.lockSwipeToNext = function () {
+        s.params.allowSwipeToNext = false;
+    };
+    s.lockSwipeToPrev = function () {
+        s.params.allowSwipeToPrev = false;
+    };
+    s.lockSwipes = function () {
+        s.params.allowSwipeToNext = s.params.allowSwipeToPrev = false;
+    };
+    s.unlockSwipeToNext = function () {
+        s.params.allowSwipeToNext = true;
+    };
+    s.unlockSwipeToPrev = function () {
+        s.params.allowSwipeToPrev = true;
+    };
+    s.unlockSwipes = function () {
+        s.params.allowSwipeToNext = s.params.allowSwipeToPrev = true;
+    };
+    
 
     /*=========================
       Set grab cursor
