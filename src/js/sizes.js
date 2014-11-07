@@ -149,6 +149,7 @@ s.updateSlidesOffset = function () {
 s.update = function () {
     s.updateContainerSize();
     s.updateSlidesSize();
+    s.updateProgress();
     s.updatePagination();
     s.updateClasses();
 };

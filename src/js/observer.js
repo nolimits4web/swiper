@@ -29,7 +29,7 @@ s.initObservers = function () {
     }
 
     // Observe container
-    initObserver(s.container[0]);
+    initObserver(s.container[0], {childList: false});
 
     // Observe wrapper
     initObserver(s.wrapper[0], {attributes: false});

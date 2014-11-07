@@ -4,8 +4,10 @@
 s.onResize = function () {
     s.updateContainerSize();
     s.updateSlidesSize();
+    s.updateProgress();
+    s.updateClasses();
     if (s.params.slidesPerView === 'auto') s.updatePagination();
-    if (s.isLast) {
+    if (s.isEnd) {
         s.slideTo(s.slides.length - 1, 0, false);
     }
     else {

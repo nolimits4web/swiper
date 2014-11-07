@@ -18,11 +18,11 @@ s.updateClasses = function () {
 
     // Next/active buttons
     if (s.params.prevButton) {
-        if (s.isFirst) $(s.params.prevButton).addClass(s.params.buttonDisabledClass);
+        if (s.isBeginning) $(s.params.prevButton).addClass(s.params.buttonDisabledClass);
         else $(s.params.prevButton).removeClass(s.params.buttonDisabledClass);
     }
     if (s.params.nextButton) {
-        if (s.isLast) $(s.params.nextButton).addClass(s.params.buttonDisabledClass);
+        if (s.isEnd) $(s.params.nextButton).addClass(s.params.buttonDisabledClass);
         else $(s.params.nextButton).removeClass(s.params.buttonDisabledClass);
     }
 

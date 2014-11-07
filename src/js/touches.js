@@ -161,7 +161,7 @@ s.onTouchEnd = function (e) {
     if (s.params.onTouchEnd) s.params.onTouchEnd(s, e);
 
     //Return Grab Cursor
-    if (s.params.grabCursor) {
+    if (s.params.grabCursor && isMoved && isTouched) {
         s.container[0].style.cursor = 'move';
         s.container[0].style.cursor = '-webkit-grab';
         s.container[0].style.cursor = '-moz-grab';
@@ -180,7 +180,7 @@ s.onTouchEnd = function (e) {
             if (clickTimeout) clearTimeout(clickTimeout);
             clickTimeout = setTimeout(function () {
                 if (!s) return;
-                if (s.params.paginationHide && s.paginationContainer.length > 0) {
+                if (s.params.paginationHide && s.paginationContainer.length > 0 && !$(e.target).hasClass(s.params.bulletClass)) {
                     s.paginationContainer.toggleClass(s.params.paginationHiddenClass);
                 }
                 if (s.params.onClick) s.params.onClick(s, e);

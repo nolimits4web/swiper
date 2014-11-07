@@ -29,7 +29,9 @@ s.events = function (detach) {
     // Next, Prev, Index
     if (s.params.nextButton) $(s.params.nextButton)[action]('click', s.onClickNext);
     if (s.params.prevButton) $(s.params.prevButton)[action]('click', s.onClickPrev);
-    if (s.params.pagination && s.params.paginationClickable) $(s.paginationContainer)[action]('click', '.' + s.params.bulletClass, s.onClickIndex);
+    if (s.params.pagination && s.params.paginationClickable) {
+        $(s.paginationContainer)[action]('click', '.' + s.params.bulletClass, s.onClickIndex);
+    }
 
     // Prevent Links Clicks
     if (s.params.preventClicks || s.params.preventClicksPropagation) touchEventsTarget[action]('click', 'a', s.preventClicks, true);

@@ -25,14 +25,14 @@
                 <button>Hello</button>
             </div>
             <div class="swiper-slide" style="">1
-                <!-- <div class="swiper-container swiper-v">
+                <div class="swiper-container swiper-v">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">2 1</div>
                         <div class="swiper-slide">2 2</div>
                         <div class="swiper-slide">2 3</div>
                     </div>
                     <div class="swiper-pagination"></div>
-                </div> -->
+                </div>
             </div>
             <div class="swiper-slide">2
                 <p class="swiper-no-swiping" style="height:100px; width:100px; background:red">No Swiping</p>
@@ -46,6 +46,8 @@
             <div class="swiper-slide">6</div>
             <div class="swiper-slide">7</div>
             <div class="swiper-slide">8</div>
+            <div class="swiper-slide">9</div>
+            <div class="swiper-slide">10</div>
         </div>
         <div class="swiper-pagination"></div>
     </div>
@@ -68,6 +70,7 @@
         width: -webkit-calc(33.333333% - 100px/3);
         width: 300px;
         height: 300px;
+        /*margin-bottom: 50px;*/
         /*margin-left: 50px;*/
     }
     /*.swiper-h > .swiper-wrapper > .swiper-slide:nth-child(2n) {
@@ -76,29 +79,33 @@
     </style>
     <script src="../build/js/idangerous.swiper.js"></script>
     <script>
-
+        var $ = Swiper.$;
         var swiper = new Swiper('.swiper-h', {
             spaceBetween: 50,
-            slidesPerView: 'auto',
+            // slidesPerView: 3,
+            // slidesPerColumn: 1,
+            // slidesPerColumnFill: 'row',
             nextButton: '.next',
             prevButton: '.prev',
+            grabCursor: true,
             // followFinger: false,
             // direction: 'vertical',
             // slidesPerView: 4,
             // slidesPerGroup: 4,
             // centeredSlides: true,
-            observer: false,
+            observer: true,
             pagination: '.swiper-h > .swiper-pagination',
             paginationClickable: true,
+            paginationHide: true,
         });
-        // var swiper2 = new Swiper('.swiper-v', {
-        //     // direction: 'vertical',
-        //     observer: false,
-        //     pagination: '.swiper-v > .swiper-pagination',
-        //     paginationClickable: true,
-        //     nested: true,
-        //     resistanceRatio: 0
-        // });
+        var swiper2 = new Swiper('.swiper-v', {
+            // direction: 'vertical',
+            observer: false,
+            pagination: '.swiper-v > .swiper-pagination',
+            paginationClickable: true,
+            nested: true,
+            resistanceRatio: 0
+        });
         
     </script>
 </body>

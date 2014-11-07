@@ -18,13 +18,13 @@ s.updateSlidesProgress = function (translate) {
 s.updateProgress = function (translate) {
     translate = translate || s.translate || 0;
     s.progress = translate / s.maxTranslate();
-    s.atBeginning = s.atEnd = false;
+    s.isBeginning = s.isEnd = false;
     if (s.progress <= 0) {
-        s.atBeginning = true;
+        s.isBeginning = true;
         if (s.params.onReachBeginning) s.params.onReachBeginning(s);
     }
     if (s.progress >= 1) {
-        s.atEnd = true;
+        s.isEnd = true;
         if (s.params.onReachEnd) s.params.onReachEnd(s);
     }
     if (s.params.watchSlidesProgress) s.updateSlidesProgress(translate);

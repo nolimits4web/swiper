@@ -19,8 +19,8 @@ s.slideTo = function (slideIndex, speed, runCallbacks) {
     if (typeof speed === 'undefined') speed = s.params.speed;
     s.previousIndex = s.activeIndex || 0;
     s.activeIndex = slideIndex;
-    s.isFirst = s.activeIndex === 0;
-    s.isLast = translate === -s.snapGrid[s.snapGrid.length - 1];
+    // s.isFirst = s.activeIndex === 0;
+    // s.isLast = translate === -s.snapGrid[s.snapGrid.length - 1];
     if (runCallbacks !== false) s.onTransitionStart();
     var translateX = isH() ? translate : 0, translateY = isH() ? 0 : translate;
     if (speed === 0) {

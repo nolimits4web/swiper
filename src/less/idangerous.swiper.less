@@ -123,6 +123,17 @@ Pagination Styles
 .swiper-pagination {
     position: absolute;
     text-align: center;
+    -webkit-transition: 300ms;
+    -moz-transition: 300ms;
+    -o-transition: 300ms;
+    transition: 300ms;
+    -webkit-transform: translate3d(0,0,0);
+    -ms-transform: translate3d(0,0,0);
+    -o-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+    &.swiper-pagination-hidden {
+        opacity: 0;
+    }
 }
 .swiper-pagination-bullet {
     width: 8px;
@@ -131,6 +142,7 @@ Pagination Styles
     border-radius: 100%;
     background: #000;
     opacity: 0.2;
+    cursor: pointer;
 }
 .swiper-pagination-bullet-active {
     opacity: 1;

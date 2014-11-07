@@ -22,7 +22,7 @@ window.Swiper = function (container, params) {
         direction: 'horizontal',
         pagination: undefined,
         paginationClickable: true,
-        paginationHide: true,
+        paginationHide: false,
         freeMode: false,
         resistance: true,
         resistanceRatio: 0.85,
@@ -100,8 +100,8 @@ window.Swiper = function (container, params) {
         },
         */
         
-        observer: true,
-        observeParents: true,
+        observer: false,
+        observeParents: false,
     };
     params = params || {};
     for (var def in defaults) {
