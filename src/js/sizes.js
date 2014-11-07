@@ -27,35 +27,39 @@ s.updateSlidesSize = function () {
     if (s.rtl) s.slides.css({marginLeft: '', marginTop: ''});
     else s.slides.css({marginRight: '', marginBottom: ''});
 
-    var slidesEvenRows;
-    if (s.params.slidesRows > 1) {
-        if (Math.floor(s.slides.length / s.params.slidesRows) === s.slides.length / s.params.slidesRows) {
-            slidesEvenRows = s.slides.length;
+    var slidesNumberEvenToRows;
+    if (s.params.slidesPerColumn > 1) {
+        if (Math.floor(s.slides.length / s.params.slidesPerColumn) === s.slides.length / s.params.slidesPerColumn) {
+            slidesNumberEvenToRows = s.slides.length;
         }
         else {
-            slidesEvenRows = Math.ceil(s.slides.length / s.params.slidesRows) * s.params.slidesRows;
+            slidesNumberEvenToRows = Math.ceil(s.slides.length / s.params.slidesPerColumn) * s.params.slidesPerColumn;
         }
     }
 
     // Calc slides
+    var slideSize;
     for (i = 0; i < s.slides.length; i++) {
-        var slideSize = 0;
+        slideSize = 0;
         var slide = s.slides.eq(i);
-        if (s.params.slidesRows > 1) {
+        if (s.params.slidesPerColumn > 1 && s.params.slidesPerColumnFill === 'column') {
             // Set slides order
             var newSlideOrderIndex;
             var column, row;
-            var slidesPerColumn = s.params.slidesRows;
+            var slidesPerColumn = s.params.slidesPerColumn;
             column = Math.floor(i / slidesPerColumn);
-            row = i - column * s.params.slidesRows;
-            newSlideOrderIndex = column + row * s.params.slidesRows;
-            slide.css({
-                '-webkit-box-ordinal-group': newSlideOrderIndex,
-                '-moz-box-ordinal-group': newSlideOrderIndex,
-                '-ms-flex-order': newSlideOrderIndex,
-                '-webkit-order': newSlideOrderIndex,
-                'order': newSlideOrderIndex
-            });
+            row = i - column * s.params.slidesPerColumn;
+            newSlideOrderIndex = column + row * slidesNumberEvenToRows / s.params.slidesPerColumn;
+            slide
+                .css({
+                    '-webkit-box-ordinal-group': newSlideOrderIndex,
+                    '-moz-box-ordinal-group': newSlideOrderIndex,
+                    '-ms-flex-order': newSlideOrderIndex,
+                    '-webkit-order': newSlideOrderIndex,
+                    'order': newSlideOrderIndex
+                })
+                .attr('data-swiper-column', column)
+                .attr('data-swiper-row', row);
         }
         if (slide.css('display') === 'none') continue;
         if (s.params.slidesPerView === 'auto') {
@@ -74,9 +78,10 @@ s.updateSlidesSize = function () {
         s.slidesSizesGrid.push(slideSize);
         
         
-        if (params.centeredSlides) {
+        if (s.params.centeredSlides) {
             slidePosition = slidePosition + slideSize / 2 + prevSlideSize / 2 + spaceBetween;
             if (i === 0) slidePosition = slidePosition - s.size / 2 - spaceBetween;
+            if (Math.abs(slidePosition) < 1 / 1000) slidePosition = 0;
             if ((index) % s.params.slidesPerGroup === 0) s.snapGrid.push(slidePosition);
             s.slidesGrid.push(slidePosition);
         }
@@ -94,15 +99,24 @@ s.updateSlidesSize = function () {
     }
     s.virtualWidth = Math.max(s.virtualWidth, s.size);
 
-    if (s.params.slidesRows > 1) {
-        s.virtualWidth = s.slides[0].offsetWidth * slidesEvenRows + s.params.spaceBetween * slidesEvenRows;
-        s.virtualWidth = Math.ceil(s.virtualWidth / s.params.slidesRows) - s.params.spaceBetween;
+    var newSlidesGrid;
+
+    if (s.params.slidesPerColumn > 1) {
+        s.virtualWidth = (slideSize + s.params.spaceBetween) * slidesNumberEvenToRows;
+        s.virtualWidth = Math.ceil(s.virtualWidth / s.params.slidesPerColumn) - s.params.spaceBetween;
         s.wrapper.css({width: s.virtualWidth + s.params.spaceBetween + 'px'});
+        if (s.params.centeredSlides) {
+            newSlidesGrid = [];
+            for (i = 0; i < s.snapGrid.length; i++) {
+                if (s.snapGrid[i] < s.virtualWidth + s.snapGrid[0]) newSlidesGrid.push(s.snapGrid[i]);
+            }
+            s.snapGrid = newSlidesGrid;
+        }
     }
 
     // Remove last grid elements depending on width
     if (!s.params.centeredSlides) {
-        var newSlidesGrid = [];
+        newSlidesGrid = [];
         for (i = 0; i < s.snapGrid.length; i++) {
             if (s.snapGrid[i] <= s.virtualWidth - s.size) {
                 newSlidesGrid.push(s.snapGrid[i]);
@@ -132,7 +146,7 @@ s.updateSlidesOffset = function () {
     }
 };
 
-s.layout = function () {
+s.update = function () {
     s.updateContainerSize();
     s.updateSlidesSize();
     s.updatePagination();

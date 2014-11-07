@@ -9,7 +9,8 @@ window.Swiper = function (container, params) {
         spaceBetween: 0,
         speed: 300,
         slidesPerView: 'auto',
-        slidesRows: 1,
+        slidesPerColumn: 1,
+        slidesPerColumnFill: 'column',
         slidesPerGroup: 1,
         centeredSlides: false,
         simulateTouch: true,
@@ -178,7 +179,7 @@ window.Swiper = function (container, params) {
     };
 
     // Columns
-    if (s.params.slidesRows > 1) {
+    if (s.params.slidesPerColumn > 1) {
         s.container.addClass('swiper-container-multirow');
     }
     
