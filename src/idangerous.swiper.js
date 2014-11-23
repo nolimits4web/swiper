@@ -1760,6 +1760,10 @@ var Swiper = function (selector, params) {
     /*==================================================
         noSwiping Bubble Check by Isaac Strack
     ====================================================*/
+    function hasClass(el, classname) {
+        return el && el.getAttribute('class') && el.getAttribute('class').indexOf(classname) > -1;
+    }
+
     function noSwipingSlide(el) {
         /*This function is specifically designed to check the parent elements for the noSwiping class, up to the wrapper.
         We need to check parents because while onTouchStart bubbles, _this.isTouched is checked in onTouchStart, which stops the bubbling.
@@ -1774,17 +1778,17 @@ var Swiper = function (selector, params) {
         do {
 
             // Each time, we check to see if there's a 'swiper-no-swiping' class (noSwipingClass).
-            if (el.className.indexOf(params.noSwipingClass) > -1)
+            if (hasClass(el, params.noSwipingClass))
             {
                 noSwiping = true; // If there is, we set noSwiping = true;
             }
 
             el = el.parentElement;  // now we iterate up (parent node)
 
-        } while (!noSwiping && el.parentElement && el.className.indexOf(params.wrapperClass) === -1); // also include el.parentElement truthy, just in case.
+        } while (!noSwiping && el.parentElement && !hasClass(el, params.wrapperClass)); // also include el.parentElement truthy, just in case.
 
         // because we didn't check the wrapper itself, we do so now, if noSwiping is false:
-        if (!noSwiping && el.className.indexOf(params.wrapperClass) > -1 && el.className.indexOf(params.noSwipingClass) > -1)
+        if (!noSwiping && hasClass(el, params.wrapperClass) && hasClass(el, params.noSwipingClass))
             noSwiping = true; // if the wrapper has the noSwipingClass, we set noSwiping = true;
 
         return noSwiping;
