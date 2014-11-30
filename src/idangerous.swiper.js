@@ -1343,7 +1343,7 @@ var Swiper = function (selector, params) {
 
         // Blur active elements
         var eventTarget = event.target || event.srcElement;
-        if (document.activeElement) {
+        if (document.activeElement && document.activeElement !== document.body) {
             if (document.activeElement !== eventTarget) document.activeElement.blur();
         }
 
