@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Swiper Tests</title>
     <link rel="stylesheet" href="../build/css/idangerous.swiper.css">
+    <meta name="viewport" content="width=device-width">
 </head>
 <body>
     <div class="swiper-container swiper-h">
@@ -62,41 +63,48 @@
     }
     .swiper-container {
         width: 100%;
-        /*height: 300px;*/
+        /*height: 400px;/*/
     }
+/*    .swiper-slide {
+        width: auto;
+        height: auto;
+    }*/
     .swiper-h > .swiper-wrapper > .swiper-slide {
         background: #aaa;
-        width: 33.333333%;
-        width: -webkit-calc(33.333333% - 100px/3);
+        /*width: 33.333333%;*/
+        /*width: -webkit-calc(33.333333% - 100px/3);*/
         width: 300px;
         height: 300px;
         /*margin-bottom: 50px;*/
         /*margin-left: 50px;*/
     }
-    /*.swiper-h > .swiper-wrapper > .swiper-slide:nth-child(2n) {
+    .swiper-h > .swiper-wrapper > .swiper-slide:nth-child(2n) {
         width: 500px;
-    }*/
+    }
     </style>
     <script src="../build/js/idangerous.swiper.js"></script>
     <script>
         var $ = Swiper.$;
         var swiper = new Swiper('.swiper-h', {
             spaceBetween: 50,
-            // slidesPerView: 3,
-            // slidesPerColumn: 1,
+            // slidesPerView: 1,
+            slidesPerView: 'auto',
+            // slidesPerColumn: 2,
             // slidesPerColumnFill: 'row',
             nextButton: '.next',
             prevButton: '.prev',
-            grabCursor: true,
+            freeMode: true,
+            // freeMode: true,
+            // grabCursor: true,
             // followFinger: false,
             // direction: 'vertical',
             // slidesPerView: 4,
-            // slidesPerGroup: 4,
+            // slidesPerGroup: 3,
             // centeredSlides: true,
-            observer: true,
+            // observer: false,
             pagination: '.swiper-h > .swiper-pagination',
             paginationClickable: true,
-            paginationHide: true,
+            // paginationHide: true,
         });
         var swiper2 = new Swiper('.swiper-v', {
             // direction: 'vertical',

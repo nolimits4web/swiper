@@ -14,24 +14,13 @@ module.exports = function (grunt) {
     var jsFilesList = [
         'src/js/wrap-start.js',
         'src/js/swiper-intro.js',
-        'src/js/sizes.js',
-        'src/js/progress.js',
-        'src/js/resize.js',
-        'src/js/classes.js',
-        'src/js/pagination.js',
-        'src/js/events.js',
-        'src/js/clicks.js',
-        'src/js/touches.js',
-        'src/js/slide.js',
-        'src/js/translate.js',
-        'src/js/observer.js',
-        'src/js/init.js',
+        'src/js/swiper.js',
         'src/js/swiper-outro.js',
-        'src/js/dom.js',
-        'src/js/dom-export.js',
         'src/js/proto-start.js',
         'src/js/proto-support.js',
         'src/js/proto-end.js',
+        'src/js/dom.js',
+        'src/js/dom-export.js',
         'src/js/wrap-end.js'
     ];
 
