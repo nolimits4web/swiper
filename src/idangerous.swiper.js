@@ -1912,7 +1912,7 @@ var Swiper = function (selector, params) {
         _this.callPlugins('onSwipeTo', {index: index, speed: speed});
         if (params.loop) index = index + _this.loopedSlides;
         var currentPosition = _this.getWrapperTranslate();
-        if (index > (_this.slides.length - 1) || index < 0) return;
+        if (!isFinite(index) || index > (_this.slides.length - 1) || index < 0) return;
         var newPosition;
         if (params.slidesPerView === 'auto') {
             newPosition = -_this.slidesGrid[index];
