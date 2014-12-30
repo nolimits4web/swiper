@@ -695,18 +695,18 @@ var Swiper = function (selector, params) {
             if (params.calculateHeight) _this.height = slideMaxHeight;
             if (isH) {
                 wrapperSize = slidesWidth + _this.wrapperRight + _this.wrapperLeft;
-                if(!params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
+                if (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
                     wrapper.style.width = (slidesWidth) + 'px';
                 }
-                if(!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width') {
+                if (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width') {
                     wrapper.style.height = (_this.height) + 'px';
                 }
             }
             else {
-                if(!params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
+                if (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
                     wrapper.style.width = (_this.width) + 'px';
                 }
-                if(!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width') {
+                if (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width') {
                     wrapper.style.height = (slidesHeight) + 'px';
                 }
                 wrapperSize = slidesHeight + _this.wrapperTop + _this.wrapperBottom;
@@ -947,9 +947,9 @@ var Swiper = function (selector, params) {
 				}
 			};
 
-			if(!img.complete){
-				src = (img.currentSrc || img.getAttribute('src'))
-				if( src ){
+			if (!img.complete) {
+				src = (img.currentSrc || img.getAttribute('src'));
+				if (src) {
 					image = new Image();
 					image.onload = onReady;
 					image.onerror = onReady;
@@ -1787,7 +1787,7 @@ var Swiper = function (selector, params) {
         } while (!noSwiping && el.parentElement && !hasClass(el, params.wrapperClass)); // also include el.parentElement truthy, just in case.
 
         // because we didn't check the wrapper itself, we do so now, if noSwiping is false:
-        if (!noSwiping && hasClass(el, params.wrapperClass) && hasClass(el,params.noSwipingClass))
+        if (!noSwiping && hasClass(el, params.wrapperClass) && hasClass(el, params.noSwipingClass))
             noSwiping = true; // if the wrapper has the noSwipingClass, we set noSwiping = true;
 
         return noSwiping;
