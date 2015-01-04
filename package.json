@@ -23,14 +23,14 @@
     "node": ">= 0.10.0"
   },
   "devDependencies": {
-    "grunt": "~0.4.2",
-    "load-grunt-tasks": "~0.2.0",
-    "jshint": "~0.9",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-jshint": "~0.7.2",
-    "grunt-contrib-uglify": "~0.2.7",
-    "grunt-contrib-watch": "~0.5.3",
-    "jshint-stylish": "~0.1.5",
-    "time-grunt": "~0.2.8"
+    "grunt": "~0.4.5",
+    "load-grunt-tasks": "~1.0.0",
+    "jshint": "~2.5",
+    "grunt-contrib-concat": "~0.5.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-uglify": "~0.6.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "jshint-stylish": "~1.0.0",
+    "time-grunt": "~1.0.0"
   }
 }
