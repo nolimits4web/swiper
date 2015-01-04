@@ -1,16 +1,16 @@
 /*
- * Swiper 2.7.0
+ * Swiper 2.7.5
  * Mobile touch slider and framework with hardware accelerated transitions
  *
  * http://www.idangero.us/sliders/swiper/
  *
- * Copyright 2010-2014, Vladimir Kharlampidi
+ * Copyright 2010-2015, Vladimir Kharlampidi
  * The iDangero.us
  * http://www.idangero.us/
  *
  * Licensed under GPL & MIT
  *
- * Released on: August 30, 2014
+ * Released on: January 4, 2015
 */
 var Swiper = function (selector, params) {
     'use strict';
@@ -472,8 +472,12 @@ var Swiper = function (selector, params) {
         }
     };
     _this.removeAllSlides = function () {
+        var num = _this.slides.length;
         for (var i = _this.slides.length - 1; i >= 0; i--) {
             _this.slides[i].remove();
+            if (i === num - 1) {
+                _this.setWrapperTranslate(0);
+            }
         }
     };
     _this.getSlide = function (index) {
@@ -705,13 +709,21 @@ var Swiper = function (selector, params) {
             if (params.calculateHeight) _this.height = slideMaxHeight;
             if (isH) {
                 wrapperSize = slidesWidth + _this.wrapperRight + _this.wrapperLeft;
-                wrapper.style.width = (slidesWidth) + 'px';
-                wrapper.style.height = (_this.height) + 'px';
+                if (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
+                    wrapper.style.width = (slidesWidth) + 'px';
+                }
+                if (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width') {
+                    wrapper.style.height = (_this.height) + 'px';
+                }
             }
             else {
+                if (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
+                    wrapper.style.width = (_this.width) + 'px';
+                }
+                if (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width') {
+                    wrapper.style.height = (slidesHeight) + 'px';
+                }
                 wrapperSize = slidesHeight + _this.wrapperTop + _this.wrapperBottom;
-                wrapper.style.width = (_this.width) + 'px';
-                wrapper.style.height = (slidesHeight) + 'px';
             }
 
         }
@@ -938,33 +950,47 @@ var Swiper = function (selector, params) {
         }
 
         //Keyboard
-        function _loadImage(src) {
-            var image = new Image();
-            image.onload = function () {
-                if (typeof _this === 'undefined' || _this === null) return;
-                if (_this.imagesLoaded !== undefined) _this.imagesLoaded++;
-                if (_this.imagesLoaded === _this.imagesToLoad.length) {
-                    _this.reInit();
-                    if (params.onImagesReady) _this.fireCallback(params.onImagesReady, _this);
-                }
-            };
-            image.src = src;
-        }
+		function _loadImage(img) {
+			var image, src;
+			var onReady = function () {
+				if (typeof _this === 'undefined' || _this === null) return;
+				if (_this.imagesLoaded !== undefined) _this.imagesLoaded++;
+				if (_this.imagesLoaded === _this.imagesToLoad.length) {
+					_this.reInit();
+					if (params.onImagesReady) _this.fireCallback(params.onImagesReady, _this);
+				}
+			};
 
-        if (params.keyboardControl) {
-            bind(document, 'keydown', handleKeyboardKeys);
-        }
-        if (params.updateOnImagesReady) {
-            _this.imagesToLoad = $$('img', _this.container);
+			if (!img.complete) {
+				src = (img.currentSrc || img.getAttribute('src'));
+				if (src) {
+					image = new Image();
+					image.onload = onReady;
+					image.onerror = onReady;
+					image.src = src;
+				} else {
+					onReady();
+				}
 
-            for (var i = 0; i < _this.imagesToLoad.length; i++) {
-                _loadImage(_this.imagesToLoad[i].getAttribute('src'));
-            }
-        }
+			} else {//image already loaded...
+				onReady();
+			}
+		}
+
+		if (params.keyboardControl) {
+			bind(document, 'keydown', handleKeyboardKeys);
+		}
+		if (params.updateOnImagesReady) {
+			_this.imagesToLoad = $$('img', _this.container);
+
+			for (var i = 0; i < _this.imagesToLoad.length; i++) {
+				_loadImage(_this.imagesToLoad[i]);
+			}
+		}
     }
 
     //Remove Event Listeners
-    _this.destroy = function () {
+    _this.destroy = function (removeStyles) {
         var unbind = _this.h.removeEventListener;
         var eventTarget = params.eventTarget === 'wrapper' ? _this.wrapper : _this.container;
         //Touch Events
@@ -1013,7 +1039,23 @@ var Swiper = function (selector, params) {
         if (params.autoplay) {
             _this.stopAutoplay();
         }
+        // Remove styles
+        if (removeStyles) {
+            _this.wrapper.removeAttribute('style');
+            for (var i = 0; i < _this.slides.length; i++) {
+                _this.slides[i].removeAttribute('style');
+            }
+        }
+        // Plugins
         _this.callPlugins('onDestroy');
+
+        // Check jQuery/Zepto data
+        if (window.jQuery && window.jQuery(_this.container).data('swiper')) {
+            window.jQuery(_this.container).removeData('swiper');
+        }
+        if (window.Zepto && window.Zepto(_this.container).data('swiper')) {
+            window.Zepto(_this.container).removeData('swiper');
+        }
 
         //Destroy variable
         _this = null;
@@ -1035,6 +1077,9 @@ var Swiper = function (selector, params) {
             var formElements = $$('input, textarea, select', _this.container);
             for (i = 0; i < formElements.length; i++) {
                 bind(formElements[i], _this.touchEvents.touchStart, releaseForms, true);
+                if (_this.support.touch && params.simulateTouch) {
+                    bind(formElements[i], 'mousedown', releaseForms, true);
+                }
             }
         }
 
@@ -1070,6 +1115,9 @@ var Swiper = function (selector, params) {
             var formElements = $$('input, textarea, select', _this.container);
             for (i = 0; i < formElements.length; i++) {
                 unbind(formElements[i], _this.touchEvents.touchStart, releaseForms, true);
+                if (_this.support.touch && params.simulateTouch) {
+                    unbind(formElements[i], 'mousedown', releaseForms, true);
+                }
             }
         }
         //Prevent Links Events
@@ -1309,7 +1357,7 @@ var Swiper = function (selector, params) {
 
         // Blur active elements
         var eventTarget = event.target || event.srcElement;
-        if (document.activeElement) {
+        if (document.activeElement && document.activeElement !== document.body) {
             if (document.activeElement !== eventTarget) document.activeElement.blur();
         }
 
@@ -1324,7 +1372,10 @@ var Swiper = function (selector, params) {
         isTouchEvent = event.type === 'touchstart';
 
         // prevent user enter with right and the swiper move (needs isTouchEvent)
-        if (!isTouchEvent && 'which' in event && event.which === 3) return false;
+        if (!isTouchEvent && 'which' in event && event.which === 3) {
+            _this.isTouched = false;
+            return false;
+        }
 
         if (!isTouchEvent || event.targetTouches.length === 1) {
             _this.callPlugins('onTouchStartBegin');
@@ -1671,12 +1722,12 @@ var Swiper = function (selector, params) {
         //Short Touches
         if (direction === 'toNext' && (timeDiff <= 300)) {
             if (diffAbs < 30 || !params.shortSwipes) _this.swipeReset();
-            else _this.swipeNext(true);
+            else _this.swipeNext(true, true);
         }
 
         if (direction === 'toPrev' && (timeDiff <= 300)) {
             if (diffAbs < 30 || !params.shortSwipes) _this.swipeReset();
-            else _this.swipePrev(true);
+            else _this.swipePrev(true, true);
         }
 
         //Long Touches
@@ -1701,7 +1752,7 @@ var Swiper = function (selector, params) {
         }
         if (direction === 'toNext' && (timeDiff > 300)) {
             if (diffAbs >= targetSlideSize * params.longSwipesRatio) {
-                _this.swipeNext(true);
+                _this.swipeNext(true, true);
             }
             else {
                 _this.swipeReset();
@@ -1709,7 +1760,7 @@ var Swiper = function (selector, params) {
         }
         if (direction === 'toPrev' && (timeDiff > 300)) {
             if (diffAbs >= targetSlideSize * params.longSwipesRatio) {
-                _this.swipePrev(true);
+                _this.swipePrev(true, true);
             }
             else {
                 _this.swipeReset();
@@ -1723,6 +1774,9 @@ var Swiper = function (selector, params) {
     /*==================================================
         noSwiping Bubble Check by Isaac Strack
     ====================================================*/
+    function hasClass(el, classname) {
+        return el && el.getAttribute('class') && el.getAttribute('class').indexOf(classname) > -1;
+    }
     function noSwipingSlide(el) {
         /*This function is specifically designed to check the parent elements for the noSwiping class, up to the wrapper.
         We need to check parents because while onTouchStart bubbles, _this.isTouched is checked in onTouchStart, which stops the bubbling.
@@ -1737,17 +1791,17 @@ var Swiper = function (selector, params) {
         do {
 
             // Each time, we check to see if there's a 'swiper-no-swiping' class (noSwipingClass).
-            if (el.className.indexOf(params.noSwipingClass) > -1)
+            if (hasClass(el, params.noSwipingClass))
             {
                 noSwiping = true; // If there is, we set noSwiping = true;
             }
 
             el = el.parentElement;  // now we iterate up (parent node)
 
-        } while (!noSwiping && el.parentElement && el.className.indexOf(params.wrapperClass) === -1); // also include el.parentElement truthy, just in case.
+        } while (!noSwiping && el.parentElement && !hasClass(el, params.wrapperClass)); // also include el.parentElement truthy, just in case.
 
         // because we didn't check the wrapper itself, we do so now, if noSwiping is false:
-        if (!noSwiping && el.className.indexOf(params.wrapperClass) > -1 && el.className.indexOf(params.noSwipingClass) > -1)
+        if (!noSwiping && hasClass(el, params.wrapperClass) && hasClass(el, params.noSwipingClass))
             noSwiping = true; // if the wrapper has the noSwipingClass, we set noSwiping = true;
 
         return noSwiping;
@@ -1768,15 +1822,16 @@ var Swiper = function (selector, params) {
     /*==================================================
         Swipe Functions
     ====================================================*/
-    _this.swipeNext = function (internal) {
+    _this.swipeNext = function (runCallbacks, internal) {
+        if (typeof runCallbacks === 'undefined') runCallbacks = true;
         if (!internal && params.loop) _this.fixLoop();
         if (!internal && params.autoplay) _this.stopAutoplay(true);
         _this.callPlugins('onSwipeNext');
-        var currentPosition = _this.getWrapperTranslate();
+        var currentPosition = _this.getWrapperTranslate().toFixed(2);
         var newPosition = currentPosition;
         if (params.slidesPerView === 'auto') {
             for (var i = 0; i < _this.snapGrid.length; i++) {
-                if (-currentPosition >= _this.snapGrid[i] && -currentPosition < _this.snapGrid[i + 1]) {
+                if (-currentPosition >= _this.snapGrid[i].toFixed(2) && -currentPosition < _this.snapGrid[i + 1].toFixed(2)) {
                     newPosition = -_this.snapGrid[i + 1];
                     break;
                 }
@@ -1790,10 +1845,11 @@ var Swiper = function (selector, params) {
             newPosition = -maxWrapperPosition();
         }
         if (newPosition === currentPosition) return false;
-        swipeToPosition(newPosition, 'next');
+        swipeToPosition(newPosition, 'next', {runCallbacks: runCallbacks});
         return true;
     };
-    _this.swipePrev = function (internal) {
+    _this.swipePrev = function (runCallbacks, internal) {
+        if (typeof runCallbacks === 'undefined') runCallbacks = true;
         if (!internal && params.loop) _this.fixLoop();
         if (!internal && params.autoplay) _this.stopAutoplay(true);
         _this.callPlugins('onSwipePrev');
@@ -1821,11 +1877,12 @@ var Swiper = function (selector, params) {
         if (newPosition > 0) newPosition = 0;
 
         if (newPosition === currentPosition) return false;
-        swipeToPosition(newPosition, 'prev');
+        swipeToPosition(newPosition, 'prev', {runCallbacks: runCallbacks});
         return true;
 
     };
-    _this.swipeReset = function () {
+    _this.swipeReset = function (runCallbacks) {
+        if (typeof runCallbacks === 'undefined') runCallbacks = true;
         _this.callPlugins('onSwipeReset');
         var currentPosition = _this.getWrapperTranslate();
         var groupSize = slideSize * params.slidesPerGroup;
@@ -1860,7 +1917,7 @@ var Swiper = function (selector, params) {
 
         if (newPosition === currentPosition) return false;
 
-        swipeToPosition(newPosition, 'reset');
+        swipeToPosition(newPosition, 'reset', {runCallbacks: runCallbacks});
         return true;
     };
 
@@ -1883,7 +1940,7 @@ var Swiper = function (selector, params) {
 
         if (newPosition === currentPosition) return false;
 
-        runCallbacks = runCallbacks === false ? false : true;
+        if (typeof runCallbacks === 'undefined') runCallbacks = true;
         swipeToPosition(newPosition, 'to', {index: index, speed: speed, runCallbacks: runCallbacks});
         return true;
     };
@@ -1938,19 +1995,19 @@ var Swiper = function (selector, params) {
         _this.updateActiveSlide(newPosition);
 
         //Callbacks
-        if (params.onSlideNext && action === 'next') {
+        if (params.onSlideNext && action === 'next' && toOptions.runCallbacks === true) {
             _this.fireCallback(params.onSlideNext, _this, newPosition);
         }
-        if (params.onSlidePrev && action === 'prev') {
+        if (params.onSlidePrev && action === 'prev' && toOptions.runCallbacks === true) {
             _this.fireCallback(params.onSlidePrev, _this, newPosition);
         }
         //'Reset' Callback
-        if (params.onSlideReset && action === 'reset') {
+        if (params.onSlideReset && action === 'reset' && toOptions.runCallbacks === true) {
             _this.fireCallback(params.onSlideReset, _this, newPosition);
         }
 
         //'Next', 'Prev' and 'To' Callbacks
-        if (action === 'next' || action === 'prev' || (action === 'to' && toOptions.runCallbacks === true))
+        if ((action === 'next' || action === 'prev' || action === 'to') && toOptions.runCallbacks === true)
             slideChangeCallbacks(action);
     }
     /*==================================================
@@ -2176,7 +2233,7 @@ var Swiper = function (selector, params) {
                 }
             }
             else {
-                pagers[_this.activeIndex].className += ' ' + params.paginationActiveClass;
+                if (pagers[_this.activeIndex]) pagers[_this.activeIndex].className += ' ' + params.paginationActiveClass;
             }
         }
         else {
@@ -2184,7 +2241,7 @@ var Swiper = function (selector, params) {
                 if (pagers[_this.activeLoopIndex]) pagers[_this.activeLoopIndex].className += ' ' + params.paginationActiveClass + ' ' + params.paginationVisibleClass;
             }
             else {
-                pagers[_this.activeIndex].className += ' ' + params.paginationActiveClass + ' ' + params.paginationVisibleClass;
+                if (pagers[_this.activeIndex]) pagers[_this.activeIndex].className += ' ' + params.paginationActiveClass + ' ' + params.paginationVisibleClass;
             }
         }
     };
@@ -2240,9 +2297,9 @@ var Swiper = function (selector, params) {
             autoplayIntervalId = setInterval(function () {
                 if (params.loop) {
                     _this.fixLoop();
-                    _this.swipeNext(true);
+                    _this.swipeNext(true, true);
                 }
-                else if (!_this.swipeNext(true)) {
+                else if (!_this.swipeNext(true, true)) {
                     if (!params.autoplayStopOnLast) _this.swipeTo(0);
                     else {
                         clearInterval(autoplayIntervalId);
@@ -2276,9 +2333,9 @@ var Swiper = function (selector, params) {
         autoplayTimeoutId = setTimeout(function () {
             if (params.loop) {
                 _this.fixLoop();
-                _this.swipeNext(true);
+                _this.swipeNext(true, true);
             }
-            else if (!_this.swipeNext(true)) {
+            else if (!_this.swipeNext(true, true)) {
                 if (!params.autoplayStopOnLast) _this.swipeTo(0);
                 else {
                     clearTimeout(autoplayTimeoutId);
@@ -2814,11 +2871,9 @@ if (window.jQuery || window.Zepto) {
             var firstInstance;
             this.each(function (i) {
                 var that = $(this);
-                if (!that.data('swiper')) {
-                    var s = new Swiper(that[0], params);
-                    if (!i) firstInstance = s;
-                    that.data('swiper', s);
-                }
+                var s = new Swiper(that[0], params);
+                if (!i) firstInstance = s;
+                that.data('swiper', s);
             });
             return firstInstance;
         };

@@ -2,7 +2,7 @@
   "name": "swiper",
   "repo": "https://github.com/nolimits4web/Swiper.git",
   "description": "Mobile touch slider and framework with hardware accelerated transitions",
-  "version": "2.4.3",
+  "version": "2.7.5",
   "keywords": ["swiper", "swipe", "slider"],
   "dependencies": {
   },
