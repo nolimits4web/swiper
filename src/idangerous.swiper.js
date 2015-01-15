@@ -2351,7 +2351,7 @@ var Swiper = function (selector, params) {
             _this.loopedSlides = params.loopedSlides || 1;
         }
         else {
-            _this.loopedSlides = params.slidesPerView + params.loopAdditionalSlides;
+            _this.loopedSlides = Math.floor(params.slidesPerView) + params.loopAdditionalSlides;
         }
 
         if (_this.loopedSlides > _this.slides.length) {
