@@ -10,7 +10,7 @@
  *
  * Licensed under GPL & MIT
  *
- * Released on: January 4, 2015
+ * Released on: January 28, 2015
 */
 var Swiper = function (selector, params) {
     'use strict';
@@ -2365,7 +2365,7 @@ var Swiper = function (selector, params) {
             _this.loopedSlides = params.loopedSlides || 1;
         }
         else {
-            _this.loopedSlides = params.slidesPerView + params.loopAdditionalSlides;
+            _this.loopedSlides = Math.floor(params.slidesPerView) + params.loopAdditionalSlides;
         }
 
         if (_this.loopedSlides > _this.slides.length) {
@@ -2880,14 +2880,12 @@ if (window.jQuery || window.Zepto) {
     })(window.jQuery || window.Zepto);
 }
 
-// component
-if (typeof(module) !== 'undefined')
-{
+// CommonJS support
+if (typeof(module) !== 'undefined') {
     module.exports = Swiper;
-}
 
 // requirejs support
-if (typeof define === 'function' && define.amd) {
+} else if (typeof define === 'function' && define.amd) {
     define([], function () {
         'use strict';
         return Swiper;
