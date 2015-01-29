@@ -55,7 +55,7 @@ var defaults = {
     // Pagination
     pagination: null,
     paginationClickable: false,
-    paginationHide: true,
+    paginationHide: false,
     // Resistance
     resistance: true,
     resistanceRatio: 0.85,

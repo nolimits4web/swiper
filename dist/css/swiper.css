@@ -109,12 +109,24 @@ Swiper Styles
   opacity: 0.5;
 }
 .swiper-button-prev {
-  background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path fill='#010101' d='M22,0l2.4,2.4L5,22l19.4,19.6L22,44L0,22L22,0z'/></svg>");
+  background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M0,22L22,0l2.1,2.1L4.2,22l19.9,19.9L22,44L0,22L0,22L0,22z' fill='#007aff'/></svg>");
   left: 10px;
 }
+.swiper-button-prev.swiper-button-black {
+  background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M0,22L22,0l2.1,2.1L4.2,22l19.9,19.9L22,44L0,22L0,22L0,22z' fill='#000000'/></svg>");
+}
+.swiper-button-prev.swiper-button-white {
+  background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M0,22L22,0l2.1,2.1L4.2,22l19.9,19.9L22,44L0,22L0,22L0,22z' fill='#ffffff'/></svg>");
+}
 .swiper-button-next {
-  background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path fill='#010101' d='M27,22L5,44l-2.4-2.4L22,22L2.6,2.4L5,0L27,22z'/></svg>");
+  background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M27,22L27,22L5,44l-2.1-2.1L22.8,22L2.9,2.1L5,0L27,22L27,22z' fill='#007aff'/></svg>");
   right: 10px;
+}
+.swiper-button-next.swiper-button-black {
+  background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M27,22L27,22L5,44l-2.1-2.1L22.8,22L2.9,2.1L5,0L27,22L27,22z' fill='#000000'/></svg>");
+}
+.swiper-button-next.swiper-button-white {
+  background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M27,22L27,22L5,44l-2.1-2.1L22.8,22L2.9,2.1L5,0L27,22L27,22z' fill='#ffffff'/></svg>");
 }
 /* Pagination Styles */
 .swiper-pagination {
@@ -147,9 +159,6 @@ Swiper Styles
 .swiper-pagination-bullet-active {
   opacity: 1;
   background: #007aff;
-}
-.swiper-pagination-bullet-visible {
-  opacity: 1;
 }
 .swiper-container-vertical > .swiper-pagination {
   right: 10px;
@@ -340,6 +349,8 @@ Coverflow
   position: relative;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
+  left: 0;
+  top: 0;
 }
 .swiper-scrollbar-cursor-drag {
   cursor: move;

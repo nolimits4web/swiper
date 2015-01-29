@@ -30,7 +30,6 @@
             // Free mode
             freeMode: false,
             freeModeMomentum: true,
-            scrollContainer: false,
             freeModeMomentumRatio: 1,
             freeModeMomentumBounce: true,
             freeModeMomentumBounceRatio: 1,
@@ -53,8 +52,8 @@
             scrollbar: null,
             scrollbarHide: true,
             // Keyboard Mousewheel
-            keyboard: false,
-            mousewheel: false,
+            keyboardControl: false,
+            mousewheelControl: false,
             mousewheelForceToAxis: false,
             // Slides grid
             spaceBetween: 0,
@@ -121,56 +120,24 @@
             // Observer
             observer: false,
             observeParents: false,
-            // Callbacks
-            onClick: function (swiper, e) {
-                // console.log('clicked');
-            },
-            onTap: function (swiper, e) {
-                // console.log('tapped');
-            },
-            onDoubleTap: function (swiper, e) {
-                // console.log('doubletapped');
-            },
-            onSliderMove: function (swiper, e) {
-                // console.log('onslidermove');
-            },
-            onSlideChangeStart: function (swiper) {
-                // console.log('slidechangestart');
-            },
-            onSlideChangeEnd: function (swiper) {
-                // console.log('slidechangeend');
-            },
-            onTransitionStart: function (swiper) {
-                console.log('transitionstart');
-            },
-            onTransitionEnd: function (swiper) {
-                console.log('transitionend');
-            },
             /*
-            onImagesReady: function (swiper) {
-                console.log('imagesready');
-            },
-            onProgress: function (swiper, progress) {
-                console.log('progressChanged',);
-            },
-            onDestroy: function () {
-                console.log('destroy');
-            },
-            onTouchStart: function (swiper, e) {
-                console.log('touchstart');
-            },
-            onTouchMove: function (swiper, e) {
-                console.log('touchmove');
-            },
-            onTouchEnd: function (swiper, e) {
-                console.log('touchend');
-            },
-            onReachBeginning: function (swiper) {
-                console.log('reach beginning');
-            },
-            onReachEnd: function (swiper) {
-                console.log('reach end');
-            },
+            Callbacks:
+            onClick: function (swiper, e) 
+            onTap: function (swiper, e) 
+            onDoubleTap: function (swiper, e) 
+            onSliderMove: function (swiper, e) 
+            onSlideChangeStart: function (swiper) 
+            onSlideChangeEnd: function (swiper) 
+            onTransitionStart: function (swiper) 
+            onTransitionEnd: function (swiper) 
+            onImagesReady: function (swiper) 
+            onProgress: function (swiper, progress) 
+            onDestroy: function () 
+            onTouchStart: function (swiper, e) 
+            onTouchMove: function (swiper, e) 
+            onTouchEnd: function (swiper, e) 
+            onReachBeginning: function (swiper) 
+            onReachEnd: function (swiper) 
             */
         };
         params = params || {};
@@ -1812,15 +1779,28 @@
                 var diff;
                 var sb = s.scrollbar;
                 var translate = s.translate || 0;
-                var newPos = translate * sb.moveDivider;
+                var newPos;
+                
                 var newSize = sb.dragSize;
                 newPos = (sb.trackSize - sb.dragSize) * s.progress;
-                if (newPos < 0) {
-                    newSize = sb.dragSize + newPos;
-                    newPos = 0;
+                if (s.rtl && isH()) {
+                    newPos = -newPos;
+                    if (newPos > 0) {
+                        newSize = sb.dragSize - newPos;
+                        newPos = 0;
+                    }
+                    else if (-newPos + sb.dragSize > sb.trackSize) {
+                        newSize = sb.trackSize + newPos;
+                    }
                 }
-                else if (newPos + sb.dragSize > sb.trackSize) {
-                    newSize = sb.trackSize - newPos;
+                else {
+                    if (newPos < 0) {
+                        newSize = sb.dragSize + newPos;
+                        newPos = 0;
+                    }
+                    else if (newPos + sb.dragSize > sb.trackSize) {
+                        newSize = sb.trackSize - newPos;
+                    }
                 }
                 if (isH()) {
                     sb.drag.transform('translate3d(' + (newPos) + 'px, 0, 0)');
@@ -1854,8 +1834,9 @@
                 if (!controlled instanceof Swiper) {
                     return;
                 }
+                var translate = controlled.rtl && controlled.params.direction === 'horizontal' ? -s.translate : s.translate;
                 var multiplier = (controlled.maxTranslate() - controlled.minTranslate()) / (s.maxTranslate() - s.minTranslate());
-                var controlledTranslate = (s.translate - s.minTranslate()) * multiplier + controlled.minTranslate();
+                var controlledTranslate = (translate - s.minTranslate()) * multiplier + controlled.minTranslate();
                 controlled.updateProgress(controlledTranslate);
                 controlled.setWrapperTranslate(controlledTranslate, false, true);
                 controlled.updateActiveIndex();
@@ -2067,10 +2048,10 @@
             if (s.params.autoplay) {
                 s.startAutoplay();
             }
-            if (s.params.keyboard) {
+            if (s.params.keyboardControl) {
                 if (s.enableKeyboard) s.enableKeyboard();
             }
-            if (s.params.mousewheel) {
+            if (s.params.mousewheelControl) {
                 if (s.enableMousewheel) s.enableMousewheel();
             }
         };
@@ -2079,10 +2060,10 @@
         s.destroy = function (deleteInstance) {
             s.detachEvents();
             s.disconnectObservers();
-            if (s.params.keyboard) {
+            if (s.params.keyboardControl) {
                 if (s.disableKeyboard) s.disableKeyboard();
             }
-            if (s.params.mousewheel) {
+            if (s.params.mousewheelControl) {
                 if (s.disableMousewheel) s.disableMousewheel();
             }
             if (s.params.onDestroy) s.params.onDestroy();
