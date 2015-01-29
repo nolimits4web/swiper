@@ -73,6 +73,7 @@
             followFinger: true,
             onlyExternal: false,
             threshold: 0,
+            touchMoveStopPropagation: true,
             // Pagination
             pagination: null,
             paginationClickable: false,
@@ -90,7 +91,7 @@
             grabCursor: false,
             // Clicks
             preventClicks: true,
-            preventClicksPropagation: true,
+            clicksStopPropagation: true,
             releaseFormElements: true,
             slideToClickedSlide: false,
             // Images
@@ -640,7 +641,6 @@
             if (newActiveIndex === s.activeIndex) {
                 return;
             }
-            // console.log(s.snapIndex);
             s.snapIndex = snapIndex;
             s.previousIndex = s.activeIndex;
             s.activeIndex = newActiveIndex;
@@ -770,7 +770,7 @@
             }
         
             // Prevent Links Clicks
-            if (s.params.preventClicks || s.params.preventClicksPropagation) touchEventsTarget[action]('click', 'a', s.preventClicks, true);
+            if (s.params.preventClicks || s.params.clicksStopPropagation) touchEventsTarget[action]('click', 'a', s.preventClicks, true);
         };
         s.attachEvents = function (detach) {
             s.events();
@@ -787,7 +787,7 @@
         s.preventClicks = function (e) {
             if (!s.allowClick) {
                 if (s.params.preventClicks) e.preventDefault();
-                if (s.params.preventClicksPropagation) {
+                if (s.params.clicksStopPropagation) {
                     e.stopPropagation();
                     e.stopImmediatePropagation();
                 }
@@ -839,7 +839,32 @@
                 s.clickedIndex = $(slide).index();
             }
             if (s.params.slideToClickedSlide && s.clickedIndex !== undefined && s.clickedIndex !== s.activeIndex) {
-                s.slideTo(s.clickedIndex);
+                var slideToIndex = s.clickedIndex,
+                    realIndex;
+                if (s.params.loop) {
+                    realIndex = $(s.clickedSlide).attr('data-swiper-slide-index');
+                    if (slideToIndex > s.slides.length - s.params.slidesPerView) {
+                        s.fixLoop();
+                        slideToIndex = s.wrapper.children('.' + s.params.slideClass + '[data-swiper-slide-index="' + realIndex + '"]').eq(0).index();
+                        setTimeout(function () {
+                            s.slideTo(slideToIndex);
+                        }, 0);
+                    }
+                    else if (slideToIndex < s.params.slidesPerView - 1) {
+                        s.fixLoop();
+                        var duplicatedSlides = s.wrapper.children('.' + s.params.slideClass + '[data-swiper-slide-index="' + realIndex + '"]');
+                        slideToIndex = duplicatedSlides.eq(duplicatedSlides.length - 1).index();
+                        setTimeout(function () {
+                            s.slideTo(slideToIndex);
+                        }, 0);
+                    }
+                    else {
+                        s.slideTo(slideToIndex);
+                    }
+                }
+                else {
+                    s.slideTo(slideToIndex);
+                }
             }
         };
         
@@ -905,6 +930,9 @@
             if (s.params.onSliderMove) s.params.onSliderMove(s, e);
         
             e.preventDefault();
+            if (s.params.touchMoveStopPropagation) {
+                e.stopPropagation();
+            }
         
             if (!isMoved) {
                 if (params.loop) {
