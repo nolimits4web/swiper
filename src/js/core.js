@@ -607,18 +607,19 @@ s.updateActiveIndex = function () {
         }
     }
     // Normalize slideIndex
-    if (newActiveIndex < 0) newActiveIndex = 0;
-    for (i = 0; i < s.slidesGrid.length; i++) {
-        if (- translate >= s.slidesGrid[i]) {
-            newActiveIndex = i;
-        }
-    }
+    if (newActiveIndex < 0 || typeof newActiveIndex === 'undefined') newActiveIndex = 0;
+    // for (i = 0; i < s.slidesGrid.length; i++) {
+        // if (- translate >= s.slidesGrid[i]) {
+            // newActiveIndex = i;
+        // }
+    // }
     snapIndex = Math.floor(newActiveIndex / s.params.slidesPerGroup);
     if (snapIndex >= s.snapGrid.length) snapIndex = s.snapGrid.length - 1;
 
     if (newActiveIndex === s.activeIndex) {
         return;
     }
+    // console.log(s.snapIndex);
     s.snapIndex = snapIndex;
     s.previousIndex = s.activeIndex;
     s.activeIndex = newActiveIndex;

@@ -9,6 +9,7 @@
         header = require('gulp-header'),
         path = require('path'),
         uglify = require('gulp-uglify'),
+        sourcemaps = require('gulp-sourcemaps'),
         uglifycss = require('gulp-uglifycss'),
         tap = require('gulp-tap'),
         concat = require('gulp-concat'),
@@ -167,23 +168,27 @@
         cb();
     });
 
-    gulp.task('dist', ['build'], function () {
+    gulp.task('dist', function () {
         gulp.src([paths.build.scripts + swiper.filename + '.js'])
             .pipe(gulp.dest(paths.dist.scripts))
+            .pipe(sourcemaps.init())
             .pipe(uglify())
             .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date }))
             .pipe(rename(function(path) {
                 path.basename = swiper.filename + '.min';
             }))
+            .pipe(sourcemaps.write('./maps'))
             .pipe(gulp.dest(paths.dist.scripts));
 
         gulp.src([paths.build.scripts + swiper.filename + '.jquery.js'])
             .pipe(gulp.dest(paths.dist.scripts))
+            .pipe(sourcemaps.init())
             .pipe(uglify())
             .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date } ))
             .pipe(rename(function(path) {
                 path.basename = swiper.filename + '.jquery.min';
             }))
+            .pipe(sourcemaps.write('./maps'))
             .pipe(gulp.dest(paths.dist.scripts));
 
         gulp.src(paths.build.styles + '*.css')
@@ -217,4 +222,3 @@
 
     gulp.task('default', [ 'server' ]);
 })();
-    
