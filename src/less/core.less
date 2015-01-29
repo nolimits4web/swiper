@@ -1,24 +1,12 @@
-.preserve3d() {
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-}
 /* ===============================================================
-Basic Swiper Styles 
+Swiper Styles 
 ================================================================*/
 .swiper-container {
     margin:0 auto;
     position:relative;
     overflow:hidden;
-    -webkit-backface-visibility:hidden;
-    -moz-backface-visibility:hidden;
-    -ms-backface-visibility:hidden;
-    -o-backface-visibility:hidden;
-    backface-visibility:hidden;
     /* Fix of Webkit flickering */
     z-index:1;
-    .preserve3d();
 }
 
 .swiper-container-vertical > .swiper-wrapper{
@@ -32,6 +20,7 @@ Basic Swiper Styles
     position:relative;
     width: 100%;
     height: 100%;
+    z-index: 1;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -77,6 +66,7 @@ Basic Swiper Styles
     flex-shrink: 0;
     width: 100%;
     height: 100%;
+    position: relative;
 }
 
 /* IE10 Windows Phone 8 Fixes */
@@ -88,38 +78,40 @@ Basic Swiper Styles
     -ms-touch-action: pan-x;
     touch-action: pan-x;
 }
-
-/* ===============================================================
-Your custom styles, here you need to specify container's and slide's
-sizes, pagination, etc.
-================================================================*/
-.swiper-container {
-    /* Specify Swiper's Size: */
-
+/* Arrows */
+.swiper-button-prev, .swiper-button-next {
+    position: absolute;
+    top: 50%;
+    width: 27px;
+    height: 44px;
+    margin-top: -22px;
+    z-index: 10;
+    cursor: pointer;
+    &.swiper-button-disabled {
+        opacity: 0.5;
+    }
 }
-.swiper-slide {
-    /* Specify Slides's Size: */
-    
+.swiper-button-prev {
+    background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path fill='#007aff' d='M22,0l2.4,2.4L5,22l19.4,19.6L22,44L0,22L22,0z'/></svg>");
+    left: 10px;
+    &.swiper-button-black {
+        background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path fill='#000000' d='M22,0l2.4,2.4L5,22l19.4,19.6L22,44L0,22L22,0z'/></svg>");
+    }
+    &.swiper-button-white {
+        background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path fill='#ffffff' d='M22,0l2.4,2.4L5,22l19.4,19.6L22,44L0,22L22,0z'/></svg>");
+    }
 }
-.swiper-slide-active {
-    /* Specific active slide styling: */
-    
+.swiper-button-next {
+    background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path fill='#007aff' d='M27,22L5,44l-2.4-2.4L22,22L2.6,2.4L5,0L27,22z'/></svg>");
+    right: 10px;
+    &.swiper-button-black {
+        background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path fill='#000000' d='M27,22L5,44l-2.4-2.4L22,22L2.6,2.4L5,0L27,22z'/></svg>");
+    }
+    &.swiper-button-white {
+        background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path fill='#ffffff' d='M27,22L5,44l-2.4-2.4L22,22L2.6,2.4L5,0L27,22z'/></svg>");
+    }
 }
-.swiper-slide-visible {
-    /* Specific visible slide styling: */   
-
-}
-.swiper-slide-next {
-    /* Specific next slide styling: */   
-
-}
-.swiper-slide-prev {
-    /* Specific prev slide styling: */   
-
-}
-/* ===============================================================
-Pagination Styles
-================================================================*/
+/* Pagination Styles */
 .swiper-pagination {
     position: absolute;
     text-align: center;
@@ -131,6 +123,7 @@ Pagination Styles
     -ms-transform: translate3d(0,0,0);
     -o-transform: translate3d(0,0,0);
     transform: translate3d(0,0,0);
+    z-index: 10;
     &.swiper-pagination-hidden {
         opacity: 0;
     }
@@ -142,14 +135,13 @@ Pagination Styles
     border-radius: 100%;
     background: #000;
     opacity: 0.2;
-    cursor: pointer;
+    .swiper-pagination-clickable & {
+        cursor: pointer;
+    }
 }
 .swiper-pagination-bullet-active {
     opacity: 1;
     background: #007aff;
-}
-.swiper-pagination-bullet-visible {
-    opacity: 1;
 }
 .swiper-container-vertical {
     > .swiper-pagination {

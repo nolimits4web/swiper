@@ -7,26 +7,29 @@
   "description": "Mobile touch slider and framework with hardware accelerated transitions",
   "version": "3.0.0",
   "author": "Vladimir Kharlampidi",
-  "homepage": "http://www.idangero.us/sliders/swiper/",
+  "homepage": "http://www.idangero.us/swiper/",
   "keywords": ["swiper", "swipe", "slider"],
   "dependencies": {
   },
   "scripts": [
-    "dist/idangerous.swiper.js"
+    "dist/swiper.js"
   ],
-  "main": "dist/idangerous.swiper.js",
+  "main": [
+    "dist/swiper.js",
+    "dist/swiper.css"
+  ],
   "styles": [
-    "dist/idangerous.swiper.css"
+    "dist/swiper.css"
   ],
   "license": ["GPL", "MIT"],
   "dependencies": {},
   "ignore": [
     ".*",
-    "demo-apps",
     "demos",
-    "Gruntfile",
-    "lib",
+    "gulpfile",
+    "build",
     "node_modules",
+    "playground",
     "package.json"
   ]
 }
