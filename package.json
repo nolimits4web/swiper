@@ -3,6 +3,7 @@
   "version": "3.0.0",
   "description": "Mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/",
+  "files": ["dist", "src", "*.json", "*.js"],
   "repository": {
     "type": "git",
     "url": "https://github.com/nolimits4web/Swiper.git"
