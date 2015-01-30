@@ -10,7 +10,7 @@
         path = require('path'),
         uglify = require('gulp-uglify'),
         sourcemaps = require('gulp-sourcemaps'),
-        uglifycss = require('gulp-uglifycss'),
+        minifyCSS = require('gulp-minify-css'),
         tap = require('gulp-tap'),
         concat = require('gulp-concat'),
         jshint = require('gulp-jshint'),
@@ -46,6 +46,7 @@
                 'src/js/effects.js',
                 'src/js/scrollbar.js',
                 'src/js/controller.js',
+                'src/js/hashnav.js',
                 'src/js/keyboard.js',
                 'src/js/mousewheel.js',
                 'src/js/init.js',
@@ -53,7 +54,8 @@
                 'src/js/swiper-proto.js',
                 'src/js/dom.js',
                 'src/js/dom-plugins.js',
-                'src/js/wrap-end.js'
+                'src/js/wrap-end.js',
+                'src/js/amd.js'
             ],
             jQueryFiles : [
                 'src/js/wrap-start.js',
@@ -62,13 +64,15 @@
                 'src/js/effects.js',
                 'src/js/scrollbar.js',
                 'src/js/controller.js',
+                'src/js/hashnav.js',
                 'src/js/keyboard.js',
                 'src/js/mousewheel.js',
                 'src/js/init.js',
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
                 'src/js/dom-plugins.js',
-                'src/js/wrap-end.js'
+                'src/js/wrap-end.js',
+                'src/js/amd.js'
             ],
             Framework7Files : [
                 'src/js/swiper-intro.js',
@@ -107,7 +111,7 @@
     function addJSIndent (file, t, minusIndent) {
         var addIndent = '        ';
         var filename = file.path.split('src/js/')[1];
-        if (filename === 'wrap-start.js' || filename === 'wrap-end.js') {
+        if (filename === 'wrap-start.js' || filename === 'wrap-end.js' || filename === 'amd.js') {
             addIndent = '';
         }
         if (filename === 'swiper-intro.js' || filename === 'swiper-outro.js' || filename === 'dom.js' || filename === 'dom-plugins.js' || filename === 'swiper-proto.js') addIndent = '    ';
@@ -193,7 +197,7 @@
 
         gulp.src(paths.build.styles + '*.css')
             .pipe(gulp.dest(paths.dist.styles))
-            .pipe(uglifycss())
+            .pipe(minifyCSS())
             .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date }))
             .pipe(rename(function(path) {
                 path.basename = swiper.filename + '.min';

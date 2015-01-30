@@ -11,7 +11,7 @@ s.controller = {
         var multiplier = (controlled.maxTranslate() - controlled.minTranslate()) / (s.maxTranslate() - s.minTranslate());
         var controlledTranslate = (translate - s.minTranslate()) * multiplier + controlled.minTranslate();
         controlled.updateProgress(controlledTranslate);
-        controlled.setWrapperTranslate(controlledTranslate, false, true);
+        controlled.setWrapperTranslate(controlledTranslate, false, s);
         controlled.updateActiveIndex();
     },
     setTransition: function (duration) {
@@ -19,6 +19,6 @@ s.controller = {
         if (!controlled instanceof Swiper) {
             return;
         }
-        controlled.setWrapperTransition(duration, true);
+        controlled.setWrapperTransition(duration, s);
     }
 };

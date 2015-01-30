@@ -34,6 +34,8 @@ var defaults = {
     keyboardControl: false,
     mousewheelControl: false,
     mousewheelForceToAxis: false,
+    // Hash Navigation
+    hashnav: false,
     // Slides grid
     spaceBetween: 0,
     slidesPerView: 1,
@@ -351,14 +353,20 @@ s.stopAutoplay = function (internal) {
     s.autoplayTimeoutId = undefined;
     if (s.params.onAutoplayStop) s.params.onAutoplayStop(s);
 };
-s.pauseAutoplay = function () {
+s.pauseAutoplay = function (speed) {
     if (s.autoplayPaused) return;
     if (s.autoplayTimeoutId) clearTimeout(s.autoplayTimeoutId);
     s.autoplayPaused = true;
-    s.wrapper.transitionEnd(function () {
+    if (speed === 0) {
         s.autoplayPaused = false;
         autoplay();
-    });
+    }
+    else {
+        s.wrapper.transitionEnd(function () {
+            s.autoplayPaused = false;
+            autoplay();
+        });
+    }
 };
 /*=========================
   Slider/slides sizes
@@ -911,7 +919,7 @@ s.onTouchMove = function (e) {
     if (s.params.onSliderMove) s.params.onSliderMove(s, e);
 
     e.preventDefault();
-    if (s.params.touchMoveStopPropagation) {
+    if (s.params.touchMoveStopPropagation && !s.params.nested) {
         e.stopPropagation();
     }
 
@@ -1234,8 +1242,8 @@ s.onTouchEnd = function (e) {
 /*=========================
   Transitions
   ===========================*/
-s._slideTo = function (slideIndex) {
-    return s.slideTo(slideIndex, undefined, true, true);
+s._slideTo = function (slideIndex, speed) {
+    return s.slideTo(slideIndex, speed, true, true);
 };
 s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     if (typeof runCallbacks === 'undefined') runCallbacks = true;
@@ -1250,7 +1258,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
 
     if (s.params.autoplay && s.autoplaying) {
         if (internal || !s.params.autoplayDisableOnInteraction) {
-            s.pauseAutoplay();
+            s.pauseAutoplay(speed);
         }
         else {
             s.stopAutoplay();
@@ -1315,8 +1323,8 @@ s.slideNext = function (runCallbacks, speed, internal) {
     }
     else return s.slideTo(s.activeIndex + s.params.slidesPerGroup, speed, runCallbacks, internal);
 };
-s._slideNext = function () {
-    return s.slideNext(true, undefined, true);
+s._slideNext = function (speed) {
+    return s.slideNext(true, speed, true);
 };
 s.slidePrev = function (runCallbacks, speed, internal) {
     if (s.params.loop) {
@@ -1328,8 +1336,8 @@ s.slidePrev = function (runCallbacks, speed, internal) {
     }
     else return s.slideTo(s.activeIndex - 1, speed, runCallbacks, internal);
 };
-s._slidePrev = function () {
-    return s.slidePrev(true, undefined, true);
+s._slidePrev = function (speed) {
+    return s.slidePrev(true, speed, true);
 };
 s.slideReset = function (runCallbacks, speed, internal) {
     return s.slideTo(s.activeIndex, speed, runCallbacks);
@@ -1347,7 +1355,7 @@ s.setWrapperTransition = function (duration, byController) {
     if (s.params.scrollbar && s.scrollbar) {
         s.scrollbar.setTransition(duration);
     }
-    if (s.params.control && s.controller && !byController) {
+    if (s.params.control && s.controller && s.params.control !== byController) {
         s.controller.setTransition(duration);
     }
 };
@@ -1370,8 +1378,11 @@ s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
     if (s.params.scrollbar && s.scrollbar) {
         s.scrollbar.setTranslate(s.translate);
     }
-    if (s.params.control && s.controller && !byController) {
+    if (s.params.control && s.controller && s.params.control !== byController) {
         s.controller.setTranslate(s.translate);
+    }
+    if (s.params.hashnav && s.hashnav) {
+        s.hashnav.setHash();
     }
     if (s.params.onSetTranslate) s.params.onSetTranslate(s, s.translate);
 };
@@ -1547,6 +1558,7 @@ s.prependSlide = function (slides) {
         for (var i = 0; i < slides.length; i++) {
             if (slides[i]) s.wrapper.prepend(slides[i]);
         }
+        newActiveIndex = s.activeIndex + slides.length;
     }
     else {
         s.wrapper.prepend(slides);

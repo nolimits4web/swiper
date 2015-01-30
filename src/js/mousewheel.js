@@ -3,7 +3,7 @@
   ===========================*/
 s._wheelEvent = false;
 s._lastWheelScrollTime = (new Date()).getTime();
-if (s.params.mousewheel) {
+if (s.params.mousewheelControl) {
     if (document.onmousewheel !== undefined) {
         s._wheelEvent = 'mousewheel';
     }
@@ -20,7 +20,6 @@ if (s.params.mousewheel) {
 function handleMousewheel(e) {
     var we = s._wheelEvent;
     var delta = 0;
-
     //Opera & IE
     if (e.detail) delta = -e.detail;
     //WebKits
@@ -87,13 +86,13 @@ function handleMousewheel(e) {
     else e.returnValue = false;
     return false;
 }
-s.disableMousewheel = function () {
+s.disableMousewheelControl = function () {
     if (!s._wheelEvent) return false;
     s.container.off(s._wheelEvent, handleMousewheel);
     return true;
 };
 
-s.enableMousewheel = function () {
+s.enableMousewheelControl = function () {
     if (!s._wheelEvent) return false;
     s.container.on(s._wheelEvent, handleMousewheel);
     return true;

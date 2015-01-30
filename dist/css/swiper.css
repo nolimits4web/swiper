@@ -10,9 +10,8 @@
  * 
  * Licensed under GPL & MIT
  * 
- * Released on: January 30, 2015
+ * Released on: January 31, 2015
  */
-/* Swiper Core */
 .swiper-container {
   margin: 0 auto;
   position: relative;
@@ -104,7 +103,8 @@
 }
 .swiper-button-prev.swiper-button-disabled,
 .swiper-button-next.swiper-button-disabled {
-  opacity: 0.5;
+  opacity: 0.35;
+  cursor: auto;
 }
 .swiper-button-prev {
   background: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M0,22L22,0l2.1,2.1L4.2,22l19.9,19.9L22,44L0,22L0,22L0,22z' fill='#007aff'/></svg>");

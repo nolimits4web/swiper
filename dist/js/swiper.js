@@ -10,7 +10,7 @@
  * 
  * Licensed under GPL & MIT
  * 
- * Released on: January 30, 2015
+ * Released on: January 31, 2015
  */
 (function () {
     'use strict';
@@ -55,6 +55,8 @@
             keyboardControl: false,
             mousewheelControl: false,
             mousewheelForceToAxis: false,
+            // Hash Navigation
+            hashnav: false,
             // Slides grid
             spaceBetween: 0,
             slidesPerView: 1,
@@ -139,6 +141,8 @@
             onTouchEnd: function (swiper, e) 
             onReachBeginning: function (swiper) 
             onReachEnd: function (swiper) 
+            onSetTransition: function (swiper, duration) 
+            onSetTranslate: function (swiper, translate) 
             */
         };
         params = params || {};
@@ -370,14 +374,20 @@
             s.autoplayTimeoutId = undefined;
             if (s.params.onAutoplayStop) s.params.onAutoplayStop(s);
         };
-        s.pauseAutoplay = function () {
+        s.pauseAutoplay = function (speed) {
             if (s.autoplayPaused) return;
             if (s.autoplayTimeoutId) clearTimeout(s.autoplayTimeoutId);
             s.autoplayPaused = true;
-            s.wrapper.transitionEnd(function () {
+            if (speed === 0) {
                 s.autoplayPaused = false;
                 autoplay();
-            });
+            }
+            else {
+                s.wrapper.transitionEnd(function () {
+                    s.autoplayPaused = false;
+                    autoplay();
+                });
+            }
         };
         /*=========================
           Slider/slides sizes
@@ -930,7 +940,7 @@
             if (s.params.onSliderMove) s.params.onSliderMove(s, e);
         
             e.preventDefault();
-            if (s.params.touchMoveStopPropagation) {
+            if (s.params.touchMoveStopPropagation && !s.params.nested) {
                 e.stopPropagation();
             }
         
@@ -1253,8 +1263,8 @@
         /*=========================
           Transitions
           ===========================*/
-        s._slideTo = function (slideIndex) {
-            return s.slideTo(slideIndex, undefined, true, true);
+        s._slideTo = function (slideIndex, speed) {
+            return s.slideTo(slideIndex, speed, true, true);
         };
         s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
             if (typeof runCallbacks === 'undefined') runCallbacks = true;
@@ -1269,7 +1279,7 @@
         
             if (s.params.autoplay && s.autoplaying) {
                 if (internal || !s.params.autoplayDisableOnInteraction) {
-                    s.pauseAutoplay();
+                    s.pauseAutoplay(speed);
                 }
                 else {
                     s.stopAutoplay();
@@ -1334,8 +1344,8 @@
             }
             else return s.slideTo(s.activeIndex + s.params.slidesPerGroup, speed, runCallbacks, internal);
         };
-        s._slideNext = function () {
-            return s.slideNext(true, undefined, true);
+        s._slideNext = function (speed) {
+            return s.slideNext(true, speed, true);
         };
         s.slidePrev = function (runCallbacks, speed, internal) {
             if (s.params.loop) {
@@ -1347,8 +1357,8 @@
             }
             else return s.slideTo(s.activeIndex - 1, speed, runCallbacks, internal);
         };
-        s._slidePrev = function () {
-            return s.slidePrev(true, undefined, true);
+        s._slidePrev = function (speed) {
+            return s.slidePrev(true, speed, true);
         };
         s.slideReset = function (runCallbacks, speed, internal) {
             return s.slideTo(s.activeIndex, speed, runCallbacks);
@@ -1359,13 +1369,14 @@
           ===========================*/
         s.setWrapperTransition = function (duration, byController) {
             s.wrapper.transition(duration);
+            if (s.params.onSetTransition) s.params.onSetTransition(s, duration);
             if (s.params.effect !== 'slide' && s.effects[s.params.effect]) {
                 s.effects[s.params.effect].setTransition(duration);
             }
             if (s.params.scrollbar && s.scrollbar) {
                 s.scrollbar.setTransition(duration);
             }
-            if (s.params.control && s.controller && !byController) {
+            if (s.params.control && s.controller && s.params.control !== byController) {
                 s.controller.setTransition(duration);
             }
         };
@@ -1388,9 +1399,13 @@
             if (s.params.scrollbar && s.scrollbar) {
                 s.scrollbar.setTranslate(s.translate);
             }
-            if (s.params.control && s.controller && !byController) {
+            if (s.params.control && s.controller && s.params.control !== byController) {
                 s.controller.setTranslate(s.translate);
             }
+            if (s.params.hashnav && s.hashnav) {
+                s.hashnav.setHash();
+            }
+            if (s.params.onSetTranslate) s.params.onSetTranslate(s, s.translate);
         };
         
         s.getTranslate = function (el, axis) {
@@ -1564,6 +1579,7 @@
                 for (var i = 0; i < slides.length; i++) {
                     if (slides[i]) s.wrapper.prepend(slides[i]);
                 }
+                newActiveIndex = s.activeIndex + slides.length;
             }
             else {
                 s.wrapper.prepend(slides);
@@ -1657,7 +1673,7 @@
                             wrapperRotate = i * 90 + progress * 90;
                         }
                         slide.transform(transform);
-                        if (s.params.coverflow.slideShadows) {
+                        if (s.params.cube.slideShadows) {
                             //Set shadows
                             var shadowBefore = isH() ? slide.find('.swiper-slide-shadow-left') : slide.find('.swiper-slide-shadow-top');
                             var shadowAfter = isH() ? slide.find('.swiper-slide-shadow-right') : slide.find('.swiper-slide-shadow-bottom');
@@ -1867,7 +1883,7 @@
                 var multiplier = (controlled.maxTranslate() - controlled.minTranslate()) / (s.maxTranslate() - s.minTranslate());
                 var controlledTranslate = (translate - s.minTranslate()) * multiplier + controlled.minTranslate();
                 controlled.updateProgress(controlledTranslate);
-                controlled.setWrapperTranslate(controlledTranslate, false, true);
+                controlled.setWrapperTranslate(controlledTranslate, false, s);
                 controlled.updateActiveIndex();
             },
             setTransition: function (duration) {
@@ -1875,7 +1891,32 @@
                 if (!controlled instanceof Swiper) {
                     return;
                 }
-                controlled.setWrapperTransition(duration, true);
+                controlled.setWrapperTransition(duration, s);
+            }
+        };
+
+        /*=========================
+          Hash Navigation
+          ===========================*/
+        s.hashnav = {
+            init: function () {
+                if (!s.params.hashnav) return;
+                s.hashnav.initialized = true;
+                var hash = document.location.hash.replace('#', '');
+                if (!hash) return;
+                var speed = 0;
+                for (var i = 0, length = s.slides.length; i < length; i++) {
+                    var slide = s.slides.eq(i);
+                    var slideHash = slide.attr('data-hash');
+                    if (slideHash === hash && !slide.hasClass(s.params.slideDuplicateClass)) {
+                        var index = slide.index();
+                        s._slideTo(index, speed);
+                    }
+                }
+            },
+            setHash: function () {
+                if (!s.hashnav.initialized || !s.params.hashnav) return;
+                document.location.hash = s.slides.eq(s.activeIndex).attr('data-hash') || '';
             }
         };
 
@@ -1937,10 +1978,10 @@
                 if (kc === 38) s.slidePrev();
             }
         }
-        s.disableKeyboard = function () {
+        s.disableKeyboardControl = function () {
             $(document).off('keydown', handleKeyboard);
         };
-        s.enableKeyboard = function () {
+        s.enableKeyboardControl = function () {
             $(document).on('keydown', handleKeyboard);
         };
         
@@ -1950,7 +1991,7 @@
           ===========================*/
         s._wheelEvent = false;
         s._lastWheelScrollTime = (new Date()).getTime();
-        if (s.params.mousewheel) {
+        if (s.params.mousewheelControl) {
             if (document.onmousewheel !== undefined) {
                 s._wheelEvent = 'mousewheel';
             }
@@ -1967,7 +2008,6 @@
         function handleMousewheel(e) {
             var we = s._wheelEvent;
             var delta = 0;
-        
             //Opera & IE
             if (e.detail) delta = -e.detail;
             //WebKits
@@ -2034,13 +2074,13 @@
             else e.returnValue = false;
             return false;
         }
-        s.disableMousewheel = function () {
+        s.disableMousewheelControl = function () {
             if (!s._wheelEvent) return false;
             s.container.off(s._wheelEvent, handleMousewheel);
             return true;
         };
         
-        s.enableMousewheel = function () {
+        s.enableMousewheelControl = function () {
             if (!s._wheelEvent) return false;
             s.container.on(s._wheelEvent, handleMousewheel);
             return true;
@@ -2078,10 +2118,13 @@
                 s.startAutoplay();
             }
             if (s.params.keyboardControl) {
-                if (s.enableKeyboard) s.enableKeyboard();
+                if (s.enableKeyboardControl) s.enableKeyboardControl();
             }
             if (s.params.mousewheelControl) {
-                if (s.enableMousewheel) s.enableMousewheel();
+                if (s.enableMousewheelControl) s.enableMousewheelControl();
+            }
+            if (s.params.hashnav) {
+                if (s.hashnav) s.hashnav.init();
             }
         };
         
@@ -2250,14 +2293,26 @@
                 }
                 return this;
             },
-            attr: function (attr, value) {
-                if (typeof value === 'undefined') {
-                    if (this[0]) return this[0].getAttribute(attr);
+            attr: function (attrs, value) {
+                if (arguments.length === 1 && typeof attrs === 'string') {
+                    // Get attr
+                    if (this[0]) return this[0].getAttribute(attrs);
                     else return undefined;
                 }
                 else {
+                    // Set attrs
                     for (var i = 0; i < this.length; i++) {
-                        this[i].setAttribute(attr, value);
+                        if (arguments.length === 2) {
+                            // String
+                            this[i].setAttribute(attrs, value);
+                        }
+                        else {
+                            // Object
+                            for (var attrName in attrs) {
+                                this[i][attrName] = attrs[attrName];
+                                this[i].setAttribute(attrName, attrs[attrName]);
+                            }
+                        }
                     }
                     return this;
                 }
@@ -2369,6 +2424,19 @@
                 }
                 return this;
             },
+            once: function (eventName, targetSelector, listener, capture) {
+                var dom = this;
+                if (typeof targetSelector === 'function') {
+                    targetSelector = false;
+                    listener = arguments[1];
+                    capture = arguments[2];
+                }
+                function proxy(e) {
+                    listener(e);
+                    dom.off(eventName, targetSelector, proxy, capture);
+                }
+                dom.on(eventName, targetSelector, proxy, capture);
+            },
             trigger: function (eventName, eventData) {
                 for (var i = 0; i < this.length; i++) {
                     var evt;
@@ -2409,17 +2477,16 @@
                 }
                 else {
                     if (this.length > 0) {
-                        return parseFloat(this.css('width')) - parseFloat(this.css('padding-left')) - parseFloat(this.css('padding-right'));
+                        return parseFloat(this.css('width'));
                     }
                     else {
                         return null;
                     }
                 }
-                    
             },
-            outerWidth: function (margins) {
+            outerWidth: function (includeMargins) {
                 if (this.length > 0) {
-                    if (margins)
+                    if (includeMargins)
                         return this[0].offsetWidth + parseFloat(this.css('margin-right')) + parseFloat(this.css('margin-left'));
                     else
                         return this[0].offsetWidth;
@@ -2432,17 +2499,16 @@
                 }
                 else {
                     if (this.length > 0) {
-                        return this[0].offsetHeight - parseFloat(this.css('padding-top')) - parseFloat(this.css('padding-bottom'));
+                        return parseFloat(this.css('height'));
                     }
                     else {
                         return null;
                     }
                 }
-                    
             },
-            outerHeight: function (margins) {
+            outerHeight: function (includeMargins) {
                 if (this.length > 0) {
-                    if (margins)
+                    if (includeMargins)
                         return this[0].offsetHeight + parseFloat(this.css('margin-top')) + parseFloat(this.css('margin-bottom'));
                     else
                         return this[0].offsetHeight;
@@ -2507,19 +2573,6 @@
                         this[i].innerHTML = html;
                     }
                     return this;
-                }
-            },
-            text: function (text) {
-                if (typeof text === 'undefined') {
-                    if (this[0]) {
-                        return this[0].textContent.trim();
-                    }
-                    else return null;
-                }
-                else {
-                    for (var i = 0; i < this.length; i++) {
-                        this[0].textContent = text;
-                    }
                 }
             },
             is: function (selector) {
@@ -2611,6 +2664,7 @@
                         for (j = tempDiv.childNodes.length - 1; j >= 0; j--) {
                             this[i].insertBefore(tempDiv.childNodes[j], this[i].childNodes[0]);
                         }
+                        // this[i].insertAdjacentHTML('afterbegin', newChild);
                     }
                     else if (newChild instanceof Dom7) {
                         for (j = 0; j < newChild.length; j++) {
@@ -2668,7 +2722,9 @@
                 if (!el) return new Dom7([]);
                 while (el.nextElementSibling) {
                     var next = el.nextElementSibling;
-                    if (selector && $(next).is(selector)) nextEls.push(next);
+                    if (selector) {
+                        if($(next).is(selector)) nextEls.push(next);
+                    }
                     else nextEls.push(next);
                     el = next;
                 }
@@ -2693,7 +2749,9 @@
                 if (!el) return new Dom7([]);
                 while (el.previousElementSibling) {
                     var prev = el.previousElementSibling;
-                    if (selector && $(prev).is(selector)) prevEls.push(prev);
+                    if (selector) {
+                        if($(prev).is(selector)) prevEls.push(prev);
+                    }
                     else prevEls.push(prev);
                     el = prev;
                 }
@@ -2759,6 +2817,18 @@
                 }
                 return this;
             },
+            add: function () {
+                var dom = this;
+                var i, j;
+                for (i = 0; i < arguments.length; i++) {
+                    var toAdd = $(arguments[i]);
+                    for (j = 0; j < toAdd.length; j++) {
+                        dom[dom.length] = toAdd[j];
+                        dom.length++;
+                    }
+                }
+                return dom;
+            }
         };
         $.fn = Dom7.prototype;
         $.unique = function (arr) {
@@ -2847,3 +2917,16 @@
     
 
 })();
+/*===========================
+Swiper AMD Export
+===========================*/
+if (typeof(module) !== 'undefined')
+{
+    module.exports = Swiper;
+}
+else if (typeof define === 'function' && define.amd) {
+    define([], function () {
+        'use strict';
+        return Swiper;
+    });
+}

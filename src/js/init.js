@@ -30,10 +30,13 @@ s.init = function () {
         s.startAutoplay();
     }
     if (s.params.keyboardControl) {
-        if (s.enableKeyboard) s.enableKeyboard();
+        if (s.enableKeyboardControl) s.enableKeyboardControl();
     }
     if (s.params.mousewheelControl) {
-        if (s.enableMousewheel) s.enableMousewheel();
+        if (s.enableMousewheelControl) s.enableMousewheelControl();
+    }
+    if (s.params.hashnav) {
+        if (s.hashnav) s.hashnav.init();
     }
 };
 

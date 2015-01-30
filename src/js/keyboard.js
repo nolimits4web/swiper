@@ -56,9 +56,9 @@ function handleKeyboard(e) {
         if (kc === 38) s.slidePrev();
     }
 }
-s.disableKeyboard = function () {
+s.disableKeyboardControl = function () {
     $(document).off('keydown', handleKeyboard);
 };
-s.enableKeyboard = function () {
+s.enableKeyboardControl = function () {
     $(document).on('keydown', handleKeyboard);
 };
