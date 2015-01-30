@@ -118,6 +118,8 @@ var defaults = {
     onTouchEnd: function (swiper, e) 
     onReachBeginning: function (swiper) 
     onReachEnd: function (swiper) 
+    onSetTransition: function (swiper, duration) 
+    onSetTranslate: function (swiper, translate) 
     */
 };
 params = params || {};
@@ -1338,6 +1340,7 @@ s.slideReset = function (runCallbacks, speed, internal) {
   ===========================*/
 s.setWrapperTransition = function (duration, byController) {
     s.wrapper.transition(duration);
+    if (s.params.onSetTransition) s.params.onSetTransition(s, duration);
     if (s.params.effect !== 'slide' && s.effects[s.params.effect]) {
         s.effects[s.params.effect].setTransition(duration);
     }
@@ -1370,6 +1373,7 @@ s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
     if (s.params.control && s.controller && !byController) {
         s.controller.setTranslate(s.translate);
     }
+    if (s.params.onSetTranslate) s.params.onSetTranslate(s, s.translate);
 };
 
 s.getTranslate = function (el, axis) {
