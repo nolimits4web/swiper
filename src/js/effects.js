@@ -77,7 +77,7 @@ s.effects = {
                     wrapperRotate = i * 90 + progress * 90;
                 }
                 slide.transform(transform);
-                if (s.params.coverflow.slideShadows) {
+                if (s.params.cube.slideShadows) {
                     //Set shadows
                     var shadowBefore = isH() ? slide.find('.swiper-slide-shadow-left') : slide.find('.swiper-slide-shadow-top');
                     var shadowAfter = isH() ? slide.find('.swiper-slide-shadow-right') : slide.find('.swiper-slide-shadow-bottom');
