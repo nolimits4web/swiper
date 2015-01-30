@@ -2866,14 +2866,12 @@ if (window.jQuery || window.Zepto) {
     })(window.jQuery || window.Zepto);
 }
 
-// component
-if (typeof(module) !== 'undefined')
-{
+// CommonJS support
+if (typeof(module) !== 'undefined') {
     module.exports = Swiper;
-}
 
 // requirejs support
-if (typeof define === 'function' && define.amd) {
+} else if (typeof define === 'function' && define.amd) {
     define([], function () {
         'use strict';
         return Swiper;
