@@ -1119,7 +1119,7 @@ var Swiper = function (selector, params) {
     ============================================*/
     function handleKeyboardKeys(e) {
     	// Must not handle when cursor is in uinput or textarea field
-    	if ( document.activeElement.nodeName == 'INPUT' || document.activeElement.nodeName == 'TEXTAREA' ) {
+    	if ( document.activeElement.nodeName.toLowerCase() == 'input' || document.activeElement.nodeName.toLowerCase() == 'textarea' ) {
             return false;
         }
         
