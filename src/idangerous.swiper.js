@@ -2133,7 +2133,7 @@ var Swiper = function (selector, params) {
         if (params.paginationClickable && _this.paginationButtons) {
             removePaginationEvents();
         }
-        _this.paginationContainer = params.pagination.nodeType ? params.pagination : $$(params.pagination)[0];
+        _this.paginationContainer = params.pagination.nodeType ? params.pagination : $$(params.pagination, _this.container)[0];
         if (params.createPagination) {
             var paginationHTML = '';
             var numOfSlides = _this.slides.length;
