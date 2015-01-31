@@ -1118,6 +1118,11 @@ var Swiper = function (selector, params) {
         Keyboard Control
     ============================================*/
     function handleKeyboardKeys(e) {
+    	// Must not handle when cursor is in uinput or textarea field
+    	if ( document.activeElement.nodeName.toLowerCase() == 'input' || document.activeElement.nodeName.toLowerCase() == 'textarea' ) {
+            return false;
+        }
+        
         var kc = e.keyCode || e.charCode;
         if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) return;
         if (kc === 37 || kc === 39 || kc === 38 || kc === 40) {
