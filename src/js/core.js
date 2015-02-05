@@ -81,6 +81,9 @@ var defaults = {
     loop: false,
     loopAdditionalSlides: 0,
     loopedSlides: null,
+    // Control
+    control: undefined,
+    controlInverse: false,
     // Swiping/no swiping
     allowSwipeToPrev: true,
     allowSwipeToNext: true,
@@ -1355,8 +1358,8 @@ s.setWrapperTransition = function (duration, byController) {
     if (s.params.scrollbar && s.scrollbar) {
         s.scrollbar.setTransition(duration);
     }
-    if (s.params.control && s.controller && s.params.control !== byController) {
-        s.controller.setTransition(duration);
+    if (s.params.control && s.controller) {
+        s.controller.setTransition(duration, byController);
     }
 };
 s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
@@ -1378,8 +1381,8 @@ s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
     if (s.params.scrollbar && s.scrollbar) {
         s.scrollbar.setTranslate(s.translate);
     }
-    if (s.params.control && s.controller && s.params.control !== byController) {
-        s.controller.setTranslate(s.translate);
+    if (s.params.control && s.controller) {
+        s.controller.setTranslate(s.translate, byController);
     }
     if (s.params.hashnav && s.hashnav) {
         s.hashnav.setHash();
