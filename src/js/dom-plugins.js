@@ -13,8 +13,8 @@ function addLibraryPlugin(lib) {
     };
 }
 for (var i = 0; i < swiperDomPlugins.length; i++) {
-    if (window[swiperDomPlugins]) {
-        addLibraryPlugin(window[swiperDomPlugins]);
+    if (window[swiperDomPlugins[i]]) {
+        addLibraryPlugin(window[swiperDomPlugins[i]]);
     }
 }
 // Required DOM Plugins
