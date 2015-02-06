@@ -7,8 +7,10 @@ Swiper
 
 Swiper - is the free and ultra lightweight mobile touch slider with hardware accelerated transitions (where supported) and amazing native behavior. It is intended to use in mobile websites, mobile web apps, and mobile native apps. Designed mostly for iOS, but also works on Android and latest Desktop browsers. Swiper is created by iDangero.us
 
-## Getting Started
+## Getting Started Links
   * [Getting Started Guide](http://www.idangero.us/swiper/get-started/)
+  * [Usage & API](http://www.idangero.us/swiper/api/)
+  * [Forum](http://www.idangero.us/swiper/forum/)
 
 ## Dist vs Build versions
 
@@ -50,11 +52,3 @@ Distributable version will available in `dist/` folder.
 ## Contributing
 
 All changes should be commited to `src/` files. Swiper uses LESS for CSS compliations, and concatenated JS files (look at gulpfile.js for concat files order)
-
-## Forum
-
-If you have questions about Swiper or want to help others you are welcome to special forum at http://www.idangero.us/swiper/forum/
-
-## Docs
-
-Documentation available at http://idangero.us/swiper/api/
