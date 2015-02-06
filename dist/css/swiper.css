@@ -10,7 +10,7 @@
  * 
  * Licensed under GPL & MIT
  * 
- * Released on: January 31, 2015
+ * Released on: February 6, 2015
  */
 .swiper-container {
   margin: 0 auto;
@@ -154,9 +154,18 @@
 .swiper-pagination-clickable .swiper-pagination-bullet {
   cursor: pointer;
 }
+.swiper-pagination-white .swiper-pagination-bullet {
+  background: #fff;
+}
 .swiper-pagination-bullet-active {
   opacity: 1;
   background: #007aff;
+}
+.swiper-pagination-white .swiper-pagination-bullet-active {
+  background: #fff;
+}
+.swiper-pagination-black .swiper-pagination-bullet-active {
+  background: #000;
 }
 .swiper-container-vertical > .swiper-pagination {
   right: 10px;
