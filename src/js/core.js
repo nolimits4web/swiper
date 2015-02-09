@@ -229,6 +229,7 @@ function isH() {
 
 // RTL
 s.rtl = isH() && (s.container[0].dir.toLowerCase() === 'rtl' || s.container.css('direction') === 'rtl');
+if (s.rtl) s.container.addClass('swiper-container-rtl');
 // Wrong RTL support
 if (s.rtl) {
     s.wrongRTL = s.wrapper.css('display') === '-webkit-box';
