@@ -72,7 +72,7 @@ var defaults = {
     grabCursor: false,
     // Clicks
     preventClicks: true,
-    clicksStopPropagation: true,
+    preventClicksPropagation: true,
     releaseFormElements: true,
     slideToClickedSlide: false,
     // Images
@@ -762,7 +762,7 @@ s.events = function (detach) {
     }
 
     // Prevent Links Clicks
-    if (s.params.preventClicks || s.params.clicksStopPropagation) touchEventsTarget[action]('click', 'a', s.preventClicks, true);
+    if (s.params.preventClicks || s.params.preventClicksPropagation) touchEventsTarget[action]('click', s.preventClicks, true);
 };
 s.attachEvents = function (detach) {
     s.events();
@@ -779,7 +779,7 @@ s.allowClick = true;
 s.preventClicks = function (e) {
     if (!s.allowClick) {
         if (s.params.preventClicks) e.preventDefault();
-        if (s.params.clicksStopPropagation) {
+        if (s.params.preventClicksPropagation) {
             e.stopPropagation();
             e.stopImmediatePropagation();
         }
