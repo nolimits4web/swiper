@@ -229,6 +229,10 @@ function isH() {
 
 // RTL
 s.rtl = isH() && (s.container[0].dir.toLowerCase() === 'rtl' || s.container.css('direction') === 'rtl');
+// Wrong RTL support
+if (s.rtl) {
+    s.wrongRTL = s.wrapper.css('display') === '-webkit-box';
+}
 
 // Translate
 s.translate = 0;
@@ -488,6 +492,10 @@ s.updateSlidesSize = function () {
 
     var newSlidesGrid;
 
+    if (s.rtl && s.wrongRTL && (s.params.effect === 'slide' || s.params.effect === 'coverflow')) {
+        s.wrapper.css({width: s.virtualWidth + s.params.spaceBetween + 'px'});
+    }
+
     if (s.params.slidesPerColumn > 1) {
         s.virtualWidth = (slideSize + s.params.spaceBetween) * slidesNumberEvenToRows;
         s.virtualWidth = Math.ceil(s.virtualWidth / s.params.slidesPerColumn) - s.params.spaceBetween;
@@ -560,6 +568,7 @@ s.updateSlidesProgress = function (translate) {
     if (typeof s.slides[0].swiperSlideOffset === 'undefined') s.updateSlidesOffset();
 
     var offsetCenter = s.params.centeredSlides ? -translate + s.size / 2 : -translate;
+    if (s.rtl) offsetCenter = s.params.centeredSlides ? translate - s.size / 2 : translate;
 
     // Visible Slides
     var containerBox = s.container[0].getBoundingClientRect();
@@ -581,7 +590,7 @@ s.updateSlidesProgress = function (translate) {
                 s.slides.eq(i).addClass(s.params.slideVisibleClass);
             }
         }
-        slide.progress = slideProgress;
+        slide.progress = s.rtl ? -slideProgress : slideProgress;
     }
 };
 s.updateProgress = function (translate) {
