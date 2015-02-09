@@ -967,7 +967,7 @@
                 if (params.loop) {
                     s.fixLoop();
                 }
-                startTranslate = s.params.effect === 'cube' ? (s.translate || 0) : s.getWrapperTranslate();
+                startTranslate = s.params.effect === 'cube' ? ((s.rtl ? -s.translate: s.translate) || 0) : s.getWrapperTranslate();
                 s.setWrapperTransition(0);
                 if (s.animating) {
                     s.wrapper.trigger('webkitTransitionEnd transitionend oTransitionEnd MSTransitionEnd msTransitionEnd');
@@ -1663,9 +1663,13 @@
                     for (var i = 0; i < s.slides.length; i++) {
                         var slide = s.slides.eq(i);
                         var slideAngle = i * 90;
+                        var round = Math.floor(slideAngle / 360);
+                        if (s.rtl) {
+                            slideAngle = -slideAngle;
+                            round = Math.floor(-slideAngle / 360);
+                        }
                         var progress = Math.max(Math.min(slide[0].progress, 1), -1);
                         var tx = 0, ty = 0, tz = 0;
-                        var round = Math.floor(slideAngle / 360);
                         if (i % 4 === 0) {
                             tx = - round * 4 * s.size;
                             tz = 0;
@@ -1682,6 +1686,10 @@
                             tx = - s.size;
                             tz = 3 * s.size + s.size * 4 * round;
                         }
+                        if (s.rtl) {
+                            tx = -tx;
+                        }
+                        
                         if (!isH()) {
                             ty = tx;
                             tx = 0;
