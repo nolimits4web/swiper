@@ -753,26 +753,28 @@ if (window.navigator.pointerEnabled || window.navigator.msPointerEnabled) {
 
 // Attach/detach events
 s.events = function (detach) {
-    var action = detach ? 'off' : 'on';
+    var actionDom = detach ? 'off' : 'on';
+    var actionVanilla = detach ? 'removeEventListener' : 'addEventListener';
     var touchEventsTarget = s.params.touchEventsTarget === 'container' ? s.container : s.wrapper;
     var target = s.support.touch ? touchEventsTarget : $(document);
 
     var moveCapture = s.params.nested ? true : false;
+
     // Touch events
-    touchEventsTarget[action](s.touchEvents.start, s.onTouchStart, false);
-    target[action](s.touchEvents.move, s.onTouchMove, moveCapture);
-    target[action](s.touchEvents.end, s.onTouchEnd, false);
-    $(window)[action]('resize', s.onResize);
+    touchEventsTarget[0][actionVanilla](s.touchEvents.start, s.onTouchStart, false);
+    target[0][actionVanilla](s.touchEvents.move, s.onTouchMove, moveCapture);
+    target[0][actionVanilla](s.touchEvents.end, s.onTouchEnd, false);
+    window[actionVanilla]('resize', s.onResize);
 
     // Next, Prev, Index
-    if (s.params.nextButton) $(s.params.nextButton)[action]('click', s.onClickNext);
-    if (s.params.prevButton) $(s.params.prevButton)[action]('click', s.onClickPrev);
+    if (s.params.nextButton) $(s.params.nextButton)[actionDom]('click', s.onClickNext);
+    if (s.params.prevButton) $(s.params.prevButton)[actionDom]('click', s.onClickPrev);
     if (s.params.pagination && s.params.paginationClickable) {
-        $(s.paginationContainer)[action]('click', '.' + s.params.bulletClass, s.onClickIndex);
+        $(s.paginationContainer)[actionDom]('click', '.' + s.params.bulletClass, s.onClickIndex);
     }
 
     // Prevent Links Clicks
-    if (s.params.preventClicks || s.params.preventClicksPropagation) touchEventsTarget[action]('click', s.preventClicks, true);
+    if (s.params.preventClicks || s.params.preventClicksPropagation) touchEventsTarget[0][actionVanilla]('click', s.preventClicks, true);
 };
 s.attachEvents = function (detach) {
     s.events();
@@ -840,6 +842,11 @@ s.updateClickedSlide = function (e) {
         s.clickedSlide = slide;
         s.clickedIndex = $(slide).index();
     }
+    else {
+        s.clickedSlide = undefined;
+        s.clickedIndex = undefined;
+        return;
+    }
     if (s.params.slideToClickedSlide && s.clickedIndex !== undefined && s.clickedIndex !== s.activeIndex) {
         var slideToIndex = s.clickedIndex,
             realIndex;
@@ -879,9 +886,8 @@ var formElements = 'input, select, textarea, button';
 
 // Touch handlers
 s.onTouchStart = function (e) {
-    if (e.originalEvent) e = e.originalEvent; //jQuery fix
-    if (e.type === 'mousedown' && 'which' in e && e.which === 3) return;
     if (e.originalEvent) e = e.originalEvent;
+    if (e.type === 'mousedown' && 'which' in e && e.which === 3) return;
     if (s.params.noSwiping && findElementInEvent(e, '.' + s.params.noSwipingClass)) return;
     if (s.params.swipeHandler) {
         if (!findElementInEvent(e, s.params.swipeHandler)) return;
@@ -905,7 +911,7 @@ s.onTouchStart = function (e) {
 };
 
 s.onTouchMove = function (e) {
-    if (e.originalEvent) e = e.originalEvent; //jQuery fix
+    if (e.originalEvent) e = e.originalEvent;
     if (e.preventedByNestedSwiper) return;
     if (s.params.onlyExternal) {
         isMoved = true;
@@ -1035,7 +1041,7 @@ s.onTouchMove = function (e) {
     s.setWrapperTranslate(currentTranslate);
 };
 s.onTouchEnd = function (e) {
-    if (e.originalEvent) e = e.originalEvent; //jQuery fix
+    if (e.originalEvent) e = e.originalEvent;
     if (!isTouched) return;
     if (s.params.onTouchEnd) s.params.onTouchEnd(s, e);
 
