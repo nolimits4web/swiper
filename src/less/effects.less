@@ -88,6 +88,12 @@
         width: 100%;
         height: 100%;
     }
+    &.swiper-container-rtl .swiper-slide{
+        -webkit-transform-origin: 100% 0;
+        -moz-transform-origin: 100% 0;
+        -ms-transform-origin: 100% 0;
+        transform-origin: 100% 0;
+    }
     .swiper-slide-active, .swiper-slide-next, .swiper-slide-prev, .swiper-slide-next + .swiper-slide {
         pointer-events: auto;
         visibility: visible;

@@ -48,9 +48,13 @@ s.effects = {
             for (var i = 0; i < s.slides.length; i++) {
                 var slide = s.slides.eq(i);
                 var slideAngle = i * 90;
+                var round = Math.floor(slideAngle / 360);
+                if (s.rtl) {
+                    slideAngle = -slideAngle;
+                    round = Math.floor(-slideAngle / 360);
+                }
                 var progress = Math.max(Math.min(slide[0].progress, 1), -1);
                 var tx = 0, ty = 0, tz = 0;
-                var round = Math.floor(slideAngle / 360);
                 if (i % 4 === 0) {
                     tx = - round * 4 * s.size;
                     tz = 0;
@@ -67,6 +71,10 @@ s.effects = {
                     tx = - s.size;
                     tz = 3 * s.size + s.size * 4 * round;
                 }
+                if (s.rtl) {
+                    tx = -tx;
+                }
+                
                 if (!isH()) {
                     ty = tx;
                     tx = 0;

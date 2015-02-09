@@ -946,7 +946,7 @@ s.onTouchMove = function (e) {
         if (params.loop) {
             s.fixLoop();
         }
-        startTranslate = s.params.effect === 'cube' ? (s.translate || 0) : s.getWrapperTranslate();
+        startTranslate = s.params.effect === 'cube' ? ((s.rtl ? -s.translate: s.translate) || 0) : s.getWrapperTranslate();
         s.setWrapperTransition(0);
         if (s.animating) {
             s.wrapper.trigger('webkitTransitionEnd transitionend oTransitionEnd MSTransitionEnd msTransitionEnd');
