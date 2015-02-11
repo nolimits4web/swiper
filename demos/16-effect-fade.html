@@ -10,6 +10,10 @@
 
     <!-- Demo styles -->
     <style>
+    html, body {
+        position: relative;
+        height: 100%;
+    }
     body {
         background: #eee;
         font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -19,8 +23,8 @@
         padding: 0;
     }
     .swiper-container {
-        width: 500px;
-        height: 300px;
+        width: 100%;
+        height: 100%;
     }
     .swiper-slide {
         background-position: center;
@@ -32,22 +36,17 @@
     <!-- Swiper -->
     <div class="swiper-container">
         <div class="swiper-wrapper">
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/500/300/nightlife/1)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/500/300/nightlife/2)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/500/300/nightlife/3)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/500/300/nightlife/4)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/500/300/nightlife/5)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/500/300/nightlife/6)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/500/300/nightlife/7)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/500/300/nightlife/8)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/500/300/nightlife/9)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/500/300/nightlife/10)"></div>
+            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1000/1000/nightlife/1)"></div>
+            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1000/1000/nightlife/2)"></div>
+            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1000/1000/nightlife/3)"></div>
+            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1000/1000/nightlife/4)"></div>
+            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1000/1000/nightlife/5)"></div>
         </div>
         <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
+        <div class="swiper-pagination swiper-pagination-white"></div>
         <!-- Add Arrows -->
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next swiper-button-white"></div>
+        <div class="swiper-button-prev swiper-button-white"></div>
     </div>
 
     <!-- Swiper JS -->
