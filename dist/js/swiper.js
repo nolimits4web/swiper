@@ -10,7 +10,7 @@
  * 
  * Licensed under GPL & MIT
  * 
- * Released on: February 9, 2015
+ * Released on: February 11, 2015
  */
 (function () {
     'use strict';
@@ -927,6 +927,9 @@
                 var preventDefault = true;
                 if ($(e.target).is(formElements)) preventDefault = false;
                 if (document.activeElement && $(document.activeElement).is(formElements)) document.activeElement.blur();
+                if (preventDefault) {
+                    e.preventDefault();
+                }
             }
             if (s.params.onTouchStart) s.params.onTouchStart(s, e);
         };
