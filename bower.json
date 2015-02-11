@@ -21,7 +21,7 @@
   "styles": [
     "dist/swiper.css"
   ],
-  "license": ["GPL", "MIT"],
+  "license": ["MIT"],
   "dependencies": {},
   "ignore": [
     ".*",

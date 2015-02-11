@@ -8,7 +8,7 @@
  * The iDangero.us
  * http://www.idangero.us/
  * 
- * Licensed under GPL & MIT
+ * Licensed under MIT
  * 
  * Released on: February 11, 2015
  */
