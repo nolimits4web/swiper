@@ -1,5 +1,6 @@
 {
   "node"         : true,
+  "browser"      : true,
   "esnext"       : true,
   "bitwise"      : false,
   "curly"        : false,
@@ -11,11 +12,9 @@
   "noarg"        : true,
   "undef"        : true,
   "strict"       : true,
-  "trailing"     : true,
   "smarttabs"    : true,
   "quotmark"     : "single",
   "indent"       : 4,
-  "white"        : true,
   "globals":{
     "document": true,
     "define": true,
@@ -29,6 +28,9 @@
     "DocumentTouch": true,
     "Modernizr": true,
     "WebKitCSSMatrix": true,
-    "jQuery": true
+    "s": true,
+    "jQuery": true,
+    "Dom7": true,
+    "$": true
   }
 }
