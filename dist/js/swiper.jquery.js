@@ -4,7 +4,7 @@
  * 
  * http://www.idangero.us/swiper/
  * 
- * Copyright 2010-2015, Vladimir Kharlampidi
+ * Copyright 2015, Vladimir Kharlampidi
  * The iDangero.us
  * http://www.idangero.us/
  * 
@@ -742,10 +742,10 @@
             s.updateClasses();
             if (s.params.slidesPerView === 'auto') s.updatePagination();
             if (s.isEnd) {
-                s.slideTo(s.slides.length - 1, 0, false);
+                s.slideTo(s.slides.length - 1, 0, false, true);
             }
             else {
-                s.slideTo(s.activeIndex, 0, false);
+                s.slideTo(s.activeIndex, 0, false, true);
             }
             if (s.params.scrollbar && s.scrollbar) {
                 s.scrollbar.init();
