@@ -906,6 +906,9 @@ s.onTouchStart = function (e) {
         var preventDefault = true;
         if ($(e.target).is(formElements)) preventDefault = false;
         if (document.activeElement && $(document.activeElement).is(formElements)) document.activeElement.blur();
+        if (preventDefault) {
+            e.preventDefault();
+        }
     }
     if (s.params.onTouchStart) s.params.onTouchStart(s, e);
 };
