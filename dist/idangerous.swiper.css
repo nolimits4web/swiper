@@ -1,5 +1,5 @@
 /*
- * Swiper 2.7.5
+ * Swiper 2.7.6
  * Mobile touch slider and framework with hardware accelerated transitions
  *
  * http://www.idangero.us/sliders/swiper/
@@ -10,7 +10,7 @@
  *
  * Licensed under GPL & MIT
  *
- * Released on: January 28, 2015
+ * Released on: February 11, 2015
 */
 /* ===============================================================
 Basic Swiper Styles 
@@ -19,6 +19,7 @@ Basic Swiper Styles
 	margin:0 auto;
 	position:relative;
 	overflow:hidden;
+	direction:ltr;
 	-webkit-backface-visibility:hidden;
 	-moz-backface-visibility:hidden;
 	-ms-backface-visibility:hidden;

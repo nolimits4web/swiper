@@ -5,7 +5,7 @@
     "url": "https://github.com/nolimits4web/Swiper.git"
   },
   "description": "Mobile touch slider and framework with hardware accelerated transitions",
-  "version": "2.7.5",
+  "version": "2.7.6",
   "author": "Vladimir Kharlampidi",
   "homepage": "http://www.idangero.us/sliders/swiper/",
   "keywords": ["swiper", "swipe", "slider"],

@@ -1,4 +1,9 @@
 # Change Log
+
+## Swiper 2.7.6 - Updated on February 11, 2015
+
+  * Minor fixes
+
 ## Swiper 2.7.5 - Updated on January 4, 2015
 
   * "swipeNext" and "swipePrev" methods now support second "runCallbacks" arguments as in "swipeTo" method
