@@ -1,5 +1,5 @@
 {
-  "name": "Swiper",
+  "name": "swiper",
   "version": "3.0.0",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/",
