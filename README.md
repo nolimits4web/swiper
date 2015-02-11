@@ -5,18 +5,21 @@
 Swiper
 ==========
 
-Swiper - is the free and ultra lightweight mobile touch slider with hardware accelerated transitions (where supported) and amazing native behavior. It is intended to use in mobile websites, mobile web apps, and mobile native apps. Designed mostly for iOS, but also works on Android and latest Desktop browsers. Swiper is created by iDangero.us
+Swiper - is the free and most modern mobile touch slider with hardware accelerated transitions and amazing native behavior. It is intended to be used in mobile websites, mobile web apps, and mobile native/hybrid apps. Designed mostly for iOS, but also works great on latest Android, Windows Phone 8 and modern Desktop browsers
 
-## Getting Started Links
+Swiper is not compatible with all platforms, it is a modern touch slider which is focused only on modern apps/platforms to bring the best experience and simplicity.
+
+# Getting Started
   * [Getting Started Guide](http://www.idangero.us/swiper/get-started/)
-  * [Usage & API](http://www.idangero.us/swiper/api/)
+  * [API](http://www.idangero.us/swiper/api/)
+  * [Demos](http://www.idangero.us/swiper/demos/)
   * [Forum](http://www.idangero.us/swiper/forum/)
 
-## Dist vs Build versions
+# Dist / Build
 
 On production use files (JS and CSS) only from `dist/` folder, there will be the most stable versions, `build/` folder is only for development purpose
 
-## Build
+### Build
 
 Swiper uses `gulp` to build a development (build) and dist versions.
 
@@ -39,7 +42,7 @@ $ gulp build
 
 The result is available in `build/` folder.
 
-## Dist/Release
+### Dist/Release
 
 After you have made build:
 
@@ -49,6 +52,6 @@ $ gulp dist
 
 Distributable version will available in `dist/` folder.
 
-## Contributing
+# Contributing
 
 All changes should be commited to `src/` files. Swiper uses LESS for CSS compliations, and concatenated JS files (look at gulpfile.js for concat files order)
