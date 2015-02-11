@@ -1,6 +1,6 @@
 /**
  * Swiper 3.0.0
- * Mobile touch slider and framework with hardware accelerated transitions
+ * Most modern mobile touch slider and framework with hardware accelerated transitions
  * 
  * http://www.idangero.us/swiper/
  * 
