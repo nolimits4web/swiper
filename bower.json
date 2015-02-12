@@ -16,7 +16,6 @@
   ],
   "main": [
     "dist/js/swiper.js",
-    "dist/css/swiper.css"
   ],
   "styles": [
     "dist/css/swiper.css"
