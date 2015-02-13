@@ -902,7 +902,7 @@ s.onTouchStart = function (e) {
     s.updateContainerSize();
     s.swipeDirection = undefined;
     if (s.params.threshold > 0) allowThresholdMove = false;
-    if (e.type === 'mousedown') {
+    if (e.type !== 'touchstart') {
         var preventDefault = true;
         if ($(e.target).is(formElements)) preventDefault = false;
         if (document.activeElement && $(document.activeElement).is(formElements)) document.activeElement.blur();
