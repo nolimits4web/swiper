@@ -1339,9 +1339,8 @@ s.slideNext = function (runCallbacks, speed, internal) {
     if (s.params.loop) {
         if (s.animating) return false;
         s.fixLoop();
-        setTimeout(function () {
-            return s.slideTo(s.activeIndex + 1, speed, runCallbacks, internal);
-        }, 0);
+        var clientLeft = s.container[0].clientLeft;
+        return s.slideTo(s.activeIndex + s.params.slidesPerGroup, speed, runCallbacks, internal);
     }
     else return s.slideTo(s.activeIndex + s.params.slidesPerGroup, speed, runCallbacks, internal);
 };
@@ -1352,9 +1351,8 @@ s.slidePrev = function (runCallbacks, speed, internal) {
     if (s.params.loop) {
         if (s.animating) return false;
         s.fixLoop();
-        setTimeout(function () {
-            return s.slideTo(s.activeIndex - 1, speed, runCallbacks, internal);
-        }, 0);
+        var clientLeft = s.container[0].clientLeft;
+        return s.slideTo(s.activeIndex - 1, speed, runCallbacks, internal);
     }
     else return s.slideTo(s.activeIndex - 1, speed, runCallbacks, internal);
 };
