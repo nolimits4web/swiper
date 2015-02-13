@@ -55,3 +55,11 @@ Distributable version will available in `dist/` folder.
 # Contributing
 
 All changes should be commited to `src/` files. Swiper uses LESS for CSS compliations, and concatenated JS files (look at gulpfile.js for concat files order)
+
+Swiper 2.x.x
+==========
+
+If you still using Swiper 2.x.x or you need old browsers support, you may find it in [Swiper2 Branch](https://github.com/nolimits4web/Swiper/tree/Swiper2)
+* [Download Latest Swiper 2.7.6](https://github.com/nolimits4web/Swiper/archive/v2.7.6.zip)
+* [Source Files](https://github.com/nolimits4web/Swiper/tree/Swiper2/src)
+* [API](https://github.com/nolimits4web/Swiper/blob/Swiper2/API.md)
