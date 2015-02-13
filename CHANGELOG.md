@@ -1,4 +1,33 @@
 # Change Log
 
+## Swiper 3.0.1 - Released on February 13, 2015
+  * Fixed issue with navigation buttons in Firefox in loop mode
+  * Fixed issue with image dragging in IE 10+
+
 ## Swiper 3.0.0 - Released on February 11, 2015
   * Initial release of all new Swiper 3
+  * Removed features
+    * Dropped support for old browsers. Now it is compatible with:
+      * iOS 7+
+      * Android 4+, multirow mode only for Android 4.4+
+      * Latest Chrome, Safari, Firefox and Opera desktop browsers
+      * WP 8+, IE 10+, 3D effects may not work correctly on IE 10 because of wrong nested 3D transform support
+    * Scroll Container. Removed in favor of pure CSS `overflow: auto` with `-webkit-overflow-scrolling: touch`
+  * New features
+    * Swiper now uses modern flexbox layout, which by itself give more features and advantages
+    * Such Swiper 2.x plugins as Hash Navigation, Smooth Progress, 3D Flow and Scrollbar are now incoroporated into Swiper 3.x core
+    * Full RTL support
+    * Built-in navigation buttons/arrows
+    * Controller. Now one Swiper could be controlled (or control itself) by another Swiper
+    * Multi row slides layout with `slidesPerColumn` option
+    * Better support for nested Swipers, now it is possible to use same-direction nested Swipers, like horizontal in horizontal
+    * Space between slides
+    * New transition effects: 3D Coverflow, 3D Cube and Fade transitions
+    * Slides are `border-box` now, so it is possible to use borders and paddings directly on slides
+    * Auto layout mode (`slidesPerView: 'auto'`) now gives more freedom, you can even specify slides sizes in % and use margins on them
+    * Mutation Observers. If enabled, Swiper will watch for changes in Dom and update its layout automatically
+    * Better clicks prevention during swiping
+  * Many of API methods, parameters and callbacks are changed
+  * Added a bit lightweight jQuery/Zepto version of Swiper that can be used if you use jQuery/Zepto in your project
+
+
