@@ -45,10 +45,10 @@ s.destroy = function (deleteInstance) {
     s.detachEvents();
     s.disconnectObservers();
     if (s.params.keyboardControl) {
-        if (s.disableKeyboard) s.disableKeyboard();
+        if (s.disableKeyboardControl) s.disableKeyboardControl();
     }
     if (s.params.mousewheelControl) {
-        if (s.disableMousewheel) s.disableMousewheel();
+        if (s.disableMousewheelControl) s.disableMousewheelControl();
     }
     if (s.params.onDestroy) s.params.onDestroy();
     if (deleteInstance !== false) s = null;
