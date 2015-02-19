@@ -1143,22 +1143,26 @@ s.onTouchEnd = function (e) {
             }
 
             velocities.length = 0;
-
             var momentumDuration = 1000 * s.params.freeModeMomentumRatio;
             var momentumDistance = s.velocity * momentumDuration;
 
             var newPosition = s.translate + momentumDistance;
+            if (s.rtl) newPosition = - newPosition;
             var doBounce = false;
             var afterBouncePosition;
             var bounceAmount = Math.abs(s.velocity) * 20 * s.params.freeModeMomentumBounceRatio;
             if (newPosition < s.maxTranslate()) {
                 if (s.params.freeModeMomentumBounce) {
-                    if (newPosition + s.maxTranslate() < -bounceAmount) newPosition = s.maxTranslate() - bounceAmount;
+                    if (newPosition + s.maxTranslate() < -bounceAmount) {
+                        newPosition = s.maxTranslate() - bounceAmount;
+                    }
                     afterBouncePosition = s.maxTranslate();
                     doBounce = true;
                     allowMomentumBounce = true;
                 }
-                else newPosition = s.maxTranslate();
+                else {
+                    newPosition = s.maxTranslate();
+                }
             }
             if (newPosition > s.minTranslate()) {
                 if (s.params.freeModeMomentumBounce) {
@@ -1169,11 +1173,18 @@ s.onTouchEnd = function (e) {
                     doBounce = true;
                     allowMomentumBounce = true;
                 }
-                else newPosition = s.minTranslate();
+                else {
+                    newPosition = s.minTranslate();
+                }
             }
             //Fix duration
             if (s.velocity !== 0) {
-                momentumDuration = Math.abs((newPosition - s.translate) / s.velocity);
+                if (s.rtl) {
+                    momentumDuration = Math.abs((-newPosition - s.translate) / s.velocity);
+                }
+                else {
+                    momentumDuration = Math.abs((newPosition - s.translate) / s.velocity);
+                }
             }
 
             if (s.params.freeModeMomentumBounce && doBounce) {
