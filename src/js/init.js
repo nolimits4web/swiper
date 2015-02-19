@@ -14,10 +14,10 @@ s.init = function () {
         s.effects[s.params.effect].setTranslate();
     }
     if (s.params.loop) {
-        s.slideTo(s.params.initialSlide + s.loopedSlides, 0, false);
+        s.slideTo(s.params.initialSlide + s.loopedSlides, 0, s.params.runCallbacksOnInit);
     }
     else {
-        s.slideTo(s.params.initialSlide, 0, false);
+        s.slideTo(s.params.initialSlide, 0, s.params.runCallbacksOnInit);
     }
     s.attachEvents();
     if (s.params.observer && s.support.observer) {
@@ -38,6 +38,7 @@ s.init = function () {
     if (s.params.hashnav) {
         if (s.hashnav) s.hashnav.init();
     }
+    if (s.params.onInit) s.params.onInit(s);
 };
 
 // Destroy
