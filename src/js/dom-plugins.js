@@ -27,7 +27,7 @@ else {
 }
 if (domLib) {
     if (!('transitionEnd' in domLib.fn)) {
-        $.fn.transitionEnd = function (callback) {
+        domLib.fn.transitionEnd = function (callback) {
             var events = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'],
                 i, j, dom = this;
             function fireCallBack(e) {
@@ -47,7 +47,7 @@ if (domLib) {
         };
     }
     if (!('transform' in domLib.fn)) {
-        $.fn.transform = function (transform) {
+        domLib.fn.transform = function (transform) {
             for (var i = 0; i < this.length; i++) {
                 var elStyle = this[i].style;
                 elStyle.webkitTransform = elStyle.MsTransform = elStyle.msTransform = elStyle.MozTransform = elStyle.OTransform = elStyle.transform = transform;
@@ -56,7 +56,7 @@ if (domLib) {
         };
     }
     if (!('transition' in domLib.fn)) {
-        $.fn.transition = function (duration) {
+        domLib.fn.transition = function (duration) {
             if (typeof duration !== 'string') {
                 duration = duration + 'ms';
             }
