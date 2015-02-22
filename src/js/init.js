@@ -7,7 +7,7 @@ s.init = function () {
     s.updateSlidesSize();
     s.updatePagination();
     if (s.params.scrollbar && s.scrollbar) {
-        s.scrollbar.init();
+        s.scrollbar.set();
     }
     if (s.params.effect !== 'slide' && s.effects[s.params.effect]) {
         if (!s.params.loop) s.updateProgress();

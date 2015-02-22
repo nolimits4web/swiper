@@ -2,7 +2,7 @@
   Scrollbar
   ===========================*/
 s.scrollbar = {
-    init: function () {
+    set: function () {
         if (!s.params.scrollbar) return;
         var sb = s.scrollbar;
         sb.track = $(s.params.scrollbar);
