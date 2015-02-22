@@ -25,7 +25,7 @@ Swiper.prototype = {
 
         flexbox: (function () {
             var div = document.createElement('div').style;
-            var styles = ('WebkitBox msFlexbox MsFlexbox WebkitFlex MozBox fles').split(' ');
+            var styles = ('WebkitBox msFlexbox MsFlexbox WebkitFlex MozBox flex').split(' ');
             for (var i = 0; i < styles.length; i++) {
                 if (styles[i] in div) return true;
             }
