@@ -1,5 +1,18 @@
 # Change Log
 
+## Swiper 3.0.2 - Released on February 22, 2015
+  * Fixed issue with keyboard events not cleaned up with Swiper.destroy
+  * Encoded inline SVG images for IE support
+  * New callbacks
+    * onInit (swiper)
+    * onTouchMoveOpposite (swiper, e)
+  * Fixed free mode momentum in RTL layout
+  * `.update` method improved to fully cover what `onResize` do for full and correct update
+  * Exposed `swiper.touches` object with the following properties: `startX`, `startY`, `currentX`, `currentY`, `diff`
+  * New methods to remove slides
+    * `.removeSlide(index)` or `.removeSlide([indexes])` - to remove selected slides
+    * `.removeAllSlides()` - to remove all slides
+
 ## Swiper 3.0.1 - Released on February 13, 2015
   * Fixed issue with navigation buttons in Firefox in loop mode
   * Fixed issue with image dragging in IE 10+
