@@ -11,6 +11,12 @@ Swiper.prototype = {
         return Object.prototype.toString.apply(arr) === '[object Array]';
     },
     /*==================================================
+    Browser
+    ====================================================*/
+    browser: {
+        ie: window.navigator.pointerEnabled || window.navigator.msPointerEnabled
+    },
+    /*==================================================
     Feature Detection
     ====================================================*/
     support: {
