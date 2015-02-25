@@ -806,24 +806,23 @@ s.events = function (detach) {
     // }
 
     //Touch Events
-    if (!(s.browser.ie)) {
+    if (s.browser.ie) {
+        touchEventsTarget[action](s.touchEvents.start, s.onTouchStart, false);
+        target[action](s.touchEvents.move, s.onTouchMove, moveCapture);
+        target[action](s.touchEvents.end, s.onTouchEnd, false);
+    }
+    else {
         if (s.support.touch) {
-            touchEventsTarget[action]('touchstart', s.onTouchStart, false);
-            touchEventsTarget[action]('touchmove', s.onTouchMove, moveCapture);
-            touchEventsTarget[action]('touchend', s.onTouchEnd, false);
+            touchEventsTarget[action](s.touchEvents.start, s.onTouchStart, false);
+            touchEventsTarget[action](s.touchEvents.move, s.onTouchMove, moveCapture);
+            touchEventsTarget[action](s.touchEvents.end, s.onTouchEnd, false);
         }
-        if (params.simulateTouch) {
+        if (params.simulateTouch && !s.device.ios && !s.device.android) {
             touchEventsTarget[action]('mousedown', s.onTouchStart, false);
             target[action]('mousemove', s.onTouchMove, moveCapture);
             target[action]('mouseup', s.onTouchEnd, false);
         }
     }
-    else {
-        touchEventsTarget[action](s.touchEvents.start, s.onTouchStart, false);
-        target[action](s.touchEvents.move, s.onTouchMove, moveCapture);
-        target[action](s.touchEvents.end, s.onTouchEnd, false);
-    }
-    
     window[action]('resize', s.onResize);
 
     // Next, Prev, Index
