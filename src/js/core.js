@@ -936,7 +936,10 @@ s.touches = {
 s.onTouchStart = function (e) {
     if (e.originalEvent) e = e.originalEvent;
     if (e.type === 'mousedown' && 'which' in e && e.which === 3) return;
-    if (s.params.noSwiping && findElementInEvent(e, '.' + s.params.noSwipingClass)) return;
+    if (s.params.noSwiping && findElementInEvent(e, '.' + s.params.noSwipingClass)) {
+        s.allowClick = true;
+        return;
+    }
     if (s.params.swipeHandler) {
         if (!findElementInEvent(e, s.params.swipeHandler)) return;
     }
