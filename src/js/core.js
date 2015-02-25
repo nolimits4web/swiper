@@ -772,12 +772,12 @@ s.onResize = function () {
 var desktopEvents = ['mousedown', 'mousemove', 'mouseup'];
 if (window.navigator.pointerEnabled) desktopEvents = ['pointerdown', 'pointermove', 'pointerup'];
 else if (window.navigator.msPointerEnabled) desktopEvents = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
-
 s.touchEvents = {
     start : s.support.touch || !s.params.simulateTouch  ? 'touchstart' : desktopEvents[0],
     move : s.support.touch || !s.params.simulateTouch ? 'touchmove' : desktopEvents[1],
     end : s.support.touch || !s.params.simulateTouch ? 'touchend' : desktopEvents[2]
 };
+    
 
 // WP8 Touch Events Fix
 if (window.navigator.pointerEnabled || window.navigator.msPointerEnabled) {
@@ -787,17 +787,44 @@ if (window.navigator.pointerEnabled || window.navigator.msPointerEnabled) {
 // Attach/detach events
 s.events = function (detach) {
     var actionDom = detach ? 'off' : 'on';
-    var actionVanilla = detach ? 'removeEventListener' : 'addEventListener';
-    var touchEventsTarget = s.params.touchEventsTarget === 'container' ? s.container : s.wrapper;
-    var target = s.support.touch ? touchEventsTarget : $(document);
+    var action = detach ? 'removeEventListener' : 'addEventListener';
+    var touchEventsTarget = s.params.touchEventsTarget === 'container' ? s.container[0] : s.wrapper[0];
+    var target = s.support.touch ? touchEventsTarget : document;
 
     var moveCapture = s.params.nested ? true : false;
 
-    // Touch events
-    touchEventsTarget[0][actionVanilla](s.touchEvents.start, s.onTouchStart, false);
-    target[0][actionVanilla](s.touchEvents.move, s.onTouchMove, moveCapture);
-    target[0][actionVanilla](s.touchEvents.end, s.onTouchEnd, false);
-    window[actionVanilla]('resize', s.onResize);
+    // // Touch/pointer events
+    // touchEventsTarget[action](s.touchEvents.start, s.onTouchStart, false);
+    // target[action](s.touchEvents.move, s.onTouchMove, moveCapture);
+    // target[action](s.touchEvents.end, s.onTouchEnd, false);
+
+    // if (s.browser.ie && s.params.simulateTouch) {
+    //     // Additional mouse events for IE
+    //     touchEventsTarget[action]('mousedown', s.onTouchStart, false);
+    //     document[action]('mousemove', s.onTouchMove, moveCapture);
+    //     document[action]('mouseup', s.onTouchEnd, false);
+    // }
+
+    //Touch Events
+    if (!(s.browser.ie)) {
+        if (s.support.touch) {
+            touchEventsTarget[action]('touchstart', s.onTouchStart, false);
+            touchEventsTarget[action]('touchmove', s.onTouchMove, moveCapture);
+            touchEventsTarget[action]('touchend', s.onTouchEnd, false);
+        }
+        if (params.simulateTouch) {
+            touchEventsTarget[action]('mousedown', s.onTouchStart, false);
+            target[action]('mousemove', s.onTouchMove, moveCapture);
+            target[action]('mouseup', s.onTouchEnd, false);
+        }
+    }
+    else {
+        touchEventsTarget[action](s.touchEvents.start, s.onTouchStart, false);
+        target[action](s.touchEvents.move, s.onTouchMove, moveCapture);
+        target[action](s.touchEvents.end, s.onTouchEnd, false);
+    }
+    
+    window[action]('resize', s.onResize);
 
     // Next, Prev, Index
     if (s.params.nextButton) $(s.params.nextButton)[actionDom]('click', s.onClickNext);
@@ -807,7 +834,7 @@ s.events = function (detach) {
     }
 
     // Prevent Links Clicks
-    if (s.params.preventClicks || s.params.preventClicksPropagation) touchEventsTarget[0][actionVanilla]('click', s.preventClicks, true);
+    if (s.params.preventClicks || s.params.preventClicksPropagation) touchEventsTarget[action]('click', s.preventClicks, true);
 };
 s.attachEvents = function (detach) {
     s.events();
@@ -938,9 +965,11 @@ s.touches = {
 };
 
 // Touch handlers
+var isTouchEvent;
 s.onTouchStart = function (e) {
     if (e.originalEvent) e = e.originalEvent;
-    if (e.type === 'mousedown' && 'which' in e && e.which === 3) return;
+    isTouchEvent = e.type === 'touchstart';
+    if (!isTouchEvent && 'which' in e && e.which === 3) return;
     if (s.params.noSwiping && findElementInEvent(e, '.' + s.params.noSwipingClass)) {
         s.allowClick = true;
         return;
@@ -971,6 +1000,7 @@ s.onTouchStart = function (e) {
 
 s.onTouchMove = function (e) {
     if (e.originalEvent) e = e.originalEvent;
+    if (isTouchEvent && e.type === 'mousemove') return;
     if (e.preventedByNestedSwiper) return;
     if (s.params.onlyExternal) {
         isMoved = true;
