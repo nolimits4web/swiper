@@ -600,17 +600,19 @@ s.updateProgress = function (translate) {
     if (typeof translate === 'undefined') {
         translate = s.translate || 0;
     }
-    s.progress = (translate - s.minTranslate()) / (s.maxTranslate() - s.minTranslate());
-    s.isBeginning = s.isEnd = false;
+    var translatesDiff = s.maxTranslate() - s.minTranslate();
+    if (translatesDiff === 0) {
+        s.progress = 0;
+        s.isBeginning = s.isEnd = true;
+    }
+    else {
+        s.progress = (translate - s.minTranslate()) / (translatesDiff);
+        s.isBeginning = s.progress <= 0;
+        s.isEnd = s.progress >= 1;
+    }
+    if (s.isBeginning && s.params.onReachBeginning) s.params.onReachBeginning(s);
+    if (s.isEnd && s.params.onReachEnd) s.params.onReachEnd(s);
     
-    if (s.progress <= 0) {
-        s.isBeginning = true;
-        if (s.params.onReachBeginning) s.params.onReachBeginning(s);
-    }
-    if (s.progress >= 1) {
-        s.isEnd = true;
-        if (s.params.onReachEnd) s.params.onReachEnd(s);
-    }
     if (s.params.watchSlidesProgress) s.updateSlidesProgress(translate);
     if (s.params.onProgress) s.params.onProgress(s, s.progress);
 };
