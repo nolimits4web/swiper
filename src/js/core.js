@@ -352,8 +352,8 @@ function autoplay() {
 }
 s.startAutoplay = function () {
     if (typeof s.autoplayTimeoutId !== 'undefined') return false;
-    if (!s.params.autoplay) return;
-    if (s.autoplaying) return;
+    if (!s.params.autoplay) return false;
+    if (s.autoplaying) return false;
     s.autoplaying = true;
     if (s.params.onAutoplayStart) s.params.onAutoplayStart(s);
     autoplay();
@@ -376,7 +376,12 @@ s.pauseAutoplay = function (speed) {
     else {
         s.wrapper.transitionEnd(function () {
             s.autoplayPaused = false;
-            autoplay();
+            if (!s.autoplaying) {
+                s.stopAutoplay();
+            }
+            else {
+                autoplay();
+            }
         });
     }
 };
@@ -1358,12 +1363,12 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
         s.updateClasses();
         return false;
     }
-    if (runCallbacks) s.onTransitionStart();
+    s.onTransitionStart(runCallbacks);
     var translateX = isH() ? translate : 0, translateY = isH() ? 0 : translate;
     if (speed === 0) {
         s.setWrapperTransition(0);
         s.setWrapperTranslate(translate);
-        if (runCallbacks) s.onTransitionEnd();
+        s.onTransitionEnd(runCallbacks);
     }
     else {
         s.setWrapperTransition(speed);
@@ -1371,7 +1376,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
         if (!s.animating) {
             s.animating = true;
             s.wrapper.transitionEnd(function () {
-                if (runCallbacks) s.onTransitionEnd();
+                s.onTransitionEnd(runCallbacks);
             });
         }
             
@@ -1380,15 +1385,22 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     return true;
 };
 
-s.onTransitionStart = function () {
-    if (s.params.onTransitionStart) s.params.onTransitionStart(s);
-    if (s.params.onSlideChangeStart && s.activeIndex !== s.previousIndex) s.params.onSlideChangeStart(s);
+s.onTransitionStart = function (runCallbacks) {
+    if (typeof runCallbacks === 'undefined') runCallbacks = true;
+    if (runCallbacks) {
+        if (s.params.onTransitionStart) s.params.onTransitionStart(s);
+        if (s.params.onSlideChangeStart && s.activeIndex !== s.previousIndex) s.params.onSlideChangeStart(s);
+    }
 };
-s.onTransitionEnd = function () {
+s.onTransitionEnd = function (runCallbacks) {
     s.animating = false;
     s.setWrapperTransition(0);
-    if (s.params.onTransitionEnd) s.params.onTransitionEnd(s);
-    if (s.params.onSlideChangeEnd && s.activeIndex !== s.previousIndex) s.params.onSlideChangeEnd(s);
+    if (typeof runCallbacks === 'undefined') runCallbacks = true;
+    if (runCallbacks) {
+        if (s.params.onTransitionEnd) s.params.onTransitionEnd(s);
+        if (s.params.onSlideChangeEnd && s.activeIndex !== s.previousIndex) s.params.onSlideChangeEnd(s);
+    }
+        
 };
 s.slideNext = function (runCallbacks, speed, internal) {
     if (s.params.loop) {
