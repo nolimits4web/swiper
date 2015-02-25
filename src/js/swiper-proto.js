@@ -17,6 +17,20 @@ Swiper.prototype = {
         ie: window.navigator.pointerEnabled || window.navigator.msPointerEnabled
     },
     /*==================================================
+    Devices
+    ====================================================*/
+    device: (function () {
+        var ua = navigator.userAgent;
+        var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
+        var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+        var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
+        var iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
+        return {
+            ios: ipad || iphone || ipad,
+            android: android
+        };
+    })(),
+    /*==================================================
     Feature Detection
     ====================================================*/
     support: {
