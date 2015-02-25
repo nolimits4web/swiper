@@ -27,6 +27,9 @@ var defaults = {
         shadowOffset: 20,
         shadowScale: 0.94
     },
+    fade: {
+        crossFade: false
+    },
     // Scrollbar
     scrollbar: null,
     scrollbarHide: true,

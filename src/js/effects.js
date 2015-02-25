@@ -13,9 +13,12 @@ s.effects = {
                     ty = tx;
                     tx = 0;
                 }
+                var slideOpacity = s.params.fade.crossFade ?
+                        Math.max(1 - Math.abs(slide[0].progress), 0) :
+                        1 + Math.min(Math.max(slide[0].progress, -1), 0);
                 slide
                     .css({
-                        opacity: 1 + Math.min(Math.max(slide[0].progress, -1), 0)
+                        opacity: slideOpacity
                     })
                     .transform('translate3d(' + tx + 'px, ' + ty + 'px, 0px)');
 
