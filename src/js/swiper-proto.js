@@ -54,5 +54,5 @@ Swiper.prototype = {
         observer: (function () {
             return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
         })()
-    },
+    }
 };
