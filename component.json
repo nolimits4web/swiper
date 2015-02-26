@@ -7,11 +7,11 @@
   "dependencies": {
   },
   "scripts": [
-    "dist/swiper.js"
+    "dist/js/swiper.js"
   ],
-  "main": "dist/swiper.js",
+  "main": "dist/js/swiper.js",
   "styles": [
-    "dist/swiper.css"
+    "dist/css/swiper.css"
   ],
   "license": ["MIT"]
 }
