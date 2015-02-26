@@ -2,6 +2,7 @@
   Keyboard Control
   ===========================*/
 function handleKeyboard(e) {
+    if (e.originalEvent) e = e.originalEvent; //jquery fix
     var kc = e.keyCode || e.charCode;
     if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) return;
     if (document.activeElement && document.activeElement.nodeName && (document.activeElement.nodeName.toLowerCase() === 'input' || document.activeElement.nodeName.toLowerCase() === 'textarea')) {

@@ -18,6 +18,7 @@ if (s.params.mousewheelControl) {
     }
 }
 function handleMousewheel(e) {
+    if (e.originalEvent) e = e.originalEvent; //jquery fix
     var we = s._wheelEvent;
     var delta = 0;
     //Opera & IE
