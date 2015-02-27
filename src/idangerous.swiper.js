@@ -1963,8 +1963,8 @@ var Swiper = function (selector, params) {
         }
 
         if (_this.support.transitions || !params.DOMAnimation) {
-            _this.setWrapperTranslate(newPosition);
             _this.setWrapperTransition(speed);
+            _this.setWrapperTranslate(newPosition);
         }
         else {
             //Try the DOM animation
