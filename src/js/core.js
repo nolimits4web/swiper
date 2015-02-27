@@ -1269,24 +1269,24 @@ s.onTouchEnd = function (e) {
 
             if (s.params.freeModeMomentumBounce && doBounce) {
                 s.updateProgress(afterBouncePosition);
-                s.setWrapperTranslate(newPosition);
                 s.setWrapperTransition(momentumDuration);
+                s.setWrapperTranslate(newPosition);
                 s.onTransitionStart();
                 s.animating = true;
                 s.wrapper.transitionEnd(function () {
                     if (!allowMomentumBounce) return;
                     if (s.params.onMomentumBounce) s.params.onMomentumBounce(s);
 
-                    s.setWrapperTranslate(afterBouncePosition);
                     s.setWrapperTransition(s.params.speed);
+                    s.setWrapperTranslate(afterBouncePosition);
                     s.wrapper.transitionEnd(function () {
                         s.onTransitionEnd();
                     });
                 });
             } else if (s.velocity) {
                 s.updateProgress(newPosition);
-                s.setWrapperTranslate(newPosition);
                 s.setWrapperTransition(momentumDuration);
+                s.setWrapperTranslate(newPosition);
                 s.onTransitionStart();
                 if (!s.animating) {
                     s.animating = true;
