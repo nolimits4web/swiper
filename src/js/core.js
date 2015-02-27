@@ -132,6 +132,8 @@ var defaults = {
     onReachEnd: function (swiper) 
     onSetTransition: function (swiper, duration) 
     onSetTranslate: function (swiper, translate) 
+    onAutoplayStart: function (swiper)
+    onAutoplayStop: function (swiper)
     */
 };
 params = params || {};
