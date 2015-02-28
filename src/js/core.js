@@ -30,6 +30,8 @@ var defaults = {
     fade: {
         crossFade: false
     },
+    // Parallax
+    parallax: false,
     // Scrollbar
     scrollbar: null,
     scrollbarHide: true,
@@ -188,7 +190,10 @@ s.container.addClass('swiper-container-' + s.params.direction);
 if (s.params.freeMode) {
     s.container.addClass('swiper-container-free-mode');
 }
-
+// Enable slides progress when required
+if (s.params.parallax || s.params.watchVisibility) {
+    s.params.watchSlidesProgress = true;
+}
 // Coverflow / 3D
 if (['cube', 'coverflow'].indexOf(s.params.effect) >= 0) {
     if (s.support.transforms3d) {
@@ -239,6 +244,7 @@ function isH() {
 // RTL
 s.rtl = isH() && (s.container[0].dir.toLowerCase() === 'rtl' || s.container.css('direction') === 'rtl');
 if (s.rtl) s.container.addClass('swiper-container-rtl');
+
 // Wrong RTL support
 if (s.rtl) {
     s.wrongRTL = s.wrapper.css('display') === '-webkit-box';
@@ -742,7 +748,6 @@ s.update = function (updateTranslate) {
             newTranslate = Math.min(Math.max(s.translate, s.maxTranslate()), s.minTranslate());
             s.setWrapperTranslate(newTranslate);
         }
-        
     }
 };
 
@@ -1478,6 +1483,9 @@ s.setWrapperTransition = function (duration, byController) {
     if (s.params.effect !== 'slide' && s.effects[s.params.effect]) {
         s.effects[s.params.effect].setTransition(duration);
     }
+    if (s.params.parallax && s.parallax) {
+        s.parallax.setTransition(duration);
+    }
     if (s.params.scrollbar && s.scrollbar) {
         s.scrollbar.setTransition(duration);
     }
@@ -1500,6 +1508,9 @@ s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
     if (updateActiveIndex) s.updateActiveIndex();
     if (s.params.effect !== 'slide' && s.effects[s.params.effect]) {
         s.effects[s.params.effect].setTranslate(s.translate);
+    }
+    if (s.params.parallax && s.parallax) {
+        s.parallax.setTranslate(s.translate);
     }
     if (s.params.scrollbar && s.scrollbar) {
         s.scrollbar.setTranslate(s.translate);

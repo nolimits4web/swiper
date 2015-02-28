@@ -18,6 +18,9 @@ s.init = function () {
     }
     else {
         s.slideTo(s.params.initialSlide, 0, s.params.runCallbacksOnInit);
+        if (s.params.initialSlide === 0 && s.parallax && s.params.parallax) {
+            s.parallax.setTranslate();               
+        }
     }
     s.attachEvents();
     if (s.params.observer && s.support.observer) {
