@@ -1594,6 +1594,7 @@ function initObserver(target, options) {
     var observer = new ObserverFunc(function (mutations) {
         mutations.forEach(function (mutation) {
             s.onResize();
+            if (s.params.onObserverUpdate) s.params.onObserverUpdate(s, mutation);
         });
     });
      
