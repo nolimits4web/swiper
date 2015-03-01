@@ -820,18 +820,6 @@ s.events = function (detach) {
 
     var moveCapture = s.params.nested ? true : false;
 
-    // // Touch/pointer events
-    // touchEventsTarget[action](s.touchEvents.start, s.onTouchStart, false);
-    // target[action](s.touchEvents.move, s.onTouchMove, moveCapture);
-    // target[action](s.touchEvents.end, s.onTouchEnd, false);
-
-    // if (s.browser.ie && s.params.simulateTouch) {
-    //     // Additional mouse events for IE
-    //     touchEventsTarget[action]('mousedown', s.onTouchStart, false);
-    //     document[action]('mousemove', s.onTouchMove, moveCapture);
-    //     document[action]('mouseup', s.onTouchEnd, false);
-    // }
-
     //Touch Events
     if (s.browser.ie) {
         touchEventsTarget[action](s.touchEvents.start, s.onTouchStart, false);
