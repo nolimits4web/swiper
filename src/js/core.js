@@ -736,18 +736,29 @@ s.update = function (updateTranslate) {
     if (s.params.scrollbar && s.scrollbar) {
         s.scrollbar.set();
     }
+    function forceSetTranslate() {
+        newTranslate = Math.min(Math.max(s.translate, s.maxTranslate()), s.minTranslate());
+        s.setWrapperTranslate(newTranslate);
+        s.updateActiveIndex();
+        s.updateClasses();
+    }
     if (updateTranslate) {
         var translated, newTranslate;
-        if (s.isEnd) {
-            translated = s.slideTo(s.slides.length - 1, 0, false, true);
+        if (s.params.freeMode) {
+            forceSetTranslate();
         }
         else {
-            translated = s.slideTo(s.activeIndex, 0, false, true);
+            if (s.params.slidesPerView === 'auto' && s.isEnd && !s.params.centeredSlides) {
+                translated = s.slideTo(s.slides.length - 1, 0, false, true);
+            }
+            else {
+                translated = s.slideTo(s.activeIndex, 0, false, true);
+            }
+            if (!translated) {
+                forceSetTranslate();
+            }
         }
-        if (!translated) {
-            newTranslate = Math.min(Math.max(s.translate, s.maxTranslate()), s.minTranslate());
-            s.setWrapperTranslate(newTranslate);
-        }
+            
     }
 };
 
@@ -758,17 +769,26 @@ s.onResize = function () {
     s.updateContainerSize();
     s.updateSlidesSize();
     s.updateProgress();
-    s.updateClasses();
-    if (s.params.slidesPerView === 'auto') s.updatePagination();
+    if (s.params.slidesPerView === 'auto' || s.params.freeMode) s.updatePagination();
     if (s.params.scrollbar && s.scrollbar) {
         s.scrollbar.set();
     }
-    if (s.isEnd) {
-        s.slideTo(s.slides.length - 1, 0, false, true);
+    if (s.params.freeMode) {
+        var newTranslate = Math.min(Math.max(s.translate, s.maxTranslate()), s.minTranslate());
+        s.setWrapperTranslate(newTranslate);
+        s.updateActiveIndex();
+        s.updateClasses();
     }
     else {
-        s.slideTo(s.activeIndex, 0, false, true);
+        s.updateClasses();
+        if (s.params.slidesPerView === 'auto' && s.isEnd && !s.params.centeredSlides) {
+            s.slideTo(s.slides.length - 1, 0, false, true);
+        }
+        else {
+            s.slideTo(s.activeIndex, 0, false, true);
+        }
     }
+        
 };
 
 /*=========================
