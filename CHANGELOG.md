@@ -1,5 +1,16 @@
 # Change Log
 
+## Swiper 3.0.3 - Released on March 1, 2015
+  * Fixed issue with not firing onSlideChangeEnd callback after calling .slideTo with
+runCallbacks=false
+  * Fixed values of isBeginning/isEnd when there is only one slide
+  * New `crossFade` option for fade effect
+  * Improved support for devices with both touch and mouse inputs, not yet on IE
+  * Fixed not correctly working mousewheel and keyobard control in swiper.jquery version
+  * New parallax module for transitions with parallax effects on internal elements
+  * Improved .update and .onResize methods
+  * Minor fixes
+
 ## Swiper 3.0.2 - Released on February 22, 2015
   * Fixed issue with keyboard events not cleaned up with Swiper.destroy
   * Encoded inline SVG images for IE support
