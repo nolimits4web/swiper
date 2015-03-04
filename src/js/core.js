@@ -78,7 +78,6 @@ var defaults = {
     // Clicks
     preventClicks: true,
     preventClicksPropagation: true,
-    releaseFormElements: true,
     slideToClickedSlide: false,
     // Images
     updateOnImagesReady: true,
