@@ -44,6 +44,7 @@
                 'src/js/swiper-intro.js',
                 'src/js/core.js',
                 'src/js/effects.js',
+                'src/js/lazy-load.js',
                 'src/js/scrollbar.js',
                 'src/js/controller.js',
                 'src/js/hashnav.js',
@@ -63,6 +64,7 @@
                 'src/js/swiper-intro.js',
                 'src/js/core.js',
                 'src/js/effects.js',
+                'src/js/lazy-load.js',
                 'src/js/scrollbar.js',
                 'src/js/controller.js',
                 'src/js/hashnav.js',
@@ -80,6 +82,7 @@
                 'src/js/swiper-intro.js',
                 'src/js/core.js',
                 'src/js/effects.js',
+                'src/js/lazy-load.js',
                 'src/js/scrollbar.js',
                 'src/js/controller.js',
                 'src/js/parallax.js',
@@ -159,6 +162,7 @@
         cb();
     });
     gulp.task('styles', function (cb) {
+
         gulp.src(paths.source.styles + 'swiper.less')
             .pipe(less({
                 paths: [ path.join(__dirname, 'less', 'includes') ]
@@ -169,6 +173,17 @@
             }))
             .pipe(gulp.dest(paths.build.styles))
             .pipe(connect.reload());
+
+        gulp.src([
+                paths.source.styles + 'core.less',
+                paths.source.styles + 'navigation-f7.less',
+                paths.source.styles + 'effects.less',
+                paths.source.styles + 'scrollbar.less',
+                paths.source.styles + 'preloader-f7.less',
+            ])
+            .pipe(concat(swiper.filename + '.framework7.less'))
+            .pipe(header('/* === Swiper === */\n'))
+            .pipe(gulp.dest(paths.build.styles));
         cb();
     });
     gulp.task('build', ['scripts', 'styles'], function (cb) {
