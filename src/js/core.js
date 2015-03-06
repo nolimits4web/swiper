@@ -73,14 +73,19 @@ var defaults = {
     prevButton: null,
     // Progress
     watchSlidesProgress: false,
-    watchVisibility: false,
+    watchSlidesVisibility: false,
     // Cursor
     grabCursor: false,
     // Clicks
     preventClicks: true,
     preventClicksPropagation: true,
     slideToClickedSlide: false,
+    // Lazy Loading
+    lazyLoading: false,
+    lazyLoadingInPrevNext: false,
+    lazyLoadingOnTransitionStart: false,
     // Images
+    preloadImages: true,
     updateOnImagesReady: true,
     // loop
     loop: false,
@@ -135,7 +140,9 @@ var defaults = {
     onSetTransition: function (swiper, duration) 
     onSetTranslate: function (swiper, translate) 
     onAutoplayStart: function (swiper)
-    onAutoplayStop: function (swiper)
+    onAutoplayStop: function (swiper),
+    onLazyImageLoad: function (swiper, slide, image)
+    onLazyImageReady: function (swiper, slide, image)
     */
 };
 params = params || {};
@@ -191,7 +198,7 @@ if (s.params.freeMode) {
     s.container.addClass('swiper-container-free-mode');
 }
 // Enable slides progress when required
-if (s.params.parallax || s.params.watchVisibility) {
+if (s.params.parallax || s.params.watchSlidesVisibility) {
     s.params.watchSlidesProgress = true;
 }
 // Coverflow / 3D
@@ -300,19 +307,12 @@ if (s.params.grabCursor) {
 s.imagesToLoad = [];
 s.imagesLoaded = 0;
 
-function loadImage(img) {
-    var image, src;
-    var onReady = function () {
-        if (typeof s === 'undefined' || s === null) return;
-        if (s.imagesLoaded !== undefined) s.imagesLoaded++;
-        if (s.imagesLoaded === s.imagesToLoad.length) {
-            s.update();
-            if (s.params.onImagesReady) s.params.onImagesReady(s);
-        }
-    };
-
-    if (!img.complete) {
-        src = (img.currentSrc || img.getAttribute('src'));
+s.loadImage = function (imgElement, src, checkForComplete, callback) {
+    var image;
+    function onReady () {
+        if (callback) callback();
+    }
+    if (!imgElement.complete || !checkForComplete) {
         if (src) {
             image = new Image();
             image.onload = onReady;
@@ -325,12 +325,19 @@ function loadImage(img) {
     } else {//image already loaded...
         onReady();
     }
-}
+};
 s.preloadImages = function () {
     s.imagesToLoad = s.container.find('img');
-
+    function _onReady() {
+        if (typeof s === 'undefined' || s === null) return;
+        if (s.imagesLoaded !== undefined) s.imagesLoaded++;
+        if (s.imagesLoaded === s.imagesToLoad.length) {
+            if (s.params.updateOnImagesReady) s.update();
+            if (s.params.onImagesReady) s.params.onImagesReady(s);
+        }
+    }
     for (var i = 0; i < s.imagesToLoad.length; i++) {
-        loadImage(s.imagesToLoad[i]);
+        s.loadImage(s.imagesToLoad[i], (s.imagesToLoad[i].currentSrc || s.imagesToLoad[i].getAttribute('src')), true, _onReady);
     }
 };
 
@@ -593,7 +600,7 @@ s.updateSlidesProgress = function (translate) {
         var slide = s.slides[i];
         var slideCenterOffset = (s.params.centeredSlides === true) ? slide.swiperSlideSize / 2 : 0;
         var slideProgress = (offsetCenter - slide.swiperSlideOffset - slideCenterOffset) / (slide.swiperSlideSize + s.params.spaceBetween);
-        if (s.params.watchVisibility) {
+        if (s.params.watchSlidesVisibility) {
             var slideBefore = -(offsetCenter - slide.swiperSlideOffset - slideCenterOffset);
             var slideAfter = slideBefore + s.slidesSizesGrid[i];
             var isVisible =
@@ -1454,6 +1461,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
 
 s.onTransitionStart = function (runCallbacks) {
     if (typeof runCallbacks === 'undefined') runCallbacks = true;
+    if (s.lazy) s.lazy.onTransitionStart();
     if (runCallbacks) {
         if (s.params.onTransitionStart) s.params.onTransitionStart(s);
         if (s.params.onSlideChangeStart && s.activeIndex !== s.previousIndex) s.params.onSlideChangeStart(s);
@@ -1463,6 +1471,7 @@ s.onTransitionEnd = function (runCallbacks) {
     s.animating = false;
     s.setWrapperTransition(0);
     if (typeof runCallbacks === 'undefined') runCallbacks = true;
+    if (s.lazy) s.lazy.onTransitionEnd();
     if (runCallbacks) {
         if (s.params.onTransitionEnd) s.params.onTransitionEnd(s);
         if (s.params.onSlideChangeEnd && s.activeIndex !== s.previousIndex) s.params.onSlideChangeEnd(s);

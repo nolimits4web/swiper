@@ -18,15 +18,16 @@ s.init = function () {
     }
     else {
         s.slideTo(s.params.initialSlide, 0, s.params.runCallbacksOnInit);
-        if (s.params.initialSlide === 0 && s.parallax && s.params.parallax) {
-            s.parallax.setTranslate();               
+        if (s.params.initialSlide === 0) {
+            if (s.parallax && s.params.parallax) s.parallax.setTranslate();
+            if (s.lazy && s.params.lazyLoading) s.lazy.load();
         }
     }
     s.attachEvents();
     if (s.params.observer && s.support.observer) {
         s.initObservers();
     }
-    if (s.params.updateOnImagesReady) {
+    if (s.params.preloadImages && !s.params.lazyLoading) {
         s.preloadImages();
     }
     if (s.params.autoplay) {
