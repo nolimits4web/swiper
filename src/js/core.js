@@ -1009,11 +1009,14 @@ s.onTouchStart = function (e) {
     if (e.type !== 'touchstart') {
         var preventDefault = true;
         if ($(e.target).is(formElements)) preventDefault = false;
-        if (document.activeElement && $(document.activeElement).is(formElements)) document.activeElement.blur();
+        if (document.activeElement && $(document.activeElement).is(formElements)) {
+            document.activeElement.blur();
+        }
         if (preventDefault) {
             e.preventDefault();
         }
     }
+
     if (s.params.onTouchStart) s.params.onTouchStart(s, e);
 };
 
@@ -1025,6 +1028,13 @@ s.onTouchMove = function (e) {
         isMoved = true;
         s.allowClick = false;
         return;
+    }
+    if (isTouchEvent && document.activeElement) {
+        if (e.target === document.activeElement && $(e.target).is(formElements)) {
+            isMoved = true;
+            s.allowClick = false;
+            return;
+        }
     }
     if (s.params.onTouchMove) s.params.onTouchMove(s, e);
     s.allowClick = false;
