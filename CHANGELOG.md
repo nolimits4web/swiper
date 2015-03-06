@@ -33,9 +33,9 @@ runCallbacks=false
   * Removed features
     * Dropped support for old browsers. Now it is compatible with:
       * iOS 7+
-      * Android 4+, multirow mode only for Android 4.4+
+      * Android 4+ (multirow mode only for Android 4.4+)
       * Latest Chrome, Safari, Firefox and Opera desktop browsers
-      * WP 8+, IE 10+, 3D effects may not work correctly on IE 10 because of wrong nested 3D transform support
+      * WP 8+, IE 10+ (3D effects may not work correctly on IE because of wrong nested 3D transform support)
     * Scroll Container. Removed in favor of pure CSS `overflow: auto` with `-webkit-overflow-scrolling: touch`
   * New features
     * Swiper now uses modern flexbox layout, which by itself give more features and advantages
