@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/js/swiper.js",
   "files": ["dist", "src", "*.json", "*.js"],

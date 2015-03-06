@@ -1,5 +1,19 @@
 # Change Log
 
+## Swiper 3.0.4 - Released on March 6, 2015
+  * New Images Lazy Load component
+    * With new parameters `lazyLoading`, `lazyLoadingInPrevNext`, `lazyLoadingOnTransitionStart` (all disabled by default)
+    * With new callbacks `onLazyImageLoad` and `onLazyImageReady`
+  * `updateOnImages` ready split into 2 parameters:
+    * `preloadImages` (by default is true) - to preload all images on swiper init
+    * `updateOnImages` (by default is true) - update swiper when all images loaded
+  * Fixed issues with touchmove on fouces form elements
+  * New `onObserverUpdate` callback function to be called after updates by ovserver
+  * Fixed issue with not working inputs with keyboard control for jQuery version
+  * New `paginationBulletRender` parameter that accepts function which allow custom pagination elements layout
+  * Hash Navigation will run callback dpending on `runCallbacksOnInit` parameter
+  * `watchVisibility` parameter renamed to `watchSlidesVisibility`
+
 ## Swiper 3.0.3 - Released on March 1, 2015
   * Fixed issue with not firing onSlideChangeEnd callback after calling .slideTo with
 runCallbacks=false
