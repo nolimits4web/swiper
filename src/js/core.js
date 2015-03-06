@@ -64,6 +64,7 @@ var defaults = {
     pagination: null,
     paginationClickable: false,
     paginationHide: false,
+    paginationBulletRender: null,
     // Resistance
     resistance: true,
     resistanceRatio: 0.85,
@@ -717,7 +718,12 @@ s.updatePagination = function () {
         var bulletsHTML = '';
         var numberOfBullets = s.params.loop ? s.slides.length - s.loopedSlides * 2 : s.snapGrid.length;
         for (var i = 0; i < numberOfBullets; i++) {
-            bulletsHTML += '<span class="' + s.params.bulletClass + '"></span>';
+            if (s.params.paginationBulletRender) {
+                bulletsHTML += s.params.paginationBulletRender(i, s.params.bulletClass);
+            }
+            else {
+                bulletsHTML += '<span class="' + s.params.bulletClass + '"></span>';
+            }
         }
         s.paginationContainer.html(bulletsHTML);
         s.bullets = s.paginationContainer.find('.' + s.params.bulletClass);
