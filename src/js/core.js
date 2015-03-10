@@ -1476,7 +1476,7 @@ s.onTransitionEnd = function (runCallbacks) {
         if (s.params.onTransitionEnd) s.params.onTransitionEnd(s);
         if (s.params.onSlideChangeEnd && s.activeIndex !== s.previousIndex) s.params.onSlideChangeEnd(s);
     }
-        
+    if (s.params.hashnav && s.hashnav) s.hashnav.setHash();
 };
 s.slideNext = function (runCallbacks, speed, internal) {
     if (s.params.loop) {
@@ -1549,9 +1549,6 @@ s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
     }
     if (s.params.control && s.controller) {
         s.controller.setTranslate(s.translate, byController);
-    }
-    if (s.params.hashnav && s.hashnav) {
-        s.hashnav.setHash();
     }
     if (s.params.onSetTranslate) s.params.onSetTranslate(s, s.translate);
 };
