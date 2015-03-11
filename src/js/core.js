@@ -704,7 +704,14 @@ s.updateClasses = function () {
                 bulletIndex = s.activeIndex || 0;
             }
         }
-        s.bullets.eq(bulletIndex).addClass(s.params.bulletActiveClass);
+        if (s.paginationContainer.length > 1) {
+            s.bullets.each(function () {
+                if ($(this).index() === bulletIndex) $(this).addClass(s.params.bulletActiveClass);
+            });
+        }
+        else {
+            s.bullets.eq(bulletIndex).addClass(s.params.bulletActiveClass);
+        }
     }
 
     // Next/active buttons
