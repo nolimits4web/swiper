@@ -21,7 +21,7 @@ s.trigger = function (eventName) {
         s.container.trigger(eventName, {data:[arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]]});
     }
     // Trigger plugins
-    if (s.callPlugins) s.callPlugins(eventName, arguments[1], arguments[2], arguments[3], arguments[4], arguments[5])
+    if (s.callPlugins) s.callPlugins(eventName, arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
 };
 s.on = function (eventName, handler) {
     if (!s.triggerEvents[eventName]) s.triggerEvents[eventName] = [];
@@ -29,8 +29,14 @@ s.on = function (eventName, handler) {
     return s;
 };
 s.off = function (eventName, handler) {
+    var i;
+    if (typeof handler === 'undefined') {
+        // Remove all handlers for such event
+        s.triggerEvents[eventName] = [];
+        return s;
+    }
     if (!s.triggerEvents[eventName] || s.triggerEvents[eventName].length === 0) return;
-    for (var i = 0; i < s.triggerEvents[eventName].length; i++) {
+    for (i = 0; i < s.triggerEvents[eventName].length; i++) {
         if(s.triggerEvents[eventName][i] === handler) s.triggerEvents[eventName].splice(i, 1);
     }
     return s;
