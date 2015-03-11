@@ -15,7 +15,7 @@ s.scrollbar = {
         sb.drag[0].style.height = '';
         sb.trackSize = isH() ? sb.track[0].offsetWidth : sb.track[0].offsetHeight;
         
-        sb.divider = s.size / s.virtualWidth;
+        sb.divider = s.size / s.virtualSize;
         sb.moveDivider = sb.divider * (sb.trackSize / s.size);
         sb.dragSize = sb.trackSize * sb.divider;
 

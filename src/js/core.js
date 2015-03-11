@@ -440,7 +440,7 @@ s.updateSlidesSize = function () {
         spaceBetween = parseFloat(spaceBetween.replace('%', '')) / 100 * s.size;
     }
 
-    s.virtualWidth = -spaceBetween;
+    s.virtualSize = -spaceBetween;
     // reset margins
     if (s.rtl) s.slides.css({marginLeft: '', marginTop: ''});
     else s.slides.css({marginRight: '', marginBottom: ''});
@@ -523,28 +523,28 @@ s.updateSlidesSize = function () {
             slidePosition = slidePosition + slideSize + spaceBetween;
         }
 
-        s.virtualWidth += slideSize + spaceBetween;
+        s.virtualSize += slideSize + spaceBetween;
 
         prevSlideSize = slideSize;
 
         index ++;
     }
-    s.virtualWidth = Math.max(s.virtualWidth, s.size);
+    s.virtualSize = Math.max(s.virtualSize, s.size);
 
     var newSlidesGrid;
 
     if (s.rtl && s.wrongRTL && (s.params.effect === 'slide' || s.params.effect === 'coverflow')) {
-        s.wrapper.css({width: s.virtualWidth + s.params.spaceBetween + 'px'});
+        s.wrapper.css({width: s.virtualSize + s.params.spaceBetween + 'px'});
     }
 
     if (s.params.slidesPerColumn > 1) {
-        s.virtualWidth = (slideSize + s.params.spaceBetween) * slidesNumberEvenToRows;
-        s.virtualWidth = Math.ceil(s.virtualWidth / s.params.slidesPerColumn) - s.params.spaceBetween;
-        s.wrapper.css({width: s.virtualWidth + s.params.spaceBetween + 'px'});
+        s.virtualSize = (slideSize + s.params.spaceBetween) * slidesNumberEvenToRows;
+        s.virtualSize = Math.ceil(s.virtualSize / s.params.slidesPerColumn) - s.params.spaceBetween;
+        s.wrapper.css({width: s.virtualSize + s.params.spaceBetween + 'px'});
         if (s.params.centeredSlides) {
             newSlidesGrid = [];
             for (i = 0; i < s.snapGrid.length; i++) {
-                if (s.snapGrid[i] < s.virtualWidth + s.snapGrid[0]) newSlidesGrid.push(s.snapGrid[i]);
+                if (s.snapGrid[i] < s.virtualSize + s.snapGrid[0]) newSlidesGrid.push(s.snapGrid[i]);
             }
             s.snapGrid = newSlidesGrid;
         }
@@ -554,13 +554,13 @@ s.updateSlidesSize = function () {
     if (!s.params.centeredSlides) {
         newSlidesGrid = [];
         for (i = 0; i < s.snapGrid.length; i++) {
-            if (s.snapGrid[i] <= s.virtualWidth - s.size) {
+            if (s.snapGrid[i] <= s.virtualSize - s.size) {
                 newSlidesGrid.push(s.snapGrid[i]);
             }
         }
         s.snapGrid = newSlidesGrid;
-        if (Math.floor(s.virtualWidth - s.size) > Math.floor(s.snapGrid[s.snapGrid.length - 1])) {
-            s.snapGrid.push(s.virtualWidth - s.size);
+        if (Math.floor(s.virtualSize - s.size) > Math.floor(s.snapGrid[s.snapGrid.length - 1])) {
+            s.snapGrid.push(s.virtualSize - s.size);
         }
     }
     if (s.snapGrid.length === 0) s.snapGrid = [0];
