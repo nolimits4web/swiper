@@ -118,7 +118,9 @@ var defaults = {
     observer: false,
     observeParents: false,
     // Callbacks
-    runCallbacksOnInit: true
+    runCallbacksOnInit: true,
+    // Events
+    triggerDomEvents: false,
     /*
     Callbacks:
     onInit: function (swiper)
@@ -337,7 +339,7 @@ s.preloadImages = function () {
         if (s.imagesLoaded !== undefined) s.imagesLoaded++;
         if (s.imagesLoaded === s.imagesToLoad.length) {
             if (s.params.updateOnImagesReady) s.update();
-            if (s.params.onImagesReady) s.params.onImagesReady(s);
+            s.trigger('onImagesReady', s);
         }
     }
     for (var i = 0; i < s.imagesToLoad.length; i++) {
@@ -377,7 +379,7 @@ s.startAutoplay = function () {
     if (!s.params.autoplay) return false;
     if (s.autoplaying) return false;
     s.autoplaying = true;
-    if (s.params.onAutoplayStart) s.params.onAutoplayStart(s);
+    s.trigger('onAutoplayStart', s);
     autoplay();
 };
 s.stopAutoplay = function (internal) {
@@ -385,7 +387,7 @@ s.stopAutoplay = function (internal) {
     if (s.autoplayTimeoutId) clearTimeout(s.autoplayTimeoutId);
     s.autoplaying = false;
     s.autoplayTimeoutId = undefined;
-    if (s.params.onAutoplayStop) s.params.onAutoplayStop(s);
+    s.trigger('onAutoplayStop', s);
 };
 s.pauseAutoplay = function (speed) {
     if (s.autoplayPaused) return;
@@ -632,11 +634,11 @@ s.updateProgress = function (translate) {
         s.isBeginning = s.progress <= 0;
         s.isEnd = s.progress >= 1;
     }
-    if (s.isBeginning && s.params.onReachBeginning) s.params.onReachBeginning(s);
-    if (s.isEnd && s.params.onReachEnd) s.params.onReachEnd(s);
+    if (s.isBeginning) s.trigger('onReachBeginning', s);
+    if (s.isEnd) s.trigger('onReachEnd', s);
     
     if (s.params.watchSlidesProgress) s.updateSlidesProgress(translate);
-    if (s.params.onProgress) s.params.onProgress(s, s.progress);
+    s.trigger('onProgress', s, s.progress);
 };
 s.updateActiveIndex = function () {
     var translate = s.rtl ? s.translate : -s.translate;
@@ -835,7 +837,7 @@ if (window.navigator.pointerEnabled || window.navigator.msPointerEnabled) {
 }
 
 // Attach/detach events
-s.events = function (detach) {
+s.initEvents = function (detach) {
     var actionDom = detach ? 'off' : 'on';
     var action = detach ? 'removeEventListener' : 'addEventListener';
     var touchEventsTarget = s.params.touchEventsTarget === 'container' ? s.container[0] : s.wrapper[0];
@@ -874,10 +876,10 @@ s.events = function (detach) {
     if (s.params.preventClicks || s.params.preventClicksPropagation) touchEventsTarget[action]('click', s.preventClicks, true);
 };
 s.attachEvents = function (detach) {
-    s.events();
+    s.initEvents();
 };
 s.detachEvents = function () {
-    s.events(true);
+    s.initEvents(true);
 };
 
 /*=========================
@@ -1034,8 +1036,7 @@ s.onTouchStart = function (e) {
             e.preventDefault();
         }
     }
-
-    if (s.params.onTouchStart) s.params.onTouchStart(s, e);
+    s.trigger('onTouchStart', s, e);
 };
 
 s.onTouchMove = function (e) {
@@ -1054,7 +1055,7 @@ s.onTouchMove = function (e) {
             return;
         }
     }
-    if (s.params.onTouchMove) s.params.onTouchMove(s, e);
+    s.trigger('onTouchMove', s, e);
     s.allowClick = false;
     if (e.targetTouches && e.targetTouches.length > 1) return;
     
@@ -1066,15 +1067,16 @@ s.onTouchMove = function (e) {
         isScrolling = isH() ? touchAngle > s.params.touchAngle : (90 - touchAngle > s.params.touchAngle);
         // isScrolling = !!(isScrolling || Math.abs(touchesCurrent.y - touchesStart.y) > Math.abs(touchesCurrent.x - touchesStart.x));
     }
-    if (isScrolling && s.params.onTouchMoveOpposite) {
-        s.params.onTouchMoveOpposite(s, e);
+    if (isScrolling) {
+        s.trigger('onTouchMoveOpposite', s, e);
     }
     if (!isTouched) return;
     if (isScrolling)  {
         isTouched = false;
         return;
     }
-    if (s.params.onSliderMove) s.params.onSliderMove(s, e);
+
+    s.trigger('onSliderMove', s, e);
 
     e.preventDefault();
     if (s.params.touchMoveStopPropagation && !s.params.nested) {
@@ -1182,7 +1184,7 @@ s.onTouchMove = function (e) {
 };
 s.onTouchEnd = function (e) {
     if (e.originalEvent) e = e.originalEvent;
-    if (s.params.onTouchEnd) s.params.onTouchEnd(s, e);
+    s.trigger('onTouchEnd', s, e);
     if (!isTouched) return;
 
     //Return Grab Cursor
@@ -1200,7 +1202,7 @@ s.onTouchEnd = function (e) {
     // Tap, doubleTap, Click
     if (s.allowClick) {
         s.updateClickedSlide(e);
-        if (s.params.onTap) s.params.onTap(s, e);
+        s.trigger('onTap', s, e);
         if (timeDiff < 300 && (touchEndTime - lastClickTime) > 300) {
             if (clickTimeout) clearTimeout(clickTimeout);
             clickTimeout = setTimeout(function () {
@@ -1208,15 +1210,13 @@ s.onTouchEnd = function (e) {
                 if (s.params.paginationHide && s.paginationContainer.length > 0 && !$(e.target).hasClass(s.params.bulletClass)) {
                     s.paginationContainer.toggleClass(s.params.paginationHiddenClass);
                 }
-                if (s.params.onClick) s.params.onClick(s, e);
+                s.trigger('onClick', s, e);
             }, 300);
             
         }
         if (timeDiff < 300 && (touchEndTime - lastClickTime) < 300) {
             if (clickTimeout) clearTimeout(clickTimeout);
-            if (s.params.onDoubleTap) {
-                s.params.onDoubleTap(s, e);
-            }
+            s.trigger('onDoubleTap', s, e);
         }
     }
 
@@ -1321,7 +1321,7 @@ s.onTouchEnd = function (e) {
                 s.animating = true;
                 s.wrapper.transitionEnd(function () {
                     if (!allowMomentumBounce) return;
-                    if (s.params.onMomentumBounce) s.params.onMomentumBounce(s);
+                    s.trigger('onMomentumBounce', s);
 
                     s.setWrapperTransition(s.params.speed);
                     s.setWrapperTranslate(afterBouncePosition);
@@ -1474,8 +1474,10 @@ s.onTransitionStart = function (runCallbacks) {
     if (typeof runCallbacks === 'undefined') runCallbacks = true;
     if (s.lazy) s.lazy.onTransitionStart();
     if (runCallbacks) {
-        if (s.params.onTransitionStart) s.params.onTransitionStart(s);
-        if (s.params.onSlideChangeStart && s.activeIndex !== s.previousIndex) s.params.onSlideChangeStart(s);
+        s.trigger('onTransitionStart', s);
+        if (s.activeIndex !== s.previousIndex) {
+            s.trigger('onSlideChangeStart', s);
+        }
     }
 };
 s.onTransitionEnd = function (runCallbacks) {
@@ -1484,8 +1486,10 @@ s.onTransitionEnd = function (runCallbacks) {
     if (typeof runCallbacks === 'undefined') runCallbacks = true;
     if (s.lazy) s.lazy.onTransitionEnd();
     if (runCallbacks) {
-        if (s.params.onTransitionEnd) s.params.onTransitionEnd(s);
-        if (s.params.onSlideChangeEnd && s.activeIndex !== s.previousIndex) s.params.onSlideChangeEnd(s);
+        s.trigger('onTransitionEnd', s);
+        if (s.activeIndex !== s.previousIndex) {
+            s.trigger('onSlideChangeEnd', s);
+        }
     }
         
 };
@@ -1522,7 +1526,6 @@ s.slideReset = function (runCallbacks, speed, internal) {
   ===========================*/
 s.setWrapperTransition = function (duration, byController) {
     s.wrapper.transition(duration);
-    if (s.params.onSetTransition) s.params.onSetTransition(s, duration);
     if (s.params.effect !== 'slide' && s.effects[s.params.effect]) {
         s.effects[s.params.effect].setTransition(duration);
     }
@@ -1535,6 +1538,7 @@ s.setWrapperTransition = function (duration, byController) {
     if (s.params.control && s.controller) {
         s.controller.setTransition(duration, byController);
     }
+    s.trigger('onSetTransition', s, duration);
 };
 s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
     var x = 0, y = 0, z = 0;
@@ -1567,7 +1571,7 @@ s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
     if (s.params.hashnav && s.hashnav) {
         s.hashnav.setHash();
     }
-    if (s.params.onSetTranslate) s.params.onSetTranslate(s, s.translate);
+    s.trigger('onSetTranslate', s, s.translate);
 };
 
 s.getTranslate = function (el, axis) {
@@ -1636,7 +1640,7 @@ function initObserver(target, options) {
     var observer = new ObserverFunc(function (mutations) {
         mutations.forEach(function (mutation) {
             s.onResize();
-            if (s.params.onObserverUpdate) s.params.onObserverUpdate(s, mutation);
+            s.trigger('onObserverUpdate', s, mutation);
         });
     });
      

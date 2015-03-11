@@ -22,13 +22,11 @@ s.lazy = {
                 _img.removeAttr('data-src');
                 _img.addClass('swiper-lazy-loaded').removeClass('swiper-lazy-loading');
                 slide.find('.swiper-lazy-preloader, .preloader').remove();
-                if (s.params.onLazyImageReady) {
-                    s.params.onLazyImageReady(s, slide[0], _img[0]);
-                }
+
+                s.trigger('onLazyImageReady', s, slide[0], _img[0]);
             });
-            if (s.params.onLazyImageLoad) {
-                s.params.onLazyImageLoad(s, slide[0], _img[0]);
-            }
+            
+            s.trigger('onLazyImageLoad', s, slide[0], _img[0]);
         });
             
     },
