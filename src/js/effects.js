@@ -7,7 +7,8 @@ s.effects = {
             for (var i = 0; i < s.slides.length; i++) {
                 var slide = s.slides.eq(i);
                 var offset = slide[0].swiperSlideOffset;
-                var tx = -offset - s.translate;
+                var tx = -offset;
+                if (!s.params.virtualTranslate) tx = tx - s.translate;
                 var ty = 0;
                 if (!isH()) {
                     ty = tx;

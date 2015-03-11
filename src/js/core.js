@@ -12,6 +12,8 @@ var defaults = {
     freeModeMomentumRatio: 1,
     freeModeMomentumBounce: true,
     freeModeMomentumBounceRatio: 1,
+    // Virtual Translate
+    virtualTranslate: false,
     // Effects
     effect: 'slide', // 'slide' or 'fade' or 'cube' or 'coverflow'
     coverflow: {
@@ -221,10 +223,12 @@ if (s.params.effect === 'cube') {
     s.params.slidesPerGroup = 1;
     s.params.centeredSlides = false;
     s.params.spaceBetween = 0;
+    s.params.virtualTranslate = true;
 }
 if (s.params.effect === 'fade') {
     s.params.watchSlidesProgress = true;
     s.params.spaceBetween = 0;
+    s.params.virtualTranslate = true;
 }
 
 // Grab Cursor
@@ -1074,7 +1078,7 @@ s.onTouchMove = function (e) {
         if (params.loop) {
             s.fixLoop();
         }
-        startTranslate = s.params.effect === 'cube' ? ((s.rtl ? -s.translate: s.translate) || 0) : s.getWrapperTranslate();
+        startTranslate = s.getWrapperTranslate();
         s.setWrapperTransition(0);
         if (s.animating) {
             s.wrapper.trigger('webkitTransitionEnd transitionend oTransitionEnd MSTransitionEnd msTransitionEnd');
@@ -1533,10 +1537,13 @@ s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
     else {
         y = translate;
     }
-    
-    if (s.support.transforms3d) s.wrapper.transform('translate3d(' + x + 'px, ' + y + 'px, ' + z + 'px)');
-    else s.wrapper.transform('translate(' + x + 'px, ' + y + 'px)');
+    if (!s.params.virtualTranslate) {
+        if (s.support.transforms3d) s.wrapper.transform('translate3d(' + x + 'px, ' + y + 'px, ' + z + 'px)');
+        else s.wrapper.transform('translate(' + x + 'px, ' + y + 'px)');
+    }
+
     s.translate = isH() ? x : y;
+
     if (updateActiveIndex) s.updateActiveIndex();
     if (s.params.effect !== 'slide' && s.effects[s.params.effect]) {
         s.effects[s.params.effect].setTranslate(s.translate);
@@ -1562,6 +1569,10 @@ s.getTranslate = function (el, axis) {
     // automatic axis detection
     if (typeof axis === 'undefined') {
         axis = 'x';
+    }
+
+    if (s.params.virtualTranslate) {
+        return s.rtl ? -s.translate : s.translate;
     }
 
     curStyle = window.getComputedStyle(el, null);
