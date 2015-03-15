@@ -187,8 +187,8 @@ s.effects = {
             }
 
             //Set correct perspective for IE10
-            if (window.navigator.pointerEnabled || window.navigator.msPointerEnabled) {
-                var ws = s.wrapper.style;
+            if (s.browser.ie) {
+                var ws = s.wrapper[0].style;
                 ws.perspectiveOrigin = center + 'px 50%';
             }
         },
