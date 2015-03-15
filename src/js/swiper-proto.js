@@ -14,7 +14,8 @@ Swiper.prototype = {
     Browser
     ====================================================*/
     browser: {
-        ie: window.navigator.pointerEnabled || window.navigator.msPointerEnabled
+        ie: window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
+        ieTouch: (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1),
     },
     /*==================================================
     Devices
