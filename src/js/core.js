@@ -119,8 +119,6 @@ var defaults = {
     observeParents: false,
     // Callbacks
     runCallbacksOnInit: true,
-    // Events
-    triggerDomEvents: false,
     /*
     Callbacks:
     onInit: function (swiper)
