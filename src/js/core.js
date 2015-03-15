@@ -1500,6 +1500,9 @@ s.onTransitionEnd = function (runCallbacks) {
             s.trigger('onSlideChangeEnd', s);
         }
     }
+    if (s.params.hashnav && s.hashnav) {
+        s.hashnav.setHash();
+    }
         
 };
 s.slideNext = function (runCallbacks, speed, internal) {
@@ -1576,9 +1579,6 @@ s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
     }
     if (s.params.control && s.controller) {
         s.controller.setTranslate(s.translate, byController);
-    }
-    if (s.params.hashnav && s.hashnav) {
-        s.hashnav.setHash();
     }
     s.trigger('onSetTranslate', s, s.translate);
 };
