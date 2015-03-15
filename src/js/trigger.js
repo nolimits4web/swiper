@@ -16,10 +16,6 @@ s.trigger = function (eventName) {
             s.triggerEvents[eventName][i](arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
         }
     }
-    // Trigger Dom Events
-    if (s.params.triggerDomEvents) {
-        s.container.trigger(eventName, {data:[arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]]});
-    }
     // Trigger plugins
     if (s.callPlugins) s.callPlugins(eventName, arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
 };
