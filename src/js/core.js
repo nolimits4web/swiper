@@ -180,6 +180,8 @@ else {
 }
 if (!$) return;
 
+// Export it to Swiper instance
+s.$ = $;
 /*=========================
   Preparation - Define Container, Wrapper and Pagination
   ===========================*/
@@ -1004,7 +1006,7 @@ s.touches = {
 };
 
 // Touch handlers
-var isTouchEvent;
+var isTouchEvent, startMoving;
 s.onTouchStart = function (e) {
     if (e.originalEvent) e = e.originalEvent;
     isTouchEvent = e.type === 'touchstart';
@@ -1019,6 +1021,7 @@ s.onTouchStart = function (e) {
     isTouched = true;
     isMoved = false;
     isScrolling = undefined;
+    startMoving = undefined;
     s.touches.startX = s.touches.currentX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
     s.touches.startY = s.touches.currentY = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
     touchStartTime = Date.now();
@@ -1055,8 +1058,9 @@ s.onTouchMove = function (e) {
             return;
         }
     }
+    
     s.trigger('onTouchMove', s, e);
-    s.allowClick = false;
+    
     if (e.targetTouches && e.targetTouches.length > 1) return;
     
     s.touches.currentX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
@@ -1065,19 +1069,25 @@ s.onTouchMove = function (e) {
     if (typeof isScrolling === 'undefined') {
         var touchAngle = Math.atan2(Math.abs(s.touches.currentY - s.touches.startY), Math.abs(s.touches.currentX - s.touches.startX)) * 180 / Math.PI;
         isScrolling = isH() ? touchAngle > s.params.touchAngle : (90 - touchAngle > s.params.touchAngle);
-        // isScrolling = !!(isScrolling || Math.abs(touchesCurrent.y - touchesStart.y) > Math.abs(touchesCurrent.x - touchesStart.x));
     }
     if (isScrolling) {
         s.trigger('onTouchMoveOpposite', s, e);
+    }
+    if (typeof startMoving === 'undefined' && s.browser.ieTouch) {
+        if (s.touches.currentX !== s.touches.startX || s.touches.currentY !== s.touches.startY) {
+            startMoving = true;
+        }
     }
     if (!isTouched) return;
     if (isScrolling)  {
         isTouched = false;
         return;
     }
-
+    if (!startMoving && s.browser.ieTouch) {
+        return;
+    }
+    s.allowClick = false;
     s.trigger('onSliderMove', s, e);
-
     e.preventDefault();
     if (s.params.touchMoveStopPropagation && !s.params.nested) {
         e.stopPropagation();
@@ -1186,7 +1196,6 @@ s.onTouchEnd = function (e) {
     if (e.originalEvent) e = e.originalEvent;
     s.trigger('onTouchEnd', s, e);
     if (!isTouched) return;
-
     //Return Grab Cursor
     if (s.params.grabCursor && isMoved && isTouched) {
         s.container[0].style.cursor = 'move';
