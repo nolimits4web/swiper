@@ -201,6 +201,10 @@ s.container.addClass('swiper-container-' + s.params.direction);
 if (s.params.freeMode) {
     s.container.addClass('swiper-container-free-mode');
 }
+if (!s.support.flexbox) {
+    s.container.addClass('swiper-container-no-flexbox');   
+    s.params.slidesPerColumn = 1;
+}
 // Enable slides progress when required
 if (s.params.parallax || s.params.watchSlidesVisibility) {
     s.params.watchSlidesProgress = true;
@@ -535,7 +539,7 @@ s.updateSlidesSize = function () {
 
     var newSlidesGrid;
 
-    if (s.rtl && s.wrongRTL && (s.params.effect === 'slide' || s.params.effect === 'coverflow')) {
+    if (s.rtl && s.wrongRTL && (s.params.effect === 'slide' || s.params.effect === 'coverflow') || !s.support.flexbox) {
         s.wrapper.css({width: s.virtualSize + s.params.spaceBetween + 'px'});
     }
 
