@@ -5,7 +5,11 @@
     /* Fix of Webkit flickering */
     z-index:1;
 }
-
+.swiper-container-no-flexbox {
+    .swiper-slide {
+        float: left;
+    }
+}
 .swiper-container-vertical > .swiper-wrapper{
     -webkit-box-orient: vertical;
     -moz-box-orient: vertical;
