@@ -23,10 +23,10 @@ s.lazy = {
                 _img.addClass('swiper-lazy-loaded').removeClass('swiper-lazy-loading');
                 slide.find('.swiper-lazy-preloader, .preloader').remove();
 
-                s.trigger('onLazyImageReady', s, slide[0], _img[0]);
+                s.emit('onLazyImageReady', s, slide[0], _img[0]);
             });
             
-            s.trigger('onLazyImageLoad', s, slide[0], _img[0]);
+            s.emit('onLazyImageLoad', s, slide[0], _img[0]);
         });
             
     },

@@ -42,7 +42,7 @@ s.init = function () {
     if (s.params.hashnav) {
         if (s.hashnav) s.hashnav.init();
     }
-    s.trigger('onInit', s);
+    s.emit('onInit', s);
 };
 
 // Destroy
@@ -55,7 +55,7 @@ s.destroy = function (deleteInstance) {
     if (s.params.mousewheelControl) {
         if (s.disableMousewheelControl) s.disableMousewheelControl();
     }
-    s.trigger('onDestroy');
+    s.emit('onDestroy');
     if (deleteInstance !== false) s = null;
 };
 

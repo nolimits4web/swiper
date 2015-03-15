@@ -339,7 +339,7 @@ s.preloadImages = function () {
         if (s.imagesLoaded !== undefined) s.imagesLoaded++;
         if (s.imagesLoaded === s.imagesToLoad.length) {
             if (s.params.updateOnImagesReady) s.update();
-            s.trigger('onImagesReady', s);
+            s.emit('onImagesReady', s);
         }
     }
     for (var i = 0; i < s.imagesToLoad.length; i++) {
@@ -379,7 +379,7 @@ s.startAutoplay = function () {
     if (!s.params.autoplay) return false;
     if (s.autoplaying) return false;
     s.autoplaying = true;
-    s.trigger('onAutoplayStart', s);
+    s.emit('onAutoplayStart', s);
     autoplay();
 };
 s.stopAutoplay = function (internal) {
@@ -387,7 +387,7 @@ s.stopAutoplay = function (internal) {
     if (s.autoplayTimeoutId) clearTimeout(s.autoplayTimeoutId);
     s.autoplaying = false;
     s.autoplayTimeoutId = undefined;
-    s.trigger('onAutoplayStop', s);
+    s.emit('onAutoplayStop', s);
 };
 s.pauseAutoplay = function (speed) {
     if (s.autoplayPaused) return;
@@ -634,11 +634,11 @@ s.updateProgress = function (translate) {
         s.isBeginning = s.progress <= 0;
         s.isEnd = s.progress >= 1;
     }
-    if (s.isBeginning) s.trigger('onReachBeginning', s);
-    if (s.isEnd) s.trigger('onReachEnd', s);
+    if (s.isBeginning) s.emit('onReachBeginning', s);
+    if (s.isEnd) s.emit('onReachEnd', s);
     
     if (s.params.watchSlidesProgress) s.updateSlidesProgress(translate);
-    s.trigger('onProgress', s, s.progress);
+    s.emit('onProgress', s, s.progress);
 };
 s.updateActiveIndex = function () {
     var translate = s.rtl ? s.translate : -s.translate;
@@ -1037,7 +1037,7 @@ s.onTouchStart = function (e) {
             e.preventDefault();
         }
     }
-    s.trigger('onTouchStart', s, e);
+    s.emit('onTouchStart', s, e);
 };
 
 s.onTouchMove = function (e) {
@@ -1057,7 +1057,7 @@ s.onTouchMove = function (e) {
         }
     }
     
-    s.trigger('onTouchMove', s, e);
+    s.emit('onTouchMove', s, e);
     
     if (e.targetTouches && e.targetTouches.length > 1) return;
     
@@ -1069,7 +1069,7 @@ s.onTouchMove = function (e) {
         isScrolling = isH() ? touchAngle > s.params.touchAngle : (90 - touchAngle > s.params.touchAngle);
     }
     if (isScrolling) {
-        s.trigger('onTouchMoveOpposite', s, e);
+        s.emit('onTouchMoveOpposite', s, e);
     }
     if (typeof startMoving === 'undefined' && s.browser.ieTouch) {
         if (s.touches.currentX !== s.touches.startX || s.touches.currentY !== s.touches.startY) {
@@ -1085,7 +1085,7 @@ s.onTouchMove = function (e) {
         return;
     }
     s.allowClick = false;
-    s.trigger('onSliderMove', s, e);
+    s.emit('onSliderMove', s, e);
     e.preventDefault();
     if (s.params.touchMoveStopPropagation && !s.params.nested) {
         e.stopPropagation();
@@ -1192,7 +1192,7 @@ s.onTouchMove = function (e) {
 };
 s.onTouchEnd = function (e) {
     if (e.originalEvent) e = e.originalEvent;
-    s.trigger('onTouchEnd', s, e);
+    s.emit('onTouchEnd', s, e);
     if (!isTouched) return;
     //Return Grab Cursor
     if (s.params.grabCursor && isMoved && isTouched) {
@@ -1209,7 +1209,7 @@ s.onTouchEnd = function (e) {
     // Tap, doubleTap, Click
     if (s.allowClick) {
         s.updateClickedSlide(e);
-        s.trigger('onTap', s, e);
+        s.emit('onTap', s, e);
         if (timeDiff < 300 && (touchEndTime - lastClickTime) > 300) {
             if (clickTimeout) clearTimeout(clickTimeout);
             clickTimeout = setTimeout(function () {
@@ -1217,13 +1217,13 @@ s.onTouchEnd = function (e) {
                 if (s.params.paginationHide && s.paginationContainer.length > 0 && !$(e.target).hasClass(s.params.bulletClass)) {
                     s.paginationContainer.toggleClass(s.params.paginationHiddenClass);
                 }
-                s.trigger('onClick', s, e);
+                s.emit('onClick', s, e);
             }, 300);
             
         }
         if (timeDiff < 300 && (touchEndTime - lastClickTime) < 300) {
             if (clickTimeout) clearTimeout(clickTimeout);
-            s.trigger('onDoubleTap', s, e);
+            s.emit('onDoubleTap', s, e);
         }
     }
 
@@ -1328,7 +1328,7 @@ s.onTouchEnd = function (e) {
                 s.animating = true;
                 s.wrapper.transitionEnd(function () {
                     if (!allowMomentumBounce) return;
-                    s.trigger('onMomentumBounce', s);
+                    s.emit('onMomentumBounce', s);
 
                     s.setWrapperTransition(s.params.speed);
                     s.setWrapperTranslate(afterBouncePosition);
@@ -1481,9 +1481,9 @@ s.onTransitionStart = function (runCallbacks) {
     if (typeof runCallbacks === 'undefined') runCallbacks = true;
     if (s.lazy) s.lazy.onTransitionStart();
     if (runCallbacks) {
-        s.trigger('onTransitionStart', s);
+        s.emit('onTransitionStart', s);
         if (s.activeIndex !== s.previousIndex) {
-            s.trigger('onSlideChangeStart', s);
+            s.emit('onSlideChangeStart', s);
         }
     }
 };
@@ -1493,9 +1493,9 @@ s.onTransitionEnd = function (runCallbacks) {
     if (typeof runCallbacks === 'undefined') runCallbacks = true;
     if (s.lazy) s.lazy.onTransitionEnd();
     if (runCallbacks) {
-        s.trigger('onTransitionEnd', s);
+        s.emit('onTransitionEnd', s);
         if (s.activeIndex !== s.previousIndex) {
-            s.trigger('onSlideChangeEnd', s);
+            s.emit('onSlideChangeEnd', s);
         }
     }
     if (s.params.hashnav && s.hashnav) {
@@ -1548,7 +1548,7 @@ s.setWrapperTransition = function (duration, byController) {
     if (s.params.control && s.controller) {
         s.controller.setTransition(duration, byController);
     }
-    s.trigger('onSetTransition', s, duration);
+    s.emit('onSetTransition', s, duration);
 };
 s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
     var x = 0, y = 0, z = 0;
@@ -1578,7 +1578,7 @@ s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
     if (s.params.control && s.controller) {
         s.controller.setTranslate(s.translate, byController);
     }
-    s.trigger('onSetTranslate', s, s.translate);
+    s.emit('onSetTranslate', s, s.translate);
 };
 
 s.getTranslate = function (el, axis) {
@@ -1647,7 +1647,7 @@ function initObserver(target, options) {
     var observer = new ObserverFunc(function (mutations) {
         mutations.forEach(function (mutation) {
             s.onResize();
-            s.trigger('onObserverUpdate', s, mutation);
+            s.emit('onObserverUpdate', s, mutation);
         });
     });
      
