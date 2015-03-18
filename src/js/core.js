@@ -149,7 +149,11 @@ var defaults = {
     onLazyImageReady: function (swiper, slide, image)
     */
     // Accessibility
-    a11y: true
+    a11y: true,
+    prevSlideMsg: 'Previous slide.',
+    nextSlideMsg: 'Next slide.',
+    firstSlideMsg: 'This is the first slide.',
+    lastSlideMsg: 'This is the last slide.'
 };
 params = params || {};
 for (var def in defaults) {
@@ -292,8 +296,20 @@ if (s.device.android) {
 
 // Setup accessibility
 if (s.params.a11y) {
-    if (s.params.nextButton) a11y.makeFocusable($(s.params.nextButton));
-    if (s.params.prevButton) a11y.makeFocusable($(s.params.prevButton));
+    if (s.params.nextButton) {
+        var nextButton = $(s.params.nextButton);
+        a11y.makeFocusable(nextButton);
+        a11y.addRole(nextButton, 'button');
+        a11y.addLabel(nextButton, s.nextSlideMsg);
+    }
+    if (s.params.prevButton) {
+        var prevButton = $(s.params.prevButton);
+        a11y.makeFocusable(prevButton);
+        a11y.addRole(prevButton, 'button');
+        a11y.addLabel(prevButton, s.prevSlideMsg);
+    }
+
+    $(container).append($(a11y.liveRegion));
 }
 
 // Add classes
@@ -751,12 +767,24 @@ s.updateClasses = function () {
     // Next/active buttons
     if (!s.params.loop) {
         if (s.params.prevButton) {
-            if (s.isBeginning) $(s.params.prevButton).addClass(s.params.buttonDisabledClass);
-            else $(s.params.prevButton).removeClass(s.params.buttonDisabledClass);
+            if (s.isBeginning) {
+                $(s.params.prevButton).addClass(s.params.buttonDisabledClass);
+                if (s.params.a11y) a11y.disable($(s.params.prevButton));
+            }
+            else {
+                $(s.params.prevButton).removeClass(s.params.buttonDisabledClass);
+                if (s.params.a11y) a11y.enable($(s.params.prevButton));
+            }
         }
         if (s.params.nextButton) {
-            if (s.isEnd) $(s.params.nextButton).addClass(s.params.buttonDisabledClass);
-            else $(s.params.nextButton).removeClass(s.params.buttonDisabledClass);
+            if (s.isEnd) {
+                $(s.params.nextButton).addClass(s.params.buttonDisabledClass);
+                if (s.params.a11y) a11y.disable($(s.params.nextButton));
+            }
+            else {
+                $(s.params.nextButton).removeClass(s.params.buttonDisabledClass);
+                if (s.params.a11y) a11y.enable($(s.params.nextButton));
+            }
         }
     }
 };
@@ -900,11 +928,29 @@ s.initEvents = function (detach) {
     // Next, Prev, Index
     if (s.params.nextButton) {
         $(s.params.nextButton)[actionDom]('click', s.onClickNext);
-        if (s.params.a11y) $(s.params.nextButton)[actionDom]('keydown', a11y.onEnterKey.bind(null, s.onClickNext));
+        if (s.params.a11y) $(s.params.nextButton)[actionDom]('keydown', a11y.onEnterKey.bind(null, function (event) {
+            s.onClickNext(event);
+
+            if (s.isEnd) {
+                a11y.notify(s.params.lastSlideMsg);
+            }
+            else {
+                a11y.notify(s.params.nextSlideMsg);
+            }
+        }));
     }
     if (s.params.prevButton) {
         $(s.params.prevButton)[actionDom]('click', s.onClickPrev);
-        if (s.params.a11y) $(s.params.prevButton)[actionDom]('keydown', a11y.onEnterKey.bind(null, s.onClickPrev));
+        if (s.params.a11y) $(s.params.prevButton)[actionDom]('keydown', a11y.onEnterKey.bind(null, function (event) {
+            s.onClickPrev(event);
+
+            if (s.isBeginning) {
+                a11y.notify(s.params.firstSlideMsg);
+            }
+            else {
+                a11y.notify(s.params.prevSlideMsg);
+            }
+        }));
     }
     if (s.params.pagination && s.params.paginationClickable) {
         $(s.paginationContainer)[actionDom]('click', '.' + s.params.bulletClass, s.onClickIndex);
