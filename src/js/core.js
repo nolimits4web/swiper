@@ -12,6 +12,8 @@ var defaults = {
     freeModeMomentumRatio: 1,
     freeModeMomentumBounce: true,
     freeModeMomentumBounceRatio: 1,
+    // Set wrapper width
+    setWrapperWidth: false,
     // Virtual Translate
     virtualTranslate: false,
     // Effects
@@ -166,6 +168,9 @@ var s = this;
 
 // Params
 s.params = params;
+
+// Classname
+s.classNames = [];
 /*=========================
   Dom Library and plugins
   ===========================*/
@@ -196,13 +201,13 @@ if (s.container.length > 1) {
 s.container[0].swiper = s;
 s.container.data('swiper', s);
 
-s.container.addClass('swiper-container-' + s.params.direction);
+s.classNames.push('swiper-container-' + s.params.direction);
 
 if (s.params.freeMode) {
-    s.container.addClass('swiper-container-free-mode');
+    s.classNames.push('swiper-container-free-mode');
 }
 if (!s.support.flexbox) {
-    s.container.addClass('swiper-container-no-flexbox');   
+    s.classNames.push('swiper-container-no-flexbox');
     s.params.slidesPerColumn = 1;
 }
 // Enable slides progress when required
@@ -213,14 +218,14 @@ if (s.params.parallax || s.params.watchSlidesVisibility) {
 if (['cube', 'coverflow'].indexOf(s.params.effect) >= 0) {
     if (s.support.transforms3d) {
         s.params.watchSlidesProgress = true;
-        s.container.addClass('swiper-container-3d');
+        s.classNames.push('swiper-container-3d');
     }
     else {
         s.params.effect = 'slide';
     }
 }
 if (s.params.effect !== 'slide') {
-    s.container.addClass('swiper-container-' + s.params.effect);
+    s.classNames.push('swiper-container-' + s.params.effect);
 }
 if (s.params.effect === 'cube') {
     s.params.resistanceRatio = 0;
@@ -230,8 +235,12 @@ if (s.params.effect === 'cube') {
     s.params.centeredSlides = false;
     s.params.spaceBetween = 0;
     s.params.virtualTranslate = true;
+    s.params.setWrapperWidth = false;
 }
 if (s.params.effect === 'fade') {
+    s.params.slidesPerView = 1;
+    s.params.slidesPerColumn = 1;
+    s.params.slidesPerGroup = 1;
     s.params.watchSlidesProgress = true;
     s.params.spaceBetween = 0;
     s.params.virtualTranslate = true;
@@ -260,12 +269,27 @@ function isH() {
 
 // RTL
 s.rtl = isH() && (s.container[0].dir.toLowerCase() === 'rtl' || s.container.css('direction') === 'rtl');
-if (s.rtl) s.container.addClass('swiper-container-rtl');
+if (s.rtl) {
+    s.classNames.push('swiper-container-rtl');
+}
 
 // Wrong RTL support
 if (s.rtl) {
     s.wrongRTL = s.wrapper.css('display') === '-webkit-box';
 }
+
+// Columns
+if (s.params.slidesPerColumn > 1) {
+    s.classNames.push('swiper-container-multirow');
+}
+
+// Check for Android
+if (s.device.android) {
+    s.classNames.push('swiper-container-android');
+}
+
+// Add classes
+s.container.addClass(s.classNames.join(' '));
 
 // Translate
 s.translate = 0;
@@ -295,11 +319,6 @@ s.unlockSwipeToPrev = function () {
 s.unlockSwipes = function () {
     s.params.allowSwipeToNext = s.params.allowSwipeToPrev = true;
 };
-
-// Columns
-if (s.params.slidesPerColumn > 1) {
-    s.container.addClass('swiper-container-multirow');
-}
 
 
 /*=========================
@@ -539,7 +558,8 @@ s.updateSlidesSize = function () {
 
     var newSlidesGrid;
 
-    if (s.rtl && s.wrongRTL && (s.params.effect === 'slide' || s.params.effect === 'coverflow') || !s.support.flexbox) {
+    if (
+        s.rtl && s.wrongRTL && (s.params.effect === 'slide' || s.params.effect === 'coverflow') || !s.support.flexbox || s.params.setWrapperWidth) {
         s.wrapper.css({width: s.virtualSize + s.params.spaceBetween + 'px'});
     }
 
