@@ -1,5 +1,5 @@
 (function(){
-    'use strict';    
+    'use strict';
     var gulp = require('gulp'),
         gutil = require('gulp-util'),
         connect = require('gulp-connect'),
@@ -42,6 +42,7 @@
             jsFiles: [
                 'src/js/wrap-start.js',
                 'src/js/swiper-intro.js',
+                'src/js/a11y.js',
                 'src/js/core.js',
                 'src/js/effects.js',
                 'src/js/lazy-load.js',
@@ -64,6 +65,7 @@
             jQueryFiles : [
                 'src/js/wrap-start.js',
                 'src/js/swiper-intro.js',
+                'src/js/a11y.js',
                 'src/js/core.js',
                 'src/js/effects.js',
                 'src/js/lazy-load.js',
@@ -84,6 +86,7 @@
             ],
             Framework7Files : [
                 'src/js/swiper-intro.js',
+                'src/js/a11y.js',
                 'src/js/core.js',
                 'src/js/effects.js',
                 'src/js/lazy-load.js',
@@ -119,7 +122,7 @@
                 day: new Date().getDate()
             }
         };
-        
+
     function addJSIndent (file, t, minusIndent) {
         var addIndent = '        ';
         var filename = file.path.split('src/js/')[1];
@@ -144,7 +147,7 @@
             .pipe(tap(function (file, t){
                 addJSIndent (file, t);
             }))
-            .pipe(concat(swiper.filename + '.js'))            
+            .pipe(concat(swiper.filename + '.js'))
             .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date } ))
             .pipe(gulp.dest(paths.build.scripts))
 
@@ -241,7 +244,7 @@
             port:'3000'
         });
     });
-    
+
     gulp.task('open', function () {
         return gulp.src(paths.playground.root + 'index.html').pipe(open('', { url: 'http://localhost:3000/' + paths.playground.root + 'index.html'}));
     });
