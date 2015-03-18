@@ -125,29 +125,31 @@ var defaults = {
     Callbacks:
     onInit: function (swiper)
     onDestroy: function (swiper)
-    onClick: function (swiper, e) 
-    onTap: function (swiper, e) 
-    onDoubleTap: function (swiper, e) 
-    onSliderMove: function (swiper, e) 
-    onSlideChangeStart: function (swiper) 
-    onSlideChangeEnd: function (swiper) 
-    onTransitionStart: function (swiper) 
-    onTransitionEnd: function (swiper) 
-    onImagesReady: function (swiper) 
-    onProgress: function (swiper, progress) 
-    onTouchStart: function (swiper, e) 
-    onTouchMove: function (swiper, e) 
-    onTouchMoveOpposite: function (swiper, e) 
-    onTouchEnd: function (swiper, e) 
-    onReachBeginning: function (swiper) 
-    onReachEnd: function (swiper) 
-    onSetTransition: function (swiper, duration) 
-    onSetTranslate: function (swiper, translate) 
+    onClick: function (swiper, e)
+    onTap: function (swiper, e)
+    onDoubleTap: function (swiper, e)
+    onSliderMove: function (swiper, e)
+    onSlideChangeStart: function (swiper)
+    onSlideChangeEnd: function (swiper)
+    onTransitionStart: function (swiper)
+    onTransitionEnd: function (swiper)
+    onImagesReady: function (swiper)
+    onProgress: function (swiper, progress)
+    onTouchStart: function (swiper, e)
+    onTouchMove: function (swiper, e)
+    onTouchMoveOpposite: function (swiper, e)
+    onTouchEnd: function (swiper, e)
+    onReachBeginning: function (swiper)
+    onReachEnd: function (swiper)
+    onSetTransition: function (swiper, duration)
+    onSetTranslate: function (swiper, translate)
     onAutoplayStart: function (swiper)
     onAutoplayStop: function (swiper),
     onLazyImageLoad: function (swiper, slide, image)
     onLazyImageReady: function (swiper, slide, image)
     */
+    // Accessibility
+    a11y: true
 };
 params = params || {};
 for (var def in defaults) {
@@ -286,6 +288,12 @@ if (s.params.slidesPerColumn > 1) {
 // Check for Android
 if (s.device.android) {
     s.classNames.push('swiper-container-android');
+}
+
+// Setup accessibility
+if (s.params.a11y) {
+    if (s.params.nextButton) a11y.makeFocusable($(s.params.nextButton));
+    if (s.params.prevButton) a11y.makeFocusable($(s.params.prevButton));
 }
 
 // Add classes
@@ -890,8 +898,14 @@ s.initEvents = function (detach) {
     window[action]('resize', s.onResize);
 
     // Next, Prev, Index
-    if (s.params.nextButton) $(s.params.nextButton)[actionDom]('click', s.onClickNext);
-    if (s.params.prevButton) $(s.params.prevButton)[actionDom]('click', s.onClickPrev);
+    if (s.params.nextButton) {
+        $(s.params.nextButton)[actionDom]('click', s.onClickNext);
+        if (s.params.a11y) $(s.params.nextButton)[actionDom]('keydown', a11y.onEnterKey.bind(null, s.onClickNext));
+    }
+    if (s.params.prevButton) {
+        $(s.params.prevButton)[actionDom]('click', s.onClickPrev);
+        if (s.params.a11y) $(s.params.prevButton)[actionDom]('keydown', a11y.onEnterKey.bind(null, s.onClickPrev));
+    }
     if (s.params.pagination && s.params.paginationClickable) {
         $(s.paginationContainer)[actionDom]('click', '.' + s.params.bulletClass, s.onClickIndex);
     }
