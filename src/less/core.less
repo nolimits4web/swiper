@@ -35,15 +35,16 @@
     -ms-transition-property:-ms-transform;
     transition-property:transform;
     
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+.swiper-container-android .swiper-slide, .swiper-wrapper {
     -webkit-transform:translate3d(0px,0,0);
     -moz-transform:translate3d(0px,0,0);
     -o-transform:translate(0px,0px);
     -ms-transform:translate3d(0px,0,0);
     transform:translate3d(0px,0,0);
-
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
 }
 .swiper-container-multirow > .swiper-wrapper {
     -webkit-box-lines: multiple;
