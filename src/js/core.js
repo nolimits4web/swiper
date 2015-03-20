@@ -120,7 +120,7 @@ var defaults = {
     observer: false,
     observeParents: false,
     // Accessibility
-    a11y: true,
+    a11y: false,
     prevSlideMsg: 'Previous slide',
     nextSlideMsg: 'Next slide',
     firstSlideMsg: 'This is the first slide',
