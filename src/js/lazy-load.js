@@ -51,7 +51,7 @@ s.lazy = {
             if (nextSlide.length > 0) s.lazy.loadImageInSlide(nextSlide.index());
 
             var prevSlide = s.wrapper.children('.' + s.params.slidePrevClass);
-            if (prevSlide.length > 0) s.loadImageInSlide(prevSlide.index());
+            if (prevSlide.length > 0) s.lazy.loadImageInSlide(prevSlide.index());
         }
     },
     onTransitionStart: function () {
