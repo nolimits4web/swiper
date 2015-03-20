@@ -42,7 +42,6 @@
             jsFiles: [
                 'src/js/wrap-start.js',
                 'src/js/swiper-intro.js',
-                'src/js/a11y.js',
                 'src/js/core.js',
                 'src/js/effects.js',
                 'src/js/lazy-load.js',
@@ -54,6 +53,7 @@
                 'src/js/parallax.js',
                 'src/js/plugins.js',
                 'src/js/emitter.js',
+                'src/js/a11y.js',
                 'src/js/init.js',
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
@@ -65,7 +65,6 @@
             jQueryFiles : [
                 'src/js/wrap-start.js',
                 'src/js/swiper-intro.js',
-                'src/js/a11y.js',
                 'src/js/core.js',
                 'src/js/effects.js',
                 'src/js/lazy-load.js',
@@ -77,6 +76,7 @@
                 'src/js/parallax.js',
                 'src/js/plugins.js',
                 'src/js/emitter.js',
+                'src/js/a11y.js',
                 'src/js/init.js',
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
@@ -86,7 +86,6 @@
             ],
             Framework7Files : [
                 'src/js/swiper-intro.js',
-                'src/js/a11y.js',
                 'src/js/core.js',
                 'src/js/effects.js',
                 'src/js/lazy-load.js',
@@ -95,6 +94,7 @@
                 'src/js/parallax.js',
                 'src/js/plugins.js',
                 'src/js/emitter.js',
+                'src/js/a11y.js',
                 'src/js/init.js',
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
