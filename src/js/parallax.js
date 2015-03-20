@@ -3,12 +3,16 @@
   ===========================*/
 function setParallaxTransform(el, progress) {
     el = $(el);
-    var p, pX, pY, tX, tY;
+    var p, pX, pY;
     
-    p = el.attr('data-swiper-parallax');
+    p = el.attr('data-swiper-parallax') || '0';
     pX = el.attr('data-swiper-parallax-x');
     pY = el.attr('data-swiper-parallax-y');
-    if (!pX && !pY && p) {
+    if (pX || pY) {
+        pX = pX || '0';
+        pY = pY || '0';
+    }
+    else {
         if (isH()) {
             pX = p;
             pY = '0';
@@ -17,12 +21,6 @@ function setParallaxTransform(el, progress) {
             pY = p;
             pX = '0';
         }
-    }
-    else {
-        if (pX) pX = pX;
-        else pX = '0';
-        if (pY) pY = pY;
-        else pY = '0';
     }
     if ((pX).indexOf('%') >= 0) {
         pX = parseInt(pX, 10) * progress + '%';
@@ -36,10 +34,7 @@ function setParallaxTransform(el, progress) {
     else {
         pY = pY * progress + 'px' ;
     }
-    tX = pX;
-    tY = pY;
-
-    el.transform('translate3d(' + tX + ', ' + tY + ',0px)');
+    el.transform('translate3d(' + pX + ', ' + pY + ',0px)');
 }   
 s.parallax = {
     setTranslate: function () {
@@ -65,4 +60,3 @@ s.parallax = {
         });
     }
 };
-    
