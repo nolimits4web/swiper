@@ -717,10 +717,11 @@ s.updateClasses = function () {
         s.bullets.removeClass(s.params.bulletActiveClass);
         var bulletIndex;
         if (s.params.loop) {
-            bulletIndex = s.activeIndex - s.loopedSlides;
+            bulletIndex = Math.ceil(s.activeIndex - s.loopedSlides)/s.params.slidesPerGroup;
             if (bulletIndex > s.slides.length - 1 - s.loopedSlides * 2) {
                 bulletIndex = bulletIndex - (s.slides.length - s.loopedSlides * 2);
             }
+            if (bulletIndex > s.bullets.length - 1) bulletIndex = bulletIndex - s.bullets.length; 
         }
         else {
             if (typeof s.snapIndex !== 'undefined') {
@@ -760,7 +761,7 @@ s.updatePagination = function () {
     if (!s.params.pagination) return;
     if (s.paginationContainer && s.paginationContainer.length > 0) {
         var bulletsHTML = '';
-        var numberOfBullets = s.params.loop ? s.slides.length - s.loopedSlides * 2 : s.snapGrid.length;
+        var numberOfBullets = s.params.loop ? Math.ceil((s.slides.length - s.loopedSlides * 2) / s.params.slidesPerGroup) : s.snapGrid.length;
         for (var i = 0; i < numberOfBullets; i++) {
             if (s.params.paginationBulletRender) {
                 bulletsHTML += s.params.paginationBulletRender(i, s.params.bulletClass);
