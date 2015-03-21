@@ -13,7 +13,7 @@ var defaults = {
     freeModeMomentumBounce: true,
     freeModeMomentumBounceRatio: 1,
     // Set wrapper width
-    setWrapperWidth: false,
+    setWrapperSize: false,
     // Virtual Translate
     virtualTranslate: false,
     // Effects
@@ -121,10 +121,10 @@ var defaults = {
     observeParents: false,
     // Accessibility
     a11y: false,
-    prevSlideMsg: 'Previous slide',
-    nextSlideMsg: 'Next slide',
-    firstSlideMsg: 'This is the first slide',
-    lastSlideMsg: 'This is the last slide',
+    prevSlideMessage: 'Previous slide',
+    nextSlideMessage: 'Next slide',
+    firstSlideMessage: 'This is the first slide',
+    lastSlideMessage: 'This is the last slide',
     // Callbacks
     runCallbacksOnInit: true,
     /*
@@ -242,7 +242,7 @@ if (s.params.effect === 'cube') {
     s.params.centeredSlides = false;
     s.params.spaceBetween = 0;
     s.params.virtualTranslate = true;
-    s.params.setWrapperWidth = false;
+    s.params.setWrapperSize = false;
 }
 if (s.params.effect === 'fade') {
     s.params.slidesPerView = 1;
@@ -566,8 +566,12 @@ s.updateSlidesSize = function () {
     var newSlidesGrid;
 
     if (
-        s.rtl && s.wrongRTL && (s.params.effect === 'slide' || s.params.effect === 'coverflow') || !s.support.flexbox || s.params.setWrapperWidth) {
+        s.rtl && s.wrongRTL && (s.params.effect === 'slide' || s.params.effect === 'coverflow')) {
         s.wrapper.css({width: s.virtualSize + s.params.spaceBetween + 'px'});
+    }
+    if (!s.support.flexbox || s.params.setWrapperSize) {
+        if (isH()) s.wrapper.css({width: s.virtualSize + s.params.spaceBetween + 'px'});
+        else s.wrapper.css({height: s.virtualSize + s.params.spaceBetween + 'px'});
     }
 
     if (s.params.slidesPerColumn > 1) {
