@@ -224,7 +224,10 @@
 
         gulp.src(paths.build.styles + '*.css')
             .pipe(gulp.dest(paths.dist.styles))
-            .pipe(minifyCSS())
+            .pipe(minifyCSS({
+                advanced: false,
+                aggressiveMerging: false,
+            }))
             .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date }))
             .pipe(rename(function(path) {
                 path.basename = swiper.filename + '.min';
