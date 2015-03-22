@@ -1910,6 +1910,14 @@
                 },
                 setTransition: function (duration) {
                     s.slides.transition(duration);
+                    if (s.params.virtualTranslate && duration !== 0) {
+                        s.slides.eq(s.activeIndex).transitionEnd(function () {
+                            var triggerEvents = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'];
+                            for (var i = 0; i < triggerEvents.length; i++) {
+                                s.wrapper.trigger(triggerEvents[i]);
+                            }
+                        });
+                    }
                 }
             },
             cube: {
