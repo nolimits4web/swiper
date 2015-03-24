@@ -49,6 +49,7 @@ s.init = function () {
 // Destroy
 s.destroy = function (deleteInstance) {
     s.detachEvents();
+    s.stopAutoplay();
     s.disconnectObservers();
     if (s.params.keyboardControl) {
         if (s.disableKeyboardControl) s.disableKeyboardControl();
@@ -62,4 +63,3 @@ s.destroy = function (deleteInstance) {
 };
 
 s.init();
-
