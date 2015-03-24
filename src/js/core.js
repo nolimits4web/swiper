@@ -928,9 +928,6 @@ s.initEvents = function (detach) {
 
     // Prevent Links Clicks
     if (s.params.preventClicks || s.params.preventClicksPropagation) touchEventsTarget[action]('click', s.preventClicks, true);
-
-    // Stops Autoplay
-    s.stopAutoplay();
 };
 s.attachEvents = function (detach) {
     s.initEvents();
