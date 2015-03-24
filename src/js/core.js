@@ -154,7 +154,7 @@ var defaults = {
     onLazyImageLoad: function (swiper, slide, image)
     onLazyImageReady: function (swiper, slide, image)
     */
-    
+
 };
 params = params || {};
 for (var def in defaults) {
@@ -462,7 +462,7 @@ s.updateSlidesSize = function () {
     s.snapGrid = [];
     s.slidesGrid = [];
     s.slidesSizesGrid = [];
-    
+
     var spaceBetween = s.params.spaceBetween,
         slidePosition = 0,
         i,
@@ -515,7 +515,7 @@ s.updateSlidesSize = function () {
                 slidesPerRow = slidesNumberEvenToRows / slidesPerColumn;
                 row = Math.floor(i / slidesPerRow);
                 column = i - row * slidesPerRow;
-                
+
             }
             slide
                 .css({
@@ -523,7 +523,7 @@ s.updateSlidesSize = function () {
                 })
                 .attr('data-swiper-column', column)
                 .attr('data-swiper-row', row);
-                
+
         }
         if (slide.css('display') === 'none') continue;
         if (s.params.slidesPerView === 'auto') {
@@ -540,8 +540,8 @@ s.updateSlidesSize = function () {
         }
         s.slides[i].swiperSlideSize = slideSize;
         s.slidesSizesGrid.push(slideSize);
-        
-        
+
+
         if (s.params.centeredSlides) {
             slidePosition = slidePosition + slideSize / 2 + prevSlideSize / 2 + spaceBetween;
             if (i === 0) slidePosition = slidePosition - s.size / 2 - spaceBetween;
@@ -601,7 +601,7 @@ s.updateSlidesSize = function () {
         }
     }
     if (s.snapGrid.length === 0) s.snapGrid = [0];
-        
+
     if (s.params.spaceBetween !== 0) {
         if (isH()) {
             if (s.rtl) s.slides.css({marginLeft: spaceBetween + 'px'});
@@ -671,7 +671,7 @@ s.updateProgress = function (translate) {
     }
     if (s.isBeginning) s.emit('onReachBeginning', s);
     if (s.isEnd) s.emit('onReachEnd', s);
-    
+
     if (s.params.watchSlidesProgress) s.updateSlidesProgress(translate);
     s.emit('onProgress', s, s.progress);
 };
@@ -732,7 +732,7 @@ s.updateClasses = function () {
             if (bulletIndex > s.slides.length - 1 - s.loopedSlides * 2) {
                 bulletIndex = bulletIndex - (s.slides.length - s.loopedSlides * 2);
             }
-            if (bulletIndex > s.bullets.length - 1) bulletIndex = bulletIndex - s.bullets.length; 
+            if (bulletIndex > s.bullets.length - 1) bulletIndex = bulletIndex - s.bullets.length;
         }
         else {
             if (typeof s.snapIndex !== 'undefined') {
@@ -831,7 +831,7 @@ s.update = function (updateTranslate) {
                 forceSetTranslate();
             }
         }
-            
+
     }
 };
 
@@ -861,7 +861,7 @@ s.onResize = function () {
             s.slideTo(s.activeIndex, 0, false, true);
         }
     }
-        
+
 };
 
 /*=========================
@@ -877,7 +877,7 @@ s.touchEvents = {
     move : s.support.touch || !s.params.simulateTouch ? 'touchmove' : desktopEvents[1],
     end : s.support.touch || !s.params.simulateTouch ? 'touchend' : desktopEvents[2]
 };
-    
+
 
 // WP8 Touch Events Fix
 if (window.navigator.pointerEnabled || window.navigator.msPointerEnabled) {
@@ -928,6 +928,9 @@ s.initEvents = function (detach) {
 
     // Prevent Links Clicks
     if (s.params.preventClicks || s.params.preventClicksPropagation) touchEventsTarget[action]('click', s.preventClicks, true);
+
+    // Stops Autoplay
+    s.stopAutoplay();
 };
 s.attachEvents = function (detach) {
     s.initEvents();
@@ -1030,19 +1033,19 @@ s.updateClickedSlide = function (e) {
     }
 };
 
-var isTouched, 
-    isMoved, 
-    touchStartTime, 
-    isScrolling, 
-    currentTranslate, 
-    startTranslate, 
+var isTouched,
+    isMoved,
+    touchStartTime,
+    isScrolling,
+    currentTranslate,
+    startTranslate,
     allowThresholdMove,
     // Form elements to match
     formElements = 'input, select, textarea, button',
     // Last click time
     lastClickTime = Date.now(), clickTimeout,
     //Velocities
-    velocities = [], 
+    velocities = [],
     allowMomentumBounce;
 
 // Animating Flag
@@ -1110,11 +1113,11 @@ s.onTouchMove = function (e) {
             return;
         }
     }
-    
+
     s.emit('onTouchMove', s, e);
-    
+
     if (e.targetTouches && e.targetTouches.length > 1) return;
-    
+
     s.touches.currentX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
     s.touches.currentY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY;
 
@@ -1190,7 +1193,7 @@ s.onTouchMove = function (e) {
         disableParentSwiper = false;
         if (s.params.resistance) currentTranslate = s.maxTranslate() + 1 - Math.pow(s.maxTranslate() - startTranslate - diff, s.params.resistanceRatio);
     }
-    
+
     if (disableParentSwiper) {
         e.preventedByNestedSwiper = true;
     }
@@ -1202,7 +1205,7 @@ s.onTouchMove = function (e) {
     if (!s.params.allowSwipeToPrev && s.swipeDirection === 'prev' && currentTranslate > startTranslate) {
         currentTranslate = startTranslate;
     }
-    
+
     if (!s.params.followFinger) return;
 
     // Threshold
@@ -1273,7 +1276,7 @@ s.onTouchEnd = function (e) {
                 }
                 s.emit('onClick', s, e);
             }, 300);
-            
+
         }
         if (timeDiff < 300 && (touchEndTime - lastClickTime) < 300) {
             if (clickTimeout) clearTimeout(clickTimeout);
@@ -1308,7 +1311,7 @@ s.onTouchEnd = function (e) {
             s.slideTo(s.slides.length - 1);
             return;
         }
-        
+
         if (s.params.freeModeMomentum) {
             if (velocities.length > 1) {
                 var lastMoveEvent = velocities.pop(), velocityEvent = velocities.pop();
@@ -1401,11 +1404,11 @@ s.onTouchEnd = function (e) {
                         s.onTransitionEnd();
                     });
                 }
-                    
+
             } else {
                 s.updateProgress(newPosition);
             }
-            
+
             s.updateActiveIndex();
         }
         if (!s.params.freeModeMomentum || timeDiff >= s.params.longSwipesMs) {
@@ -1434,7 +1437,7 @@ s.onTouchEnd = function (e) {
 
     // Find current slide size
     var ratio = (currentPos - s.slidesGrid[stopIndex]) / groupSize;
-    
+
     if (timeDiff > s.params.longSwipesMs) {
         // Long touches
         if (!s.params.longSwipes) {
@@ -1478,7 +1481,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     if (slideIndex < 0) slideIndex = 0;
     s.snapIndex = Math.floor(slideIndex / s.params.slidesPerGroup);
     if (s.snapIndex >= s.snapGrid.length) s.snapIndex = s.snapGrid.length - 1;
-    
+
     var translate = - s.snapGrid[s.snapIndex];
 
     // Stop autoplay
@@ -1504,7 +1507,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     if (typeof speed === 'undefined') speed = s.params.speed;
     s.previousIndex = s.activeIndex || 0;
     s.activeIndex = slideIndex;
-    
+
     if (translate === s.translate) {
         s.updateClasses();
         return false;
@@ -1525,7 +1528,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
                 s.onTransitionEnd(runCallbacks);
             });
         }
-            
+
     }
     s.updateClasses();
     return true;
@@ -1555,7 +1558,7 @@ s.onTransitionEnd = function (runCallbacks) {
     if (s.params.hashnav && s.hashnav) {
         s.hashnav.setHash();
     }
-        
+
 };
 s.slideNext = function (runCallbacks, speed, internal) {
     if (s.params.loop) {
@@ -1704,7 +1707,7 @@ function initObserver(target, options) {
             s.emit('onObserverUpdate', s, mutation);
         });
     });
-     
+
     observer.observe(target, {
         attributes: typeof options.attributes === 'undefined' ? true : options.attributes,
         childList: typeof options.childList === 'undefined' ? true : options.childList,
