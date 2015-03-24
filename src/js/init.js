@@ -46,10 +46,55 @@ s.init = function () {
     s.emit('onInit', s);
 };
 
+// Detach dynamic classNames
+s.detachClassNames = function () {
+    // Container
+    s.container.removeClass(s.classNames.join(' '));
+
+    // Slides
+    if (s.slides.length) {
+        s.slides.removeClass([
+          s.params.slideVisibleClass,
+          s.params.slideActiveClass,
+          s.params.slideNextClass,
+          s.params.slidePrevClass
+        ].join(' '));
+    }
+
+    // Bullets
+    if (s.bullets.length) {
+        s.bullets.removeClass([
+          s.params.bulletActiveClass,
+          s.params.buttonDisabledClass
+        ].join(' '));
+    }
+};
+
+// Cleanup dynamic styles
+s.cleanupStyles = function () {
+    s.container.removeAttr('style');
+    s.wrapper.removeAttr('style');
+
+    if (s.params.scrollbar) {
+        s.scrollbar.track.removeAttr('style');
+        s.scrollbar.drag.removeAttr('style');
+    }
+
+    if (s.slides.length) s.slides.removeAttr('style');
+};
+
 // Destroy
 s.destroy = function (deleteInstance) {
     s.detachEvents();
     s.stopAutoplay();
+
+    s.detachClassNames();
+    s.cleanupStyles();
+
+    if (s.params.loop) {
+        s.destroyLoop();
+    }
+
     s.disconnectObservers();
     if (s.params.keyboardControl) {
         if (s.disableKeyboardControl) s.disableKeyboardControl();
