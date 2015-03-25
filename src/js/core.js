@@ -1764,6 +1764,7 @@ s.createLoop = function () {
 };
 s.destroyLoop = function () {
     s.wrapper.children('.' + s.params.slideClass + '.' + s.params.slideDuplicateClass).remove();
+    s.slides.removeAttr('data-swiper-slide-index');
 };
 s.fixLoop = function () {
     var newIndex;
