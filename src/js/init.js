@@ -46,64 +46,73 @@ s.init = function () {
     s.emit('onInit', s);
 };
 
-// Detach dynamic classNames
-s.detachClassNames = function () {
-    // Container
-    s.container.removeClass(s.classNames.join(' '));
-
-    // Slides
-    if (s.slides.length) {
-        s.slides.removeClass([
-          s.params.slideVisibleClass,
-          s.params.slideActiveClass,
-          s.params.slideNextClass,
-          s.params.slidePrevClass
-        ].join(' '));
-    }
-
-    // Bullets
-    if (s.bullets.length) {
-        s.bullets.removeClass([
-          s.params.bulletActiveClass,
-          s.params.buttonDisabledClass
-        ].join(' '));
-    }
-};
-
 // Cleanup dynamic styles
 s.cleanupStyles = function () {
-    s.container.removeAttr('style');
+    // Container
+    s.container.removeClass(s.classNames.join(' ')).removeAttr('style');
+
+    // Wrapper
     s.wrapper.removeAttr('style');
 
-    if (s.params.scrollbar) {
-        s.scrollbar.track.removeAttr('style');
-        s.scrollbar.drag.removeAttr('style');
+    // Slides
+    if (s.slides && s.slides.length) {
+        s.slides
+            .removeClass([
+              s.params.slideVisibleClass,
+              s.params.slideActiveClass,
+              s.params.slideNextClass,
+              s.params.slidePrevClass
+            ].join(' '))
+            .removeAttr('style');
     }
 
-    if (s.slides.length) s.slides.removeAttr('style');
+    // Pagination/Bullets
+    if (s.paginationContainer && s.paginationContainer.length) {
+        s.paginationContainer.removeClass(s.params.paginationHiddenClass);
+    }
+    if (s.bullets && s.bullets.length) {
+        s.bullets.removeClass(s.params.bulletActiveClass);
+    }
+
+    // Buttons
+    if (s.params.prevButton) $(s.params.prevButton).removeClass(s.params.buttonDisabledClass);
+    if (s.params.nextButton) $(s.params.nextButton).removeClass(s.params.buttonDisabledClass);
+
+    // Scrollbar
+    if (s.params.scrollbar && s.scrollbar) {
+        if (s.scrollbar.track && s.scrollbar.track.length) s.scrollbar.track.removeAttr('style');
+        if (s.scrollbar.drag && s.scrollbar.drag.length) s.scrollbar.drag.removeAttr('style');
+    }
 };
 
 // Destroy
-s.destroy = function (deleteInstance) {
+s.destroy = function (deleteInstance, cleanupStyles) {
+    // Detach evebts
     s.detachEvents();
+    // Stop autoplay
     s.stopAutoplay();
-
-    s.detachClassNames();
-    s.cleanupStyles();
-
+    // Destroy loop
     if (s.params.loop) {
         s.destroyLoop();
     }
-
+    // Cleanup styles
+    if (cleanupStyles) {
+        s.cleanupStyles();
+    }
+    // Disconnect observer
     s.disconnectObservers();
+    // Disable keyboard/mousewheel
     if (s.params.keyboardControl) {
         if (s.disableKeyboardControl) s.disableKeyboardControl();
     }
     if (s.params.mousewheelControl) {
         if (s.disableMousewheelControl) s.disableMousewheelControl();
     }
+    // Disable a11y
     if (s.params.a11y && s.a11y) s.a11y.destroy();
+    // Destroy callback
     s.emit('onDestroy');
+    // Delete instance
     if (deleteInstance !== false) s = null;
 };
 
