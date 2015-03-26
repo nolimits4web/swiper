@@ -63,7 +63,9 @@ s.cleanupStyles = function () {
               s.params.slideNextClass,
               s.params.slidePrevClass
             ].join(' '))
-            .removeAttr('style');
+            .removeAttr('style')
+            .removeAttr('data-swiper-column')
+            .removeAttr('data-swiper-row');
     }
 
     // Pagination/Bullets
