@@ -127,6 +127,7 @@ var Dom7 = (function () {
             for (var i = 0; i < this.length; i++) {
                 this[i].removeAttribute(attr);
             }
+            return this;
         },
         data: function (key, value) {
             if (typeof value === 'undefined') {
