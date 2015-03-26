@@ -156,6 +156,8 @@ var defaults = {
     */
 
 };
+var initalVirtualTranslate = params && params.virtualTranslate;
+
 params = params || {};
 for (var def in defaults) {
     if (typeof params[def] === 'undefined') {
@@ -250,7 +252,9 @@ if (s.params.effect === 'fade') {
     s.params.slidesPerGroup = 1;
     s.params.watchSlidesProgress = true;
     s.params.spaceBetween = 0;
-    s.params.virtualTranslate = true;
+    if (typeof initalVirtualTranslate === 'undefined') {
+        s.params.virtualTranslate = true;
+    }
 }
 
 // Grab Cursor
