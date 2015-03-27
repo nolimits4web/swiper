@@ -1,5 +1,10 @@
 # Change Log
 
+## Swiper 3.0.6 - Released on March 27, 2015
+  * Fixed sometimes wrong slides position when using "Fade" effect
+  * `.destroy(deleteInstance, cleanupStyles)` method now has second `cleanupStyles` argument, when passed - all custom styles will be removed from slides, wrapper and container. Useful if you need to destroy Swiper and to init again with new options or in different direction
+  * Minor fixes
+
 ## Swiper 3.0.5 - Released on March 21, 2015
   * New Keyboard accessibility module to provide foucsable navigation buttons and basic ARIA for screen readers with new parameters:
     * `a11y: false` - enable accessibility
