@@ -33,6 +33,9 @@ s.effects = {
             s.slides.transition(duration);
             if (s.params.virtualTranslate && duration !== 0) {
                 var fadeIndex = s.effects.fade.fadeIndex !== null ? s.effects.fade.fadeIndex : s.activeIndex;
+                if (!(s.params.loop || s.params.fade.crossFade) && fadeIndex === 0) {
+                    fadeIndex = s.slides.length - 1;
+                }
                 s.slides.eq(fadeIndex).transitionEnd(function () {
                     var triggerEvents = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'];
                     for (var i = 0; i < triggerEvents.length; i++) {
