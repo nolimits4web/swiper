@@ -156,7 +156,7 @@ var defaults = {
     */
 
 };
-var initalVirtualTranslate = params && params.virtualTranslate;
+var initialVirtualTranslate = params && params.virtualTranslate;
 
 params = params || {};
 for (var def in defaults) {
@@ -252,7 +252,7 @@ if (s.params.effect === 'fade') {
     s.params.slidesPerGroup = 1;
     s.params.watchSlidesProgress = true;
     s.params.spaceBetween = 0;
-    if (typeof initalVirtualTranslate === 'undefined') {
+    if (typeof initialVirtualTranslate === 'undefined') {
         s.params.virtualTranslate = true;
     }
 }
