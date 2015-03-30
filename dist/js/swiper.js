@@ -289,12 +289,23 @@
         
         // Pagination
         if (s.params.pagination) {
-            s.paginationContainer = $(s.params.pagination);
+            s.paginationContainer = s.container.find(s.params.pagination);
             if (s.params.paginationClickable) {
                 s.paginationContainer.addClass('swiper-pagination-clickable');
             }
         }
+
+        // Prev / next buttons
+        s.controls = {};
+
+        if (s.params.prevButton) {
+            s.controls.prevButton = s.container.find(s.params.prevButton);
+        }
         
+        if (s.params.nextButton) {
+            s.controls.nextButton = s.container.find(s.params.nextButton);
+        }
+
         // Is Horizontal
         function isH() {
             return s.params.direction === 'horizontal';
@@ -782,22 +793,22 @@
             if (!s.params.loop) {
                 if (s.params.prevButton) {
                     if (s.isBeginning) {
-                        $(s.params.prevButton).addClass(s.params.buttonDisabledClass);
-                        if (s.params.a11y && s.a11y) s.a11y.disable($(s.params.prevButton));
+                        s.controls.prevButton.addClass(s.params.buttonDisabledClass);
+                        if (s.params.a11y && s.a11y) s.a11y.disable(s.controls.prevButton);
                     }
                     else {
-                        $(s.params.prevButton).removeClass(s.params.buttonDisabledClass);
-                        if (s.params.a11y && s.a11y) s.a11y.enable($(s.params.prevButton));
+                        s.controls.prevButton.removeClass(s.params.buttonDisabledClass);
+                        if (s.params.a11y && s.a11y) s.a11y.enable(s.controls.prevButton);
                     }
                 }
                 if (s.params.nextButton) {
                     if (s.isEnd) {
-                        $(s.params.nextButton).addClass(s.params.buttonDisabledClass);
-                        if (s.params.a11y && s.a11y) s.a11y.disable($(s.params.nextButton));
+                        s.controls.nextButton.addClass(s.params.buttonDisabledClass);
+                        if (s.params.a11y && s.a11y) s.a11y.disable(s.controls.nextButton);
                     }
                     else {
-                        $(s.params.nextButton).removeClass(s.params.buttonDisabledClass);
-                        if (s.params.a11y && s.a11y) s.a11y.enable($(s.params.nextButton));
+                        s.controls.nextButton.removeClass(s.params.buttonDisabledClass);
+                        if (s.params.a11y && s.a11y) s.a11y.enable(s.controls.nextButton);
                     }
                 }
             }
@@ -941,12 +952,12 @@
         
             // Next, Prev, Index
             if (s.params.nextButton) {
-                $(s.params.nextButton)[actionDom]('click', s.onClickNext);
-                if (s.params.a11y && s.a11y) $(s.params.nextButton)[actionDom]('keydown', s.a11y.onEnterKey);
+                s.controls.nextButton[actionDom]('click', s.onClickNext);
+                if (s.params.a11y && s.a11y) s.controls.nextButton[actionDom]('keydown', s.a11y.onEnterKey);
             }
             if (s.params.prevButton) {
-                $(s.params.prevButton)[actionDom]('click', s.onClickPrev);
-                if (s.params.a11y && s.a11y) $(s.params.prevButton)[actionDom]('keydown', s.a11y.onEnterKey);
+                s.controls.prevButton[actionDom]('click', s.onClickPrev);
+                if (s.params.a11y && s.a11y) s.controls.prevButton[actionDom]('keydown', s.a11y.onEnterKey);
             }
             if (s.params.pagination && s.params.paginationClickable) {
                 $(s.paginationContainer)[actionDom]('click', '.' + s.params.bulletClass, s.onClickIndex);
@@ -2716,13 +2727,13 @@
             init: function () {
                 // Setup accessibility
                 if (s.params.nextButton) {
-                    var nextButton = $(s.params.nextButton);
+                    var nextButton = s.controls.nextButton;
                     s.a11y.makeFocusable(nextButton);
                     s.a11y.addRole(nextButton, 'button');
                     s.a11y.addLabel(nextButton, s.params.nextSlideMsg);
                 }
                 if (s.params.prevButton) {
-                    var prevButton = $(s.params.prevButton);
+                    var prevButton = s.controls.prevButton;
                     s.a11y.makeFocusable(prevButton);
                     s.a11y.addRole(prevButton, 'button');
                     s.a11y.addLabel(prevButton, s.params.prevSlideMsg);
@@ -2815,8 +2826,8 @@
             }
         
             // Buttons
-            if (s.params.prevButton) $(s.params.prevButton).removeClass(s.params.buttonDisabledClass);
-            if (s.params.nextButton) $(s.params.nextButton).removeClass(s.params.buttonDisabledClass);
+            if (s.params.prevButton) s.controls.prevButton.removeClass(s.params.buttonDisabledClass);
+            if (s.params.nextButton) s.controls.nextButton.removeClass(s.params.buttonDisabledClass);
         
             // Scrollbar
             if (s.params.scrollbar && s.scrollbar) {
