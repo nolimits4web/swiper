@@ -3,8 +3,9 @@
   ===========================*/
 s.lazy = {
     initialImageLoaded: false,
-    loadImageInSlide: function (index) {
+    loadImageInSlide: function (index, loadInDuplicate) {
         if (typeof index === 'undefined') return;
+        if (typeof loadInDuplicate === 'undefined') loadInDuplicate = true;
         if (s.slides.length === 0) return;
         
         var slide = s.slides.eq(index);
@@ -22,7 +23,17 @@ s.lazy = {
                 _img.removeAttr('data-src');
                 _img.addClass('swiper-lazy-loaded').removeClass('swiper-lazy-loading');
                 slide.find('.swiper-lazy-preloader, .preloader').remove();
-
+                if (s.params.loop && loadInDuplicate) {
+                    var slideOriginalIndex = slide.attr('data-swiper-slide-index');
+                    if (slide.hasClass(s.params.slideDuplicateClass)) {
+                        var originalSlide = s.wrapper.children('[data-swiper-slide-index="' + slideOriginalIndex + '"]:not(.' + s.params.slideDuplicateClass + ')');
+                        s.lazy.loadImageInSlide(originalSlide.index(), false);
+                    }
+                    else {
+                        var duplicatedSlide = s.wrapper.children('.' + s.params.slideDuplicateClass + '[data-swiper-slide-index="' + slideOriginalIndex + '"]');
+                        s.lazy.loadImageInSlide(duplicatedSlide.index(), false);
+                    }
+                }
                 s.emit('onLazyImageReady', s, slide[0], _img[0]);
             });
             
