@@ -45,7 +45,7 @@
         line-height: 300px;
     }
     </style>
-    <script src="../build/js/swiper.js"></script>
+    <script src="../dist/js/swiper.js"></script>
     <script>
         var swiper = new Swiper('.swiper-container', {
             spaceBetween: 50,
@@ -58,6 +58,8 @@
             scrollbar: '.swiper-scrollbar',
             pagination: '.swiper-pagination',
         });
+
+        window.__swiper = swiper;
     </script>
 </body>
 </html>
