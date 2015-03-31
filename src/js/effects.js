@@ -37,6 +37,7 @@ s.effects = {
                     fadeIndex = s.slides.length - 1;
                 }
                 s.slides.eq(fadeIndex).transitionEnd(function () {
+                    if (!s) return;
                     var triggerEvents = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'];
                     for (var i = 0; i < triggerEvents.length; i++) {
                         s.wrapper.trigger(triggerEvents[i]);
