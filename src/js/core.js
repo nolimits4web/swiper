@@ -101,6 +101,8 @@ var defaults = {
     // Swiping/no swiping
     allowSwipeToPrev: true,
     allowSwipeToNext: true,
+    allowSlideToPrev: true,
+    allowSlideToNext: true,
     swipeHandler: null, //'.swipe-handler',
     noSwiping: true,
     noSwipingClass: 'swiper-no-swiping',
