@@ -101,8 +101,6 @@ var defaults = {
     // Swiping/no swiping
     allowSwipeToPrev: true,
     allowSwipeToNext: true,
-    allowSlideToPrev: true,
-    allowSlideToNext: true,
     swipeHandler: null, //'.swipe-handler',
     noSwiping: true,
     noSwipingClass: 'swiper-no-swiping',
@@ -331,25 +329,6 @@ s.unlockSwipeToPrev = function () {
 };
 s.unlockSwipes = function () {
     s.params.allowSwipeToNext = s.params.allowSwipeToPrev = true;
-};
-
-s.lockSlideToNext = function () {
-    s.params.allowSlideToNext = false;
-};
-s.lockSlideToPrev = function () {
-    s.params.allowSlideToPrev = false;
-};
-s.lockSlideTo = function () {
-    s.params.allowSlideToNext = s.params.allowSlideToPrev = false;
-};
-s.unlockSlideToNext = function () {
-    s.params.allowSlideToNext = true;
-};
-s.unlockSlideToPrev = function () {
-    s.params.allowSlideToPrev = true;
-};
-s.unlockSlideTo = function () {
-    s.params.allowSlideToNext = s.params.allowSlideToPrev = true;
 };
 
 
