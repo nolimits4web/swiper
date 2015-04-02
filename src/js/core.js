@@ -1485,6 +1485,14 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
 
     var translate = - s.snapGrid[s.snapIndex];
 
+    // Directions locks
+    if (!s.params.allowSwipeToNext && translate < s.translate) {
+        return false;
+    }
+    if (!s.params.allowSwipeToPrev && translate > s.translate) {
+        return false;
+    }
+
     // Stop autoplay
 
     if (s.params.autoplay && s.autoplaying) {
