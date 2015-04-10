@@ -4,6 +4,13 @@
 function handleKeyboard(e) {
     if (e.originalEvent) e = e.originalEvent; //jquery fix
     var kc = e.keyCode || e.charCode;
+    // Directions locks
+    if (!s.params.allowSwipeToNext && (isH() && kc === 39 || !isH() && kc === 40)) {
+        return false;
+    }
+    if (!s.params.allowSwipeToPrev && (isH() && kc === 37 || !isH() && kc === 38)) {
+        return false;
+    }
     if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) {
         return;
     }
