@@ -68,7 +68,6 @@ s.lazy = {
     onTransitionStart: function () {
         if (s.params.lazyLoading) {
             if (s.params.lazyLoadingOnTransitionStart || (!s.params.lazyLoadingOnTransitionStart && !s.lazy.initialImageLoaded)) {
-                s.lazy.initialImageLoaded = true;
                 s.lazy.load();
             }
         }

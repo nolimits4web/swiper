@@ -433,6 +433,7 @@ s.pauseAutoplay = function (speed) {
     }
     else {
         s.wrapper.transitionEnd(function () {
+            if (!s) return;
             s.autoplayPaused = false;
             if (!s.autoplaying) {
                 s.stopAutoplay();
@@ -1385,12 +1386,13 @@ s.onTouchEnd = function (e) {
                 s.onTransitionStart();
                 s.animating = true;
                 s.wrapper.transitionEnd(function () {
-                    if (!allowMomentumBounce) return;
+                    if (!s || !allowMomentumBounce) return;
                     s.emit('onMomentumBounce', s);
 
                     s.setWrapperTransition(s.params.speed);
                     s.setWrapperTranslate(afterBouncePosition);
                     s.wrapper.transitionEnd(function () {
+                        if (!s) return;
                         s.onTransitionEnd();
                     });
                 });
@@ -1402,6 +1404,7 @@ s.onTouchEnd = function (e) {
                 if (!s.animating) {
                     s.animating = true;
                     s.wrapper.transitionEnd(function () {
+                        if (!s) return;
                         s.onTransitionEnd();
                     });
                 }
@@ -1521,6 +1524,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
         s.updateClasses();
         return false;
     }
+    s.updateClasses();
     s.onTransitionStart(runCallbacks);
     var translateX = isH() ? translate : 0, translateY = isH() ? 0 : translate;
     if (speed === 0) {
@@ -1534,12 +1538,13 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
         if (!s.animating) {
             s.animating = true;
             s.wrapper.transitionEnd(function () {
+                if (!s) return;
                 s.onTransitionEnd(runCallbacks);
             });
         }
 
     }
-    s.updateClasses();
+    
     return true;
 };
 
