@@ -70,5 +70,6 @@ s.disableKeyboardControl = function () {
     $(document).off('keydown', handleKeyboard);
 };
 s.enableKeyboardControl = function () {
-    $(document).on('keydown', handleKeyboard);
+	s.disableKeyboardControl();
+	$(document).on('keydown', handleKeyboard);
 };
