@@ -3,11 +3,11 @@ Swiper AMD Export
 ===========================*/
 if (typeof(module) !== 'undefined')
 {
-    module.exports = Swiper;
+    module.exports = window.Swiper;
 }
 else if (typeof define === 'function' && define.amd) {
     define([], function () {
         'use strict';
-        return Swiper;
+        return window.Swiper;
     });
 }
