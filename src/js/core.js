@@ -457,8 +457,13 @@ s.maxTranslate = function () {
   Slider/slides sizes
   ===========================*/
 s.updateContainerSize = function () {
-    s.width = s.container[0].clientWidth;
-    s.height = s.container[0].clientHeight;
+    var width = s.container[0].clientWidth;
+    var height = s.container[0].clientHeight;
+    if (width === 0 && isH() || height === 0 && !isH()) {
+        return;
+    }
+    s.width = width;
+    s.height = height;
     s.size = isH() ? s.width : s.height;
 };
 
@@ -843,11 +848,11 @@ s.update = function (updateTranslate) {
 /*=========================
   Resize Handler
   ===========================*/
-s.onResize = function () {
+s.onResize = function (forceUpdatePagination) {
     s.updateContainerSize();
     s.updateSlidesSize();
     s.updateProgress();
-    if (s.params.slidesPerView === 'auto' || s.params.freeMode) s.updatePagination();
+    if (s.params.slidesPerView === 'auto' || s.params.freeMode || forceUpdatePagination) s.updatePagination();
     if (s.params.scrollbar && s.scrollbar) {
         s.scrollbar.set();
     }
@@ -1717,7 +1722,7 @@ function initObserver(target, options) {
     var ObserverFunc = window.MutationObserver || window.WebkitMutationObserver;
     var observer = new ObserverFunc(function (mutations) {
         mutations.forEach(function (mutation) {
-            s.onResize();
+            s.onResize(true);
             s.emit('onObserverUpdate', s, mutation);
         });
     });
