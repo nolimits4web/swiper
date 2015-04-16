@@ -917,8 +917,8 @@ s.initEvents = function (detach) {
         }
         if (params.simulateTouch && !s.device.ios && !s.device.android) {
             touchEventsTarget[action]('mousedown', s.onTouchStart, false);
-            target[action]('mousemove', s.onTouchMove, moveCapture);
-            target[action]('mouseup', s.onTouchEnd, false);
+            document[action]('mousemove', s.onTouchMove, moveCapture);
+            document[action]('mouseup', s.onTouchEnd, false);
         }
     }
     window[action]('resize', s.onResize);
