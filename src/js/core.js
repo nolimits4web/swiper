@@ -457,8 +457,19 @@ s.maxTranslate = function () {
   Slider/slides sizes
   ===========================*/
 s.updateContainerSize = function () {
-    var width = s.container[0].clientWidth;
-    var height = s.container[0].clientHeight;
+    var width, height;
+    if (typeof s.params.width !== 'undefined') {
+        width = s.params.width;
+    }
+    else {
+        width = s.container[0].clientWidth;
+    }
+    if (typeof s.params.height !== 'undefined') {
+        height = s.params.height;
+    }
+    else {
+        height = s.container[0].clientHeight;
+    }
     if (width === 0 && isH() || height === 0 && !isH()) {
         return;
     }
