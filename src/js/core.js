@@ -1326,7 +1326,12 @@ s.onTouchEnd = function (e) {
             return;
         }
         else if (currentPos > -s.maxTranslate()) {
-            s.slideTo(s.slides.length - 1);
+            if (s.slides.length < s.snapGrid.length) {
+                s.slideTo(s.snapGrid.length - 1);    
+            }
+            else {
+                s.slideTo(s.slides.length - 1);
+            }
             return;
         }
 
