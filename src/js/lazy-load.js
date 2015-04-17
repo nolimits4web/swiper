@@ -9,18 +9,27 @@ s.lazy = {
         if (s.slides.length === 0) return;
         
         var slide = s.slides.eq(index);
-        var img = slide.find('img.swiper-lazy:not(.swiper-lazy-loaded):not(.swiper-lazy-loading)');
+        var img = slide.find('.swiper-lazy:not(.swiper-lazy-loaded):not(.swiper-lazy-loading)');
+        if (slide.hasClass('swiper-lazy') && !slide.hasClass('swiper-lazy-loaded') && !slide.hasClass('swiper-lazy-loading')) {
+            img.add(slide[0]);
+        }
         if (img.length === 0) return;
 
         img.each(function () {
             var _img = $(this);
             _img.addClass('swiper-lazy-loading');
-
+            var background = _img.attr('data-background');
             var src = _img.attr('data-src');
-
-            s.loadImage(_img[0], src, false, function () {
-                _img.attr('src', src);
-                _img.removeAttr('data-src');
+            s.loadImage(_img[0], (src || background), false, function () {
+                if (background) {
+                    _img.css('background-image', 'url(' + background + ')');
+                    _img.removeAttr('data-background');
+                }
+                else {
+                    _img.attr('src', src);
+                    _img.removeAttr('data-src');
+                }
+                    
                 _img.addClass('swiper-lazy-loaded').removeClass('swiper-lazy-loading');
                 slide.find('.swiper-lazy-preloader, .preloader').remove();
                 if (s.params.loop && loadInDuplicate) {
