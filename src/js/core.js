@@ -12,6 +12,7 @@ var defaults = {
     freeModeMomentumRatio: 1,
     freeModeMomentumBounce: true,
     freeModeMomentumBounceRatio: 1,
+    freeModeSticky: false,
     // Set wrapper width
     setWrapperSize: false,
     // Virtual Translate
@@ -1376,8 +1377,7 @@ s.onTouchEnd = function (e) {
                 else {
                     newPosition = s.maxTranslate();
                 }
-            }
-            if (newPosition > s.minTranslate()) {
+            } else if (newPosition > s.minTranslate()) {
                 if (s.params.freeModeMomentumBounce) {
                     if (newPosition - s.minTranslate() > bounceAmount) {
                         newPosition = s.minTranslate() + bounceAmount;
@@ -1389,6 +1389,22 @@ s.onTouchEnd = function (e) {
                 else {
                     newPosition = s.minTranslate();
                 }
+            } else if (s.params.freeModeSticky) {
+                var i = 0,
+                    nextSlide;
+                for (i = 0; i < s.slidesGrid.length; i += 1) {
+                    if (s.slidesGrid[i] > Math.abs(newPosition)) {
+                       nextSlide = i;
+                       break;
+                    }
+                }
+                if (Math.abs(s.slidesGrid[nextSlide] - newPosition)
+                        < Math.abs(s.slidesGrid[nextSlide - 1] - newPosition)) {
+                    newPosition = s.slidesGrid[nextSlide];
+                } else {
+                    newPosition = s.slidesGrid[nextSlide - 1];
+                }
+                if (!s.rtl) newPosition = - newPosition;
             }
             //Fix duration
             if (s.velocity !== 0) {
