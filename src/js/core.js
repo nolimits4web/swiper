@@ -1866,6 +1866,7 @@ s.prependSlide = function (slides) {
 s.removeSlide = function (slidesIndexes) {
     if (s.params.loop) {
         s.destroyLoop();
+        s.slides = s.wrapper.children('.' + s.params.slideClass);
     }
     var newActiveIndex = s.activeIndex,
         indexToRemove;
@@ -1884,10 +1885,20 @@ s.removeSlide = function (slidesIndexes) {
         newActiveIndex = Math.max(newActiveIndex, 0);
     }
 
+    if (s.params.loop) {
+        s.createLoop();
+    }
+
     if (!(s.params.observer && s.support.observer)) {
         s.update(true);
     }
-    s.slideTo(newActiveIndex, 0, false);
+    if (s.params.loop) {
+        s.slideTo(newActiveIndex + s.loopedSlides, 0, false);
+    }
+    else {
+        s.slideTo(newActiveIndex, 0, false);
+    }
+        
 };
 s.removeAllSlides = function () {
     var slidesIndexes = [];
