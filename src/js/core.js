@@ -1013,7 +1013,14 @@ function findElementInEvent(e, selector) {
 }
 s.updateClickedSlide = function (e) {
     var slide = findElementInEvent(e, '.' + s.params.slideClass);
+    var slideFound = false;
     if (slide) {
+        for (var i = 0; i < s.slides.length; i++) {
+            if (s.slides[i] === slide) slideFound = true;
+        }
+    }
+    
+    if (slide && slideFound) {
         s.clickedSlide = slide;
         s.clickedIndex = $(slide).index();
     }
