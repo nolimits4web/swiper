@@ -2,14 +2,14 @@
   Mousewheel Control
   ===========================*/
 s._wheelEvent = false;
-s._lastWheelScrollTime = (new Date()).getTime();
+s._lastWheelScrollTime = (new window.Date()).getTime();
 if (s.params.mousewheelControl) {
     if (document.onmousewheel !== undefined) {
         s._wheelEvent = 'mousewheel';
     }
     if (!s._wheelEvent) {
         try {
-            new WheelEvent('wheel');
+            new window.WheelEvent('wheel');
             s._wheelEvent = 'wheel';
         } catch (e) {}
     }
@@ -59,11 +59,11 @@ function handleMousewheel(e) {
     }
 
     if (!s.params.freeMode) {
-        if ((new Date()).getTime() - s._lastWheelScrollTime > 60) {
+        if ((new window.Date()).getTime() - s._lastWheelScrollTime > 60) {
             if (delta < 0) s.slideNext();
             else s.slidePrev();
         }
-        s._lastWheelScrollTime = (new Date()).getTime();
+        s._lastWheelScrollTime = (new window.Date()).getTime();
 
     }
     else {

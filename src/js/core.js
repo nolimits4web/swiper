@@ -355,7 +355,7 @@ s.loadImage = function (imgElement, src, checkForComplete, callback) {
     }
     if (!imgElement.complete || !checkForComplete) {
         if (src) {
-            image = new Image();
+            image = new window.Image();
             image.onload = onReady;
             image.onerror = onReady;
             image.src = src;
@@ -1265,7 +1265,7 @@ s.onTouchMove = function (e) {
         }
         velocities.push({
             position: s.touches[isH() ? 'currentX' : 'currentY'],
-            time: (new Date()).getTime()
+            time: (new window.Date()).getTime()
         });
     }
     // Update progress
@@ -1356,7 +1356,7 @@ s.onTouchEnd = function (e) {
                 }
                 // this implies that the user stopped moving a finger then released.
                 // There would be no events with distance zero, so the last event is stale.
-                if (time > 150 || (new Date().getTime() - lastMoveEvent.time) > 300) {
+                if (time > 150 || (new window.Date().getTime() - lastMoveEvent.time) > 300) {
                     s.velocity = 0;
                 }
             } else {
@@ -1594,7 +1594,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
         }
 
     }
-    
+
     return true;
 };
 
@@ -1718,7 +1718,7 @@ s.getTranslate = function (el, axis) {
     if (window.WebKitCSSMatrix) {
         // Some old versions of Webkit choke when 'none' is passed; pass
         // empty string instead in this case
-        transformMatrix = new WebKitCSSMatrix(curStyle.webkitTransform === 'none' ? '' : curStyle.webkitTransform);
+        transformMatrix = new window.WebKitCSSMatrix(curStyle.webkitTransform === 'none' ? '' : curStyle.webkitTransform);
     }
     else {
         transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform  || curStyle.transform || curStyle.getPropertyValue('transform').replace('translate(', 'matrix(1, 0, 0, 1,');
