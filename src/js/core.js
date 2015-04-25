@@ -12,6 +12,7 @@ var defaults = {
     freeModeMomentumRatio: 1,
     freeModeMomentumBounce: true,
     freeModeMomentumBounceRatio: 1,
+    freeModeSticky: false,
     // Set wrapper width
     setWrapperSize: false,
     // Virtual Translate
@@ -1377,7 +1378,7 @@ s.onTouchEnd = function (e) {
                     newPosition = s.maxTranslate();
                 }
             }
-            if (newPosition > s.minTranslate()) {
+            else if (newPosition > s.minTranslate()) {
                 if (s.params.freeModeMomentumBounce) {
                     if (newPosition - s.minTranslate() > bounceAmount) {
                         newPosition = s.minTranslate() + bounceAmount;
@@ -1390,6 +1391,23 @@ s.onTouchEnd = function (e) {
                     newPosition = s.minTranslate();
                 }
             }
+            else if (s.params.freeModeSticky) {
+                var j = 0,
+                    nextSlide;
+                for (j = 0; j < s.snapGrid.length; j += 1) {
+                    if (s.snapGrid[j] > -newPosition) {
+                        nextSlide = j;
+                        break;
+                    }
+                        
+                }
+                if (Math.abs(s.snapGrid[nextSlide] - newPosition) < Math.abs(s.snapGrid[nextSlide - 1] - newPosition) || s.swipeDirection === 'next') {
+                    newPosition = s.snapGrid[nextSlide];
+                } else {
+                    newPosition = s.snapGrid[nextSlide - 1];
+                }
+                if (!s.rtl) newPosition = - newPosition;
+            }
             //Fix duration
             if (s.velocity !== 0) {
                 if (s.rtl) {
@@ -1398,6 +1416,10 @@ s.onTouchEnd = function (e) {
                 else {
                     momentumDuration = Math.abs((newPosition - s.translate) / s.velocity);
                 }
+            }
+            else if (s.params.freeModeSticky) {
+                s.slideReset();
+                return;
             }
 
             if (s.params.freeModeMomentumBounce && doBounce) {
