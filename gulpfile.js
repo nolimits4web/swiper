@@ -85,7 +85,7 @@
                 'src/js/amd.js'
             ],
             Framework7Files : [
-                'src/js/swiper-intro.js',
+                'src/js/swiper-intro-f7.js',
                 'src/js/core.js',
                 'src/js/effects.js',
                 'src/js/lazy-load.js',
@@ -129,7 +129,7 @@
         if (filename === 'wrap-start.js' || filename === 'wrap-end.js' || filename === 'amd.js') {
             addIndent = '';
         }
-        if (filename === 'swiper-intro.js' || filename === 'swiper-outro.js' || filename === 'dom.js' || filename === 'dom-plugins.js' || filename === 'swiper-proto.js') addIndent = '    ';
+        if (filename === 'swiper-intro.js' || filename === 'swiper-intro-f7.js' || filename === 'swiper-outro.js' || filename === 'dom.js' || filename === 'dom-plugins.js' || filename === 'swiper-proto.js') addIndent = '    ';
         if (minusIndent) {
             addIndent = addIndent.substring(4);
         }
