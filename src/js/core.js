@@ -176,6 +176,9 @@ for (var def in defaults) {
 // Swiper
 var s = this;
 
+// Version
+s.version = '3.0.7';
+
 // Params
 s.params = params;
 
