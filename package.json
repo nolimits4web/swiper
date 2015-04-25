@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/js/swiper.js",
   "files": ["dist", "src", "*.json", "*.js"],
@@ -23,7 +23,7 @@
   "devDependencies": {
     "jshint": "~2.7.0",
     "gulp": "~3.8.11",
-    "gulp-less": "~3.0.2",
+    "gulp-less": "~3.0.3",
     "gulp-connect": "~2.2.0",
     "gulp-open": "~0.3.2",
     "gulp-uglify": "~1.2.0",
@@ -32,10 +32,10 @@
     "gulp-minify-css": "1.1.0",
     "gulp-jshint": "~1.10.0",
     "gulp-concat": "~2.5.2",
-    "gulp-rename": "~1.2.0",
+    "gulp-rename": "~1.2.2",
     "gulp-header": "~1.2.2",
     "gulp-tap": "~0.1.3",
-    "jshint-stylish": "~1.0.0"
+    "jshint-stylish": "~1.0.1"
   },
   "scripts": {
     "test": "gulp build"
