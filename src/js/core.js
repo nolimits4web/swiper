@@ -1315,7 +1315,7 @@ s.onTouchEnd = function (e) {
 
     lastClickTime = Date.now();
     setTimeout(function () {
-        if (s && s.allowClick) s.allowClick = true;
+        if (s) s.allowClick = true;
     }, 0);
 
     if (!isTouched || !isMoved || !s.swipeDirection || s.touches.diff === 0 || currentTranslate === startTranslate) {
