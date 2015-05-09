@@ -5,6 +5,7 @@ s.effects = {
     fade: {
         fadeIndex: null,
         setTranslate: function () {
+            s.effects.fade.fadeIndex = null;
             for (var i = 0; i < s.slides.length; i++) {
                 var slide = s.slides.eq(i);
                 var offset = slide[0].swiperSlideOffset;
@@ -38,6 +39,7 @@ s.effects = {
                 }
                 s.slides.eq(fadeIndex).transitionEnd(function () {
                     if (!s) return;
+                    s.animating = false;
                     var triggerEvents = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'];
                     for (var i = 0; i < triggerEvents.length; i++) {
                         s.wrapper.trigger(triggerEvents[i]);
