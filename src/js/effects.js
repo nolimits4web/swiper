@@ -3,9 +3,7 @@
   ===========================*/
 s.effects = {
     fade: {
-        fadeIndex: null,
         setTranslate: function () {
-            s.effects.fade.fadeIndex = null;
             for (var i = 0; i < s.slides.length; i++) {
                 var slide = s.slides.eq(i);
                 var offset = slide[0].swiperSlideOffset;
@@ -19,9 +17,6 @@ s.effects = {
                 var slideOpacity = s.params.fade.crossFade ?
                         Math.max(1 - Math.abs(slide[0].progress), 0) :
                         1 + Math.min(Math.max(slide[0].progress, -1), 0);
-                if (slideOpacity > 0 && slideOpacity < 1) {
-                    s.effects.fade.fadeIndex = i;
-                }
                 slide
                     .css({
                         opacity: slideOpacity
@@ -29,16 +24,16 @@ s.effects = {
                     .transform('translate3d(' + tx + 'px, ' + ty + 'px, 0px)');
 
             }
+
         },
         setTransition: function (duration) {
             s.slides.transition(duration);
             if (s.params.virtualTranslate && duration !== 0) {
-                var fadeIndex = s.effects.fade.fadeIndex !== null ? s.effects.fade.fadeIndex : s.activeIndex;
-                if (!(s.params.loop || s.params.fade.crossFade) && fadeIndex === 0) {
-                    fadeIndex = s.slides.length - 1;
-                }
-                s.slides.eq(fadeIndex).transitionEnd(function () {
+                var eventTriggered = false;
+                s.slides.transitionEnd(function () {
+                    if (eventTriggered) return;
                     if (!s) return;
+                    eventTriggered = true;
                     s.animating = false;
                     var triggerEvents = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'];
                     for (var i = 0; i < triggerEvents.length; i++) {
