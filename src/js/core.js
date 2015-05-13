@@ -127,7 +127,7 @@ var defaults = {
     firstSlideMessage: 'This is the first slide',
     lastSlideMessage: 'This is the last slide',
     // Callbacks
-    runCallbacksOnInit: true,
+    runCallbacksOnInit: true
     /*
     Callbacks:
     onInit: function (swiper)
@@ -1022,7 +1022,7 @@ s.updateClickedSlide = function (e) {
             if (s.slides[i] === slide) slideFound = true;
         }
     }
-    
+
     if (slide && slideFound) {
         s.clickedSlide = slide;
         s.clickedIndex = $(slide).index();
@@ -1338,7 +1338,7 @@ s.onTouchEnd = function (e) {
         }
         else if (currentPos > -s.maxTranslate()) {
             if (s.slides.length < s.snapGrid.length) {
-                s.slideTo(s.snapGrid.length - 1);    
+                s.slideTo(s.snapGrid.length - 1);
             }
             else {
                 s.slideTo(s.slides.length - 1);
@@ -1409,7 +1409,7 @@ s.onTouchEnd = function (e) {
                         nextSlide = j;
                         break;
                     }
-                        
+
                 }
                 if (Math.abs(s.snapGrid[nextSlide] - newPosition) < Math.abs(s.snapGrid[nextSlide - 1] - newPosition) || s.swipeDirection === 'next') {
                     newPosition = s.snapGrid[nextSlide];
@@ -1930,7 +1930,7 @@ s.removeSlide = function (slidesIndexes) {
     else {
         s.slideTo(newActiveIndex, 0, false);
     }
-        
+
 };
 s.removeAllSlides = function () {
     var slidesIndexes = [];
