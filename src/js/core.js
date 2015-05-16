@@ -43,6 +43,7 @@ var defaults = {
     // Keyboard Mousewheel
     keyboardControl: false,
     mousewheelControl: false,
+    mousewheelReleaseOnEdges: false,
     mousewheelForceToAxis: false,
     // Hash Navigation
     hashnav: false,
