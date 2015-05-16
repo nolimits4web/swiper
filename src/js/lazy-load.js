@@ -51,6 +51,7 @@ s.lazy = {
             
     },
     load: function () {
+        var i;
         if (s.params.watchSlidesVisibility) {
             s.wrapper.children('.' + s.params.slideVisibleClass).each(function () {
                 s.lazy.loadImageInSlide($(this).index());
@@ -58,7 +59,7 @@ s.lazy = {
         }
         else {
             if (s.params.slidesPerView > 1) {
-                for (var i = s.activeIndex; i < s.activeIndex + s.params.slidesPerView ; i++) {
+                for (i = s.activeIndex; i < s.activeIndex + s.params.slidesPerView ; i++) {
                     if (s.slides[i]) s.lazy.loadImageInSlide(i);
                 }
             }
@@ -67,11 +68,23 @@ s.lazy = {
             }
         }
         if (s.params.lazyLoadingInPrevNext) {
-            var nextSlide = s.wrapper.children('.' + s.params.slideNextClass);
-            if (nextSlide.length > 0) s.lazy.loadImageInSlide(nextSlide.index());
+            if (s.params.slidesPerView > 1) {
+                // Next Slides
+                for (i = s.activeIndex + s.params.slidesPerView; i < s.activeIndex + s.params.slidesPerView + s.params.slidesPerView; i++) {
+                    if (s.slides[i]) s.lazy.loadImageInSlide(i);
+                }
+                // Prev Slides
+                for (i = s.activeIndex - s.params.slidesPerView; i < s.activeIndex ; i++) {
+                    if (s.slides[i]) s.lazy.loadImageInSlide(i);
+                }
+            }
+            else {
+                var nextSlide = s.wrapper.children('.' + s.params.slideNextClass);
+                if (nextSlide.length > 0) s.lazy.loadImageInSlide(nextSlide.index());
 
-            var prevSlide = s.wrapper.children('.' + s.params.slidePrevClass);
-            if (prevSlide.length > 0) s.lazy.loadImageInSlide(prevSlide.index());
+                var prevSlide = s.wrapper.children('.' + s.params.slidePrevClass);
+                if (prevSlide.length > 0) s.lazy.loadImageInSlide(prevSlide.index());
+            }
         }
     },
     onTransitionStart: function () {
