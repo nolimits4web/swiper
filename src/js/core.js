@@ -12,6 +12,7 @@ var defaults = {
     freeModeMomentumRatio: 1,
     freeModeMomentumBounce: true,
     freeModeMomentumBounceRatio: 1,
+    freeModeSticky: false,
     // Set wrapper width
     setWrapperSize: false,
     // Virtual Translate
@@ -42,6 +43,7 @@ var defaults = {
     // Keyboard Mousewheel
     keyboardControl: false,
     mousewheelControl: false,
+    mousewheelReleaseOnEdges: false,
     mousewheelForceToAxis: false,
     // Hash Navigation
     hashnav: false,
@@ -126,7 +128,7 @@ var defaults = {
     firstSlideMessage: 'This is the first slide',
     lastSlideMessage: 'This is the last slide',
     // Callbacks
-    runCallbacksOnInit: true,
+    runCallbacksOnInit: true
     /*
     Callbacks:
     onInit: function (swiper)
@@ -174,6 +176,9 @@ for (var def in defaults) {
 
 // Swiper
 var s = this;
+
+// Version
+s.version = '3.0.7';
 
 // Params
 s.params = params;
@@ -354,7 +359,7 @@ s.loadImage = function (imgElement, src, checkForComplete, callback) {
     }
     if (!imgElement.complete || !checkForComplete) {
         if (src) {
-            image = new Image();
+            image = new window.Image();
             image.onload = onReady;
             image.onerror = onReady;
             image.src = src;
@@ -457,8 +462,24 @@ s.maxTranslate = function () {
   Slider/slides sizes
   ===========================*/
 s.updateContainerSize = function () {
-    s.width = s.container[0].clientWidth;
-    s.height = s.container[0].clientHeight;
+    var width, height;
+    if (typeof s.params.width !== 'undefined') {
+        width = s.params.width;
+    }
+    else {
+        width = s.container[0].clientWidth;
+    }
+    if (typeof s.params.height !== 'undefined') {
+        height = s.params.height;
+    }
+    else {
+        height = s.container[0].clientHeight;
+    }
+    if (width === 0 && isH() || height === 0 && !isH()) {
+        return;
+    }
+    s.width = width;
+    s.height = height;
     s.size = isH() ? s.width : s.height;
 };
 
@@ -843,11 +864,11 @@ s.update = function (updateTranslate) {
 /*=========================
   Resize Handler
   ===========================*/
-s.onResize = function () {
+s.onResize = function (forceUpdatePagination) {
     s.updateContainerSize();
     s.updateSlidesSize();
     s.updateProgress();
-    if (s.params.slidesPerView === 'auto' || s.params.freeMode) s.updatePagination();
+    if (s.params.slidesPerView === 'auto' || s.params.freeMode || forceUpdatePagination) s.updatePagination();
     if (s.params.scrollbar && s.scrollbar) {
         s.scrollbar.set();
     }
@@ -912,8 +933,8 @@ s.initEvents = function (detach) {
         }
         if (params.simulateTouch && !s.device.ios && !s.device.android) {
             touchEventsTarget[action]('mousedown', s.onTouchStart, false);
-            target[action]('mousemove', s.onTouchMove, moveCapture);
-            target[action]('mouseup', s.onTouchEnd, false);
+            document[action]('mousemove', s.onTouchMove, moveCapture);
+            document[action]('mouseup', s.onTouchEnd, false);
         }
     }
     window[action]('resize', s.onResize);
@@ -996,7 +1017,14 @@ function findElementInEvent(e, selector) {
 }
 s.updateClickedSlide = function (e) {
     var slide = findElementInEvent(e, '.' + s.params.slideClass);
+    var slideFound = false;
     if (slide) {
+        for (var i = 0; i < s.slides.length; i++) {
+            if (s.slides[i] === slide) slideFound = true;
+        }
+    }
+
+    if (slide && slideFound) {
         s.clickedSlide = slide;
         s.clickedIndex = $(slide).index();
     }
@@ -1241,7 +1269,7 @@ s.onTouchMove = function (e) {
         }
         velocities.push({
             position: s.touches[isH() ? 'currentX' : 'currentY'],
-            time: (new Date()).getTime()
+            time: (new window.Date()).getTime()
         });
     }
     // Update progress
@@ -1288,7 +1316,7 @@ s.onTouchEnd = function (e) {
 
     lastClickTime = Date.now();
     setTimeout(function () {
-        if (s && s.allowClick) s.allowClick = true;
+        if (s) s.allowClick = true;
     }, 0);
 
     if (!isTouched || !isMoved || !s.swipeDirection || s.touches.diff === 0 || currentTranslate === startTranslate) {
@@ -1310,7 +1338,12 @@ s.onTouchEnd = function (e) {
             return;
         }
         else if (currentPos > -s.maxTranslate()) {
-            s.slideTo(s.slides.length - 1);
+            if (s.slides.length < s.snapGrid.length) {
+                s.slideTo(s.snapGrid.length - 1);
+            }
+            else {
+                s.slideTo(s.slides.length - 1);
+            }
             return;
         }
 
@@ -1327,7 +1360,7 @@ s.onTouchEnd = function (e) {
                 }
                 // this implies that the user stopped moving a finger then released.
                 // There would be no events with distance zero, so the last event is stale.
-                if (time > 150 || (new Date().getTime() - lastMoveEvent.time) > 300) {
+                if (time > 150 || (new window.Date().getTime() - lastMoveEvent.time) > 300) {
                     s.velocity = 0;
                 }
             } else {
@@ -1356,7 +1389,7 @@ s.onTouchEnd = function (e) {
                     newPosition = s.maxTranslate();
                 }
             }
-            if (newPosition > s.minTranslate()) {
+            else if (newPosition > s.minTranslate()) {
                 if (s.params.freeModeMomentumBounce) {
                     if (newPosition - s.minTranslate() > bounceAmount) {
                         newPosition = s.minTranslate() + bounceAmount;
@@ -1369,6 +1402,23 @@ s.onTouchEnd = function (e) {
                     newPosition = s.minTranslate();
                 }
             }
+            else if (s.params.freeModeSticky) {
+                var j = 0,
+                    nextSlide;
+                for (j = 0; j < s.snapGrid.length; j += 1) {
+                    if (s.snapGrid[j] > -newPosition) {
+                        nextSlide = j;
+                        break;
+                    }
+
+                }
+                if (Math.abs(s.snapGrid[nextSlide] - newPosition) < Math.abs(s.snapGrid[nextSlide - 1] - newPosition) || s.swipeDirection === 'next') {
+                    newPosition = s.snapGrid[nextSlide];
+                } else {
+                    newPosition = s.snapGrid[nextSlide - 1];
+                }
+                if (!s.rtl) newPosition = - newPosition;
+            }
             //Fix duration
             if (s.velocity !== 0) {
                 if (s.rtl) {
@@ -1377,6 +1427,10 @@ s.onTouchEnd = function (e) {
                 else {
                     momentumDuration = Math.abs((newPosition - s.translate) / s.velocity);
                 }
+            }
+            else if (s.params.freeModeSticky) {
+                s.slideReset();
+                return;
             }
 
             if (s.params.freeModeMomentumBounce && doBounce) {
@@ -1544,7 +1598,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
         }
 
     }
-    
+
     return true;
 };
 
@@ -1668,7 +1722,7 @@ s.getTranslate = function (el, axis) {
     if (window.WebKitCSSMatrix) {
         // Some old versions of Webkit choke when 'none' is passed; pass
         // empty string instead in this case
-        transformMatrix = new WebKitCSSMatrix(curStyle.webkitTransform === 'none' ? '' : curStyle.webkitTransform);
+        transformMatrix = new window.WebKitCSSMatrix(curStyle.webkitTransform === 'none' ? '' : curStyle.webkitTransform);
     }
     else {
         transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform  || curStyle.transform || curStyle.getPropertyValue('transform').replace('translate(', 'matrix(1, 0, 0, 1,');
@@ -1717,7 +1771,7 @@ function initObserver(target, options) {
     var ObserverFunc = window.MutationObserver || window.WebkitMutationObserver;
     var observer = new ObserverFunc(function (mutations) {
         mutations.forEach(function (mutation) {
-            s.onResize();
+            s.onResize(true);
             s.emit('onObserverUpdate', s, mutation);
         });
     });
@@ -1845,6 +1899,7 @@ s.prependSlide = function (slides) {
 s.removeSlide = function (slidesIndexes) {
     if (s.params.loop) {
         s.destroyLoop();
+        s.slides = s.wrapper.children('.' + s.params.slideClass);
     }
     var newActiveIndex = s.activeIndex,
         indexToRemove;
@@ -1863,10 +1918,20 @@ s.removeSlide = function (slidesIndexes) {
         newActiveIndex = Math.max(newActiveIndex, 0);
     }
 
+    if (s.params.loop) {
+        s.createLoop();
+    }
+
     if (!(s.params.observer && s.support.observer)) {
         s.update(true);
     }
-    s.slideTo(newActiveIndex, 0, false);
+    if (s.params.loop) {
+        s.slideTo(newActiveIndex + s.loopedSlides, 0, false);
+    }
+    else {
+        s.slideTo(newActiveIndex, 0, false);
+    }
+
 };
 s.removeAllSlides = function () {
     var slidesIndexes = [];

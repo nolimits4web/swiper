@@ -248,7 +248,7 @@ var Dom7 = (function () {
             for (var i = 0; i < this.length; i++) {
                 var evt;
                 try {
-                    evt = new CustomEvent(eventName, {detail: eventData, bubbles: true, cancelable: true});
+                    evt = new window.CustomEvent(eventName, {detail: eventData, bubbles: true, cancelable: true});
                 }
                 catch (e) {
                     evt = document.createEvent('Event');
@@ -363,7 +363,7 @@ var Dom7 = (function () {
             }
             return this;
         },
-        
+
         //Dom manipulation
         each: function (callback) {
             for (var i = 0; i < this.length; i++) {
@@ -414,7 +414,7 @@ var Dom7 = (function () {
                 }
                 return false;
             }
-            
+
         },
         index: function () {
             if (this[0]) {

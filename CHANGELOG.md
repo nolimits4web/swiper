@@ -1,5 +1,15 @@
 # Change Log
 
+## Swiper 3.0.7 - Released on April 25, 2015
+  * New `width` and `height` parameters to force Swiper size, useful when it is hidden on intialization
+  * Better support for "Scroll Container". So now Swiper can be used as a scroll container with one single "scrollable"/"swipeable" slide
+  * Added lazy loading for background images with `data-background` attribute on required elements
+  * New "Sticky Free Mode" (with `freeModeSticky` parameter) which will snap to slides positions in free mode
+  * Fixed issues with lazy loading  
+  * Fixed slide removing when loop mode is enabled
+  * Fixed issues with Autoplay and Fade effect
+  * Minor fixes
+
 ## Swiper 3.0.6 - Released on March 27, 2015
   * Fixed sometimes wrong slides position when using "Fade" effect
   * `.destroy(deleteInstance, cleanupStyles)` method now has second `cleanupStyles` argument, when passed - all custom styles will be removed from slides, wrapper and container. Useful if you need to destroy Swiper and to init again with new options or in different direction

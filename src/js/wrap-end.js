@@ -1,1 +1,2 @@
+    window.Swiper = Swiper;
 })();

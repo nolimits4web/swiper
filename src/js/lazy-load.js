@@ -9,18 +9,27 @@ s.lazy = {
         if (s.slides.length === 0) return;
         
         var slide = s.slides.eq(index);
-        var img = slide.find('img.swiper-lazy:not(.swiper-lazy-loaded):not(.swiper-lazy-loading)');
+        var img = slide.find('.swiper-lazy:not(.swiper-lazy-loaded):not(.swiper-lazy-loading)');
+        if (slide.hasClass('swiper-lazy') && !slide.hasClass('swiper-lazy-loaded') && !slide.hasClass('swiper-lazy-loading')) {
+            img.add(slide[0]);
+        }
         if (img.length === 0) return;
 
         img.each(function () {
             var _img = $(this);
             _img.addClass('swiper-lazy-loading');
-
+            var background = _img.attr('data-background');
             var src = _img.attr('data-src');
-
-            s.loadImage(_img[0], src, false, function () {
-                _img.attr('src', src);
-                _img.removeAttr('data-src');
+            s.loadImage(_img[0], (src || background), false, function () {
+                if (background) {
+                    _img.css('background-image', 'url(' + background + ')');
+                    _img.removeAttr('data-background');
+                }
+                else {
+                    _img.attr('src', src);
+                    _img.removeAttr('data-src');
+                }
+                    
                 _img.addClass('swiper-lazy-loaded').removeClass('swiper-lazy-loading');
                 slide.find('.swiper-lazy-preloader, .preloader').remove();
                 if (s.params.loop && loadInDuplicate) {
@@ -42,6 +51,7 @@ s.lazy = {
             
     },
     load: function () {
+        var i;
         if (s.params.watchSlidesVisibility) {
             s.wrapper.children('.' + s.params.slideVisibleClass).each(function () {
                 s.lazy.loadImageInSlide($(this).index());
@@ -49,7 +59,7 @@ s.lazy = {
         }
         else {
             if (s.params.slidesPerView > 1) {
-                for (var i = s.activeIndex; i < s.activeIndex + s.params.slidesPerView ; i++) {
+                for (i = s.activeIndex; i < s.activeIndex + s.params.slidesPerView ; i++) {
                     if (s.slides[i]) s.lazy.loadImageInSlide(i);
                 }
             }
@@ -58,11 +68,23 @@ s.lazy = {
             }
         }
         if (s.params.lazyLoadingInPrevNext) {
-            var nextSlide = s.wrapper.children('.' + s.params.slideNextClass);
-            if (nextSlide.length > 0) s.lazy.loadImageInSlide(nextSlide.index());
+            if (s.params.slidesPerView > 1) {
+                // Next Slides
+                for (i = s.activeIndex + s.params.slidesPerView; i < s.activeIndex + s.params.slidesPerView + s.params.slidesPerView; i++) {
+                    if (s.slides[i]) s.lazy.loadImageInSlide(i);
+                }
+                // Prev Slides
+                for (i = s.activeIndex - s.params.slidesPerView; i < s.activeIndex ; i++) {
+                    if (s.slides[i]) s.lazy.loadImageInSlide(i);
+                }
+            }
+            else {
+                var nextSlide = s.wrapper.children('.' + s.params.slideNextClass);
+                if (nextSlide.length > 0) s.lazy.loadImageInSlide(nextSlide.index());
 
-            var prevSlide = s.wrapper.children('.' + s.params.slidePrevClass);
-            if (prevSlide.length > 0) s.lazy.loadImageInSlide(prevSlide.index());
+                var prevSlide = s.wrapper.children('.' + s.params.slidePrevClass);
+                if (prevSlide.length > 0) s.lazy.loadImageInSlide(prevSlide.index());
+            }
         }
     },
     onTransitionStart: function () {
