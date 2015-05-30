@@ -39,5 +39,6 @@
   },
   "scripts": {
     "test": "gulp build"
-  }
+  },
+  "style": "dist/css/swiper.css"
 }
