@@ -970,7 +970,7 @@ s.allowClick = true;
 s.preventClicks = function (e) {
     if (!s.allowClick) {
         if (s.params.preventClicks) e.preventDefault();
-        if (s.params.preventClicksPropagation) {
+        if (s.params.preventClicksPropagation && s.animating) {
             e.stopPropagation();
             e.stopImmediatePropagation();
         }
