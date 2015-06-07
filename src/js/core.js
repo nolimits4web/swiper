@@ -1541,12 +1541,12 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     if (s.snapIndex >= s.snapGrid.length) s.snapIndex = s.snapGrid.length - 1;
 
     var translate = - s.snapGrid[s.snapIndex];
-
+    
     // Directions locks
-    if (!s.params.allowSwipeToNext && translate < s.translate) {
+    if (!s.params.allowSwipeToNext && translate < s.translate && translate < s.minTranslate()) {
         return false;
     }
-    if (!s.params.allowSwipeToPrev && translate > s.translate) {
+    if (!s.params.allowSwipeToPrev && translate > s.translate && translate > s.maxTranslate()) {
         return false;
     }
 
