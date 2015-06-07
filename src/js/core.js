@@ -515,6 +515,9 @@ s.updateSlidesSize = function () {
 
     // Calc slides
     var slideSize;
+    var slidesPerColumn = s.params.slidesPerColumn;
+    var slidesPerRow = slidesNumberEvenToRows / slidesPerColumn;
+    var numFullColumns = slidesPerRow - (s.params.slidesPerColumn * slidesPerRow - s.slides.length);
     for (i = 0; i < s.slides.length; i++) {
         slideSize = 0;
         var slide = s.slides.eq(i);
@@ -522,11 +525,15 @@ s.updateSlidesSize = function () {
             // Set slides order
             var newSlideOrderIndex;
             var column, row;
-            var slidesPerColumn = s.params.slidesPerColumn;
-            var slidesPerRow;
             if (s.params.slidesPerColumnFill === 'column') {
                 column = Math.floor(i / slidesPerColumn);
                 row = i - column * slidesPerColumn;
+                if (column > numFullColumns || (column==numFullColumns && row==slidesPerColumn-1)) {
+                    if (++row >= slidesPerColumn) {
+                        row = 0;
+                        column++;
+                    }
+                }
                 newSlideOrderIndex = column + row * slidesNumberEvenToRows / slidesPerColumn;
                 slide
                     .css({
@@ -538,10 +545,8 @@ s.updateSlidesSize = function () {
                     });
             }
             else {
-                slidesPerRow = slidesNumberEvenToRows / slidesPerColumn;
                 row = Math.floor(i / slidesPerRow);
                 column = i - row * slidesPerRow;
-
             }
             slide
                 .css({
