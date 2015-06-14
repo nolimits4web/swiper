@@ -44,6 +44,7 @@ var defaults = {
     keyboardControl: false,
     mousewheelControl: false,
     mousewheelReleaseOnEdges: false,
+    mousewheelInvert: false,
     mousewheelForceToAxis: false,
     // Hash Navigation
     hashnav: false,
@@ -178,7 +179,7 @@ for (var def in defaults) {
 var s = this;
 
 // Version
-s.version = '3.0.7';
+s.version = '3.0.8';
 
 // Params
 s.params = params;

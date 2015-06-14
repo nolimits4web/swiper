@@ -1,5 +1,17 @@
 # Change Log
 
+## Swiper 3.0.8 - Released on June 14, 2015
+  * Fixed issue with wrong active index and callbacks in Fade effect
+  * New mousewheel parameters:
+    * `mousewheelReleaseOnEdges` - will release mousewheel event and allow page scrolling when swiper is on edge positions (in the beginning or in the end)
+    * `mousewheelInvert` - option to invert mousewheel slides
+  * Fixed issue with lazy loading in next slides when `slidesPerView` > 1
+  * Fixed issue with resistance bounds when swiping is locked
+  * Fixed issue with wrong slides order in multi-row mode (when `slidesPerColumn` > 1)
+  * Fixed issue with not working keyboard control in RTL mode
+  * Fixed issue with nested fade-effect swipers
+  * Minor fixes
+
 ## Swiper 3.0.7 - Released on April 25, 2015
   * New `width` and `height` parameters to force Swiper size, useful when it is hidden on intialization
   * Better support for "Scroll Container". So now Swiper can be used as a scroll container with one single "scrollable"/"swipeable" slide

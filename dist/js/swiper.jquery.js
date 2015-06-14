@@ -1,5 +1,5 @@
 /**
- * Swiper 3.0.7
+ * Swiper 3.0.8
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * 
  * http://www.idangero.us/swiper/
@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: April 25, 2015
+ * Released on: June 14, 2015
  */
 (function () {
     'use strict';
@@ -65,6 +65,8 @@
             // Keyboard Mousewheel
             keyboardControl: false,
             mousewheelControl: false,
+            mousewheelReleaseOnEdges: false,
+            mousewheelInvert: false,
             mousewheelForceToAxis: false,
             // Hash Navigation
             hashnav: false,
@@ -149,7 +151,7 @@
             firstSlideMessage: 'This is the first slide',
             lastSlideMessage: 'This is the last slide',
             // Callbacks
-            runCallbacksOnInit: true,
+            runCallbacksOnInit: true
             /*
             Callbacks:
             onInit: function (swiper)
@@ -199,7 +201,7 @@
         var s = this;
         
         // Version
-        s.version = '3.0.7';
+        s.version = '3.0.8';
         
         // Params
         s.params = params;
@@ -536,6 +538,9 @@
         
             // Calc slides
             var slideSize;
+            var slidesPerColumn = s.params.slidesPerColumn;
+            var slidesPerRow = slidesNumberEvenToRows / slidesPerColumn;
+            var numFullColumns = slidesPerRow - (s.params.slidesPerColumn * slidesPerRow - s.slides.length);
             for (i = 0; i < s.slides.length; i++) {
                 slideSize = 0;
                 var slide = s.slides.eq(i);
@@ -543,11 +548,15 @@
                     // Set slides order
                     var newSlideOrderIndex;
                     var column, row;
-                    var slidesPerColumn = s.params.slidesPerColumn;
-                    var slidesPerRow;
                     if (s.params.slidesPerColumnFill === 'column') {
                         column = Math.floor(i / slidesPerColumn);
                         row = i - column * slidesPerColumn;
+                        if (column > numFullColumns || (column === numFullColumns && row === slidesPerColumn-1)) {
+                            if (++row >= slidesPerColumn) {
+                                row = 0;
+                                column++;
+                            }
+                        }
                         newSlideOrderIndex = column + row * slidesNumberEvenToRows / slidesPerColumn;
                         slide
                             .css({
@@ -559,10 +568,8 @@
                             });
                     }
                     else {
-                        slidesPerRow = slidesNumberEvenToRows / slidesPerColumn;
                         row = Math.floor(i / slidesPerRow);
                         column = i - row * slidesPerRow;
-        
                     }
                     slide
                         .css({
@@ -991,7 +998,7 @@
         s.preventClicks = function (e) {
             if (!s.allowClick) {
                 if (s.params.preventClicks) e.preventDefault();
-                if (s.params.preventClicksPropagation) {
+                if (s.params.preventClicksPropagation && s.animating) {
                     e.stopPropagation();
                     e.stopImmediatePropagation();
                 }
@@ -1044,7 +1051,7 @@
                     if (s.slides[i] === slide) slideFound = true;
                 }
             }
-            
+        
             if (slide && slideFound) {
                 s.clickedSlide = slide;
                 s.clickedIndex = $(slide).index();
@@ -1337,7 +1344,7 @@
         
             lastClickTime = Date.now();
             setTimeout(function () {
-                if (s && s.allowClick) s.allowClick = true;
+                if (s) s.allowClick = true;
             }, 0);
         
             if (!isTouched || !isMoved || !s.swipeDirection || s.touches.diff === 0 || currentTranslate === startTranslate) {
@@ -1360,7 +1367,7 @@
                 }
                 else if (currentPos > -s.maxTranslate()) {
                     if (s.slides.length < s.snapGrid.length) {
-                        s.slideTo(s.snapGrid.length - 1);    
+                        s.slideTo(s.snapGrid.length - 1);
                     }
                     else {
                         s.slideTo(s.slides.length - 1);
@@ -1431,7 +1438,7 @@
                                 nextSlide = j;
                                 break;
                             }
-                                
+        
                         }
                         if (Math.abs(s.snapGrid[nextSlide] - newPosition) < Math.abs(s.snapGrid[nextSlide - 1] - newPosition) || s.swipeDirection === 'next') {
                             newPosition = s.snapGrid[nextSlide];
@@ -1562,17 +1569,16 @@
             if (s.snapIndex >= s.snapGrid.length) s.snapIndex = s.snapGrid.length - 1;
         
             var translate = - s.snapGrid[s.snapIndex];
-        
+            
             // Directions locks
-            if (!s.params.allowSwipeToNext && translate < s.translate) {
+            if (!s.params.allowSwipeToNext && translate < s.translate && translate < s.minTranslate()) {
                 return false;
             }
-            if (!s.params.allowSwipeToPrev && translate > s.translate) {
+            if (!s.params.allowSwipeToPrev && translate > s.translate && translate > s.maxTranslate()) {
                 return false;
             }
         
             // Stop autoplay
-        
             if (s.params.autoplay && s.autoplaying) {
                 if (internal || !s.params.autoplayDisableOnInteraction) {
                     s.pauseAutoplay(speed);
@@ -1952,7 +1958,7 @@
             else {
                 s.slideTo(newActiveIndex, 0, false);
             }
-                
+        
         };
         s.removeAllSlides = function () {
             var slidesIndexes = [];
@@ -1968,7 +1974,6 @@
           ===========================*/
         s.effects = {
             fade: {
-                fadeIndex: null,
                 setTranslate: function () {
                     for (var i = 0; i < s.slides.length; i++) {
                         var slide = s.slides.eq(i);
@@ -1983,9 +1988,6 @@
                         var slideOpacity = s.params.fade.crossFade ?
                                 Math.max(1 - Math.abs(slide[0].progress), 0) :
                                 1 + Math.min(Math.max(slide[0].progress, -1), 0);
-                        if (slideOpacity > 0 && slideOpacity < 1) {
-                            s.effects.fade.fadeIndex = i;
-                        }
                         slide
                             .css({
                                 opacity: slideOpacity
@@ -1993,16 +1995,17 @@
                             .transform('translate3d(' + tx + 'px, ' + ty + 'px, 0px)');
         
                     }
+        
                 },
                 setTransition: function (duration) {
                     s.slides.transition(duration);
                     if (s.params.virtualTranslate && duration !== 0) {
-                        var fadeIndex = s.effects.fade.fadeIndex !== null ? s.effects.fade.fadeIndex : s.activeIndex;
-                        if (!(s.params.loop || s.params.fade.crossFade) && fadeIndex === 0) {
-                            fadeIndex = s.slides.length - 1;
-                        }
-                        s.slides.eq(fadeIndex).transitionEnd(function () {
+                        var eventTriggered = false;
+                        s.slides.transitionEnd(function () {
+                            if (eventTriggered) return;
                             if (!s) return;
+                            eventTriggered = true;
+                            s.animating = false;
                             var triggerEvents = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'];
                             for (var i = 0; i < triggerEvents.length; i++) {
                                 s.wrapper.trigger(triggerEvents[i]);
@@ -2233,6 +2236,7 @@
                     
             },
             load: function () {
+                var i;
                 if (s.params.watchSlidesVisibility) {
                     s.wrapper.children('.' + s.params.slideVisibleClass).each(function () {
                         s.lazy.loadImageInSlide($(this).index());
@@ -2240,7 +2244,7 @@
                 }
                 else {
                     if (s.params.slidesPerView > 1) {
-                        for (var i = s.activeIndex; i < s.activeIndex + s.params.slidesPerView ; i++) {
+                        for (i = s.activeIndex; i < s.activeIndex + s.params.slidesPerView ; i++) {
                             if (s.slides[i]) s.lazy.loadImageInSlide(i);
                         }
                     }
@@ -2249,11 +2253,23 @@
                     }
                 }
                 if (s.params.lazyLoadingInPrevNext) {
-                    var nextSlide = s.wrapper.children('.' + s.params.slideNextClass);
-                    if (nextSlide.length > 0) s.lazy.loadImageInSlide(nextSlide.index());
+                    if (s.params.slidesPerView > 1) {
+                        // Next Slides
+                        for (i = s.activeIndex + s.params.slidesPerView; i < s.activeIndex + s.params.slidesPerView + s.params.slidesPerView; i++) {
+                            if (s.slides[i]) s.lazy.loadImageInSlide(i);
+                        }
+                        // Prev Slides
+                        for (i = s.activeIndex - s.params.slidesPerView; i < s.activeIndex ; i++) {
+                            if (s.slides[i]) s.lazy.loadImageInSlide(i);
+                        }
+                    }
+                    else {
+                        var nextSlide = s.wrapper.children('.' + s.params.slideNextClass);
+                        if (nextSlide.length > 0) s.lazy.loadImageInSlide(nextSlide.index());
         
-                    var prevSlide = s.wrapper.children('.' + s.params.slidePrevClass);
-                    if (prevSlide.length > 0) s.lazy.loadImageInSlide(prevSlide.index());
+                        var prevSlide = s.wrapper.children('.' + s.params.slidePrevClass);
+                        if (prevSlide.length > 0) s.lazy.loadImageInSlide(prevSlide.index());
+                    }
                 }
             },
             onTransitionStart: function () {
@@ -2482,7 +2498,7 @@
                 var windowWidth = window.innerWidth;
                 var windowHeight = window.innerHeight;
                 var swiperOffset = s.container.offset();
-                
+                if (s.rtl) swiperOffset.left = swiperOffset.left - s.container[0].scrollLeft;
                 var swiperCoord = [
                     [swiperOffset.left, swiperOffset.top],
                     [swiperOffset.left + s.width, swiperOffset.top],
@@ -2506,8 +2522,8 @@
                     if (e.preventDefault) e.preventDefault();
                     else e.returnValue = false;
                 }
-                if (kc === 39) s.slideNext();
-                if (kc === 37) s.slidePrev();
+                if ((kc === 39 && !s.rtl) || (kc === 37 && s.rtl)) s.slideNext();
+                if ((kc === 37 && !s.rtl) || (kc === 39 && s.rtl)) s.slidePrev();
             }
             else {
                 if (kc === 38 || kc === 40) {
@@ -2529,25 +2545,27 @@
         /*=========================
           Mousewheel Control
           ===========================*/
-        s._wheelEvent = false;
-        s._lastWheelScrollTime = (new window.Date()).getTime();
+        s.mousewheel = {
+            event: false,
+            lastScrollTime: (new window.Date()).getTime()
+        };
         if (s.params.mousewheelControl) {
             if (document.onmousewheel !== undefined) {
-                s._wheelEvent = 'mousewheel';
+                s.mousewheel.event = 'mousewheel';
             }
-            if (!s._wheelEvent) {
+            if (!s.mousewheel.event) {
                 try {
                     new window.WheelEvent('wheel');
-                    s._wheelEvent = 'wheel';
+                    s.mousewheel.event = 'wheel';
                 } catch (e) {}
             }
-            if (!s._wheelEvent) {
-                s._wheelEvent = 'DOMMouseScroll';
+            if (!s.mousewheel.event) {
+                s.mousewheel.event = 'DOMMouseScroll';
             }
         }
         function handleMousewheel(e) {
             if (e.originalEvent) e = e.originalEvent; //jquery fix
-            var we = s._wheelEvent;
+            var we = s.mousewheel.event;
             var delta = 0;
             //Opera & IE
             if (e.detail) delta = -e.detail;
@@ -2586,16 +2604,25 @@
                 }
             }
         
+            if (s.params.mousewheelInvert) delta = -delta;
+        
             if (!s.params.freeMode) {
-                if ((new window.Date()).getTime() - s._lastWheelScrollTime > 60) {
-                    if (delta < 0) s.slideNext();
-                    else s.slidePrev();
+                if ((new window.Date()).getTime() - s.mousewheel.lastScrollTime > 60) {
+                    if (delta < 0) {
+                        if (!s.isEnd) s.slideNext();
+                        else if (s.params.mousewheelReleaseOnEdges) return true;
+                    }
+                    else {
+                        if (!s.isBeginning) s.slidePrev();
+                        else if (s.params.mousewheelReleaseOnEdges) return true;
+                    }
                 }
-                s._lastWheelScrollTime = (new window.Date()).getTime();
+                s.mousewheel.lastScrollTime = (new window.Date()).getTime();
         
             }
             else {
                 //Freemode or scrollContainer:
+        
                 var position = s.getWrapperTranslate() + delta;
         
                 if (position > 0) position = 0;
@@ -2605,6 +2632,13 @@
                 s.setWrapperTranslate(position);
                 s.updateProgress();
                 s.updateActiveIndex();
+        
+                if (s.params.freeModeSticky) {
+                    clearTimeout(s.mousewheel.timeout);
+                    s.mousewheel.timeout = setTimeout(function () {
+                        s.slideReset();
+                    }, 300);
+                }
         
                 // Return page scroll on edge positions
                 if (position === 0 || position === s.maxTranslate()) return;
@@ -2616,14 +2650,14 @@
             return false;
         }
         s.disableMousewheelControl = function () {
-            if (!s._wheelEvent) return false;
-            s.container.off(s._wheelEvent, handleMousewheel);
+            if (!s.mousewheel.event) return false;
+            s.container.off(s.mousewheel.event, handleMousewheel);
             return true;
         };
         
         s.enableMousewheelControl = function () {
-            if (!s._wheelEvent) return false;
-            s.container.on(s._wheelEvent, handleMousewheel);
+            if (!s.mousewheel.event) return false;
+            s.container.on(s.mousewheel.event, handleMousewheel);
             return true;
         };
 

@@ -1,5 +1,5 @@
 /**
- * Swiper 3.0.7
+ * Swiper 3.0.8
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * 
  * http://www.idangero.us/swiper/
@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: April 25, 2015
+ * Released on: June 14, 2015
  */
 .swiper-container {
   margin: 0 auto;
@@ -63,7 +63,7 @@
 .swiper-container-multirow > .swiper-wrapper {
   -webkit-box-lines: multiple;
   -moz-box-lines: multiple;
-  -ms-fles-wrap: wrap;
+  -ms-flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
 }
@@ -312,7 +312,11 @@
 .swiper-container-fade .swiper-slide {
   pointer-events: none;
 }
-.swiper-container-fade .swiper-slide-active {
+.swiper-container-fade .swiper-slide .swiper-slide {
+  pointer-events: none;
+}
+.swiper-container-fade .swiper-slide-active,
+.swiper-container-fade .swiper-slide-active .swiper-slide-active {
   pointer-events: auto;
 }
 /* Cube */
