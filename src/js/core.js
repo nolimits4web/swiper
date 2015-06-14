@@ -1556,7 +1556,6 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     }
 
     // Stop autoplay
-
     if (s.params.autoplay && s.autoplaying) {
         if (internal || !s.params.autoplayDisableOnInteraction) {
             s.pauseAutoplay(speed);
