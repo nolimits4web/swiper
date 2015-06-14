@@ -528,7 +528,7 @@ s.updateSlidesSize = function () {
             if (s.params.slidesPerColumnFill === 'column') {
                 column = Math.floor(i / slidesPerColumn);
                 row = i - column * slidesPerColumn;
-                if (column > numFullColumns || (column==numFullColumns && row==slidesPerColumn-1)) {
+                if (column > numFullColumns || (column === numFullColumns && row === slidesPerColumn-1)) {
                     if (++row >= slidesPerColumn) {
                         row = 0;
                         column++;
