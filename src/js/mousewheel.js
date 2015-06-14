@@ -60,7 +60,7 @@ function handleMousewheel(e) {
         }
     }
 
-    if (s.params.mousewheelControlInvert) delta = -delta;
+    if (s.params.mousewheelInvert) delta = -delta;
 
     if (!s.params.freeMode) {
         if ((new window.Date()).getTime() - s.mousewheel.lastScrollTime > 60) {
