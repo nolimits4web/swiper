@@ -30,7 +30,7 @@ function handleKeyboard(e) {
         var windowWidth = window.innerWidth;
         var windowHeight = window.innerHeight;
         var swiperOffset = s.container.offset();
-        
+        if (s.rtl) swiperOffset.left = swiperOffset.left - s.container[0].scrollLeft;
         var swiperCoord = [
             [swiperOffset.left, swiperOffset.top],
             [swiperOffset.left + s.width, swiperOffset.top],
@@ -54,8 +54,8 @@ function handleKeyboard(e) {
             if (e.preventDefault) e.preventDefault();
             else e.returnValue = false;
         }
-        if (kc === 39) s.slideNext();
-        if (kc === 37) s.slidePrev();
+        if ((kc === 39 && !s.rtl) || (kc === 37 && s.rtl)) s.slideNext();
+        if ((kc === 37 && !s.rtl) || (kc === 39 && s.rtl)) s.slidePrev();
     }
     else {
         if (kc === 38 || kc === 40) {
