@@ -1,7 +1,6 @@
 (function(){
     'use strict';
     var gulp = require('gulp'),
-        gutil = require('gulp-util'),
         connect = require('gulp-connect'),
         open = require('gulp-open'),
         less = require('gulp-less'),
