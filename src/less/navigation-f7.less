@@ -1,0 +1,84 @@
+/* Arrows */
+.swiper-button-prev, .swiper-button-next {
+    position: absolute;
+    top: 50%;
+    width: 27px;
+    height: 44px;
+    margin-top: -22px;
+    z-index: 10;
+    cursor: pointer;
+    -moz-background-size: 27px 44px;
+    -webkit-background-size: 27px 44px;
+    background-size: 27px 44px;
+    background-position: center;
+    background-repeat: no-repeat;
+    &.swiper-button-disabled {
+        opacity: 0.35;
+        cursor: auto;
+        pointer-events: none;
+    }
+}
+.swiper-button-prev, .swiper-container-rtl .swiper-button-next {
+    .encoded-svg-background("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M0,22L22,0l2.1,2.1L4.2,22l19.9,19.9L22,44L0,22L0,22L0,22z' fill='#007aff'/></svg>");
+    left: 10px;
+    right: auto;
+}
+.swiper-button-next, .swiper-container-rtl .swiper-button-prev {
+    .encoded-svg-background("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M27,22L27,22L5,44l-2.1-2.1L22.8,22L2.9,2.1L5,0L27,22L27,22z' fill='#007aff'/></svg>");
+    right: 10px;
+    left: auto;
+}
+/* Pagination Styles */
+.swiper-pagination {
+    position: absolute;
+    text-align: center;
+    -webkit-transition: 300ms;
+    -moz-transition: 300ms;
+    -o-transition: 300ms;
+    transition: 300ms;
+    -webkit-transform: translate3d(0,0,0);
+    -ms-transform: translate3d(0,0,0);
+    -o-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+    z-index: 10;
+    &.swiper-pagination-hidden {
+        opacity: 0;
+    }
+}
+.swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 100%;
+    background: #000;
+    opacity: 0.2;
+}
+.swiper-pagination-bullet-active {
+    opacity: 1;
+    background: #007aff;
+}
+.swiper-container-vertical {
+    > .swiper-pagination {
+        right: 10px;
+        top: 50%;
+        -webkit-transform:translate3d(0px,-50%,0);
+        -moz-transform:translate3d(0px,-50%,0);
+        -o-transform:translate(0px,-50%);
+        -ms-transform:translate3d(0px,-50%,0);
+        transform:translate3d(0px,-50%,0);
+        .swiper-pagination-bullet {
+            margin: 5px 0;
+            display: block;
+        }
+    }
+}
+.swiper-container-horizontal {
+    > .swiper-pagination {
+        bottom: 10px;
+        left: 0;
+        width: 100%;
+        .swiper-pagination-bullet {
+            margin: 0 5px;
+        }
+    }
+}

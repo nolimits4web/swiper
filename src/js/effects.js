@@ -7,22 +7,40 @@ s.effects = {
             for (var i = 0; i < s.slides.length; i++) {
                 var slide = s.slides.eq(i);
                 var offset = slide[0].swiperSlideOffset;
-                var tx = -offset - s.translate;
+                var tx = -offset;
+                if (!s.params.virtualTranslate) tx = tx - s.translate;
                 var ty = 0;
                 if (!isH()) {
                     ty = tx;
                     tx = 0;
                 }
+                var slideOpacity = s.params.fade.crossFade ?
+                        Math.max(1 - Math.abs(slide[0].progress), 0) :
+                        1 + Math.min(Math.max(slide[0].progress, -1), 0);
                 slide
                     .css({
-                        opacity: 1 + Math.min(Math.max(slide[0].progress, -1), 0)
+                        opacity: slideOpacity
                     })
                     .transform('translate3d(' + tx + 'px, ' + ty + 'px, 0px)');
 
             }
+
         },
         setTransition: function (duration) {
             s.slides.transition(duration);
+            if (s.params.virtualTranslate && duration !== 0) {
+                var eventTriggered = false;
+                s.slides.transitionEnd(function () {
+                    if (eventTriggered) return;
+                    if (!s) return;
+                    eventTriggered = true;
+                    s.animating = false;
+                    var triggerEvents = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'];
+                    for (var i = 0; i < triggerEvents.length; i++) {
+                        s.wrapper.trigger(triggerEvents[i]);
+                    }
+                });
+            }
         }
     },
     cube: {
@@ -183,8 +201,8 @@ s.effects = {
             }
 
             //Set correct perspective for IE10
-            if (window.navigator.pointerEnabled || window.navigator.msPointerEnabled) {
-                var ws = s.wrapper.style;
+            if (s.browser.ie) {
+                var ws = s.wrapper[0].style;
                 ws.perspectiveOrigin = center + 'px 50%';
             }
         },

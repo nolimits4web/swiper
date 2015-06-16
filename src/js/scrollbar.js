@@ -2,7 +2,7 @@
   Scrollbar
   ===========================*/
 s.scrollbar = {
-    init: function () {
+    set: function () {
         if (!s.params.scrollbar) return;
         var sb = s.scrollbar;
         sb.track = $(s.params.scrollbar);
@@ -15,7 +15,7 @@ s.scrollbar = {
         sb.drag[0].style.height = '';
         sb.trackSize = isH() ? sb.track[0].offsetWidth : sb.track[0].offsetHeight;
         
-        sb.divider = s.size / s.virtualWidth;
+        sb.divider = s.size / s.virtualSize;
         sb.moveDivider = sb.divider * (sb.trackSize / s.size);
         sb.dragSize = sb.trackSize * sb.divider;
 
@@ -65,11 +65,21 @@ s.scrollbar = {
             }
         }
         if (isH()) {
-            sb.drag.transform('translate3d(' + (newPos) + 'px, 0, 0)');
+            if (s.support.transforms3d) {
+                sb.drag.transform('translate3d(' + (newPos) + 'px, 0, 0)');
+            }
+            else {
+                sb.drag.transform('translateX(' + (newPos) + 'px)');   
+            }
             sb.drag[0].style.width = newSize + 'px';
         }
         else {
-            sb.drag.transform('translate3d(0px, ' + (newPos) + 'px, 0)');
+            if (s.support.transforms3d) {
+                sb.drag.transform('translate3d(0px, ' + (newPos) + 'px, 0)');
+            }
+            else {
+                sb.drag.transform('translateY(' + (newPos) + 'px)');   
+            }
             sb.drag[0].style.height = newSize + 'px';
         }
         if (s.params.scrollbarHide) {

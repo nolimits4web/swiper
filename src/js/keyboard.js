@@ -2,10 +2,20 @@
   Keyboard Control
   ===========================*/
 function handleKeyboard(e) {
+    if (e.originalEvent) e = e.originalEvent; //jquery fix
     var kc = e.keyCode || e.charCode;
-    if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) return;
-    if (document.activeElement && document.activeElement.nodeName && (document.activeElement.nodeName.toLowerCase() === 'input' || document.activeElement.nodeName.toLowerCase() === 'textarea')) {
+    // Directions locks
+    if (!s.params.allowSwipeToNext && (isH() && kc === 39 || !isH() && kc === 40)) {
         return false;
+    }
+    if (!s.params.allowSwipeToPrev && (isH() && kc === 37 || !isH() && kc === 38)) {
+        return false;
+    }
+    if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) {
+        return;
+    }
+    if (document.activeElement && document.activeElement.nodeName && (document.activeElement.nodeName.toLowerCase() === 'input' || document.activeElement.nodeName.toLowerCase() === 'textarea')) {
+        return;
     }
     if (kc === 37 || kc === 39 || kc === 38 || kc === 40) {
         var inView = false;
@@ -20,7 +30,7 @@ function handleKeyboard(e) {
         var windowWidth = window.innerWidth;
         var windowHeight = window.innerHeight;
         var swiperOffset = s.container.offset();
-        
+        if (s.rtl) swiperOffset.left = swiperOffset.left - s.container[0].scrollLeft;
         var swiperCoord = [
             [swiperOffset.left, swiperOffset.top],
             [swiperOffset.left + s.width, swiperOffset.top],
@@ -44,8 +54,8 @@ function handleKeyboard(e) {
             if (e.preventDefault) e.preventDefault();
             else e.returnValue = false;
         }
-        if (kc === 39) s.slideNext();
-        if (kc === 37) s.slidePrev();
+        if ((kc === 39 && !s.rtl) || (kc === 37 && s.rtl)) s.slideNext();
+        if ((kc === 37 && !s.rtl) || (kc === 39 && s.rtl)) s.slidePrev();
     }
     else {
         if (kc === 38 || kc === 40) {

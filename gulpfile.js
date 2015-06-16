@@ -1,7 +1,6 @@
 (function(){
-    'use strict';    
+    'use strict';
     var gulp = require('gulp'),
-        gutil = require('gulp-util'),
         connect = require('gulp-connect'),
         open = require('gulp-open'),
         less = require('gulp-less'),
@@ -44,11 +43,16 @@
                 'src/js/swiper-intro.js',
                 'src/js/core.js',
                 'src/js/effects.js',
+                'src/js/lazy-load.js',
                 'src/js/scrollbar.js',
                 'src/js/controller.js',
                 'src/js/hashnav.js',
                 'src/js/keyboard.js',
                 'src/js/mousewheel.js',
+                'src/js/parallax.js',
+                'src/js/plugins.js',
+                'src/js/emitter.js',
+                'src/js/a11y.js',
                 'src/js/init.js',
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
@@ -62,11 +66,16 @@
                 'src/js/swiper-intro.js',
                 'src/js/core.js',
                 'src/js/effects.js',
+                'src/js/lazy-load.js',
                 'src/js/scrollbar.js',
                 'src/js/controller.js',
                 'src/js/hashnav.js',
                 'src/js/keyboard.js',
                 'src/js/mousewheel.js',
+                'src/js/parallax.js',
+                'src/js/plugins.js',
+                'src/js/emitter.js',
+                'src/js/a11y.js',
                 'src/js/init.js',
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
@@ -75,11 +84,16 @@
                 'src/js/amd.js'
             ],
             Framework7Files : [
-                'src/js/swiper-intro.js',
+                'src/js/swiper-intro-f7.js',
                 'src/js/core.js',
                 'src/js/effects.js',
+                'src/js/lazy-load.js',
                 'src/js/scrollbar.js',
                 'src/js/controller.js',
+                'src/js/parallax.js',
+                'src/js/plugins.js',
+                'src/js/emitter.js',
+                'src/js/a11y.js',
                 'src/js/init.js',
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
@@ -107,14 +121,14 @@
                 day: new Date().getDate()
             }
         };
-        
+
     function addJSIndent (file, t, minusIndent) {
         var addIndent = '        ';
         var filename = file.path.split('src/js/')[1];
         if (filename === 'wrap-start.js' || filename === 'wrap-end.js' || filename === 'amd.js') {
             addIndent = '';
         }
-        if (filename === 'swiper-intro.js' || filename === 'swiper-outro.js' || filename === 'dom.js' || filename === 'dom-plugins.js' || filename === 'swiper-proto.js') addIndent = '    ';
+        if (filename === 'swiper-intro.js' || filename === 'swiper-intro-f7.js' || filename === 'swiper-outro.js' || filename === 'dom.js' || filename === 'dom-plugins.js' || filename === 'swiper-proto.js') addIndent = '    ';
         if (minusIndent) {
             addIndent = addIndent.substring(4);
         }
@@ -132,7 +146,7 @@
             .pipe(tap(function (file, t){
                 addJSIndent (file, t);
             }))
-            .pipe(concat(swiper.filename + '.js'))            
+            .pipe(concat(swiper.filename + '.js'))
             .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date } ))
             .pipe(gulp.dest(paths.build.scripts))
 
@@ -156,6 +170,7 @@
         cb();
     });
     gulp.task('styles', function (cb) {
+
         gulp.src(paths.source.styles + 'swiper.less')
             .pipe(less({
                 paths: [ path.join(__dirname, 'less', 'includes') ]
@@ -166,6 +181,17 @@
             }))
             .pipe(gulp.dest(paths.build.styles))
             .pipe(connect.reload());
+
+        gulp.src([
+                paths.source.styles + 'core.less',
+                paths.source.styles + 'navigation-f7.less',
+                paths.source.styles + 'effects.less',
+                paths.source.styles + 'scrollbar.less',
+                paths.source.styles + 'preloader-f7.less',
+            ])
+            .pipe(concat(swiper.filename + '.framework7.less'))
+            .pipe(header('/* === Swiper === */\n'))
+            .pipe(gulp.dest(paths.build.styles));
         cb();
     });
     gulp.task('build', ['scripts', 'styles'], function (cb) {
@@ -197,7 +223,10 @@
 
         gulp.src(paths.build.styles + '*.css')
             .pipe(gulp.dest(paths.dist.styles))
-            .pipe(minifyCSS())
+            .pipe(minifyCSS({
+                advanced: false,
+                aggressiveMerging: false,
+            }))
             .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date }))
             .pipe(rename(function(path) {
                 path.basename = swiper.filename + '.min';
@@ -217,7 +246,7 @@
             port:'3000'
         });
     });
-    
+
     gulp.task('open', function () {
         return gulp.src(paths.playground.root + 'index.html').pipe(open('', { url: 'http://localhost:3000/' + paths.playground.root + 'index.html'}));
     });

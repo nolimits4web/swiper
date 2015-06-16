@@ -66,9 +66,14 @@
     }
     .swiper-slide {
         pointer-events: none;
+        .swiper-slide {
+            pointer-events: none;
+        }
     }
     .swiper-slide-active {
-        pointer-events: auto;
+        &, & .swiper-slide-active {
+            pointer-events: auto;
+        }
     }
 }
 /* Cube */

@@ -1,24 +1,27 @@
 /*=========================
   Mousewheel Control
   ===========================*/
-s._wheelEvent = false;
-s._lastWheelScrollTime = (new Date()).getTime();
+s.mousewheel = {
+    event: false,
+    lastScrollTime: (new window.Date()).getTime()
+};
 if (s.params.mousewheelControl) {
     if (document.onmousewheel !== undefined) {
-        s._wheelEvent = 'mousewheel';
+        s.mousewheel.event = 'mousewheel';
     }
-    if (!s._wheelEvent) {
+    if (!s.mousewheel.event) {
         try {
-            new WheelEvent('wheel');
-            s._wheelEvent = 'wheel';
+            new window.WheelEvent('wheel');
+            s.mousewheel.event = 'wheel';
         } catch (e) {}
     }
-    if (!s._wheelEvent) {
-        s._wheelEvent = 'DOMMouseScroll';
+    if (!s.mousewheel.event) {
+        s.mousewheel.event = 'DOMMouseScroll';
     }
 }
 function handleMousewheel(e) {
-    var we = s._wheelEvent;
+    if (e.originalEvent) e = e.originalEvent; //jquery fix
+    var we = s.mousewheel.event;
     var delta = 0;
     //Opera & IE
     if (e.detail) delta = -e.detail;
@@ -57,16 +60,25 @@ function handleMousewheel(e) {
         }
     }
 
+    if (s.params.mousewheelInvert) delta = -delta;
+
     if (!s.params.freeMode) {
-        if ((new Date()).getTime() - s._lastWheelScrollTime > 60) {
-            if (delta < 0) s.slideNext();
-            else s.slidePrev();
+        if ((new window.Date()).getTime() - s.mousewheel.lastScrollTime > 60) {
+            if (delta < 0) {
+                if (!s.isEnd) s.slideNext();
+                else if (s.params.mousewheelReleaseOnEdges) return true;
+            }
+            else {
+                if (!s.isBeginning) s.slidePrev();
+                else if (s.params.mousewheelReleaseOnEdges) return true;
+            }
         }
-        s._lastWheelScrollTime = (new Date()).getTime();
+        s.mousewheel.lastScrollTime = (new window.Date()).getTime();
 
     }
     else {
         //Freemode or scrollContainer:
+
         var position = s.getWrapperTranslate() + delta;
 
         if (position > 0) position = 0;
@@ -76,6 +88,13 @@ function handleMousewheel(e) {
         s.setWrapperTranslate(position);
         s.updateProgress();
         s.updateActiveIndex();
+
+        if (s.params.freeModeSticky) {
+            clearTimeout(s.mousewheel.timeout);
+            s.mousewheel.timeout = setTimeout(function () {
+                s.slideReset();
+            }, 300);
+        }
 
         // Return page scroll on edge positions
         if (position === 0 || position === s.maxTranslate()) return;
@@ -87,13 +106,13 @@ function handleMousewheel(e) {
     return false;
 }
 s.disableMousewheelControl = function () {
-    if (!s._wheelEvent) return false;
-    s.container.off(s._wheelEvent, handleMousewheel);
+    if (!s.mousewheel.event) return false;
+    s.container.off(s.mousewheel.event, handleMousewheel);
     return true;
 };
 
 s.enableMousewheelControl = function () {
-    if (!s._wheelEvent) return false;
-    s.container.on(s._wheelEvent, handleMousewheel);
+    if (!s.mousewheel.event) return false;
+    s.container.on(s.mousewheel.event, handleMousewheel);
     return true;
 };

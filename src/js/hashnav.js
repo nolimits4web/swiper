@@ -13,7 +13,7 @@ s.hashnav = {
             var slideHash = slide.attr('data-hash');
             if (slideHash === hash && !slide.hasClass(s.params.slideDuplicateClass)) {
                 var index = slide.index();
-                s._slideTo(index, speed);
+                s.slideTo(index, speed, s.params.runCallbacksOnInit, true);
             }
         }
     },
