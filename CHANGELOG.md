@@ -1,238 +1,123 @@
 # Change Log
 
-## Swiper 2.6.1 - Updated on May 6, 2014
-
-  * Fix for fireCallback function when it is called externally
-
-## Swiper 2.6.0 - Updated on April 9, 2014
-
-  * New methods to enable/disable mousewheel control: enableMousewheeControl/disableMousewheeControl
+## Swiper 3.0.8 - Released on June 14, 2015
+  * Fixed issue with wrong active index and callbacks in Fade effect
+  * New mousewheel parameters:
+    * `mousewheelReleaseOnEdges` - will release mousewheel event and allow page scrolling when swiper is on edge positions (in the beginning or in the end)
+    * `mousewheelInvert` - option to invert mousewheel slides
+  * Fixed issue with lazy loading in next slides when `slidesPerView` > 1
+  * Fixed issue with resistance bounds when swiping is locked
+  * Fixed issue with wrong slides order in multi-row mode (when `slidesPerColumn` > 1)
+  * Fixed issue with not working keyboard control in RTL mode
+  * Fixed issue with nested fade-effect swipers
   * Minor fixes
 
-## Swiper 2.5.5 - Updated on March 23, 2014
-
-  * New API parameter: roundLengths
-  * Lot of minor fixes
-
-## Swiper 2.5.0 - Updated on March 6, 2014
-
-  * New API parameter: slidesPerViewFit
-  * New API methods: disableKeyboardControl, enableKeyboardControl
-  * Require JS support
-  * JS Hinted
-  * Lot of minor fixes
-
-## Swiper 2.4.3 - Updated on January 29, 2014
-
-  * Fix loop and autoplay bug
-
-## Swiper 2.4.2 - Updated on January 19, 2014
-
-  * New [api][1] parameters: autoplayStopOnLast, longSwipesRatio, eventTarger, preventLinksPropagation
-  * Now "looped" slides have additional "swiper-slide-duplicate" class
-  * Updated onProgressChange callback to work with new Callbacks API
+## Swiper 3.0.7 - Released on April 25, 2015
+  * New `width` and `height` parameters to force Swiper size, useful when it is hidden on intialization
+  * Better support for "Scroll Container". So now Swiper can be used as a scroll container with one single "scrollable"/"swipeable" slide
+  * Added lazy loading for background images with `data-background` attribute on required elements
+  * New "Sticky Free Mode" (with `freeModeSticky` parameter) which will snap to slides positions in free mode
+  * Fixed issues with lazy loading  
+  * Fixed slide removing when loop mode is enabled
+  * Fixed issues with Autoplay and Fade effect
   * Minor fixes
 
-## Swiper 2.4.1 - Updated on December 15, 2013
-
-  * Mousewheel fixes, new **mousewheelForceToAxis** parameter
-  * Improved old IE animation timings
-  * Updated Swiper's CSS with content-box property on .swiper-wrapper
-
-## Swiper 2.4.0 - Updated on December 6, 2013
-
-  * New callbacks onSlideNext, onSlidePrev
-  * New additive callbacks API
-  * Highly improved mouse wheel behavior, especially for OSX inertia scrolling in usual mode, and now it returns page scrolling for edge positions in scrollContainer mode
-  * Fully reworked autoplay with new ability to restart it using new autoplayDisableOnInteraction parameter
-  * Updated [Scrollbar][2] plugin, fix for centeredSlides mode
-  * A bit of IE fixes
-
-## Swiper 2.3.0 - Updated on November 2, 2013
-
-  * Small fixes and code improvements
-  * New callbacks onSetWrapperTransition, onSetWrapperTransform, onSwiperCreated
-  * Updated [Scrollbar][3] plugin, now scrollbar will be invisible when it is not required
-  * New amazing [Smooth Progress][3] plugin.
-  * New [Hash Navigation][4] plugin.
-
-## Swiper 2.2.0 - Updated on September 15, 2013
-
-  * Many fixes and code improvements
-  * Updated [Scrollbar][2] plugin
-  * Fixed links and events in loop mode
-  * A bit improved freeMode logic
-  * Improved "noSwiping" logic
-  * Other minor fixes
-
-## Swiper 2.1.0 - Updated on August 22, 2013
-
-  * Many fixes and improvements
-  * Updated [Scrollbar][2] plugin with new onScrollbarDrag callback
-  * New [API][1] inFirstInit and onInit callbacks
-  * New [Pull To Refresh][5] demo
-  * Improved "noSwiping" logic
-  * Fixed clickedSlideIndex for IE7-8
-  * Fixed "calculateHeight" logic
-  * Other minor fixes
-
-## Swiper 2.0.0 - Updated on June 22, 2013
-
-  * Many new features, new functionality, new core, new API
-  * Better old IE support, now it supports even IE 7 (jQuery required)
-  * Lot of major and minor fixes
-
-## Swiper 1.9.4 - Updated on May 23, 2013
-
-  * Fixed Autoplay in non loop mode with slidesPerSlide more than 1
-  * Ability to enable/disable callback queues to get more control over the callbacks
-  * Minor Fixes
-
-## Swiper 1.9.3 - Updated on April 30, 2013
-
-  * Few important fixes including IE8 improvements
-  * Updated [Scrollbar][6] plugin to be compatible with IE8
-
-## Swiper 1.9.2 - Updated on April 19, 2013
-
-  * New [API][1] features:
-    * New feature to enable 100% resitance with `nopeek` parameter
-    * New feature to disable "swiping" on some slide with additional `NoSwiping` element's class
-    * `.activeSlide` became `.activeIndex`
-    * `.previousSlide` became `.previousIndex`
-  * IE9 fix for with in percents
-  * Other minor fixes and improvements
-
-## Swiper 1.9.1 - Updated on April 6, 2013
-
-  * New [API][1] features:
-    * New feature to disable short swipes with `shortSwipes` parameter
-    * New feature to add "start" threshold `moveStartThreshold` parameter
-    * New feature to use left/top wrapper position offset instead of use of css3 transforms `useCSS3Transforms` parameter
-  * Updates CSS file
-  * Minor fixes and improvements
-
-## Swiper 1.9 - Updated on March 16, 2013
-
-  * Added support for devices that can use both mouse and touch "pointers" at the same time, like many of Windows 8 tablets and notebooks
-  * New [API][1] features:
-    * New feature to set "group sliding" with `slidesPerGroup` parameter
-    * Now you can hardcode resize event (for example "resize" instead of "orientationchange" for mobiles) with `resizeEvent` parameter
-  * Fixes:
-    * Fixed situation when slider can get stuck between slides when tapped during transition
-    * Now clickedSlide will return correct slide in loop mode
+## Swiper 3.0.6 - Released on March 27, 2015
+  * Fixed sometimes wrong slides position when using "Fade" effect
+  * `.destroy(deleteInstance, cleanupStyles)` method now has second `cleanupStyles` argument, when passed - all custom styles will be removed from slides, wrapper and container. Useful if you need to destroy Swiper and to init again with new options or in different direction
   * Minor fixes
 
-## Swiper 1.8.8 - Updated on March 4, 2013
+## Swiper 3.0.5 - Released on March 21, 2015
+  * New Keyboard accessibility module to provide foucsable navigation buttons and basic ARIA for screen readers with new parameters:
+    * `a11y: false` - enable accessibility
+    * `prevSlideMessage: 'Previous slide'` - message for screen readers for previous button
+    * `nextSlideMessage: 'Next slide'` - message for screen readers for next button
+    * `firstSlideMessage: 'This is the first slide'` - message for screen readers for previous button when swiper is on first slide
+    * `lastSlideMessage: 'This is the last slide'` - message for screen readers for next button when swiper is on last slide
+  * New Emitter module. It allows to work with callbacks like with events, even adding them after initialization with new methods:
+    * `.on(event, handler)` - add event/callback
+    * `.off(event, handler)` - remove this event/callback
+    * `.once(event, handler)` - add event/callback that will be executed only once
+  * Plugins API is back. It allows to write custom Swiper plugins
+  * Better support for browser that don't support flexbox layout
+  * New parameter `setWrapperSize` (be default it is `false`) to provide better compatibility with browser without flexbox support. Enabled this option and plugin will set width/height on swiper wrapper equal to total size of all slides
+  * New `virtualTranslate` parameter. When it is enabled swiper will be operated as usual except it will not move. Useful when you may need to create custom slide transition
+  * Added support for multiple Pagination containers
+  * Fixed `onLazyImage...` callbacks
+  * Fixed issue with not accessible links inside of Slides on Android < 4.4
+  * Fixed pagination bullets behavior in loop mode with specified `slidesPerGroup`
+  * Fixed issues with clicks on IE 10+ touch devices
+  * Fixed issues with Coverflow support on IE 10+
+  * Hashnav now will update document hash after transition to prevent browsers UI lags, not in the beginning like before
+  * Super basic support for IE 9 with swiper.jquery version. No animation and transitions, but basic stuff like switching slides/pagination/scrollbars works
+  
 
-  * Improved cursors usablity with autmatic grab cursors for container and drag cursor for scrollbar
-  * Improved mousewheel control for scroll container/free mode to have more native scrolling behavior
-  * Snap functionality for scrollbar
-  * [Scrollbar][2] plugin updated to version 1.2
+## Swiper 3.0.4 - Released on March 6, 2015
+  * New Images Lazy Load component
+    * With new parameters `lazyLoading`, `lazyLoadingInPrevNext`, `lazyLoadingOnTransitionStart` (all disabled by default)
+    * With new callbacks `onLazyImageLoad` and `onLazyImageReady`
+  * `updateOnImages` ready split into 2 parameters:
+    * `preloadImages` (by default is true) - to preload all images on swiper init
+    * `updateOnImages` (by default is true) - update swiper when all images loaded
+  * Fixed issues with touchmove on fouces form elements
+  * New `onObserverUpdate` callback function to be called after updates by ovserver
+  * Fixed issue with not working inputs with keyboard control for jQuery version
+  * New `paginationBulletRender` parameter that accepts function which allow custom pagination elements layout
+  * Hash Navigation will run callback dpending on `runCallbacksOnInit` parameter
+  * `watchVisibility` parameter renamed to `watchSlidesVisibility`
+
+## Swiper 3.0.3 - Released on March 1, 2015
+  * Fixed issue with not firing onSlideChangeEnd callback after calling .slideTo with
+runCallbacks=false
+  * Fixed values of isBeginning/isEnd when there is only one slide
+  * New `crossFade` option for fade effect
+  * Improved support for devices with both touch and mouse inputs, not yet on IE
+  * Fixed not correctly working mousewheel and keyobard control in swiper.jquery version
+  * New parallax module for transitions with parallax effects on internal elements
+  * Improved .update and .onResize methods
   * Minor fixes
 
-## Swiper 1.8.7 - Updated on February 22, 2013
+## Swiper 3.0.2 - Released on February 22, 2015
+  * Fixed issue with keyboard events not cleaned up with Swiper.destroy
+  * Encoded inline SVG images for IE support
+  * New callbacks
+    * onInit (swiper)
+    * onTouchMoveOpposite (swiper, e)
+  * Fixed free mode momentum in RTL layout
+  * `.update` method improved to fully cover what `onResize` do for full and correct update
+  * Exposed `swiper.touches` object with the following properties: `startX`, `startY`, `currentX`, `currentY`, `diff`
+  * New methods to remove slides
+    * `.removeSlide(index)` or `.removeSlide([indexes])` - to remove selected slides
+    * `.removeAllSlides()` - to remove all slides
 
-  * Fixed initialSlide/resize issue
-  * New ability to use slides with fixed width in fluid container with a `slidesPerSlide:'auto'`
-  * Pagination switch that appropriate to active slide index has additional "swiper-activeslide-switch"
-  * Other minor fixes
+## Swiper 3.0.1 - Released on February 13, 2015
+  * Fixed issue with navigation buttons in Firefox in loop mode
+  * Fixed issue with image dragging in IE 10+
 
-## Swiper 1.8.5 - Updated on February 5, 2013
+## Swiper 3.0.0 - Released on February 11, 2015
+  * Initial release of all new Swiper 3
+  * Removed features
+    * Dropped support for old browsers. Now it is compatible with:
+      * iOS 7+
+      * Android 4+ (multirow mode only for Android 4.4+)
+      * Latest Chrome, Safari, Firefox and Opera desktop browsers
+      * WP 8+, IE 10+ (3D effects may not work correctly on IE because of wrong nested 3D transform support)
+    * Scroll Container. Removed in favor of pure CSS `overflow: auto` with `-webkit-overflow-scrolling: touch`
+  * New features
+    * Swiper now uses modern flexbox layout, which by itself give more features and advantages
+    * Such Swiper 2.x plugins as Hash Navigation, Smooth Progress, 3D Flow and Scrollbar are now incoroporated into Swiper 3.x core
+    * Full RTL support
+    * Built-in navigation buttons/arrows
+    * Controller. Now one Swiper could be controlled (or control itself) by another Swiper
+    * Multi row slides layout with `slidesPerColumn` option
+    * Better support for nested Swipers, now it is possible to use same-direction nested Swipers, like horizontal in horizontal
+    * Space between slides
+    * New transition effects: 3D Coverflow, 3D Cube and Fade transitions
+    * Slides are `border-box` now, so it is possible to use borders and paddings directly on slides
+    * Auto layout mode (`slidesPerView: 'auto'`) now gives more freedom, you can even specify slides sizes in % and use margins on them
+    * Mutation Observers. If enabled, Swiper will watch for changes in Dom and update its layout automatically
+    * Better clicks prevention during swiping
+  * Many of API methods, parameters and callbacks are changed
+  * Added a bit lightweight jQuery/Zepto version of Swiper that can be used if you use jQuery/Zepto in your project
 
-  * New [API][1] features:
-    * New keyboard arrows navigation with "keyboardControl" option
-    * New mousewheel navigation with "mousewheelControl" option
-  * Now it is possible to pass HTMLElement on initialization, not only css selector like before
-  * Updated [3D Flow][7]
-  * Updated [Scrollbar][2]
-  * Fixed small Android and IE8 bugs
-  * Improved "scrollContainer" to be more responsive
-  * Other minor core fixes
 
-## Swiper 1.8 - Updated on January 18, 2013
-
-  * New huge and awesome [Slides API][8]
-  * New [API][1] features:
-    * New initialization option "initialSlide"
-    * New methods: ".reInit()", ".currentSlide()", ".clickedSlide"
-    * New callbacks: "onSlideClick" and "onSlideTouch"
-  * Update [3D Flow][7] plugin to work with new features
-  * Lot of minor and few major core fixes
-
-## Swiper 1.7 - Updated on December 19, 2012
-
-  * New API features
-  * Scroll Container Improvements
-  * Reworked internal plugins API
-  * Windows Phone 8 Support
-  * Minor fixes
-
-## Swiper 1.6 - Updated on December 11, 2012
-
-  * New Scroll Container mode to use like simple scrollable area!
-  * New API features
-  * Highly improved nested behavior to create multi dimensional apps
-  * Fixed auto play in loop mode
-  * Fixed initialization "delay" in loop mode
-  * New internal plugins API (beta). It allows to create own Swiper plugins
-  * Improved Internet Explorer 8 support
-  * Minor fixes
-
-## Swiper 1.5.5 - Updated on October 20, 2012
-
-  * Internet Explorer 8 support (without animation)
-  * FireFox below 11 support
-
-## Swiper 1.5 - Updated on October 6, 2012
-
-  * A lot of major and minor fixes, core optimization
-  * Now it works in Internet Explorer 9 (without animation) and Internet Explorer 10
-  * Improved perfomance
-  * New "loop" mode with infinite scroll (see demo below)
-  * New carousel mode, now you can show few slides per slider container (see demo below)
-  * New "smart" pagination, looks fun with loop and carousel modes
-  * Now Swipers can be easily nested one into another (see demo below)
-  * Added ability to disable automatic slider resize on windows resize
-  * Updated CSS
-
-## Swiper 1.3 - Updated on April 15, 2012
-
-  * External functions swipeNext, swipePrev, swipeTo now return true or false.
-  * **.previousSlide** property returns the index of previously displayed slide
-  * Added **onSlideInitialize** callback
-
-## Swiper 1.3 - Updated on April 2, 2012
-
-  * Added **onSlideChangeStart** callback
-  * Added **onSlideReset** callback
-  * **onSlideChange** is renamed to **onSlideChangeEnd**
-  * Now **.swipeTo()** method accepts 3 parameters - index _(number)_, speed _(number)_ and runCallbacks _(boolean)_
-  * Now **.swipeTo()** method will produce 'onSlideChangeStart' and 'onSlideChangeEnd' callback functions (if "runCallbacks" is not equal to "false")
-  * New **mySwiper.destroy()** method to release all events assigned by Swiper
-  * Fixed serious bug when using fluid (responsive) Swiper to re-calculate slides' position on window resize
-
-## Swiper 1.2 - Updated on March 31, 2012
-
-  * Improved mouse events to get the same behaviour as on touch devices
-
-## Swiper 1.1 - Updated on March 18, 2012
-
-  * Added **autoPlay** parameter to enable auto play
-  * **mySwiper.startAutoPlay()** \- external function to start auto play
-  * **mySwiper.startAutoPlay()** \- external function to stop auto play
-  * Optimized for usage as a fallback for upcoming **["iDangero.us S6"**][9] 3D slider
-  * Added small plugin to use Swiper with [Zepto.js][10]
-
-## Swiper 1.0 - Initial release on March 15, 2012
-
-   [1]: http://www.idangero.us/sliders/swiper/api.php
-   [2]: http://www.idangero.us/sliders/swiper/plugins/scrollbar.php
-   [3]: http://www.idangero.us/sliders/swiper/plugins/progress.php
-   [4]: http://www.idangero.us/sliders/swiper/plugins/hashnav.php
-   [5]: http://www.idangero.us/sliders/swiper/demos.php
-   [6]: https://raw.github.com/plugins/scrollbar.php
-   [7]: http://www.idangero.us/sliders/swiper/plugins/3dflow.php
-   [8]: http://www.idangero.us/sliders/swiper/api.php#slidesapi
-   [9]: http://www.idangero.us/sliders/s6/
-   [10]: http://zeptojs.com

@@ -1,17 +1,17 @@
 {
   "name": "swiper",
   "repo": "https://github.com/nolimits4web/Swiper.git",
-  "description": "Mobile touch slider and framework with hardware accelerated transitions",
-  "version": "2.4.3",
-  "keywords": ["swiper", "swipe", "slider"],
+  "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
+  "version": "3.0.8",
+  "keywords": ["swiper", "swipe", "slider", "touch", "ios", "mobile", "cordova", "phonegap", "app", "framework", "carousel", "gallery"],
   "dependencies": {
   },
   "scripts": [
-    "dist/idangerous.swiper.js"
+    "dist/js/swiper.js"
   ],
-  "main": "dist/idangerous.swiper.js",
+  "main": "dist/js/swiper.js",
   "styles": [
-    "dist/idangerous.swiper.css"
+    "dist/css/swiper.css"
   ],
-  "license": ["GPL", "MIT"]
+  "license": ["MIT"]
 }

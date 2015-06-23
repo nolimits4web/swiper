@@ -3,11 +3,17 @@
 <head>
     <meta charset="utf-8">
     <title>Swiper demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="../dist/css/swiper.min.css">
 
     <!-- Demo styles -->
     <style>
+    html, body {
+        position: relative;
+        height: 100%;
+    }
     body {
         background: #eee;
         font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -17,15 +23,14 @@
         padding: 0;
     }
     .swiper-container {
-        width: 500px;
-        height: 300px;
-        margin: 20px auto;
+        width: 100%;
+        height: 100%;
     }
     .swiper-slide {
         text-align: center;
         font-size: 18px;
         background: #fff;
-        
+
         /* Center slide text vertically */
         display: -webkit-box;
         display: -ms-flexbox;
@@ -44,7 +49,7 @@
 </head>
 <body>
     <!-- Swiper -->
-    <div class="swiper-container">
+    <div class="swiper-container" dir="rtl">
         <div class="swiper-wrapper">
             <div class="swiper-slide">Slide 1</div>
             <div class="swiper-slide">Slide 2</div>
@@ -57,6 +62,11 @@
             <div class="swiper-slide">Slide 9</div>
             <div class="swiper-slide">Slide 10</div>
         </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- Add Navigation -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
     </div>
 
     <!-- Swiper JS -->
@@ -64,7 +74,12 @@
 
     <!-- Initialize Swiper -->
     <script>
-    var swiper = new Swiper('.swiper-container');
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev'
+    });
     </script>
 </body>
 </html>

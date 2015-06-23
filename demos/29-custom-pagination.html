@@ -3,11 +3,17 @@
 <head>
     <meta charset="utf-8">
     <title>Swiper demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="../dist/css/swiper.min.css">
 
     <!-- Demo styles -->
     <style>
+    html, body {
+        position: relative;
+        height: 100%;
+    }
     body {
         background: #eee;
         font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -17,15 +23,14 @@
         padding: 0;
     }
     .swiper-container {
-        width: 500px;
-        height: 300px;
-        margin: 20px auto;
+        width: 100%;
+        height: 100%;
     }
     .swiper-slide {
         text-align: center;
         font-size: 18px;
         background: #fff;
-        
+
         /* Center slide text vertically */
         display: -webkit-box;
         display: -ms-flexbox;
@@ -39,6 +44,20 @@
         -ms-flex-align: center;
         -webkit-align-items: center;
         align-items: center;
+    }
+    .swiper-pagination-bullet {
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        font-size: 12px;
+        color:#000;
+        opacity: 1;
+        background: rgba(0,0,0,0.2);
+    }
+    .swiper-pagination-bullet-active {
+        color:#fff;
+        background: #007aff;
     }
     </style>
 </head>
@@ -57,6 +76,8 @@
             <div class="swiper-slide">Slide 9</div>
             <div class="swiper-slide">Slide 10</div>
         </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
     </div>
 
     <!-- Swiper JS -->
@@ -64,7 +85,13 @@
 
     <!-- Initialize Swiper -->
     <script>
-    var swiper = new Swiper('.swiper-container');
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        paginationBulletRender: function (index, className) {
+            return '<span class="' + className + '">' + (index + 1) + '</span>';
+        }
+    });
     </script>
 </body>
 </html>
