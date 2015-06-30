@@ -58,11 +58,10 @@
                 'src/js/swiper-proto.js',
                 'src/js/dom.js',
                 'src/js/dom-plugins.js',
-                'src/js/wrap-end.js',
-                'src/js/amd.js'
+                'src/js/wrap-end.js'
             ],
             jQueryFiles : [
-                'src/js/wrap-start.js',
+                'src/js/wrap-start-jquery.js',
                 'src/js/swiper-intro.js',
                 'src/js/core.js',
                 'src/js/effects.js',
@@ -80,8 +79,7 @@
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
                 'src/js/dom-plugins.js',
-                'src/js/wrap-end.js',
-                'src/js/amd.js'
+                'src/js/wrap-end.js'
             ],
             Framework7Files : [
                 'src/js/swiper-intro-f7.js',
@@ -125,7 +123,7 @@
     function addJSIndent (file, t, minusIndent) {
         var addIndent = '        ';
         var filename = file.path.split('src/js/')[1];
-        if (filename === 'wrap-start.js' || filename === 'wrap-end.js' || filename === 'amd.js') {
+        if (filename === 'wrap-start.js' || filename === 'wrap-end.js') {
             addIndent = '';
         }
         if (filename === 'swiper-intro.js' || filename === 'swiper-intro-f7.js' || filename === 'swiper-outro.js' || filename === 'dom.js' || filename === 'dom-plugins.js' || filename === 'swiper-proto.js') addIndent = '    ';

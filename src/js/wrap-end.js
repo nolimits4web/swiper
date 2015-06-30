@@ -1,2 +1,2 @@
-    window.Swiper = Swiper;
-})();
+    return Swiper;
+}));
