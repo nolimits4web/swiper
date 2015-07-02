@@ -27,23 +27,30 @@
         margin-left: auto;
         margin-right: auto;
     }
-    .swiper-slide {
+
+    .gallery-top .swiper-slide {
         background-size: cover;
         background-position: center;
+        width: 500px;
     }
+
     .gallery-top {
         height: 80%;
         width: 100%;
+
     }
     .gallery-thumbs {
         height: 20%;
         box-sizing: border-box;
         padding: 10px 0;
+
     }
+
+
+
     .gallery-thumbs .swiper-slide {
-        width: 25%;
-        height: 100%;
-        opacity: 0.4;
+        color: white;
+        width: auto;
     }
     .gallery-thumbs .swiper-slide-active {
         opacity: 1;
@@ -72,16 +79,16 @@
     </div>
     <div class="swiper-container gallery-thumbs">
         <div class="swiper-wrapper">
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1200/1200/nature/1)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1200/1200/nature/2)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1200/1200/nature/3)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1200/1200/nature/4)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1200/1200/nature/5)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1200/1200/nature/6)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1200/1200/nature/7)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1200/1200/nature/8)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1200/1200/nature/9)"></div>
-            <div class="swiper-slide" style="background-image:url(http://lorempixel.com/1200/1200/nature/10)"></div>
+            <div class="swiper-slide">IMG1 1</div>
+            <div class="swiper-slide">IMG2 1234</div>
+            <div class="swiper-slide">IMG3 12341234</div>
+            <div class="swiper-slide">IMG4 123412341234</div>
+            <div class="swiper-slide">IMG5 123412341234</div>
+            <div class="swiper-slide">IMG6 123412341234</div>
+            <div class="swiper-slide">IMG7 12341234</div>
+            <div class="swiper-slide">IMG8 12341234</div>
+            <div class="swiper-slide">IMG9 1234</div>
+            <div class="swiper-slide">IMG10 1</div>
         </div>
     </div>
 
@@ -91,12 +98,13 @@
     <!-- Initialize Swiper -->
     <script>
     var galleryTop = new Swiper('.gallery-top', {
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev',
         spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        slideToClickedSlide: true
     });
     var galleryThumbs = new Swiper('.gallery-thumbs', {
-        spaceBetween: 10,
+        spaceBetween: 100,
         centeredSlides: true,
         slidesPerView: 'auto',
         touchRatio: 0.2,
