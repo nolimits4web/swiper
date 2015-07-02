@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: June 14, 2015
+ * Released on: July 2, 2015
  */
 (function () {
     'use strict';
@@ -2390,13 +2390,24 @@
           Controller
           ===========================*/
         s.controller = {
+            //xxx: for now i will just save one spline function to to 
+            getInterpolateFunction: function(c){
+               if(!s.spline) s.spline = new LinearSpline(s.snapGrid, c.snapGrid);
+            },
             setTranslate: function (translate, byController) {
                 var controlled = s.params.control;
                 var multiplier, controlledTranslate;
                 function setControlledTranslate(c) {
+                    // this will create an Interpolate function based on the snapGrids
+                    // x is the Grid of the scrolled scroller and y will be the controlled scroller
+                    // it makes sense to create this only once and recall it for the interpolation
+                    // the function does a lot of value caching for performance 
+                    s.controller.getInterpolateFunction(c);
                     translate = c.rtl && c.params.direction === 'horizontal' ? -s.translate : s.translate;
-                    multiplier = (c.maxTranslate() - c.minTranslate()) / (s.maxTranslate() - s.minTranslate());
-                    controlledTranslate = (translate - s.minTranslate()) * multiplier + c.minTranslate();
+                    // i am not sure why the values have to be multiplicated this way, tried to invert the snapGrid
+                    // but it did not work out
+                    controlledTranslate = -s.spline.interpolate(-translate);
+        
                     if (s.params.controlInverse) {
                         controlledTranslate = c.maxTranslate() - controlledTranslate;
                     }
@@ -2412,6 +2423,7 @@
                     }
                 }
                 else if (controlled instanceof Swiper && byController !== controlled) {
+                    // console.log('setting translate for controlled', controlled)
                     setControlledTranslate(controlled);
                 }
             },
@@ -3152,6 +3164,46 @@
     }
         
     
+
+        var LinearSpline = function (x, y) {
+            this.x = x;
+            this.y = y;
+            this.lastIndex = x.length - 1;
+            
+        
+            // Given an x value (x2), return the expected y2 value:
+            // (x1,y1) is the known point before given value,
+            // (x3,y3) is the known point after given value.
+            var i1, i3;
+            var l = this.x.length;
+        
+            this.interpolate = function (x2) {
+                if (!x2) return 0;
+        
+                // Get the indexes of x1 and x3 (the array indexes before and after given x2):
+                i3 = binarySearch(this.x, x2);
+                i1 = i3 - 1;
+        
+                // We have our indexes i1 & i3, so we can calculate already:
+                // y2 := ((x2−x1) × (y3−y1)) ÷ (x3−x1) + y1
+                return ((x2 - this.x[i1]) * (this.y[i3] - this.y[i1])) / (this.x[i3] - this.x[i1]) + this.y[i1];
+            };
+        
+            var binarySearch = (function() {
+                var maxIndex, minIndex, guess;
+                return function(array, val) {
+                    minIndex = -1;
+                    maxIndex = array.length;
+                    while (maxIndex - minIndex > 1)
+                        if (array[guess = maxIndex + minIndex >> 1] <= val) {
+                            minIndex = guess;
+                        } else {
+                            maxIndex = guess;
+                        }
+                    return maxIndex;
+                };
+            })();
+        };
 
     window.Swiper = Swiper;
 })();

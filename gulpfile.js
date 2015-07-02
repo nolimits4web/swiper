@@ -58,6 +58,7 @@
                 'src/js/swiper-proto.js',
                 'src/js/dom.js',
                 'src/js/dom-plugins.js',
+                'src/js/linear-spline.js',
                 'src/js/wrap-end.js',
                 'src/js/amd.js'
             ],
@@ -80,6 +81,7 @@
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
                 'src/js/dom-plugins.js',
+                'src/js/linear-spline.js',
                 'src/js/wrap-end.js',
                 'src/js/amd.js'
             ],
@@ -95,6 +97,7 @@
                 'src/js/emitter.js',
                 'src/js/a11y.js',
                 'src/js/init.js',
+                'src/js/linear-spline.js',
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
             ],
