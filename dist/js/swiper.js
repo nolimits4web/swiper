@@ -10,10 +10,11 @@
  * 
  * Licensed under MIT
  * 
- * Released on: June 14, 2015
+ * Released on: July 2, 2015
  */
 (function () {
     'use strict';
+
     /*===========================
     Swiper
     ===========================*/
@@ -3732,10 +3733,27 @@
     })();
     
 
+        /*===========================
+         Get Dom libraries
+         ===========================*/
+        var swiperDomPlugins = ['jQuery', 'Zepto', 'Dom7'];
+        for (var i = 0; i < swiperDomPlugins.length; i++) {
+        	if (window[swiperDomPlugins[i]]) {
+        		addLibraryPlugin(window[swiperDomPlugins[i]]);
+        	}
+        }
+        // Required DOM Plugins
+        var domLib;
+        if (typeof Dom7 === 'undefined') {
+        	domLib = window.Dom7 || window.Zepto || window.jQuery;
+        }
+        else {
+        	domLib = Dom7;
+        }
+
     /*===========================
     Add .swiper plugin from Dom libraries
     ===========================*/
-    var swiperDomPlugins = ['jQuery', 'Zepto', 'Dom7'];
     function addLibraryPlugin(lib) {
         lib.fn.swiper = function (params) {
             var firstInstance;
@@ -3746,19 +3764,7 @@
             return firstInstance;
         };
     }
-    for (var i = 0; i < swiperDomPlugins.length; i++) {
-        if (window[swiperDomPlugins[i]]) {
-            addLibraryPlugin(window[swiperDomPlugins[i]]);
-        }
-    }
-    // Required DOM Plugins
-    var domLib;
-    if (typeof Dom7 === 'undefined') {
-        domLib = window.Dom7 || window.Zepto || window.jQuery;
-    }
-    else {
-        domLib = Dom7;
-    }
+    
     if (domLib) {
         if (!('transitionEnd' in domLib.fn)) {
             domLib.fn.transitionEnd = function (callback) {
@@ -3807,16 +3813,16 @@
 
     window.Swiper = Swiper;
 })();
-/*===========================
-Swiper AMD Export
-===========================*/
-if (typeof(module) !== 'undefined')
-{
-    module.exports = window.Swiper;
-}
-else if (typeof define === 'function' && define.amd) {
-    define([], function () {
-        'use strict';
-        return window.Swiper;
-    });
-}
+        /*===========================
+         Swiper AMD Export
+         ===========================*/
+        if (typeof(module) !== 'undefined')
+        {
+        	module.exports = window.Swiper;
+        }
+        else if (typeof define === 'function' && define.amd) {
+        	define([], function () {
+        		'use strict';
+        		return window.Swiper;
+        	});
+        }
