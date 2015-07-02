@@ -149,7 +149,7 @@
     function addJSIndent (file, t, minusIndent) {
         var addIndent = '        ';
         var filename = file.path.split('src/js/')[1];
-        if (filename === 'wrap-start.js' || filename === 'wrap-end.js') {
+        if (['wrap-start.js', 'wrap-start-umd.js', 'wrap-end.js', 'wrap-end-umd.js', 'amd.js'].indexOf(filename) !== -1) {
             addIndent = '';
         }
         if (filename === 'swiper-intro.js' || filename === 'swiper-intro-f7.js' || filename === 'swiper-outro.js' || filename === 'dom.js' || filename === 'dom-plugins.js' || filename === 'swiper-proto.js') addIndent = '    ';

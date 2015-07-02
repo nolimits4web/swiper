@@ -14,7 +14,6 @@
  */
 (function () {
     'use strict';
-
     /*===========================
     Swiper
     ===========================*/
@@ -3161,16 +3160,16 @@
 
     window.Swiper = Swiper;
 })();
-        /*===========================
-         Swiper AMD Export
-         ===========================*/
-        if (typeof(module) !== 'undefined')
-        {
-        	module.exports = window.Swiper;
-        }
-        else if (typeof define === 'function' && define.amd) {
-        	define([], function () {
-        		'use strict';
-        		return window.Swiper;
-        	});
-        }
+/*===========================
+Swiper AMD Export
+===========================*/
+if (typeof(module) !== 'undefined')
+{
+    module.exports = window.Swiper;
+}
+else if (typeof define === 'function' && define.amd) {
+    define([], function () {
+        'use strict';
+        return window.Swiper;
+    });
+}
