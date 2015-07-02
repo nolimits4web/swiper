@@ -14,6 +14,7 @@
  */
 (function () {
     'use strict';
+    var $;
     /*===========================
     Swiper
     ===========================*/
@@ -211,14 +212,15 @@
         /*=========================
           Dom Library and plugins
           ===========================*/
-        var $;
-        if (typeof Dom7 === 'undefined') {
-            $ = window.Dom7 || window.Zepto || window.jQuery;
+        if (typeof $ === 'undefined') {
+            if (typeof Dom7 === 'undefined') {
+                $ = window.Dom7 || window.Zepto || window.jQuery;
+            }
+            else {
+                $ = Dom7;
+            }
+            if (!$) return;
         }
-        else {
-            $ = Dom7;
-        }
-        if (!$) return;
         
         // Export it to Swiper instance
         s.$ = $;
