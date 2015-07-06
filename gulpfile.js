@@ -85,7 +85,7 @@
                 'src/js/wrap-end.js',
                 'src/js/amd.js'
             ],
-            UMDFiles : [
+            jQueryUMDFiles : [
                 'src/js/wrap-start-umd.js',
                 'src/js/swiper-intro.js',
                 'src/js/core.js',
@@ -183,11 +183,11 @@
             .pipe(concat(swiper.filename + '.jquery.js'))
             .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date } ))
             .pipe(gulp.dest(paths.build.scripts));
-        gulp.src(swiper.UMDFiles)
+        gulp.src(swiper.jQueryUMDFiles)
             .pipe(tap(function (file, t){
                 addJSIndent (file, t);
             }))
-            .pipe(concat(swiper.filename + '.umd.js'))
+            .pipe(concat(swiper.filename + '.jquery.umd.js'))
             .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date } ))
             .pipe(gulp.dest(paths.build.scripts));
         gulp.src(swiper.Framework7Files)
@@ -252,13 +252,13 @@
             .pipe(sourcemaps.write('./maps'))
             .pipe(gulp.dest(paths.dist.scripts));
 
-        gulp.src([paths.build.scripts + swiper.filename + '.umd.js'])
+        gulp.src([paths.build.scripts + swiper.filename + '.jquery.umd.js'])
             .pipe(gulp.dest(paths.dist.scripts))
             .pipe(sourcemaps.init())
             .pipe(uglify())
             .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date } ))
             .pipe(rename(function(path) {
-                path.basename = swiper.filename + '.umd.min';
+                path.basename = swiper.filename + '.jquery.umd.min';
             }))
             .pipe(sourcemaps.write('./maps'))
             .pipe(gulp.dest(paths.dist.scripts));

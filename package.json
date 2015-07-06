@@ -2,7 +2,7 @@
   "name": "swiper",
   "version": "3.0.8",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
-  "main": "dist/js/swiper.umd.js",
+  "main": "dist/js/swiper.jquery.umd.js",
   "files": ["dist", "src", "*.json", "*.js"],
   "repository": {
     "type": "git",
