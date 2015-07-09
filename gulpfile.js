@@ -57,6 +57,7 @@
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
                 'src/js/dom.js',
+                'src/js/get-dom-plugins.js',
                 'src/js/dom-plugins.js',
                 'src/js/wrap-end.js',
                 'src/js/amd.js'
@@ -79,9 +80,32 @@
                 'src/js/init.js',
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
+                'src/js/get-dom-plugins.js',
                 'src/js/dom-plugins.js',
                 'src/js/wrap-end.js',
                 'src/js/amd.js'
+            ],
+            jQueryUMDFiles : [
+                'src/js/wrap-start-umd.js',
+                'src/js/swiper-intro.js',
+                'src/js/core.js',
+                'src/js/effects.js',
+                'src/js/lazy-load.js',
+                'src/js/scrollbar.js',
+                'src/js/controller.js',
+                'src/js/hashnav.js',
+                'src/js/keyboard.js',
+                'src/js/mousewheel.js',
+                'src/js/parallax.js',
+                'src/js/plugins.js',
+                'src/js/emitter.js',
+                'src/js/a11y.js',
+                'src/js/init.js',
+                'src/js/swiper-outro.js',
+                'src/js/swiper-proto.js',
+                'src/js/get-jquery.js',
+                'src/js/dom-plugins.js',
+                'src/js/wrap-end-umd.js',
             ],
             Framework7Files : [
                 'src/js/swiper-intro-f7.js',
@@ -125,7 +149,7 @@
     function addJSIndent (file, t, minusIndent) {
         var addIndent = '        ';
         var filename = file.path.split('src/js/')[1];
-        if (filename === 'wrap-start.js' || filename === 'wrap-end.js' || filename === 'amd.js') {
+        if (['wrap-start.js', 'wrap-start-umd.js', 'wrap-end.js', 'wrap-end-umd.js', 'amd.js'].indexOf(filename) !== -1) {
             addIndent = '';
         }
         if (filename === 'swiper-intro.js' || filename === 'swiper-intro-f7.js' || filename === 'swiper-outro.js' || filename === 'dom.js' || filename === 'dom-plugins.js' || filename === 'swiper-proto.js') addIndent = '    ';
@@ -157,6 +181,13 @@
                 addJSIndent (file, t);
             }))
             .pipe(concat(swiper.filename + '.jquery.js'))
+            .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date } ))
+            .pipe(gulp.dest(paths.build.scripts));
+        gulp.src(swiper.jQueryUMDFiles)
+            .pipe(tap(function (file, t){
+                addJSIndent (file, t);
+            }))
+            .pipe(concat(swiper.filename + '.jquery.umd.js'))
             .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date } ))
             .pipe(gulp.dest(paths.build.scripts));
         gulp.src(swiper.Framework7Files)
@@ -217,6 +248,17 @@
             .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date } ))
             .pipe(rename(function(path) {
                 path.basename = swiper.filename + '.jquery.min';
+            }))
+            .pipe(sourcemaps.write('./maps'))
+            .pipe(gulp.dest(paths.dist.scripts));
+
+        gulp.src([paths.build.scripts + swiper.filename + '.jquery.umd.js'])
+            .pipe(gulp.dest(paths.dist.scripts))
+            .pipe(sourcemaps.init())
+            .pipe(uglify())
+            .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date } ))
+            .pipe(rename(function(path) {
+                path.basename = swiper.filename + '.jquery.umd.min';
             }))
             .pipe(sourcemaps.write('./maps'))
             .pipe(gulp.dest(paths.dist.scripts));

@@ -1,2 +1,3 @@
 (function () {
     'use strict';
+    var $;
