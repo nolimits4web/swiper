@@ -1176,8 +1176,13 @@ s.onTouchMove = function (e) {
     if (isTouchEvent && e.type === 'mousemove') return;
     if (e.preventedByNestedSwiper) return;
     if (s.params.onlyExternal) {
-        isMoved = true;
+        // isMoved = true;
         s.allowClick = false;
+        if (isTouched) {
+            s.touches.startX = s.touches.currentX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
+            s.touches.startY = s.touches.currentY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY;
+            touchStartTime = Date.now();
+        }
         return;
     }
     if (isTouchEvent && document.activeElement) {
@@ -1251,7 +1256,7 @@ s.onTouchMove = function (e) {
     isMoved = true;
 
     var diff = s.touches.diff = isH() ? s.touches.currentX - s.touches.startX : s.touches.currentY - s.touches.startY;
-
+    
     diff = diff * s.params.touchRatio;
     if (s.rtl) diff = -diff;
 
