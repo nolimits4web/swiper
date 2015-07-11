@@ -129,6 +129,7 @@ var defaults = {
     nextSlideMessage: 'Next slide',
     firstSlideMessage: 'This is the first slide',
     lastSlideMessage: 'This is the last slide',
+    paginationBulletMessage: 'Go to slide {{index}}',
     // Callbacks
     runCallbacksOnInit: true
     /*
@@ -831,6 +832,9 @@ s.updatePagination = function () {
         }
         s.paginationContainer.html(bulletsHTML);
         s.bullets = s.paginationContainer.find('.' + s.params.bulletClass);
+        if (s.params.paginationClickable && s.params.a11y && s.a11y) {
+            s.a11y.initPagination();
+        }
     }
 };
 /*=========================
@@ -959,6 +963,7 @@ s.initEvents = function (detach) {
     }
     if (s.params.pagination && s.params.paginationClickable) {
         $(s.paginationContainer)[actionDom]('click', '.' + s.params.bulletClass, s.onClickIndex);
+        if (s.params.a11y && s.a11y) $(s.paginationContainer)[actionDom]('keydown', '.' + s.params.bulletClass, s.a11y.onEnterKey);
     }
 
     // Prevent Links Clicks

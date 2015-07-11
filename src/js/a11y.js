@@ -1,7 +1,7 @@
 // Accessibility tools
 s.a11y = {
     makeFocusable: function ($el) {
-        $el[0].tabIndex = '0';
+        $el.attr('tabIndex', '0');
         return $el;
     },
     addRole: function ($el, role) {
@@ -29,20 +29,23 @@ s.a11y = {
         if ($(event.target).is(s.params.nextButton)) {
             s.onClickNext(event);
             if (s.isEnd) {
-                s.a11y.notify(s.params.lastSlideMsg);
+                s.a11y.notify(s.params.lastSlideMessage);
             }
             else {
-                s.a11y.notify(s.params.nextSlideMsg);
+                s.a11y.notify(s.params.nextSlideMessage);
             }
         }
         else if ($(event.target).is(s.params.prevButton)) {
             s.onClickPrev(event);
             if (s.isBeginning) {
-                s.a11y.notify(s.params.firstSlideMsg);
+                s.a11y.notify(s.params.firstSlideMessage);
             }
             else {
-                s.a11y.notify(s.params.prevSlideMsg);
+                s.a11y.notify(s.params.prevSlideMessage);
             }
+        }
+        if ($(event.target).is('.' + s.params.bulletClass)) {
+            $(event.target)[0].click();
         }
     },
 
@@ -60,16 +63,26 @@ s.a11y = {
             var nextButton = $(s.params.nextButton);
             s.a11y.makeFocusable(nextButton);
             s.a11y.addRole(nextButton, 'button');
-            s.a11y.addLabel(nextButton, s.params.nextSlideMsg);
+            s.a11y.addLabel(nextButton, s.params.nextSlideMessage);
         }
         if (s.params.prevButton) {
             var prevButton = $(s.params.prevButton);
             s.a11y.makeFocusable(prevButton);
             s.a11y.addRole(prevButton, 'button');
-            s.a11y.addLabel(prevButton, s.params.prevSlideMsg);
+            s.a11y.addLabel(prevButton, s.params.prevSlideMessage);
         }
 
         $(s.container).append(s.a11y.liveRegion);
+    },
+    initPagination: function () {
+        if (s.params.pagination && s.params.paginationClickable && s.bullets && s.bullets.length) {
+            s.bullets.each(function () {
+                var bullet = $(this);
+                s.a11y.makeFocusable(bullet);
+                s.a11y.addRole(bullet, 'button');
+                s.a11y.addLabel(bullet, s.params.paginationBulletMessage.replace(/{{index}}/, bullet.index() + 1));
+            });
+        }
     },
     destroy: function () {
         if (s.a11y.liveRegion && s.a11y.liveRegion.length > 0) s.a11y.liveRegion.remove();
