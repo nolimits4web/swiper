@@ -69,6 +69,7 @@ var defaults = {
     touchMoveStopPropagation: true,
     // Pagination
     pagination: null,
+    paginationElement: 'span',
     paginationClickable: false,
     paginationHide: false,
     paginationBulletRender: null,
@@ -825,7 +826,7 @@ s.updatePagination = function () {
                 bulletsHTML += s.params.paginationBulletRender(i, s.params.bulletClass);
             }
             else {
-                bulletsHTML += '<span class="' + s.params.bulletClass + '"></span>';
+                bulletsHTML += '<' + s.params.paginationElement+' class="' + s.params.bulletClass + '"></' + s.params.paginationElement + '>';
             }
         }
         s.paginationContainer.html(bulletsHTML);
