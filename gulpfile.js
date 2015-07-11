@@ -57,7 +57,7 @@
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
                 'src/js/dom.js',
-                'src/js/get-dom-plugins.js',
+                'src/js/get-dom-lib.js',
                 'src/js/dom-plugins.js',
                 'src/js/wrap-end.js',
                 'src/js/amd.js'
@@ -80,7 +80,7 @@
                 'src/js/init.js',
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
-                'src/js/get-dom-plugins.js',
+                'src/js/get-dom-lib.js',
                 'src/js/dom-plugins.js',
                 'src/js/wrap-end.js',
                 'src/js/amd.js'
@@ -152,7 +152,7 @@
         if (['wrap-start.js', 'wrap-start-umd.js', 'wrap-end.js', 'wrap-end-umd.js', 'amd.js'].indexOf(filename) !== -1) {
             addIndent = '';
         }
-        if (filename === 'swiper-intro.js' || filename === 'swiper-intro-f7.js' || filename === 'swiper-outro.js' || filename === 'dom.js' || filename === 'dom-plugins.js' || filename === 'swiper-proto.js') addIndent = '    ';
+        if (filename === 'swiper-intro.js' || filename === 'swiper-intro-f7.js' || filename === 'swiper-outro.js' || filename === 'dom.js' || filename === 'get-dom-lib.js' || filename === 'get-jquery.js' || filename === 'dom-plugins.js' || filename === 'swiper-proto.js') addIndent = '    ';
         if (minusIndent) {
             addIndent = addIndent.substring(4);
         }

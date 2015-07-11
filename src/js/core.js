@@ -189,6 +189,9 @@ s.classNames = [];
 /*=========================
   Dom Library and plugins
   ===========================*/
+if (typeof $ !== 'undefined' && typeof Dom7 !== 'undefined'){
+    $ = Dom7;
+}  
 if (typeof $ === 'undefined') {
     if (typeof Dom7 === 'undefined') {
         $ = window.Dom7 || window.Zepto || window.jQuery;
@@ -198,7 +201,6 @@ if (typeof $ === 'undefined') {
     }
     if (!$) return;
 }
-
 // Export it to Swiper instance
 s.$ = $;
 /*=========================
