@@ -857,7 +857,7 @@ s.update = function (updateTranslate) {
             forceSetTranslate();
         }
         else {
-            if (s.params.slidesPerView === 'auto' && s.isEnd && !s.params.centeredSlides) {
+            if ((s.params.slidesPerView === 'auto' || s.params.slidesPerView > 1) && s.isEnd && !s.params.centeredSlides) {
                 translated = s.slideTo(s.slides.length - 1, 0, false, true);
             }
             else {
@@ -877,7 +877,6 @@ s.update = function (updateTranslate) {
 s.onResize = function (forceUpdatePagination) {
     s.updateContainerSize();
     s.updateSlidesSize();
-    s.updateProgress();
     if (s.params.slidesPerView === 'auto' || s.params.freeMode || forceUpdatePagination) s.updatePagination();
     if (s.params.scrollbar && s.scrollbar) {
         s.scrollbar.set();
@@ -890,7 +889,7 @@ s.onResize = function (forceUpdatePagination) {
     }
     else {
         s.updateClasses();
-        if (s.params.slidesPerView === 'auto' && s.isEnd && !s.params.centeredSlides) {
+        if ((s.params.slidesPerView === 'auto' || s.params.slidesPerView > 1) && s.isEnd && !s.params.centeredSlides) {
             s.slideTo(s.slides.length - 1, 0, false, true);
         }
         else {
@@ -989,10 +988,12 @@ s.preventClicks = function (e) {
 // Clicks
 s.onClickNext = function (e) {
     e.preventDefault();
+    if (s.isEnd && !s.params.loop) return;
     s.slideNext();
 };
 s.onClickPrev = function (e) {
     e.preventDefault();
+    if (s.isBeginning && !s.params.loop) return;
     s.slidePrev();
 };
 s.onClickIndex = function (e) {
@@ -1574,11 +1575,10 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
 
     // Normalize slideIndex
     for (var i = 0; i < s.slidesGrid.length; i++) {
-        if (- translate >= s.slidesGrid[i]) {
+        if (- Math.floor(translate * 100) >= Math.floor(s.slidesGrid[i] * 100)) {
             slideIndex = i;
         }
     }
-
     if (typeof speed === 'undefined') speed = s.params.speed;
     s.previousIndex = s.activeIndex || 0;
     s.activeIndex = slideIndex;
