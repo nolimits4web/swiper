@@ -900,6 +900,11 @@ s.update = function (updateTranslate) {
   Resize Handler
   ===========================*/
 s.onResize = function (forceUpdatePagination) {
+    // Disable locks on resize
+    var allowSwipeToPrev = s.params.allowSwipeToPrev;
+    var allowSwipeToNext = s.params.allowSwipeToNext;
+    s.params.allowSwipeToPrev = s.params.allowSwipeToNext = true;
+
     s.updateContainerSize();
     s.updateSlidesSize();
     if (s.params.slidesPerView === 'auto' || s.params.freeMode || forceUpdatePagination) s.updatePagination();
@@ -921,7 +926,9 @@ s.onResize = function (forceUpdatePagination) {
             s.slideTo(s.activeIndex, 0, false, true);
         }
     }
-
+    // Return locks after resize
+    s.params.allowSwipeToPrev = allowSwipeToPrev;
+    s.params.allowSwipeToNext = allowSwipeToNext;
 };
 
 /*=========================
