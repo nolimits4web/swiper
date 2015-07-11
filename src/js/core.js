@@ -55,6 +55,8 @@ var defaults = {
     slidesPerColumnFill: 'column',
     slidesPerGroup: 1,
     centeredSlides: false,
+    // Round length
+    roundLengths: false,
     // Touches
     touchRatio: 1,
     touchAngle: 45,
@@ -205,6 +207,7 @@ if (typeof $ === 'undefined') {
 }
 // Export it to Swiper instance
 s.$ = $;
+
 /*=========================
   Preparation - Define Container, Wrapper and Pagination
   ===========================*/
@@ -322,7 +325,9 @@ s.progress = 0;
 // Velocity
 s.velocity = 0;
 
-// Locks, unlocks
+/*=========================
+  Locks, unlocks
+  ===========================*/
 s.lockSwipeToNext = function () {
     s.params.allowSwipeToNext = false;
 };
@@ -342,7 +347,12 @@ s.unlockSwipes = function () {
     s.params.allowSwipeToNext = s.params.allowSwipeToPrev = true;
 };
 
-
+/*=========================
+  Round helper
+  ===========================*/
+function round(a) {
+    return Math.floor(a);
+}  
 /*=========================
   Set grab cursor
   ===========================*/
@@ -565,9 +575,12 @@ s.updateSlidesSize = function () {
         if (slide.css('display') === 'none') continue;
         if (s.params.slidesPerView === 'auto') {
             slideSize = isH() ? slide.outerWidth(true) : slide.outerHeight(true);
+            if (s.params.roundLengths) slideSize = round(slideSize);
         }
         else {
             slideSize = (s.size - (s.params.slidesPerView - 1) * spaceBetween) / s.params.slidesPerView;
+            if (s.params.roundLengths) slideSize = round(slideSize);
+
             if (isH()) {
                 s.slides[i].style.width = slideSize + 'px';
             }
