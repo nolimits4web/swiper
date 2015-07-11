@@ -55,6 +55,8 @@ var defaults = {
     slidesPerColumnFill: 'column',
     slidesPerGroup: 1,
     centeredSlides: false,
+    slidesOffsetBefore: 0, // in px
+    slidesOffsetAfter: 0, // in px
     // Round length
     roundLengths: false,
     // Touches
@@ -494,6 +496,12 @@ s.updateContainerSize = function () {
     if (width === 0 && isH() || height === 0 && !isH()) {
         return;
     }
+    
+    //Subtract paddings
+    width = width - parseInt(s.container.css('padding-left'), 10) - parseInt(s.container.css('padding-right'), 10);
+    height = height - parseInt(s.container.css('padding-top'), 10) - parseInt(s.container.css('padding-bottom'), 10);
+    
+    // Store values
     s.width = width;
     s.height = height;
     s.size = isH() ? s.width : s.height;
@@ -506,7 +514,7 @@ s.updateSlidesSize = function () {
     s.slidesSizesGrid = [];
 
     var spaceBetween = s.params.spaceBetween,
-        slidePosition = 0,
+        slidePosition = -s.params.slidesOffsetBefore,
         i,
         prevSlideSize = 0,
         index = 0;
@@ -611,7 +619,7 @@ s.updateSlidesSize = function () {
 
         index ++;
     }
-    s.virtualSize = Math.max(s.virtualSize, s.size);
+    s.virtualSize = Math.max(s.virtualSize, s.size) + s.params.slidesOffsetAfter;
 
     var newSlidesGrid;
 
