@@ -908,7 +908,7 @@
             }
             else {
                 s.updateClasses();
-                if (s.params.slidesPerView === 'auto' && s.isEnd && !s.params.centeredSlides) {
+                if ((s.params.slidesPerView === 'auto' || s.params.slidesPerView > 1) && s.isEnd && !s.params.centeredSlides) {
                     s.slideTo(s.slides.length - 1, 0, false, true);
                 }
                 else {
