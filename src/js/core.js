@@ -106,6 +106,7 @@ var defaults = {
     // Control
     control: undefined,
     controlInverse: false,
+    controlBy: 'slide', //or 'container'
     // Swiping/no swiping
     allowSwipeToPrev: true,
     allowSwipeToNext: true,
@@ -878,6 +879,9 @@ s.update = function (updateTranslate) {
     }
     if (updateTranslate) {
         var translated, newTranslate;
+        if (s.controller && s.controller.spline) {
+            s.controller.spline = undefined;
+        }
         if (s.params.freeMode) {
             forceSetTranslate();
         }
@@ -910,6 +914,9 @@ s.onResize = function (forceUpdatePagination) {
     if (s.params.slidesPerView === 'auto' || s.params.freeMode || forceUpdatePagination) s.updatePagination();
     if (s.params.scrollbar && s.scrollbar) {
         s.scrollbar.set();
+    }
+    if (s.controller && s.controller.spline) {
+        s.controller.spline = undefined;
     }
     if (s.params.freeMode) {
         var newTranslate = Math.min(Math.max(s.translate, s.maxTranslate()), s.minTranslate());
