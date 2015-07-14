@@ -1,5 +1,24 @@
 # Change Log
 
+## Swiper 3.1.0 - Released on July 14, 2015
+  * Accessibility (a11y)
+    * Fixed issue with wrong buttons labels
+    * Added support for pagination bullets
+    * New accessibility parameter for pagination label `paginationBulletMessage: 'Go to slide {{index}}'`
+  * Controler
+    * New parameter `controlBy` which can be 'slide' (by default) or 'container'. Defines a way how to control another slider: slide by slide or depending on all slides/container (like before)
+    * Now controllers in `controlBy: 'slide'` (default) mode will respect grid of each other
+  * Pagination
+    * New `paginationElement` parameter defines which HTML tag will be use to represent single pagination bullet. By default it is `span`
+  * New `roundLengths` parameter (by default is `false`) to round values of slides width and height to prevent blurry texts on usual resolution screens
+  * New `slidesOffsetBefore: 0` and `slidesOffsetAfter: 0` (in px) parameters to add additional slide offset within a container
+  * Correct calculation for slides size when use CSS padding on `.swiper-container`
+  * Fixed issue with not working onResize handler when swipes are locked
+  * Fixed issue with "jumping" effect when you disable `onlyExternal` during touchmove
+  * Fixed issue when slider goes to previos slide from last slide after window resize
+  * Added new `swiper.jquery.umd.js` version for the environment where both Swiper and jQuery included as modules
+  * Minor fixes
+
 ## Swiper 3.0.8 - Released on June 14, 2015
   * Fixed issue with wrong active index and callbacks in Fade effect
   * New mousewheel parameters:

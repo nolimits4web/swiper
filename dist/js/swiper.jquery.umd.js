@@ -12,9 +12,24 @@
  * 
  * Released on: July 14, 2015
  */
-(function () {
-    'use strict';
-    var $;
+(function (root, factory) {
+	'use strict';
+
+	if (typeof define === 'function' && define.amd) {
+		// AMD. Register as an anonymous module.
+		define(['jquery'], factory);
+	} else if (typeof exports === 'object') {
+		// Node. Does not work with strict CommonJS, but
+		// only CommonJS-like environments that support module.exports,
+		// like Node.
+		module.exports = factory(require('jquery'));
+	} else {
+		// Browser globals (root is window)
+		root.Swiper = factory(root.jQuery);
+	}
+}(this, function ($) {
+	'use strict';
+
     /*===========================
     Swiper
     ===========================*/
@@ -3206,22 +3221,12 @@
     
 
     /*===========================
-     Get Dom libraries
+     Get jQuery
      ===========================*/
-    var swiperDomPlugins = ['jQuery', 'Zepto', 'Dom7'];
-    for (var i = 0; i < swiperDomPlugins.length; i++) {
-    	if (window[swiperDomPlugins[i]]) {
-    		addLibraryPlugin(window[swiperDomPlugins[i]]);
-    	}
-    }
-    // Required DOM Plugins
-    var domLib;
-    if (typeof Dom7 === 'undefined') {
-    	domLib = window.Dom7 || window.Zepto || window.jQuery;
-    }
-    else {
-    	domLib = Dom7;
-    }
+    
+    addLibraryPlugin($);
+    
+    var domLib = $;
 
     /*===========================
     Add .swiper plugin from Dom libraries
@@ -3281,18 +3286,5 @@
         }
     }
 
-    window.Swiper = Swiper;
-})();
-/*===========================
-Swiper AMD Export
-===========================*/
-if (typeof(module) !== 'undefined')
-{
-    module.exports = window.Swiper;
-}
-else if (typeof define === 'function' && define.amd) {
-    define([], function () {
-        'use strict';
-        return window.Swiper;
-    });
-}
+	return Swiper;
+}));

@@ -186,7 +186,7 @@ for (var def in defaults) {
 var s = this;
 
 // Version
-s.version = '3.0.8';
+s.version = '3.1.0';
 
 // Params
 s.params = params;
