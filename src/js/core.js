@@ -1866,7 +1866,8 @@ s.createLoop = function () {
     // Remove duplicated slides
     s.wrapper.children('.' + s.params.slideClass + '.' + s.params.slideDuplicateClass).remove();
 
-    var slides = s.wrapper.children('.' + s.params.slideClass);
+    // Only fetch direct children; we don't want to affect nested sliders!
+    var slides = s.wrapper.children('> .' + s.params.slideClass);
     s.loopedSlides = parseInt(s.params.loopedSlides || s.params.slidesPerView, 10);
     s.loopedSlides = s.loopedSlides + s.params.loopAdditionalSlides;
     if (s.loopedSlides > slides.length) {
