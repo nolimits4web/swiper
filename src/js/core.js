@@ -1628,10 +1628,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     s.previousIndex = s.activeIndex || 0;
     s.activeIndex = slideIndex;
 
-    if (translate === s.translate) {
-        s.updateClasses();
-        return false;
-    }
+    if (translate === s.translate) s.updateClasses();
     s.updateClasses();
     s.onTransitionStart(runCallbacks);
     var translateX = isH() ? translate : 0, translateY = isH() ? 0 : translate;
