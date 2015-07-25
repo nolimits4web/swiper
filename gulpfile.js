@@ -290,7 +290,7 @@
     });
 
     gulp.task('open', function () {
-        return gulp.src(paths.playground.root + 'index.html').pipe(open({ url: 'http://localhost:3000/' + paths.playground.root + 'index.html'}));
+        return gulp.src(paths.playground.root + 'index.html').pipe(open({ uri: 'http://localhost:3000/' + paths.playground.root + 'index.html'}));
     });
 
     gulp.task('server', [ 'watch', 'connect', 'open' ]);
