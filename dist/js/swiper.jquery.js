@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: July 14, 2015
+ * Released on: July 28, 2015
  */
 (function () {
     'use strict';
@@ -29,6 +29,9 @@
             // autoplay
             autoplay: false,
             autoplayDisableOnInteraction: true,
+        	// To support iOS's swipe-to-go-back gesture (when being used in-app, with UIWebView).
+        	iOSEdgeSwipeDetection: true,
+        	iOSEdgeSwipeThreshold: 20,
             // Free mode
             freeMode: false,
             freeModeMomentum: true,
@@ -1177,12 +1180,17 @@
             if (s.params.swipeHandler) {
                 if (!findElementInEvent(e, s.params.swipeHandler)) return;
             }
+        	var startX = s.touches.currentX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
+        	var startY = s.touches.currentY = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
+        	// Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore.
+        	if(s.device.ios && s.params.iOSEdgeSwipeDetection && startX <= s.params.iOSEdgeSwipeThreshold)
+        		return;
             isTouched = true;
             isMoved = false;
             isScrolling = undefined;
             startMoving = undefined;
-            s.touches.startX = s.touches.currentX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
-            s.touches.startY = s.touches.currentY = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
+        	s.touches.startX = startX;
+        	s.touches.startY = startY;
             touchStartTime = Date.now();
             s.allowClick = true;
             s.updateContainerSize();
