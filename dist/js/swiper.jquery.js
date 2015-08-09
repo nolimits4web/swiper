@@ -1890,6 +1890,7 @@
             s.wrapper.children('.' + s.params.slideClass + '.' + s.params.slideDuplicateClass).remove();
         
             var slides = s.wrapper.children('.' + s.params.slideClass);
+            if(s.params.slidesPerView=='auto' && !s.params.loopedSlides) s.params.loopedSlides = slides.length;
             s.loopedSlides = parseInt(s.params.loopedSlides || s.params.slidesPerView, 10);
             s.loopedSlides = s.loopedSlides + s.params.loopAdditionalSlides;
             if (s.loopedSlides > slides.length) {
