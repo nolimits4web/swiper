@@ -104,6 +104,13 @@
         pointer-events: auto;
         visibility: visible;
     }
+    .swiper-slide-shadow-top, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left, .swiper-slide-shadow-right {
+        z-index: 0;
+        -webkit-backface-visibility: hidden;
+        -moz-backface-visibility: hidden;
+        -ms-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
     .swiper-cube-shadow {
         position: absolute;
         left: 0;
@@ -114,9 +121,6 @@
         opacity: 0.6;
         -webkit-filter: blur(50px);
         filter: blur(50px);
-        z-index: 0;
-    }
-    &.swiper-container-vertical .swiper-cube-shadow {
         z-index: 0;
     }
 }
