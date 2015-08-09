@@ -1598,14 +1598,6 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     if (s.snapIndex >= s.snapGrid.length) s.snapIndex = s.snapGrid.length - 1;
 
     var translate = - s.snapGrid[s.snapIndex];
-    
-    // Directions locks
-    if (!s.params.allowSwipeToNext && translate < s.translate && translate < s.minTranslate()) {
-        return false;
-    }
-    if (!s.params.allowSwipeToPrev && translate > s.translate && translate > s.maxTranslate()) {
-        return false;
-    }
 
     // Stop autoplay
     if (s.params.autoplay && s.autoplaying) {
@@ -1625,6 +1617,16 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
             slideIndex = i;
         }
     }
+
+    // Directions locks
+    if (!s.params.allowSwipeToNext && translate < s.translate && translate < s.minTranslate()) {
+        return false;
+    }
+    if (!s.params.allowSwipeToPrev && translate > s.translate && translate > s.maxTranslate()) {
+        if ((s.activeIndex || 0) !== slideIndex ) return false;
+    }
+
+    // Update Index
     if (typeof speed === 'undefined') speed = s.params.speed;
     s.previousIndex = s.activeIndex || 0;
     s.activeIndex = slideIndex;
