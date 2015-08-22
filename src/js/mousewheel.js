@@ -6,14 +6,13 @@ s.mousewheel = {
     lastScrollTime: (new window.Date()).getTime()
 };
 if (s.params.mousewheelControl) {
-    if (document.onmousewheel !== undefined) {
+    try {
+        new window.WheelEvent('wheel');
+        s.mousewheel.event = 'wheel';
+    } catch (e) {}
+
+    if (!s.mousewheel.event && document.onmousewheel !== undefined) {
         s.mousewheel.event = 'mousewheel';
-    }
-    if (!s.mousewheel.event) {
-        try {
-            new window.WheelEvent('wheel');
-            s.mousewheel.event = 'wheel';
-        } catch (e) {}
     }
     if (!s.mousewheel.event) {
         s.mousewheel.event = 'DOMMouseScroll';
@@ -65,11 +64,11 @@ function handleMousewheel(e) {
     if (!s.params.freeMode) {
         if ((new window.Date()).getTime() - s.mousewheel.lastScrollTime > 60) {
             if (delta < 0) {
-                if (!s.isEnd || s.params.loop) s.slideNext();
+                if ((!s.isEnd || s.params.loop) && !s.animating) s.slideNext();
                 else if (s.params.mousewheelReleaseOnEdges) return true;
             }
             else {
-                if (!s.isBeginning || s.params.loop) s.slidePrev();
+                if ((!s.isBeginning || s.params.loop) && !s.animating) s.slidePrev();
                 else if (s.params.mousewheelReleaseOnEdges) return true;
             }
         }
