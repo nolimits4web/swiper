@@ -1870,7 +1870,7 @@ s.createLoop = function () {
 
     var slides = s.wrapper.children('.' + s.params.slideClass);
 
-    if(s.params.slidesPerView=='auto' && !s.params.loopedSlides) s.params.loopedSlides = slides.length;
+    if(s.params.slidesPerView === 'auto' && !s.params.loopedSlides) s.params.loopedSlides = slides.length;
 
     s.loopedSlides = parseInt(s.params.loopedSlides || s.params.slidesPerView, 10);
     s.loopedSlides = s.loopedSlides + s.params.loopAdditionalSlides;
