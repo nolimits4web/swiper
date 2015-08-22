@@ -689,8 +689,8 @@ s.updateSlidesProgress = function (translate) {
     if (s.slides.length === 0) return;
     if (typeof s.slides[0].swiperSlideOffset === 'undefined') s.updateSlidesOffset();
 
-    var offsetCenter = s.params.centeredSlides ? -translate + s.size / 2 : -translate;
-    if (s.rtl) offsetCenter = s.params.centeredSlides ? translate - s.size / 2 : translate;
+    var offsetCenter = -translate;
+    if (s.rtl) offsetCenter = translate;
 
     // Visible Slides
     var containerBox = s.container[0].getBoundingClientRect();
@@ -699,10 +699,9 @@ s.updateSlidesProgress = function (translate) {
     s.slides.removeClass(s.params.slideVisibleClass);
     for (var i = 0; i < s.slides.length; i++) {
         var slide = s.slides[i];
-        var slideCenterOffset = (s.params.centeredSlides === true) ? slide.swiperSlideSize / 2 : 0;
-        var slideProgress = (offsetCenter - slide.swiperSlideOffset - slideCenterOffset) / (slide.swiperSlideSize + s.params.spaceBetween);
+        var slideProgress = (offsetCenter - slide.swiperSlideOffset) / (slide.swiperSlideSize + s.params.spaceBetween);
         if (s.params.watchSlidesVisibility) {
-            var slideBefore = -(offsetCenter - slide.swiperSlideOffset - slideCenterOffset);
+            var slideBefore = -(offsetCenter - slide.swiperSlideOffset);
             var slideAfter = slideBefore + s.slidesSizesGrid[i];
             var isVisible =
                 (slideBefore >= 0 && slideBefore < s.size) ||
