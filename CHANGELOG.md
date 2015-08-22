@@ -1,5 +1,19 @@
 # Change Log
 
+## Swiper 3.1.2 - Released on August 22, 2015
+  * Fixed issues with loop and mousewheel when swiper stopped on last slide
+  * Imporved mouse wheel behavior in latest Chrome
+  * Fixed issue with `slidesPerView: 'auto'` and enabled `loop:true` mode to set `loopedSlides` to the amount of slides by default (if not specified)
+  * New `mousewheelSensitivity: 1` parameter allows to tweak mouse wheel sensitivity
+  * Fixed issue with updating swiper when swiping is locked (with `allowSwipeToNext`/`allowSwipeToPrev`)
+  * Fixed issue with wrong calculating of "visible" slides with enabled `centeredSlides`
+  * CSS fixes for 3D effects
+  * New options to release Swiper events for swipe-to-go-back work in iOS UIWebView with two options:
+    * `iOSEdgeSwipeDetection` (by default is `false`) - enable ios edge detection and release Swiper events
+    * `iOSEdgeSwipeThreshold` (default value is `20`) - area in `px` from left edge of screen to release events
+  * Improved source maps
+  * Minor fixes
+
 ## Swiper 3.1.0 - Released on July 14, 2015
   * Accessibility (a11y)
     * Fixed issue with wrong buttons labels
