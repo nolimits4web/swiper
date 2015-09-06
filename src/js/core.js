@@ -1751,6 +1751,12 @@ s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
     else {
         y = translate;
     }
+
+    if (s.params.roundLengths) {
+        x = round(x);
+        y = round(y);
+    }
+
     if (!s.params.virtualTranslate) {
         if (s.support.transforms3d) s.wrapper.transform('translate3d(' + x + 'px, ' + y + 'px, ' + z + 'px)');
         else s.wrapper.transform('translate(' + x + 'px, ' + y + 'px)');
