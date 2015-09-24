@@ -1796,7 +1796,9 @@ s.getTranslate = function (el, axis) {
     if (window.WebKitCSSMatrix) {
         curTransform = curStyle.transform || curStyle.webkitTransform;
         if (curTransform.split(',').length > 6) {
-            curTransform = curTransform.split(', ').map(function(a){return a.replace(',','.')}).join(', ');
+            curTransform = curTransform.split(', ').map(function(a){
+                return a.replace(',','.');
+            }).join(', ');
         }
         // Some old versions of Webkit choke when 'none' is passed; pass
         // empty string instead in this case
