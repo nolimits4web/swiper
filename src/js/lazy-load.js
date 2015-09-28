@@ -19,13 +19,18 @@ s.lazy = {
             var _img = $(this);
             _img.addClass('swiper-lazy-loading');
             var background = _img.attr('data-background');
-            var src = _img.attr('data-src');
-            s.loadImage(_img[0], (src || background), false, function () {
+            var src = _img.attr('data-src'),
+                srcset = _img.attr('data-srcset');
+            s.loadImage(_img[0], (src || background), srcset, false, function () {
                 if (background) {
                     _img.css('background-image', 'url(' + background + ')');
                     _img.removeAttr('data-background');
                 }
                 else {
+                    if (srcset) {
+                        _img.attr('srcset', srcset);
+                        _img.removeAttr('data-srcset');    
+                    }
                     _img.attr('src', src);
                     _img.removeAttr('data-src');
                 }
