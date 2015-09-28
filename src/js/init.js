@@ -8,6 +8,9 @@ s.init = function () {
     s.updatePagination();
     if (s.params.scrollbar && s.scrollbar) {
         s.scrollbar.set();
+        if (s.params.scrollbarDraggable) {
+            s.scrollbar.enableDraggable();
+        }
     }
     if (s.params.effect !== 'slide' && s.effects[s.params.effect]) {
         if (!s.params.loop) s.updateProgress();
@@ -96,6 +99,12 @@ s.destroy = function (deleteInstance, cleanupStyles) {
     s.detachEvents();
     // Stop autoplay
     s.stopAutoplay();
+    // Disable draggable
+    if (s.params.scrollbar && s.scrollbar) {
+        if (s.params.scrollbarDraggable) {
+            s.scrollbar.disableDraggable();
+        }
+    }
     // Destroy loop
     if (s.params.loop) {
         s.destroyLoop();

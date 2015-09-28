@@ -44,6 +44,8 @@ var defaults = {
     // Scrollbar
     scrollbar: null,
     scrollbarHide: true,
+    scrollbarDraggable: false,
+    scrollbarSnapOnRelease: false,
     // Keyboard Mousewheel
     keyboardControl: false,
     mousewheelControl: false,
