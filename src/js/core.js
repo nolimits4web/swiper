@@ -16,6 +16,7 @@ var defaults = {
     freeModeMomentumBounce: true,
     freeModeMomentumBounceRatio: 1,
     freeModeSticky: false,
+    freeModeMinimumVelocity: 0.02,
     // Set wrapper width
     setWrapperSize: false,
     // Virtual Translate
@@ -1448,7 +1449,7 @@ s.onTouchEnd = function (e) {
                 var time = lastMoveEvent.time - velocityEvent.time;
                 s.velocity = distance / time;
                 s.velocity = s.velocity / 2;
-                if (Math.abs(s.velocity) < 0.02) {
+                if (Math.abs(s.velocity) < s.params.freeModeMinimumVelocity) {
                     s.velocity = 0;
                 }
                 // this implies that the user stopped moving a finger then released.
