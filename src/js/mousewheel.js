@@ -77,7 +77,9 @@ function handleMousewheel(e) {
     }
     else {
         //Freemode or scrollContainer:
-
+        if(Math.abs(delta) < 50){
+          delta > 0 ? (delta = delta + 120) : (delta = delta - 120);
+        }
         var position = s.getWrapperTranslate() + delta * s.params.mousewheelSensitivity;
 
         if (position > 0) position = 0;
