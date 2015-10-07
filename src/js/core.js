@@ -385,8 +385,12 @@ s.loadImage = function (imgElement, src, srcset, checkForComplete, callback) {
             image = new window.Image();
             image.onload = onReady;
             image.onerror = onReady;
-            image.srcset = srcset;
-            image.src = src;
+            if (srcset) {
+                image.srcset = srcset;
+            }
+            if (src) {
+                image.src = src;
+            }
         } else {
             onReady();
         }
