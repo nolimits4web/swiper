@@ -1097,20 +1097,12 @@ s.updateClickedSlide = function (e) {
             realIndex,
             duplicatedSlides;
         if (s.params.loop) {
+            if (s.animating) return;
             realIndex = $(s.clickedSlide).attr('data-swiper-slide-index');
             if (s.params.centeredSlides) {
-
-                if (slideToIndex < s.loopedSlides - s.params.slidesPerView/2) {
+                if ((slideToIndex < s.loopedSlides - s.params.slidesPerView/2) || (slideToIndex > s.slides.length - s.loopedSlides + s.params.slidesPerView/2)) {
                     s.fixLoop();
-                    duplicatedSlides = s.wrapper.children('.' + s.params.slideClass + '[data-swiper-slide-index="' + realIndex + '"]');
-                    slideToIndex = duplicatedSlides.eq(duplicatedSlides.length - 1).index();
-                    setTimeout(function () {
-                        s.slideTo(slideToIndex);
-                    }, 0);
-                }
-                else if (slideToIndex > s.slides.length - s.loopedSlides + s.params.slidesPerView/2) {
-                    s.fixLoop();
-                    slideToIndex = s.wrapper.children('.' + s.params.slideClass + '[data-swiper-slide-index="' + realIndex + '"]').eq(0).index();
+                    slideToIndex = s.wrapper.children('.' + s.params.slideClass + '[data-swiper-slide-index="' + realIndex + '"]:not(.swiper-slide-duplicate)').eq(0).index();
                     setTimeout(function () {
                         s.slideTo(slideToIndex);
                     }, 0);
@@ -1122,15 +1114,7 @@ s.updateClickedSlide = function (e) {
             else {
                 if (slideToIndex > s.slides.length - s.params.slidesPerView) {
                     s.fixLoop();
-                    slideToIndex = s.wrapper.children('.' + s.params.slideClass + '[data-swiper-slide-index="' + realIndex + '"]').eq(0).index();
-                    setTimeout(function () {
-                        s.slideTo(slideToIndex);
-                    }, 0);
-                }
-                else if (slideToIndex < s.params.slidesPerView - 1) {
-                    s.fixLoop();
-                    duplicatedSlides = s.wrapper.children('.' + s.params.slideClass + '[data-swiper-slide-index="' + realIndex + '"]');
-                    slideToIndex = duplicatedSlides.eq(duplicatedSlides.length - 1).index();
+                    slideToIndex = s.wrapper.children('.' + s.params.slideClass + '[data-swiper-slide-index="' + realIndex + '"]:not(.swiper-slide-duplicate)').eq(0).index();
                     setTimeout(function () {
                         s.slideTo(slideToIndex);
                     }, 0);
