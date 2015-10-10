@@ -1,11 +1,10 @@
+[![Join the chat at https://gitter.im/nolimits4web/Swiper](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nolimits4web/Swiper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/nolimits4web/Swiper.svg?branch=master)](https://travis-ci.org/nolimits4web/Swiper)
 [![devDependency Status](https://david-dm.org/nolimits4web/swiper/dev-status.svg)](https://david-dm.org/nolimits4web/swiper#info=devDependencies)
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=nolimits4web&url=https://github.com/nolimits4web/swiper/&title=Framework7&language=JavaScript&tags=github&category=software)
 
 Swiper
 ==========
-
-[![Join the chat at https://gitter.im/nolimits4web/Swiper](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nolimits4web/Swiper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Swiper - is the free and most modern mobile touch slider with hardware accelerated transitions and amazing native behavior. It is intended to be used in mobile websites, mobile web apps, and mobile native/hybrid apps. Designed mostly for iOS, but also works great on latest Android, Windows Phone 8 and modern Desktop browsers
 

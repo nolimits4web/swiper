@@ -1,8 +1,8 @@
 {
   "name": "swiper",
-  "version": "3.1.5",
+  "version": "3.1.7",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
-  "main": "dist/js/swiper.jquery.umd.js",
+  "main": "dist/js/swiper.js",
   "files": ["dist", "src", "*.json", "*.js"],
   "repository": {
     "type": "git",
@@ -39,8 +39,5 @@
   "scripts": {
     "test": "gulp build"
   },
-  "style": "dist/css/swiper.css",
-  "dependencies": {
-    "jquery": "*"
-  }
+  "style": "dist/css/swiper.css"
 }
