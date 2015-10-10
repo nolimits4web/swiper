@@ -545,6 +545,9 @@ s.updateSlidesSize = function () {
         else {
             slidesNumberEvenToRows = Math.ceil(s.slides.length / s.params.slidesPerColumn) * s.params.slidesPerColumn;
         }
+        if (s.params.slidesPerView !== 'auto' && s.params.slidesPerColumnFill === 'row') {
+            slidesNumberEvenToRows = Math.max(slidesNumberEvenToRows, s.params.slidesPerView * s.params.slidesPerColumn);
+        }
     }
 
     // Calc slides
@@ -630,7 +633,6 @@ s.updateSlidesSize = function () {
         index ++;
     }
     s.virtualSize = Math.max(s.virtualSize, s.size) + s.params.slidesOffsetAfter;
-
     var newSlidesGrid;
 
     if (
