@@ -77,10 +77,11 @@ function handleMousewheel(e) {
     }
     else {
         //Freemode or scrollContainer:
-
         var position = s.getWrapperTranslate() + delta * s.params.mousewheelSensitivity;
 
-        if (position > 0) position = 0;
+        if (position > s.minTranslate()) {
+            position = s.minTranslate();
+        }
         if (position < s.maxTranslate()) position = s.maxTranslate();
 
         s.setWrapperTransition(0);
