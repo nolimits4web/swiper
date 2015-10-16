@@ -58,6 +58,7 @@ function handleMousewheel(e) {
             delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? - e.deltaX : - e.deltaY;
         }
     }
+    if (delta === 0) return;
 
     if (s.params.mousewheelInvert) delta = -delta;
 
