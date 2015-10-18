@@ -79,16 +79,20 @@ function handleMousewheel(e) {
     else {
         //Freemode or scrollContainer:
         var position = s.getWrapperTranslate() + delta * s.params.mousewheelSensitivity;
+        var wasBeginning = s.isBeginning,
+            wasEnd = s.isEnd;
 
-        if (position > s.minTranslate()) {
-            position = s.minTranslate();
-        }
-        if (position < s.maxTranslate()) position = s.maxTranslate();
+        if (position >= s.minTranslate()) position = s.minTranslate();
+        if (position <= s.maxTranslate()) position = s.maxTranslate();
 
         s.setWrapperTransition(0);
         s.setWrapperTranslate(position);
         s.updateProgress();
         s.updateActiveIndex();
+
+        if (!wasBeginning && s.isBeginning || !wasEnd && s.isEnd) {
+            s.updateClasses();
+        }
 
         if (s.params.freeModeSticky) {
             clearTimeout(s.mousewheel.timeout);
