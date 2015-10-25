@@ -2,7 +2,7 @@ var version = '3.1.7';
 
 Package.describe({
   name: 'nolimits4web:swiper',
-  summary: 'iDangero.us Swiper - free and most modern mobile touch slider with hardware accelerated transitions and amazing native behavior.',
+  summary: 'iDangero.us Swiper - mobile touch slider with hardware accelerated transitions and native behavior',
   version: version,
   git: 'https://github.com/nolimits4web/Swiper'
 });
