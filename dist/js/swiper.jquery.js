@@ -726,9 +726,6 @@
             if (s.rtl) offsetCenter = translate;
         
             // Visible Slides
-            var containerBox = s.container[0].getBoundingClientRect();
-            var sideBefore = isH() ? 'left' : 'top';
-            var sideAfter = isH() ? 'right' : 'bottom';
             s.slides.removeClass(s.params.slideVisibleClass);
             for (var i = 0; i < s.slides.length; i++) {
                 var slide = s.slides[i];
@@ -1680,7 +1677,7 @@
             if (typeof speed === 'undefined') speed = s.params.speed;
             s.previousIndex = s.activeIndex || 0;
             s.activeIndex = slideIndex;
-        
+
             if (translate === s.translate) {
                 s.updateClasses();
                 return false;
@@ -1739,10 +1736,13 @@
             if (s.params.loop) {
                 if (s.animating) return false;
                 s.fixLoop();
-                var clientLeft = s.container[0].clientLeft;
                 return s.slideTo(s.activeIndex + s.params.slidesPerGroup, speed, runCallbacks, internal);
             }
-            else return s.slideTo(s.activeIndex + s.params.slidesPerGroup, speed, runCallbacks, internal);
+            var slideToResult = s.slideTo(s.activeIndex + s.params.slidesPerGroup, speed, runCallbacks, internal);
+            if (typeof s.params.onSlideNext !== "undefined"){
+                s.params.onSlideNext(s);
+            }
+            return slideToResult;
         };
         s._slideNext = function (speed) {
             return s.slideNext(true, speed, true);
@@ -1751,10 +1751,12 @@
             if (s.params.loop) {
                 if (s.animating) return false;
                 s.fixLoop();
-                var clientLeft = s.container[0].clientLeft;
-                return s.slideTo(s.activeIndex - 1, speed, runCallbacks, internal);
             }
-            else return s.slideTo(s.activeIndex - 1, speed, runCallbacks, internal);
+            var slidePrevResult = s.slideTo(s.activeIndex - 1, speed, runCallbacks, internal);
+            if (typeof s.params.onSlidePrew !== "undefined"){
+                s.params.onSlidePrew(s);
+            }
+            return slidePrevResult;
         };
         s._slidePrev = function (speed) {
             return s.slidePrev(true, speed, true);
