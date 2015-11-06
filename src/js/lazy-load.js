@@ -32,8 +32,28 @@ s.lazy = {
                         _img.removeAttr('data-srcset');    
                     }
                     if (src) {
-                        _img.attr('src', src);    
-                        _img.removeAttr('data-src');
+                        /**
+                         * Fallback
+                         */
+                        if (s.params.fallback) {
+                            var imageExists = function(image_url, good, bad) {
+                                var img = new Image();
+                                img.onload = good;
+                                img.onerror = bad;
+                                img.src = image_url;
+                            };
+
+                            imageExists(src, function() {
+                                _img.attr('src', src);
+                                _img.removeAttr('data-src');
+                            }, function() {
+                                _img.attr('src', s.params.fallbackImage !== null ? s.params.fallbackImage : 'http://placehold.it/360x640');
+                                _img.attr('class', s.params.fallbackClass !== null ? s.params.fallbackClass : '');
+                            });
+                        } else {
+                            _img.attr('src', src);
+                            _img.removeAttr('data-src');
+                        }
                     }
                     
                 }

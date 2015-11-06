@@ -90,6 +90,10 @@ var defaults = {
     // Next/prev buttons
     nextButton: null,
     prevButton: null,
+    // Fallback
+    fallback: false,
+    fallbackImage: null,
+    fallbackClass: null,
     // Progress
     watchSlidesProgress: false,
     watchSlidesVisibility: false,
