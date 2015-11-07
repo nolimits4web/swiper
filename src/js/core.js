@@ -751,9 +751,6 @@ s.updateSlidesProgress = function (translate) {
     if (s.rtl) offsetCenter = translate;
 
     // Visible Slides
-    var containerBox = s.container[0].getBoundingClientRect();
-    var sideBefore = isH() ? 'left' : 'top';
-    var sideAfter = isH() ? 'right' : 'bottom';
     s.slides.removeClass(s.params.slideVisibleClass);
     for (var i = 0; i < s.slides.length; i++) {
         var slide = s.slides[i];
