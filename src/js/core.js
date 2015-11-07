@@ -1750,7 +1750,14 @@ s.onTransitionStart = function (runCallbacks) {
         s.emit('onTransitionStart', s);
         if (s.activeIndex !== s.previousIndex) {
             s.emit('onSlideChangeStart', s);
+            if (s.activeIndex > s.previousIndex) {
+                s.emit('onSlideNextStart', s);
+            }
+            else {
+                s.emit('onSlidePrevStart', s);
+            }
         }
+
     }
 };
 s.onTransitionEnd = function (runCallbacks) {
@@ -1762,6 +1769,12 @@ s.onTransitionEnd = function (runCallbacks) {
         s.emit('onTransitionEnd', s);
         if (s.activeIndex !== s.previousIndex) {
             s.emit('onSlideChangeEnd', s);
+            if (s.activeIndex > s.previousIndex) {
+                s.emit('onSlideNextEnd', s);
+            }
+            else {
+                s.emit('onSlidePrevEnd', s);
+            }
         }
     }
     if (s.params.hashnav && s.hashnav) {
