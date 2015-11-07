@@ -92,12 +92,12 @@ s.effects = {
                 if (s.rtl) {
                     tx = -tx;
                 }
-                
+
                 if (!isH()) {
                     ty = tx;
                     tx = 0;
                 }
-                
+
                 var transform = 'rotateX(' + (isH() ? 0 : -slideAngle) + 'deg) rotateY(' + (isH() ? slideAngle : 0) + 'deg) translate3d(' + tx + 'px, ' + ty + 'px, ' + tz + 'px)';
                 if (progress <= 1 && progress > -1) {
                     wrapperRotate = i * 90 + progress * 90;
@@ -127,7 +127,7 @@ s.effects = {
                 '-ms-transform-origin': '50% 50% -' + (s.size / 2) + 'px',
                 'transform-origin': '50% 50% -' + (s.size / 2) + 'px'
             });
-                
+
             if (s.params.cube.shadow) {
                 if (isH()) {
                     cubeShadow.transform('translate3d(0px, ' + (s.width / 2 + s.params.cube.shadowOffset) + 'px, ' + (-s.width / 2) + 'px) rotateX(90deg) rotateZ(0deg) scale(' + (s.params.cube.shadowScale) + ')');

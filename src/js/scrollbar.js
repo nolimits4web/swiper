@@ -7,7 +7,7 @@ s.scrollbar = {
         var sb = s.scrollbar;
         var x = 0, y = 0;
         var translate;
-        var pointerPosition = isH() ? 
+        var pointerPosition = isH() ?
             ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].pageX : e.pageX || e.clientX) :
             ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].pageY : e.pageY || e.clientY) ;
         var position = (pointerPosition) - sb.track.offset()[isH() ? 'left' : 'top'] - sb.dragSize / 2;
@@ -94,7 +94,7 @@ s.scrollbar = {
         sb.drag[0].style.width = '';
         sb.drag[0].style.height = '';
         sb.trackSize = isH() ? sb.track[0].offsetWidth : sb.track[0].offsetHeight;
-        
+
         sb.divider = s.size / s.virtualSize;
         sb.moveDivider = sb.divider * (sb.trackSize / s.size);
         sb.dragSize = sb.trackSize * sb.divider;
@@ -122,7 +122,7 @@ s.scrollbar = {
         var sb = s.scrollbar;
         var translate = s.translate || 0;
         var newPos;
-        
+
         var newSize = sb.dragSize;
         newPos = (sb.trackSize - sb.dragSize) * s.progress;
         if (s.rtl && isH()) {
@@ -149,7 +149,7 @@ s.scrollbar = {
                 sb.drag.transform('translate3d(' + (newPos) + 'px, 0, 0)');
             }
             else {
-                sb.drag.transform('translateX(' + (newPos) + 'px)');   
+                sb.drag.transform('translateX(' + (newPos) + 'px)');
             }
             sb.drag[0].style.width = newSize + 'px';
         }
@@ -158,7 +158,7 @@ s.scrollbar = {
                 sb.drag.transform('translate3d(0px, ' + (newPos) + 'px, 0)');
             }
             else {
-                sb.drag.transform('translateY(' + (newPos) + 'px)');   
+                sb.drag.transform('translateY(' + (newPos) + 'px)');
             }
             sb.drag[0].style.height = newSize + 'px';
         }

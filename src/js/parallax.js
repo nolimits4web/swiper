@@ -4,7 +4,7 @@
 function setParallaxTransform(el, progress) {
     el = $(el);
     var p, pX, pY;
-    
+
     p = el.attr('data-swiper-parallax') || '0';
     pX = el.attr('data-swiper-parallax-x');
     pY = el.attr('data-swiper-parallax-y');
@@ -35,12 +35,12 @@ function setParallaxTransform(el, progress) {
         pY = pY * progress + 'px' ;
     }
     el.transform('translate3d(' + pX + ', ' + pY + ',0px)');
-}   
+}
 s.parallax = {
     setTranslate: function () {
         s.container.children('[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y]').each(function(){
             setParallaxTransform(this, s.progress);
-            
+
         });
         s.slides.each(function () {
             var slide = $(this);

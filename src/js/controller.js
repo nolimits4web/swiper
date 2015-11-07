@@ -39,9 +39,9 @@ s.controller = {
             };
         })();
     },
-    //xxx: for now i will just save one spline function to to 
+    //xxx: for now i will just save one spline function to to
     getInterpolateFunction: function(c){
-        if(!s.controller.spline) s.controller.spline = s.params.loop ? 
+        if(!s.controller.spline) s.controller.spline = s.params.loop ?
             new s.controller.LinearSpline(s.slidesGrid, c.slidesGrid) :
             new s.controller.LinearSpline(s.snapGrid, c.snapGrid);
     },
@@ -52,7 +52,7 @@ s.controller = {
             // this will create an Interpolate function based on the snapGrids
             // x is the Grid of the scrolled scroller and y will be the controlled scroller
             // it makes sense to create this only once and recall it for the interpolation
-            // the function does a lot of value caching for performance 
+            // the function does a lot of value caching for performance
             translate = c.rtl && c.params.direction === 'horizontal' ? -s.translate : s.translate;
             if (s.params.controlBy === 'slide') {
                 s.controller.getInterpolateFunction(c);
@@ -60,12 +60,12 @@ s.controller = {
                 // but it did not work out
                 controlledTranslate = -s.controller.spline.interpolate(-translate);
             }
-                
+
             if(!controlledTranslate || s.params.controlBy === 'container'){
                 multiplier = (c.maxTranslate() - c.minTranslate()) / (s.maxTranslate() - s.minTranslate());
                 controlledTranslate = (translate - s.minTranslate()) * multiplier + c.minTranslate();
             }
-           
+
             if (s.params.controlInverse) {
                 controlledTranslate = c.maxTranslate() - controlledTranslate;
             }
@@ -98,7 +98,7 @@ s.controller = {
                         c.fixLoop();
                     }
                     c.onTransitionEnd();
-                    
+
                 });
             }
         }
