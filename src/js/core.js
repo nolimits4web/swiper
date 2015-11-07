@@ -1135,6 +1135,7 @@ s.updateClickedSlide = function (e) {
 
 var isTouched,
     isMoved,
+    allowTouchCallbacks,
     touchStartTime,
     isScrolling,
     currentTranslate,
@@ -1184,6 +1185,7 @@ s.onTouchStart = function (e) {
 
     isTouched = true;
     isMoved = false;
+    allowTouchCallbacks = true;
     isScrolling = undefined;
     startMoving = undefined;
     s.touches.startX = startX;
@@ -1227,9 +1229,9 @@ s.onTouchMove = function (e) {
             return;
         }
     }
-
-    s.emit('onTouchMove', s, e);
-
+    if (allowTouchCallbacks) {
+        s.emit('onTouchMove', s, e);    
+    }
     if (e.targetTouches && e.targetTouches.length > 1) return;
 
     s.touches.currentX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
@@ -1363,7 +1365,10 @@ s.onTouchMove = function (e) {
 };
 s.onTouchEnd = function (e) {
     if (e.originalEvent) e = e.originalEvent;
-    s.emit('onTouchEnd', s, e);
+    if (allowTouchCallbacks) {
+        s.emit('onTouchEnd', s, e);
+    }
+    allowTouchCallbacks = false;
     if (!isTouched) return;
     //Return Grab Cursor
     if (s.params.grabCursor && isMoved && isTouched) {
