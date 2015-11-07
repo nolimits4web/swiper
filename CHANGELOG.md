@@ -1,5 +1,32 @@
 # Change Log
 
+## Swiper 3.2.0 - Released on November 7, 2015
+  * Added responsive breakpoints support using new `breakpoints` parameter. Now you can specify different `slidesPerView` and other similar parameters for different sizes:
+    ```js
+    slidesPerView: 5,
+    spaceBetween: 50,
+    breakpoints: {
+      1024: {
+        slidesPerView: 4,
+        spaceBetween: 40
+      },
+      768: {
+        slidesPerView: 3,
+        spaceBetween: 30
+      },
+      320: {
+        slidesPerView: 1,
+        spaceBetween: 10
+      }
+    }
+    ```
+
+  * New callbacks: `onSlideNextStart`, `onSlideNextEnd`, `onSlidePrevStart`, `onSlidePrevEnd`
+  * Added Meteor package `meteor add nolimits4web:swiper`
+  * Fixed issue with mouse touchMove/End callbacks firing all the time
+  * Fixed issue with mousewheel in Chrome
+  * Minor fixes
+
 ## Swiper 3.1.7 - Released on October 10, 2015
   * Fixed issue with lazy loading trying to download `undefined`-src images
   * Fixed lazy loading on slides using jQuery version

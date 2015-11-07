@@ -1,5 +1,5 @@
 /**
- * Swiper 3.1.7
+ * Swiper 3.2.0
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * 
  * http://www.idangero.us/swiper/
@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: October 10, 2015
+ * Released on: November 7, 2015
  */
 (function () {
     'use strict';
@@ -78,6 +78,8 @@
             mousewheelSensitivity: 1,
             // Hash Navigation
             hashnav: false,
+            // Breakpoints
+            breakpoints: undefined,
             // Slides grid
             spaceBetween: 0,
             slidesPerView: 1,
@@ -199,6 +201,18 @@
         var initialVirtualTranslate = params && params.virtualTranslate;
         
         params = params || {};
+        var originalParams = {};
+        for (var param in params) {
+            if (typeof params[param] === 'object') {
+                originalParams[param] = {};
+                for (var deepParam in params[param]) {
+                    originalParams[param][deepParam] = params[param][deepParam];
+                }
+            }
+            else {
+                originalParams[param] = params[param];
+            }
+        }
         for (var def in defaults) {
             if (typeof params[def] === 'undefined') {
                 params[def] = defaults[def];
@@ -217,6 +231,7 @@
         
         // Params
         s.params = params;
+        s.originalParams = originalParams;
         
         // Classname
         s.classNames = [];
@@ -225,7 +240,7 @@
           ===========================*/
         if (typeof $ !== 'undefined' && typeof Dom7 !== 'undefined'){
             $ = Dom7;
-        }  
+        }
         if (typeof $ === 'undefined') {
             if (typeof Dom7 === 'undefined') {
                 $ = window.Dom7 || window.Zepto || window.jQuery;
@@ -237,6 +252,39 @@
         }
         // Export it to Swiper instance
         s.$ = $;
+        
+        /*=========================
+          Breakpoints
+          ===========================*/
+        s.currentBreakpoint = undefined;
+        s.getActiveBreakpoint = function () {
+            //Get breakpoint for window width
+            if (!s.params.breakpoints) return false;
+            var breakpoint = false;
+            for ( var point in s.params.breakpoints ) {
+                if (s.params.breakpoints.hasOwnProperty(point)) {
+                    if (point >= $(window).width() && !breakpoint) {
+                        breakpoint = point;
+                    }
+                }
+            }
+            return breakpoint || 'max';
+        };
+        s.setBreakpoint = function () {
+            //Set breakpoint for window width and update parameters
+            var breakpoint = s.getActiveBreakpoint();
+            if (breakpoint && s.currentBreakpoint !== breakpoint) {
+                var breakPointsParams = breakpoint in s.params.breakpoints ? s.params.breakpoints[breakpoint] : s.originalParams;
+                for ( var param in breakPointsParams ) {
+                    s.params[param] = breakPointsParams[param];
+                }
+                s.currentBreakpoint = breakpoint;
+            }
+        };
+        // Set breakpoint on load
+        if (s.params.breakpoints) {
+            s.setBreakpoint();
+        }
         
         /*=========================
           Preparation - Define Container, Wrapper and Pagination
@@ -382,7 +430,7 @@
           ===========================*/
         function round(a) {
             return Math.floor(a);
-        }  
+        }
         /*=========================
           Set grab cursor
           ===========================*/
@@ -529,11 +577,11 @@
             if (width === 0 && isH() || height === 0 && !isH()) {
                 return;
             }
-            
+        
             //Subtract paddings
             width = width - parseInt(s.container.css('padding-left'), 10) - parseInt(s.container.css('padding-right'), 10);
             height = height - parseInt(s.container.css('padding-top'), 10) - parseInt(s.container.css('padding-bottom'), 10);
-            
+        
             // Store values
             s.width = width;
             s.height = height;
@@ -726,9 +774,6 @@
             if (s.rtl) offsetCenter = translate;
         
             // Visible Slides
-            var containerBox = s.container[0].getBoundingClientRect();
-            var sideBefore = isH() ? 'left' : 'top';
-            var sideAfter = isH() ? 'right' : 'bottom';
             s.slides.removeClass(s.params.slideVisibleClass);
             for (var i = 0; i < s.slides.length; i++) {
                 var slide = s.slides[i];
@@ -937,6 +982,11 @@
           Resize Handler
           ===========================*/
         s.onResize = function (forceUpdatePagination) {
+            //Breakpoints
+            if (s.params.breakpoints) {
+                s.setBreakpoint();
+            }
+        
             // Disable locks on resize
             var allowSwipeToPrev = s.params.allowSwipeToPrev;
             var allowSwipeToNext = s.params.allowSwipeToNext;
@@ -1148,7 +1198,6 @@
                             s.slideTo(slideToIndex);
                         }
                     }
-                        
                 }
                 else {
                     s.slideTo(slideToIndex);
@@ -1158,6 +1207,7 @@
         
         var isTouched,
             isMoved,
+            allowTouchCallbacks,
             touchStartTime,
             isScrolling,
             currentTranslate,
@@ -1199,7 +1249,7 @@
         
             var startX = s.touches.currentX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
             var startY = s.touches.currentY = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
-            
+        
             // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
             if(s.device.ios && s.params.iOSEdgeSwipeDetection && startX <= s.params.iOSEdgeSwipeThreshold) {
                 return;
@@ -1207,6 +1257,7 @@
         
             isTouched = true;
             isMoved = false;
+            allowTouchCallbacks = true;
             isScrolling = undefined;
             startMoving = undefined;
             s.touches.startX = startX;
@@ -1250,9 +1301,9 @@
                     return;
                 }
             }
-        
-            s.emit('onTouchMove', s, e);
-        
+            if (allowTouchCallbacks) {
+                s.emit('onTouchMove', s, e);
+            }
             if (e.targetTouches && e.targetTouches.length > 1) return;
         
             s.touches.currentX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
@@ -1314,7 +1365,7 @@
             isMoved = true;
         
             var diff = s.touches.diff = isH() ? s.touches.currentX - s.touches.startX : s.touches.currentY - s.touches.startY;
-            
+        
             diff = diff * s.params.touchRatio;
             if (s.rtl) diff = -diff;
         
@@ -1386,7 +1437,10 @@
         };
         s.onTouchEnd = function (e) {
             if (e.originalEvent) e = e.originalEvent;
-            s.emit('onTouchEnd', s, e);
+            if (allowTouchCallbacks) {
+                s.emit('onTouchEnd', s, e);
+            }
+            allowTouchCallbacks = false;
             if (!isTouched) return;
             //Return Grab Cursor
             if (s.params.grabCursor && isMoved && isTouched) {
@@ -1716,7 +1770,14 @@
                 s.emit('onTransitionStart', s);
                 if (s.activeIndex !== s.previousIndex) {
                     s.emit('onSlideChangeStart', s);
+                    if (s.activeIndex > s.previousIndex) {
+                        s.emit('onSlideNextStart', s);
+                    }
+                    else {
+                        s.emit('onSlidePrevStart', s);
+                    }
                 }
+        
             }
         };
         s.onTransitionEnd = function (runCallbacks) {
@@ -1728,6 +1789,12 @@
                 s.emit('onTransitionEnd', s);
                 if (s.activeIndex !== s.previousIndex) {
                     s.emit('onSlideChangeEnd', s);
+                    if (s.activeIndex > s.previousIndex) {
+                        s.emit('onSlideNextEnd', s);
+                    }
+                    else {
+                        s.emit('onSlidePrevEnd', s);
+                    }
                 }
             }
             if (s.params.hashnav && s.hashnav) {
@@ -2158,12 +2225,12 @@
                         if (s.rtl) {
                             tx = -tx;
                         }
-                        
+        
                         if (!isH()) {
                             ty = tx;
                             tx = 0;
                         }
-                        
+        
                         var transform = 'rotateX(' + (isH() ? 0 : -slideAngle) + 'deg) rotateY(' + (isH() ? slideAngle : 0) + 'deg) translate3d(' + tx + 'px, ' + ty + 'px, ' + tz + 'px)';
                         if (progress <= 1 && progress > -1) {
                             wrapperRotate = i * 90 + progress * 90;
@@ -2193,7 +2260,7 @@
                         '-ms-transform-origin': '50% 50% -' + (s.size / 2) + 'px',
                         'transform-origin': '50% 50% -' + (s.size / 2) + 'px'
                     });
-                        
+        
                     if (s.params.cube.shadow) {
                         if (isH()) {
                             cubeShadow.transform('translate3d(0px, ' + (s.width / 2 + s.params.cube.shadowOffset) + 'px, ' + (-s.width / 2) + 'px) rotateX(90deg) rotateZ(0deg) scale(' + (s.params.cube.shadowScale) + ')');
@@ -2287,7 +2354,7 @@
                 if (typeof index === 'undefined') return;
                 if (typeof loadInDuplicate === 'undefined') loadInDuplicate = true;
                 if (s.slides.length === 0) return;
-                
+        
                 var slide = s.slides.eq(index);
                 var img = slide.find('.swiper-lazy:not(.swiper-lazy-loaded):not(.swiper-lazy-loading)');
                 if (slide.hasClass('swiper-lazy') && !slide.hasClass('swiper-lazy-loaded') && !slide.hasClass('swiper-lazy-loading')) {
@@ -2309,15 +2376,15 @@
                         else {
                             if (srcset) {
                                 _img.attr('srcset', srcset);
-                                _img.removeAttr('data-srcset');    
+                                _img.removeAttr('data-srcset');
                             }
                             if (src) {
-                                _img.attr('src', src);    
+                                _img.attr('src', src);
                                 _img.removeAttr('data-src');
                             }
-                            
+        
                         }
-                            
+        
                         _img.addClass('swiper-lazy-loaded').removeClass('swiper-lazy-loading');
                         slide.find('.swiper-lazy-preloader, .preloader').remove();
                         if (s.params.loop && loadInDuplicate) {
@@ -2333,10 +2400,10 @@
                         }
                         s.emit('onLazyImageReady', s, slide[0], _img[0]);
                     });
-                    
+        
                     s.emit('onLazyImageLoad', s, slide[0], _img[0]);
                 });
-                    
+        
             },
             load: function () {
                 var i;
@@ -2352,7 +2419,7 @@
                         }
                     }
                     else {
-                        s.lazy.loadImageInSlide(s.activeIndex);    
+                        s.lazy.loadImageInSlide(s.activeIndex);
                     }
                 }
                 if (s.params.lazyLoadingInPrevNext) {
@@ -2399,7 +2466,7 @@
                 var sb = s.scrollbar;
                 var x = 0, y = 0;
                 var translate;
-                var pointerPosition = isH() ? 
+                var pointerPosition = isH() ?
                     ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].pageX : e.pageX || e.clientX) :
                     ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].pageY : e.pageY || e.clientY) ;
                 var position = (pointerPosition) - sb.track.offset()[isH() ? 'left' : 'top'] - sb.dragSize / 2;
@@ -2486,7 +2553,7 @@
                 sb.drag[0].style.width = '';
                 sb.drag[0].style.height = '';
                 sb.trackSize = isH() ? sb.track[0].offsetWidth : sb.track[0].offsetHeight;
-                
+        
                 sb.divider = s.size / s.virtualSize;
                 sb.moveDivider = sb.divider * (sb.trackSize / s.size);
                 sb.dragSize = sb.trackSize * sb.divider;
@@ -2514,7 +2581,7 @@
                 var sb = s.scrollbar;
                 var translate = s.translate || 0;
                 var newPos;
-                
+        
                 var newSize = sb.dragSize;
                 newPos = (sb.trackSize - sb.dragSize) * s.progress;
                 if (s.rtl && isH()) {
@@ -2541,7 +2608,7 @@
                         sb.drag.transform('translate3d(' + (newPos) + 'px, 0, 0)');
                     }
                     else {
-                        sb.drag.transform('translateX(' + (newPos) + 'px)');   
+                        sb.drag.transform('translateX(' + (newPos) + 'px)');
                     }
                     sb.drag[0].style.width = newSize + 'px';
                 }
@@ -2550,7 +2617,7 @@
                         sb.drag.transform('translate3d(0px, ' + (newPos) + 'px, 0)');
                     }
                     else {
-                        sb.drag.transform('translateY(' + (newPos) + 'px)');   
+                        sb.drag.transform('translateY(' + (newPos) + 'px)');
                     }
                     sb.drag[0].style.height = newSize + 'px';
                 }
@@ -2610,9 +2677,9 @@
                     };
                 })();
             },
-            //xxx: for now i will just save one spline function to to 
+            //xxx: for now i will just save one spline function to to
             getInterpolateFunction: function(c){
-                if(!s.controller.spline) s.controller.spline = s.params.loop ? 
+                if(!s.controller.spline) s.controller.spline = s.params.loop ?
                     new s.controller.LinearSpline(s.slidesGrid, c.slidesGrid) :
                     new s.controller.LinearSpline(s.snapGrid, c.snapGrid);
             },
@@ -2623,7 +2690,7 @@
                     // this will create an Interpolate function based on the snapGrids
                     // x is the Grid of the scrolled scroller and y will be the controlled scroller
                     // it makes sense to create this only once and recall it for the interpolation
-                    // the function does a lot of value caching for performance 
+                    // the function does a lot of value caching for performance
                     translate = c.rtl && c.params.direction === 'horizontal' ? -s.translate : s.translate;
                     if (s.params.controlBy === 'slide') {
                         s.controller.getInterpolateFunction(c);
@@ -2631,12 +2698,12 @@
                         // but it did not work out
                         controlledTranslate = -s.controller.spline.interpolate(-translate);
                     }
-                        
+        
                     if(!controlledTranslate || s.params.controlBy === 'container'){
                         multiplier = (c.maxTranslate() - c.minTranslate()) / (s.maxTranslate() - s.minTranslate());
                         controlledTranslate = (translate - s.minTranslate()) * multiplier + c.minTranslate();
                     }
-                   
+        
                     if (s.params.controlInverse) {
                         controlledTranslate = c.maxTranslate() - controlledTranslate;
                     }
@@ -2669,7 +2736,7 @@
                                 c.fixLoop();
                             }
                             c.onTransitionEnd();
-                            
+        
                         });
                     }
                 }
@@ -2847,6 +2914,7 @@
                     delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? - e.deltaX : - e.deltaY;
                 }
             }
+            if (delta === 0) return;
         
             if (s.params.mousewheelInvert) delta = -delta;
         
@@ -2867,16 +2935,20 @@
             else {
                 //Freemode or scrollContainer:
                 var position = s.getWrapperTranslate() + delta * s.params.mousewheelSensitivity;
+                var wasBeginning = s.isBeginning,
+                    wasEnd = s.isEnd;
         
-                if (position > s.minTranslate()) {
-                    position = s.minTranslate();
-                }
-                if (position < s.maxTranslate()) position = s.maxTranslate();
+                if (position >= s.minTranslate()) position = s.minTranslate();
+                if (position <= s.maxTranslate()) position = s.maxTranslate();
         
                 s.setWrapperTransition(0);
                 s.setWrapperTranslate(position);
                 s.updateProgress();
                 s.updateActiveIndex();
+        
+                if (!wasBeginning && s.isBeginning || !wasEnd && s.isEnd) {
+                    s.updateClasses();
+                }
         
                 if (s.params.freeModeSticky) {
                     clearTimeout(s.mousewheel.timeout);
@@ -2912,7 +2984,7 @@
         function setParallaxTransform(el, progress) {
             el = $(el);
             var p, pX, pY;
-            
+        
             p = el.attr('data-swiper-parallax') || '0';
             pX = el.attr('data-swiper-parallax-x');
             pY = el.attr('data-swiper-parallax-y');
@@ -2943,12 +3015,12 @@
                 pY = pY * progress + 'px' ;
             }
             el.transform('translate3d(' + pX + ', ' + pY + ',0px)');
-        }   
+        }
         s.parallax = {
             setTranslate: function () {
                 s.container.children('[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y]').each(function(){
                     setParallaxTransform(this, s.progress);
-                    
+        
                 });
                 s.slides.each(function () {
                     var slide = $(this);
