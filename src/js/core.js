@@ -55,6 +55,8 @@ var defaults = {
     mousewheelSensitivity: 1,
     // Hash Navigation
     hashnav: false,
+    // Breakpoints
+    breakpoints: undefined,
     // Slides grid
     spaceBetween: 0,
     slidesPerView: 1,
@@ -176,6 +178,18 @@ var defaults = {
 var initialVirtualTranslate = params && params.virtualTranslate;
 
 params = params || {};
+var originalParams = {};
+for (var param in params) {
+    if (typeof params[param] === 'object') {
+        originalParams[param] = {};
+        for (var deepParam in params[param]) {
+            originalParams[param][deepParam] = params[param][deepParam];
+        }
+    }
+    else {
+        originalParams[param] = params[param];
+    }
+}
 for (var def in defaults) {
     if (typeof params[def] === 'undefined') {
         params[def] = defaults[def];
@@ -194,6 +208,7 @@ var s = this;
 
 // Params
 s.params = params;
+s.originalParams = originalParams;
 
 // Classname
 s.classNames = [];
@@ -202,7 +217,7 @@ s.classNames = [];
   ===========================*/
 if (typeof $ !== 'undefined' && typeof Dom7 !== 'undefined'){
     $ = Dom7;
-}  
+}
 if (typeof $ === 'undefined') {
     if (typeof Dom7 === 'undefined') {
         $ = window.Dom7 || window.Zepto || window.jQuery;
@@ -214,6 +229,39 @@ if (typeof $ === 'undefined') {
 }
 // Export it to Swiper instance
 s.$ = $;
+
+/*=========================
+  Breakpoints
+  ===========================*/
+s.currentBreakpoint = undefined;
+s.getActiveBreakpoint = function () {
+    //Get breakpoint for window width
+    if (!s.params.breakpoints) return false;
+    var breakpoint = false;
+    for ( var point in s.params.breakpoints ) {
+        if (s.params.breakpoints.hasOwnProperty(point)) {
+            if (point >= $(window).width() && !breakpoint) {
+                breakpoint = point;
+            }
+        }
+    }
+    return breakpoint || 'max';
+};
+s.setBreakpoint = function () {
+    //Set breakpoint for window width and update parameters
+    var breakpoint = s.getActiveBreakpoint();
+    if (breakpoint && s.currentBreakpoint !== breakpoint) {
+        var breakPointsParams = breakpoint in s.params.breakpoints ? s.params.breakpoints[breakpoint] : s.originalParams;
+        for ( var param in breakPointsParams ) {
+            s.params[param] = breakPointsParams[param];
+        }
+        s.currentBreakpoint = breakpoint;
+    }
+};
+// Set breakpoint on load
+if (s.params.breakpoints) {
+    s.setBreakpoint();
+}
 
 /*=========================
   Preparation - Define Container, Wrapper and Pagination
@@ -359,7 +407,7 @@ s.unlockSwipes = function () {
   ===========================*/
 function round(a) {
     return Math.floor(a);
-}  
+}
 /*=========================
   Set grab cursor
   ===========================*/
@@ -506,11 +554,11 @@ s.updateContainerSize = function () {
     if (width === 0 && isH() || height === 0 && !isH()) {
         return;
     }
-    
+
     //Subtract paddings
     width = width - parseInt(s.container.css('padding-left'), 10) - parseInt(s.container.css('padding-right'), 10);
     height = height - parseInt(s.container.css('padding-top'), 10) - parseInt(s.container.css('padding-bottom'), 10);
-    
+
     // Store values
     s.width = width;
     s.height = height;
@@ -914,6 +962,11 @@ s.update = function (updateTranslate) {
   Resize Handler
   ===========================*/
 s.onResize = function (forceUpdatePagination) {
+    //Breakpoints
+    if (s.params.breakpoints) {
+        s.setBreakpoint();
+    }
+
     // Disable locks on resize
     var allowSwipeToPrev = s.params.allowSwipeToPrev;
     var allowSwipeToNext = s.params.allowSwipeToNext;
@@ -1125,7 +1178,6 @@ s.updateClickedSlide = function (e) {
                     s.slideTo(slideToIndex);
                 }
             }
-                
         }
         else {
             s.slideTo(slideToIndex);
@@ -1177,7 +1229,7 @@ s.onTouchStart = function (e) {
 
     var startX = s.touches.currentX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
     var startY = s.touches.currentY = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
-    
+
     // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
     if(s.device.ios && s.params.iOSEdgeSwipeDetection && startX <= s.params.iOSEdgeSwipeThreshold) {
         return;
@@ -1230,7 +1282,7 @@ s.onTouchMove = function (e) {
         }
     }
     if (allowTouchCallbacks) {
-        s.emit('onTouchMove', s, e);    
+        s.emit('onTouchMove', s, e);
     }
     if (e.targetTouches && e.targetTouches.length > 1) return;
 
@@ -1293,7 +1345,7 @@ s.onTouchMove = function (e) {
     isMoved = true;
 
     var diff = s.touches.diff = isH() ? s.touches.currentX - s.touches.startX : s.touches.currentY - s.touches.startY;
-    
+
     diff = diff * s.params.touchRatio;
     if (s.rtl) diff = -diff;
 
