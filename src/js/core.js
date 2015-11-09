@@ -238,11 +238,19 @@ s.getActiveBreakpoint = function () {
     //Get breakpoint for window width
     if (!s.params.breakpoints) return false;
     var breakpoint = false;
-    for ( var point in s.params.breakpoints ) {
+    var points = [], point;
+    for ( point in s.params.breakpoints ) {
         if (s.params.breakpoints.hasOwnProperty(point)) {
-            if (point >= $(window).width() && !breakpoint) {
-                breakpoint = point;
-            }
+            points.push(point);
+        }
+    }
+    points.sort(function (a, b) {
+        return parseInt(a, 10) > parseInt(b, 10);
+    });
+    for (var i = 0; i < points.length; i++) {
+        point = points[i];
+        if (point >= $(window).width() && !breakpoint) {
+            breakpoint = point;
         }
     }
     return breakpoint || 'max';
