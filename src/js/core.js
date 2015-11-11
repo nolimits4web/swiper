@@ -289,7 +289,7 @@ s.wrapper = s.container.children('.' + s.params.wrapperClass);
 // Pagination
 if (s.params.pagination) {
     s.paginationContainer = $(s.params.pagination);
-    if (s.paginationContainer.size() > 1){
+    if (s.paginationContainer.length > 1){
         s.paginationContainer = s.container.find(s.params.pagination);
     }
     if (s.params.paginationClickable) {
