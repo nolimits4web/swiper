@@ -249,7 +249,7 @@ s.getActiveBreakpoint = function () {
     });
     for (var i = 0; i < points.length; i++) {
         point = points[i];
-        if (point >= $(window).width() && !breakpoint) {
+        if (point >= window.innerWidth && !breakpoint) {
             breakpoint = point;
         }
     }
