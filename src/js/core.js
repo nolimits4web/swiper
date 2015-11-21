@@ -1724,11 +1724,14 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
 
     if (translate === s.translate) {
         s.updateClasses();
+        if (s.params.effect !== 'slide') {
+            s.setWrapperTranslate(translate);
+        }
         return false;
     }
     s.updateClasses();
     s.onTransitionStart(runCallbacks);
-    var translateX = isH() ? translate : 0, translateY = isH() ? 0 : translate;
+
     if (speed === 0) {
         s.setWrapperTransition(0);
         s.setWrapperTranslate(translate);
