@@ -17,6 +17,8 @@ var defaults = {
     freeModeMomentumBounceRatio: 1,
     freeModeSticky: false,
     freeModeMinimumVelocity: 0.02,
+    // Autoheight
+    autoHeight: true,
     // Set wrapper width
     setWrapperSize: false,
     // Virtual Translate
@@ -296,6 +298,9 @@ if (!s.support.flexbox) {
     s.classNames.push('swiper-container-no-flexbox');
     s.params.slidesPerColumn = 1;
 }
+if (s.params.autoHeight) {
+    s.classNames.push('swiper-container-autoheight');
+}
 // Enable slides progress when required
 if (s.params.parallax || s.params.watchSlidesVisibility) {
     s.params.watchSlidesProgress = true;
@@ -545,6 +550,11 @@ s.maxTranslate = function () {
 /*=========================
   Slider/slides sizes
   ===========================*/
+s.updateAutoHeight = function () {
+    // Update Height
+    var newHeight = s.slides.eq(s.activeIndex)[0].offsetHeight;
+    if (newHeight) s.wrapper.css('height', s.slides.eq(s.activeIndex)[0].offsetHeight + 'px');
+};
 s.updateContainerSize = function () {
     var width, height;
     if (typeof s.params.width !== 'undefined') {
@@ -949,6 +959,9 @@ s.update = function (updateTranslate) {
         }
         if (s.params.freeMode) {
             forceSetTranslate();
+            if (s.params.autoHeight) {
+                s.updateAutoHeight();
+            }
         }
         else {
             if ((s.params.slidesPerView === 'auto' || s.params.slidesPerView > 1) && s.isEnd && !s.params.centeredSlides) {
@@ -961,7 +974,9 @@ s.update = function (updateTranslate) {
                 forceSetTranslate();
             }
         }
-
+    }
+    else if (s.params.autoHeight) {
+        s.updateAutoHeight();
     }
 };
 
@@ -993,6 +1008,10 @@ s.onResize = function (forceUpdatePagination) {
         s.setWrapperTranslate(newTranslate);
         s.updateActiveIndex();
         s.updateClasses();
+
+        if (s.params.autoHeight) {
+            s.updateAutoHeight();
+        }
     }
     else {
         s.updateClasses();
@@ -1721,6 +1740,11 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     if (typeof speed === 'undefined') speed = s.params.speed;
     s.previousIndex = s.activeIndex || 0;
     s.activeIndex = slideIndex;
+
+    // Update Height
+    if (s.params.autoHeight) {
+        s.updateAutoHeight();
+    }
 
     if (translate === s.translate) {
         s.updateClasses();
