@@ -1857,6 +1857,19 @@ s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
 
     s.translate = isH() ? x : y;
 
+    // Check if we need to update progress
+    var progress;
+    var translatesDiff = s.maxTranslate() - s.minTranslate();
+    if (translatesDiff === 0) {
+        progress = 0;
+    }
+    else {
+        progress = (translate - s.minTranslate()) / (translatesDiff);
+    }
+    if (progress !== s.progress) {
+        s.updateProgress(translate);
+    }
+
     if (updateActiveIndex) s.updateActiveIndex();
     if (s.params.effect !== 'slide' && s.effects[s.params.effect]) {
         s.effects[s.params.effect].setTranslate(s.translate);
