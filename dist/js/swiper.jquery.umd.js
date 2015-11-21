@@ -56,7 +56,7 @@
             freeModeSticky: false,
             freeModeMinimumVelocity: 0.02,
             // Autoheight
-            autoHeight: true,
+            autoHeight: false,
             // Set wrapper width
             setWrapperSize: false,
             // Virtual Translate
