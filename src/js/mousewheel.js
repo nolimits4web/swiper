@@ -22,13 +22,14 @@ function handleMousewheel(e) {
     if (e.originalEvent) e = e.originalEvent; //jquery fix
     var we = s.mousewheel.event;
     var delta = 0;
+    var rtlFactor = s.rtl ? -1 : 1;
     //Opera & IE
     if (e.detail) delta = -e.detail;
     //WebKits
     else if (we === 'mousewheel') {
         if (s.params.mousewheelForceToAxis) {
             if (isH()) {
-                if (Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)) delta = e.wheelDeltaX;
+                if (Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)) delta = e.wheelDeltaX * rtlFactor;
                 else return;
             }
             else {
@@ -37,7 +38,7 @@ function handleMousewheel(e) {
             }
         }
         else {
-            delta = e.wheelDelta;
+            delta = Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY) ? - e.wheelDeltaX * rtlFactor : - e.wheelDeltaY;
         }
     }
     //Old FireFox
@@ -46,7 +47,7 @@ function handleMousewheel(e) {
     else if (we === 'wheel') {
         if (s.params.mousewheelForceToAxis) {
             if (isH()) {
-                if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) delta = -e.deltaX;
+                if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) delta = -e.deltaX * rtlFactor;
                 else return;
             }
             else {
@@ -55,7 +56,7 @@ function handleMousewheel(e) {
             }
         }
         else {
-            delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? - e.deltaX : - e.deltaY;
+            delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? - e.deltaX * rtlFactor : - e.deltaY;
         }
     }
     if (delta === 0) return;
