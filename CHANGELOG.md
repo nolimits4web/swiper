@@ -1,5 +1,9 @@
 # Change Log
 
+## Swiper 3.2.6 - Released on November 28, 2015
+  * Fixed issue in RTL layout using `mousewheelControl`
+  * Fixed issue in RTL layout using Parallax
+
 ## Swiper 3.2.5 - Released on November 21, 2015
   * New "Auto Height" mode when container/wrapper adopts to the height of currently active slide. Can be enabled with `autoHeight: true` parameter
   * Fixed issue with break points in FireFox

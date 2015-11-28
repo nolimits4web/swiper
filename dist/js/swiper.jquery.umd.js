@@ -1,5 +1,5 @@
 /**
- * Swiper 3.2.5
+ * Swiper 3.2.6
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * 
  * http://www.idangero.us/swiper/
@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: November 21, 2015
+ * Released on: November 28, 2015
  */
 (function (root, factory) {
 	'use strict';
@@ -1746,7 +1746,6 @@
             if (s.snapIndex >= s.snapGrid.length) s.snapIndex = s.snapGrid.length - 1;
         
             var translate = - s.snapGrid[s.snapIndex];
-        
             // Stop autoplay
             if (s.params.autoplay && s.autoplaying) {
                 if (internal || !s.params.autoplayDisableOnInteraction) {
@@ -1784,7 +1783,7 @@
                 s.updateAutoHeight();
             }
         
-            if (translate === s.translate) {
+            if ((s.rtl && -translate === s.translate) || (!s.rtl && translate === s.translate)) {
                 s.updateClasses();
                 if (s.params.effect !== 'slide') {
                     s.setWrapperTranslate(translate);
@@ -2943,13 +2942,14 @@
             if (e.originalEvent) e = e.originalEvent; //jquery fix
             var we = s.mousewheel.event;
             var delta = 0;
+            var rtlFactor = s.rtl ? -1 : 1;
             //Opera & IE
             if (e.detail) delta = -e.detail;
             //WebKits
             else if (we === 'mousewheel') {
                 if (s.params.mousewheelForceToAxis) {
                     if (isH()) {
-                        if (Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)) delta = e.wheelDeltaX;
+                        if (Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)) delta = e.wheelDeltaX * rtlFactor;
                         else return;
                     }
                     else {
@@ -2958,7 +2958,7 @@
                     }
                 }
                 else {
-                    delta = e.wheelDelta;
+                    delta = Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY) ? - e.wheelDeltaX * rtlFactor : - e.wheelDeltaY;
                 }
             }
             //Old FireFox
@@ -2967,7 +2967,7 @@
             else if (we === 'wheel') {
                 if (s.params.mousewheelForceToAxis) {
                     if (isH()) {
-                        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) delta = -e.deltaX;
+                        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) delta = -e.deltaX * rtlFactor;
                         else return;
                     }
                     else {
@@ -2976,7 +2976,7 @@
                     }
                 }
                 else {
-                    delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? - e.deltaX : - e.deltaY;
+                    delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? - e.deltaX * rtlFactor : - e.deltaY;
                 }
             }
             if (delta === 0) return;
@@ -3042,6 +3042,7 @@
             s.container.on(s.mousewheel.event, handleMousewheel);
             return true;
         };
+        
 
         /*=========================
           Parallax
@@ -3049,6 +3050,7 @@
         function setParallaxTransform(el, progress) {
             el = $(el);
             var p, pX, pY;
+            var rtlFactor = s.rtl ? -1 : 1;
         
             p = el.attr('data-swiper-parallax') || '0';
             pX = el.attr('data-swiper-parallax-x');
@@ -3067,11 +3069,12 @@
                     pX = '0';
                 }
             }
+        
             if ((pX).indexOf('%') >= 0) {
-                pX = parseInt(pX, 10) * progress + '%';
+                pX = parseInt(pX, 10) * progress * rtlFactor + '%';
             }
             else {
-                pX = pX * progress + 'px' ;
+                pX = pX * progress * rtlFactor + 'px' ;
             }
             if ((pY).indexOf('%') >= 0) {
                 pY = parseInt(pY, 10) * progress + '%';
@@ -3079,6 +3082,7 @@
             else {
                 pY = pY * progress + 'px' ;
             }
+        
             el.transform('translate3d(' + pX + ', ' + pY + ',0px)');
         }
         s.parallax = {
