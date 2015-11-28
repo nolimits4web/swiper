@@ -1708,7 +1708,6 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     if (s.snapIndex >= s.snapGrid.length) s.snapIndex = s.snapGrid.length - 1;
 
     var translate = - s.snapGrid[s.snapIndex];
-
     // Stop autoplay
     if (s.params.autoplay && s.autoplaying) {
         if (internal || !s.params.autoplayDisableOnInteraction) {
@@ -1746,7 +1745,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
         s.updateAutoHeight();
     }
 
-    if (translate === s.translate) {
+    if ((s.rtl && -translate === s.translate) || (!s.rtl && translate === s.translate)) {
         s.updateClasses();
         if (s.params.effect !== 'slide') {
             s.setWrapperTranslate(translate);
