@@ -182,7 +182,7 @@ var initialVirtualTranslate = params && params.virtualTranslate;
 params = params || {};
 var originalParams = {};
 for (var param in params) {
-    if (typeof params[param] === 'object') {
+    if (typeof params[param] === 'object' && !(params[param].nodeType || params[param] === window || params[param] === document || (typeof Dom7 !== 'undefined' && params[param] instanceof Dom7) || (typeof jQuery !== 'undefined' && params[param] instanceof jQuery))) {
         originalParams[param] = {};
         for (var deepParam in params[param]) {
             originalParams[param][deepParam] = params[param][deepParam];
