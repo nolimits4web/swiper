@@ -1,5 +1,9 @@
 # Change Log
 
+## Swiper 3.2.7 - Released on December 7, 2015
+  * Fixed issue with using HTMLElements for next/prevButton parameters with breakpoints
+  * Fixed issue with not working Auto Height when using Controller
+
 ## Swiper 3.2.6 - Released on November 28, 2015
   * Fixed issue in RTL layout using `mousewheelControl`
   * Fixed issue in RTL layout using Parallax

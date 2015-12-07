@@ -1,5 +1,5 @@
 /**
- * Swiper 3.2.6
+ * Swiper 3.2.7
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * 
  * http://www.idangero.us/swiper/
@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: November 28, 2015
+ * Released on: December 7, 2015
  */
 (function () {
     'use strict';
@@ -205,7 +205,7 @@
         params = params || {};
         var originalParams = {};
         for (var param in params) {
-            if (typeof params[param] === 'object') {
+            if (typeof params[param] === 'object' && !(params[param].nodeType || params[param] === window || params[param] === document || (typeof Dom7 !== 'undefined' && params[param] instanceof Dom7) || (typeof jQuery !== 'undefined' && params[param] instanceof jQuery))) {
                 originalParams[param] = {};
                 for (var deepParam in params[param]) {
                     originalParams[param][deepParam] = params[param][deepParam];
@@ -1763,12 +1763,11 @@
             s.previousIndex = s.activeIndex || 0;
             s.activeIndex = slideIndex;
         
-            // Update Height
-            if (s.params.autoHeight) {
-                s.updateAutoHeight();
-            }
-        
             if ((s.rtl && -translate === s.translate) || (!s.rtl && translate === s.translate)) {
+                // Update Height
+                if (s.params.autoHeight) {
+                    s.updateAutoHeight();
+                }
                 s.updateClasses();
                 if (s.params.effect !== 'slide') {
                     s.setWrapperTranslate(translate);
@@ -1779,13 +1778,13 @@
             s.onTransitionStart(runCallbacks);
         
             if (speed === 0) {
-                s.setWrapperTransition(0);
                 s.setWrapperTranslate(translate);
+                s.setWrapperTransition(0);
                 s.onTransitionEnd(runCallbacks);
             }
             else {
-                s.setWrapperTransition(speed);
                 s.setWrapperTranslate(translate);
+                s.setWrapperTransition(speed);
                 if (!s.animating) {
                     s.animating = true;
                     s.wrapper.transitionEnd(function () {
@@ -1801,6 +1800,9 @@
         
         s.onTransitionStart = function (runCallbacks) {
             if (typeof runCallbacks === 'undefined') runCallbacks = true;
+            if (s.params.autoHeight) {
+                s.updateAutoHeight();
+            }
             if (s.lazy) s.lazy.onTransitionStart();
             if (runCallbacks) {
                 s.emit('onTransitionStart', s);
@@ -2896,9 +2898,11 @@
             }
         }
         s.disableKeyboardControl = function () {
+            s.params.keyboardControl = false;
             $(document).off('keydown', handleKeyboard);
         };
         s.enableKeyboardControl = function () {
+            s.params.keyboardControl = true;
             $(document).on('keydown', handleKeyboard);
         };
         
