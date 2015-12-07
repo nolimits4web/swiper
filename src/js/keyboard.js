@@ -67,8 +67,10 @@ function handleKeyboard(e) {
     }
 }
 s.disableKeyboardControl = function () {
+    s.params.keyboardControl = false;
     $(document).off('keydown', handleKeyboard);
 };
 s.enableKeyboardControl = function () {
+    s.params.keyboardControl = true;
     $(document).on('keydown', handleKeyboard);
 };
