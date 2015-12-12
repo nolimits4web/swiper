@@ -1721,8 +1721,8 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     s.updateProgress(translate);
 
     // Normalize slideIndex
-    for (var i = 0; i < s.slidesGrid.length; i++) {
-        if (- Math.floor(translate * 100) >= Math.floor(s.slidesGrid[i] * 100)) {
+    for (var i = 0; i < s.snapGrid.length; i++) {
+        if (- Math.floor(translate * 100) >= Math.floor(s.snapGrid[i] * 100)) {
             slideIndex = i;
         }
     }
