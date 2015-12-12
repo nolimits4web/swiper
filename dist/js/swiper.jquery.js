@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: December 7, 2015
+ * Released on: December 12, 2015
  */
 (function () {
     'use strict';
@@ -1744,8 +1744,8 @@
             s.updateProgress(translate);
         
             // Normalize slideIndex
-            for (var i = 0; i < s.slidesGrid.length; i++) {
-                if (- Math.floor(translate * 100) >= Math.floor(s.slidesGrid[i] * 100)) {
+            for (var i = 0; i < s.snapGrid.length; i++) {
+                if (- Math.floor(translate * 100) >= Math.floor(s.snapGrid[i] * 100)) {
                     slideIndex = i;
                 }
             }
