@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: December 7, 2015
+ * Released on: December 16, 2015
  */
 (function (root, factory) {
 	'use strict';
@@ -220,7 +220,7 @@
         params = params || {};
         var originalParams = {};
         for (var param in params) {
-            if (typeof params[param] === 'object' && !(params[param].nodeType || params[param] === window || params[param] === document || (typeof Dom7 !== 'undefined' && params[param] instanceof Dom7) || (typeof jQuery !== 'undefined' && params[param] instanceof jQuery))) {
+            if (typeof params[param] === 'object' && params[param] !== null && !(params[param].nodeType || params[param] === window || params[param] === document || (typeof Dom7 !== 'undefined' && params[param] instanceof Dom7) || (typeof jQuery !== 'undefined' && params[param] instanceof jQuery))) {
                 originalParams[param] = {};
                 for (var deepParam in params[param]) {
                     originalParams[param][deepParam] = params[param][deepParam];
