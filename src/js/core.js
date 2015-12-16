@@ -492,12 +492,7 @@ function autoplay() {
                 s._slideNext();
             }
             else {
-                if (!params.autoplayStopOnLast) {
-                    s._slideTo(0);
-                }
-                else {
-                    s.stopAutoplay();
-                }
+                s.stopAutoplay();
             }
         }
     }, s.params.autoplay);
