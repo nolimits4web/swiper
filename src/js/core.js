@@ -569,8 +569,10 @@ s.maxTranslate = function () {
   ===========================*/
 s.updateAutoHeight = function () {
     // Update Height
-    var newHeight = s.slides.eq(s.activeIndex)[0].offsetHeight;
-    if (newHeight) s.wrapper.css('height', s.slides.eq(s.activeIndex)[0].offsetHeight + 'px');
+    if (typeof s.slides.eq(s.activeIndex)[0] !== 'undefined') {
+        var newHeight = s.slides.eq(s.activeIndex)[0].offsetHeight;
+        if (newHeight) s.wrapper.css('height', s.slides.eq(s.activeIndex)[0].offsetHeight + 'px');
+    }
 };
 s.updateContainerSize = function () {
     var width, height;
