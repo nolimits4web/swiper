@@ -8,12 +8,12 @@
         .preserve3d();
     }
     .swiper-slide-shadow-left, .swiper-slide-shadow-right, .swiper-slide-shadow-top, .swiper-slide-shadow-bottom {
-        position:absolute;
-        left:0;
-        top:0;
-        width:100%;
-        height:100%;
-        pointer-events:none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
         z-index: 10;
     }
     .swiper-slide-shadow-left { 
@@ -46,34 +46,36 @@
     }
 }
 /* Coverflow */
-.swiper-container-coverflow {
+.swiper-container-coverflow, .swiper-container-flip {
     .swiper-wrapper {
         /* Windows 8 IE 10 fix */
         -ms-perspective:1200px;
     }
-    
 }
-/* Fade */
-.swiper-container-fade {
-    &.swiper-container-free-mode {
-        .swiper-slide {
-            -webkit-transition-timing-function: ease-out;
-            -moz-transition-timing-function: ease-out;
-            -ms-transition-timing-function: ease-out;
-            -o-transition-timing-function: ease-out;
-            transition-timing-function: ease-out;
-        }
+/* Cube, Flip */
+.swiper-container-cube, .swiper-container-flip {
+    .swiper-slide-shadow-top, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left, .swiper-slide-shadow-right {
+        z-index: 0;
+        -webkit-backface-visibility: hidden;
+        -moz-backface-visibility: hidden;
+        -ms-backface-visibility: hidden;
+        backface-visibility: hidden;
     }
+}
+/* Flip */
+.swiper-container-flip {
     .swiper-slide {
         pointer-events: none;
-        .swiper-slide {
-            pointer-events: none;
-        }
+        visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        -moz-backface-visibility: hidden;
+        -ms-backface-visibility: hidden;
+        backface-visibility: hidden;
+        z-index: 1;
     }
     .swiper-slide-active {
-        &, & .swiper-slide-active {
-            pointer-events: auto;
-        }
+        pointer-events: auto;
+        visibility: visible;
     }
 }
 /* Cube */
@@ -104,13 +106,6 @@
         pointer-events: auto;
         visibility: visible;
     }
-    .swiper-slide-shadow-top, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left, .swiper-slide-shadow-right {
-        z-index: 0;
-        -webkit-backface-visibility: hidden;
-        -moz-backface-visibility: hidden;
-        -ms-backface-visibility: hidden;
-        backface-visibility: hidden;
-    }
     .swiper-cube-shadow {
         position: absolute;
         left: 0;
@@ -122,5 +117,28 @@
         -webkit-filter: blur(50px);
         filter: blur(50px);
         z-index: 0;
+    }
+}
+/* Fade */
+.swiper-container-fade {
+    &.swiper-container-free-mode {
+        .swiper-slide {
+            -webkit-transition-timing-function: ease-out;
+            -moz-transition-timing-function: ease-out;
+            -ms-transition-timing-function: ease-out;
+            -o-transition-timing-function: ease-out;
+            transition-timing-function: ease-out;
+        }
+    }
+    .swiper-slide {
+        pointer-events: none;
+        .swiper-slide {
+            pointer-events: none;
+        }
+    }
+    .swiper-slide-active {
+        &, & .swiper-slide-active {
+            pointer-events: auto;
+        }
     }
 }

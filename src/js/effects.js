@@ -10,7 +10,7 @@ s.effects = {
                 var tx = -offset;
                 if (!s.params.virtualTranslate) tx = tx - s.translate;
                 var ty = 0;
-                if (!isH()) {
+                if (!s.isHorizontal()) {
                     ty = tx;
                     tx = 0;
                 }
@@ -43,11 +43,72 @@ s.effects = {
             }
         }
     },
+    flip: {
+        setTranslate: function () {
+            for (var i = 0; i < s.slides.length; i++) {
+                var slide = s.slides.eq(i);
+                var progress = slide[0].progress;
+                if (s.params.flip.limitRotation) {
+                    progress = Math.max(Math.min(slide[0].progress, 1), -1);
+                }
+                var offset = slide[0].swiperSlideOffset;
+                var rotate = -180 * progress,
+                    rotateY = rotate,
+                    rotateX = 0,
+                    tx = -offset,
+                    ty = 0;
+                if (!s.isHorizontal()) {
+                    ty = tx;
+                    tx = 0;
+                    rotateX = -rotateY;
+                    rotateY = 0;
+                }
+
+                slide[0].style.zIndex = -Math.abs(Math.round(progress)) + s.slides.length;
+
+                if (s.params.flip.slideShadows) {
+                    //Set shadows
+                    var shadowBefore = s.isHorizontal() ? slide.find('.swiper-slide-shadow-left') : slide.find('.swiper-slide-shadow-top');
+                    var shadowAfter = s.isHorizontal() ? slide.find('.swiper-slide-shadow-right') : slide.find('.swiper-slide-shadow-bottom');
+                    if (shadowBefore.length === 0) {
+                        shadowBefore = $('<div class="swiper-slide-shadow-' + (s.isHorizontal() ? 'left' : 'top') + '"></div>');
+                        slide.append(shadowBefore);
+                    }
+                    if (shadowAfter.length === 0) {
+                        shadowAfter = $('<div class="swiper-slide-shadow-' + (s.isHorizontal() ? 'right' : 'bottom') + '"></div>');
+                        slide.append(shadowAfter);
+                    }
+                    if (shadowBefore.length) shadowBefore[0].style.opacity = Math.max(-progress, 0);
+                    if (shadowAfter.length) shadowAfter[0].style.opacity = Math.max(progress, 0);
+                }
+
+                slide
+                    .transform('translate3d(' + tx + 'px, ' + ty + 'px, 0px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)');
+            }
+        },
+        setTransition: function (duration) {
+            s.slides.transition(duration).find('.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left').transition(duration);
+            if (s.params.virtualTranslate && duration !== 0) {
+                var eventTriggered = false;
+                s.slides.eq(s.activeIndex).transitionEnd(function () {
+                    if (eventTriggered) return;
+                    if (!s) return;
+                    if (!$(this).hasClass(s.params.slideActiveClass)) return;
+                    eventTriggered = true;
+                    s.animating = false;
+                    var triggerEvents = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'];
+                    for (var i = 0; i < triggerEvents.length; i++) {
+                        s.wrapper.trigger(triggerEvents[i]);
+                    }
+                });
+            }
+        }
+    },
     cube: {
         setTranslate: function () {
             var wrapperRotate = 0, cubeShadow;
             if (s.params.cube.shadow) {
-                if (isH()) {
+                if (s.isHorizontal()) {
                     cubeShadow = s.wrapper.find('.swiper-cube-shadow');
                     if (cubeShadow.length === 0) {
                         cubeShadow = $('<div class="swiper-cube-shadow"></div>');
@@ -93,12 +154,12 @@ s.effects = {
                     tx = -tx;
                 }
 
-                if (!isH()) {
+                if (!s.isHorizontal()) {
                     ty = tx;
                     tx = 0;
                 }
 
-                var transform = 'rotateX(' + (isH() ? 0 : -slideAngle) + 'deg) rotateY(' + (isH() ? slideAngle : 0) + 'deg) translate3d(' + tx + 'px, ' + ty + 'px, ' + tz + 'px)';
+                var transform = 'rotateX(' + (s.isHorizontal() ? 0 : -slideAngle) + 'deg) rotateY(' + (s.isHorizontal() ? slideAngle : 0) + 'deg) translate3d(' + tx + 'px, ' + ty + 'px, ' + tz + 'px)';
                 if (progress <= 1 && progress > -1) {
                     wrapperRotate = i * 90 + progress * 90;
                     if (s.rtl) wrapperRotate = -i * 90 - progress * 90;
@@ -106,19 +167,18 @@ s.effects = {
                 slide.transform(transform);
                 if (s.params.cube.slideShadows) {
                     //Set shadows
-                    var shadowBefore = isH() ? slide.find('.swiper-slide-shadow-left') : slide.find('.swiper-slide-shadow-top');
-                    var shadowAfter = isH() ? slide.find('.swiper-slide-shadow-right') : slide.find('.swiper-slide-shadow-bottom');
+                    var shadowBefore = s.isHorizontal() ? slide.find('.swiper-slide-shadow-left') : slide.find('.swiper-slide-shadow-top');
+                    var shadowAfter = s.isHorizontal() ? slide.find('.swiper-slide-shadow-right') : slide.find('.swiper-slide-shadow-bottom');
                     if (shadowBefore.length === 0) {
-                        shadowBefore = $('<div class="swiper-slide-shadow-' + (isH() ? 'left' : 'top') + '"></div>');
+                        shadowBefore = $('<div class="swiper-slide-shadow-' + (s.isHorizontal() ? 'left' : 'top') + '"></div>');
                         slide.append(shadowBefore);
                     }
                     if (shadowAfter.length === 0) {
-                        shadowAfter = $('<div class="swiper-slide-shadow-' + (isH() ? 'right' : 'bottom') + '"></div>');
+                        shadowAfter = $('<div class="swiper-slide-shadow-' + (s.isHorizontal() ? 'right' : 'bottom') + '"></div>');
                         slide.append(shadowAfter);
                     }
-                    var shadowOpacity = slide[0].progress;
-                    if (shadowBefore.length) shadowBefore[0].style.opacity = -slide[0].progress;
-                    if (shadowAfter.length) shadowAfter[0].style.opacity = slide[0].progress;
+                    if (shadowBefore.length) shadowBefore[0].style.opacity = Math.max(-progress, 0);
+                    if (shadowAfter.length) shadowAfter[0].style.opacity = Math.max(progress, 0);
                 }
             }
             s.wrapper.css({
@@ -129,7 +189,7 @@ s.effects = {
             });
 
             if (s.params.cube.shadow) {
-                if (isH()) {
+                if (s.isHorizontal()) {
                     cubeShadow.transform('translate3d(0px, ' + (s.width / 2 + s.params.cube.shadowOffset) + 'px, ' + (-s.width / 2) + 'px) rotateX(90deg) rotateZ(0deg) scale(' + (s.params.cube.shadowScale) + ')');
                 }
                 else {
@@ -142,11 +202,11 @@ s.effects = {
                 }
             }
             var zFactor = (s.isSafari || s.isUiWebView) ? (-s.size / 2) : 0;
-            s.wrapper.transform('translate3d(0px,0,' + zFactor + 'px) rotateX(' + (isH() ? 0 : wrapperRotate) + 'deg) rotateY(' + (isH() ? -wrapperRotate : 0) + 'deg)');
+            s.wrapper.transform('translate3d(0px,0,' + zFactor + 'px) rotateX(' + (s.isHorizontal() ? 0 : wrapperRotate) + 'deg) rotateY(' + (s.isHorizontal() ? -wrapperRotate : 0) + 'deg)');
         },
         setTransition: function (duration) {
             s.slides.transition(duration).find('.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left').transition(duration);
-            if (s.params.cube.shadow && !isH()) {
+            if (s.params.cube.shadow && !s.isHorizontal()) {
                 s.container.find('.swiper-cube-shadow').transition(duration);
             }
         }
@@ -154,8 +214,8 @@ s.effects = {
     coverflow: {
         setTranslate: function () {
             var transform = s.translate;
-            var center = isH() ? -transform + s.width / 2 : -transform + s.height / 2;
-            var rotate = isH() ? s.params.coverflow.rotate: -s.params.coverflow.rotate;
+            var center = s.isHorizontal() ? -transform + s.width / 2 : -transform + s.height / 2;
+            var rotate = s.isHorizontal() ? s.params.coverflow.rotate: -s.params.coverflow.rotate;
             var translate = s.params.coverflow.depth;
             //Each slide offset from center
             for (var i = 0, length = s.slides.length; i < length; i++) {
@@ -164,13 +224,13 @@ s.effects = {
                 var slideOffset = slide[0].swiperSlideOffset;
                 var offsetMultiplier = (center - slideOffset - slideSize / 2) / slideSize * s.params.coverflow.modifier;
 
-                var rotateY = isH() ? rotate * offsetMultiplier : 0;
-                var rotateX = isH() ? 0 : rotate * offsetMultiplier;
+                var rotateY = s.isHorizontal() ? rotate * offsetMultiplier : 0;
+                var rotateX = s.isHorizontal() ? 0 : rotate * offsetMultiplier;
                 // var rotateZ = 0
                 var translateZ = -translate * Math.abs(offsetMultiplier);
 
-                var translateY = isH() ? 0 : s.params.coverflow.stretch * (offsetMultiplier);
-                var translateX = isH() ? s.params.coverflow.stretch * (offsetMultiplier) : 0;
+                var translateY = s.isHorizontal() ? 0 : s.params.coverflow.stretch * (offsetMultiplier);
+                var translateX = s.isHorizontal() ? s.params.coverflow.stretch * (offsetMultiplier) : 0;
 
                 //Fix for ultra small values
                 if (Math.abs(translateX) < 0.001) translateX = 0;
@@ -185,14 +245,14 @@ s.effects = {
                 slide[0].style.zIndex = -Math.abs(Math.round(offsetMultiplier)) + 1;
                 if (s.params.coverflow.slideShadows) {
                     //Set shadows
-                    var shadowBefore = isH() ? slide.find('.swiper-slide-shadow-left') : slide.find('.swiper-slide-shadow-top');
-                    var shadowAfter = isH() ? slide.find('.swiper-slide-shadow-right') : slide.find('.swiper-slide-shadow-bottom');
+                    var shadowBefore = s.isHorizontal() ? slide.find('.swiper-slide-shadow-left') : slide.find('.swiper-slide-shadow-top');
+                    var shadowAfter = s.isHorizontal() ? slide.find('.swiper-slide-shadow-right') : slide.find('.swiper-slide-shadow-bottom');
                     if (shadowBefore.length === 0) {
-                        shadowBefore = $('<div class="swiper-slide-shadow-' + (isH() ? 'left' : 'top') + '"></div>');
+                        shadowBefore = $('<div class="swiper-slide-shadow-' + (s.isHorizontal() ? 'left' : 'top') + '"></div>');
                         slide.append(shadowBefore);
                     }
                     if (shadowAfter.length === 0) {
-                        shadowAfter = $('<div class="swiper-slide-shadow-' + (isH() ? 'right' : 'bottom') + '"></div>');
+                        shadowAfter = $('<div class="swiper-slide-shadow-' + (s.isHorizontal() ? 'right' : 'bottom') + '"></div>');
                         slide.append(shadowAfter);
                     }
                     if (shadowBefore.length) shadowBefore[0].style.opacity = offsetMultiplier > 0 ? offsetMultiplier : 0;

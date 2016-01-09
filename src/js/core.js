@@ -32,6 +32,10 @@ var defaults = {
         modifier: 1,
         slideShadows : true
     },
+    flip: {
+        slideShadows : true,
+        limitRotation: true
+    },
     cube: {
         slideShadows: true,
         shadow: true,
@@ -306,7 +310,7 @@ if (s.params.parallax || s.params.watchSlidesVisibility) {
     s.params.watchSlidesProgress = true;
 }
 // Coverflow / 3D
-if (['cube', 'coverflow'].indexOf(s.params.effect) >= 0) {
+if (['cube', 'coverflow', 'flip'].indexOf(s.params.effect) >= 0) {
     if (s.support.transforms3d) {
         s.params.watchSlidesProgress = true;
         s.classNames.push('swiper-container-3d');
@@ -328,12 +332,13 @@ if (s.params.effect === 'cube') {
     s.params.virtualTranslate = true;
     s.params.setWrapperSize = false;
 }
-if (s.params.effect === 'fade') {
+if (s.params.effect === 'fade' || s.params.effect === 'flip') {
     s.params.slidesPerView = 1;
     s.params.slidesPerColumn = 1;
     s.params.slidesPerGroup = 1;
     s.params.watchSlidesProgress = true;
     s.params.spaceBetween = 0;
+    s.params.setWrapperSize = false;
     if (typeof initialVirtualTranslate === 'undefined') {
         s.params.virtualTranslate = true;
     }
@@ -356,12 +361,13 @@ if (s.params.pagination) {
 }
 
 // Is Horizontal
-function isH() {
+s.isHorizontal = function () {
     return s.params.direction === 'horizontal';
-}
+};
+// s.isH = isH;
 
 // RTL
-s.rtl = isH() && (s.container[0].dir.toLowerCase() === 'rtl' || s.container.css('direction') === 'rtl');
+s.rtl = s.isHorizontal() && (s.container[0].dir.toLowerCase() === 'rtl' || s.container.css('direction') === 'rtl');
 if (s.rtl) {
     s.classNames.push('swiper-container-rtl');
 }
@@ -569,7 +575,7 @@ s.updateContainerSize = function () {
     else {
         height = s.container[0].clientHeight;
     }
-    if (width === 0 && isH() || height === 0 && !isH()) {
+    if (width === 0 && s.isHorizontal() || height === 0 && !s.isHorizontal()) {
         return;
     }
 
@@ -580,7 +586,7 @@ s.updateContainerSize = function () {
     // Store values
     s.width = width;
     s.height = height;
-    s.size = isH() ? s.width : s.height;
+    s.size = s.isHorizontal() ? s.width : s.height;
 };
 
 s.updateSlidesSize = function () {
@@ -661,14 +667,14 @@ s.updateSlidesSize = function () {
         }
         if (slide.css('display') === 'none') continue;
         if (s.params.slidesPerView === 'auto') {
-            slideSize = isH() ? slide.outerWidth(true) : slide.outerHeight(true);
+            slideSize = s.isHorizontal() ? slide.outerWidth(true) : slide.outerHeight(true);
             if (s.params.roundLengths) slideSize = round(slideSize);
         }
         else {
             slideSize = (s.size - (s.params.slidesPerView - 1) * spaceBetween) / s.params.slidesPerView;
             if (s.params.roundLengths) slideSize = round(slideSize);
 
-            if (isH()) {
+            if (s.isHorizontal()) {
                 s.slides[i].style.width = slideSize + 'px';
             }
             else {
@@ -706,7 +712,7 @@ s.updateSlidesSize = function () {
         s.wrapper.css({width: s.virtualSize + s.params.spaceBetween + 'px'});
     }
     if (!s.support.flexbox || s.params.setWrapperSize) {
-        if (isH()) s.wrapper.css({width: s.virtualSize + s.params.spaceBetween + 'px'});
+        if (s.isHorizontal()) s.wrapper.css({width: s.virtualSize + s.params.spaceBetween + 'px'});
         else s.wrapper.css({height: s.virtualSize + s.params.spaceBetween + 'px'});
     }
 
@@ -739,7 +745,7 @@ s.updateSlidesSize = function () {
     if (s.snapGrid.length === 0) s.snapGrid = [0];
 
     if (s.params.spaceBetween !== 0) {
-        if (isH()) {
+        if (s.isHorizontal()) {
             if (s.rtl) s.slides.css({marginLeft: spaceBetween + 'px'});
             else s.slides.css({marginRight: spaceBetween + 'px'});
         }
@@ -751,7 +757,7 @@ s.updateSlidesSize = function () {
 };
 s.updateSlidesOffset = function () {
     for (var i = 0; i < s.slides.length; i++) {
-        s.slides[i].swiperSlideOffset = isH() ? s.slides[i].offsetLeft : s.slides[i].offsetTop;
+        s.slides[i].swiperSlideOffset = s.isHorizontal() ? s.slides[i].offsetLeft : s.slides[i].offsetTop;
     }
 };
 
@@ -1317,7 +1323,7 @@ s.onTouchMove = function (e) {
 
     if (typeof isScrolling === 'undefined') {
         var touchAngle = Math.atan2(Math.abs(s.touches.currentY - s.touches.startY), Math.abs(s.touches.currentX - s.touches.startX)) * 180 / Math.PI;
-        isScrolling = isH() ? touchAngle > s.params.touchAngle : (90 - touchAngle > s.params.touchAngle);
+        isScrolling = s.isHorizontal() ? touchAngle > s.params.touchAngle : (90 - touchAngle > s.params.touchAngle);
     }
     if (isScrolling) {
         s.emit('onTouchMoveOpposite', s, e);
@@ -1370,7 +1376,7 @@ s.onTouchMove = function (e) {
     }
     isMoved = true;
 
-    var diff = s.touches.diff = isH() ? s.touches.currentX - s.touches.startX : s.touches.currentY - s.touches.startY;
+    var diff = s.touches.diff = s.isHorizontal() ? s.touches.currentX - s.touches.startX : s.touches.currentY - s.touches.startY;
 
     diff = diff * s.params.touchRatio;
     if (s.rtl) diff = -diff;
@@ -1410,7 +1416,7 @@ s.onTouchMove = function (e) {
                 s.touches.startX = s.touches.currentX;
                 s.touches.startY = s.touches.currentY;
                 currentTranslate = startTranslate;
-                s.touches.diff = isH() ? s.touches.currentX - s.touches.startX : s.touches.currentY - s.touches.startY;
+                s.touches.diff = s.isHorizontal() ? s.touches.currentX - s.touches.startX : s.touches.currentY - s.touches.startY;
                 return;
             }
         }
@@ -1427,12 +1433,12 @@ s.onTouchMove = function (e) {
         //Velocity
         if (velocities.length === 0) {
             velocities.push({
-                position: s.touches[isH() ? 'startX' : 'startY'],
+                position: s.touches[s.isHorizontal() ? 'startX' : 'startY'],
                 time: touchStartTime
             });
         }
         velocities.push({
-            position: s.touches[isH() ? 'currentX' : 'currentY'],
+            position: s.touches[s.isHorizontal() ? 'currentX' : 'currentY'],
             time: (new window.Date()).getTime()
         });
     }
@@ -1866,7 +1872,7 @@ s.setWrapperTransition = function (duration, byController) {
 };
 s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
     var x = 0, y = 0, z = 0;
-    if (isH()) {
+    if (s.isHorizontal()) {
         x = s.rtl ? -translate : translate;
     }
     else {
@@ -1883,7 +1889,7 @@ s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
         else s.wrapper.transform('translate(' + x + 'px, ' + y + 'px)');
     }
 
-    s.translate = isH() ? x : y;
+    s.translate = s.isHorizontal() ? x : y;
 
     // Check if we need to update progress
     var progress;
@@ -1970,7 +1976,7 @@ s.getTranslate = function (el, axis) {
 };
 s.getWrapperTranslate = function (axis) {
     if (typeof axis === 'undefined') {
-        axis = isH() ? 'x' : 'y';
+        axis = s.isHorizontal() ? 'x' : 'y';
     }
     return s.getTranslate(s.wrapper[0], axis);
 };
