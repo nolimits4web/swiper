@@ -92,6 +92,10 @@ var defaults = {
     paginationClickable: false,
     paginationHide: false,
     paginationBulletRender: null,
+    paginationProgressRender: null,
+    paginationFractionRender: null,
+    paginationCustomRender: null,
+    paginationType: 'bullets', // 'bullets' or 'progress' or 'fraction' or 'custom'
     // Resistance
     resistance: true,
     resistanceRatio: 0.85,
@@ -139,7 +143,10 @@ var defaults = {
     bulletClass: 'swiper-pagination-bullet',
     bulletActiveClass: 'swiper-pagination-bullet-active',
     buttonDisabledClass: 'swiper-button-disabled',
+    paginationCurrentClass: 'swiper-pagination-current',
+    paginationTotalClass: 'swiper-pagination-total',
     paginationHiddenClass: 'swiper-pagination-hidden',
+    paginationProgressbarClass: 'swiper-pagination-progressbar',
     // Observer
     observer: false,
     observeParents: false,
@@ -355,9 +362,13 @@ s.wrapper = s.container.children('.' + s.params.wrapperClass);
 // Pagination
 if (s.params.pagination) {
     s.paginationContainer = $(s.params.pagination);
-    if (s.params.paginationClickable) {
+    if (s.params.paginationType === 'bullets' && s.params.paginationClickable) {
         s.paginationContainer.addClass('swiper-pagination-clickable');
     }
+    else {
+        s.params.paginationClickable = false;
+    }
+    s.paginationContainer.addClass('swiper-pagination-' + s.params.paginationType);
 }
 
 // Is Horizontal
@@ -864,31 +875,54 @@ s.updateClasses = function () {
     activeSlide.prev('.' + s.params.slideClass).addClass(s.params.slidePrevClass);
 
     // Pagination
-    if (s.bullets && s.bullets.length > 0) {
-        s.bullets.removeClass(s.params.bulletActiveClass);
-        var bulletIndex;
+    if (s.paginationContainer && s.paginationContainer.length > 0) {
+        // Current/Total
+        var current,
+            total = s.params.loop ? Math.ceil((s.slides.length - s.loopedSlides * 2) / s.params.slidesPerGroup) : s.snapGrid.length;
         if (s.params.loop) {
-            bulletIndex = Math.ceil(s.activeIndex - s.loopedSlides)/s.params.slidesPerGroup;
-            if (bulletIndex > s.slides.length - 1 - s.loopedSlides * 2) {
-                bulletIndex = bulletIndex - (s.slides.length - s.loopedSlides * 2);
+            current = Math.ceil(s.activeIndex - s.loopedSlides)/s.params.slidesPerGroup;
+            if (current > s.slides.length - 1 - s.loopedSlides * 2) {
+                current = current - (s.slides.length - s.loopedSlides * 2);
             }
-            if (bulletIndex > s.bullets.length - 1) bulletIndex = bulletIndex - s.bullets.length;
+            if (current > total - 1) current = current - total;
+            if (current < 0 && s.params.paginationType !== 'bullets') current = total + current;
         }
         else {
             if (typeof s.snapIndex !== 'undefined') {
-                bulletIndex = s.snapIndex;
+                current = s.snapIndex;
             }
             else {
-                bulletIndex = s.activeIndex || 0;
+                current = s.activeIndex || 0;
             }
         }
-        if (s.paginationContainer.length > 1) {
-            s.bullets.each(function () {
-                if ($(this).index() === bulletIndex) $(this).addClass(s.params.bulletActiveClass);
-            });
+        // Types
+        if (s.params.paginationType === 'bullets' && s.bullets && s.bullets.length > 0) {
+            s.bullets.removeClass(s.params.bulletActiveClass);
+            if (s.paginationContainer.length > 1) {
+                s.bullets.each(function () {
+                    if ($(this).index() === current) $(this).addClass(s.params.bulletActiveClass);
+                });
+            }
+            else {
+                s.bullets.eq(current).addClass(s.params.bulletActiveClass);
+            }
         }
-        else {
-            s.bullets.eq(bulletIndex).addClass(s.params.bulletActiveClass);
+        if (s.params.paginationType === 'fraction') {
+            s.paginationContainer.find('.' + s.params.paginationCurrentClass).text(current + 1);
+            s.paginationContainer.find('.' + s.params.paginationTotalClass).text(total);
+        }
+        if (s.params.paginationType === 'progress') {
+            var scale = (current + 1) / total,
+                scaleX = scale,
+                scaleY = 1;
+            if (!s.isHorizontal()) {
+                scaleY = scale;
+                scaleX = 1;
+            }
+            s.paginationContainer.find('.' + s.params.paginationProgressbarClass).transform('translate3d(0,0,0) scaleX(' + scaleX + ') scaleY(' + scaleY + ')').transition(s.params.speed);
+        }
+        if (s.params.paginationType === 'custom' && s.params.paginationCustomRender) {
+            s.paginationContainer.html(s.params.paginationCustomRender(s, current + 1, total));
         }
     }
 
@@ -923,20 +957,43 @@ s.updateClasses = function () {
 s.updatePagination = function () {
     if (!s.params.pagination) return;
     if (s.paginationContainer && s.paginationContainer.length > 0) {
-        var bulletsHTML = '';
-        var numberOfBullets = s.params.loop ? Math.ceil((s.slides.length - s.loopedSlides * 2) / s.params.slidesPerGroup) : s.snapGrid.length;
-        for (var i = 0; i < numberOfBullets; i++) {
-            if (s.params.paginationBulletRender) {
-                bulletsHTML += s.params.paginationBulletRender(i, s.params.bulletClass);
+        var paginationHTML = '';
+        if (s.params.paginationType === 'bullets') {
+            var numberOfBullets = s.params.loop ? Math.ceil((s.slides.length - s.loopedSlides * 2) / s.params.slidesPerGroup) : s.snapGrid.length;
+            for (var i = 0; i < numberOfBullets; i++) {
+                if (s.params.paginationBulletRender) {
+                    paginationHTML += s.params.paginationBulletRender(i, s.params.bulletClass);
+                }
+                else {
+                    paginationHTML += '<' + s.params.paginationElement+' class="' + s.params.bulletClass + '"></' + s.params.paginationElement + '>';
+                }
             }
-            else {
-                bulletsHTML += '<' + s.params.paginationElement+' class="' + s.params.bulletClass + '"></' + s.params.paginationElement + '>';
+            s.paginationContainer.html(paginationHTML);
+            s.bullets = s.paginationContainer.find('.' + s.params.bulletClass);
+            if (s.params.paginationClickable && s.params.a11y && s.a11y) {
+                s.a11y.initPagination();
             }
         }
-        s.paginationContainer.html(bulletsHTML);
-        s.bullets = s.paginationContainer.find('.' + s.params.bulletClass);
-        if (s.params.paginationClickable && s.params.a11y && s.a11y) {
-            s.a11y.initPagination();
+        if (s.params.paginationType === 'fraction') {
+            if (s.params.paginationFractionRender) {
+                paginationHTML = s.params.paginationFractionRender(s, s.params.paginationCurrentClass, s.params.paginationTotalClass);
+            }
+            else {
+                paginationHTML =
+                    '<span class="' + s.params.paginationCurrentClass + '"></span>' +
+                    ' / ' +
+                    '<span class="' + s.params.paginationTotalClass+'"></span>';
+            }
+            s.paginationContainer.html(paginationHTML);
+        }
+        if (s.params.paginationType === 'progress') {
+            if (s.params.paginationProgressRender) {
+                paginationHTML = s.params.paginationProgressRender(s, s.params.paginationProgressbarClass);
+            }
+            else {
+                paginationHTML = '<span class="' + s.params.paginationProgressbarClass + '"></span>';
+            }
+            s.paginationContainer.html(paginationHTML);
         }
     }
 };
