@@ -24,7 +24,7 @@ var defaults = {
     // Virtual Translate
     virtualTranslate: false,
     // Effects
-    effect: 'slide', // 'slide' or 'fade' or 'cube' or 'coverflow'
+    effect: 'slide', // 'slide' or 'fade' or 'cube' or 'coverflow' or 'flip'
     coverflow: {
         rotate: 50,
         stretch: 0,
