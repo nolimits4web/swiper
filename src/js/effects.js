@@ -63,6 +63,9 @@ s.effects = {
                     rotateX = -rotateY;
                     rotateY = 0;
                 }
+                else if (s.rtl) {
+                    rotateY = -rotateY;
+                }
 
                 slide[0].style.zIndex = -Math.abs(Math.round(progress)) + s.slides.length;
 
