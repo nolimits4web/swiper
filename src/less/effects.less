@@ -66,16 +66,19 @@
 .swiper-container-flip {
     .swiper-slide {
         pointer-events: none;
-        visibility: hidden;
         -webkit-backface-visibility: hidden;
         -moz-backface-visibility: hidden;
         -ms-backface-visibility: hidden;
         backface-visibility: hidden;
         z-index: 1;
+        .swiper-slide {
+            pointer-events: none;
+        }
     }
     .swiper-slide-active {
-        pointer-events: auto;
-        visibility: visible;
+        &, & .swiper-slide-active {
+            pointer-events: auto;
+        }
     }
 }
 /* Cube */
@@ -132,6 +135,10 @@
     }
     .swiper-slide {
         pointer-events: none;
+        -webkit-transition-property: opacity;
+        -moz-transition-property: opacity;
+        -o-transition-property: opacity;
+        transition-property: opacity;
         .swiper-slide {
             pointer-events: none;
         }
