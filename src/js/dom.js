@@ -382,6 +382,20 @@ var Dom7 = (function () {
                 return this;
             }
         },
+        text: function (text) {
+            if (typeof text === 'undefined') {
+                if (this[0]) {
+                    return this[0].textContent.trim();
+                }
+                else return null;
+            }
+            else {
+                for (var i = 0; i < this.length; i++) {
+                    this[i].textContent = text;
+                }
+                return this;
+            }
+        },
         is: function (selector) {
             if (!this[0]) return false;
             var compareWith, i;
