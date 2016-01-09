@@ -14,7 +14,7 @@ function setParallaxTransform(el, progress) {
         pY = pY || '0';
     }
     else {
-        if (isH()) {
+        if (s.isHorizontal()) {
             pX = p;
             pY = '0';
         }

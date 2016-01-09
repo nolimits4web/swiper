@@ -28,7 +28,7 @@ function handleMousewheel(e) {
     //WebKits
     else if (we === 'mousewheel') {
         if (s.params.mousewheelForceToAxis) {
-            if (isH()) {
+            if (s.isHorizontal()) {
                 if (Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)) delta = e.wheelDeltaX * rtlFactor;
                 else return;
             }
@@ -46,7 +46,7 @@ function handleMousewheel(e) {
     //New FireFox
     else if (we === 'wheel') {
         if (s.params.mousewheelForceToAxis) {
-            if (isH()) {
+            if (s.isHorizontal()) {
                 if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) delta = -e.deltaX * rtlFactor;
                 else return;
             }

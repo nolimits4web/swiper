@@ -5,10 +5,10 @@ function handleKeyboard(e) {
     if (e.originalEvent) e = e.originalEvent; //jquery fix
     var kc = e.keyCode || e.charCode;
     // Directions locks
-    if (!s.params.allowSwipeToNext && (isH() && kc === 39 || !isH() && kc === 40)) {
+    if (!s.params.allowSwipeToNext && (s.isHorizontal() && kc === 39 || !s.isHorizontal() && kc === 40)) {
         return false;
     }
-    if (!s.params.allowSwipeToPrev && (isH() && kc === 37 || !isH() && kc === 38)) {
+    if (!s.params.allowSwipeToPrev && (s.isHorizontal() && kc === 37 || !s.isHorizontal() && kc === 38)) {
         return false;
     }
     if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) {
@@ -49,7 +49,7 @@ function handleKeyboard(e) {
         }
         if (!inView) return;
     }
-    if (isH()) {
+    if (s.isHorizontal()) {
         if (kc === 37 || kc === 39) {
             if (e.preventDefault) e.preventDefault();
             else e.returnValue = false;

@@ -7,10 +7,10 @@ s.scrollbar = {
         var sb = s.scrollbar;
         var x = 0, y = 0;
         var translate;
-        var pointerPosition = isH() ?
+        var pointerPosition = s.isHorizontal() ?
             ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].pageX : e.pageX || e.clientX) :
             ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].pageY : e.pageY || e.clientY) ;
-        var position = (pointerPosition) - sb.track.offset()[isH() ? 'left' : 'top'] - sb.dragSize / 2;
+        var position = (pointerPosition) - sb.track.offset()[s.isHorizontal() ? 'left' : 'top'] - sb.dragSize / 2;
         var positionMin = -s.minTranslate() * sb.moveDivider;
         var positionMax = -s.maxTranslate() * sb.moveDivider;
         if (position < positionMin) {
@@ -93,13 +93,13 @@ s.scrollbar = {
         }
         sb.drag[0].style.width = '';
         sb.drag[0].style.height = '';
-        sb.trackSize = isH() ? sb.track[0].offsetWidth : sb.track[0].offsetHeight;
+        sb.trackSize = s.isHorizontal() ? sb.track[0].offsetWidth : sb.track[0].offsetHeight;
 
         sb.divider = s.size / s.virtualSize;
         sb.moveDivider = sb.divider * (sb.trackSize / s.size);
         sb.dragSize = sb.trackSize * sb.divider;
 
-        if (isH()) {
+        if (s.isHorizontal()) {
             sb.drag[0].style.width = sb.dragSize + 'px';
         }
         else {
@@ -125,7 +125,7 @@ s.scrollbar = {
 
         var newSize = sb.dragSize;
         newPos = (sb.trackSize - sb.dragSize) * s.progress;
-        if (s.rtl && isH()) {
+        if (s.rtl && s.isHorizontal()) {
             newPos = -newPos;
             if (newPos > 0) {
                 newSize = sb.dragSize - newPos;
@@ -144,7 +144,7 @@ s.scrollbar = {
                 newSize = sb.trackSize - newPos;
             }
         }
-        if (isH()) {
+        if (s.isHorizontal()) {
             if (s.support.transforms3d) {
                 sb.drag.transform('translate3d(' + (newPos) + 'px, 0, 0)');
             }
