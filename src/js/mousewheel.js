@@ -101,6 +101,11 @@ function handleMousewheel(e) {
                 s.slideReset();
             }, 300);
         }
+        else {
+            if (s.params.lazyLoading && s.lazy) {
+                s.lazy.load();
+            }
+        }
 
         // Return page scroll on edge positions
         if (position === 0 || position === s.maxTranslate()) return;
