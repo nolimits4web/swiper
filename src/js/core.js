@@ -504,14 +504,17 @@ function autoplay() {
         if (s.params.loop) {
             s.fixLoop();
             s._slideNext();
+            s.emit('onAutoplay', s);
         }
         else {
             if (!s.isEnd) {
                 s._slideNext();
+                s.emit('onAutoplay', s);
             }
             else {
                 if (!params.autoplayStopOnLast) {
                     s._slideTo(0);
+                    s.emit('onAutoplay', s);
                 }
                 else {
                     s.stopAutoplay();
