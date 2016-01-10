@@ -1,5 +1,17 @@
 # Change Log
 
+## Swiper 3.3.0 - Released on January 10, 2016
+  * New 3D Flip effect. Can be enabled with `effect: 'flip' parameter
+  * New types of pagination with new parameters:
+    * `paginationType` - type of pagination. Can be `'bullets'` (default) or `'fraction'` or `'progress'` or `'custom'`
+    * `paginationFractionRender(swiper, currentClass, totalClass)` - custom function to render "fraction" type pagination
+    * `paginationProgressRender(swiper, progressbarClass)` - custom function to render "progress" type pagination
+    * `paginationCustomRender(swiper, current, total)` - custom function to render "custom" type pagination
+  * New `lazyLoadingInPrevNextAmount` parameter allows to lazy load images in specified amount of next/prev slides
+  * New `autoplayStopOnLast` parameter (`true` by default) tells to autoplay should it stop on last slide or start from first slide
+  * New `onAutoplay(swiper)` callback
+  * Minor fixes
+
 ## Swiper 3.2.7 - Released on December 7, 2015
   * Fixed issue with using HTMLElements for next/prevButton parameters with breakpoints
   * Fixed issue with not working Auto Height when using Controller

@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "3.2.7",
+  "version": "3.3.0",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/js/swiper.js",
   "files": ["dist", "src", "*.json", "*.js"],
@@ -10,9 +10,7 @@
   },
   "keywords": ["swiper", "swipe", "slider", "touch", "ios", "mobile", "cordova", "phonegap", "app", "framework", "carousel", "gallery"],
   "author": "Vladimir Kharlampidi",
-  "license": [
-    "MIT"
-  ],
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/nolimits4web/Swiper/issues"
   },
