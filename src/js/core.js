@@ -6,6 +6,7 @@ var defaults = {
     // autoplay
     autoplay: false,
     autoplayDisableOnInteraction: true,
+    autoplayStopOnLast: false,
     // To support iOS's swipe-to-go-back gesture (when being used in-app, with UIWebView).
     iOSEdgeSwipeDetection: false,
     iOSEdgeSwipeThreshold: 20,
