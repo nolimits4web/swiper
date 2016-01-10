@@ -115,6 +115,7 @@ var defaults = {
     // Lazy Loading
     lazyLoading: false,
     lazyLoadingInPrevNext: false,
+    lazyLoadingInPrevNextAmount: 1,
     lazyLoadingOnTransitionStart: false,
     // Images
     preloadImages: true,
