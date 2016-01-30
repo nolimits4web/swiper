@@ -807,6 +807,9 @@ s.updateSlidesProgress = function (translate) {
                 (slideBefore <= 0 && slideAfter >= s.size);
             if (isVisible) {
                 s.slides.eq(i).addClass(s.params.slideVisibleClass);
+                if (s.lazy && s.params.lazyLoading){
+                    s.lazy.loadImageInSlide(i);
+                }
             }
         }
         slide.progress = s.rtl ? -slideProgress : slideProgress;
