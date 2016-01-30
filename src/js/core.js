@@ -1074,6 +1074,7 @@ s.onResize = function (forceUpdatePagination) {
     if (s.controller && s.controller.spline) {
         s.controller.spline = undefined;
     }
+    var slideChangedBySlideTo = false;
     if (s.params.freeMode) {
         var newTranslate = Math.min(Math.max(s.translate, s.maxTranslate()), s.minTranslate());
         s.setWrapperTranslate(newTranslate);
@@ -1087,11 +1088,14 @@ s.onResize = function (forceUpdatePagination) {
     else {
         s.updateClasses();
         if ((s.params.slidesPerView === 'auto' || s.params.slidesPerView > 1) && s.isEnd && !s.params.centeredSlides) {
-            s.slideTo(s.slides.length - 1, 0, false, true);
+            slideChangedBySlideTo = s.slideTo(s.slides.length - 1, 0, false, true);
         }
         else {
-            s.slideTo(s.activeIndex, 0, false, true);
+            slideChangedBySlideTo = s.slideTo(s.activeIndex, 0, false, true);
         }
+    }
+    if (s.params.lazyLoading && !slideChangedBySlideTo && s.lazy) {
+        s.lazy.load();
     }
     // Return locks after resize
     s.params.allowSwipeToPrev = allowSwipeToPrev;
