@@ -1164,7 +1164,7 @@ s.initEvents = function (detach) {
     // Prevent Links Clicks
     if (s.params.preventClicks || s.params.preventClicksPropagation) touchEventsTarget[action]('click', s.preventClicks, true);
 };
-s.attachEvents = function (detach) {
+s.attachEvents = function () {
     s.initEvents();
 };
 s.detachEvents = function () {
