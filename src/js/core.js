@@ -931,6 +931,7 @@ s.updateClasses = function () {
         }
         if (s.params.paginationType === 'custom' && s.params.paginationCustomRender) {
             s.paginationContainer.html(s.params.paginationCustomRender(s, current + 1, total));
+            s.emit('onPaginationRendered', s, s.paginationContainer[0]);
         }
     }
 
@@ -1002,6 +1003,9 @@ s.updatePagination = function () {
                 paginationHTML = '<span class="' + s.params.paginationProgressbarClass + '"></span>';
             }
             s.paginationContainer.html(paginationHTML);
+        }
+        if (s.params.paginationType !== 'custom') {
+            s.emit('onPaginationRendered', s, s.paginationContainer[0]);
         }
     }
 };
