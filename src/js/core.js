@@ -762,7 +762,7 @@ s.updateSlidesSize = function () {
             }
         }
         s.snapGrid = newSlidesGrid;
-        if (Math.floor(s.virtualSize - s.size) > Math.floor(s.snapGrid[s.snapGrid.length - 1])) {
+        if (Math.floor(s.virtualSize - s.size) - Math.floor(s.snapGrid[s.snapGrid.length - 1]) > 1) {
             s.snapGrid.push(s.virtualSize - s.size);
         }
     }
