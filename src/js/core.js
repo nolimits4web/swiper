@@ -2153,8 +2153,8 @@ s.destroyLoop = function () {
 s.reLoop = function (updatePosition) {
     var oldIndex = s.activeIndex - s.loopedSlides;
     s.destroyLoop();
-    s.updateSlidesSize();
     s.createLoop();
+    s.updateSlidesSize();
     if (updatePosition) {
         s.slideTo(oldIndex + s.loopedSlides, 0, false);
     }
