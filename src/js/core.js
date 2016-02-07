@@ -275,10 +275,14 @@ s.setBreakpoint = function () {
     var breakpoint = s.getActiveBreakpoint();
     if (breakpoint && s.currentBreakpoint !== breakpoint) {
         var breakPointsParams = breakpoint in s.params.breakpoints ? s.params.breakpoints[breakpoint] : s.originalParams;
+        var needsReLoop = s.params.loop && (breakPointsParams.slidesPerView !== s.params.slidesPerView);
         for ( var param in breakPointsParams ) {
             s.params[param] = breakPointsParams[param];
         }
         s.currentBreakpoint = breakpoint;
+        if(needsReLoop && s.destroyLoop) {
+            s.reLoop(true);
+        }
     }
 };
 // Set breakpoint on load
@@ -292,10 +296,11 @@ if (s.params.breakpoints) {
 s.container = $(container);
 if (s.container.length === 0) return;
 if (s.container.length > 1) {
+    var swipers = [];
     s.container.each(function () {
-        new Swiper(this, params);
+        swipers.push(new Swiper(this, params));
     });
-    return;
+    return swipers;
 }
 
 // Save instance in container HTML Element and in data
@@ -888,7 +893,7 @@ s.updateClasses = function () {
         var current,
             total = s.params.loop ? Math.ceil((s.slides.length - s.loopedSlides * 2) / s.params.slidesPerGroup) : s.snapGrid.length;
         if (s.params.loop) {
-            current = Math.ceil(s.activeIndex - s.loopedSlides)/s.params.slidesPerGroup;
+            current = Math.ceil((s.activeIndex - s.loopedSlides)/s.params.slidesPerGroup);
             if (current > s.slides.length - 1 - s.loopedSlides * 2) {
                 current = current - (s.slides.length - s.loopedSlides * 2);
             }
@@ -2132,6 +2137,16 @@ s.createLoop = function () {
 s.destroyLoop = function () {
     s.wrapper.children('.' + s.params.slideClass + '.' + s.params.slideDuplicateClass).remove();
     s.slides.removeAttr('data-swiper-slide-index');
+};
+s.reLoop = function (updatePosition) {
+    var oldIndex = s.activeIndex - s.loopedSlides;
+    s.destroyLoop();
+    s.updateSlidesSize();
+    s.createLoop();
+    if (updatePosition) {
+        s.slideTo(oldIndex + s.loopedSlides, 0, false);
+    }
+
 };
 s.fixLoop = function () {
     var newIndex;
