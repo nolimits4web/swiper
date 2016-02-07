@@ -884,8 +884,16 @@ s.updateClasses = function () {
     var activeSlide = s.slides.eq(s.activeIndex);
     // Active classes
     activeSlide.addClass(s.params.slideActiveClass);
-    activeSlide.next('.' + s.params.slideClass).addClass(s.params.slideNextClass);
-    activeSlide.prev('.' + s.params.slideClass).addClass(s.params.slidePrevClass);
+    // Next Slide
+    var nextSlide = activeSlide.next('.' + s.params.slideClass).addClass(s.params.slideNextClass);
+    if (s.params.loop && nextSlide.length === 0) {
+        s.slides.eq(0).addClass(s.params.slideNextClass);
+    }
+    // Prev Slide
+    var prevSlide = activeSlide.prev('.' + s.params.slideClass).addClass(s.params.slidePrevClass);
+    if (s.params.loop && prevSlide.length === 0) {
+        s.slides.eq(-1).addClass(s.params.slidePrevClass);
+    }
 
     // Pagination
     if (s.paginationContainer && s.paginationContainer.length > 0) {
