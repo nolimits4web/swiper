@@ -624,6 +624,7 @@ s.updateSlidesSize = function () {
         i,
         prevSlideSize = 0,
         index = 0;
+    if (typeof s.size === 'undefined') return;
     if (typeof spaceBetween === 'string' && spaceBetween.indexOf('%') >= 0) {
         spaceBetween = parseFloat(spaceBetween.replace('%', '')) / 100 * s.size;
     }
