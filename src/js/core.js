@@ -88,7 +88,7 @@ var defaults = {
     threshold: 0,
     touchMoveStopPropagation: true,
     // Unique Navigation Elements
-    uniqueNavigationElements: true,
+    uniqueNavElements: true,
     // Pagination
     pagination: null,
     paginationElement: 'span',
@@ -372,7 +372,7 @@ s.wrapper = s.container.children('.' + s.params.wrapperClass);
 // Pagination
 if (s.params.pagination) {
     s.paginationContainer = $(s.params.pagination);
-    if (s.params.uniqueNavigationElements && typeof s.params.pagination === 'string' && s.paginationContainer.length > 1 && s.container.find(s.params.pagination).length === 1) {
+    if (s.params.uniqueNavElements && typeof s.params.pagination === 'string' && s.paginationContainer.length > 1 && s.container.find(s.params.pagination).length === 1) {
         s.paginationContainer = s.container.find(s.params.pagination);
     }
 
@@ -388,13 +388,13 @@ if (s.params.pagination) {
 if (s.params.nextButton || s.params.prevButton) {
     if (s.params.nextButton) {
         s.nextButton = $(s.params.nextButton);
-        if (s.params.uniqueNavigationElements && typeof s.params.nextButton === 'string' && s.nextButton.length > 1 && s.container.find(s.params.nextButton).length === 1) {
+        if (s.params.uniqueNavElements && typeof s.params.nextButton === 'string' && s.nextButton.length > 1 && s.container.find(s.params.nextButton).length === 1) {
             s.nextButton = s.container.find(s.params.nextButton);
         }
     }
     if (s.params.prevButton) {
         s.prevButton = $(s.params.prevButton);
-        if (s.params.uniqueNavigationElements && typeof s.params.prevButton === 'string' && s.prevButton.length > 1 && s.container.find(s.params.prevButton).length === 1) {
+        if (s.params.uniqueNavElements && typeof s.params.prevButton === 'string' && s.prevButton.length > 1 && s.container.find(s.params.prevButton).length === 1) {
             s.prevButton = s.container.find(s.params.prevButton);
         }
     }

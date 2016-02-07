@@ -86,7 +86,7 @@ s.scrollbar = {
         if (!s.params.scrollbar) return;
         var sb = s.scrollbar;
         sb.track = $(s.params.scrollbar);
-        if (s.params.uniqueNavigationElements && typeof s.params.scrollbar === 'string' && sb.track.length > 1 && s.container.find(s.params.scrollbar).length === 1) {
+        if (s.params.uniqueNavElements && typeof s.params.scrollbar === 'string' && sb.track.length > 1 && s.container.find(s.params.scrollbar).length === 1) {
             sb.track = s.container.find(s.params.scrollbar);
         }
         sb.drag = sb.track.find('.swiper-scrollbar-drag');
