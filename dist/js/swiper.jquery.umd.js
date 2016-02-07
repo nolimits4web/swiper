@@ -10,31 +10,32 @@
  * 
  * Licensed under MIT
  * 
- * Released on: January 10, 2016
+ * Released on: January 17, 2016
  */
-(function (root, factory) {
-	'use strict';
+        (function (root, factory) {
+        	'use strict';
+        
+        	if (typeof define === 'function' && define.amd) {
+        		// AMD. Register as an anonymous module.
+        		define(['jquery'], factory);
+        	} else if (typeof exports === 'object') {
+        		// Node. Does not work with strict CommonJS, but
+        		// only CommonJS-like environments that support module.exports,
+        		// like Node.
+        		module.exports = factory(require('jquery'));
+        	} else {
+        		// Browser globals (root is window)
+        		root.Swiper = factory(root.jQuery);
+        	}
+        }(this, function ($) {
+        	'use strict';
+        
 
-	if (typeof define === 'function' && define.amd) {
-		// AMD. Register as an anonymous module.
-		define(['jquery'], factory);
-	} else if (typeof exports === 'object') {
-		// Node. Does not work with strict CommonJS, but
-		// only CommonJS-like environments that support module.exports,
-		// like Node.
-		module.exports = factory(require('jquery'));
-	} else {
-		// Browser globals (root is window)
-		root.Swiper = factory(root.jQuery);
-	}
-}(this, function ($) {
-	'use strict';
-
-    /*===========================
-    Swiper
-    ===========================*/
-    var Swiper = function (container, params) {
-        if (!(this instanceof Swiper)) return new Swiper(container, params);
+        /*===========================
+        Swiper
+        ===========================*/
+        var Swiper = function (container, params) {
+            if (!(this instanceof Swiper)) return new Swiper(container, params);
 
         var defaults = {
             direction: 'horizontal',
@@ -985,7 +986,7 @@
                     }
                 }
                 if (s.params.nextButton) {
-                    if (s.isEnd) {
+                    if ((s.bullets && $(s.bullets[s.bullets.length - 1]).hasClass('swiper-pagination-bullet-active')) || (s.isEnd)){
                         $(s.params.nextButton).addClass(s.params.buttonDisabledClass);
                         if (s.params.a11y && s.a11y) s.a11y.disable($(s.params.nextButton));
                     }
@@ -1005,7 +1006,9 @@
             if (s.paginationContainer && s.paginationContainer.length > 0) {
                 var paginationHTML = '';
                 if (s.params.paginationType === 'bullets') {
-                    var numberOfBullets = s.params.loop ? Math.ceil((s.slides.length - s.loopedSlides * 2) / s.params.slidesPerGroup) : s.snapGrid.length;
+                    var groupSlides = s.params.slidesPerGroup * s.params.slidesPerColumn;
+                    var viewSlides = s.params.slidesPerView * s.params.slidesPerColumn;
+                    var numberOfBullets = parseInt(s.slides.length / groupSlides);
                     for (var i = 0; i < numberOfBullets; i++) {
                         if (s.params.paginationBulletRender) {
                             paginationHTML += s.params.paginationBulletRender(i, s.params.bulletClass);
@@ -3071,8 +3074,14 @@
             try {
                 new window.WheelEvent('wheel');
                 s.mousewheel.event = 'wheel';
-            } catch (e) {}
+            } catch (e) {
+                if (window.WheelEvent || (s.container[0] && 'wheel' in s.container[0])) {
+                    s.mousewheel.event = 'wheel';
+                }
+            }
+            if (!s.mousewheel.event && window.WheelEvent) {
         
+            }
             if (!s.mousewheel.event && document.onmousewheel !== undefined) {
                 s.mousewheel.event = 'mousewheel';
             }
@@ -3085,10 +3094,9 @@
             var we = s.mousewheel.event;
             var delta = 0;
             var rtlFactor = s.rtl ? -1 : 1;
-            //Opera & IE
-            if (e.detail) delta = -e.detail;
+        
             //WebKits
-            else if (we === 'mousewheel') {
+            if (we === 'mousewheel') {
                 if (s.params.mousewheelForceToAxis) {
                     if (s.isHorizontal()) {
                         if (Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)) delta = e.wheelDeltaX * rtlFactor;
@@ -3564,142 +3572,142 @@
         s.init();
         
 
-    
-        // Return swiper instance
-        return s;
-    };
-    
-
-    /*==================================================
-        Prototype
-    ====================================================*/
-    Swiper.prototype = {
-        isSafari: (function () {
-            var ua = navigator.userAgent.toLowerCase();
-            return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
-        })(),
-        isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent),
-        isArray: function (arr) {
-            return Object.prototype.toString.apply(arr) === '[object Array]';
-        },
-        /*==================================================
-        Browser
-        ====================================================*/
-        browser: {
-            ie: window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
-            ieTouch: (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1)
-        },
-        /*==================================================
-        Devices
-        ====================================================*/
-        device: (function () {
-            var ua = navigator.userAgent;
-            var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
-            var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
-            var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
-            var iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
-            return {
-                ios: ipad || iphone || ipod,
-                android: android
-            };
-        })(),
-        /*==================================================
-        Feature Detection
-        ====================================================*/
-        support: {
-            touch : (window.Modernizr && Modernizr.touch === true) || (function () {
-                return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
-            })(),
-    
-            transforms3d : (window.Modernizr && Modernizr.csstransforms3d === true) || (function () {
-                var div = document.createElement('div').style;
-                return ('webkitPerspective' in div || 'MozPerspective' in div || 'OPerspective' in div || 'MsPerspective' in div || 'perspective' in div);
-            })(),
-    
-            flexbox: (function () {
-                var div = document.createElement('div').style;
-                var styles = ('alignItems webkitAlignItems webkitBoxAlign msFlexAlign mozBoxAlign webkitFlexDirection msFlexDirection mozBoxDirection mozBoxOrient webkitBoxDirection webkitBoxOrient').split(' ');
-                for (var i = 0; i < styles.length; i++) {
-                    if (styles[i] in div) return true;
-                }
-            })(),
-    
-            observer: (function () {
-                return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
-            })()
-        },
-        /*==================================================
-        Plugins
-        ====================================================*/
-        plugins: {}
-    };
-    
-
-    /*===========================
-     Get jQuery
-     ===========================*/
-    
-    addLibraryPlugin($);
-    
-    var domLib = $;
-
-    /*===========================
-    Add .swiper plugin from Dom libraries
-    ===========================*/
-    function addLibraryPlugin(lib) {
-        lib.fn.swiper = function (params) {
-            var firstInstance;
-            lib(this).each(function () {
-                var s = new Swiper(this, params);
-                if (!firstInstance) firstInstance = s;
-            });
-            return firstInstance;
+        
+            // Return swiper instance
+            return s;
         };
-    }
-    
-    if (domLib) {
-        if (!('transitionEnd' in domLib.fn)) {
-            domLib.fn.transitionEnd = function (callback) {
-                var events = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'],
-                    i, j, dom = this;
-                function fireCallBack(e) {
-                    /*jshint validthis:true */
-                    if (e.target !== this) return;
-                    callback.call(this, e);
-                    for (i = 0; i < events.length; i++) {
-                        dom.off(events[i], fireCallBack);
-                    }
-                }
-                if (callback) {
-                    for (i = 0; i < events.length; i++) {
-                        dom.on(events[i], fireCallBack);
-                    }
-                }
-                return this;
-            };
-        }
-        if (!('transform' in domLib.fn)) {
-            domLib.fn.transform = function (transform) {
-                for (var i = 0; i < this.length; i++) {
-                    var elStyle = this[i].style;
-                    elStyle.webkitTransform = elStyle.MsTransform = elStyle.msTransform = elStyle.MozTransform = elStyle.OTransform = elStyle.transform = transform;
-                }
-                return this;
-            };
-        }
-        if (!('transition' in domLib.fn)) {
-            domLib.fn.transition = function (duration) {
-                if (typeof duration !== 'string') {
-                    duration = duration + 'ms';
-                }
-                for (var i = 0; i < this.length; i++) {
-                    var elStyle = this[i].style;
-                    elStyle.webkitTransitionDuration = elStyle.MsTransitionDuration = elStyle.msTransitionDuration = elStyle.MozTransitionDuration = elStyle.OTransitionDuration = elStyle.transitionDuration = duration;
-                }
-                return this;
-            };
-        }
-    }
+        
 
-	return Swiper;
-}));
+        /*==================================================
+            Prototype
+        ====================================================*/
+        Swiper.prototype = {
+            isSafari: (function () {
+                var ua = navigator.userAgent.toLowerCase();
+                return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
+            })(),
+            isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent),
+            isArray: function (arr) {
+                return Object.prototype.toString.apply(arr) === '[object Array]';
+            },
+            /*==================================================
+            Browser
+            ====================================================*/
+            browser: {
+                ie: window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
+                ieTouch: (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1)
+            },
+            /*==================================================
+            Devices
+            ====================================================*/
+            device: (function () {
+                var ua = navigator.userAgent;
+                var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
+                var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+                var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
+                var iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
+                return {
+                    ios: ipad || iphone || ipod,
+                    android: android
+                };
+            })(),
+            /*==================================================
+            Feature Detection
+            ====================================================*/
+            support: {
+                touch : (window.Modernizr && Modernizr.touch === true) || (function () {
+                    return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+                })(),
+        
+                transforms3d : (window.Modernizr && Modernizr.csstransforms3d === true) || (function () {
+                    var div = document.createElement('div').style;
+                    return ('webkitPerspective' in div || 'MozPerspective' in div || 'OPerspective' in div || 'MsPerspective' in div || 'perspective' in div);
+                })(),
+        
+                flexbox: (function () {
+                    var div = document.createElement('div').style;
+                    var styles = ('alignItems webkitAlignItems webkitBoxAlign msFlexAlign mozBoxAlign webkitFlexDirection msFlexDirection mozBoxDirection mozBoxOrient webkitBoxDirection webkitBoxOrient').split(' ');
+                    for (var i = 0; i < styles.length; i++) {
+                        if (styles[i] in div) return true;
+                    }
+                })(),
+        
+                observer: (function () {
+                    return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
+                })()
+            },
+            /*==================================================
+            Plugins
+            ====================================================*/
+            plugins: {}
+        };
+        
+
+        /*===========================
+         Get jQuery
+         ===========================*/
+        
+        addLibraryPlugin($);
+        
+        var domLib = $;
+
+        /*===========================
+        Add .swiper plugin from Dom libraries
+        ===========================*/
+        function addLibraryPlugin(lib) {
+            lib.fn.swiper = function (params) {
+                var firstInstance;
+                lib(this).each(function () {
+                    var s = new Swiper(this, params);
+                    if (!firstInstance) firstInstance = s;
+                });
+                return firstInstance;
+            };
+        }
+        
+        if (domLib) {
+            if (!('transitionEnd' in domLib.fn)) {
+                domLib.fn.transitionEnd = function (callback) {
+                    var events = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'],
+                        i, j, dom = this;
+                    function fireCallBack(e) {
+                        /*jshint validthis:true */
+                        if (e.target !== this) return;
+                        callback.call(this, e);
+                        for (i = 0; i < events.length; i++) {
+                            dom.off(events[i], fireCallBack);
+                        }
+                    }
+                    if (callback) {
+                        for (i = 0; i < events.length; i++) {
+                            dom.on(events[i], fireCallBack);
+                        }
+                    }
+                    return this;
+                };
+            }
+            if (!('transform' in domLib.fn)) {
+                domLib.fn.transform = function (transform) {
+                    for (var i = 0; i < this.length; i++) {
+                        var elStyle = this[i].style;
+                        elStyle.webkitTransform = elStyle.MsTransform = elStyle.msTransform = elStyle.MozTransform = elStyle.OTransform = elStyle.transform = transform;
+                    }
+                    return this;
+                };
+            }
+            if (!('transition' in domLib.fn)) {
+                domLib.fn.transition = function (duration) {
+                    if (typeof duration !== 'string') {
+                        duration = duration + 'ms';
+                    }
+                    for (var i = 0; i < this.length; i++) {
+                        var elStyle = this[i].style;
+                        elStyle.webkitTransitionDuration = elStyle.MsTransitionDuration = elStyle.msTransitionDuration = elStyle.MozTransitionDuration = elStyle.OTransitionDuration = elStyle.transitionDuration = duration;
+                    }
+                    return this;
+                };
+            }
+        }
+
+        	return Swiper;
+        }));
