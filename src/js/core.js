@@ -1373,7 +1373,11 @@ s.onTouchStart = function (e) {
 s.onTouchMove = function (e) {
     if (e.originalEvent) e = e.originalEvent;
     if (isTouchEvent && e.type === 'mousemove') return;
-    if (e.preventedByNestedSwiper) return;
+    if (e.preventedByNestedSwiper) {
+        s.touches.startX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
+        s.touches.startY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY;
+        return;
+    }
     if (s.params.onlyExternal) {
         // isMoved = true;
         s.allowClick = false;
