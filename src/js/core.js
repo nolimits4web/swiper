@@ -87,6 +87,8 @@ var defaults = {
     onlyExternal: false,
     threshold: 0,
     touchMoveStopPropagation: true,
+    // Unique Navigation Elements
+    uniqueNavigationElements: true,
     // Pagination
     pagination: null,
     paginationElement: 'span',
@@ -298,6 +300,7 @@ if (s.container.length === 0) return;
 if (s.container.length > 1) {
     var swipers = [];
     s.container.each(function () {
+        var container = this;
         swipers.push(new Swiper(this, params));
     });
     return swipers;
@@ -369,6 +372,10 @@ s.wrapper = s.container.children('.' + s.params.wrapperClass);
 // Pagination
 if (s.params.pagination) {
     s.paginationContainer = $(s.params.pagination);
+    if (s.params.uniqueNavigationElements && typeof s.params.pagination === 'string' && s.paginationContainer.length > 1 && s.container.find(s.params.pagination).length === 1) {
+        s.paginationContainer = s.container.find(s.params.pagination);
+    }
+
     if (s.params.paginationType === 'bullets' && s.params.paginationClickable) {
         s.paginationContainer.addClass('swiper-pagination-clickable');
     }
@@ -376,6 +383,21 @@ if (s.params.pagination) {
         s.params.paginationClickable = false;
     }
     s.paginationContainer.addClass('swiper-pagination-' + s.params.paginationType);
+}
+// Next/Prev Buttons
+if (s.params.nextButton || s.params.prevButton) {
+    if (s.params.nextButton) {
+        s.nextButton = $(s.params.nextButton);
+        if (s.params.uniqueNavigationElements && typeof s.params.nextButton === 'string' && s.nextButton.length > 1 && s.container.find(s.params.nextButton).length === 1) {
+            s.nextButton = s.container.find(s.params.nextButton);
+        }
+    }
+    if (s.params.prevButton) {
+        s.prevButton = $(s.params.prevButton);
+        if (s.params.uniqueNavigationElements && typeof s.params.prevButton === 'string' && s.prevButton.length > 1 && s.container.find(s.params.prevButton).length === 1) {
+            s.prevButton = s.container.find(s.params.prevButton);
+        }
+    }
 }
 
 // Is Horizontal
@@ -951,24 +973,24 @@ s.updateClasses = function () {
 
     // Next/active buttons
     if (!s.params.loop) {
-        if (s.params.prevButton) {
+        if (s.params.prevButton && s.prevButton && s.prevButton.length > 0) {
             if (s.isBeginning) {
-                $(s.params.prevButton).addClass(s.params.buttonDisabledClass);
-                if (s.params.a11y && s.a11y) s.a11y.disable($(s.params.prevButton));
+                s.prevButton.addClass(s.params.buttonDisabledClass);
+                if (s.params.a11y && s.a11y) s.a11y.disable(s.prevButton);
             }
             else {
-                $(s.params.prevButton).removeClass(s.params.buttonDisabledClass);
-                if (s.params.a11y && s.a11y) s.a11y.enable($(s.params.prevButton));
+                s.prevButton.removeClass(s.params.buttonDisabledClass);
+                if (s.params.a11y && s.a11y) s.a11y.enable(s.prevButton);
             }
         }
-        if (s.params.nextButton) {
+        if (s.params.nextButton && s.nextButton && s.nextButton.length > 0) {
             if (s.isEnd) {
-                $(s.params.nextButton).addClass(s.params.buttonDisabledClass);
-                if (s.params.a11y && s.a11y) s.a11y.disable($(s.params.nextButton));
+                s.nextButton.addClass(s.params.buttonDisabledClass);
+                if (s.params.a11y && s.a11y) s.a11y.disable(s.nextButton);
             }
             else {
-                $(s.params.nextButton).removeClass(s.params.buttonDisabledClass);
-                if (s.params.a11y && s.a11y) s.a11y.enable($(s.params.nextButton));
+                s.nextButton.removeClass(s.params.buttonDisabledClass);
+                if (s.params.a11y && s.a11y) s.a11y.enable(s.nextButton);
             }
         }
     }
@@ -1170,17 +1192,17 @@ s.initEvents = function (detach) {
     window[action]('resize', s.onResize);
 
     // Next, Prev, Index
-    if (s.params.nextButton) {
-        $(s.params.nextButton)[actionDom]('click', s.onClickNext);
-        if (s.params.a11y && s.a11y) $(s.params.nextButton)[actionDom]('keydown', s.a11y.onEnterKey);
+    if (s.params.nextButton && s.nextButton && s.nextButton.length > 0) {
+        s.nextButton[actionDom]('click', s.onClickNext);
+        if (s.params.a11y && s.a11y) s.nextButton[actionDom]('keydown', s.a11y.onEnterKey);
     }
-    if (s.params.prevButton) {
-        $(s.params.prevButton)[actionDom]('click', s.onClickPrev);
-        if (s.params.a11y && s.a11y) $(s.params.prevButton)[actionDom]('keydown', s.a11y.onEnterKey);
+    if (s.params.prevButton && s.prevButton && s.prevButton.length > 0) {
+        s.prevButton[actionDom]('click', s.onClickPrev);
+        if (s.params.a11y && s.a11y) s.prevButton[actionDom]('keydown', s.a11y.onEnterKey);
     }
     if (s.params.pagination && s.params.paginationClickable) {
-        $(s.paginationContainer)[actionDom]('click', '.' + s.params.bulletClass, s.onClickIndex);
-        if (s.params.a11y && s.a11y) $(s.paginationContainer)[actionDom]('keydown', '.' + s.params.bulletClass, s.a11y.onEnterKey);
+        s.paginationContainer[actionDom]('click', '.' + s.params.bulletClass, s.onClickIndex);
+        if (s.params.a11y && s.a11y) s.paginationContainer[actionDom]('keydown', '.' + s.params.bulletClass, s.a11y.onEnterKey);
     }
 
     // Prevent Links Clicks
