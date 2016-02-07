@@ -4,6 +4,7 @@
   * New `uniqueNavElements` parameter. If enabled (by default) and navigation elements' parameters passed as the string (like `.pagination`) then Swiper will look for such elements through child elements first. Applies for pagination, prev/next buttons and scrollbar
   * New `onPaginationRendered` callback. Will be fired after pagination elements generated and added to DOM
   * New `.reLoop()` method, which combines `.destroyLoop()` + `.createLoop()` methods with additional positioning fixes. Useful to call after you have changed `slidesPerView` parameter, it will dynamically recreate duplicated slides required for loop
+  * New `.nextButton` and `.prevButton` properties with Dom7/jQuery element with next/prev button HTML element
   * Fixed not working mousewheel control in IE 11
   * Fixed issue with lazy loading images not being recalculated after window resize
   * Fixed issues when using loop with breakpoints changing `slidesPerView/Group` parameters
