@@ -1,3 +1,5 @@
+var throttle = require('lodash.throttle');
+
 /*=========================
   Mousewheel Control
   ===========================*/
@@ -24,6 +26,12 @@ if (s.params.mousewheelControl) {
         s.mousewheel.event = 'DOMMouseScroll';
     }
 }
+
+var throttleAutoHeight = throttle(function() {
+    s.setWrapperTransition(200);
+    s.updateAutoHeight();
+}, 150);
+
 function handleMousewheel(e) {
     if (e.originalEvent) e = e.originalEvent; //jquery fix
     var we = s.mousewheel.event;
@@ -95,6 +103,7 @@ function handleMousewheel(e) {
         s.setWrapperTranslate(position);
         s.updateProgress();
         s.updateActiveIndex();
+        throttleAutoHeight();
 
         if (!wasBeginning && s.isBeginning || !wasEnd && s.isEnd) {
             s.updateClasses();
