@@ -1193,15 +1193,15 @@ s.initEvents = function (detach) {
 
     // Next, Prev, Index
     if (s.params.nextButton && s.nextButton && s.nextButton.length > 0) {
-        s.nextButton[actionDom]('click', s.onClickNext);
+        s.nextButton[actionDom]('click touchend', s.onClickNext);
         if (s.params.a11y && s.a11y) s.nextButton[actionDom]('keydown', s.a11y.onEnterKey);
     }
     if (s.params.prevButton && s.prevButton && s.prevButton.length > 0) {
-        s.prevButton[actionDom]('click', s.onClickPrev);
+        s.prevButton[actionDom]('click touchend', s.onClickPrev);
         if (s.params.a11y && s.a11y) s.prevButton[actionDom]('keydown', s.a11y.onEnterKey);
     }
     if (s.params.pagination && s.params.paginationClickable) {
-        s.paginationContainer[actionDom]('click', '.' + s.params.bulletClass, s.onClickIndex);
+        s.paginationContainer[actionDom]('click touchend', '.' + s.params.bulletClass, s.onClickIndex);
         if (s.params.a11y && s.a11y) s.paginationContainer[actionDom]('keydown', '.' + s.params.bulletClass, s.a11y.onEnterKey);
     }
 
