@@ -1964,6 +1964,15 @@ s.slideReset = function (runCallbacks, speed, internal) {
     return s.slideTo(s.activeIndex, speed, runCallbacks);
 };
 
+s.disableTouchControl = function () {
+    s.params.onlyExternal = true;
+    return true;
+};
+s.enableTouchControl = function () {
+    s.params.onlyExternal = false;
+    return true;
+};
+
 /*=========================
   Translate/transition helpers
   ===========================*/
