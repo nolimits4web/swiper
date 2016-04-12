@@ -1,5 +1,3 @@
-var throttle = require('lodash.throttle');
-
 /*=========================
   Mousewheel Control
   ===========================*/

@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: February 24, 2016
+ * Released on: April 12, 2016
  */
 (function () {
     'use strict';
@@ -3106,8 +3106,6 @@
         };
         
 
-        var throttle = require('lodash.throttle');
-        
         /*=========================
           Mousewheel Control
           ===========================*/
