@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: February 7, 2016
+ * Released on: February 24, 2016
  */
 (function (root, factory) {
 	'use strict';
@@ -3121,6 +3121,8 @@
         };
         
 
+        var throttle = require('lodash.throttle');
+        
         /*=========================
           Mousewheel Control
           ===========================*/
@@ -3147,6 +3149,12 @@
                 s.mousewheel.event = 'DOMMouseScroll';
             }
         }
+        
+        var throttleAutoHeight = throttle(function() {
+            s.setWrapperTransition(200);
+            s.updateAutoHeight();
+        }, 150);
+        
         function handleMousewheel(e) {
             if (e.originalEvent) e = e.originalEvent; //jquery fix
             var we = s.mousewheel.event;
@@ -3218,6 +3226,7 @@
                 s.setWrapperTranslate(position);
                 s.updateProgress();
                 s.updateActiveIndex();
+                throttleAutoHeight();
         
                 if (!wasBeginning && s.isBeginning || !wasEnd && s.isEnd) {
                     s.updateClasses();
