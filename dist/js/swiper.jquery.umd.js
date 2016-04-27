@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: February 7, 2016
+ * Released on: April 27, 2016
  */
 (function (root, factory) {
 	'use strict';
@@ -935,6 +935,10 @@
             s.previousIndex = s.activeIndex;
             s.activeIndex = newActiveIndex;
             s.updateClasses();
+            s.updateRealIndex();
+        };
+        s.updateRealIndex = function(){
+            s.realIndex = s.slides.eq([s.activeIndex]).attr('data-swiper-slide-index') || s.activeIndex;
         };
         
         /*=========================
@@ -1896,7 +1900,7 @@
             if (typeof speed === 'undefined') speed = s.params.speed;
             s.previousIndex = s.activeIndex || 0;
             s.activeIndex = slideIndex;
-        
+            s.updateRealIndex();
             if ((s.rtl && -translate === s.translate) || (!s.rtl && translate === s.translate)) {
                 // Update Height
                 if (s.params.autoHeight) {
