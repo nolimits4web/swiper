@@ -2,6 +2,14 @@
 [![devDependency Status](https://david-dm.org/nolimits4web/swiper/dev-status.svg)](https://david-dm.org/nolimits4web/swiper#info=devDependencies)
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=nolimits4web&url=https://github.com/nolimits4web/swiper/&title=Framework7&language=JavaScript&tags=github&category=software)
 
+THIS FORK
+==========
+This fork allows to create a minified version of the dist foolder and a version without JQuery utilities.
+
+```gulp build && gulp min```
+```gulp build && gulp min-nojq```
+
+
 Swiper
 ==========
 
