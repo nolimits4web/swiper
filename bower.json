@@ -12,14 +12,14 @@
   "dependencies": {
   },
   "scripts": [
-    "dist/js/swiper.js"
+    "min/js/swiper.min.js"
   ],
   "main": [
-    "dist/js/swiper.js",
-    "dist/css/swiper.css"
+    "min/js/swiper.min.js",
+    "min/css/swiper.min.css"
   ],
   "styles": [
-    "dist/css/swiper.css"
+    "min/css/swiper.min.css"
   ],
   "license": ["MIT"],
   "dependencies": {},
@@ -27,6 +27,7 @@
     ".*",
     "demos",
     "gulpfile",
+    "dist",
     "build",
     "node_modules",
     "playground",

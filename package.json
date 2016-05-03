@@ -2,8 +2,8 @@
   "name": "swiper",
   "version": "3.3.1",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
-  "main": "dist/js/swiper.js",
-  "files": ["dist", "src", "*.json", "*.js"],
+  "main": "min/js/swiper.js",
+  "files": ["min", "src", "*.json", "*.js"],
   "repository": {
     "type": "git",
     "url": "https://github.com/nolimits4web/Swiper.git"
@@ -35,7 +35,8 @@
     "jshint-stylish": "~2.1.0"
   },
   "scripts": {
-    "test": "gulp build"
+    "test": "gulp build",
+    "build-min": "gulp build && gulp min"
   },
   "style": "dist/css/swiper.css"
 }

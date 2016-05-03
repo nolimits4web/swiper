@@ -11,8 +11,8 @@ Package.onUse(function (api) {
   api.versionsFrom('1.1.0.2');
 
   api.addFiles([
-    'dist/css/swiper.min.css',
-    'dist/js/swiper.js'
+    'min/css/swiper.min.css',
+    'min/js/swiper.min.js'
     ], ['client']
   );
 

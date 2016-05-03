@@ -27,6 +27,11 @@
                 styles: 'dist/css/',
                 scripts: 'dist/js/'
             },
+            min: {
+                root: 'min/',
+                styles: 'min/css/',
+                scripts: 'min/js/'
+            },
             playground: {
                 root: 'playground/'
             },
@@ -236,6 +241,72 @@
     });
     gulp.task('build', ['scripts', 'styles'], function (cb) {
         cb();
+    });
+
+    gulp.task('min', function () {
+        gulp.src([paths.build.scripts + swiper.filename + '.js'])
+            .pipe(sourcemaps.init())
+            .pipe(uglify())
+            .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date }))
+            .pipe(rename(function(path) {
+                path.basename = swiper.filename + '.min';
+            }))
+            .pipe(sourcemaps.write('./maps'))
+            .pipe(gulp.dest(paths.min.scripts));
+
+        gulp.src([paths.build.scripts + swiper.filename + '.jquery.js'])
+            .pipe(sourcemaps.init())
+            .pipe(uglify())
+            .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date } ))
+            .pipe(rename(function(path) {
+                path.basename = swiper.filename + '.jquery.min';
+            }))
+            .pipe(sourcemaps.write('./maps'))
+            .pipe(gulp.dest(paths.min.scripts));
+
+        gulp.src([paths.build.scripts + swiper.filename + '.jquery.umd.js'])
+            .pipe(sourcemaps.init())
+            .pipe(uglify())
+            .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date } ))
+            .pipe(rename(function(path) {
+                path.basename = swiper.filename + '.jquery.umd.min';
+            }))
+            .pipe(sourcemaps.write('./maps'))
+            .pipe(gulp.dest(paths.min.scripts));
+
+        gulp.src(paths.build.styles + '*.css')
+            .pipe(minifyCSS({
+                advanced: false,
+                aggressiveMerging: false,
+            }))
+            .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date }))
+            .pipe(rename(function(path) {
+                path.basename = swiper.filename + '.min';
+            }))
+            .pipe(gulp.dest(paths.min.styles));
+    });
+
+    gulp.task('min-nojq', function () {
+        gulp.src([paths.build.scripts + swiper.filename + '.js'])
+            .pipe(sourcemaps.init())
+            .pipe(uglify())
+            .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date }))
+            .pipe(rename(function(path) {
+                path.basename = swiper.filename + '.min';
+            }))
+            .pipe(sourcemaps.write('./maps'))
+            .pipe(gulp.dest(paths.min.scripts));
+
+        gulp.src(paths.build.styles + '*.css')
+            .pipe(minifyCSS({
+                advanced: false,
+                aggressiveMerging: false,
+            }))
+            .pipe(header(swiper.banner, { pkg : swiper.pkg, date: swiper.date }))
+            .pipe(rename(function(path) {
+                path.basename = swiper.filename + '.min';
+            }))
+            .pipe(gulp.dest(paths.min.styles));
     });
 
     gulp.task('dist', function () {
