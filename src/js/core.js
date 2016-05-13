@@ -446,21 +446,35 @@ s.velocity = 0;
   ===========================*/
 s.lockSwipeToNext = function () {
     s.params.allowSwipeToNext = false;
+    if (s.params.allowSwipeToPrev === false && s.params.grabCursor) {
+        s.unsetGrabCursor();
+    }
 };
 s.lockSwipeToPrev = function () {
     s.params.allowSwipeToPrev = false;
+    if (s.params.allowSwipeToNext === false && s.params.grabCursor) {
+        s.unsetGrabCursor();
+    }
 };
 s.lockSwipes = function () {
     s.params.allowSwipeToNext = s.params.allowSwipeToPrev = false;
+    if (s.params.grabCursor) s.unsetGrabCursor();
 };
 s.unlockSwipeToNext = function () {
     s.params.allowSwipeToNext = true;
+    if (s.params.allowSwipeToPrev === true && s.params.grabCursor) {
+        s.setGrabCursor();
+    }
 };
 s.unlockSwipeToPrev = function () {
     s.params.allowSwipeToPrev = true;
+    if (s.params.allowSwipeToNext === true && s.params.grabCursor) {
+        s.setGrabCursor();
+    }
 };
 s.unlockSwipes = function () {
     s.params.allowSwipeToNext = s.params.allowSwipeToPrev = true;
+    if (s.params.grabCursor) s.setGrabCursor();
 };
 
 /*=========================
@@ -472,11 +486,17 @@ function round(a) {
 /*=========================
   Set grab cursor
   ===========================*/
-if (s.params.grabCursor) {
+s.setGrabCursor = function(moving) {
     s.container[0].style.cursor = 'move';
-    s.container[0].style.cursor = '-webkit-grab';
-    s.container[0].style.cursor = '-moz-grab';
-    s.container[0].style.cursor = 'grab';
+    s.container[0].style.cursor = moving ? '-webkit-grabbing' : '-webkit-grab';
+    s.container[0].style.cursor = moving ? '-moz-grabbin' : '-moz-grab';
+    s.container[0].style.cursor = moving ? 'grabbing': 'grab';
+};
+s.unsetGrabCursor = function () {
+    s.container[0].style.cursor = '';
+};
+if (s.params.grabCursor) {
+    s.setGrabCursor();
 }
 /*=========================
   Update on Images Ready
@@ -1486,11 +1506,8 @@ s.onTouchMove = function (e) {
         }
         allowMomentumBounce = false;
         //Grab Cursor
-        if (s.params.grabCursor) {
-            s.container[0].style.cursor = 'move';
-            s.container[0].style.cursor = '-webkit-grabbing';
-            s.container[0].style.cursor = '-moz-grabbin';
-            s.container[0].style.cursor = 'grabbing';
+        if (s.params.grabCursor && (s.params.allowSwipeToNext === true || s.params.allowSwipeToPrev === true)) {
+            s.setGrabCursor(true);
         }
     }
     isMoved = true;
@@ -1574,11 +1591,8 @@ s.onTouchEnd = function (e) {
     allowTouchCallbacks = false;
     if (!isTouched) return;
     //Return Grab Cursor
-    if (s.params.grabCursor && isMoved && isTouched) {
-        s.container[0].style.cursor = 'move';
-        s.container[0].style.cursor = '-webkit-grab';
-        s.container[0].style.cursor = '-moz-grab';
-        s.container[0].style.cursor = 'grab';
+    if (s.params.grabCursor && isMoved && isTouched  && (s.params.allowSwipeToNext === true || s.params.allowSwipeToPrev === true)) {
+        s.setGrabCursor(false);
     }
 
     // Time diff
