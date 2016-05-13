@@ -152,6 +152,7 @@ var defaults = {
     paginationTotalClass: 'swiper-pagination-total',
     paginationHiddenClass: 'swiper-pagination-hidden',
     paginationProgressbarClass: 'swiper-pagination-progressbar',
+    lazyLoadingClass: 'swiper-lazy',
     // Observer
     observer: false,
     observeParents: false,
