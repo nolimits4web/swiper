@@ -1084,6 +1084,7 @@ s.update = function (updateTranslate) {
         s.scrollbar.set();
     }
     function forceSetTranslate() {
+        var translate = s.rtl ? -s.translate : s.translate;
         newTranslate = Math.min(Math.max(s.translate, s.maxTranslate()), s.minTranslate());
         s.setWrapperTranslate(newTranslate);
         s.updateActiveIndex();
