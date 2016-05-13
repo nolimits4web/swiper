@@ -19,6 +19,9 @@ s.hashnav = {
     },
     setHash: function () {
         if (!s.hashnav.initialized || !s.params.hashnav) return;
-        document.location.hash = s.slides.eq(s.activeIndex).attr('data-hash') || '';
+        if (s.params.hashnavReplaceState && window.history && window.history.replaceState) {
+            window.history.replaceState(null, null, ('#' + s.slides.eq(s.activeIndex).attr('data-hash') || ''));
+        }
+        else document.location.hash = s.slides.eq(s.activeIndex).attr('data-hash') || '';
     }
 };

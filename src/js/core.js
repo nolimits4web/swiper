@@ -62,6 +62,7 @@ var defaults = {
     mousewheelSensitivity: 1,
     // Hash Navigation
     hashnav: false,
+    hashnavReplaceState: false,
     // Breakpoints
     breakpoints: undefined,
     // Slides grid
