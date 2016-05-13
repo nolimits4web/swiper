@@ -897,6 +897,10 @@ s.updateActiveIndex = function () {
     s.previousIndex = s.activeIndex;
     s.activeIndex = newActiveIndex;
     s.updateClasses();
+    s.updateRealIndex();
+};
+s.updateRealIndex = function(){
+    s.realIndex = s.slides.eq(s.activeIndex).attr('data-swiper-slide-index') || s.activeIndex;
 };
 
 /*=========================
@@ -1858,7 +1862,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     if (typeof speed === 'undefined') speed = s.params.speed;
     s.previousIndex = s.activeIndex || 0;
     s.activeIndex = slideIndex;
-
+    s.updateRealIndex();
     if ((s.rtl && -translate === s.translate) || (!s.rtl && translate === s.translate)) {
         // Update Height
         if (s.params.autoHeight) {
