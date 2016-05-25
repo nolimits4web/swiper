@@ -60,14 +60,19 @@ s.lazy = {
     },
     load: function () {
         var i;
+        var cSlidesPerView = s.params.slidesPerView;
+        if (cSlidesPerView == 'auto') {
+            cSlidesPerView = 0
+        }
+
         if (s.params.watchSlidesVisibility) {
             s.wrapper.children('.' + s.params.slideVisibleClass).each(function () {
                 s.lazy.loadImageInSlide($(this).index());
             });
         }
         else {
-            if (s.params.slidesPerView > 1) {
-                for (i = s.activeIndex; i < s.activeIndex + s.params.slidesPerView ; i++) {
+            if (cSlidesPerView > 1) {
+                for (i = s.activeIndex; i < s.activeIndex + cSlidesPerView ; i++) {
                     if (s.slides[i]) s.lazy.loadImageInSlide(i);
                 }
             }
@@ -76,13 +81,13 @@ s.lazy = {
             }
         }
         if (s.params.lazyLoadingInPrevNext) {
-            if (s.params.slidesPerView > 1 || (s.params.lazyLoadingInPrevNextAmount && s.params.lazyLoadingInPrevNextAmount > 1)) {
+            if (cSlidesPerView > 1 || (s.params.lazyLoadingInPrevNextAmount && s.params.lazyLoadingInPrevNextAmount > 1)) {
                 var amount = s.params.lazyLoadingInPrevNextAmount;
-                var spv = s.params.slidesPerView;
+                var spv = cSlidesPerView;
                 var maxIndex = Math.min(s.activeIndex + spv + Math.max(amount, spv), s.slides.length);
                 var minIndex = Math.max(s.activeIndex - Math.max(spv, amount), 0);
                 // Next Slides
-                for (i = s.activeIndex + s.params.slidesPerView; i < maxIndex; i++) {
+                for (i = s.activeIndex + cSlidesPerView; i < maxIndex; i++) {
                     if (s.slides[i]) s.lazy.loadImageInSlide(i);
                 }
                 // Prev Slides
