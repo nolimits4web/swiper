@@ -1210,7 +1210,7 @@ s.initEvents = function (detach) {
             touchEventsTarget[action](s.touchEvents.move, s.onTouchMove, moveCapture);
             touchEventsTarget[action](s.touchEvents.end, s.onTouchEnd, false);
         }
-        if (params.simulateTouch && !s.device.ios && !s.device.android) {
+        else if (params.simulateTouch && !s.device.ios && !s.device.android) {
             touchEventsTarget[action]('mousedown', s.onTouchStart, false);
             document[action]('mousemove', s.onTouchMove, moveCapture);
             document[action]('mouseup', s.onTouchEnd, false);
