@@ -56,6 +56,22 @@
             prevButton: '.swiper-button-prev',
             scrollbar: '.swiper-scrollbar',
             pagination: '.swiper-pagination',
+            freeMode: true,
+            speed: 200,
+            mousewheelControl: true,
+            mousewheelForceToAxis: false,
+            // onReachBeginning: function() {
+            //     console.log('onReachBeginning');
+            // },
+            // onReachEnd: function() {
+            //     console.log('onReachEnd');
+            // },
+            onProgress: function(p) {
+                console.log('onProgress', p.progress);
+            },
+            // onSetTranslate: function(p) {
+            //     console.log('onSetTransition', p.translate);
+            // }
         });
     </script>
 </body>
