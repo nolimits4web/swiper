@@ -48,6 +48,7 @@
                 'src/js/controller.js',
                 'src/js/hashnav.js',
                 'src/js/keyboard.js',
+                'src/js/throttle.js',
                 'src/js/mousewheel.js',
                 'src/js/parallax.js',
                 'src/js/plugins.js',
@@ -178,7 +179,7 @@
             .pipe(sourcemaps.write('./maps/'))
             .pipe(gulp.dest(paths.build.scripts));
 
-            
+
         gulp.src(swiper.jQueryFiles)
             .pipe(tap(function (file, t){
                 addJSIndent (file, t);

@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: February 7, 2016
+ * Released on: April 12, 2016
  */
 (function () {
     'use strict';
@@ -3106,6 +3106,30 @@
         };
         
 
+        function throttle(fn, threshhold, scope) {
+            threshhold || (threshhold = 250);
+            var last,
+                    deferTimer;
+            return function () {
+                var context = scope || this;
+        
+                var now = +new Date,
+                        args = arguments;
+                if (last && now < last + threshhold) {
+                    // hold on to it
+                    clearTimeout(deferTimer);
+                    deferTimer = setTimeout(function () {
+                        last = now;
+                        fn.apply(context, args);
+                    }, threshhold);
+                } else {
+                    last = now;
+                    fn.apply(context, args);
+                }
+            };
+        }
+        
+
         /*=========================
           Mousewheel Control
           ===========================*/
@@ -3132,6 +3156,12 @@
                 s.mousewheel.event = 'DOMMouseScroll';
             }
         }
+        
+        var throttleAutoHeight = throttle(function() {
+            s.setWrapperTransition(200);
+            s.updateAutoHeight();
+        }, 150);
+        
         function handleMousewheel(e) {
             if (e.originalEvent) e = e.originalEvent; //jquery fix
             var we = s.mousewheel.event;
@@ -3203,6 +3233,7 @@
                 s.setWrapperTranslate(position);
                 s.updateProgress();
                 s.updateActiveIndex();
+                throttleAutoHeight();
         
                 if (!wasBeginning && s.isBeginning || !wasEnd && s.isEnd) {
                     s.updateClasses();
