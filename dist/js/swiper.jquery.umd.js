@@ -909,8 +909,6 @@
                 translate = s.translate || 0;
             }
             var translatesDiff = s.maxTranslate() - s.minTranslate();
-        
-        
             var wasBeginning = s.isBeginning;
             var wasEnd = s.isEnd;
             if (translatesDiff === 0) {
@@ -921,10 +919,7 @@
                 s.progress = (translate - s.minTranslate()) / (translatesDiff);
                 s.isBeginning = s.progress <= 0;
                 s.isEnd = s.progress >= 1;
-                console.log(s.progress, translate, s.minTranslate(), translatesDiff);
             }
-        
-        
             if (s.isBeginning && !wasBeginning) s.emit('onReachBeginning', s);
             if (s.isEnd && !wasEnd) s.emit('onReachEnd', s);
         
