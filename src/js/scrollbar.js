@@ -68,24 +68,31 @@ s.scrollbar = {
             s.slideReset();
         }
     },
+    draggableEvents: (function () {
+        if ((s.params.simulateTouch === false && !s.support.touch)) return s.touchEventsDesktop;
+        else return s.touchEvents;
+    })(),
     enableDraggable: function () {
         var sb = s.scrollbar;
         var target = s.support.touch ? sb.track : document;
-        $(sb.track).on(s.touchEvents.start, sb.dragStart);
-        $(target).on(s.touchEvents.move, sb.dragMove);
-        $(target).on(s.touchEvents.end, sb.dragEnd);
+        $(sb.track).on(sb.draggableEvents.start, sb.dragStart);
+        $(target).on(sb.draggableEvents.move, sb.dragMove);
+        $(target).on(sb.draggableEvents.end, sb.dragEnd);
     },
     disableDraggable: function () {
         var sb = s.scrollbar;
         var target = s.support.touch ? sb.track : document;
-        $(sb.track).off(s.touchEvents.start, sb.dragStart);
-        $(target).off(s.touchEvents.move, sb.dragMove);
-        $(target).off(s.touchEvents.end, sb.dragEnd);
+        $(sb.track).off(s.draggableEvents.start, sb.dragStart);
+        $(target).off(s.draggableEvents.move, sb.dragMove);
+        $(target).off(s.draggableEvents.end, sb.dragEnd);
     },
     set: function () {
         if (!s.params.scrollbar) return;
         var sb = s.scrollbar;
         sb.track = $(s.params.scrollbar);
+        if (s.params.uniqueNavElements && typeof s.params.scrollbar === 'string' && sb.track.length > 1 && s.container.find(s.params.scrollbar).length === 1) {
+            sb.track = s.container.find(s.params.scrollbar);
+        }
         sb.drag = sb.track.find('.swiper-scrollbar-drag');
         if (sb.drag.length === 0) {
             sb.drag = $('<div class="swiper-scrollbar-drag"></div>');
