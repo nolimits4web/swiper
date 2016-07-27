@@ -3,7 +3,7 @@
   ===========================*/
 s.mousewheel = {
     event: false,
-    lastScrollTime: (new window.Date()).getTime()
+    lastScrollTime: window.Date.now(),
 };
 if (s.params.mousewheelControl) {
     /**
@@ -66,7 +66,7 @@ function handleMousewheel(e) {
     if (s.params.mousewheelInvert) delta = -delta;
 
     if (!s.params.freeMode) {
-        if ((new window.Date()).getTime() - s.mousewheel.lastScrollTime > 60) {
+        if (window.Date.now() - s.mousewheel.lastScrollTime > 60) {
             if (delta < 0) {
                 if ((!s.isEnd || s.params.loop) && !s.animating) s.slideNext();
                 else if (s.params.mousewheelReleaseOnEdges) return true;
@@ -76,7 +76,7 @@ function handleMousewheel(e) {
                 else if (s.params.mousewheelReleaseOnEdges) return true;
             }
         }
-        s.mousewheel.lastScrollTime = (new window.Date()).getTime();
+        s.mousewheel.lastScrollTime = window.Date.now();
 
     }
     else {

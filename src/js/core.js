@@ -1576,7 +1576,7 @@ s.onTouchMove = function (e) {
         }
         velocities.push({
             position: s.touches[s.isHorizontal() ? 'currentX' : 'currentY'],
-            time: (new window.Date()).getTime()
+            time: window.Date.now()
         });
     }
     // Update progress
@@ -1667,7 +1667,7 @@ s.onTouchEnd = function (e) {
                 }
                 // this implies that the user stopped moving a finger then released.
                 // There would be no events with distance zero, so the last event is stale.
-                if (time > 150 || (new window.Date().getTime() - lastMoveEvent.time) > 300) {
+                if (time > 150 || (window.Date.now() - lastMoveEvent.time) > 300) {
                     s.velocity = 0;
                 }
             } else {
