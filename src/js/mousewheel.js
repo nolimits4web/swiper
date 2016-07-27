@@ -3,7 +3,7 @@
   ===========================*/
 s.mousewheel = {
     event: false,
-    lastScrollTime: window.Date.now(),
+    lastScrollTime: window.Date.now()
 };
 if (s.params.mousewheelControl) {
     /**

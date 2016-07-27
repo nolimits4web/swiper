@@ -1614,7 +1614,7 @@
                 }
                 velocities.push({
                     position: s.touches[s.isHorizontal() ? 'currentX' : 'currentY'],
-                    time: (new window.Date()).getTime()
+                    time: window.Date.now()
                 });
             }
             // Update progress
@@ -1705,7 +1705,7 @@
                         }
                         // this implies that the user stopped moving a finger then released.
                         // There would be no events with distance zero, so the last event is stale.
-                        if (time > 150 || (new window.Date().getTime() - lastMoveEvent.time) > 300) {
+                        if (time > 150 || (window.Date.now() - lastMoveEvent.time) > 300) {
                             s.velocity = 0;
                         }
                     } else {
@@ -3163,7 +3163,7 @@
           ===========================*/
         s.mousewheel = {
             event: false,
-            lastScrollTime: (new window.Date()).getTime()
+            lastScrollTime: window.Date.now()
         };
         if (s.params.mousewheelControl) {
             /**
@@ -3226,7 +3226,7 @@
             if (s.params.mousewheelInvert) delta = -delta;
         
             if (!s.params.freeMode) {
-                if ((new window.Date()).getTime() - s.mousewheel.lastScrollTime > 60) {
+                if (window.Date.now() - s.mousewheel.lastScrollTime > 60) {
                     if (delta < 0) {
                         if ((!s.isEnd || s.params.loop) && !s.animating) s.slideNext();
                         else if (s.params.mousewheelReleaseOnEdges) return true;
@@ -3236,7 +3236,7 @@
                         else if (s.params.mousewheelReleaseOnEdges) return true;
                     }
                 }
-                s.mousewheel.lastScrollTime = (new window.Date()).getTime();
+                s.mousewheel.lastScrollTime = window.Date.now();
         
             }
             else {
