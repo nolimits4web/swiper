@@ -9,15 +9,15 @@ s.lazy = {
         if (s.slides.length === 0) return;
 
         var slide = s.slides.eq(index);
-        var img = slide.find('.' + s.params.lazyLoadingClass + ':not(.swiper-lazy-loaded):not(.swiper-lazy-loading)');
-        if (slide.hasClass(s.params.lazyLoadingClass) && !slide.hasClass('swiper-lazy-loaded') && !slide.hasClass('swiper-lazy-loading')) {
+        var img = slide.find('.' + s.params.lazyLoadingClass + ':not(.' + s.params.lazyStatusLoadedClass + '):not(.' + s.params.lazyStatusLoadingClass + ')');
+        if (slide.hasClass(s.params.lazyLoadingClass) && !slide.hasClass(s.params.lazyStatusLoadedClass) && !slide.hasClass(s.params.lazyStatusLoadingClass)) {
             img = img.add(slide[0]);
         }
         if (img.length === 0) return;
 
         img.each(function () {
             var _img = $(this);
-            _img.addClass('swiper-lazy-loading');
+            _img.addClass(s.params.lazyStatusLoadingClass);
             var background = _img.attr('data-background');
             var src = _img.attr('data-src'),
                 srcset = _img.attr('data-srcset');
@@ -38,8 +38,8 @@ s.lazy = {
 
                 }
 
-                _img.addClass('swiper-lazy-loaded').removeClass('swiper-lazy-loading');
-                slide.find('.swiper-lazy-preloader, .preloader').remove();
+                _img.addClass(s.params.lazyStatusLoadedClass).removeClass(s.params.lazyStatusLoadingClass);
+                slide.find('.' + s.params.lazyPreloaderClass + ', .' + s.params.preloaderClass).remove();
                 if (s.params.loop && loadInDuplicate) {
                     var slideOriginalIndex = slide.attr('data-swiper-slide-index');
                     if (slide.hasClass(s.params.slideDuplicateClass)) {
