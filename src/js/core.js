@@ -622,12 +622,30 @@ s.maxTranslate = function () {
   Slider/slides sizes
   ===========================*/
 s.updateAutoHeight = function () {
-    // Update Height
-    var slide = s.slides.eq(s.activeIndex)[0];
-    if (typeof slide !== 'undefined') {
-        var newHeight = slide.offsetHeight;
-        if (newHeight) s.wrapper.css('height', newHeight + 'px');
+    var activeSlides = [];
+    var newHeight = 0;
+
+    // Find slides currently in view
+    if(s.params.slidesPerView !== 'auto' && s.params.slidesPerView > 1) {
+        for (i = 0; i < Math.ceil(s.params.slidesPerView); i++) {
+            var index = s.activeIndex + i;
+            if(index > s.slides.length) break;
+            activeSlides.push(s.slides.eq(index)[0]);
+        }
+    } else {
+        activeSlides.push(s.slides.eq(s.activeIndex)[0]);
     }
+
+    // Find new height from heighest slide in view
+    for (i = 0; i < activeSlides.length; i++) {
+        if (typeof activeSlides[i] !== 'undefined') {
+            var height = activeSlides[i].offsetHeight;
+            newHeight = height > newHeight ? height : newHeight;
+        }
+    }
+
+    // Update Height
+    if (newHeight) s.wrapper.css('height', newHeight + 'px');
 };
 s.updateContainerSize = function () {
     var width, height;
