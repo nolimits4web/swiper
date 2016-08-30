@@ -1903,7 +1903,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
         s.setWrapperTranslate(translate);
         s.setWrapperTransition(speed);
         if (!s.animating) {
-            s.animating = true;
+            if (!s.browser.lteIE9) s.animating = true;
             s.wrapper.transitionEnd(function () {
                 if (!s) return;
                 s.onTransitionEnd(runCallbacks);

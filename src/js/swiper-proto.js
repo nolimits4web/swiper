@@ -15,7 +15,15 @@ Swiper.prototype = {
     ====================================================*/
     browser: {
         ie: window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
-        ieTouch: (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1)
+        ieTouch: (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1),
+        lteIE9: (function() {
+            // create temporary DIV
+            var div = document.createElement('div');
+            // add content to tmp DIV which is wrapped into the IE HTML conditional statement
+            div.innerHTML = '<!--[if lte IE 9]><i></i><![endif]-->';
+            // return true / false value based on what will browser render
+            return div.getElementsByTagName('i').length === 1;
+        })()
     },
     /*==================================================
     Devices
