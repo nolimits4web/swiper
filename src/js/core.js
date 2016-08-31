@@ -1894,7 +1894,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     s.updateClasses();
     s.onTransitionStart(runCallbacks);
 
-    if (speed === 0) {
+    if (speed === 0 || s.browser.lteIE9) {
         s.setWrapperTranslate(translate);
         s.setWrapperTransition(0);
         s.onTransitionEnd(runCallbacks);
@@ -1903,7 +1903,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
         s.setWrapperTranslate(translate);
         s.setWrapperTransition(speed);
         if (!s.animating) {
-            if (!s.browser.lteIE9) s.animating = true;
+            s.animating = true;
             s.wrapper.transitionEnd(function () {
                 if (!s) return;
                 s.onTransitionEnd(runCallbacks);
