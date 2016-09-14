@@ -62,7 +62,9 @@ var defaults = {
     mousewheelSensitivity: 1,
     // Hash Navigation
     hashnav: false,
-    hashnavReplaceState: false,
+    replaceState: false,
+    // History
+    history: false,
     // Breakpoints
     breakpoints: undefined,
     // Slides grid
@@ -1982,6 +1984,9 @@ s.onTransitionEnd = function (runCallbacks) {
             else {
                 s.emit('onSlidePrevEnd', s);
             }
+        }
+        if (s.params.history && s.history) {
+            s.history.setHistory(s.params.history, s.activeIndex);
         }
     }
     if (s.params.hashnav && s.hashnav) {

@@ -45,6 +45,13 @@ s.init = function () {
     if (s.params.mousewheelControl) {
         if (s.enableMousewheelControl) s.enableMousewheelControl();
     }
+    // Deprecated hashnavReplaceState changed to replaceState for use in hashnav and history
+    if (s.params.hashnavReplaceState) {
+        s.params.replaceState = s.params.hashnavReplaceState;
+    }
+    if (s.params.history) {
+        if (s.history) s.history.init();
+    }
     if (s.params.hashnav) {
         if (s.hashnav) s.hashnav.init();
     }
@@ -124,6 +131,10 @@ s.destroy = function (deleteInstance, cleanupStyles) {
     }
     // Disable a11y
     if (s.params.a11y && s.a11y) s.a11y.destroy();
+    // Delete history popstate
+    if (s.params.history && !s.params.replaceState) {
+        window.removeEventListener('popstate', s.history.setHistoryPopState);
+    }
     // Destroy callback
     s.emit('onDestroy');
     // Delete instance
