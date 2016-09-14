@@ -20,7 +20,7 @@ function handleKeyboard(e) {
     if (kc === 37 || kc === 39 || kc === 38 || kc === 40) {
         var inView = false;
         //Check that swiper should be inside of visible area of window
-        if (s.container.parents('.swiper-slide').length > 0 && s.container.parents('.swiper-slide-active').length === 0) {
+        if (s.container.parents('.' + s.params.slideClass).length > 0 && s.container.parents('.' + s.params.slideActiveClass).length === 0) {
             return;
         }
         var windowScroll = {
