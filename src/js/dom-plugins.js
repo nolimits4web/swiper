@@ -54,4 +54,15 @@ if (domLib) {
             return this;
         };
     }
+    if (!('outerWidth' in domLib.fn)) {
+        domLib.fn.outerWidth = function (includeMargins) {
+            if (this.length > 0) {
+                if (includeMargins)
+                    return this[0].offsetWidth + parseFloat(this.css('margin-right')) + parseFloat(this.css('margin-left'));
+                else
+                    return this[0].offsetWidth;
+            }
+            else return null;
+        };
+    }
 }
