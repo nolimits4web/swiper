@@ -60,9 +60,9 @@ s.lazy = {
     },
     load: function () {
         var i;
-        var cSlidesPerView = s.params.slidesPerView;
-        if (cSlidesPerView == 'auto') {
-            cSlidesPerView = 0
+        var slidesPerView = s.params.slidesPerView;
+        if (slidesPerView === 'auto') {
+            slidesPerView = 0;
         }
 
         if (s.params.watchSlidesVisibility) {
@@ -71,8 +71,8 @@ s.lazy = {
             });
         }
         else {
-            if (cSlidesPerView > 1) {
-                for (i = s.activeIndex; i < s.activeIndex + cSlidesPerView ; i++) {
+            if (slidesPerView > 1) {
+                for (i = s.activeIndex; i < s.activeIndex + slidesPerView ; i++) {
                     if (s.slides[i]) s.lazy.loadImageInSlide(i);
                 }
             }
@@ -81,13 +81,13 @@ s.lazy = {
             }
         }
         if (s.params.lazyLoadingInPrevNext) {
-            if (cSlidesPerView > 1 || (s.params.lazyLoadingInPrevNextAmount && s.params.lazyLoadingInPrevNextAmount > 1)) {
+            if (slidesPerView > 1 || (s.params.lazyLoadingInPrevNextAmount && s.params.lazyLoadingInPrevNextAmount > 1)) {
                 var amount = s.params.lazyLoadingInPrevNextAmount;
-                var spv = cSlidesPerView;
+                var spv = slidesPerView;
                 var maxIndex = Math.min(s.activeIndex + spv + Math.max(amount, spv), s.slides.length);
                 var minIndex = Math.max(s.activeIndex - Math.max(spv, amount), 0);
                 // Next Slides
-                for (i = s.activeIndex + cSlidesPerView; i < maxIndex; i++) {
+                for (i = s.activeIndex + slidesPerView; i < maxIndex; i++) {
                     if (s.slides[i]) s.lazy.loadImageInSlide(i);
                 }
                 // Prev Slides
