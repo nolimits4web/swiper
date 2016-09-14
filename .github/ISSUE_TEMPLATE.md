@@ -4,7 +4,7 @@ This is a (multiple allowed):
 * [ ] feature-discussion (RFC)
 
 * Swiper Version: EXACT RELEASE VERSION OR COMMIT HASH, HERE.
-* Platform and Target Versions: PLATFORM CLIENT YOU ARE TARGETING SUCH AS macOS, Windows, CORDOVA, IOS, ANDROID, ETC.
+* Platform/Target and Browser Versions: PLATFORM CLIENT YOU ARE TARGETING SUCH AS macOS, Windows, CORDOVA, IOS, ANDROID, CHROME, ETC.
 
 ### What you did
 EXPLAIN WHAT YOU DID, PREFERABLY WITH CODE EXAMPLES, HERE.
