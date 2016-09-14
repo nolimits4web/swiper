@@ -22,7 +22,6 @@
     "dist/css/swiper.css"
   ],
   "license": ["MIT"],
-  "dependencies": {},
   "ignore": [
     ".*",
     "demos",
