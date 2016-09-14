@@ -891,6 +891,10 @@ s.updateSlidesProgress = function (translate) {
 };
 s.updateProgress = function (translate) {
     if (typeof translate === 'undefined') {
+        if (s.rtl) {
+            return;
+        }
+
         translate = s.translate || 0;
     }
     var translatesDiff = s.maxTranslate() - s.minTranslate();

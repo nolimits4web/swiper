@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: February 7, 2016
+ * Released on: June 23, 2016
  */
 (function (root, factory) {
 	'use strict';
@@ -100,6 +100,7 @@
             mousewheelSensitivity: 1,
             // Hash Navigation
             hashnav: false,
+            hashnavReplaceState: false,
             // Breakpoints
             breakpoints: undefined,
             // Slides grid
@@ -189,6 +190,7 @@
             paginationTotalClass: 'swiper-pagination-total',
             paginationHiddenClass: 'swiper-pagination-hidden',
             paginationProgressbarClass: 'swiper-pagination-progressbar',
+            lazyLoadingClass: 'swiper-lazy',
             // Observer
             observer: false,
             observeParents: false,
@@ -482,21 +484,35 @@
           ===========================*/
         s.lockSwipeToNext = function () {
             s.params.allowSwipeToNext = false;
+            if (s.params.allowSwipeToPrev === false && s.params.grabCursor) {
+                s.unsetGrabCursor();
+            }
         };
         s.lockSwipeToPrev = function () {
             s.params.allowSwipeToPrev = false;
+            if (s.params.allowSwipeToNext === false && s.params.grabCursor) {
+                s.unsetGrabCursor();
+            }
         };
         s.lockSwipes = function () {
             s.params.allowSwipeToNext = s.params.allowSwipeToPrev = false;
+            if (s.params.grabCursor) s.unsetGrabCursor();
         };
         s.unlockSwipeToNext = function () {
             s.params.allowSwipeToNext = true;
+            if (s.params.allowSwipeToPrev === true && s.params.grabCursor) {
+                s.setGrabCursor();
+            }
         };
         s.unlockSwipeToPrev = function () {
             s.params.allowSwipeToPrev = true;
+            if (s.params.allowSwipeToNext === true && s.params.grabCursor) {
+                s.setGrabCursor();
+            }
         };
         s.unlockSwipes = function () {
             s.params.allowSwipeToNext = s.params.allowSwipeToPrev = true;
+            if (s.params.grabCursor) s.setGrabCursor();
         };
         
         /*=========================
@@ -508,11 +524,17 @@
         /*=========================
           Set grab cursor
           ===========================*/
-        if (s.params.grabCursor) {
+        s.setGrabCursor = function(moving) {
             s.container[0].style.cursor = 'move';
-            s.container[0].style.cursor = '-webkit-grab';
-            s.container[0].style.cursor = '-moz-grab';
-            s.container[0].style.cursor = 'grab';
+            s.container[0].style.cursor = moving ? '-webkit-grabbing' : '-webkit-grab';
+            s.container[0].style.cursor = moving ? '-moz-grabbin' : '-moz-grab';
+            s.container[0].style.cursor = moving ? 'grabbing': 'grab';
+        };
+        s.unsetGrabCursor = function () {
+            s.container[0].style.cursor = '';
+        };
+        if (s.params.grabCursor) {
+            s.setGrabCursor();
         }
         /*=========================
           Update on Images Ready
@@ -880,6 +902,10 @@
         };
         s.updateProgress = function (translate) {
             if (typeof translate === 'undefined') {
+                if (s.rtl) {
+                    return;
+                }
+        
                 translate = s.translate || 0;
             }
             var translatesDiff = s.maxTranslate() - s.minTranslate();
@@ -935,6 +961,10 @@
             s.previousIndex = s.activeIndex;
             s.activeIndex = newActiveIndex;
             s.updateClasses();
+            s.updateRealIndex();
+        };
+        s.updateRealIndex = function(){
+            s.realIndex = s.slides.eq(s.activeIndex).attr('data-swiper-slide-index') || s.activeIndex;
         };
         
         /*=========================
@@ -1096,6 +1126,7 @@
                 s.scrollbar.set();
             }
             function forceSetTranslate() {
+                var translate = s.rtl ? -s.translate : s.translate;
                 newTranslate = Math.min(Math.max(s.translate, s.maxTranslate()), s.minTranslate());
                 s.setWrapperTranslate(newTranslate);
                 s.updateActiveIndex();
@@ -1185,13 +1216,13 @@
           ===========================*/
         
         //Define Touch Events
-        var desktopEvents = ['mousedown', 'mousemove', 'mouseup'];
-        if (window.navigator.pointerEnabled) desktopEvents = ['pointerdown', 'pointermove', 'pointerup'];
-        else if (window.navigator.msPointerEnabled) desktopEvents = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
+        s.touchEventsDesktop = {start: 'mousedown', move: 'mousemove', end: 'mouseup'};
+        if (window.navigator.pointerEnabled) s.touchEventsDesktop = {start: 'pointerdown', move: 'pointermove', end: 'pointerup'};
+        else if (window.navigator.msPointerEnabled) s.touchEventsDesktop = {start: 'MSPointerDown', move: 'MSPointerMove', end: 'MSPointerUp'};
         s.touchEvents = {
-            start : s.support.touch || !s.params.simulateTouch  ? 'touchstart' : desktopEvents[0],
-            move : s.support.touch || !s.params.simulateTouch ? 'touchmove' : desktopEvents[1],
-            end : s.support.touch || !s.params.simulateTouch ? 'touchend' : desktopEvents[2]
+            start : s.support.touch || !s.params.simulateTouch  ? 'touchstart' : s.touchEventsDesktop.start,
+            move : s.support.touch || !s.params.simulateTouch ? 'touchmove' : s.touchEventsDesktop.move,
+            end : s.support.touch || !s.params.simulateTouch ? 'touchend' : s.touchEventsDesktop.end
         };
         
         
@@ -1518,11 +1549,8 @@
                 }
                 allowMomentumBounce = false;
                 //Grab Cursor
-                if (s.params.grabCursor) {
-                    s.container[0].style.cursor = 'move';
-                    s.container[0].style.cursor = '-webkit-grabbing';
-                    s.container[0].style.cursor = '-moz-grabbin';
-                    s.container[0].style.cursor = 'grabbing';
+                if (s.params.grabCursor && (s.params.allowSwipeToNext === true || s.params.allowSwipeToPrev === true)) {
+                    s.setGrabCursor(true);
                 }
             }
             isMoved = true;
@@ -1606,11 +1634,8 @@
             allowTouchCallbacks = false;
             if (!isTouched) return;
             //Return Grab Cursor
-            if (s.params.grabCursor && isMoved && isTouched) {
-                s.container[0].style.cursor = 'move';
-                s.container[0].style.cursor = '-webkit-grab';
-                s.container[0].style.cursor = '-moz-grab';
-                s.container[0].style.cursor = 'grab';
+            if (s.params.grabCursor && isMoved && isTouched  && (s.params.allowSwipeToNext === true || s.params.allowSwipeToPrev === true)) {
+                s.setGrabCursor(false);
             }
         
             // Time diff
@@ -1896,7 +1921,7 @@
             if (typeof speed === 'undefined') speed = s.params.speed;
             s.previousIndex = s.activeIndex || 0;
             s.activeIndex = slideIndex;
-        
+            s.updateRealIndex();
             if ((s.rtl && -translate === s.translate) || (!s.rtl && translate === s.translate)) {
                 // Update Height
                 if (s.params.autoHeight) {
@@ -2000,6 +2025,15 @@
         };
         s.slideReset = function (runCallbacks, speed, internal) {
             return s.slideTo(s.activeIndex, speed, runCallbacks);
+        };
+        
+        s.disableTouchControl = function () {
+            s.params.onlyExternal = true;
+            return true;
+        };
+        s.enableTouchControl = function () {
+            s.params.onlyExternal = false;
+            return true;
         };
         
         /*=========================
@@ -2614,8 +2648,8 @@
                 if (s.slides.length === 0) return;
         
                 var slide = s.slides.eq(index);
-                var img = slide.find('.swiper-lazy:not(.swiper-lazy-loaded):not(.swiper-lazy-loading)');
-                if (slide.hasClass('swiper-lazy') && !slide.hasClass('swiper-lazy-loaded') && !slide.hasClass('swiper-lazy-loading')) {
+                var img = slide.find('.' + s.params.lazyLoadingClass + ':not(.swiper-lazy-loaded):not(.swiper-lazy-loading)');
+                if (slide.hasClass(s.params.lazyLoadingClass) && !slide.hasClass('swiper-lazy-loaded') && !slide.hasClass('swiper-lazy-loading')) {
                     img = img.add(slide[0]);
                 }
                 if (img.length === 0) return;
@@ -2789,19 +2823,23 @@
                     s.slideReset();
                 }
             },
+            draggableEvents: (function () {
+                if ((s.params.simulateTouch === false && !s.support.touch)) return s.touchEventsDesktop;
+                else return s.touchEvents;
+            })(),
             enableDraggable: function () {
                 var sb = s.scrollbar;
                 var target = s.support.touch ? sb.track : document;
-                $(sb.track).on(s.touchEvents.start, sb.dragStart);
-                $(target).on(s.touchEvents.move, sb.dragMove);
-                $(target).on(s.touchEvents.end, sb.dragEnd);
+                $(sb.track).on(sb.draggableEvents.start, sb.dragStart);
+                $(target).on(sb.draggableEvents.move, sb.dragMove);
+                $(target).on(sb.draggableEvents.end, sb.dragEnd);
             },
             disableDraggable: function () {
                 var sb = s.scrollbar;
                 var target = s.support.touch ? sb.track : document;
-                $(sb.track).off(s.touchEvents.start, sb.dragStart);
-                $(target).off(s.touchEvents.move, sb.dragMove);
-                $(target).off(s.touchEvents.end, sb.dragEnd);
+                $(sb.track).off(s.draggableEvents.start, sb.dragStart);
+                $(target).off(s.draggableEvents.move, sb.dragMove);
+                $(target).off(s.draggableEvents.end, sb.dragEnd);
             },
             set: function () {
                 if (!s.params.scrollbar) return;
@@ -3039,7 +3077,10 @@
             },
             setHash: function () {
                 if (!s.hashnav.initialized || !s.params.hashnav) return;
-                document.location.hash = s.slides.eq(s.activeIndex).attr('data-hash') || '';
+                if (s.params.hashnavReplaceState && window.history && window.history.replaceState) {
+                    window.history.replaceState(null, null, ('#' + s.slides.eq(s.activeIndex).attr('data-hash') || ''));
+                }
+                else document.location.hash = s.slides.eq(s.activeIndex).attr('data-hash') || '';
             }
         };
 
@@ -3147,6 +3188,12 @@
                 s.mousewheel.event = 'DOMMouseScroll';
             }
         }
+        
+        var throttleAutoHeight = throttle(function() {
+            s.setWrapperTransition(200);
+            s.updateAutoHeight();
+        }, 150);
+        
         function handleMousewheel(e) {
             if (e.originalEvent) e = e.originalEvent; //jquery fix
             var we = s.mousewheel.event;
@@ -3218,6 +3265,7 @@
                 s.setWrapperTranslate(position);
                 s.updateProgress();
                 s.updateActiveIndex();
+                throttleAutoHeight();
         
                 if (!wasBeginning && s.isBeginning || !wasEnd && s.isEnd) {
                     s.updateClasses();
