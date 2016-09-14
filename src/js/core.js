@@ -1894,7 +1894,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     s.updateClasses();
     s.onTransitionStart(runCallbacks);
 
-    if (speed === 0) {
+    if (speed === 0 || s.browser.lteIE9) {
         s.setWrapperTranslate(translate);
         s.setWrapperTransition(0);
         s.onTransitionEnd(runCallbacks);
