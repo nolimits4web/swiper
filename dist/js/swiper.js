@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: July 27, 2016
+ * Released on: February 7, 2016
  */
 (function () {
     'use strict';
@@ -85,7 +85,6 @@
             mousewheelSensitivity: 1,
             // Hash Navigation
             hashnav: false,
-            hashnavReplaceState: false,
             // Breakpoints
             breakpoints: undefined,
             // Slides grid
@@ -175,7 +174,6 @@
             paginationTotalClass: 'swiper-pagination-total',
             paginationHiddenClass: 'swiper-pagination-hidden',
             paginationProgressbarClass: 'swiper-pagination-progressbar',
-            lazyLoadingClass: 'swiper-lazy',
             // Observer
             observer: false,
             observeParents: false,
@@ -469,35 +467,21 @@
           ===========================*/
         s.lockSwipeToNext = function () {
             s.params.allowSwipeToNext = false;
-            if (s.params.allowSwipeToPrev === false && s.params.grabCursor) {
-                s.unsetGrabCursor();
-            }
         };
         s.lockSwipeToPrev = function () {
             s.params.allowSwipeToPrev = false;
-            if (s.params.allowSwipeToNext === false && s.params.grabCursor) {
-                s.unsetGrabCursor();
-            }
         };
         s.lockSwipes = function () {
             s.params.allowSwipeToNext = s.params.allowSwipeToPrev = false;
-            if (s.params.grabCursor) s.unsetGrabCursor();
         };
         s.unlockSwipeToNext = function () {
             s.params.allowSwipeToNext = true;
-            if (s.params.allowSwipeToPrev === true && s.params.grabCursor) {
-                s.setGrabCursor();
-            }
         };
         s.unlockSwipeToPrev = function () {
             s.params.allowSwipeToPrev = true;
-            if (s.params.allowSwipeToNext === true && s.params.grabCursor) {
-                s.setGrabCursor();
-            }
         };
         s.unlockSwipes = function () {
             s.params.allowSwipeToNext = s.params.allowSwipeToPrev = true;
-            if (s.params.grabCursor) s.setGrabCursor();
         };
         
         /*=========================
@@ -509,17 +493,11 @@
         /*=========================
           Set grab cursor
           ===========================*/
-        s.setGrabCursor = function(moving) {
-            s.container[0].style.cursor = 'move';
-            s.container[0].style.cursor = moving ? '-webkit-grabbing' : '-webkit-grab';
-            s.container[0].style.cursor = moving ? '-moz-grabbin' : '-moz-grab';
-            s.container[0].style.cursor = moving ? 'grabbing': 'grab';
-        };
-        s.unsetGrabCursor = function () {
-            s.container[0].style.cursor = '';
-        };
         if (s.params.grabCursor) {
-            s.setGrabCursor();
+            s.container[0].style.cursor = 'move';
+            s.container[0].style.cursor = '-webkit-grab';
+            s.container[0].style.cursor = '-moz-grab';
+            s.container[0].style.cursor = 'grab';
         }
         /*=========================
           Update on Images Ready
@@ -942,10 +920,6 @@
             s.previousIndex = s.activeIndex;
             s.activeIndex = newActiveIndex;
             s.updateClasses();
-            s.updateRealIndex();
-        };
-        s.updateRealIndex = function(){
-            s.realIndex = s.slides.eq(s.activeIndex).attr('data-swiper-slide-index') || s.activeIndex;
         };
         
         /*=========================
@@ -1107,7 +1081,6 @@
                 s.scrollbar.set();
             }
             function forceSetTranslate() {
-                var translate = s.rtl ? -s.translate : s.translate;
                 newTranslate = Math.min(Math.max(s.translate, s.maxTranslate()), s.minTranslate());
                 s.setWrapperTranslate(newTranslate);
                 s.updateActiveIndex();
@@ -1197,13 +1170,13 @@
           ===========================*/
         
         //Define Touch Events
-        s.touchEventsDesktop = {start: 'mousedown', move: 'mousemove', end: 'mouseup'};
-        if (window.navigator.pointerEnabled) s.touchEventsDesktop = {start: 'pointerdown', move: 'pointermove', end: 'pointerup'};
-        else if (window.navigator.msPointerEnabled) s.touchEventsDesktop = {start: 'MSPointerDown', move: 'MSPointerMove', end: 'MSPointerUp'};
+        var desktopEvents = ['mousedown', 'mousemove', 'mouseup'];
+        if (window.navigator.pointerEnabled) desktopEvents = ['pointerdown', 'pointermove', 'pointerup'];
+        else if (window.navigator.msPointerEnabled) desktopEvents = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
         s.touchEvents = {
-            start : s.support.touch || !s.params.simulateTouch  ? 'touchstart' : s.touchEventsDesktop.start,
-            move : s.support.touch || !s.params.simulateTouch ? 'touchmove' : s.touchEventsDesktop.move,
-            end : s.support.touch || !s.params.simulateTouch ? 'touchend' : s.touchEventsDesktop.end
+            start : s.support.touch || !s.params.simulateTouch  ? 'touchstart' : desktopEvents[0],
+            move : s.support.touch || !s.params.simulateTouch ? 'touchmove' : desktopEvents[1],
+            end : s.support.touch || !s.params.simulateTouch ? 'touchend' : desktopEvents[2]
         };
         
         
@@ -1530,8 +1503,11 @@
                 }
                 allowMomentumBounce = false;
                 //Grab Cursor
-                if (s.params.grabCursor && (s.params.allowSwipeToNext === true || s.params.allowSwipeToPrev === true)) {
-                    s.setGrabCursor(true);
+                if (s.params.grabCursor) {
+                    s.container[0].style.cursor = 'move';
+                    s.container[0].style.cursor = '-webkit-grabbing';
+                    s.container[0].style.cursor = '-moz-grabbin';
+                    s.container[0].style.cursor = 'grabbing';
                 }
             }
             isMoved = true;
@@ -1599,7 +1575,7 @@
                 }
                 velocities.push({
                     position: s.touches[s.isHorizontal() ? 'currentX' : 'currentY'],
-                    time: window.Date.now()
+                    time: (new window.Date()).getTime()
                 });
             }
             // Update progress
@@ -1615,8 +1591,11 @@
             allowTouchCallbacks = false;
             if (!isTouched) return;
             //Return Grab Cursor
-            if (s.params.grabCursor && isMoved && isTouched  && (s.params.allowSwipeToNext === true || s.params.allowSwipeToPrev === true)) {
-                s.setGrabCursor(false);
+            if (s.params.grabCursor && isMoved && isTouched) {
+                s.container[0].style.cursor = 'move';
+                s.container[0].style.cursor = '-webkit-grab';
+                s.container[0].style.cursor = '-moz-grab';
+                s.container[0].style.cursor = 'grab';
             }
         
             // Time diff
@@ -1690,7 +1669,7 @@
                         }
                         // this implies that the user stopped moving a finger then released.
                         // There would be no events with distance zero, so the last event is stale.
-                        if (time > 150 || (window.Date.now() - lastMoveEvent.time) > 300) {
+                        if (time > 150 || (new window.Date().getTime() - lastMoveEvent.time) > 300) {
                             s.velocity = 0;
                         }
                     } else {
@@ -1902,7 +1881,7 @@
             if (typeof speed === 'undefined') speed = s.params.speed;
             s.previousIndex = s.activeIndex || 0;
             s.activeIndex = slideIndex;
-            s.updateRealIndex();
+        
             if ((s.rtl && -translate === s.translate) || (!s.rtl && translate === s.translate)) {
                 // Update Height
                 if (s.params.autoHeight) {
@@ -2006,15 +1985,6 @@
         };
         s.slideReset = function (runCallbacks, speed, internal) {
             return s.slideTo(s.activeIndex, speed, runCallbacks);
-        };
-        
-        s.disableTouchControl = function () {
-            s.params.onlyExternal = true;
-            return true;
-        };
-        s.enableTouchControl = function () {
-            s.params.onlyExternal = false;
-            return true;
         };
         
         /*=========================
@@ -2629,8 +2599,8 @@
                 if (s.slides.length === 0) return;
         
                 var slide = s.slides.eq(index);
-                var img = slide.find('.' + s.params.lazyLoadingClass + ':not(.swiper-lazy-loaded):not(.swiper-lazy-loading)');
-                if (slide.hasClass(s.params.lazyLoadingClass) && !slide.hasClass('swiper-lazy-loaded') && !slide.hasClass('swiper-lazy-loading')) {
+                var img = slide.find('.swiper-lazy:not(.swiper-lazy-loaded):not(.swiper-lazy-loading)');
+                if (slide.hasClass('swiper-lazy') && !slide.hasClass('swiper-lazy-loaded') && !slide.hasClass('swiper-lazy-loading')) {
                     img = img.add(slide[0]);
                 }
                 if (img.length === 0) return;
@@ -2804,23 +2774,19 @@
                     s.slideReset();
                 }
             },
-            draggableEvents: (function () {
-                if ((s.params.simulateTouch === false && !s.support.touch)) return s.touchEventsDesktop;
-                else return s.touchEvents;
-            })(),
             enableDraggable: function () {
                 var sb = s.scrollbar;
                 var target = s.support.touch ? sb.track : document;
-                $(sb.track).on(sb.draggableEvents.start, sb.dragStart);
-                $(target).on(sb.draggableEvents.move, sb.dragMove);
-                $(target).on(sb.draggableEvents.end, sb.dragEnd);
+                $(sb.track).on(s.touchEvents.start, sb.dragStart);
+                $(target).on(s.touchEvents.move, sb.dragMove);
+                $(target).on(s.touchEvents.end, sb.dragEnd);
             },
             disableDraggable: function () {
                 var sb = s.scrollbar;
                 var target = s.support.touch ? sb.track : document;
-                $(sb.track).off(s.draggableEvents.start, sb.dragStart);
-                $(target).off(s.draggableEvents.move, sb.dragMove);
-                $(target).off(s.draggableEvents.end, sb.dragEnd);
+                $(sb.track).off(s.touchEvents.start, sb.dragStart);
+                $(target).off(s.touchEvents.move, sb.dragMove);
+                $(target).off(s.touchEvents.end, sb.dragEnd);
             },
             set: function () {
                 if (!s.params.scrollbar) return;
@@ -3058,10 +3024,7 @@
             },
             setHash: function () {
                 if (!s.hashnav.initialized || !s.params.hashnav) return;
-                if (s.params.hashnavReplaceState && window.history && window.history.replaceState) {
-                    window.history.replaceState(null, null, ('#' + s.slides.eq(s.activeIndex).attr('data-hash') || ''));
-                }
-                else document.location.hash = s.slides.eq(s.activeIndex).attr('data-hash') || '';
+                document.location.hash = s.slides.eq(s.activeIndex).attr('data-hash') || '';
             }
         };
 
@@ -3148,70 +3111,73 @@
           ===========================*/
         s.mousewheel = {
             event: false,
-            lastScrollTime: window.Date.now()
+            lastScrollTime: (new window.Date()).getTime()
         };
         if (s.params.mousewheelControl) {
-            /**
-             * The best combination if you prefer spinX + spinY normalization.  It favors
-             * the older DOMMouseScroll for Firefox, as FF does not include wheelDelta with
-             * 'wheel' event, making spin speed determination impossible.
-             */
-            s.mousewheel.event = (navigator.userAgent.indexOf('firefox') > -1) ?
-                'DOMMouseScroll' :
-                isEventSupported() ?
-                    'wheel' : 'mousewheel';
-        }
-        
-        function isEventSupported() {
-            var eventName = 'onwheel';
-            var isSupported = eventName in document;
-        
-            if (!isSupported) {
-                var element = document.createElement('div');
-                element.setAttribute(eventName, 'return;');
-                isSupported = typeof element[eventName] === 'function';
+            try {
+                new window.WheelEvent('wheel');
+                s.mousewheel.event = 'wheel';
+            } catch (e) {
+                if (window.WheelEvent || (s.container[0] && 'wheel' in s.container[0])) {
+                    s.mousewheel.event = 'wheel';
+                }
             }
+            if (!s.mousewheel.event && window.WheelEvent) {
         
-            if (!isSupported &&
-                document.implementation &&
-                document.implementation.hasFeature &&
-                    // always returns true in newer browsers as per the standard.
-                    // @see http://dom.spec.whatwg.org/#dom-domimplementation-hasfeature
-                document.implementation.hasFeature('', '') !== true ) {
-                // This is the only way to test support for the `wheel` event in IE9+.
-                isSupported = document.implementation.hasFeature('Events.wheel', '3.0');
             }
-        
-            return isSupported;
+            if (!s.mousewheel.event && document.onmousewheel !== undefined) {
+                s.mousewheel.event = 'mousewheel';
+            }
+            if (!s.mousewheel.event) {
+                s.mousewheel.event = 'DOMMouseScroll';
+            }
         }
-        
         function handleMousewheel(e) {
             if (e.originalEvent) e = e.originalEvent; //jquery fix
+            var we = s.mousewheel.event;
             var delta = 0;
             var rtlFactor = s.rtl ? -1 : 1;
         
-            var data = normalizeWheel( e );
-        
-            if (s.params.mousewheelForceToAxis) {
-                if (s.isHorizontal()) {
-                    if (Math.abs(data.pixelX) > Math.abs(data.pixelY)) delta = data.pixelX * rtlFactor;
-                    else return;
+            //WebKits
+            if (we === 'mousewheel') {
+                if (s.params.mousewheelForceToAxis) {
+                    if (s.isHorizontal()) {
+                        if (Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)) delta = e.wheelDeltaX * rtlFactor;
+                        else return;
+                    }
+                    else {
+                        if (Math.abs(e.wheelDeltaY) > Math.abs(e.wheelDeltaX)) delta = e.wheelDeltaY;
+                        else return;
+                    }
                 }
                 else {
-                    if (Math.abs(data.pixelY) > Math.abs(data.pixelX)) delta = data.pixelY;
-                    else return;
+                    delta = Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY) ? - e.wheelDeltaX * rtlFactor : - e.wheelDeltaY;
                 }
             }
-            else {
-                delta = Math.abs(data.pixelX) > Math.abs(data.pixelY) ? - data.pixelX * rtlFactor : - data.pixelY;
+            //Old FireFox
+            else if (we === 'DOMMouseScroll') delta = -e.detail;
+            //New FireFox
+            else if (we === 'wheel') {
+                if (s.params.mousewheelForceToAxis) {
+                    if (s.isHorizontal()) {
+                        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) delta = -e.deltaX * rtlFactor;
+                        else return;
+                    }
+                    else {
+                        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) delta = -e.deltaY;
+                        else return;
+                    }
+                }
+                else {
+                    delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? - e.deltaX * rtlFactor : - e.deltaY;
+                }
             }
-        
             if (delta === 0) return;
         
             if (s.params.mousewheelInvert) delta = -delta;
         
             if (!s.params.freeMode) {
-                if (window.Date.now() - s.mousewheel.lastScrollTime > 60) {
+                if ((new window.Date()).getTime() - s.mousewheel.lastScrollTime > 60) {
                     if (delta < 0) {
                         if ((!s.isEnd || s.params.loop) && !s.animating) s.slideNext();
                         else if (s.params.mousewheelReleaseOnEdges) return true;
@@ -3221,7 +3187,7 @@
                         else if (s.params.mousewheelReleaseOnEdges) return true;
                     }
                 }
-                s.mousewheel.lastScrollTime = window.Date.now();
+                s.mousewheel.lastScrollTime = (new window.Date()).getTime();
         
             }
             else {
@@ -3275,170 +3241,6 @@
             return true;
         };
         
-        /**
-         * Mouse wheel (and 2-finger trackpad) support on the web sucks.  It is
-         * complicated, thus this doc is long and (hopefully) detailed enough to answer
-         * your questions.
-         *
-         * If you need to react to the mouse wheel in a predictable way, this code is
-         * like your bestest friend. * hugs *
-         *
-         * As of today, there are 4 DOM event types you can listen to:
-         *
-         *   'wheel'                -- Chrome(31+), FF(17+), IE(9+)
-         *   'mousewheel'           -- Chrome, IE(6+), Opera, Safari
-         *   'MozMousePixelScroll'  -- FF(3.5 only!) (2010-2013) -- don't bother!
-         *   'DOMMouseScroll'       -- FF(0.9.7+) since 2003
-         *
-         * So what to do?  The is the best:
-         *
-         *   normalizeWheel.getEventType();
-         *
-         * In your event callback, use this code to get sane interpretation of the
-         * deltas.  This code will return an object with properties:
-         *
-         *   spinX   -- normalized spin speed (use for zoom) - x plane
-         *   spinY   -- " - y plane
-         *   pixelX  -- normalized distance (to pixels) - x plane
-         *   pixelY  -- " - y plane
-         *
-         * Wheel values are provided by the browser assuming you are using the wheel to
-         * scroll a web page by a number of lines or pixels (or pages).  Values can vary
-         * significantly on different platforms and browsers, forgetting that you can
-         * scroll at different speeds.  Some devices (like trackpads) emit more events
-         * at smaller increments with fine granularity, and some emit massive jumps with
-         * linear speed or acceleration.
-         *
-         * This code does its best to normalize the deltas for you:
-         *
-         *   - spin is trying to normalize how far the wheel was spun (or trackpad
-         *     dragged).  This is super useful for zoom support where you want to
-         *     throw away the chunky scroll steps on the PC and make those equal to
-         *     the slow and smooth tiny steps on the Mac. Key data: This code tries to
-         *     resolve a single slow step on a wheel to 1.
-         *
-         *   - pixel is normalizing the desired scroll delta in pixel units.  You'll
-         *     get the crazy differences between browsers, but at least it'll be in
-         *     pixels!
-         *
-         *   - positive value indicates scrolling DOWN/RIGHT, negative UP/LEFT.  This
-         *     should translate to positive value zooming IN, negative zooming OUT.
-         *     This matches the newer 'wheel' event.
-         *
-         * Why are there spinX, spinY (or pixels)?
-         *
-         *   - spinX is a 2-finger side drag on the trackpad, and a shift + wheel turn
-         *     with a mouse.  It results in side-scrolling in the browser by default.
-         *
-         *   - spinY is what you expect -- it's the classic axis of a mouse wheel.
-         *
-         *   - I dropped spinZ/pixelZ.  It is supported by the DOM 3 'wheel' event and
-         *     probably is by browsers in conjunction with fancy 3D controllers .. but
-         *     you know.
-         *
-         * Implementation info:
-         *
-         * Examples of 'wheel' event if you scroll slowly (down) by one step with an
-         * average mouse:
-         *
-         *   OS X + Chrome  (mouse)     -    4   pixel delta  (wheelDelta -120)
-         *   OS X + Safari  (mouse)     -  N/A   pixel delta  (wheelDelta  -12)
-         *   OS X + Firefox (mouse)     -    0.1 line  delta  (wheelDelta  N/A)
-         *   Win8 + Chrome  (mouse)     -  100   pixel delta  (wheelDelta -120)
-         *   Win8 + Firefox (mouse)     -    3   line  delta  (wheelDelta -120)
-         *
-         * On the trackpad:
-         *
-         *   OS X + Chrome  (trackpad)  -    2   pixel delta  (wheelDelta   -6)
-         *   OS X + Firefox (trackpad)  -    1   pixel delta  (wheelDelta  N/A)
-         *
-         * On other/older browsers.. it's more complicated as there can be multiple and
-         * also missing delta values.
-         *
-         * The 'wheel' event is more standard:
-         *
-         * http://www.w3.org/TR/DOM-Level-3-Events/#events-wheelevents
-         *
-         * The basics is that it includes a unit, deltaMode (pixels, lines, pages), and
-         * deltaX, deltaY and deltaZ.  Some browsers provide other values to maintain
-         * backward compatibility with older events.  Those other values help us
-         * better normalize spin speed.  Example of what the browsers provide:
-         *
-         *                          | event.wheelDelta | event.detail
-         *        ------------------+------------------+--------------
-         *          Safari v5/OS X  |       -120       |       0
-         *          Safari v5/Win7  |       -120       |       0
-         *         Chrome v17/OS X  |       -120       |       0
-         *         Chrome v17/Win7  |       -120       |       0
-         *                IE9/Win7  |       -120       |   undefined
-         *         Firefox v4/OS X  |     undefined    |       1
-         *         Firefox v4/Win7  |     undefined    |       3
-         *
-         */
-        function normalizeWheel( /*object*/ event ) /*object*/ {
-            // Reasonable defaults
-            var PIXEL_STEP = 10;
-            var LINE_HEIGHT = 40;
-            var PAGE_HEIGHT = 800;
-        
-            var sX = 0, sY = 0,       // spinX, spinY
-                pX = 0, pY = 0;       // pixelX, pixelY
-        
-            // Legacy
-            if( 'detail' in event ) {
-                sY = event.detail;
-            }
-            if( 'wheelDelta' in event ) {
-                sY = -event.wheelDelta / 120;
-            }
-            if( 'wheelDeltaY' in event ) {
-                sY = -event.wheelDeltaY / 120;
-            }
-            if( 'wheelDeltaX' in event ) {
-                sX = -event.wheelDeltaX / 120;
-            }
-        
-            // side scrolling on FF with DOMMouseScroll
-            if( 'axis' in event && event.axis === event.HORIZONTAL_AXIS ) {
-                sX = sY;
-                sY = 0;
-            }
-        
-            pX = sX * PIXEL_STEP;
-            pY = sY * PIXEL_STEP;
-        
-            if( 'deltaY' in event ) {
-                pY = event.deltaY;
-            }
-            if( 'deltaX' in event ) {
-                pX = event.deltaX;
-            }
-        
-            if( (pX || pY) && event.deltaMode ) {
-                if( event.deltaMode === 1 ) {          // delta in LINE units
-                    pX *= LINE_HEIGHT;
-                    pY *= LINE_HEIGHT;
-                } else {                             // delta in PAGE units
-                    pX *= PAGE_HEIGHT;
-                    pY *= PAGE_HEIGHT;
-                }
-            }
-        
-            // Fall-back if spin cannot be determined
-            if( pX && !sX ) {
-                sX = (pX < 1) ? -1 : 1;
-            }
-            if( pY && !sY ) {
-                sY = (pY < 1) ? -1 : 1;
-            }
-        
-            return {
-                spinX: sX,
-                spinY: sY,
-                pixelX: pX,
-                pixelY: pY
-            };
-        }
 
         /*=========================
           Parallax
