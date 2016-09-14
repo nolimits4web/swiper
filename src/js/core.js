@@ -131,7 +131,7 @@ var defaults = {
     control: undefined,
     controlInverse: false,
     controlBy: 'slide', //or 'container'
-    normalize: true,
+    normalizeSlideIndex: true,
     // Swiping/no swiping
     allowSwipeToPrev: true,
     allowSwipeToNext: true,
@@ -931,7 +931,7 @@ s.updateActiveIndex = function () {
         }
     }
     // Normalize slideIndex
-    if(s.params.normalize){
+    if(s.params.normalizeSlideIndex){
         if (newActiveIndex < 0 || typeof newActiveIndex === 'undefined') newActiveIndex = 0;
     }
     // for (i = 0; i < s.slidesGrid.length; i++) {
@@ -1891,7 +1891,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     s.updateProgress(translate);
 
     // Normalize slideIndex
-    if(s.params.normalize){
+    if(s.params.normalizeSlideIndex){
         for (var i = 0; i < s.slidesGrid.length; i++) {
             if (- Math.floor(translate * 100) >= Math.floor(s.slidesGrid[i] * 100)) {
                 slideIndex = i;
