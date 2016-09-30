@@ -1394,7 +1394,7 @@ var isTouched,
     startTranslate,
     allowThresholdMove,
     // Form elements to match
-    formElements = 'input, select, textarea, button',
+    formElements = 'input, select, textarea, button, video',
     // Last click time
     lastClickTime = Date.now(), clickTimeout,
     //Velocities
