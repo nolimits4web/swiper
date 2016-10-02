@@ -9,7 +9,7 @@
         path = require('path'),
         uglify = require('gulp-uglify'),
         sourcemaps = require('gulp-sourcemaps'),
-        minifyCSS = require('gulp-minify-css'),
+        cleanCSS = require('gulp-clean-css'),
         tap = require('gulp-tap'),
         concat = require('gulp-concat'),
         jshint = require('gulp-jshint'),
@@ -277,7 +277,7 @@
 
         gulp.src(paths.build.styles + '*.css')
             .pipe(gulp.dest(paths.dist.styles))
-            .pipe(minifyCSS({
+            .pipe(cleanCSS({
                 advanced: false,
                 aggressiveMerging: false,
             }))
