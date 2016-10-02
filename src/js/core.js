@@ -16,6 +16,7 @@ var defaults = {
     freeModeMomentumRatio: 1,
     freeModeMomentumBounce: true,
     freeModeMomentumBounceRatio: 1,
+    freeModeMomentumVelocityRatio: 1,
     freeModeSticky: false,
     freeModeMinimumVelocity: 0.02,
     // Autoheight
@@ -1706,6 +1707,7 @@ s.onTouchEnd = function (e) {
             } else {
                 s.velocity = 0;
             }
+            s.velocity = s.velocity * s.params.freeModeMomentumVelocityRatio;
 
             velocities.length = 0;
             var momentumDuration = 1000 * s.params.freeModeMomentumRatio;
