@@ -1238,9 +1238,10 @@ s.initEvents = function (detach) {
     }
     else {
         if (s.support.touch) {
-            touchEventsTarget[action](s.touchEvents.start, s.onTouchStart, false);
+            var passiveListener = s.touchEvents.start === 'touchstart' && s.support.passiveListener ? {passive: true, capture: false} : false;
+            touchEventsTarget[action](s.touchEvents.start, s.onTouchStart, passiveListener);
             touchEventsTarget[action](s.touchEvents.move, s.onTouchMove, moveCapture);
-            touchEventsTarget[action](s.touchEvents.end, s.onTouchEnd, false);
+            touchEventsTarget[action](s.touchEvents.end, s.onTouchEnd, passiveListener);
         }
         if (params.simulateTouch && !s.device.ios && !s.device.android) {
             touchEventsTarget[action]('mousedown', s.onTouchStart, false);

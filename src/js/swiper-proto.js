@@ -62,6 +62,19 @@ Swiper.prototype = {
 
         observer: (function () {
             return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
+        })(),
+
+        passiveListener: (function () {
+            var supportsPassive = false;
+            try {
+                var opts = Object.defineProperty({}, 'passive', {
+                    get: function() {
+                        supportsPassive = true;
+                    }
+                });
+                window.addEventListener('testPassiveListener', null, opts);
+            } catch (e) {}
+            return supportsPassive;
         })()
     },
     /*==================================================
