@@ -1243,7 +1243,7 @@ s.initEvents = function (detach) {
             touchEventsTarget[action](s.touchEvents.move, s.onTouchMove, moveCapture);
             touchEventsTarget[action](s.touchEvents.end, s.onTouchEnd, passiveListener);
         }
-        if (params.simulateTouch && !s.device.ios && !s.device.android) {
+        if ((params.simulateTouch && !s.device.ios && !s.device.android) || (params.simulateTouch && !s.support.touch && s.device.ios)) {
             touchEventsTarget[action]('mousedown', s.onTouchStart, false);
             document[action]('mousemove', s.onTouchMove, moveCapture);
             document[action]('mouseup', s.onTouchEnd, false);
