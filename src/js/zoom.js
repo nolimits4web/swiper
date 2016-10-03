@@ -37,10 +37,25 @@ s.zoom = {
         prevPositionY: undefined,
         prevTime: undefined
     },
-
+    // Calc Scale From Multi-touches
+    getDistanceBetweenTouches: function (e) {
+        if (e.targetTouches.length < 2) return 1;
+        var x1 = e.targetTouches[0].pageX,
+            y1 = e.targetTouches[0].pageY,
+            x2 = e.targetTouches[1].pageX,
+            y2 = e.targetTouches[1].pageY;
+        var distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        return distance;
+    },
     // Events
     onGestureStart: function (e) {
         var z = s.zoom;
+        if (!s.support.gestures) {
+            if (e.type !== 'touchstart' || e.type === 'touchstart' && e.targetTouches.length < 2) {
+                return;
+            }
+            z.gesture.scaleStart = z.getDistanceBetweenTouches(e);
+        }
         if (!z.gesture.slide || !z.gesture.slide.length) {
             z.gesture.slide = $(this);
             if (z.gesture.slide.length === 0) z.gesture.slide = s.slides.eq(s.activeIndex);
@@ -57,8 +72,19 @@ s.zoom = {
     },
     onGestureChange: function (e) {
         var z = s.zoom;
+        if (!s.support.gestures) {
+            if (e.type !== 'touchmove' || e.type === 'touchmove' && e.targetTouches.length < 2) {
+                return;
+            }
+            z.gesture.scaleMove = z.getDistanceBetweenTouches(e);
+        }
         if (!z.gesture.image || z.gesture.image.length === 0) return;
-        z.scale = e.scale * z.currentScale;
+        if (s.support.gestures) {
+            z.scale = e.scale * z.currentScale;
+        }
+        else {
+            z.scale = (z.gesture.scaleMove / z.gesture.scaleStart) * z.currentScale;
+        }
         if (z.scale > z.gesture.zoomMax) {
             z.scale = z.gesture.zoomMax - 1 + Math.pow((z.scale - z.gesture.zoomMax + 1), 0.5);
         }
@@ -69,6 +95,11 @@ s.zoom = {
     },
     onGestureEnd: function (e) {
         var z = s.zoom;
+        if (!s.support.gestures) {
+            if (e.type !== 'touchend' || e.type === 'touchend' && e.changedTouches.length < 2) {
+                return;
+            }
+        }
         if (!z.gesture.image || z.gesture.image.length === 0) return;
         z.scale = Math.max(Math.min(z.scale, z.gesture.zoomMax), s.params.zoomMin);
         z.gesture.image.transition(s.params.speed).transform('translate3d(0,0,0) scale(' + z.scale + ')');
@@ -80,6 +111,7 @@ s.zoom = {
         var z = s.zoom;
         if (!z.gesture.image || z.gesture.image.length === 0) return;
         if (z.image.isTouched) return;
+        if (s.device.os === 'android') e.preventDefault();
         z.image.isTouched = true;
         z.image.touchesStart.x = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
         z.image.touchesStart.y = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
@@ -292,9 +324,16 @@ s.zoom = {
             var target = s.slides;
             var passiveListener = s.touchEvents.start === 'touchstart' && s.support.passiveListener ? {passive: true, capture: false} : false;
             // Scale image
-            target[action]('gesturestart', s.zoom.onGestureStart, passiveListener);
-            target[action]('gesturechange', s.zoom.onGestureChange, passiveListener);
-            target[action]('gestureend', s.zoom.onGestureEnd, passiveListener);
+            if (s.support.gestures) {
+                s.slides[action]('gesturestart', s.zoom.onGestureStart, passiveListener);
+                s.slides[action]('gesturechange', s.zoom.onGestureChange, passiveListener);
+                s.slides[action]('gestureend', s.zoom.onGestureEnd, passiveListener);
+            }
+            else if (s.touchEvents.start === 'touchstart') {
+                s.slides[action](s.touchEvents.start, s.zoom.onGestureStart, passiveListener);
+                s.slides[action](s.touchEvents.move, s.zoom.onGestureChange, passiveListener);
+                s.slides[action](s.touchEvents.end, s.zoom.onGestureEnd, passiveListener);
+            }
 
             // Move image
             s[action]('touchStart', s.zoom.onTouchStart);
