@@ -146,6 +146,8 @@ var defaults = {
     swipeHandler: null, //'.swipe-handler',
     noSwiping: true,
     noSwipingClass: 'swiper-no-swiping',
+    // Passive Listeners
+    passiveListeners: true,
     // NS
     containerModifierClass: 'swiper-container-', // NEW
     slideClass: 'swiper-slide',
@@ -170,6 +172,7 @@ var defaults = {
     lazyPreloaderClass: 'swiper-lazy-preloader',
     notificationClass: 'swiper-notification',
     preloaderClass: 'preloader',
+    zoomContainerClass: 'swiper-zoom-container',
 
     // Observer
     observer: false,
@@ -1244,7 +1247,7 @@ s.initEvents = function (detach) {
     }
     else {
         if (s.support.touch) {
-            var passiveListener = s.touchEvents.start === 'touchstart' && s.support.passiveListener ? {passive: true, capture: false} : false;
+            var passiveListener = s.touchEvents.start === 'touchstart' && s.support.passiveListener && s.params.passiveListeners ? {passive: true, capture: false} : false;
             touchEventsTarget[action](s.touchEvents.start, s.onTouchStart, passiveListener);
             touchEventsTarget[action](s.touchEvents.move, s.onTouchMove, moveCapture);
             touchEventsTarget[action](s.touchEvents.end, s.onTouchEnd, passiveListener);

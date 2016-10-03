@@ -60,7 +60,7 @@ s.zoom = {
             z.gesture.slide = $(this);
             if (z.gesture.slide.length === 0) z.gesture.slide = s.slides.eq(s.activeIndex);
             z.gesture.image = z.gesture.slide.find('img, svg, canvas');
-            z.gesture.imageWrap = z.gesture.image.parent('.swiper-zoom-container');
+            z.gesture.imageWrap = z.gesture.image.parent('.' + s.params.zoomContainerClass);
             z.gesture.zoomMax = z.gesture.imageWrap.attr('data-swiper-zoom') || s.params.zoomMax ;
             if (z.gesture.imageWrap.length === 0) {
                 z.gesture.image = undefined;
@@ -248,7 +248,7 @@ s.zoom = {
         if (!z.gesture.slide) {
             z.gesture.slide = s.clickedSlide ? $(s.clickedSlide) : s.slides.eq(s.activeIndex);
             z.gesture.image = z.gesture.slide.find('img, svg, canvas');
-            z.gesture.imageWrap = z.gesture.image.parent('.swiper-zoom-container');
+            z.gesture.imageWrap = z.gesture.image.parent('.' + s.params.zoomContainerClass);
         }
         if (!z.gesture.image || z.gesture.image.length === 0) return;
 
@@ -322,7 +322,7 @@ s.zoom = {
 
         if (s.params.zoom) {
             var target = s.slides;
-            var passiveListener = s.touchEvents.start === 'touchstart' && s.support.passiveListener ? {passive: true, capture: false} : false;
+            var passiveListener = s.touchEvents.start === 'touchstart' && s.support.passiveListener && s.params.passiveListeners ? {passive: true, capture: false} : false;
             // Scale image
             if (s.support.gestures) {
                 s.slides[action]('gesturestart', s.zoom.onGestureStart, passiveListener);
@@ -338,7 +338,7 @@ s.zoom = {
             // Move image
             s[action]('touchStart', s.zoom.onTouchStart);
             s.slides.each(function (index, slide){
-                if ($(slide).find('.swiper-zoom-container').length > 0) {
+                if ($(slide).find('.' + s.params.zoomContainerClass).length > 0) {
                     $(slide)[action](s.touchEvents.move, s.zoom.onTouchMove);
                 }
             });
