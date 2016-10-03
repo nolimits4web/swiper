@@ -1,0 +1,74 @@
+{
+    "core_intro": {
+        "js": [
+            "src/js/wrap-start.js",
+            "src/js/swiper-intro.js",
+            "src/js/core.js"
+        ],
+        "less": [
+            "src/less/mixins.less",
+            "src/less/core.less",
+            "src/less/navigation.less",
+            "src/less/preloader.less"
+        ]
+    },
+    "core_outro": {
+        "js": [
+            "src/js/plugins.js",
+            "src/js/emitter.js",
+            "src/js/init.js",
+            "src/js/swiper-outro.js",
+            "src/js/swiper-proto.js",
+            "src/js/dom.js",
+            "src/js/get-dom-lib.js",
+            "src/js/dom-plugins.js",
+            "src/js/wrap-end.js",
+            "src/js/amd.js"
+        ],
+        "less": []
+    },
+    "effects": {
+        "js": ["src/js/effects.js"],
+        "less": ["src/less/effects.less"]
+    },
+    "lazy-load": {
+        "js": ["src/js/lazy-load.js"],
+        "less": []
+    },
+    "scrollbar": {
+        "js": ["src/js/scrollbar.js"],
+        "less": ["src/less/scrollbar.less"]
+    },
+    "controller": {
+        "js": ["src/js/controller.js"],
+        "less": []
+    },
+    "hashnav": {
+        "js": ["src/js/controller.js"],
+        "less": []
+    },
+    "history": {
+        "js": ["src/js/history.js"],
+        "less": []
+    },
+    "keyboard": {
+        "js": ["src/js/keyboard.js"],
+        "less": []
+    },
+    "mousewheel": {
+        "js": ["src/js/mousewheel.js"],
+        "less": []
+    },
+    "parallax": {
+        "js": ["src/js/parallax.js"],
+        "less": []
+    },
+    "zoom": {
+        "js": ["src/js/zoom.js"],
+        "less": ["src/less/zoom.less"]
+    },
+    "a11y": {
+        "js": ["src/js/a11y.js"],
+        "less": []
+    }
+}
