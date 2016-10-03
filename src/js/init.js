@@ -36,6 +36,9 @@ s.init = function () {
     if (s.params.preloadImages && !s.params.lazyLoading) {
         s.preloadImages();
     }
+    if (s.params.zoom && s.zoom) {
+        s.zoom.init();
+    }
     if (s.params.autoplay) {
         s.startAutoplay();
     }
@@ -122,6 +125,11 @@ s.destroy = function (deleteInstance, cleanupStyles) {
     }
     // Disconnect observer
     s.disconnectObservers();
+
+    // Destroy zoom
+    if (s.params.zoom && s.zoom) {
+        s.zoom.destroy();
+    }
     // Disable keyboard/mousewheel
     if (s.params.keyboardControl) {
         if (s.disableKeyboardControl) s.disableKeyboardControl();

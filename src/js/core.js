@@ -49,6 +49,11 @@ var defaults = {
     },
     // Parallax
     parallax: false,
+    // Zoom
+    zoom: false,
+    zoomMax: 3,
+    zoomMin: 1,
+    zoomToggle: true,
     // Scrollbar
     scrollbar: null,
     scrollbarHide: true,

@@ -75,6 +75,10 @@ Swiper.prototype = {
                 window.addEventListener('testPassiveListener', null, opts);
             } catch (e) {}
             return supportsPassive;
+        })(),
+
+        gestures: (function () {
+            return 'ongesturestart' in window;
         })()
     },
     /*==================================================
