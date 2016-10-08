@@ -1503,7 +1503,7 @@ s.onTouchMove = function (e) {
     s.touches.currentX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
     s.touches.currentY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY;
 
-    if (typeof isScrolling === 'undefined') {
+    if (typeof isScrolling === 'undefined' && (s.touches.currentY !== s.touches.startY || s.touches.currentX !== s.touches.startX)) {
         var touchAngle = Math.atan2(Math.abs(s.touches.currentY - s.touches.startY), Math.abs(s.touches.currentX - s.touches.startX)) * 180 / Math.PI;
         isScrolling = s.isHorizontal() ? touchAngle > s.params.touchAngle : (90 - touchAngle > s.params.touchAngle);
     }
