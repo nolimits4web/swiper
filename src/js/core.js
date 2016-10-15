@@ -783,9 +783,10 @@ s.updateSlidesSize = function () {
                 column = i - row * slidesPerRow;
             }
             slide
-                .css({
-                    'margin-top': (row !== 0 && s.params.spaceBetween) && (s.params.spaceBetween + 'px')
-                })
+                .css(
+                    'margin-' + (s.isHorizontal() ? 'top' : 'left'),
+                    (row !== 0 && s.params.spaceBetween) && (s.params.spaceBetween + 'px')
+                )
                 .attr('data-swiper-column', column)
                 .attr('data-swiper-row', row);
 
@@ -844,7 +845,8 @@ s.updateSlidesSize = function () {
     if (s.params.slidesPerColumn > 1) {
         s.virtualSize = (slideSize + s.params.spaceBetween) * slidesNumberEvenToRows;
         s.virtualSize = Math.ceil(s.virtualSize / s.params.slidesPerColumn) - s.params.spaceBetween;
-        s.wrapper.css({width: s.virtualSize + s.params.spaceBetween + 'px'});
+        if (s.isHorizontal()) s.wrapper.css({width: s.virtualSize + s.params.spaceBetween + 'px'});
+        else s.wrapper.css({height: s.virtualSize + s.params.spaceBetween + 'px'});
         if (s.params.centeredSlides) {
             newSlidesGrid = [];
             for (i = 0; i < s.snapGrid.length; i++) {
