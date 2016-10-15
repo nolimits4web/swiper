@@ -525,7 +525,7 @@ if (s.params.grabCursor) {
 s.imagesToLoad = [];
 s.imagesLoaded = 0;
 
-s.loadImage = function (imgElement, src, srcset, checkForComplete, callback) {
+s.loadImage = function (imgElement, src, srcset, sizes, checkForComplete, callback) {
     var image;
     function onReady () {
         if (callback) callback();
@@ -535,6 +535,9 @@ s.loadImage = function (imgElement, src, srcset, checkForComplete, callback) {
             image = new window.Image();
             image.onload = onReady;
             image.onerror = onReady;
+            if (sizes) {
+                image.sizes = sizes;
+            }
             if (srcset) {
                 image.srcset = srcset;
             }
@@ -560,7 +563,7 @@ s.preloadImages = function () {
         }
     }
     for (var i = 0; i < s.imagesToLoad.length; i++) {
-        s.loadImage(s.imagesToLoad[i], (s.imagesToLoad[i].currentSrc || s.imagesToLoad[i].getAttribute('src')), (s.imagesToLoad[i].srcset || s.imagesToLoad[i].getAttribute('srcset')), true, _onReady);
+        s.loadImage(s.imagesToLoad[i], (s.imagesToLoad[i].currentSrc || s.imagesToLoad[i].getAttribute('src')), (s.imagesToLoad[i].srcset || s.imagesToLoad[i].getAttribute('srcset')), s.imagesToLoad[i].sizes || s.imagesToLoad[i].getAttribute('sizes'), true, _onReady);
     }
 };
 
