@@ -121,13 +121,21 @@ function handleMousewheel(e) {
 }
 s.disableMousewheelControl = function () {
     if (!s.mousewheel.event) return false;
-    s.container.off(s.mousewheel.event, handleMousewheel);
+    var target = s.container;
+    if (s.params.mousewheelEventsTarged !== 'container') {
+        target = $(s.params.mousewheelEventsTarged);
+    }
+    target.off(s.mousewheel.event, handleMousewheel);
     return true;
 };
 
 s.enableMousewheelControl = function () {
     if (!s.mousewheel.event) return false;
-    s.container.on(s.mousewheel.event, handleMousewheel);
+    var target = s.container;
+    if (s.params.mousewheelEventsTarged !== 'container') {
+        target = $(s.params.mousewheelEventsTarged);
+    }
+    target.on(s.mousewheel.event, handleMousewheel);
     return true;
 };
 

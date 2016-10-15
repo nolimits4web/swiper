@@ -66,6 +66,7 @@ var defaults = {
     mousewheelInvert: false,
     mousewheelForceToAxis: false,
     mousewheelSensitivity: 1,
+    mousewheelEventsTarged: 'container',
     // Hash Navigation
     hashnav: false,
     replaceState: false,
