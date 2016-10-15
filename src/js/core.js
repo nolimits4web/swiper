@@ -571,6 +571,11 @@ s.autoplayTimeoutId = undefined;
 s.autoplaying = false;
 s.autoplayPaused = false;
 function autoplay() {
+    var autoplayDelay = s.params.autoplay;
+    var activeSlide = s.slides.eq(s.activeIndex);
+    if (activeSlide.attr('data-swiper-autoplay')) {
+        autoplayDelay = activeSlide.attr('data-swiper-autoplay') || s.params.autoplay;
+    }
     s.autoplayTimeoutId = setTimeout(function () {
         if (s.params.loop) {
             s.fixLoop();
@@ -592,7 +597,7 @@ function autoplay() {
                 }
             }
         }
-    }, s.params.autoplay);
+    }, autoplayDelay);
 }
 s.startAutoplay = function () {
     if (typeof s.autoplayTimeoutId !== 'undefined') return false;
