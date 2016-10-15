@@ -69,9 +69,11 @@ var defaults = {
     mousewheelEventsTarged: 'container',
     // Hash Navigation
     hashnav: false,
-    replaceState: false,
+    hashnavWatchState: false,
     // History
     history: false,
+    // Commong Nav State
+    replaceState: false,
     // Breakpoints
     breakpoints: undefined,
     // Slides grid

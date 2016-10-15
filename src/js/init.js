@@ -143,6 +143,9 @@ s.destroy = function (deleteInstance, cleanupStyles) {
     if (s.params.history && !s.params.replaceState) {
         window.removeEventListener('popstate', s.history.setHistoryPopState);
     }
+    if (s.params.hashnav && s.hashnav)  {
+        s.hashnav.destroy();
+    }
     // Destroy callback
     s.emit('onDestroy');
     // Delete instance
