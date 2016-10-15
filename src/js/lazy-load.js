@@ -20,8 +20,9 @@ s.lazy = {
             _img.addClass(s.params.lazyStatusLoadingClass);
             var background = _img.attr('data-background');
             var src = _img.attr('data-src'),
-                srcset = _img.attr('data-srcset');
-            s.loadImage(_img[0], (src || background), srcset, false, function () {
+                srcset = _img.attr('data-srcset'),
+                sizes = _img.attr('data-sizes');
+            s.loadImage(_img[0], (src || background), srcset, sizes, false, function () {
                 if (background) {
                     _img.css('background-image', 'url("' + background + '")');
                     _img.removeAttr('data-background');
@@ -30,6 +31,10 @@ s.lazy = {
                     if (srcset) {
                         _img.attr('srcset', srcset);
                         _img.removeAttr('data-srcset');
+                    }
+                    if (sizes) {
+                        _img.attr('sizes', sizes);
+                        _img.removeAttr('data-sizes');
                     }
                     if (src) {
                         _img.attr('src', src);
@@ -64,7 +69,7 @@ s.lazy = {
         if (slidesPerView === 'auto') {
             slidesPerView = 0;
         }
-
+        if (!s.lazy.initialImageLoaded) s.lazy.initialImageLoaded = true;
         if (s.params.watchSlidesVisibility) {
             s.wrapper.children('.' + s.params.slideVisibleClass).each(function () {
                 s.lazy.loadImageInSlide($(this).index());
