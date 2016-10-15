@@ -97,6 +97,7 @@ var defaults = {
     onlyExternal: false,
     threshold: 0,
     touchMoveStopPropagation: true,
+    touchReleaseOnEdges: false,
     // Unique Navigation Elements
     uniqueNavElements: true,
     // Pagination
@@ -349,6 +350,10 @@ if (s.params.autoHeight) {
 // Enable slides progress when required
 if (s.params.parallax || s.params.watchSlidesVisibility) {
     s.params.watchSlidesProgress = true;
+}
+// Max resistance when touchReleaseOnEdges
+if (s.params.touchReleaseOnEdges) {
+    s.params.resistanceRatio = 0;
 }
 // Coverflow / 3D
 if (['cube', 'coverflow', 'flip'].indexOf(s.params.effect) >= 0) {
@@ -1496,6 +1501,25 @@ s.onTouchMove = function (e) {
             touchStartTime = Date.now();
         }
         return;
+    }
+    if (isTouchEvent && s.params.touchReleaseOnEdges && !s.params.loop) {
+        if (!s.isHorizontal()) {
+            // Vertical
+            if (
+                (s.touches.currentY < s.touches.startY && s.translate <= s.maxTranslate()) ||
+                (s.touches.currentY > s.touches.startY && s.translate >= s.minTranslate())
+                ) {
+                return;
+            }
+        }
+        else {
+            if (
+                (s.touches.currentX < s.touches.startX && s.translate <= s.maxTranslate()) ||
+                (s.touches.currentX > s.touches.startX && s.translate >= s.minTranslate())
+                ) {
+                return;
+            }
+        }
     }
     if (isTouchEvent && document.activeElement) {
         if (e.target === document.activeElement && $(e.target).is(formElements)) {
