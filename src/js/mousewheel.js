@@ -108,11 +108,12 @@ function handleMousewheel(e) {
                 s.lazy.load();
             }
         }
+        // Stop autoplay
+        if (s.params.autoplay && s.params.autoplayDisableOnInteraction) s.stopAutoplay();
 
         // Return page scroll on edge positions
         if (position === 0 || position === s.maxTranslate()) return;
     }
-    if (s.params.autoplay) s.stopAutoplay();
 
     if (e.preventDefault) e.preventDefault();
     else e.returnValue = false;
