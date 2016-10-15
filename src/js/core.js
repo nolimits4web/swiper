@@ -154,10 +154,13 @@ var defaults = {
     containerModifierClass: 'swiper-container-', // NEW
     slideClass: 'swiper-slide',
     slideActiveClass: 'swiper-slide-active',
+    slideDuplicateActiveClass: 'swiper-slide-duplicate-active',
     slideVisibleClass: 'swiper-slide-visible',
     slideDuplicateClass: 'swiper-slide-duplicate',
     slideNextClass: 'swiper-slide-next',
+    slideDuplicateNextClass: 'swiper-slide-duplicate-next',
     slidePrevClass: 'swiper-slide-prev',
+    slideDuplicatePrevClass: 'swiper-slide-duplicate-prev',
     wrapperClass: 'swiper-wrapper',
     bulletClass: 'swiper-pagination-bullet',
     bulletActiveClass: 'swiper-pagination-bullet-active',
@@ -984,19 +987,45 @@ s.updateRealIndex = function(){
   Classes
   ===========================*/
 s.updateClasses = function () {
-    s.slides.removeClass(s.params.slideActiveClass + ' ' + s.params.slideNextClass + ' ' + s.params.slidePrevClass);
+    s.slides.removeClass(s.params.slideActiveClass + ' ' + s.params.slideNextClass + ' ' + s.params.slidePrevClass + ' ' + s.params.slideDuplicateActiveClass + ' ' + s.params.slideDuplicateNextClass + ' ' + s.params.slideDuplicatePrevClass);
     var activeSlide = s.slides.eq(s.activeIndex);
     // Active classes
     activeSlide.addClass(s.params.slideActiveClass);
+    if (params.loop) {
+        // Duplicate to all looped slides
+        if (activeSlide.hasClass(s.params.slideDuplicateClass)) {
+            s.wrapper.children('.' + s.params.slideClass + ':not(.' + s.params.slideDuplicateClass + ')[data-swiper-slide-index="' + s.realIndex + '"]').addClass(s.params.slideDuplicateActiveClass);
+        }
+        else {
+            s.wrapper.children('.' + s.params.slideClass + '.' + s.params.slideDuplicateClass + '[data-swiper-slide-index="' + s.realIndex + '"]').addClass(s.params.slideDuplicateActiveClass);
+        }
+    }
     // Next Slide
     var nextSlide = activeSlide.next('.' + s.params.slideClass).addClass(s.params.slideNextClass);
     if (s.params.loop && nextSlide.length === 0) {
-        s.slides.eq(0).addClass(s.params.slideNextClass);
+        nextSlide = s.slides.eq(0);
+        nextSlide.addClass(s.params.slideNextClass);
     }
     // Prev Slide
     var prevSlide = activeSlide.prev('.' + s.params.slideClass).addClass(s.params.slidePrevClass);
     if (s.params.loop && prevSlide.length === 0) {
-        s.slides.eq(-1).addClass(s.params.slidePrevClass);
+        prevSlide = s.slides.eq(-1);
+        prevSlide.addClass(s.params.slidePrevClass);
+    }
+    if (params.loop) {
+        // Duplicate to all looped slides
+        if (nextSlide.hasClass(s.params.slideDuplicateClass)) {
+            s.wrapper.children('.' + s.params.slideClass + ':not(.' + s.params.slideDuplicateClass + ')[data-swiper-slide-index="' + nextSlide.attr('data-swiper-slide-index') + '"]').addClass(s.params.slideDuplicateNextClass);
+        }
+        else {
+            s.wrapper.children('.' + s.params.slideClass + '.' + s.params.slideDuplicateClass + '[data-swiper-slide-index="' + nextSlide.attr('data-swiper-slide-index') + '"]').addClass(s.params.slideDuplicateNextClass);
+        }
+        if (prevSlide.hasClass(s.params.slideDuplicateClass)) {
+            s.wrapper.children('.' + s.params.slideClass + ':not(.' + s.params.slideDuplicateClass + ')[data-swiper-slide-index="' + prevSlide.attr('data-swiper-slide-index') + '"]').addClass(s.params.slideDuplicatePrevClass);
+        }
+        else {
+            s.wrapper.children('.' + s.params.slideClass + '.' + s.params.slideDuplicateClass + '[data-swiper-slide-index="' + prevSlide.attr('data-swiper-slide-index') + '"]').addClass(s.params.slideDuplicatePrevClass);
+        }
     }
 
     // Pagination
