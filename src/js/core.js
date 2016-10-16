@@ -1121,7 +1121,7 @@ s.updatePagination = function () {
             var numberOfBullets = s.params.loop ? Math.ceil((s.slides.length - s.loopedSlides * 2) / s.params.slidesPerGroup) : s.snapGrid.length;
             for (var i = 0; i < numberOfBullets; i++) {
                 if (s.params.paginationBulletRender) {
-                    paginationHTML += s.params.paginationBulletRender(i, s.params.bulletClass);
+                    paginationHTML += s.params.paginationBulletRender(s, i, s.params.bulletClass);
                 }
                 else {
                     paginationHTML += '<' + s.params.paginationElement+' class="' + s.params.bulletClass + '"></' + s.params.paginationElement + '>';
