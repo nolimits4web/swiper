@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: February 7, 2016
+ * Released on: May 3, 2016
  */
 (function (root, factory) {
 	'use strict';

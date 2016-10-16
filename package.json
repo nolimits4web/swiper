@@ -2,17 +2,17 @@
   "name": "swiper",
   "version": "3.3.1",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
-  "main": "dist/js/swiper.js",
-  "files": ["dist", "src", "*.json", "*.js"],
+  "main": "min/js/swiper.min.js",
+  "files": ["min", "src", "*.json", "*.js"],
   "repository": {
     "type": "git",
-    "url": "https://github.com/nolimits4web/Swiper.git"
+    "url": "https://github.com/PRDeving/Swiper.git"
   },
   "keywords": ["swiper", "swipe", "slider", "touch", "ios", "mobile", "cordova", "phonegap", "app", "framework", "carousel", "gallery"],
   "author": "Vladimir Kharlampidi",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nolimits4web/Swiper/issues"
+    "url": "https://github.com/PRDeving/Swiper/issues"
   },
   "homepage": "http://www.idangero.us/swiper/",
   "engines": {
@@ -35,7 +35,8 @@
     "jshint-stylish": "~2.2.1"
   },
   "scripts": {
-    "test": "gulp build"
+    "test": "gulp build",
+    "build-min": "gulp build && gulp min"
   },
-  "style": "dist/css/swiper.css"
+  "style": "min/css/swiper.css"
 }

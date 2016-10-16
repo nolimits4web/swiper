@@ -1,5 +1,10 @@
 # Change Log
 
+##Swiper 3.3.1 [Modifications]- Released on May 3, 2016 (PRDeving - pablo.deving@gmail.com)
+  * New gulp rule 'gulp min' that creates a min folder without the raw sourcecode -just min files-, reduces from 1.5Mb to 1020KB
+  * New gulp rule 'gulp min-nojq' that generates a min build without JQuery integration, reduces from 1.5MB to 388Kb
+  * modified entry points, before dist/... now min/...
+
 ## Swiper 3.3.1 - Released on February 7, 2016
   * New `uniqueNavElements` parameter. If enabled (by default) and navigation elements' parameters passed as the string (like `.pagination`) then Swiper will look for such elements through child elements first. Applies for pagination, prev/next buttons and scrollbar
   * New `onPaginationRendered` callback. Will be fired after pagination elements generated and added to DOM
