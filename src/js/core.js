@@ -1657,7 +1657,6 @@ s.onTouchMove = function (e) {
         currentTranslate = startTranslate;
     }
 
-    if (!s.params.followFinger) return;
 
     // Threshold
     if (s.params.threshold > 0) {
@@ -1676,6 +1675,9 @@ s.onTouchMove = function (e) {
             return;
         }
     }
+
+    if (!s.params.followFinger) return;
+
     // Update active index in free mode
     if (s.params.freeMode || s.params.watchSlidesProgress) {
         s.updateActiveIndex();
