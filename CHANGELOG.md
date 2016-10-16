@@ -1,5 +1,43 @@
 # Change Log
 
+## Swiper 3.4.0 - Released on October 16, 2016
+  * **Custom build** available. Now you can create custom swiper build using the folowing modules: effects, lazy-load, scrollbar, controller, hashnav, history, keyboard, mousewheel, parallax, zoom, a11y. Using cli `gulp custom -zoom,effects,lazy-loading`
+  * New **zoom** functionality that enables double tap and pinch to zoom slide's inner image:
+    * Required slide layout for zoom:
+      ```
+      <div class="swiper-slide">
+        <div class="swiper-zoom-container">
+          <img src="path/to/image">
+        </div>
+      </div>
+      ```
+    * New zoom parameters:
+      * `zoom` - enable zoom functionality
+      * `zoomMax` - maximum image zoom multiplier, by default is `3`
+      * `zoomMin` - minimum image zoom multiplier, by default is `1`
+      * `zoomToggle` - enable/disable zoom-in by slide's double tap
+    * `zoomMax` can be also overridden for specific slide by using `data-swiper-zoom` attribute
+  * New `swiper.enableTouchControl()` and `swiper.disableTouchControl()` methods to enable disable touch control (it toggles `onlyExternal` parameter)
+  * New `swiper.realIndex` property in addition to `swiper.activeIndex` that returns index of active slide considering loop
+  * New **History API** with new `history` parameter. It uses history pushState to set active slide URL
+  * New `hashnavWatchState` parameter to navigate through slides (when hashnav is enabled) by browser history or by setting directly hash on document location
+  * New `replaceState` parameter that work in addition to hashnav or history to replace current url state with the new one instead of adding it to history
+  * New methods `s.unsetGrabCursor()` and `s.setGrabCursor()` to enable/disable grab cursor
+  * Draggable Scrollbar now works when `simulateTouch:false `
+  * New `normalizeSlideIndex` parameter to improve work of controller (see #1766)
+  * `lazyLoadingInPrevNextAmount` now works with `slidesPerView: 'auto'`
+  * New `passiveListeners` parameter to use passive event listeners to improve scrolling performance on mobile devices. Enabled by default
+  * New `freeModeMomentumVelocityRatio` parameter to control moment velocity
+  * Now it is possible to specify autoplay delay for every (or specific) slides by using `data-swiper-autoplay` attribute on them
+  * Lazy loading now also respects `sizes` responsive images attribute
+  * Improved mousewheel cross browser behavior (see #1797)
+  * New `mousewheelEventsTarged` parameter (by default 'container') where you can specify mousewheel events target
+  * New `onScroll` event/callback that triggers when swiping/scrolling happens with mousewheel
+  * New `touchReleaseOnEdges` parameter to release touch events on slider edge position (beginning, end) and allow for further page scrolling
+  * Multirow (slidesPerColumn) support for vertical direction, which is in this case becomes multicolumn
+  * New "swiper-slide-duplicate-active", "swiper-slide-duplicate-next", "swiper-slide-duplicate-prev" classes that will be added in loop mode to the slides representing duplicated looped slides
+  * All css classes are now configurable via new parameters: lazyLoadingClass, notificationClass, containerModifierClass, paginationClickableClass, paginationModifierClass, lazyStatusLoadingClass, lazyStatusLoadedClass, lazyPreloaderClass, notificationClass, preloaderClass, zoomContainerClass, slideDuplicateActiveClass, slideDuplicateNextClass, slideDuplicatePrevClass
+
 ## Swiper 3.3.1 - Released on February 7, 2016
   * New `uniqueNavElements` parameter. If enabled (by default) and navigation elements' parameters passed as the string (like `.pagination`) then Swiper will look for such elements through child elements first. Applies for pagination, prev/next buttons and scrollbar
   * New `onPaginationRendered` callback. Will be fired after pagination elements generated and added to DOM
