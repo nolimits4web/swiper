@@ -119,7 +119,7 @@
                 'src/js/wrap-end-umd.js',
             ],
             Framework7Files : [
-                'src/js/swiper-intro-swiper.js',
+                'src/js/swiper-intro-f7.js',
                 'src/js/core.js',
                 'src/js/effects.js',
                 'src/js/lazy-load.js',
@@ -183,7 +183,7 @@
         if (['wrap-start.js', 'wrap-start-umd.js', 'wrap-end.js', 'wrap-end-umd.js', 'amd.js'].indexOf(filename) !== -1) {
             addIndent = '';
         }
-        if (filename === 'swiper-intro.js' || filename === 'swiper-intro-swiper.js' || filename === 'swiper-outro.js' || filename === 'dom.js' || filename === 'get-dom-lib.js' || filename === 'get-jquery.js' || filename === 'dom-plugins.js' || filename === 'swiper-proto.js') addIndent = '    ';
+        if (filename === 'swiper-intro.js' || filename === 'swiper-intro-f7.js' || filename === 'swiper-outro.js' || filename === 'dom.js' || filename === 'get-dom-lib.js' || filename === 'get-jquery.js' || filename === 'dom-plugins.js' || filename === 'swiper-proto.js') addIndent = '    ';
         if (minusIndent) {
             addIndent = addIndent.substring(4);
         }
