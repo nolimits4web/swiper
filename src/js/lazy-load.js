@@ -65,10 +65,9 @@ s.lazy = {
     },
     load: function () {
         var i;
-        var slidesPerView = s.params.slidesPerView;
-        if (slidesPerView === 'auto') {
-            slidesPerView = 0;
-        }
+        var slidesPerView = s.params.slidesPerView === 'auto' ? 0 : s.params.slidesPerView;
+        var slidesPerLoad = slidesPerView * s.params.slidesPerColumn;
+        var currentLoadIndex = s.activeIndex * s.params.slidesPerColumn;
         if (!s.lazy.initialImageLoaded) s.lazy.initialImageLoaded = true;
         if (s.params.watchSlidesVisibility) {
             s.wrapper.children('.' + s.params.slideVisibleClass).each(function () {
@@ -76,27 +75,26 @@ s.lazy = {
             });
         }
         else {
-            if (slidesPerView > 1) {
-                for (i = s.activeIndex; i < s.activeIndex + slidesPerView ; i++) {
+            if (slidesPerLoad > 1) {
+                for (i = currentLoadIndex; i < slidesPerLoad; i++) {
                     if (s.slides[i]) s.lazy.loadImageInSlide(i);
                 }
             }
             else {
-                s.lazy.loadImageInSlide(s.activeIndex);
+                s.lazy.loadImageInSlide(currentLoadIndex);
             }
         }
         if (s.params.lazyLoadingInPrevNext) {
-            if (slidesPerView > 1 || (s.params.lazyLoadingInPrevNextAmount && s.params.lazyLoadingInPrevNextAmount > 1)) {
+            if (slidesPerLoad > 1 || (s.params.lazyLoadingInPrevNextAmount && s.params.lazyLoadingInPrevNextAmount > 1)) {
                 var amount = s.params.lazyLoadingInPrevNextAmount;
-                var spv = slidesPerView;
-                var maxIndex = Math.min(s.activeIndex + spv + Math.max(amount, spv), s.slides.length);
-                var minIndex = Math.max(s.activeIndex - Math.max(spv, amount), 0);
+                var maxIndex = Math.min(currentLoadIndex + slidesPerLoad + amount, s.slides.length);
+                var minIndex = Math.max(currentLoadIndex - Math.max(slidesPerLoad, amount), 0);
                 // Next Slides
-                for (i = s.activeIndex + slidesPerView; i < maxIndex; i++) {
+                for (i = currentLoadIndex; i < maxIndex; i++) {
                     if (s.slides[i]) s.lazy.loadImageInSlide(i);
                 }
                 // Prev Slides
-                for (i = minIndex; i < s.activeIndex ; i++) {
+                for (i = minIndex; i < currentLoadIndex; i++) {
                     if (s.slides[i]) s.lazy.loadImageInSlide(i);
                 }
             }
