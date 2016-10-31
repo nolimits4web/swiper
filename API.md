@@ -1,84 +1,84 @@
 # Usage
 
-1.Download the latest version of Swiper from GitHub
-2.Add to HEAD Swiper's CSS and JS : 
+1. Download the latest version of Swiper from GitHub
+2. Add to HEAD Swiper's CSS and JS : 
 
-```html
-<head>
-  ....
-  <link rel="stylesheet" href="path_to_css/idangerous.swiper.css">
-  <script defer src="path_to_js/idangerous.swiper-2.x.min.js"></script>
-  ....
-</head>
-```
+  ```html
+  <head>
+    ....
+    <link rel="stylesheet" href="path_to_css/idangerous.swiper.css">
+    <script defer src="path_to_js/idangerous.swiper-2.x.min.js"></script>
+    ....
+  </head>
+  ```
 
-3.Use the following HTML layout:
+3. Use the following HTML layout:
 
-```html
-<div class="swiper-container">
-  <div class="swiper-wrapper">
-    <!--First Slide-->
-    <div class="swiper-slide"> 
-      <!-- Any HTML content of the first slide goes here -->
+  ```html
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <!--First Slide-->
+      <div class="swiper-slide"> 
+        <!-- Any HTML content of the first slide goes here -->
+      </div>
+
+      <!--Second Slide-->
+      <div class="swiper-slide">
+        <!-- Any HTML content of the second slide goes here -->
+      </div>
+
+      <!--Third Slide-->
+      <div class="swiper-slide"> 
+        <!-- Any HTML content of the third slide goes here -->
+      </div>
+      <!--Etc..-->
     </div>
-    
-    <!--Second Slide-->
-    <div class="swiper-slide">
-      <!-- Any HTML content of the second slide goes here -->
-    </div>
-    
-    <!--Third Slide-->
-    <div class="swiper-slide"> 
-      <!-- Any HTML content of the third slide goes here -->
-    </div>
-    <!--Etc..-->
   </div>
-</div>
-```
+  ```
 
-4.Open idangerous.swiper.css and set the Swiper's width and height (in the end of the file):
+4. Open idangerous.swiper.css and set the Swiper's width and height (in the end of the file):
 
-```css
-...
-/* Specify Swiper's Size: */
-.swiper-container, .swiper-slide {
-  width: 500px;
-  height: 200px;
-}
-```
+  ```css
+  ...
+  /* Specify Swiper's Size: */
+  .swiper-container, .swiper-slide {
+    width: 500px;
+    height: 200px;
+  }
+  ```
 
-5.Initialize Swiper on document ready (or when window is loaded):
+5. Initialize Swiper on document ready (or when window is loaded):
 
-```js
-/*======
-Use document ready or window load events
-For example:
-With jQuery: $(function() { ...code here... })
-Or window.onload = function() { ...code here ...}
-Or document.addEventListener('DOMContentLoaded', function(){ ...code here... }, false)
-=======*/
+  ```js
+  /*======
+  Use document ready or window load events
+  For example:
+  With jQuery: $(function() { ...code here... })
+  Or window.onload = function() { ...code here ...}
+  Or document.addEventListener('DOMContentLoaded', function(){ ...code here... }, false)
+  =======*/
 
-window.onload = function() {
-  var mySwiper = new Swiper('.swiper-container',{
-    //Your options here:
-    mode:'horizontal',
-    loop: true
-    //etc..
-  });  
-}
+  window.onload = function() {
+    var mySwiper = new Swiper('.swiper-container',{
+      //Your options here:
+      mode:'horizontal',
+      loop: true
+      //etc..
+    });  
+  }
 
-/*
-Or with jQuery/Zepto
-*/
-$(function(){
-  var mySwiper = $('.swiper-container').swiper({
-    //Your options here:
-    mode:'horizontal',
-    loop: true
-    //etc..
-  });
-})
-```
+  /*
+  Or with jQuery/Zepto
+  */
+  $(function(){
+    var mySwiper = $('.swiper-container').swiper({
+      //Your options here:
+      mode:'horizontal',
+      loop: true
+      //etc..
+    });
+  })
+  ```
 
 # API
 ## new Swiper(container, options)
