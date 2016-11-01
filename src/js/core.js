@@ -815,6 +815,7 @@ s.updateSlidesSize = function () {
 
         if (s.params.centeredSlides) {
             slidePosition = slidePosition + slideSize / 2 + prevSlideSize / 2 + spaceBetween;
+            if(prevSlideSize == 0 && i !== 0) slidePosition = slidePosition - s.size / 2 - spaceBetween;
             if (i === 0) slidePosition = slidePosition - s.size / 2 - spaceBetween;
             if (Math.abs(slidePosition) < 1 / 1000) slidePosition = 0;
             if ((index) % s.params.slidesPerGroup === 0) s.snapGrid.push(slidePosition);
