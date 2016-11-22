@@ -130,6 +130,8 @@ s.zoom = {
             z.gesture.slideWidth = z.gesture.slide[0].offsetWidth;
             z.gesture.slideHeight = z.gesture.slide[0].offsetHeight;
             z.gesture.imageWrap.transition(0);
+            if (s.rtl) z.image.startX = -z.image.startX;
+            if (s.rtl) z.image.startY = -z.image.startY;
         }
         // Define if we need image drag
         var scaledWidth = z.image.width * z.scale;
