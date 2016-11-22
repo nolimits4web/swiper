@@ -664,6 +664,7 @@ s.maxTranslate = function () {
 s.updateAutoHeight = function () {
     var activeSlides = [];
     var newHeight = 0;
+    var i;
 
     // Find slides currently in view
     if(s.params.slidesPerView !== 'auto' && s.params.slidesPerView > 1) {
