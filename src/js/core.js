@@ -566,7 +566,7 @@ s.loadImage = function (imgElement, src, srcset, sizes, checkForComplete, callba
 s.preloadImages = function () {
     s.imagesToLoad = s.container.find('img');
     function _onReady() {
-        if (typeof s === 'undefined' || s === null) return;
+        if (typeof s === 'undefined' || s === null || !s) return;
         if (s.imagesLoaded !== undefined) s.imagesLoaded++;
         if (s.imagesLoaded === s.imagesToLoad.length) {
             if (s.params.updateOnImagesReady) s.update();
@@ -1164,6 +1164,7 @@ s.updatePagination = function () {
   Common update method
   ===========================*/
 s.update = function (updateTranslate) {
+    if (!s) return;
     s.updateContainerSize();
     s.updateSlidesSize();
     s.updateProgress();
@@ -1572,7 +1573,7 @@ s.onTouchMove = function (e) {
 
     if (typeof isScrolling === 'undefined') {
         var touchAngle;
-        if (s.isHorizontal() && s.touches.currentY === s.touches.startY || !s.isHorizontal() && s.touches.currentX !== s.touches.startX) {
+        if (s.isHorizontal() && s.touches.currentY === s.touches.startY || !s.isHorizontal() && s.touches.currentX === s.touches.startX) {
             isScrolling = false;
         }
         else {
