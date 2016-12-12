@@ -4,12 +4,30 @@
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/js/swiper.js",
   "style": "dist/css/swiper.css",
-  "files": ["dist", "src", "*.json", "*.js"],
+  "files": [
+    "dist",
+    "src",
+    "*.json",
+    "*.js"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/nolimits4web/Swiper.git"
   },
-  "keywords": ["swiper", "swipe", "slider", "touch", "ios", "mobile", "cordova", "phonegap", "app", "framework", "carousel", "gallery"],
+  "keywords": [
+    "swiper",
+    "swipe",
+    "slider",
+    "touch",
+    "ios",
+    "mobile",
+    "cordova",
+    "phonegap",
+    "app",
+    "framework",
+    "carousel",
+    "gallery"
+  ],
   "author": "Vladimir Kharlampidi",
   "license": "MIT",
   "bugs": {
@@ -20,19 +38,19 @@
     "node": ">= 0.10.0"
   },
   "devDependencies": {
-    "jshint": "~2.9.3",
     "gulp": "~3.9.1",
-    "gulp-less": "~3.1.0",
-    "gulp-connect": "~5.0.0",
-    "gulp-open": "~2.0.0",
-    "gulp-uglify": "~2.0.0",
-    "gulp-sourcemaps": "~2.1.1",
     "gulp-clean-css": "2.0.13",
-    "gulp-jshint": "~2.0.1",
-    "gulp-concat": "~2.6.0",
-    "gulp-rename": "~1.2.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-connect": "~5.0.0",
     "gulp-header": "~1.8.8",
+    "gulp-jshint": "^2.0.4",
+    "gulp-less": "~3.1.0",
+    "gulp-open": "~2.0.0",
+    "gulp-rename": "~1.2.2",
+    "gulp-sourcemaps": "~2.1.1",
     "gulp-tap": "~0.1.3",
+    "gulp-uglify": "~2.0.0",
+    "jshint": "^2.9.4",
     "jshint-stylish": "~2.2.1"
   },
   "scripts": {
