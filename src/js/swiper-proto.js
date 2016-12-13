@@ -3,10 +3,10 @@
 ====================================================*/
 Swiper.prototype = {
     isSafari: (function () {
-        var ua = navigator.userAgent.toLowerCase();
+        var ua = window.navigator.userAgent.toLowerCase();
         return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
     })(),
-    isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent),
+    isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent),
     isArray: function (arr) {
         return Object.prototype.toString.apply(arr) === '[object Array]';
     },
@@ -29,7 +29,7 @@ Swiper.prototype = {
     Devices
     ====================================================*/
     device: (function () {
-        var ua = navigator.userAgent;
+        var ua = window.navigator.userAgent;
         var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
         var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
         var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
