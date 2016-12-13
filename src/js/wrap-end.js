@@ -1,2 +1,5 @@
-    window.Swiper = Swiper;
+   
+   if (isBrowser) {
+        window.Swiper = Swiper;
+   }
 })();
