@@ -27,14 +27,15 @@ s.hashnav = {
         if (!s.params.hashnav || s.params.history) return;
         s.hashnav.initialized = true;
         var hash = document.location.hash.replace('#', '');
-        if (!hash) return;
-        var speed = 0;
-        for (var i = 0, length = s.slides.length; i < length; i++) {
-            var slide = s.slides.eq(i);
-            var slideHash = slide.attr('data-hash') || slide.attr('data-history');
-            if (slideHash === hash && !slide.hasClass(s.params.slideDuplicateClass)) {
-                var index = slide.index();
-                s.slideTo(index, speed, s.params.runCallbacksOnInit, true);
+        if (hash) {
+            var speed = 0;
+            for (var i = 0, length = s.slides.length; i < length; i++) {
+                var slide = s.slides.eq(i);
+                var slideHash = slide.attr('data-hash') || slide.attr('data-history');
+                if (slideHash === hash && !slide.hasClass(s.params.slideDuplicateClass)) {
+                    var index = slide.index();
+                    s.slideTo(index, speed, s.params.runCallbacksOnInit, true);
+                }
             }
         }
         if (s.params.hashnavWatchState) s.hashnav.attachEvents();
