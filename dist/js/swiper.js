@@ -1,5 +1,5 @@
 /**
- * Swiper 3.4.0
+ * Swiper 3.4.1
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * 
  * http://www.idangero.us/swiper/
@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: October 16, 2016
+ * Released on: December 13, 2016
  */
 (function () {
     'use strict';
@@ -589,7 +589,7 @@
         s.preloadImages = function () {
             s.imagesToLoad = s.container.find('img');
             function _onReady() {
-                if (typeof s === 'undefined' || s === null) return;
+                if (typeof s === 'undefined' || s === null || !s) return;
                 if (s.imagesLoaded !== undefined) s.imagesLoaded++;
                 if (s.imagesLoaded === s.imagesToLoad.length) {
                     if (s.params.updateOnImagesReady) s.update();
@@ -687,6 +687,7 @@
         s.updateAutoHeight = function () {
             var activeSlides = [];
             var newHeight = 0;
+            var i;
         
             // Find slides currently in view
             if(s.params.slidesPerView !== 'auto' && s.params.slidesPerView > 1) {
@@ -914,6 +915,38 @@
         };
         
         /*=========================
+          Dynamic Slides Per View
+          ===========================*/
+        s.currentSlidesPerView = function () {
+            var spv = 1, i, j;
+            if (s.params.centeredSlides) {
+                var size = s.slides[s.activeIndex].swiperSlideSize;
+                var breakLoop;
+                for (i = s.activeIndex + 1; i < s.slides.length; i++) {
+                    if (s.slides[i] && !breakLoop) {
+                        size += s.slides[i].swiperSlideSize;
+                        spv ++;
+                        if (size > s.size) breakLoop = true;
+                    }
+                }
+                for (j = s.activeIndex - 1; j >= 0; j--) {
+                    if (s.slides[j] && !breakLoop) {
+                        size += s.slides[j].swiperSlideSize;
+                        spv ++;
+                        if (size > s.size) breakLoop = true;
+                    }
+                }
+            }
+            else {
+                for (i = s.activeIndex + 1; i < s.slides.length; i++) {
+                    if (s.slidesGrid[i] - s.slidesGrid[s.activeIndex] < s.size) {
+                        spv++;
+                    }
+                }
+            }
+            return spv;
+        };
+        /*=========================
           Slider/slides progress
           ===========================*/
         s.updateSlidesProgress = function (translate) {
@@ -1007,7 +1040,7 @@
             s.updateRealIndex();
         };
         s.updateRealIndex = function(){
-            s.realIndex = s.slides.eq(s.activeIndex).attr('data-swiper-slide-index') || s.activeIndex;
+            s.realIndex = parseInt(s.slides.eq(s.activeIndex).attr('data-swiper-slide-index') || s.activeIndex, 10);
         };
         
         /*=========================
@@ -1186,6 +1219,7 @@
           Common update method
           ===========================*/
         s.update = function (updateTranslate) {
+            if (!s) return;
             s.updateContainerSize();
             s.updateSlidesSize();
             s.updateProgress();
@@ -1430,12 +1464,13 @@
             if (s.params.slideToClickedSlide && s.clickedIndex !== undefined && s.clickedIndex !== s.activeIndex) {
                 var slideToIndex = s.clickedIndex,
                     realIndex,
-                    duplicatedSlides;
+                    duplicatedSlides,
+                    slidesPerView = s.params.slidesPerView === 'auto' ? s.currentSlidesPerView() : s.params.slidesPerView;
                 if (s.params.loop) {
                     if (s.animating) return;
-                    realIndex = $(s.clickedSlide).attr('data-swiper-slide-index');
+                    realIndex = parseInt($(s.clickedSlide).attr('data-swiper-slide-index'), 10);
                     if (s.params.centeredSlides) {
-                        if ((slideToIndex < s.loopedSlides - s.params.slidesPerView/2) || (slideToIndex > s.slides.length - s.loopedSlides + s.params.slidesPerView/2)) {
+                        if ((slideToIndex < s.loopedSlides - slidesPerView/2) || (slideToIndex > s.slides.length - s.loopedSlides + slidesPerView/2)) {
                             s.fixLoop();
                             slideToIndex = s.wrapper.children('.' + s.params.slideClass + '[data-swiper-slide-index="' + realIndex + '"]:not(.' + s.params.slideDuplicateClass + ')').eq(0).index();
                             setTimeout(function () {
@@ -1447,7 +1482,7 @@
                         }
                     }
                     else {
-                        if (slideToIndex > s.slides.length - s.params.slidesPerView) {
+                        if (slideToIndex > s.slides.length - slidesPerView) {
                             s.fixLoop();
                             slideToIndex = s.wrapper.children('.' + s.params.slideClass + '[data-swiper-slide-index="' + realIndex + '"]:not(.' + s.params.slideDuplicateClass + ')').eq(0).index();
                             setTimeout(function () {
@@ -1594,7 +1629,7 @@
         
             if (typeof isScrolling === 'undefined') {
                 var touchAngle;
-                if (s.isHorizontal() && s.touches.currentY === s.touches.startY || !s.isHorizontal() && s.touches.currentX !== s.touches.startX) {
+                if (s.isHorizontal() && s.touches.currentY === s.touches.startY || !s.isHorizontal() && s.touches.currentX === s.touches.startX) {
                     isScrolling = false;
                 }
                 else {
@@ -3874,6 +3909,8 @@
                     z.gesture.slideWidth = z.gesture.slide[0].offsetWidth;
                     z.gesture.slideHeight = z.gesture.slide[0].offsetHeight;
                     z.gesture.imageWrap.transition(0);
+                    if (s.rtl) z.image.startX = -z.image.startX;
+                    if (s.rtl) z.image.startY = -z.image.startY;
                 }
                 // Define if we need image drag
                 var scaledWidth = z.image.width * z.scale;
@@ -4440,10 +4477,10 @@
     ====================================================*/
     Swiper.prototype = {
         isSafari: (function () {
-            var ua = navigator.userAgent.toLowerCase();
+            var ua = window.navigator.userAgent.toLowerCase();
             return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
         })(),
-        isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent),
+        isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent),
         isArray: function (arr) {
             return Object.prototype.toString.apply(arr) === '[object Array]';
         },
@@ -4466,11 +4503,11 @@
         Devices
         ====================================================*/
         device: (function () {
-            var ua = navigator.userAgent;
+            var ua = window.navigator.userAgent;
             var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
             var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
             var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
-            var iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
+            var iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
             return {
                 ios: ipad || iphone || ipod,
                 android: android

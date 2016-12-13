@@ -1,5 +1,10 @@
 # Change Log
 
+## Swiper 3.4.1 - Released on December 13, 2016
+  * Fixed Zoom for RTL
+  * Improved slideToClickedSlide behavior when loop is enabled
+  * Minor fixes
+
 ## Swiper 3.4.0 - Released on October 16, 2016
   * **Custom build** available. Now you can create custom swiper build using the folowing modules: effects, lazy-load, scrollbar, controller, hashnav, history, keyboard, mousewheel, parallax, zoom, a11y. Using cli `gulp custom -zoom,effects,lazy-loading`
   * New **zoom** functionality that enables double tap and pinch to zoom slide's inner image:
