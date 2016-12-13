@@ -892,6 +892,38 @@ s.updateSlidesOffset = function () {
 };
 
 /*=========================
+  Dynamic Slides Per View
+  ===========================*/
+s.currentSlidesPerView = function () {
+    var spv = 1, i, j;
+    if (s.params.centeredSlides) {
+        var size = s.slides[s.activeIndex].swiperSlideSize;
+        var breakLoop;
+        for (i = s.activeIndex + 1; i < s.slides.length; i++) {
+            if (s.slides[i] && !breakLoop) {
+                size += s.slides[i].swiperSlideSize;
+                spv ++;
+                if (size > s.size) breakLoop = true;
+            }
+        }
+        for (j = s.activeIndex - 1; j >= 0; j--) {
+            if (s.slides[j] && !breakLoop) {
+                size += s.slides[j].swiperSlideSize;
+                spv ++;
+                if (size > s.size) breakLoop = true;
+            }
+        }
+    }
+    else {
+        for (i = s.activeIndex + 1; i < s.slides.length; i++) {
+            if (s.slidesGrid[i] - s.slidesGrid[s.activeIndex] < s.size) {
+                spv++;
+            }
+        }
+    }
+    return spv;
+};
+/*=========================
   Slider/slides progress
   ===========================*/
 s.updateSlidesProgress = function (translate) {
@@ -1409,12 +1441,13 @@ s.updateClickedSlide = function (e) {
     if (s.params.slideToClickedSlide && s.clickedIndex !== undefined && s.clickedIndex !== s.activeIndex) {
         var slideToIndex = s.clickedIndex,
             realIndex,
-            duplicatedSlides;
+            duplicatedSlides,
+            slidesPerView = s.params.slidesPerView === 'auto' ? s.currentSlidesPerView() : s.params.slidesPerView;
         if (s.params.loop) {
             if (s.animating) return;
-            realIndex = $(s.clickedSlide).attr('data-swiper-slide-index');
+            realIndex = parseInt($(s.clickedSlide).attr('data-swiper-slide-index'), 10);
             if (s.params.centeredSlides) {
-                if ((slideToIndex < s.loopedSlides - s.params.slidesPerView/2) || (slideToIndex > s.slides.length - s.loopedSlides + s.params.slidesPerView/2)) {
+                if ((slideToIndex < s.loopedSlides - slidesPerView/2) || (slideToIndex > s.slides.length - s.loopedSlides + slidesPerView/2)) {
                     s.fixLoop();
                     slideToIndex = s.wrapper.children('.' + s.params.slideClass + '[data-swiper-slide-index="' + realIndex + '"]:not(.' + s.params.slideDuplicateClass + ')').eq(0).index();
                     setTimeout(function () {
@@ -1426,7 +1459,7 @@ s.updateClickedSlide = function (e) {
                 }
             }
             else {
-                if (slideToIndex > s.slides.length - s.params.slidesPerView) {
+                if (slideToIndex > s.slides.length - slidesPerView) {
                     s.fixLoop();
                     slideToIndex = s.wrapper.children('.' + s.params.slideClass + '[data-swiper-slide-index="' + realIndex + '"]:not(.' + s.params.slideDuplicateClass + ')').eq(0).index();
                     setTimeout(function () {
