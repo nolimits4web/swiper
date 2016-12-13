@@ -1017,7 +1017,7 @@ s.updateActiveIndex = function () {
     s.updateRealIndex();
 };
 s.updateRealIndex = function(){
-    s.realIndex = s.slides.eq(s.activeIndex).attr('data-swiper-slide-index') || s.activeIndex;
+    s.realIndex = parseInt(s.slides.eq(s.activeIndex).attr('data-swiper-slide-index') || s.activeIndex, 10);
 };
 
 /*=========================
