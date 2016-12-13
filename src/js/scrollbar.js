@@ -82,9 +82,9 @@ s.scrollbar = {
     disableDraggable: function () {
         var sb = s.scrollbar;
         var target = s.support.touch ? sb.track : document;
-        $(sb.track).off(s.draggableEvents.start, sb.dragStart);
-        $(target).off(s.draggableEvents.move, sb.dragMove);
-        $(target).off(s.draggableEvents.end, sb.dragEnd);
+        $(sb.track).off(sb.draggableEvents.start, sb.dragStart);
+        $(target).off(sb.draggableEvents.move, sb.dragMove);
+        $(target).off(sb.draggableEvents.end, sb.dragEnd);
     },
     set: function () {
         if (!s.params.scrollbar) return;
