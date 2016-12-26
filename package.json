@@ -35,7 +35,7 @@
   },
   "homepage": "http://www.idangero.us/swiper/",
   "engines": {
-    "node": ">= 6.7.0"
+    "node": ">= 4.7.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
