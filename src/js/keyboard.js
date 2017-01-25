@@ -65,6 +65,7 @@ function handleKeyboard(e) {
         if (kc === 40) s.slideNext();
         if (kc === 38) s.slidePrev();
     }
+    s.emit('onKeyPress', s, kc);
 }
 s.disableKeyboardControl = function () {
     s.params.keyboardControl = false;
