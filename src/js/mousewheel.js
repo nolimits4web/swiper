@@ -135,6 +135,7 @@ s.disableMousewheelControl = function () {
         target = $(s.params.mousewheelEventsTarged);
     }
     target.off(s.mousewheel.event, handleMousewheel);
+    s.params.mousewheelControl = false;
     return true;
 };
 
@@ -145,6 +146,7 @@ s.enableMousewheelControl = function () {
         target = $(s.params.mousewheelEventsTarged);
     }
     target.on(s.mousewheel.event, handleMousewheel);
+    s.params.mousewheelControl = true;
     return true;
 };
 
