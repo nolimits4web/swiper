@@ -64,8 +64,12 @@ s.lazy = {
 
     },
     load: function () {
-        var i;
+        var i, length ,multiRow = false , tSpv;
         var slidesPerView = s.params.slidesPerView;
+        if (s.params.slidesPerColumn && s.params.slidesPerColumn > 1) {
+            slidesPerView = slidesPerView * s.params.slidesPerColumn;
+            multiRow = true;
+        }
         if (slidesPerView === 'auto') {
             slidesPerView = 0;
         }
@@ -77,7 +81,15 @@ s.lazy = {
         }
         else {
             if (slidesPerView > 1) {
-                for (i = s.activeIndex; i < s.activeIndex + slidesPerView ; i++) {
+                tSpv = s.activeIndex;
+                var sliderPerGroup = Math.abs(s.realIndex - s.previousIndex);
+                if (sliderPerGroup > 1 && tSpv > 1) {
+                    tSpv = s.snapIndex * slidesPerView;
+                    length = tSpv + slidesPerView;
+                } else {
+                    length = s.activeIndex + slidesPerView;
+                }
+                for (i = tSpv; i < s.activeIndex + slidesPerView; i++) {
                     if (s.slides[i]) s.lazy.loadImageInSlide(i);
                 }
             }
@@ -92,11 +104,13 @@ s.lazy = {
                 var maxIndex = Math.min(s.activeIndex + spv + Math.max(amount, spv), s.slides.length);
                 var minIndex = Math.max(s.activeIndex - Math.max(spv, amount), 0);
                 // Next Slides
-                for (i = s.activeIndex + slidesPerView; i < maxIndex; i++) {
-                    if (s.slides[i]) s.lazy.loadImageInSlide(i);
+                if(multiRow){
+                    maxIndex = Math.min(spv*(s.snapIndex+2), s.slides.length);
+                    minIndex = Math.max(spv*(s.snapIndex-1), 0);
                 }
-                // Prev Slides
-                for (i = minIndex; i < s.activeIndex ; i++) {
+
+                //prev + next index
+                for (i = minIndex; i < maxIndex; i++) {
                     if (s.slides[i]) s.lazy.loadImageInSlide(i);
                 }
             }

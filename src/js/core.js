@@ -753,7 +753,7 @@ s.updateSlidesSize = function () {
     // Calc slides
     var slideSize;
     var slidesPerColumn = s.params.slidesPerColumn;
-    var slidesPerRow = slidesNumberEvenToRows / slidesPerColumn;
+    var slidesPerRow = s.params.slidesPerView;
     var numFullColumns = slidesPerRow - (s.params.slidesPerColumn * slidesPerRow - s.slides.length);
     for (i = 0; i < s.slides.length; i++) {
         slideSize = 0;
