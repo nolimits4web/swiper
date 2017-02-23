@@ -19,7 +19,9 @@ s.history = {
     },
     setHistoryPopState: function() {
         s.history.paths = s.history.getPathValues();
+        this._historyBack = true;
         s.history.scrollToSlide(s.params.speed, s.history.paths.value, false);
+        delete this._historyBack;
     },
     getPathValues: function() {
         var pathArray = window.location.pathname.slice(1).split('/');
@@ -29,7 +31,7 @@ s.history = {
         return { key: key, value: value };
     },
     setHistory: function (key, index) {
-        if (!s.history.initialized || !s.params.history) return;
+        if (!s.history.initialized || !s.params.history || this._historyBack) return;
         var slide = s.slides.eq(index);
         var value = this.slugify(slide.attr('data-history'));
         if (!window.location.pathname.includes(key)) {
