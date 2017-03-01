@@ -23,6 +23,7 @@ s.lazy = {
                 srcset = _img.attr('data-srcset'),
                 sizes = _img.attr('data-sizes');
             s.loadImage(_img[0], (src || background), srcset, sizes, false, function () {
+                if (typeof s === 'undefined' || s === null || !s) return;
                 if (background) {
                     _img.css('background-image', 'url("' + background + '")');
                     _img.removeAttr('data-background');
