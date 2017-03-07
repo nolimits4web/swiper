@@ -383,7 +383,6 @@ if (s.params.effect === 'cube') {
     s.params.centeredSlides = false;
     s.params.spaceBetween = 0;
     s.params.virtualTranslate = true;
-    s.params.setWrapperSize = false;
 }
 if (s.params.effect === 'fade' || s.params.effect === 'flip') {
     s.params.slidesPerView = 1;
@@ -391,7 +390,6 @@ if (s.params.effect === 'fade' || s.params.effect === 'flip') {
     s.params.slidesPerGroup = 1;
     s.params.watchSlidesProgress = true;
     s.params.spaceBetween = 0;
-    s.params.setWrapperSize = false;
     if (typeof initialVirtualTranslate === 'undefined') {
         s.params.virtualTranslate = true;
     }
