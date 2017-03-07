@@ -221,6 +221,7 @@ var defaults = {
     onAutoplayStop: function (swiper),
     onLazyImageLoad: function (swiper, slide, image)
     onLazyImageReady: function (swiper, slide, image)
+    onKeyPress: function (swiper, keyCode)
     */
 
 };
