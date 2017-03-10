@@ -3,7 +3,7 @@
  ===========================*/
 var swiperDomPlugins = ['jQuery', 'Zepto', 'Dom7'];
 for (var i = 0; i < swiperDomPlugins.length; i++) {
-	if (window[swiperDomPlugins[i]]) {
+	if (isBrowser && window[swiperDomPlugins[i]]) {
 		addLibraryPlugin(window[swiperDomPlugins[i]]);
 	}
 }

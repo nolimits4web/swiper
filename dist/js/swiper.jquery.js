@@ -12,14 +12,16 @@
  * 
  * Released on: December 13, 2016
  */
-(function () {
-    'use strict';
-    var $;
-    /*===========================
-    Swiper
-    ===========================*/
-    var Swiper = function (container, params) {
-        if (!(this instanceof Swiper)) return new Swiper(container, params);
+        var Swiper;
+        (function () {
+            'use strict';
+            var $;
+
+        /*===========================
+        Swiper
+        ===========================*/
+         Swiper = function (container, params) {
+            if (!(this instanceof Swiper)) return new Swiper(container, params);
 
         var defaults = {
             direction: 'horizontal',
@@ -4467,202 +4469,207 @@
         s.init();
         
 
-    
-        // Return swiper instance
-        return s;
-    };
-    
-
-    /*==================================================
-        Prototype
-    ====================================================*/
-    Swiper.prototype = {
-        isSafari: (function () {
-            var ua = window.navigator.userAgent.toLowerCase();
-            return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
-        })(),
-        isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent),
-        isArray: function (arr) {
-            return Object.prototype.toString.apply(arr) === '[object Array]';
-        },
-        /*==================================================
-        Browser
-        ====================================================*/
-        browser: {
-            ie: window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
-            ieTouch: (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1),
-            lteIE9: (function() {
-                // create temporary DIV
-                var div = document.createElement('div');
-                // add content to tmp DIV which is wrapped into the IE HTML conditional statement
-                div.innerHTML = '<!--[if lte IE 9]><i></i><![endif]-->';
-                // return true / false value based on what will browser render
-                return div.getElementsByTagName('i').length === 1;
-            })()
-        },
-        /*==================================================
-        Devices
-        ====================================================*/
-        device: (function () {
-            var ua = window.navigator.userAgent;
-            var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
-            var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
-            var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
-            var iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
-            return {
-                ios: ipad || iphone || ipod,
-                android: android
-            };
-        })(),
-        /*==================================================
-        Feature Detection
-        ====================================================*/
-        support: {
-            touch : (window.Modernizr && Modernizr.touch === true) || (function () {
-                return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
-            })(),
-    
-            transforms3d : (window.Modernizr && Modernizr.csstransforms3d === true) || (function () {
-                var div = document.createElement('div').style;
-                return ('webkitPerspective' in div || 'MozPerspective' in div || 'OPerspective' in div || 'MsPerspective' in div || 'perspective' in div);
-            })(),
-    
-            flexbox: (function () {
-                var div = document.createElement('div').style;
-                var styles = ('alignItems webkitAlignItems webkitBoxAlign msFlexAlign mozBoxAlign webkitFlexDirection msFlexDirection mozBoxDirection mozBoxOrient webkitBoxDirection webkitBoxOrient').split(' ');
-                for (var i = 0; i < styles.length; i++) {
-                    if (styles[i] in div) return true;
-                }
-            })(),
-    
-            observer: (function () {
-                return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
-            })(),
-    
-            passiveListener: (function () {
-                var supportsPassive = false;
-                try {
-                    var opts = Object.defineProperty({}, 'passive', {
-                        get: function() {
-                            supportsPassive = true;
-                        }
-                    });
-                    window.addEventListener('testPassiveListener', null, opts);
-                } catch (e) {}
-                return supportsPassive;
-            })(),
-    
-            gestures: (function () {
-                return 'ongesturestart' in window;
-            })()
-        },
-        /*==================================================
-        Plugins
-        ====================================================*/
-        plugins: {}
-    };
-    
-
-    /*===========================
-     Get Dom libraries
-     ===========================*/
-    var swiperDomPlugins = ['jQuery', 'Zepto', 'Dom7'];
-    for (var i = 0; i < swiperDomPlugins.length; i++) {
-    	if (window[swiperDomPlugins[i]]) {
-    		addLibraryPlugin(window[swiperDomPlugins[i]]);
-    	}
-    }
-    // Required DOM Plugins
-    var domLib;
-    if (typeof Dom7 === 'undefined') {
-    	domLib = window.Dom7 || window.Zepto || window.jQuery;
-    }
-    else {
-    	domLib = Dom7;
-    }
-
-    /*===========================
-    Add .swiper plugin from Dom libraries
-    ===========================*/
-    function addLibraryPlugin(lib) {
-        lib.fn.swiper = function (params) {
-            var firstInstance;
-            lib(this).each(function () {
-                var s = new Swiper(this, params);
-                if (!firstInstance) firstInstance = s;
-            });
-            return firstInstance;
+        
+            // Return swiper instance
+            return s;
         };
-    }
-    
-    if (domLib) {
-        if (!('transitionEnd' in domLib.fn)) {
-            domLib.fn.transitionEnd = function (callback) {
-                var events = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'],
-                    i, j, dom = this;
-                function fireCallBack(e) {
-                    /*jshint validthis:true */
-                    if (e.target !== this) return;
-                    callback.call(this, e);
-                    for (i = 0; i < events.length; i++) {
-                        dom.off(events[i], fireCallBack);
-                    }
-                }
-                if (callback) {
-                    for (i = 0; i < events.length; i++) {
-                        dom.on(events[i], fireCallBack);
-                    }
-                }
-                return this;
-            };
-        }
-        if (!('transform' in domLib.fn)) {
-            domLib.fn.transform = function (transform) {
-                for (var i = 0; i < this.length; i++) {
-                    var elStyle = this[i].style;
-                    elStyle.webkitTransform = elStyle.MsTransform = elStyle.msTransform = elStyle.MozTransform = elStyle.OTransform = elStyle.transform = transform;
-                }
-                return this;
-            };
-        }
-        if (!('transition' in domLib.fn)) {
-            domLib.fn.transition = function (duration) {
-                if (typeof duration !== 'string') {
-                    duration = duration + 'ms';
-                }
-                for (var i = 0; i < this.length; i++) {
-                    var elStyle = this[i].style;
-                    elStyle.webkitTransitionDuration = elStyle.MsTransitionDuration = elStyle.msTransitionDuration = elStyle.MozTransitionDuration = elStyle.OTransitionDuration = elStyle.transitionDuration = duration;
-                }
-                return this;
-            };
-        }
-        if (!('outerWidth' in domLib.fn)) {
-            domLib.fn.outerWidth = function (includeMargins) {
-                if (this.length > 0) {
-                    if (includeMargins)
-                        return this[0].offsetWidth + parseFloat(this.css('margin-right')) + parseFloat(this.css('margin-left'));
-                    else
-                        return this[0].offsetWidth;
-                }
-                else return null;
-            };
-        }
-    }
+        
 
-    window.Swiper = Swiper;
-})();
-/*===========================
-Swiper AMD Export
-===========================*/
-if (typeof(module) !== 'undefined')
-{
-    module.exports = window.Swiper;
-}
-else if (typeof define === 'function' && define.amd) {
-    define([], function () {
-        'use strict';
-        return window.Swiper;
-    });
-}
+        var isBrowser = new Function('try {return this===window;}catch(e){ return false;}')();
+        
+        /*==================================================
+            Prototype
+        ====================================================*/
+        if (isBrowser)
+        Swiper.prototype = {
+            isSafari: (function () {
+                var ua = window.navigator.userAgent.toLowerCase();
+                return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
+            })(),
+            isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent),
+            isArray: function (arr) {
+                return Object.prototype.toString.apply(arr) === '[object Array]';
+            },
+            /*==================================================
+            Browser
+            ====================================================*/
+            browser: {
+                ie: window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
+                ieTouch: (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1),
+                lteIE9: (function() {
+                    // create temporary DIV
+                    var div = document.createElement('div');
+                    // add content to tmp DIV which is wrapped into the IE HTML conditional statement
+                    div.innerHTML = '<!--[if lte IE 9]><i></i><![endif]-->';
+                    // return true / false value based on what will browser render
+                    return div.getElementsByTagName('i').length === 1;
+                })()
+            },
+            /*==================================================
+            Devices
+            ====================================================*/
+            device: (function () {
+                var ua = window.navigator.userAgent;
+                var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
+                var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+                var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
+                var iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
+                return {
+                    ios: ipad || iphone || ipod,
+                    android: android
+                };
+            })(),
+            /*==================================================
+            Feature Detection
+            ====================================================*/
+            support: {
+                touch : (window.Modernizr && Modernizr.touch === true) || (function () {
+                    return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+                })(),
+        
+                transforms3d : (window.Modernizr && Modernizr.csstransforms3d === true) || (function () {
+                    var div = document.createElement('div').style;
+                    return ('webkitPerspective' in div || 'MozPerspective' in div || 'OPerspective' in div || 'MsPerspective' in div || 'perspective' in div);
+                })(),
+        
+                flexbox: (function () {
+                    var div = document.createElement('div').style;
+                    var styles = ('alignItems webkitAlignItems webkitBoxAlign msFlexAlign mozBoxAlign webkitFlexDirection msFlexDirection mozBoxDirection mozBoxOrient webkitBoxDirection webkitBoxOrient').split(' ');
+                    for (var i = 0; i < styles.length; i++) {
+                        if (styles[i] in div) return true;
+                    }
+                })(),
+        
+                observer: (function () {
+                    return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
+                })(),
+        
+                passiveListener: (function () {
+                    var supportsPassive = false;
+                    try {
+                        var opts = Object.defineProperty({}, 'passive', {
+                            get: function() {
+                                supportsPassive = true;
+                            }
+                        });
+                        window.addEventListener('testPassiveListener', null, opts);
+                    } catch (e) {}
+                    return supportsPassive;
+                })(),
+        
+                gestures: (function () {
+                    return 'ongesturestart' in window;
+                })()
+            },
+            /*==================================================
+            Plugins
+            ====================================================*/
+            plugins: {}
+        };
+        
+
+        /*===========================
+         Get Dom libraries
+         ===========================*/
+        var swiperDomPlugins = ['jQuery', 'Zepto', 'Dom7'];
+        for (var i = 0; i < swiperDomPlugins.length; i++) {
+        	if (isBrowser && window[swiperDomPlugins[i]]) {
+        		addLibraryPlugin(window[swiperDomPlugins[i]]);
+        	}
+        }
+        // Required DOM Plugins
+        var domLib;
+        if (typeof Dom7 === 'undefined') {
+        	domLib = window.Dom7 || window.Zepto || window.jQuery;
+        }
+        else {
+        	domLib = Dom7;
+        }
+
+        /*===========================
+        Add .swiper plugin from Dom libraries
+        ===========================*/
+        function addLibraryPlugin(lib) {
+            lib.fn.swiper = function (params) {
+                var firstInstance;
+                lib(this).each(function () {
+                    var s = new Swiper(this, params);
+                    if (!firstInstance) firstInstance = s;
+                });
+                return firstInstance;
+            };
+        }
+        
+        if (domLib) {
+            if (!('transitionEnd' in domLib.fn)) {
+                domLib.fn.transitionEnd = function (callback) {
+                    var events = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'],
+                        i, j, dom = this;
+                    function fireCallBack(e) {
+                        /*jshint validthis:true */
+                        if (e.target !== this) return;
+                        callback.call(this, e);
+                        for (i = 0; i < events.length; i++) {
+                            dom.off(events[i], fireCallBack);
+                        }
+                    }
+                    if (callback) {
+                        for (i = 0; i < events.length; i++) {
+                            dom.on(events[i], fireCallBack);
+                        }
+                    }
+                    return this;
+                };
+            }
+            if (!('transform' in domLib.fn)) {
+                domLib.fn.transform = function (transform) {
+                    for (var i = 0; i < this.length; i++) {
+                        var elStyle = this[i].style;
+                        elStyle.webkitTransform = elStyle.MsTransform = elStyle.msTransform = elStyle.MozTransform = elStyle.OTransform = elStyle.transform = transform;
+                    }
+                    return this;
+                };
+            }
+            if (!('transition' in domLib.fn)) {
+                domLib.fn.transition = function (duration) {
+                    if (typeof duration !== 'string') {
+                        duration = duration + 'ms';
+                    }
+                    for (var i = 0; i < this.length; i++) {
+                        var elStyle = this[i].style;
+                        elStyle.webkitTransitionDuration = elStyle.MsTransitionDuration = elStyle.msTransitionDuration = elStyle.MozTransitionDuration = elStyle.OTransitionDuration = elStyle.transitionDuration = duration;
+                    }
+                    return this;
+                };
+            }
+            if (!('outerWidth' in domLib.fn)) {
+                domLib.fn.outerWidth = function (includeMargins) {
+                    if (this.length > 0) {
+                        if (includeMargins)
+                            return this[0].offsetWidth + parseFloat(this.css('margin-right')) + parseFloat(this.css('margin-left'));
+                        else
+                            return this[0].offsetWidth;
+                    }
+                    else return null;
+                };
+            }
+        }
+
+           // this.Swiper = Swiper;
+        })();
+
+        /*===========================
+        Swiper AMD Export
+        ===========================*/
+        if (typeof(module) !== 'undefined')
+        {
+            module.exports = Swiper;
+        }
+        else if (typeof define === 'function' && define.amd) {
+            define([], function () {
+                'use strict';
+                return Swiper;
+            });
+        }
+
 //# sourceMappingURL=maps/swiper.jquery.js.map

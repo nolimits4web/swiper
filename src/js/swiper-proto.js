@@ -1,6 +1,9 @@
+var isBrowser = new Function('try {return this===window;}catch(e){ return false;}')();
+
 /*==================================================
     Prototype
 ====================================================*/
+if (isBrowser)
 Swiper.prototype = {
     isSafari: (function () {
         var ua = window.navigator.userAgent.toLowerCase();
