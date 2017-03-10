@@ -5,18 +5,6 @@ s.mousewheel = {
     event: false,
     lastScrollTime: (new window.Date()).getTime()
 };
-if (s.params.mousewheelControl) {
-    /**
-     * The best combination if you prefer spinX + spinY normalization.  It favors
-     * the older DOMMouseScroll for Firefox, as FF does not include wheelDelta with
-     * 'wheel' event, making spin speed determination impossible.
-     */
-    s.mousewheel.event = (navigator.userAgent.indexOf('firefox') > -1) ?
-        'DOMMouseScroll' :
-        isEventSupported() ?
-            'wheel' : 'mousewheel';
-}
-
 function isEventSupported() {
     var eventName = 'onwheel';
     var isSupported = eventName in document;
@@ -39,117 +27,6 @@ function isEventSupported() {
 
     return isSupported;
 }
-
-function handleMousewheel(e) {
-    if (e.originalEvent) e = e.originalEvent; //jquery fix
-    var delta = 0;
-    var rtlFactor = s.rtl ? -1 : 1;
-
-    var data = normalizeWheel( e );
-
-    if (s.params.mousewheelForceToAxis) {
-        if (s.isHorizontal()) {
-            if (Math.abs(data.pixelX) > Math.abs(data.pixelY)) delta = data.pixelX * rtlFactor;
-            else return;
-        }
-        else {
-            if (Math.abs(data.pixelY) > Math.abs(data.pixelX)) delta = data.pixelY;
-            else return;
-        }
-    }
-    else {
-        delta = Math.abs(data.pixelX) > Math.abs(data.pixelY) ? - data.pixelX * rtlFactor : - data.pixelY;
-    }
-
-    if (delta === 0) return;
-
-    if (s.params.mousewheelInvert) delta = -delta;
-
-    if (!s.params.freeMode) {
-        if ((new window.Date()).getTime() - s.mousewheel.lastScrollTime > 60) {
-            if (delta < 0) {
-                if ((!s.isEnd || s.params.loop) && !s.animating) {
-                    s.slideNext();
-                    s.emit('onScroll', s, e);
-                }
-                else if (s.params.mousewheelReleaseOnEdges) return true;
-            }
-            else {
-                if ((!s.isBeginning || s.params.loop) && !s.animating) {
-                    s.slidePrev();
-                    s.emit('onScroll', s, e);
-                }
-                else if (s.params.mousewheelReleaseOnEdges) return true;
-            }
-        }
-        s.mousewheel.lastScrollTime = (new window.Date()).getTime();
-
-    }
-    else {
-        //Freemode or scrollContainer:
-        var position = s.getWrapperTranslate() + delta * s.params.mousewheelSensitivity;
-        var wasBeginning = s.isBeginning,
-            wasEnd = s.isEnd;
-
-        if (position >= s.minTranslate()) position = s.minTranslate();
-        if (position <= s.maxTranslate()) position = s.maxTranslate();
-
-        s.setWrapperTransition(0);
-        s.setWrapperTranslate(position);
-        s.updateProgress();
-        s.updateActiveIndex();
-
-        if (!wasBeginning && s.isBeginning || !wasEnd && s.isEnd) {
-            s.updateClasses();
-        }
-
-        if (s.params.freeModeSticky) {
-            clearTimeout(s.mousewheel.timeout);
-            s.mousewheel.timeout = setTimeout(function () {
-                s.slideReset();
-            }, 300);
-        }
-        else {
-            if (s.params.lazyLoading && s.lazy) {
-                s.lazy.load();
-            }
-        }
-        // Emit event
-        s.emit('onScroll', s, e);
-
-        // Stop autoplay
-        if (s.params.autoplay && s.params.autoplayDisableOnInteraction) s.stopAutoplay();
-
-        // Return page scroll on edge positions
-        if (position === 0 || position === s.maxTranslate()) return;
-    }
-
-    if (e.preventDefault) e.preventDefault();
-    else e.returnValue = false;
-    return false;
-}
-s.disableMousewheelControl = function () {
-    if (!s.mousewheel.event) return false;
-    var target = s.container;
-    if (s.params.mousewheelEventsTarged !== 'container') {
-        target = $(s.params.mousewheelEventsTarged);
-    }
-    target.off(s.mousewheel.event, handleMousewheel);
-    s.params.mousewheelControl = false;
-    return true;
-};
-
-s.enableMousewheelControl = function () {
-    if (!s.mousewheel.event) return false;
-    var target = s.container;
-    if (s.params.mousewheelEventsTarged !== 'container') {
-        target = $(s.params.mousewheelEventsTarged);
-    }
-    target.on(s.mousewheel.event, handleMousewheel);
-    s.params.mousewheelControl = true;
-    return true;
-};
-
 /**
  * Mouse wheel (and 2-finger trackpad) support on the web sucks.  It is
  * complicated, thus this doc is long and (hopefully) detailed enough to answer
@@ -314,3 +191,123 @@ function normalizeWheel( /*object*/ event ) /*object*/ {
         pixelY: pY
     };
 }
+if (s.params.mousewheelControl) {
+    /**
+     * The best combination if you prefer spinX + spinY normalization.  It favors
+     * the older DOMMouseScroll for Firefox, as FF does not include wheelDelta with
+     * 'wheel' event, making spin speed determination impossible.
+     */
+    s.mousewheel.event = (navigator.userAgent.indexOf('firefox') > -1) ?
+        'DOMMouseScroll' :
+        isEventSupported() ?
+            'wheel' : 'mousewheel';
+}
+function handleMousewheel(e) {
+    if (e.originalEvent) e = e.originalEvent; //jquery fix
+    var delta = 0;
+    var rtlFactor = s.rtl ? -1 : 1;
+
+    var data = normalizeWheel( e );
+
+    if (s.params.mousewheelForceToAxis) {
+        if (s.isHorizontal()) {
+            if (Math.abs(data.pixelX) > Math.abs(data.pixelY)) delta = data.pixelX * rtlFactor;
+            else return;
+        }
+        else {
+            if (Math.abs(data.pixelY) > Math.abs(data.pixelX)) delta = data.pixelY;
+            else return;
+        }
+    }
+    else {
+        delta = Math.abs(data.pixelX) > Math.abs(data.pixelY) ? - data.pixelX * rtlFactor : - data.pixelY;
+    }
+
+    if (delta === 0) return;
+
+    if (s.params.mousewheelInvert) delta = -delta;
+
+    if (!s.params.freeMode) {
+        if ((new window.Date()).getTime() - s.mousewheel.lastScrollTime > 60) {
+            if (delta < 0) {
+                if ((!s.isEnd || s.params.loop) && !s.animating) {
+                    s.slideNext();
+                    s.emit('onScroll', s, e);
+                }
+                else if (s.params.mousewheelReleaseOnEdges) return true;
+            }
+            else {
+                if ((!s.isBeginning || s.params.loop) && !s.animating) {
+                    s.slidePrev();
+                    s.emit('onScroll', s, e);
+                }
+                else if (s.params.mousewheelReleaseOnEdges) return true;
+            }
+        }
+        s.mousewheel.lastScrollTime = (new window.Date()).getTime();
+
+    }
+    else {
+        //Freemode or scrollContainer:
+        var position = s.getWrapperTranslate() + delta * s.params.mousewheelSensitivity;
+        var wasBeginning = s.isBeginning,
+            wasEnd = s.isEnd;
+
+        if (position >= s.minTranslate()) position = s.minTranslate();
+        if (position <= s.maxTranslate()) position = s.maxTranslate();
+
+        s.setWrapperTransition(0);
+        s.setWrapperTranslate(position);
+        s.updateProgress();
+        s.updateActiveIndex();
+
+        if (!wasBeginning && s.isBeginning || !wasEnd && s.isEnd) {
+            s.updateClasses();
+        }
+
+        if (s.params.freeModeSticky) {
+            clearTimeout(s.mousewheel.timeout);
+            s.mousewheel.timeout = setTimeout(function () {
+                s.slideReset();
+            }, 300);
+        }
+        else {
+            if (s.params.lazyLoading && s.lazy) {
+                s.lazy.load();
+            }
+        }
+        // Emit event
+        s.emit('onScroll', s, e);
+
+        // Stop autoplay
+        if (s.params.autoplay && s.params.autoplayDisableOnInteraction) s.stopAutoplay();
+
+        // Return page scroll on edge positions
+        if (position === 0 || position === s.maxTranslate()) return;
+    }
+
+    if (e.preventDefault) e.preventDefault();
+    else e.returnValue = false;
+    return false;
+}
+s.disableMousewheelControl = function () {
+    if (!s.mousewheel.event) return false;
+    var target = s.container;
+    if (s.params.mousewheelEventsTarged !== 'container') {
+        target = $(s.params.mousewheelEventsTarged);
+    }
+    target.off(s.mousewheel.event, handleMousewheel);
+    s.params.mousewheelControl = false;
+    return true;
+};
+
+s.enableMousewheelControl = function () {
+    if (!s.mousewheel.event) return false;
+    var target = s.container;
+    if (s.params.mousewheelEventsTarged !== 'container') {
+        target = $(s.params.mousewheelEventsTarged);
+    }
+    target.on(s.mousewheel.event, handleMousewheel);
+    s.params.mousewheelControl = true;
+    return true;
+};

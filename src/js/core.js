@@ -817,7 +817,7 @@ s.updateSlidesSize = function () {
 
         if (s.params.centeredSlides) {
             slidePosition = slidePosition + slideSize / 2 + prevSlideSize / 2 + spaceBetween;
-            if(prevSlideSize == 0 && i !== 0) slidePosition = slidePosition - s.size / 2 - spaceBetween;
+            if(prevSlideSize === 0 && i !== 0) slidePosition = slidePosition - s.size / 2 - spaceBetween;
             if (i === 0) slidePosition = slidePosition - s.size / 2 - spaceBetween;
             if (Math.abs(slidePosition) < 1 / 1000) slidePosition = 0;
             if ((index) % s.params.slidesPerGroup === 0) s.snapGrid.push(slidePosition);
@@ -1207,6 +1207,7 @@ s.update = function (updateTranslate) {
     if (s.params.scrollbar && s.scrollbar) {
         s.scrollbar.set();
     }
+    var newTranslate;
     function forceSetTranslate() {
         var translate = s.rtl ? -s.translate : s.translate;
         newTranslate = Math.min(Math.max(s.translate, s.maxTranslate()), s.minTranslate());
@@ -1215,7 +1216,7 @@ s.update = function (updateTranslate) {
         s.updateClasses();
     }
     if (updateTranslate) {
-        var translated, newTranslate;
+        var translated;
         if (s.controller && s.controller.spline) {
             s.controller.spline = undefined;
         }
