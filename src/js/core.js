@@ -1621,7 +1621,7 @@ s.onTouchMove = function (e) {
     if (isScrolling) {
         s.emit('onTouchMoveOpposite', s, e);
     }
-    if (typeof startMoving === 'undefined' && s.browser.ieTouch) {
+    if (typeof startMoving === 'undefined') {
         if (s.touches.currentX !== s.touches.startX || s.touches.currentY !== s.touches.startY) {
             startMoving = true;
         }
@@ -1631,7 +1631,7 @@ s.onTouchMove = function (e) {
         isTouched = false;
         return;
     }
-    if (!startMoving && s.browser.ieTouch) {
+    if (!startMoving) {
         return;
     }
     s.allowClick = false;
