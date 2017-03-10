@@ -1,5 +1,12 @@
 # Change Log
 
+## Swiper 3.4.2 - Released on March 10, 2017
+  * Fixed an issue with lazy loading callbacks when swiper is destroyed
+  * New `onAfterResize` and `onBeforeResize` callbacks
+  * New `onKeyPress` callback when keyboard control is used
+  * Fixed Chrome+Windows issue with not clickable links that have "title" attribute
+  * Minor fixes
+
 ## Swiper 3.4.1 - Released on December 13, 2016
   * Fixed Zoom for RTL
   * Improved slideToClickedSlide behavior when loop is enabled
@@ -175,7 +182,7 @@
   * Better support for "Scroll Container". So now Swiper can be used as a scroll container with one single "scrollable"/"swipeable" slide
   * Added lazy loading for background images with `data-background` attribute on required elements
   * New "Sticky Free Mode" (with `freeModeSticky` parameter) which will snap to slides positions in free mode
-  * Fixed issues with lazy loading  
+  * Fixed issues with lazy loading
   * Fixed slide removing when loop mode is enabled
   * Fixed issues with Autoplay and Fade effect
   * Minor fixes
@@ -208,7 +215,7 @@
   * Fixed issues with Coverflow support on IE 10+
   * Hashnav now will update document hash after transition to prevent browsers UI lags, not in the beginning like before
   * Super basic support for IE 9 with swiper.jquery version. No animation and transitions, but basic stuff like switching slides/pagination/scrollbars works
-  
+
 
 ## Swiper 3.0.4 - Released on March 6, 2015
   * New Images Lazy Load component
