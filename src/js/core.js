@@ -1681,10 +1681,12 @@ s.onTouchMove = function (e) {
     if ((diff > 0 && currentTranslate > s.minTranslate())) {
         disableParentSwiper = false;
         if (s.params.resistance) currentTranslate = s.minTranslate() - 1 + Math.pow(-s.minTranslate() + startTranslate + diff, s.params.resistanceRatio);
+        else currentTranslate = 0;
     }
     else if (diff < 0 && currentTranslate < s.maxTranslate()) {
         disableParentSwiper = false;
         if (s.params.resistance) currentTranslate = s.maxTranslate() + 1 - Math.pow(s.maxTranslate() - startTranslate - diff, s.params.resistanceRatio);
+        else currentTranslate = 0;
     }
 
     if (disableParentSwiper) {
