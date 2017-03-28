@@ -149,7 +149,13 @@ s.destroy = function (deleteInstance, cleanupStyles) {
     // Destroy callback
     s.emit('onDestroy');
     // Delete instance
-    if (deleteInstance !== false) s = null;
+    if (deleteInstance !== false){
+        s.container[0].swiper = null;
+        s.container.data('swiper', null);
+        s.container = null;
+        s.wrapper = null;
+        s = null;
+    }
 };
 
 s.init();
