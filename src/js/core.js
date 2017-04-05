@@ -1346,7 +1346,8 @@ s.initEvents = function (detach) {
             document[action]('mouseup', s.onTouchEnd, false);
         }
     }
-    window[action]('resize', s.onResize);
+
+    new ResizeObservers(s.onResize).observe(s.container[0]);
 
     // Next, Prev, Index
     if (s.params.nextButton && s.nextButton && s.nextButton.length > 0) {
