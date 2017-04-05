@@ -10,6 +10,7 @@
  *
  * These implementations are not meant to be used outside of the ResizeObserver
  * modules as they cover only a limited range of use cases.
+ * https://github.com/que-etc/resize-observer-polyfill
  */
 /* eslint-disable require-jsdoc, valid-jsdoc */
 var MapShim = (function () {
