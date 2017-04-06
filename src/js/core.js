@@ -1347,7 +1347,7 @@ s.initEvents = function (detach) {
         }
     }
 
-    new ResizeObservers(s.onResize).observe(s.container[0]);
+    new ResizeObserver(s.onResize).observe(s.container[0]);
 
     // Next, Prev, Index
     if (s.params.nextButton && s.nextButton && s.nextButton.length > 0) {
