@@ -153,7 +153,7 @@ s.scrollbar = {
         }
         if (s.isHorizontal()) {
             if (s.support.transforms3d) {
-                sb.drag.transform('translate3d(' + (newPos) + 'px, 0, 0)');
+                sb.drag.transform('translate(' + (newPos) + 'px, 0)');
             }
             else {
                 sb.drag.transform('translateX(' + (newPos) + 'px)');
@@ -162,7 +162,7 @@ s.scrollbar = {
         }
         else {
             if (s.support.transforms3d) {
-                sb.drag.transform('translate3d(0px, ' + (newPos) + 'px, 0)');
+                sb.drag.transform('translate(0px, ' + (newPos) + 'px)');
             }
             else {
                 sb.drag.transform('translateY(' + (newPos) + 'px)');
