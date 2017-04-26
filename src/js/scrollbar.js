@@ -152,21 +152,11 @@ s.scrollbar = {
             }
         }
         if (s.isHorizontal()) {
-            if (s.support.transforms3d) {
-                sb.drag.transform('translate(' + (newPos) + 'px, 0)');
-            }
-            else {
-                sb.drag.transform('translateX(' + (newPos) + 'px)');
-            }
+            sb.drag.transform('translateX(' + (newPos) + 'px)');
             sb.drag[0].style.width = newSize + 'px';
         }
         else {
-            if (s.support.transforms3d) {
-                sb.drag.transform('translate(0px, ' + (newPos) + 'px)');
-            }
-            else {
-                sb.drag.transform('translateY(' + (newPos) + 'px)');
-            }
+            sb.drag.transform('translateY(' + (newPos) + 'px)');
             sb.drag[0].style.height = newSize + 'px';
         }
         if (s.params.scrollbarHide) {
