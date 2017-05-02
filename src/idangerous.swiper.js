@@ -1813,7 +1813,7 @@ var Swiper = function (selector, params) {
         if (!internal && params.loop) _this.fixLoop();
         if (!internal && params.autoplay) _this.stopAutoplay(true);
         _this.callPlugins('onSwipeNext');
-        var currentPosition = _this.getWrapperTranslate().toFixed(2);
+        var currentPosition = Math.floor(_this.getWrapperTranslate().toFixed(2));
         var newPosition = currentPosition;
         if (params.slidesPerView === 'auto') {
             for (var i = 0; i < _this.snapGrid.length; i++) {
