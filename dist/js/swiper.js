@@ -320,12 +320,13 @@
                 }
             }
             points.sort(function (a, b) {
-                return parseInt(a, 10) > parseInt(b, 10);
+                return parseInt(a, 10) < parseInt(b, 10);
             });
             for (var i = 0; i < points.length; i++) {
                 point = points[i];
-                if (point >= window.innerWidth && !breakpoint) {
+                if (point <= window.innerWidth) {
                     breakpoint = point;
+                    break;
                 }
             }
             return breakpoint || 'max';
