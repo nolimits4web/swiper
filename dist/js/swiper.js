@@ -5286,9 +5286,9 @@
     /*===========================
      Get Dom libraries
      ===========================*/
+    var swiperDomPlugins = ['jQuery', 'Zepto', 'Dom7'];
     var domLib;
-    window.onload = function() {
-        var swiperDomPlugins = ['jQuery', 'Zepto', 'Dom7'];
+    if (typeof window !== 'undefined') {
         for (var i = 0; i < swiperDomPlugins.length; i++) {
             if (window[swiperDomPlugins[i]]) {
                 addLibraryPlugin(window[swiperDomPlugins[i]]);
@@ -5301,8 +5301,7 @@
         else {
             domLib = Dom7;
         }
-    };
-    
+    }
     
 
     /*===========================
