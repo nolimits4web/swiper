@@ -4518,7 +4518,11 @@
                    return window.navigator.pointerEnabled || window.navigator.msPointerEnabled;
                 }
             })(),
-            ieTouch: (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1),
+            ieTouch: (function () {
+                if (typeof window !== 'undefined') {
+                    return (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1);
+                }
+            })(),
             lteIE9: (function () {
                 if (typeof document !== 'undefined') {
                     // create temporary DIV
