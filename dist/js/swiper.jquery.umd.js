@@ -4568,16 +4568,22 @@
         Feature Detection
         ====================================================*/
         support: {
-            touch: (window.Modernizr && Modernizr.touch === true) || (function () {
+            touch: (function () {
                 if (typeof window !== 'undefined') {
-                    return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+                    return (window.Modernizr && Modernizr.touch === true) || (function () {
+                        return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+                    })();
                 }
             })(),
     
-            transforms3d: (window.Modernizr && Modernizr.csstransforms3d === true) || (function () {
-                if (typeof document !== 'undefined') {
-                    var div = document.createElement('div').style;
-                    return ('webkitPerspective' in div || 'MozPerspective' in div || 'OPerspective' in div || 'MsPerspective' in div || 'perspective' in div);
+            transforms3d: (function () {
+                if (typeof window !== 'undefined') {
+                    return (window.Modernizr && Modernizr.csstransforms3d === true) || (function () {
+                        if (typeof document !== 'undefined') {
+                            var div = document.createElement('div').style;
+                            return ('webkitPerspective' in div || 'MozPerspective' in div || 'OPerspective' in div || 'MsPerspective' in div || 'perspective' in div);
+                        }
+                    })();
                 }
             })(),
     
