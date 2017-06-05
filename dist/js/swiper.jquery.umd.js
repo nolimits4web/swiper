@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: March 10, 2017
+ * Released on: June 5, 2017
  */
 (function (root, factory) {
 	'use strict';
@@ -1286,6 +1286,8 @@
           Resize Handler
           ===========================*/
         s.onResize = function (forceUpdatePagination) {
+            if (s.container[0] && s.container[0].offsetWidth === 0) return;
+        
             if (s.params.onBeforeResize) s.params.onBeforeResize(s);
             //Breakpoints
             if (s.params.breakpoints) {
