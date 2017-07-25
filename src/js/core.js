@@ -153,7 +153,6 @@ var defaults = {
     // Passive Listeners
     passiveListeners: true,
     // NS
-    containerModifierClass: 'swiper-container-', // NEW
     slideClass: 'swiper-slide',
     slideActiveClass: 'swiper-slide-active',
     slideDuplicateActiveClass: 'swiper-slide-duplicate-active',
@@ -171,8 +170,6 @@ var defaults = {
     paginationTotalClass: 'swiper-pagination-total',
     paginationHiddenClass: 'swiper-pagination-hidden',
     paginationProgressbarClass: 'swiper-pagination-progressbar',
-    paginationClickableClass: 'swiper-pagination-clickable', // NEW
-    paginationModifierClass: 'swiper-pagination-', // NEW
     lazyLoadingClass: 'swiper-lazy',
     lazyStatusLoadingClass: 'swiper-lazy-loading',
     lazyStatusLoadedClass: 'swiper-lazy-loaded',
@@ -180,6 +177,27 @@ var defaults = {
     notificationClass: 'swiper-notification',
     preloaderClass: 'preloader',
     zoomContainerClass: 'swiper-zoom-container',
+
+    // css-modules support classnames map
+    containerModifierClass_freeMode: 'swiper-container-free-mode',
+    containerModifierClass_noFlexbox: 'swiper-container-no-flexbox',
+    containerModifierClass_autoHeight: 'swiper-container-autoheight',
+    containerModifierClass_multiRow: 'swiper-container-multirow',
+    containerModifierClass_android: 'swiper-container-android',
+    containerModifierClass_horizontal: 'swiper-container-horizontal',
+    containerModifierClass_vertical: 'swiper-container-vertical',
+    containerModifierClass_rtl: 'swiper-container-rtl',
+    containerModifierClass_3D: 'swiper-container-3d',
+    containerModifierClass_slide: 'swiper-container-slide',
+    containerModifierClass_fade: 'swiper-container-fade',
+    containerModifierClass_cube: 'swiper-container-cube',
+    containerModifierClass_coverflow: 'swiper-container-coverflow',
+    containerModifierClass_flip: 'swiper-container-flip',
+    paginationModifierClass_clickable: 'swiper-pagination-clickable',
+    paginationModifierClass_bullets: 'swiper-pagination-bullets',
+    paginationModifierClass_fraction: 'swiper-pagination-fraction',
+    paginationModifierClass_progress: 'swiper-pagination-progress',
+    paginationModifierClass_custom: 'swiper-pagination-custom',
 
     // Observer
     observer: false,
@@ -343,17 +361,17 @@ if (s.container.length > 1) {
 s.container[0].swiper = s;
 s.container.data('swiper', s);
 
-s.classNames.push(s.params.containerModifierClass + s.params.direction);
+s.classNames.push(s.params['containerModifierClass_' + s.params.direction]);
 
 if (s.params.freeMode) {
-    s.classNames.push(s.params.containerModifierClass + 'free-mode');
+    s.classNames.push(s.params.containerModifierClass_freeMode);
 }
 if (!s.support.flexbox) {
-    s.classNames.push(s.params.containerModifierClass + 'no-flexbox');
+    s.classNames.push(s.params.containerModifierClass_noFlexbox);
     s.params.slidesPerColumn = 1;
 }
 if (s.params.autoHeight) {
-    s.classNames.push(s.params.containerModifierClass + 'autoheight');
+    s.classNames.push(s.params.containerModifierClass_autoHeight);
 }
 // Enable slides progress when required
 if (s.params.parallax || s.params.watchSlidesVisibility) {
@@ -367,14 +385,14 @@ if (s.params.touchReleaseOnEdges) {
 if (['cube', 'coverflow', 'flip'].indexOf(s.params.effect) >= 0) {
     if (s.support.transforms3d) {
         s.params.watchSlidesProgress = true;
-        s.classNames.push(s.params.containerModifierClass + '3d');
+        s.classNames.push(s.params.containerModifierClass_3D);
     }
     else {
         s.params.effect = 'slide';
     }
 }
 if (s.params.effect !== 'slide') {
-    s.classNames.push(s.params.containerModifierClass + s.params.effect);
+    s.classNames.push(s.params['containerModifierClass_' + s.params.effect]);
 }
 if (s.params.effect === 'cube') {
     s.params.resistanceRatio = 0;
@@ -412,12 +430,12 @@ if (s.params.pagination) {
     }
 
     if (s.params.paginationType === 'bullets' && s.params.paginationClickable) {
-        s.paginationContainer.addClass(s.params.paginationModifierClass + 'clickable');
+        s.paginationContainer.addClass(s.params.paginationModifierClass_clickable);
     }
     else {
         s.params.paginationClickable = false;
     }
-    s.paginationContainer.addClass(s.params.paginationModifierClass + s.params.paginationType);
+    s.paginationContainer.addClass(s.params['paginationModifierClass_' + s.params.paginationType]);
 }
 // Next/Prev Buttons
 if (s.params.nextButton || s.params.prevButton) {
@@ -444,7 +462,7 @@ s.isHorizontal = function () {
 // RTL
 s.rtl = s.isHorizontal() && (s.container[0].dir.toLowerCase() === 'rtl' || s.container.css('direction') === 'rtl');
 if (s.rtl) {
-    s.classNames.push(s.params.containerModifierClass + 'rtl');
+    s.classNames.push(s.params.containerModifierClass_rtl);
 }
 
 // Wrong RTL support
@@ -454,12 +472,12 @@ if (s.rtl) {
 
 // Columns
 if (s.params.slidesPerColumn > 1) {
-    s.classNames.push(s.params.containerModifierClass + 'multirow');
+    s.classNames.push(s.params.containerModifierClass_multiRow);
 }
 
 // Check for Android
 if (s.device.android) {
-    s.classNames.push(s.params.containerModifierClass + 'android');
+    s.classNames.push(s.params.containerModifierClass_android);
 }
 
 // Add classes
