@@ -112,6 +112,8 @@ var defaults = {
     paginationFractionRender: null,
     paginationCustomRender: null,
     paginationType: 'bullets', // 'bullets' or 'progress' or 'fraction' or 'custom'
+    fitSlideGroupWithBlank: false,
+    blankClass: 'swiper-invisible-blank-slide',
     // Resistance
     resistance: true,
     resistanceRatio: 0.85,
@@ -2340,6 +2342,15 @@ s.createLoop = function () {
     s.wrapper.children('.' + s.params.slideClass + '.' + s.params.slideDuplicateClass).remove();
 
     var slides = s.wrapper.children('.' + s.params.slideClass);
+
+    if (s.params.fitSlideGroupWithBlank) {
+        var blankSlidesNum = s.params.slidesPerGroup - slides.length % s.params.slidesPerGroup;
+        for (var i = 0; i < blankSlidesNum; i++) {
+            var blankNode = $(document.createElement('div')).addClass(s.params.slideClass + ' ' + s.params.blankClass);
+            s.wrapper.append(blankNode);
+        }
+        slides = s.wrapper.children();
+    }
 
     if(s.params.slidesPerView === 'auto' && !s.params.loopedSlides) s.params.loopedSlides = slides.length;
 
