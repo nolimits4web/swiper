@@ -2008,6 +2008,10 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     s.snapIndex = Math.floor(slideIndex / s.params.slidesPerGroup);
     if (s.snapIndex >= s.snapGrid.length) s.snapIndex = s.snapGrid.length - 1;
 
+    if ((s.activeIndex || s.initialSlide || 0) === (s.previousIndex || 0) && runCallbacks) {
+        s.emit('beforeSlideChangeStart', s);
+    }
+
     var translate = - s.snapGrid[s.snapIndex];
     // Stop autoplay
     if (s.params.autoplay && s.autoplaying) {
