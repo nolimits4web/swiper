@@ -54,7 +54,7 @@ Distributable version will available in `dist/` folder.
 
 # Contributing
 
-All changes should be committed to `src/` files. Swiper uses LESS for CSS compliations, and concatenated JS files (look at gulpfile.js for concat files order)
+All changes should be committed to `src/` files. Swiper uses LESS for CSS compilations, and concatenated JS files (look at gulpfile.js for concat files order)
 
 Swiper 2.x.x
 ==========
