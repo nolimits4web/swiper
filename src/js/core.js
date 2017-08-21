@@ -412,7 +412,7 @@ if (s.params.pagination) {
     }
 
     if (s.params.paginationType === 'bullets' && s.params.paginationClickable) {
-        s.paginationContainer.addClass(s.params.paginationModifierClass + 'clickable');
+        s.paginationContainer.addClass(s.params.paginationClickableClass);
     }
     else {
         s.params.paginationClickable = false;
