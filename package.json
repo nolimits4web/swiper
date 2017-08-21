@@ -1,9 +1,17 @@
 {
   "name": "swiper",
-  "version": "3.4.2",
+  "version": "4.0.0-beta.1",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/js/swiper.js",
-  "style": "dist/css/swiper.css",
+  "jsnext:main": "dist/js/swiper.module.js",
+  "module": "dist/js/swiper.module.js",
+  "scripts": {
+    "build": "NODE_ENV=development gulp build",
+    "dist": "NODE_ENV=production gulp build",
+    "dev": "NODE_ENV=development gulp build && NODE_ENV=development gulp ks && gulp server",
+    "prod": "NODE_ENV=production gulp ks && gulp server",
+    "test": "npm run build"
+  },
   "files": [
     "dist",
     "src",
@@ -38,22 +46,28 @@
     "node": ">= 4.7.0"
   },
   "devDependencies": {
+    "eslint": "^4.5.0",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-plugin-import": "^2.7.0",
     "gulp": "^3.9.1",
-    "gulp-clean-css": "^2.4.0",
-    "gulp-concat": "^2.6.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-clean-css": "^3.7.0",
     "gulp-connect": "^5.0.0",
-    "gulp-header": "^1.8.8",
-    "gulp-jshint": "^2.0.4",
-    "gulp-less": "^3.3.0",
+    "gulp-header": "^1.8.9",
+    "gulp-less": "^3.3.2",
+    "gulp-modify-file": "^0.1.0",
     "gulp-open": "^2.0.0",
     "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^2.4.1",
-    "gulp-tap": "^0.1.3",
-    "gulp-uglify": "^2.1.0",
-    "jshint": "^2.9.4",
-    "jshint-stylish": "^2.2.1"
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-uglify": "^3.0.0",
+    "rollup-plugin-buble": "^0.15.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^1.1.1",
+    "rollup-stream": "^1.23.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
   },
-  "scripts": {
-    "test": "gulp build"
+  "dependencies": {
+    "dom7": "^1.6.4"
   }
 }
