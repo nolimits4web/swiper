@@ -1,6 +1,5 @@
-import $ from 'dom7';
+import $ from '../../utils/dom';
 import Utils from '../../utils/utils';
-
 
 const Keyboard = {
   bound: false,
@@ -10,10 +9,10 @@ const Keyboard = {
     if (e.originalEvent) e = e.originalEvent; // jquery fix
     const kc = e.keyCode || e.charCode;
     // Directions locks
-    if (!swiper.params.allowSwipeToNext && (swiper.isHorizontal() && kc === 39 || !swiper.isHorizontal() && kc === 40)) {
+    if (!swiper.params.allowSwipeToNext && ((swiper.isHorizontal() && kc === 39) || (swiper.isVertical() && kc === 40))) {
       return false;
     }
-    if (!swiper.params.allowSwipeToPrev && (swiper.isHorizontal() && kc === 37 || !swiper.isHorizontal() && kc === 38)) {
+    if (!swiper.params.allowSwipeToPrev && ((swiper.isHorizontal() && kc === 37) || (swiper.isVertical() && kc === 38))) {
       return false;
     }
     if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) {
@@ -73,29 +72,51 @@ const Keyboard = {
   },
   enable() {
     const swiper = this;
+    if (swiper.keyboard.enabled) return;
     if (!Keyboard.bound) {
       Keyboard.bound = true;
       Keyboard.handle = Keyboard.handle.bind(swiper);
     }
     $(document).on('keydown', Keyboard.handle);
+    swiper.keyboard.enabled = true;
   },
   disable() {
+    const swiper = this;
+    if (!swiper.keyboard.enabled) return;
     $(document).off('keydown', Keyboard.handle);
+    swiper.keyboard.enabled = false;
   },
 };
 
 export default {
   name: 'keyboard',
   params: {
-    keyboard: false,
+    keyboard: {
+      enabled: false,
+    },
   },
   create() {
     const swiper = this;
     Utils.extend(swiper, {
       keyboard: {
+        enabled: false,
         enable: Keyboard.enable.bind(swiper),
         disable: Keyboard.disable.bind(swiper),
       },
     });
+  },
+  on: {
+    init() {
+      const swiper = this;
+      if (swiper.params.keyboard.enabled) {
+        swiper.keyboard.enable();
+      }
+    },
+    destroy() {
+      const swiper = this;
+      if (swiper.keyboard.enabled) {
+        swiper.keyboard.disable();
+      }
+    },
   },
 };
