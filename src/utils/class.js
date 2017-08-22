@@ -1,12 +1,11 @@
 import Utils from './utils';
 
 class SwiperClass {
-  constructor(params = {}, parents = []) {
+  constructor(params = {}) {
     const self = this;
     self.params = params;
 
     // Events
-    self.eventsParents = parents;
     self.eventsListeners = {};
 
     if (self.params && self.params.on) {
@@ -51,17 +50,14 @@ class SwiperClass {
     let events;
     let data;
     let context;
-    let eventsParents;
     if (typeof args[0] === 'string' || Array.isArray(args[0])) {
       events = args[0];
       data = args.slice(1, args.length);
       context = self;
-      eventsParents = self.eventsParents;
     } else {
       events = args[0].events;
       data = args[0].data;
       context = args[0].context || self;
-      eventsParents = args[0].local ? [] : args[0].parents || self.eventsParents;
     }
     const eventsArray = Array.isArray(events) ? events : events.split(' ');
     eventsArray.forEach((event) => {
@@ -71,11 +67,6 @@ class SwiperClass {
         });
       }
     });
-    if (eventsParents && eventsParents.length > 0) {
-      eventsParents.forEach((eventsParent) => {
-        eventsParent.emit(events, ...data);
-      });
-    }
     return self;
   }
   useModulesParams(instanceParams) {
