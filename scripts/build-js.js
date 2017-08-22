@@ -31,6 +31,7 @@ function es(cb) {
     moduleName: 'Swiper',
     useStrict: true,
     sourceMap: false,
+    banner,
   })
     .on('error', (err) => {
       if (cb) cb();
@@ -60,6 +61,7 @@ function umd(cb) {
     moduleName: 'Swiper',
     useStrict: true,
     sourceMap: env === 'development',
+    banner,
   })
     .on('error', (err) => {
       if (cb) cb();
@@ -67,7 +69,6 @@ function umd(cb) {
     })
     .pipe(source('swiper.js', './src'))
     .pipe(buffer())
-    .pipe(header(banner))
     .pipe(gulp.dest(`./${env === 'development' ? 'build' : 'dist'}/js/`))
     .on('end', () => {
       if (env === 'development') {
