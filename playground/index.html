@@ -46,16 +46,28 @@
     </style>
     <script src="../build/js/swiper.js"></script>
     <script>
-        var swiper = new Swiper('.swiper-container', {
+        var swiper = new Swiper({
+            el: '.swiper-container',
             spaceBetween: 50,
             slidesPerView: 2,
             centeredSlides: true,
             slideToClickedSlide: true,
             grabCursor: true,
-            nextButton: '.swiper-button-next',
-            prevButton: '.swiper-button-prev',
             scrollbar: '.swiper-scrollbar',
-            pagination: '.swiper-pagination',
+
+            mousewheel: {
+              enabled: true,
+            },
+            keyboard: {
+              enabled: true,
+            },
+            pagination: {
+              el: '.swiper-pagination',
+            },
+            navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+            },
         });
     </script>
 </body>
