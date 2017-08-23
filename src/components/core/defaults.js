@@ -1,4 +1,5 @@
 export default {
+  init: true,
   direction: 'horizontal',
   touchEventsTarget: 'container',
   initialSlide: 0,
@@ -147,8 +148,8 @@ export default {
   controlBy: 'slide', // or 'container'
   normalizeSlideIndex: true,
   // Swiping/no swiping
-  allowSwipeToPrev: true,
-  allowSwipeToNext: true,
+  allowSlidePrev: true,
+  allowSlideNext: true,
   swipeHandler: null, // '.swipe-handler',
   noSwiping: true,
   noSwipingClass: 'swiper-no-swiping',
