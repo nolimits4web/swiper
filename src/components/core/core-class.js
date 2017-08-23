@@ -1,5 +1,7 @@
 import $ from '../../utils/dom';
 import Utils from '../../utils/utils';
+import Support from '../../utils/support';
+
 import SwiperClass from '../../utils/class';
 
 import defaults from './defaults';
@@ -9,7 +11,9 @@ import * as translate from './translate/';
 import * as transition from './transition/';
 import * as slide from './slide/';
 import * as slideLock from './slide-lock/';
-import * as loop from './loop';
+import * as loop from './loop/';
+import * as grabCursor from './grab-cursor/';
+import * as slidesManipulation from './slides-manipulation/';
 import setBreakpoint from './setBreakpoint';
 import addClasses from './addClasses';
 
@@ -100,6 +104,26 @@ class Swiper extends SwiperClass {
       allowSlideNext: swiper.params.allowSlideNext,
       allowSlidePrev: swiper.params.allowSlidePrev,
 
+      // Touch Events
+      touchEvents: (function touchEvents() {
+        const touch = ['touchstart', 'touchmove', 'touchend'];
+        let desktop = ['mousedown', 'mousemove', 'mouseup'];
+        if (window.navigator.pointerEnabled) {
+          desktop = ['pointerdown', 'pointermove', 'pointerup'];
+        } else if (window.navigator.msPointerEnabled) {
+          desktop = ['MSPointerDown', 'MsPointerMove', 'MsPointerUp'];
+        }
+
+        return {
+          start: Support.touch || !swiper.params.simulateTouch ? touch[0] : desktop[0],
+          move: Support.touch || !swiper.params.simulateTouch ? touch[1] : desktop[1],
+          end: Support.touch || !swiper.params.simulateTouch ? touch[2] : desktop[2],
+        };
+      }()),
+
+      // Clicks
+      allowClick: true,
+
       // Touches
       touches: {
         startX: 0,
@@ -145,6 +169,11 @@ class Swiper extends SwiperClass {
     // Update slides .updateSlides
     swiper.updateSlides();
 
+    // Set Grab Cursor
+    if (swiper.params.grabCursor) {
+      swiper.setGrabCursor();
+    }
+
     // Slide To Initial Slide .slideTo
     if (swiper.params.loop) {
       swiper.slideTo(swiper.params.initialSlide + swiper.loopedSlides, 0, swiper.params.runCallbacksOnInit);
@@ -177,7 +206,7 @@ class Swiper extends SwiperClass {
   }
 }
 
-const prototypes = Utils.extend({}, update, translate, transition, slide, slideLock, loop, { setBreakpoint, addClasses });
+const prototypes = Utils.extend({}, update, translate, transition, slide, slideLock, loop, grabCursor, slidesManipulation, { setBreakpoint, addClasses });
 
 Object.keys(prototypes).forEach((protoMethod) => {
   Swiper.prototype[protoMethod] = prototypes[protoMethod];
