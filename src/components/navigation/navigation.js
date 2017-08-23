@@ -40,22 +40,22 @@ const Navigation = {
       $nextEl = $(params.nextEl);
       if (
         swiper.params.uniqueNavElements &&
-          typeof params.nextEl === 'string' &&
-          swiper.navigation.$nextEl.length > 1 &&
-          swiper.$el.find(params.nextEl).length === 1
+        typeof params.nextEl === 'string' &&
+        $nextEl.length > 1 &&
+        swiper.$el.find(params.nextEl).length === 1
       ) {
-        swiper.navigation.$nextEl = swiper.$el.find(params.nextEl);
+        $nextEl = swiper.$el.find(params.nextEl);
       }
     }
     if (params.prevEl) {
       $prevEl = $(params.prevEl);
       if (
         swiper.params.uniqueNavElements &&
-          typeof params.prevEl === 'string' &&
-          swiper.navigation.$prevEl.length > 1 &&
-          swiper.$el.find(params.prevEl).length === 1
+        typeof params.prevEl === 'string' &&
+        $prevEl.length > 1 &&
+        swiper.$el.find(params.prevEl).length === 1
       ) {
-        swiper.navigation.$prevEl = swiper.$el.find(params.prevEl);
+        $prevEl = swiper.$el.find(params.prevEl);
       }
     }
 
