@@ -105,21 +105,21 @@ var defaults = {
     // Pagination
     pagination: null,
     paginationElement: 'span',
-    paginationClickable: false,
-    paginationHide: false,
-    paginationBulletRender: null,
-    paginationProgressRender: null,
-    paginationFractionRender: null,
-    paginationCustomRender: null,
-    paginationType: 'bullets', // 'bullets' or 'progress' or 'fraction' or 'custom'
+    // paginationClickable: false,
+    // paginationHide: false,
+    // paginationBulletRender: null,
+    // paginationProgressRender: null,
+    // paginationFractionRender: null,
+    // paginationCustomRender: null,
+    // paginationType: 'bullets', // 'bullets' or 'progress' or 'fraction' or 'custom'
     fitSlideGroupWithBlank: false,
     blankClass: 'swiper-invisible-blank-slide',
     // Resistance
     resistance: true,
     resistanceRatio: 0.85,
     // Next/prev buttons
-    nextButton: null,
-    prevButton: null,
+    // nextButton: null,
+    // prevButton: null,
     // Progress
     watchSlidesProgress: false,
     watchSlidesVisibility: false,
@@ -166,15 +166,15 @@ var defaults = {
     slidePrevClass: 'swiper-slide-prev',
     slideDuplicatePrevClass: 'swiper-slide-duplicate-prev',
     wrapperClass: 'swiper-wrapper',
-    bulletClass: 'swiper-pagination-bullet',
-    bulletActiveClass: 'swiper-pagination-bullet-active',
-    buttonDisabledClass: 'swiper-button-disabled',
-    paginationCurrentClass: 'swiper-pagination-current',
-    paginationTotalClass: 'swiper-pagination-total',
-    paginationHiddenClass: 'swiper-pagination-hidden',
-    paginationProgressbarClass: 'swiper-pagination-progressbar',
-    paginationClickableClass: 'swiper-pagination-clickable', // NEW
-    paginationModifierClass: 'swiper-pagination-', // NEW
+    // bulletClass: 'swiper-pagination-bullet',
+    // bulletActiveClass: 'swiper-pagination-bullet-active',
+    // buttonDisabledClass: 'swiper-button-disabled',
+    // paginationCurrentClass: 'swiper-pagination-current',
+    // paginationTotalClass: 'swiper-pagination-total',
+    // paginationHiddenClass: 'swiper-pagination-hidden',
+    // paginationProgressbarClass: 'swiper-pagination-progressbar',
+    // paginationClickableClass: 'swiper-pagination-clickable', // NEW
+    // paginationModifierClass: 'swiper-pagination-', // NEW
     lazyLoadingClass: 'swiper-lazy',
     lazyStatusLoadingClass: 'swiper-lazy-loading',
     lazyStatusLoadedClass: 'swiper-lazy-loaded',
@@ -195,6 +195,9 @@ var defaults = {
     paginationBulletMessage: 'Go to slide {{index}}',
     // Callbacks
     runCallbacksOnInit: true
+
+    // Init
+    init: true,
     /*
     Callbacks:
     onInit: function (swiper)
@@ -229,38 +232,38 @@ var defaults = {
 };
 var initialVirtualTranslate = params && params.virtualTranslate;
 
-params = params || {};
-var originalParams = {};
-for (var param in params) {
-    if (typeof params[param] === 'object' && params[param] !== null && !(params[param].nodeType || params[param] === window || params[param] === document || (typeof Dom7 !== 'undefined' && params[param] instanceof Dom7) || (typeof jQuery !== 'undefined' && params[param] instanceof jQuery))) {
-        originalParams[param] = {};
-        for (var deepParam in params[param]) {
-            originalParams[param][deepParam] = params[param][deepParam];
-        }
-    }
-    else {
-        originalParams[param] = params[param];
-    }
-}
-for (var def in defaults) {
-    if (typeof params[def] === 'undefined') {
-        params[def] = defaults[def];
-    }
-    else if (typeof params[def] === 'object') {
-        for (var deepDef in defaults[def]) {
-            if (typeof params[def][deepDef] === 'undefined') {
-                params[def][deepDef] = defaults[def][deepDef];
-            }
-        }
-    }
-}
+// params = params || {};
+// var originalParams = {};
+// for (var param in params) {
+//     if (typeof params[param] === 'object' && params[param] !== null && !(params[param].nodeType || params[param] === window || params[param] === document || (typeof Dom7 !== 'undefined' && params[param] instanceof Dom7) || (typeof jQuery !== 'undefined' && params[param] instanceof jQuery))) {
+//         originalParams[param] = {};
+//         for (var deepParam in params[param]) {
+//             originalParams[param][deepParam] = params[param][deepParam];
+//         }
+//     }
+//     else {
+//         originalParams[param] = params[param];
+//     }
+// }
+// for (var def in defaults) {
+//     if (typeof params[def] === 'undefined') {
+//         params[def] = defaults[def];
+//     }
+//     else if (typeof params[def] === 'object') {
+//         for (var deepDef in defaults[def]) {
+//             if (typeof params[def][deepDef] === 'undefined') {
+//                 params[def][deepDef] = defaults[def][deepDef];
+//             }
+//         }
+//     }
+// }
 
 // Swiper
 var s = this;
 
 // Params
-s.params = params;
-s.originalParams = originalParams;
+// s.params = params;
+// s.originalParams = originalParams;
 
 // Classname
 s.classNames = [];
@@ -404,9 +407,10 @@ if (s.params.grabCursor && s.support.touch) {
 }
 
 // Wrapper
-s.wrapper = s.container.children('.' + s.params.wrapperClass);
+// s.wrapper = s.container.children('.' + s.params.wrapperClass);
 
 // Pagination
+/*
 if (s.params.pagination) {
     s.paginationContainer = $(s.params.pagination);
     if (s.params.uniqueNavElements && typeof s.params.pagination === 'string' && s.paginationContainer.length > 1 && s.container.find(s.params.pagination).length === 1) {
@@ -421,7 +425,9 @@ if (s.params.pagination) {
     }
     s.paginationContainer.addClass(s.params.paginationModifierClass + s.params.paginationType);
 }
+*/
 // Next/Prev Buttons
+/*
 if (s.params.nextButton || s.params.prevButton) {
     if (s.params.nextButton) {
         s.nextButton = $(s.params.nextButton);
@@ -436,23 +442,26 @@ if (s.params.nextButton || s.params.prevButton) {
         }
     }
 }
+*/
 
 // Is Horizontal
+/*
 s.isHorizontal = function () {
     return s.params.direction === 'horizontal';
 };
+*/
 // s.isH = isH;
 
 // RTL
-s.rtl = s.isHorizontal() && (s.container[0].dir.toLowerCase() === 'rtl' || s.container.css('direction') === 'rtl');
+// s.rtl = s.isHorizontal() && (s.container[0].dir.toLowerCase() === 'rtl' || s.container.css('direction') === 'rtl');
 if (s.rtl) {
     s.classNames.push(s.params.containerModifierClass + 'rtl');
 }
 
 // Wrong RTL support
-if (s.rtl) {
-    s.wrongRTL = s.wrapper.css('display') === '-webkit-box';
-}
+// if (s.rtl) {
+//     s.wrongRTL = s.wrapper.css('display') === '-webkit-box';
+// }
 
 // Columns
 if (s.params.slidesPerColumn > 1) {
@@ -468,13 +477,13 @@ if (s.device.android) {
 s.container.addClass(s.classNames.join(' '));
 
 // Translate
-s.translate = 0;
+// s.translate = 0;
 
 // Progress
-s.progress = 0;
+// s.progress = 0;
 
 // Velocity
-s.velocity = 0;
+// s.velocity = 0;
 
 /*=========================
   Locks, unlocks
@@ -1070,6 +1079,7 @@ s.updateClasses = function () {
     }
 
     // Pagination
+    /*
     if (s.paginationContainer && s.paginationContainer.length > 0) {
         // Current/Total
         var current,
@@ -1121,8 +1131,10 @@ s.updateClasses = function () {
             s.emit('onPaginationRendered', s, s.paginationContainer[0]);
         }
     }
+    */
 
     // Next/active buttons
+    /*
     if (!s.params.loop) {
         if (s.params.prevButton && s.prevButton && s.prevButton.length > 0) {
             if (s.isBeginning) {
@@ -1145,57 +1157,58 @@ s.updateClasses = function () {
             }
         }
     }
+    */
 };
 
 /*=========================
   Pagination
   ===========================*/
-s.updatePagination = function () {
-    if (!s.params.pagination) return;
-    if (s.paginationContainer && s.paginationContainer.length > 0) {
-        var paginationHTML = '';
-        if (s.params.paginationType === 'bullets') {
-            var numberOfBullets = s.params.loop ? Math.ceil((s.slides.length - s.loopedSlides * 2) / s.params.slidesPerGroup) : s.snapGrid.length;
-            for (var i = 0; i < numberOfBullets; i++) {
-                if (s.params.paginationBulletRender) {
-                    paginationHTML += s.params.paginationBulletRender(s, i, s.params.bulletClass);
-                }
-                else {
-                    paginationHTML += '<' + s.params.paginationElement+' class="' + s.params.bulletClass + '"></' + s.params.paginationElement + '>';
-                }
-            }
-            s.paginationContainer.html(paginationHTML);
-            s.bullets = s.paginationContainer.find('.' + s.params.bulletClass);
-            if (s.params.paginationClickable && s.params.a11y && s.a11y) {
-                s.a11y.initPagination();
-            }
-        }
-        if (s.params.paginationType === 'fraction') {
-            if (s.params.paginationFractionRender) {
-                paginationHTML = s.params.paginationFractionRender(s, s.params.paginationCurrentClass, s.params.paginationTotalClass);
-            }
-            else {
-                paginationHTML =
-                    '<span class="' + s.params.paginationCurrentClass + '"></span>' +
-                    ' / ' +
-                    '<span class="' + s.params.paginationTotalClass+'"></span>';
-            }
-            s.paginationContainer.html(paginationHTML);
-        }
-        if (s.params.paginationType === 'progress') {
-            if (s.params.paginationProgressRender) {
-                paginationHTML = s.params.paginationProgressRender(s, s.params.paginationProgressbarClass);
-            }
-            else {
-                paginationHTML = '<span class="' + s.params.paginationProgressbarClass + '"></span>';
-            }
-            s.paginationContainer.html(paginationHTML);
-        }
-        if (s.params.paginationType !== 'custom') {
-            s.emit('onPaginationRendered', s, s.paginationContainer[0]);
-        }
-    }
-};
+// s.updatePagination = function () {
+//     if (!s.params.pagination) return;
+//     if (s.paginationContainer && s.paginationContainer.length > 0) {
+//         var paginationHTML = '';
+//         if (s.params.paginationType === 'bullets') {
+//             var numberOfBullets = s.params.loop ? Math.ceil((s.slides.length - s.loopedSlides * 2) / s.params.slidesPerGroup) : s.snapGrid.length;
+//             for (var i = 0; i < numberOfBullets; i++) {
+//                 if (s.params.paginationBulletRender) {
+//                     paginationHTML += s.params.paginationBulletRender(s, i, s.params.bulletClass);
+//                 }
+//                 else {
+//                     paginationHTML += '<' + s.params.paginationElement+' class="' + s.params.bulletClass + '"></' + s.params.paginationElement + '>';
+//                 }
+//             }
+//             s.paginationContainer.html(paginationHTML);
+//             s.bullets = s.paginationContainer.find('.' + s.params.bulletClass);
+//             if (s.params.paginationClickable && s.params.a11y && s.a11y) {
+//                 s.a11y.initPagination();
+//             }
+//         }
+//         if (s.params.paginationType === 'fraction') {
+//             if (s.params.paginationFractionRender) {
+//                 paginationHTML = s.params.paginationFractionRender(s, s.params.paginationCurrentClass, s.params.paginationTotalClass);
+//             }
+//             else {
+//                 paginationHTML =
+//                     '<span class="' + s.params.paginationCurrentClass + '"></span>' +
+//                     ' / ' +
+//                     '<span class="' + s.params.paginationTotalClass+'"></span>';
+//             }
+//             s.paginationContainer.html(paginationHTML);
+//         }
+//         if (s.params.paginationType === 'progress') {
+//             if (s.params.paginationProgressRender) {
+//                 paginationHTML = s.params.paginationProgressRender(s, s.params.paginationProgressbarClass);
+//             }
+//             else {
+//                 paginationHTML = '<span class="' + s.params.paginationProgressbarClass + '"></span>';
+//             }
+//             s.paginationContainer.html(paginationHTML);
+//         }
+//         if (s.params.paginationType !== 'custom') {
+//             s.emit('onPaginationRendered', s, s.paginationContainer[0]);
+//         }
+//     }
+// };
 /*=========================
   Common update method
   ===========================*/
@@ -1351,6 +1364,7 @@ s.initEvents = function (detach) {
     window[action]('resize', s.onResize);
 
     // Next, Prev, Index
+    /*
     if (s.params.nextButton && s.nextButton && s.nextButton.length > 0) {
         s.nextButton[actionDom]('click', s.onClickNext);
         if (s.params.a11y && s.a11y) s.nextButton[actionDom]('keydown', s.a11y.onEnterKey);
@@ -1359,10 +1373,13 @@ s.initEvents = function (detach) {
         s.prevButton[actionDom]('click', s.onClickPrev);
         if (s.params.a11y && s.a11y) s.prevButton[actionDom]('keydown', s.a11y.onEnterKey);
     }
+    */
+    /*
     if (s.params.pagination && s.params.paginationClickable) {
         s.paginationContainer[actionDom]('click', '.' + s.params.bulletClass, s.onClickIndex);
         if (s.params.a11y && s.a11y) s.paginationContainer[actionDom]('keydown', '.' + s.params.bulletClass, s.a11y.onEnterKey);
     }
+    */
 
     // Prevent Links Clicks
     if (s.params.preventClicks || s.params.preventClicksPropagation) touchEventsTarget[action]('click', s.preventClicks, true);
@@ -1389,6 +1406,7 @@ s.preventClicks = function (e) {
     }
 };
 // Clicks
+/*
 s.onClickNext = function (e) {
     e.preventDefault();
     if (s.isEnd && !s.params.loop) return;
@@ -1405,6 +1423,7 @@ s.onClickIndex = function (e) {
     if (s.params.loop) index = index + s.loopedSlides;
     s.slideTo(index);
 };
+*/
 
 /*=========================
   Handle Touches
@@ -1768,9 +1787,9 @@ s.onTouchEnd = function (e) {
             if (clickTimeout) clearTimeout(clickTimeout);
             clickTimeout = setTimeout(function () {
                 if (!s) return;
-                if (s.params.paginationHide && s.paginationContainer.length > 0 && !$(e.target).hasClass(s.params.bulletClass)) {
-                    s.paginationContainer.toggleClass(s.params.paginationHiddenClass);
-                }
+                // if (s.params.paginationHide && s.paginationContainer.length > 0 && !$(e.target).hasClass(s.params.bulletClass)) {
+                //     s.paginationContainer.toggleClass(s.params.paginationHiddenClass);
+                // }
                 s.emit('onClick', s, e);
             }, 300);
 
