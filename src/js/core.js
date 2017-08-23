@@ -1114,7 +1114,7 @@ s.updateClasses = function () {
                 scaleY = scale;
                 scaleX = 1;
             }
-            s.paginationContainer.find('.' + s.params.paginationProgressbarClass).transform('translate3d(0,0,0) scaleX(' + scaleX + ') scaleY(' + scaleY + ')').transition(s.params.speed);
+            s.paginationContainer.find('.' + s.params.paginationProgressbarClass).transform('translate(0,0) scaleX(' + scaleX + ') scaleY(' + scaleY + ')').transition(s.params.speed);
         }
         if (s.params.paginationType === 'custom' && s.params.paginationCustomRender) {
             s.paginationContainer.html(s.params.paginationCustomRender(s, current + 1, total));
@@ -2198,7 +2198,7 @@ s.setWrapperTranslate = function (translate, updateActiveIndex, byController) {
     }
 
     if (!s.params.virtualTranslate) {
-        if (s.support.transforms3d) s.wrapper.transform('translate3d(' + x + 'px, ' + y + 'px, ' + z + 'px)');
+        if (s.support.transforms3d && z != 0) s.wrapper.transform('translate3d(' + x + 'px, ' + y + 'px, ' + z + 'px)');
         else s.wrapper.transform('translate(' + x + 'px, ' + y + 'px)');
     }
 

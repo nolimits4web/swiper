@@ -21,7 +21,7 @@ s.effects = {
                     .css({
                         opacity: slideOpacity
                     })
-                    .transform('translate3d(' + tx + 'px, ' + ty + 'px, 0px)');
+                    .transform('translate(' + tx + 'px, ' + ty + 'px)');
 
             }
 

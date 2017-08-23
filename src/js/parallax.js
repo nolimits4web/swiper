@@ -37,7 +37,7 @@ function setParallaxTransform(el, progress) {
         pY = pY * progress + 'px' ;
     }
 
-    el.transform('translate3d(' + pX + ', ' + pY + ',0px)');
+    el.transform('translate(' + pX + ', ' + pY + ')');
 }
 s.parallax = {
     setTranslate: function () {
