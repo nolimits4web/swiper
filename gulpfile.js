@@ -67,7 +67,8 @@
                 'src/js/get-dom-lib.js',
                 'src/js/dom-plugins.js',
                 'src/js/wrap-end.js',
-                'src/js/amd.js'
+                'src/js/amd.js',
+                'src/js/ResizeObserver.js'
             ],
             jQueryFiles : [
                 'src/js/wrap-start.js',
@@ -92,7 +93,8 @@
                 'src/js/get-dom-lib.js',
                 'src/js/dom-plugins.js',
                 'src/js/wrap-end.js',
-                'src/js/amd.js'
+                'src/js/amd.js',
+                'src/js/ResizeObserver.js'
             ],
             jQueryUMDFiles : [
                 'src/js/wrap-start-umd.js',
@@ -117,6 +119,7 @@
                 'src/js/get-jquery.js',
                 'src/js/dom-plugins.js',
                 'src/js/wrap-end-umd.js',
+                'src/js/ResizeObserver.js'
             ],
             Framework7Files : [
                 'src/js/swiper-intro-f7.js',
@@ -133,6 +136,7 @@
                 'src/js/init.js',
                 'src/js/swiper-outro.js',
                 'src/js/swiper-proto.js',
+                'src/js/ResizeObserver.js'
             ],
             pkg: require('./bower.json'),
             modules: require('./modules.json'),
