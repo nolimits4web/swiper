@@ -2044,7 +2044,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
 
     // Update Index
     if (typeof speed === 'undefined') speed = s.params.speed;
-    s.previousIndex = s.activeIndex || 0;
+    s.previousIndex = s.previousIndex || 0;
     s.activeIndex = slideIndex;
     s.updateRealIndex();
     if ((s.rtl && -translate === s.translate) || (!s.rtl && translate === s.translate)) {
