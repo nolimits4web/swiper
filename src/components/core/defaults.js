@@ -113,8 +113,6 @@ export default {
   // paginationFractionRender: null,
   // paginationCustomRender: null,
   // paginationType: 'bullets', // 'bullets' or 'progress' or 'fraction' or 'custom'
-  fitSlideGroupWithBlank: false,
-  blankClass: 'swiper-invisible-blank-slide',
   // Resistance
   resistance: true,
   resistanceRatio: 0.85,
@@ -142,6 +140,7 @@ export default {
   loop: false,
   loopAdditionalSlides: 0,
   loopedSlides: null,
+  loopFillGroupWithBlank: false,
   // Control
   control: undefined,
   controlInverse: false,
@@ -158,6 +157,7 @@ export default {
   // NS
   containerModifierClass: 'swiper-container-', // NEW
   slideClass: 'swiper-slide',
+  slideBlankClass: 'swiper-slide-invisible-blank',
   slideActiveClass: 'swiper-slide-active',
   slideDuplicateActiveClass: 'swiper-slide-duplicate-active',
   slideVisibleClass: 'swiper-slide-visible',
