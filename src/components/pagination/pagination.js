@@ -24,7 +24,7 @@ const Pagination = {
       current = swiper.activeIndex || 0;
     }
     // Types
-    if (params.type === 'bullets' && swiper.bullets && swiper.bullets.length > 0) {
+    if (params.type === 'bullets' && swiper.pagination.bullets && swiper.pagination.bullets.length > 0) {
       swiper.pagination.bullets.removeClass(params.bulletActiveClass);
       if ($el.length > 1) {
         swiper.pagination.bullets.each((bullet) => {
@@ -73,7 +73,7 @@ const Pagination = {
         }
       }
       $el.html(paginationHTML);
-      swiper.pagination.bullets = $el.find(`.${swiper.params.bulletClass}`);
+      swiper.pagination.bullets = $el.find(`.${params.bulletClass}`);
 
       if (params.clickable && swiper.params.a11y && swiper.a11y) {
         swiper.a11y.initPagination();
