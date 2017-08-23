@@ -9,6 +9,7 @@ import * as translate from './translate/';
 import * as transition from './transition/';
 import * as slide from './slide/';
 import * as slideLock from './slide-lock/';
+import * as loop from './loop';
 import setBreakpoint from './setBreakpoint';
 import addClasses from './addClasses';
 
@@ -134,6 +135,9 @@ class Swiper extends SwiperClass {
     swiper.addClasses();
 
     // Create loop
+    if (swiper.params.loop) {
+      swiper.loopCreate();
+    }
 
     // Update size .updateSize
     swiper.updateSize();
@@ -142,7 +146,12 @@ class Swiper extends SwiperClass {
     swiper.updateSlides();
 
     // Slide To Initial Slide .slideTo
-    swiper.slideTo(swiper.params.initialSlide, 0, swiper.params.runCallbacksOnInit);
+    if (swiper.params.loop) {
+      swiper.slideTo(swiper.params.initialSlide + swiper.loopedSlides, 0, swiper.params.runCallbacksOnInit);
+    } else {
+      swiper.slideTo(swiper.params.initialSlide, 0, swiper.params.runCallbacksOnInit);
+    }
+
 
     // Attach events
 
@@ -168,7 +177,7 @@ class Swiper extends SwiperClass {
   }
 }
 
-const prototypes = Utils.extend({}, update, translate, transition, slide, slideLock, { setBreakpoint, addClasses });
+const prototypes = Utils.extend({}, update, translate, transition, slide, slideLock, loop, { setBreakpoint, addClasses });
 
 Object.keys(prototypes).forEach((protoMethod) => {
   Swiper.prototype[protoMethod] = prototypes[protoMethod];
