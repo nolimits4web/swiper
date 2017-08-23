@@ -8,6 +8,9 @@ import * as update from './update/';
 import * as translate from './translate/';
 import * as transition from './transition/';
 import * as slide from './slide/';
+import * as slideLock from './slide-lock/';
+import setBreakpoint from './setBreakpoint';
+import addClasses from './addClasses';
 
 class Swiper extends SwiperClass {
   constructor(...args) {
@@ -46,6 +49,7 @@ class Swiper extends SwiperClass {
     }
 
     el.swiper = swiper;
+    $el.data('swiper', swiper);
 
     // Find Wrapper
     const $wrapperEl = $el.children(`.${swiper.params.wrapperClass}`);
@@ -57,8 +61,11 @@ class Swiper extends SwiperClass {
       $wrapperEl,
       wrapperEl: $wrapperEl[0],
 
+      // Classes
+      classNames: [],
+
       // Slides
-      slides: [],
+      slides: $(),
       slidesGrid: [],
       snapGrid: [],
       slidesSizesGrid: [],
@@ -74,11 +81,23 @@ class Swiper extends SwiperClass {
       rtl: swiper.params.direction === 'horizontal' && (el.dir.toLowerCase() === 'rtl' || $el.css('direction') === 'rtl'),
       wrongRTL: $wrapperEl.css('display') === '-webkit-box',
 
+      // Indexes
+      activeIndex: 0,
+      realIndex: 0,
+
+      //
+      isBeginning: true,
+      isEnd: false,
+
       // Props
       translate: 0,
       progress: 0,
       velocity: 0,
       animating: false,
+
+      // Locks
+      allowSlideNext: swiper.params.allowSlideNext,
+      allowSlidePrev: swiper.params.allowSlidePrev,
 
       // Touches
       touches: {
@@ -106,6 +125,27 @@ class Swiper extends SwiperClass {
     const swiper = this;
     if (swiper.initialized) return;
 
+    // Set breakpoint
+    if (swiper.params.breakpoints) {
+      swiper.setBreakpoint();
+    }
+
+    // Add Classes
+    swiper.addClasses();
+
+    // Create loop
+
+    // Update size .updateSize
+    swiper.updateSize();
+
+    // Update slides .updateSlides
+    swiper.updateSlides();
+
+    // Slide To Initial Slide .slideTo
+    swiper.slideTo(swiper.params.initialSlide, 0, swiper.params.runCallbacksOnInit);
+
+    // Attach events
+
     swiper.initialized = true;
     swiper.emit('init');
   }
@@ -128,7 +168,7 @@ class Swiper extends SwiperClass {
   }
 }
 
-const prototypes = Utils.extend({}, update, translate, transition, slide);
+const prototypes = Utils.extend({}, update, translate, transition, slide, slideLock, { setBreakpoint, addClasses });
 
 Object.keys(prototypes).forEach((protoMethod) => {
   Swiper.prototype[protoMethod] = prototypes[protoMethod];
