@@ -2349,11 +2349,13 @@ s.createLoop = function () {
 
     if (s.params.fitSlideGroupWithBlank) {
         var blankSlidesNum = s.params.slidesPerGroup - slides.length % s.params.slidesPerGroup;
-        for (var i = 0; i < blankSlidesNum; i++) {
-            var blankNode = $(document.createElement('div')).addClass(s.params.slideClass + ' ' + s.params.blankClass);
-            s.wrapper.append(blankNode);
+        if (blankSlidesNum !== s.params.slidesPerGroup) {
+            for (var i = 0; i < blankSlidesNum; i++) {
+                var blankNode = $(document.createElement('div')).addClass(s.params.slideClass + ' ' + s.params.blankClass);
+                s.wrapper.append(blankNode);
+            }
+            slides = s.wrapper.children();
         }
-        slides = s.wrapper.children();
     }
 
     if(s.params.slidesPerView === 'auto' && !s.params.loopedSlides) s.params.loopedSlides = slides.length;
