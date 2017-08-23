@@ -2026,10 +2026,11 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
     s.updateProgress(translate);
 
     // Normalize slideIndex
+    var normalizeSlideIndex = 0;
     if(s.params.normalizeSlideIndex){
         for (var i = 0; i < s.slidesGrid.length; i++) {
             if (- Math.floor(translate * 100) >= Math.floor(s.slidesGrid[i] * 100)) {
-                slideIndex = i;
+                normalizeSlideIndex = i;
             }
         }
     }
@@ -2039,7 +2040,7 @@ s.slideTo = function (slideIndex, speed, runCallbacks, internal) {
         return false;
     }
     if (!s.params.allowSwipeToPrev && translate > s.translate && translate > s.maxTranslate()) {
-        if ((s.activeIndex || 0) !== slideIndex ) return false;
+        if ((s.activeIndex || 0) !== normalizeSlideIndex ) return false;
     }
 
     // Update Index
