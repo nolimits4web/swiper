@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: March 10, 2017
+ * Released on: June 5, 2017
  */
 (function () {
     'use strict';
@@ -1272,6 +1272,8 @@
           Resize Handler
           ===========================*/
         s.onResize = function (forceUpdatePagination) {
+            if (s.container[0] && s.container[0].offsetWidth === 0) return;
+        
             if (s.params.onBeforeResize) s.params.onBeforeResize(s);
             //Breakpoints
             if (s.params.breakpoints) {
@@ -4494,10 +4496,16 @@
     ====================================================*/
     Swiper.prototype = {
         isSafari: (function () {
-            var ua = window.navigator.userAgent.toLowerCase();
-            return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
+            if (typeof window !== 'undefined') {
+                var ua = window.navigator.userAgent.toLowerCase();
+                return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
+            }
         })(),
-        isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent),
+        isUiWebView: (function () {
+            if (typeof window !== 'undefined') {
+               return /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent);
+            }
+        })(),
         isArray: function (arr) {
             return Object.prototype.toString.apply(arr) === '[object Array]';
         },
@@ -4505,71 +4513,101 @@
         Browser
         ====================================================*/
         browser: {
-            ie: window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
-            ieTouch: (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1),
-            lteIE9: (function() {
-                // create temporary DIV
-                var div = document.createElement('div');
-                // add content to tmp DIV which is wrapped into the IE HTML conditional statement
-                div.innerHTML = '<!--[if lte IE 9]><i></i><![endif]-->';
-                // return true / false value based on what will browser render
-                return div.getElementsByTagName('i').length === 1;
-            })()
+            ie: (function () {
+                if (typeof window !== 'undefined') {
+                   return window.navigator.pointerEnabled || window.navigator.msPointerEnabled;
+                }
+            })(),
+            ieTouch: (function () {
+                if (typeof window !== 'undefined') {
+                    return (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1);
+                }
+            })(),
+            lteIE9: (function () {
+                if (typeof document !== 'undefined') {
+                    // create temporary DIV
+                    var div = document.createElement('div');
+                    // add content to tmp DIV which is wrapped into the IE HTML conditional statement
+                    div.innerHTML = '<!--[if lte IE 9]><i></i><![endif]-->';
+                    // return true / false value based on what will browser render
+                    return div.getElementsByTagName('i').length === 1;
+                }
+            })(),
         },
         /*==================================================
         Devices
         ====================================================*/
         device: (function () {
-            var ua = window.navigator.userAgent;
-            var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
-            var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
-            var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
-            var iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
-            return {
-                ios: ipad || iphone || ipod,
-                android: android
-            };
+            if (typeof window !== 'undefined') {
+                var ua = window.navigator.userAgent;
+                var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
+                var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+                var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
+                var iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
+                return {
+                    ios: ipad || iphone || ipod,
+                    android: android
+                };
+            }
         })(),
         /*==================================================
         Feature Detection
         ====================================================*/
         support: {
-            touch : (window.Modernizr && Modernizr.touch === true) || (function () {
-                return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+            touch: (function () {
+                if (typeof window !== 'undefined') {
+                    return (window.Modernizr && Modernizr.touch === true) || (function () {
+                        return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+                    })();
+                }
             })(),
     
-            transforms3d : (window.Modernizr && Modernizr.csstransforms3d === true) || (function () {
-                var div = document.createElement('div').style;
-                return ('webkitPerspective' in div || 'MozPerspective' in div || 'OPerspective' in div || 'MsPerspective' in div || 'perspective' in div);
+            transforms3d: (function () {
+                if (typeof window !== 'undefined') {
+                    return (window.Modernizr && Modernizr.csstransforms3d === true) || (function () {
+                        if (typeof document !== 'undefined') {
+                            var div = document.createElement('div').style;
+                            return ('webkitPerspective' in div || 'MozPerspective' in div || 'OPerspective' in div || 'MsPerspective' in div || 'perspective' in div);
+                        }
+                    })();
+                }
             })(),
     
             flexbox: (function () {
-                var div = document.createElement('div').style;
-                var styles = ('alignItems webkitAlignItems webkitBoxAlign msFlexAlign mozBoxAlign webkitFlexDirection msFlexDirection mozBoxDirection mozBoxOrient webkitBoxDirection webkitBoxOrient').split(' ');
-                for (var i = 0; i < styles.length; i++) {
-                    if (styles[i] in div) return true;
+                if (typeof document !== 'undefined') {
+                    var div = document.createElement('div').style;
+                    var styles = ('alignItems webkitAlignItems webkitBoxAlign msFlexAlign mozBoxAlign webkitFlexDirection msFlexDirection mozBoxDirection mozBoxOrient webkitBoxDirection webkitBoxOrient').split(' ');
+                    for (var i = 0; i < styles.length; i++) {
+                        if (styles[i] in div) return true;
+                    }
                 }
             })(),
     
             observer: (function () {
-                return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
+                if (typeof window !== 'undefined') {
+                    return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
+                }
             })(),
     
             passiveListener: (function () {
-                var supportsPassive = false;
-                try {
-                    var opts = Object.defineProperty({}, 'passive', {
-                        get: function() {
-                            supportsPassive = true;
-                        }
-                    });
-                    window.addEventListener('testPassiveListener', null, opts);
-                } catch (e) {}
-                return supportsPassive;
+                if (typeof window !== 'undefined') {
+                    var supportsPassive = false;
+                    try {
+                        var opts = Object.defineProperty({}, 'passive', {
+                            get: function() {
+                                supportsPassive = true;
+                            }
+                        });
+                        window.addEventListener('testPassiveListener', null, opts);
+                    } catch (e) {}
+                    return supportsPassive;
+                }
             })(),
     
             gestures: (function () {
-                return 'ongesturestart' in window;
+                if (typeof window !== 'undefined') {
+                    return 'ongesturestart' in window;
+                }
             })()
         },
         /*==================================================
@@ -4583,18 +4621,20 @@
      Get Dom libraries
      ===========================*/
     var swiperDomPlugins = ['jQuery', 'Zepto', 'Dom7'];
-    for (var i = 0; i < swiperDomPlugins.length; i++) {
-    	if (window[swiperDomPlugins[i]]) {
-    		addLibraryPlugin(window[swiperDomPlugins[i]]);
-    	}
-    }
-    // Required DOM Plugins
     var domLib;
-    if (typeof Dom7 === 'undefined') {
-    	domLib = window.Dom7 || window.Zepto || window.jQuery;
-    }
-    else {
-    	domLib = Dom7;
+    if (typeof window !== 'undefined') {
+        for (var i = 0; i < swiperDomPlugins.length; i++) {
+            if (window[swiperDomPlugins[i]]) {
+                addLibraryPlugin(window[swiperDomPlugins[i]]);
+            }
+        }
+        // Required DOM Plugins
+        if (typeof Dom7 === 'undefined') {
+            domLib = window.Dom7 || window.Zepto || window.jQuery;
+        }
+        else {
+            domLib = Dom7;
+        }
     }
     
 
@@ -4668,17 +4708,19 @@
     }
     
 
-    window.Swiper = Swiper;
+    if ( typeof window !== 'undefined') {
+        window.Swiper = Swiper;
+    }
 })();
 
 /*===========================
 Swiper AMD Export
 ===========================*/
-if (typeof(module) !== 'undefined')
+if (typeof(module) !== 'undefined' && typeof(window) !== 'undefined')
 {
     module.exports = window.Swiper;
 }
-else if (typeof define === 'function' && define.amd) {
+else if (typeof define === 'function' && define.amd && typeof (window) !== 'undefined') {
     define([], function () {
         'use strict';
         return window.Swiper;
