@@ -27,7 +27,7 @@ const Pagination = {
     if (params.type === 'bullets' && swiper.pagination.bullets && swiper.pagination.bullets.length > 0) {
       swiper.pagination.bullets.removeClass(params.bulletActiveClass);
       if ($el.length > 1) {
-        swiper.pagination.bullets.each((bullet) => {
+        swiper.pagination.bullets.each((index, bullet) => {
           if ($(bullet).index() === current) $(bullet).addClass(params.bulletActiveClass);
         });
       } else {
