@@ -2,7 +2,6 @@
 export default function (speed = this.params.speed, runCallbacks = true, internal) {
   const swiper = this;
   const { params, animating, activeIndex } = swiper;
-
   if (params.loop) {
     if (animating) return false;
     swiper.loop.fix();
