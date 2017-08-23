@@ -27,7 +27,6 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   */
   // Update progress
   swiper.updateProgress(translate);
-
   // Normalize slideIndex
   if (params.normalizeSlideIndex) {
     for (let i = 0; i < slidesGrid.length; i += 1) {
@@ -38,14 +37,12 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   }
 
   // Directions locks
-  /*
-  if (!s.params.allowSwipeToNext && translate < s.translate && translate < s.minTranslate()) {
+  if (!swiper.allowSlideNext && translate < swiper.translate && translate < swiper.minTranslate()) {
     return false;
   }
-  if (!s.params.allowSwipeToPrev && translate > s.translate && translate > s.maxTranslate()) {
-    if ((s.activeIndex || 0) !== slideIndex) return false;
+  if (!swiper.allowSlidePrev && translate > swiper.translate && translate > swiper.maxTranslate()) {
+    if ((swiper.activeIndex || 0) !== slideIndex) return false;
   }
-  */
 
   // Update Index
   swiper.previousIndex = activeIndex || 0;
@@ -63,12 +60,12 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
     return false;
   }
   swiper.updateSlidesClasses();
-  swiper.onTransitionStart(runCallbacks);
+  swiper.transitionStart(runCallbacks);
 
   if (speed === 0 || Browser.lteIE9) {
     swiper.setTranslate(translate);
     swiper.setTransition(0);
-    swiper.onTransitionEnd(runCallbacks);
+    swiper.transitionEnd(runCallbacks);
   } else {
     swiper.setTranslate(translate);
     swiper.setTransition(speed);
@@ -76,7 +73,7 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
       swiper.animating = true;
       $wrapperEl.transitionEnd(() => {
         if (!swiper) return;
-        swiper.onTransitionEnd(runCallbacks);
+        swiper.transitionEnd(runCallbacks);
       });
     }
   }

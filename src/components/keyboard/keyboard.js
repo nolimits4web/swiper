@@ -9,10 +9,10 @@ const Keyboard = {
     if (e.originalEvent) e = e.originalEvent; // jquery fix
     const kc = e.keyCode || e.charCode;
     // Directions locks
-    if (!swiper.params.allowSwipeToNext && ((swiper.isHorizontal() && kc === 39) || (swiper.isVertical() && kc === 40))) {
+    if (!swiper.allowSlideNext && ((swiper.isHorizontal() && kc === 39) || (swiper.isVertical() && kc === 40))) {
       return false;
     }
-    if (!swiper.params.allowSwipeToPrev && ((swiper.isHorizontal() && kc === 37) || (swiper.isVertical() && kc === 38))) {
+    if (!swiper.allowSlidePrev && ((swiper.isHorizontal() && kc === 37) || (swiper.isVertical() && kc === 38))) {
       return false;
     }
     if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) {
@@ -24,7 +24,7 @@ const Keyboard = {
     if (kc === 37 || kc === 39 || kc === 38 || kc === 40) {
       let inView = false;
       // Check that swiper should be inside of visible area of window
-      if (swiper.container.parents(`.${swiper.params.slideClass}`).length > 0 && swiper.container.parents(`.${swiper.params.slideActiveClass}`).length === 0) {
+      if (swiper.$el.parents(`.${swiper.params.slideClass}`).length > 0 && swiper.$el.parents(`.${swiper.params.slideActiveClass}`).length === 0) {
         return undefined;
       }
       const windowScroll = {
@@ -33,8 +33,8 @@ const Keyboard = {
       };
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
-      const swiperOffset = swiper.container.offset();
-      if (swiper.rtl) swiperOffset.left -= swiper.container[0].scrollLeft;
+      const swiperOffset = swiper.$el.offset();
+      if (swiper.rtl) swiperOffset.left -= swiper.$el[0].scrollLeft;
       const swiperCoord = [
         [swiperOffset.left, swiperOffset.top],
         [swiperOffset.left + swiper.width, swiperOffset.top],
