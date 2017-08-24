@@ -4,7 +4,6 @@ export default function (runCallbacks = true) {
   if (params.autoHeight) {
     swiper.updateAutoHeight();
   }
-  // if (s.lazy) s.lazy.onTransitionStart();
   if (!runCallbacks) return;
 
   swiper.emit('transitionStart');

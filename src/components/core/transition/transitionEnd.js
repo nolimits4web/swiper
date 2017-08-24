@@ -4,8 +4,6 @@ export default function (runCallbacks = true) {
   swiper.animating = false;
   swiper.setTransition(0);
 
-  // if (s.lazy) s.lazy.onTransitionEnd();
-
   if (runCallbacks) {
     swiper.emit('transitionEnd');
     if (activeIndex !== previousIndex) {
@@ -17,10 +15,4 @@ export default function (runCallbacks = true) {
       }
     }
   }
-  // if (s.params.history && s.history) {
-  //     s.history.setHistory(s.params.history, s.activeIndex);
-  // }
-  // if (s.params.hashnav && s.hashnav) {
-  //     s.hashnav.setHash();
-  // }
 }
