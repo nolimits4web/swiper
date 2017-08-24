@@ -220,11 +220,39 @@ class Swiper extends SwiperClass {
   }
   destroy(deleteInstance = true, cleanStyles = true) {
     let swiper = this;
-    swiper.emit('destroy beforeDestroy');
-    if (cleanStyles) {
-      swiper.cleanStyles();
+    const { params, $el, $wrapperEl, slides } = swiper;
+    swiper.emit('beforeDestroy');
+
+    // Detach events
+    swiper.detachEvents();
+
+    // Destroy loop
+    if (params.loop) {
+      swiper.loopDestroy();
     }
-    swiper.emit('destroyed');
+
+    // Cleanup styles
+    if (cleanStyles) {
+      swiper.removeClasses();
+      $el.removeAttr('style');
+      $wrapperEl.removeAttr('style');
+      if (slides && slides.length) {
+        slides
+          .removeClass([
+            params.slideVisibleClass,
+            params.slideActiveClass,
+            params.slideNextClass,
+            params.slidePrevClass,
+          ].join(' '))
+          .removeAttr('style')
+          .removeAttr('data-swiper-slide-index')
+          .removeAttr('data-swiper-column')
+          .removeAttr('data-swiper-row');
+      }
+    }
+
+    swiper.emit('destroy');
+
     if (deleteInstance !== false) {
       swiper.$el[0].swiper = null;
       swiper.$el.data('swiper', null);
