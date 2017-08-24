@@ -20,6 +20,7 @@ import Controller from './components/controller/controller';
 import A11y from './components/a11y/a11y';
 import History from './components/history/history';
 import HashNavigation from './components/hash-navigation/hash-navigation';
+import Autoplay from './components/autoplay/autoplay';
 
 // Install Modules
 Swiper
@@ -41,6 +42,7 @@ Swiper
   .use(Controller)
   .use(A11y)
   .use(History)
-  .use(HashNavigation);
+  .use(HashNavigation)
+  .use(Autoplay);
 
 export default Swiper;
