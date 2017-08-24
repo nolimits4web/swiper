@@ -67,6 +67,9 @@ const Parallax = {
 
 export default {
   name: 'parallax',
+  params: {
+    parallax: false,
+  },
   create() {
     const swiper = this;
     Utils.extend(swiper, {
@@ -80,14 +83,17 @@ export default {
   on: {
     init() {
       const swiper = this;
+      if (!swiper.params.parallax) return;
       swiper.parallax.setTranslate();
     },
     setTranslate() {
       const swiper = this;
+      if (!swiper.params.parallax) return;
       swiper.parallax.setTranslate();
     },
     setTransition(duration) {
       const swiper = this;
+      if (!swiper.params.parallax) return;
       swiper.parallax.setTransition(duration);
     },
   },
