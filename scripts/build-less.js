@@ -13,21 +13,21 @@ const cleanCSS = require('gulp-clean-css');
 const config = require('./config.js');
 const banner = require('./banner.js');
 
-function build(cb, buildTheme) {
+function build(cb) {
   const env = process.env.NODE_ENV || 'development';
 
   gulp.src('./src/swiper.less')
     .pipe(less())
     .on('error', (err) => {
       if (cb) cb();
-      console.log(err.toString());
+      console.error(err.toString());
     })
     .pipe(autoprefixer({
       cascade: false,
     }))
     .on('error', (err) => {
       if (cb) cb();
-      console.log(err.toString());
+      console.error(err.toString());
     })
     .pipe(header(banner))
     .pipe(gulp.dest(`./${env === 'development' ? 'build' : 'dist'}/css/`))
@@ -49,7 +49,6 @@ function build(cb, buildTheme) {
         .pipe(gulp.dest('./dist/css/'))
         .on('end', () => {
           if (cb) cb();
-          return;
         });
     });
 }
