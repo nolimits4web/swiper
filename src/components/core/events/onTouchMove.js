@@ -87,7 +87,6 @@ export default function (event) {
     return;
   }
   swiper.allowClick = false;
-  swiper.emit('sliderMove', e);
   e.preventDefault();
   if (params.touchMoveStopPropagation && !params.nested) {
     e.stopPropagation();
@@ -102,19 +101,14 @@ export default function (event) {
     if (swiper.animating) {
       swiper.$wrapperEl.trigger('webkitTransitionEnd transitionend oTransitionEnd MSTransitionEnd msTransitionEnd');
     }
-    // if (params.autoplay && swiper.autoplaying) {
-    //   if (params.autoplayDisableOnInteraction) {
-    //     swiper.stopAutoplay();
-    //   } else {
-    //     swiper.pauseAutoplay();
-    //   }
-    // }
     data.allowMomentumBounce = false;
     // Grab Cursor
     if (params.grabCursor && (swiper.allowSlideNext === true || swiper.allowSlidePrev === true)) {
       swiper.setGrabCursor(true);
     }
+    swiper.emit('sliderFirstMove', e);
   }
+  swiper.emit('sliderMove', e);
   data.isMoved = true;
 
   let diff = swiper.isHorizontal() ? touches.currentX - touches.startX : touches.currentY - touches.startY;
