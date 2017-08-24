@@ -15,18 +15,10 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   }
 
   const translate = -snapGrid[swiper.snapIndex];
-  /*
-  // Stop autoplay
-  if (s.params.autoplay && s.autoplaying) {
-    if (internal || !s.params.autoplayDisableOnInteraction) {
-      s.pauseAutoplay(speed);
-    } else {
-      s.stopAutoplay();
-    }
-  }
-  */
+
   // Update progress
   swiper.updateProgress(translate);
+
   // Normalize slideIndex
   if (params.normalizeSlideIndex) {
     for (let i = 0; i < slidesGrid.length; i += 1) {
@@ -60,6 +52,8 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
     return false;
   }
   swiper.updateSlidesClasses();
+
+  swiper.emit('beforeTransitionStart', speed, internal);
   swiper.transitionStart(runCallbacks);
 
   if (speed === 0 || Browser.lteIE9) {
