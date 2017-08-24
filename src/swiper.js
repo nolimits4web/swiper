@@ -13,13 +13,13 @@ import Mousewheel from './components/mousewheel/mousewheel';
 import Navigation from './components/navigation/navigation';
 import Pagination from './components/pagination/pagination';
 import Scrollbar from './components/scrollbar/scrollbar';
-// import Parallax from './components/parallax/parallax';
-// import Zoom from './components/zoom/zoom';
-// import Lazy from './components/lazy/lazy';
-// import Controller from './components/controller/controller';
-// import A11y from './components/a11y/a11y';
-// import History from './components/history/history';
-// import HashNavigation from './components/hash-navigation/hash-navigation';
+import Parallax from './components/parallax/parallax';
+import Zoom from './components/zoom/zoom';
+import Lazy from './components/lazy/lazy';
+import Controller from './components/controller/controller';
+import A11y from './components/a11y/a11y';
+import History from './components/history/history';
+import HashNavigation from './components/hash-navigation/hash-navigation';
 
 // Install Modules
 Swiper
@@ -34,13 +34,13 @@ Swiper
   .use(Navigation)
   .use(Pagination)
   .use(Observer)
-  .use(Scrollbar);
-  // .use(Parallax)
-  // .use(Zoom)
-  // .use(Lazy)
-  // .use(Controller)
-  // .use(A11y)
-  // .use(History)
-  // .use(HashNavigation)
+  .use(Scrollbar)
+  .use(Parallax)
+  .use(Zoom)
+  .use(Lazy)
+  .use(Controller)
+  .use(A11y)
+  .use(History)
+  .use(HashNavigation);
 
 export default Swiper;
