@@ -181,6 +181,8 @@ class Swiper extends SwiperClass {
     const swiper = this;
     if (swiper.initialized) return;
 
+    swiper.emit('beforeInit');
+
     // Set breakpoint
     if (swiper.params.breakpoints) {
       swiper.setBreakpoint();
@@ -215,7 +217,10 @@ class Swiper extends SwiperClass {
     // Attach events
     swiper.attachEvents();
 
+    // Init Flag
     swiper.initialized = true;
+
+    // Emit
     swiper.emit('init');
   }
   destroy(deleteInstance = true, cleanStyles = true) {
