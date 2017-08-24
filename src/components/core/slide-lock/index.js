@@ -5,7 +5,7 @@ import unlockSlideNext from './unlockSlideNext';
 import unlockSlidePrev from './unlockSlidePrev';
 import unlockSlides from './unlockSlides';
 
-export {
+export default {
   lockSlideNext,
   lockSlidePrev,
   lockSlides,

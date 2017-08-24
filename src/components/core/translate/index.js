@@ -3,7 +3,7 @@ import setTranslate from './setTranslate';
 import minTranslate from './minTranslate';
 import maxTranslate from './maxTranslate';
 
-export {
+export default {
   getTranslate,
   setTranslate,
   minTranslate,

@@ -1,7 +1,7 @@
 import setGrabCursor from './setGrabCursor';
 import unsetGrabCursor from './unsetGrabCursor';
 
-export {
+export default {
   setGrabCursor,
   unsetGrabCursor,
 };

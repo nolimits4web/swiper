@@ -7,8 +7,9 @@ import updateProgress from './updateProgress';
 import updateRealIndex from './updateRealIndex';
 import updateSlidesClasses from './updateSlidesClasses';
 import updateActiveIndex from './updateActiveIndex';
+import updateClickedSlide from './updateClickedSlide';
 
-export {
+export default {
   updateSize,
   updateSlides,
   updateAutoHeight,
@@ -18,5 +19,6 @@ export {
   updateRealIndex,
   updateSlidesClasses,
   updateActiveIndex,
-}
+  updateClickedSlide,
+};
 
