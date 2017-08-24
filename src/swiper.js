@@ -12,8 +12,8 @@ import Keyboard from './components/keyboard/keyboard';
 import Mousewheel from './components/mousewheel/mousewheel';
 import Navigation from './components/navigation/navigation';
 import Pagination from './components/pagination/pagination';
+import Scrollbar from './components/scrollbar/scrollbar';
 // import Parallax from './components/parallax/parallax';
-// import Scrollbar from './components/scrollbar/scrollbar';
 // import Zoom from './components/zoom/zoom';
 // import Lazy from './components/lazy/lazy';
 // import Controller from './components/controller/controller';
@@ -33,9 +33,9 @@ Swiper
   .use(Mousewheel)
   .use(Navigation)
   .use(Pagination)
-  .use(Observer);
+  .use(Observer)
+  .use(Scrollbar);
   // .use(Parallax)
-  // .use(Scrollbar)
   // .use(Zoom)
   // .use(Lazy)
   // .use(Controller)
