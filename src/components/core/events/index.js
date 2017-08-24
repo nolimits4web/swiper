@@ -57,7 +57,7 @@ function attachEvents() {
   }
 
   // Resize handler
-  swiper.on('resize', onResize);
+  swiper.on('resize observerUpdate', onResize);
 }
 
 function detachEvents() {
@@ -96,7 +96,7 @@ function detachEvents() {
   }
 
   // Resize handler
-  swiper.off('resize', onResize);
+  swiper.off('resize observerUpdate', onResize);
 }
 
 export default {
