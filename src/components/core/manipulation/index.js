@@ -3,7 +3,7 @@ import prependSlide from './prependSlide';
 import removeSlide from './removeSlide';
 import removeAllSlides from './removeAllSlides';
 
-export {
+export default {
   appendSlide,
   prependSlide,
   removeSlide,
