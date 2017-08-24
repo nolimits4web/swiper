@@ -218,9 +218,6 @@ class Swiper extends SwiperClass {
     swiper.initialized = true;
     swiper.emit('init');
   }
-  cleanStyles() {
-    const swiper = this;
-  }
   destroy(deleteInstance = true, cleanStyles = true) {
     let swiper = this;
     swiper.emit('destroy beforeDestroy');
@@ -237,7 +234,20 @@ class Swiper extends SwiperClass {
   }
 }
 
-const prototypes = Utils.extend({}, update, translate, transition, slide, slideLock, loop, grabCursor, manipulation, events, breakpoints, classes);
+const prototypes = Utils.extend(
+  {},
+  update,
+  translate,
+  transition,
+  slide,
+  slideLock,
+  loop,
+  grabCursor,
+  manipulation,
+  events,
+  breakpoints,
+  classes
+);
 
 Object.keys(prototypes).forEach((protoMethod) => {
   Swiper.prototype[protoMethod] = prototypes[protoMethod];
