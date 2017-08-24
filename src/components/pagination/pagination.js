@@ -145,6 +145,10 @@ const Pagination = {
     const params = swiper.params.pagination;
     if (!params.el || !swiper.pagination.el || !swiper.pagination.$el || swiper.pagination.$el.length === 0) return;
     const $el = swiper.pagination.$el;
+
+    $el.removeClass(params.hiddenClass);
+    $el.removeClass(params.modifierClass + params.type);
+    if (swiper.pagination.bullets) swiper.pagination.bullets.removeClass(params.bulletActiveClass);
     if (params.clickable) {
       $el.off('click', `.${params.bulletClass}`);
       // if (s.params.a11y && s.a11y) s.paginationContainer[actionDom]('keydown', `.${s.params.bulletClass}`, s.a11y.onEnterKey);
@@ -183,6 +187,7 @@ export default {
         init: Pagination.init.bind(swiper),
         render: Pagination.render.bind(swiper),
         update: Pagination.update.bind(swiper),
+        destroy: Pagination.destroy.bind(swiper),
       },
     });
   },
@@ -191,6 +196,7 @@ export default {
       const swiper = this;
       swiper.pagination.init();
       swiper.pagination.render();
+      swiper.pagination.update();
     },
     destroy() {
       const swiper = this;

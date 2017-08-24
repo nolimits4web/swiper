@@ -90,9 +90,11 @@ const Navigation = {
     const { $nextEl, $prevEl } = swiper.navigation;
     if ($nextEl && $nextEl.length) {
       $nextEl.off('click');
+      $nextEl.removeClass(swiper.params.navigation.disabledClass);
     }
     if ($prevEl && $prevEl.length) {
       $prevEl.off('click');
+      $prevEl.removeClass(swiper.params.navigation.disabledClass);
     }
   },
 };
@@ -115,6 +117,7 @@ export default {
       navigation: {
         init: Navigation.init.bind(swiper),
         update: Navigation.update.bind(swiper),
+        destroy: Navigation.destroy.bind(swiper),
       },
     });
   },
@@ -122,6 +125,7 @@ export default {
     init() {
       const swiper = this;
       swiper.navigation.init();
+      swiper.navigation.update();
     },
     destroy() {
       const swiper = this;
