@@ -55,11 +55,6 @@ export default {
   zoomMax: 3,
   zoomMin: 1,
   zoomToggle: true,
-  // Scrollbar
-  scrollbar: null,
-  scrollbarHide: true,
-  scrollbarDraggable: false,
-  scrollbarSnapOnRelease: false,
   // Hash Navigation
   hashnav: false,
   hashnavWatchState: false,
