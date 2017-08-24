@@ -23,9 +23,10 @@ export default function (translate = this.translate || 0) {
     isEnd,
   });
 
+  if (params.watchSlidesProgress) swiper.updateSlidesProgress(translate);
+
   if (isBeginning && !wasBeginning) swiper.emit('reachBeginning');
   if (isEnd && !wasEnd) swiper.emit('reachEnd');
 
-  if (params.watchSlidesProgress) swiper.updateSlidesProgress(translate);
   swiper.emit('progress', progress);
 }
