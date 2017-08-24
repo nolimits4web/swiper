@@ -18,36 +18,42 @@ function attachEvents() {
 
   const { params, touchEvents, el, wrapperEl } = swiper;
 
-  onTouchStartBound = onTouchStart.bind(swiper);
-  onTouchMoveBound = onTouchMove.bind(swiper);
-  onTouchEndBound = onTouchEnd.bind(swiper);
+  if (process.env.TARGET !== 'desktop') {
+    onTouchStartBound = onTouchStart.bind(swiper);
+    onTouchMoveBound = onTouchMove.bind(swiper);
+    onTouchEndBound = onTouchEnd.bind(swiper);
+  }
+
   onClickBound = onClick.bind(swiper);
 
   const target = params.touchEventsTarget === 'container' ? el : wrapperEl;
   const capture = !!params.nested;
 
   // Touch Events
-  if (Browser.ie) {
-    target.addEventListener(touchEvents.start, onTouchStartBound, false);
-    (Support.touch ? target : document).addEventListener(touchEvents.move, onTouchMoveBound, capture);
-    (Support.touch ? target : document).addEventListener(touchEvents.end, onTouchEndBound, false);
+  if (process.env.TARGET !== 'desktop') {
+    if (Browser.ie) {
+      target.addEventListener(touchEvents.start, onTouchStartBound, false);
+      (Support.touch ? target : document).addEventListener(touchEvents.move, onTouchMoveBound, capture);
+      (Support.touch ? target : document).addEventListener(touchEvents.end, onTouchEndBound, false);
+    } else {
+      if (Support.touch) {
+        const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
+        target.addEventListener(touchEvents.start, onTouchStartBound, passiveListener);
+        target.addEventListener(touchEvents.move, onTouchMoveBound, capture);
+        target.addEventListener(touchEvents.end, onTouchEndBound, passiveListener);
+      }
+      if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
+        target.addEventListener('mousedown', onTouchStartBound, false);
+        document.addEventListener('mousemove', onTouchMoveBound, capture);
+        document.addEventListener('mouseup', onTouchEndBound, false);
+      }
+    }
+    // Prevent Links Clicks
+    if (params.preventClicks || params.preventClicksPropagation) {
+      target.addEventListener('click', onClickBound, true);
+    }
   } else {
-    if (Support.touch) {
-      const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
-      target.addEventListener(touchEvents.start, onTouchStartBound, passiveListener);
-      target.addEventListener(touchEvents.move, onTouchMoveBound, capture);
-      target.addEventListener(touchEvents.end, onTouchEndBound, passiveListener);
-    }
-    if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
-      target.addEventListener('mousedown', onTouchStartBound, false);
-      document.addEventListener('mousemove', onTouchMoveBound, capture);
-      document.addEventListener('mouseup', onTouchEndBound, false);
-    }
-  }
-
-  // Prevent Links Clicks
-  if (params.preventClicks || params.preventClicksPropagation) {
-    target.addEventListener('click', onClickBound, true);
+    target.addEventListener('click', onClickBound, false);
   }
 
   // Resize handler
@@ -63,26 +69,29 @@ function detachEvents() {
   const capture = !!params.nested;
 
   // Touch Events
-  if (Browser.ie) {
-    target.removeEventListener(touchEvents.start, onTouchStartBound, false);
-    (Support.touch ? target : document).removeEventListener(touchEvents.move, onTouchMoveBound, capture);
-    (Support.touch ? target : document).removeEventListener(touchEvents.end, onTouchEndBound, false);
+  if (process.env.TARGET !== 'desktop') {
+    if (Browser.ie) {
+      target.removeEventListener(touchEvents.start, onTouchStartBound, false);
+      (Support.touch ? target : document).removeEventListener(touchEvents.move, onTouchMoveBound, capture);
+      (Support.touch ? target : document).removeEventListener(touchEvents.end, onTouchEndBound, false);
+    } else {
+      if (Support.touch) {
+        const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
+        target.removeEventListener(touchEvents.start, onTouchStartBound, passiveListener);
+        target.removeEventListener(touchEvents.move, onTouchMoveBound, capture);
+        target.removeEventListener(touchEvents.end, onTouchEndBound, passiveListener);
+      }
+      if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
+        target.removeEventListener('mousedown', onTouchStartBound, false);
+        document.removeEventListener('mousemove', onTouchMoveBound, capture);
+        document.removeEventListener('mouseup', onTouchEndBound, false);
+      }
+    }
+    // Prevent Links Clicks
+    if (params.preventClicks || params.preventClicksPropagation) {
+      target.removeEventListener('click', onClickBound, true);
+    }
   } else {
-    if (Support.touch) {
-      const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
-      target.removeEventListener(touchEvents.start, onTouchStartBound, passiveListener);
-      target.removeEventListener(touchEvents.move, onTouchMoveBound, capture);
-      target.removeEventListener(touchEvents.end, onTouchEndBound, passiveListener);
-    }
-    if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
-      target.removeEventListener('mousedown', onTouchStartBound, false);
-      document.removeEventListener('mousemove', onTouchMoveBound, capture);
-      document.removeEventListener('mouseup', onTouchEndBound, false);
-    }
-  }
-
-  // Prevent Links Clicks
-  if (params.preventClicks || params.preventClicksPropagation) {
     target.removeEventListener('click', onClickBound, true);
   }
 

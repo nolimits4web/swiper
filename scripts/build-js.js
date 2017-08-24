@@ -19,11 +19,13 @@ const banner = require('./banner.js');
 
 function es(cb) {
   const env = process.env.NODE_ENV || 'development';
+  const target = process.env.TARGET || 'universal';
   rollup({
     entry: './src/swiper.js',
     plugins: [
       replace({
         'process.env.NODE_ENV': JSON.stringify(env), // or 'production'
+        'process.env.TARGET': JSON.stringify(target), // or 'production'
       }),
       buble(),
     ],
@@ -35,7 +37,7 @@ function es(cb) {
   })
     .on('error', (err) => {
       if (cb) cb();
-      console.log(err.toString());
+      console.error(err.toString());
     })
     .pipe(source('swiper.js', './src'))
     .pipe(buffer())
@@ -48,11 +50,13 @@ function es(cb) {
 }
 function umd(cb) {
   const env = process.env.NODE_ENV || 'development';
+  const target = process.env.TARGET || 'universal';
   rollup({
     entry: './src/swiper.js',
     plugins: [
       replace({
         'process.env.NODE_ENV': JSON.stringify(env), // or 'production'
+        'process.env.TARGET': JSON.stringify(target), // or 'production'
       }),
       resolve({ jsnext: true }),
       buble(),
@@ -65,7 +69,7 @@ function umd(cb) {
   })
     .on('error', (err) => {
       if (cb) cb();
-      console.log(err.toString());
+      console.error(err.toString());
     })
     .pipe(source('swiper.js', './src'))
     .pipe(buffer())
