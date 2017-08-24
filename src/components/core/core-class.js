@@ -6,16 +6,17 @@ import SwiperClass from '../../utils/class';
 
 import defaults from './defaults';
 
-import * as update from './update/';
-import * as translate from './translate/';
-import * as transition from './transition/';
-import * as slide from './slide/';
-import * as slideLock from './slide-lock/';
-import * as loop from './loop/';
-import * as grabCursor from './grab-cursor/';
-import * as slidesManipulation from './slides-manipulation/';
-import setBreakpoint from './setBreakpoint';
-import addClasses from './addClasses';
+import update from './update/';
+import translate from './translate/';
+import transition from './transition/';
+import slide from './slide/';
+import slideLock from './slide-lock/';
+import loop from './loop/';
+import grabCursor from './grab-cursor/';
+import manipulation from './manipulation/';
+import events from './events/';
+import breakpoints from './breakpoints/';
+import classes from './classes/';
 
 class Swiper extends SwiperClass {
   constructor(...args) {
@@ -146,6 +147,36 @@ class Swiper extends SwiperClass {
     // Return app instance
     return swiper;
   }
+  slidesPerView() {
+    const swiper = this;
+    const { params, slides, slidesGrid, size: swiperSize, activeIndex } = swiper;
+    let spv = 1;
+    if (params.centeredSlides) {
+      let slideSize = slides[activeIndex].swiperSlideSize;
+      let breakLoop;
+      for (let i = activeIndex + 1; i < slides.length; i += 1) {
+        if (slides[i] && !breakLoop) {
+          slideSize += slides[i].swiperSlideSize;
+          spv += 1;
+          if (slideSize > swiperSize) breakLoop = true;
+        }
+      }
+      for (let i = activeIndex - 1; i >= 0; i -= 1) {
+        if (slides[i] && !breakLoop) {
+          slideSize += slides[i].swiperSlideSize;
+          spv += 1;
+          if (slideSize > swiperSize) breakLoop = true;
+        }
+      }
+    } else {
+      for (let i = activeIndex + 1; i < slides.length; i += 1) {
+        if (slidesGrid[i] - slidesGrid[activeIndex] < swiperSize) {
+          spv += 1;
+        }
+      }
+    }
+    return spv;
+  }
   init() {
     const swiper = this;
     if (swiper.initialized) return;
@@ -181,8 +212,8 @@ class Swiper extends SwiperClass {
       swiper.slideTo(swiper.params.initialSlide, 0, swiper.params.runCallbacksOnInit);
     }
 
-
     // Attach events
+    swiper.attachEvents();
 
     swiper.initialized = true;
     swiper.emit('init');
@@ -206,7 +237,7 @@ class Swiper extends SwiperClass {
   }
 }
 
-const prototypes = Utils.extend({}, update, translate, transition, slide, slideLock, loop, grabCursor, slidesManipulation, { setBreakpoint, addClasses });
+const prototypes = Utils.extend({}, update, translate, transition, slide, slideLock, loop, grabCursor, manipulation, events, breakpoints, classes);
 
 Object.keys(prototypes).forEach((protoMethod) => {
   Swiper.prototype[protoMethod] = prototypes[protoMethod];
