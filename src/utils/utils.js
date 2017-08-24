@@ -2,17 +2,20 @@ const Utils = {
   deleteProps(obj) {
     const object = obj;
     Object.keys(object).forEach((key) => {
-      object[key] = null;
-      delete object[key];
+      try {
+        object[key] = null;
+      } catch (e) {
+        // no getter for object
+      }
+      try {
+        delete object[key];
+      } catch (e) {
+        // something got wrong
+      }
     });
   },
   nextTick(callback, delay = 0) {
     return setTimeout(callback, delay);
-  },
-  nextFrame(callback) {
-    if (window.requestAnimationFrame) return window.requestAnimationFrame(callback);
-    else if (window.webkitRequestAnimationFrame) return window.webkitRequestAnimationFrame(callback);
-    return window.setTimeout(callback, 1000 / 60);
   },
   now() {
     return Date.now();
@@ -54,58 +57,6 @@ const Utils = {
       else curTransform = parseFloat(matrix[5]);
     }
     return curTransform || 0;
-  },
-  promise(handler) {
-    let resolved = false;
-    let rejected = false;
-    let resolveArgs;
-    let rejectArgs;
-    const promiseHandlers = {
-      then: undefined,
-      catch: undefined,
-    };
-    const promise = {
-      then(thenHandler) {
-        if (resolved) {
-          thenHandler(...resolveArgs);
-        } else {
-          promiseHandlers.then = thenHandler;
-        }
-        return promise;
-      },
-      catch(catchHandler) {
-        if (rejected) {
-          catchHandler(...rejectArgs);
-        } else {
-          promiseHandlers.catch = catchHandler;
-        }
-        return promise;
-      },
-    };
-
-    function resolve(...args) {
-      resolved = true;
-      if (promiseHandlers.then) promiseHandlers.then(...args);
-      else resolveArgs = args;
-    }
-    function reject(...args) {
-      rejected = true;
-      if (promiseHandlers.catch) promiseHandlers.catch(...args);
-      else rejectArgs = args;
-    }
-    handler(resolve, reject);
-
-    return promise;
-  },
-  requestAnimationFrame(callback) {
-    if (window.requestAnimationFrame) return window.requestAnimationFrame(callback);
-    else if (window.webkitRequestAnimationFrame) return window.webkitRequestAnimationFrame(callback);
-    return window.setTimeout(callback, 1000 / 60);
-  },
-  cancelAnimationFrame(id) {
-    if (window.cancelAnimationFrame) return window.cancelAnimationFrame(id);
-    else if (window.webkitCancelAnimationFrame) return window.webkitCancelAnimationFrame(id);
-    return window.clearTimeout(id);
   },
   parseUrlQuery(url) {
     const query = {};
