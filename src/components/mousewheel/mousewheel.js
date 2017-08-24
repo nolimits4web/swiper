@@ -136,17 +136,19 @@ const Mousewheel = {
       Mousewheel.lastScrollTime = (new window.Date()).getTime();
     } else {
       // Freemode or scrollContainer:
-      let position = swiper.getWrapperTranslate() + (delta * params.sensitivity);
+      let position = swiper.getTranslate() + (delta * params.sensitivity);
       const wasBeginning = swiper.isBeginning;
       const wasEnd = swiper.isEnd;
 
       if (position >= swiper.minTranslate()) position = swiper.minTranslate();
       if (position <= swiper.maxTranslate()) position = swiper.maxTranslate();
 
-      swiper.setWrapperTransition(0);
-      swiper.setWrapperTranslate(position);
+      swiper.setTransition(0);
+      swiper.setTranslate(position);
       swiper.updateProgress();
       swiper.updateActiveIndex();
+      swiper.updateSlidesClasses();
+      swiper.updateRealIndex();
 
       if ((!wasBeginning && swiper.isBeginning) || (!wasEnd && swiper.isEnd)) {
         swiper.updateClasses();
