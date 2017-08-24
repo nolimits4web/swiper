@@ -1,5 +1,5 @@
-import Support from '../../utils/support';
-import Device from '../../utils/device';
+import Support from '../../../utils/support';
+import Device from '../../../utils/device';
 
 export default function () {
   const swiper = this;
