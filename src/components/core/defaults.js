@@ -4,10 +4,6 @@ export default {
   touchEventsTarget: 'container',
   initialSlide: 0,
   speed: 300,
-  // autoplay
-  autoplay: false,
-  autoplayDisableOnInteraction: true,
-  autoplayStopOnLast: false,
   // To support iOS's swipe-to-go-back gesture (when being used in-app, with UIWebView).
   iOSEdgeSwipeDetection: false,
   iOSEdgeSwipeThreshold: 20,
@@ -48,8 +44,6 @@ export default {
   fade: {
     crossFade: false,
   },
-  // Parallax
-  parallax: false,
   // Zoom
   zoom: false,
   zoomMax: 3,
