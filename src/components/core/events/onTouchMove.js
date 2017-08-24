@@ -35,13 +35,13 @@ export default function (event) {
       // Vertical
       if (
         (touches.currentY < touches.startY && swiper.translate <= swiper.maxTranslate()) ||
-              (touches.currentY > touches.startY && swiper.translate >= swiper.minTranslate())
+        (touches.currentY > touches.startY && swiper.translate >= swiper.minTranslate())
       ) {
         return;
       }
     } else if (
       (touches.currentX < touches.startX && swiper.translate <= swiper.maxTranslate()) ||
-            (touches.currentX > touches.startX && swiper.translate >= swiper.minTranslate())
+      (touches.currentX > touches.startX && swiper.translate >= swiper.minTranslate())
     ) {
       return;
     }
@@ -140,10 +140,10 @@ export default function (event) {
   }
 
   // Directions locks
-  if (!params.allowSwipeToNext && swiper.swipeDirection === 'next' && data.currentTranslate < data.startTranslate) {
+  if (!swiper.allowSlideNext && swiper.swipeDirection === 'next' && data.currentTranslate < data.startTranslate) {
     data.currentTranslate = data.startTranslate;
   }
-  if (!params.allowSwipeToPrev && swiper.swipeDirection === 'prev' && data.currentTranslate > data.startTranslate) {
+  if (!swiper.allowSlidePrev && swiper.swipeDirection === 'prev' && data.currentTranslate > data.startTranslate) {
     data.currentTranslate = data.startTranslate;
   }
 
@@ -184,6 +184,7 @@ export default function (event) {
       time: (new window.Date()).getTime(),
     });
   }
+
   // Update progress
   swiper.updateProgress(data.currentTranslate);
   // Update translate

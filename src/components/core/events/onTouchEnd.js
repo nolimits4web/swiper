@@ -13,7 +13,7 @@ export default function (event) {
   data.allowTouchCallbacks = false;
   if (!data.isTouched) return;
   // Return Grab Cursor
-  if (params.grabCursor && data.isMoved && data.isTouched && (params.allowSlideNext === true || params.allowSldePrev === true)) {
+  if (params.grabCursor && data.isMoved && data.isTouched && (swiper.allowSlideNext === true || swiper.allowSlidePrev === true)) {
     swiper.setGrabCursor(false);
   }
 

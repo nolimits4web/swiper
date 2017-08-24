@@ -3,7 +3,6 @@ import Device from '../../../utils/device';
 import Utils from '../../../utils/utils';
 
 import data from './data';
-import findElementInEvent from './findElementInEvent';
 
 export default function (event) {
   const swiper = this;
@@ -12,12 +11,12 @@ export default function (event) {
   if (e.originalEvent) e = e.originalEvent;
   data.isTouchEvent = e.type === 'touchstart';
   if (!data.isTouchEvent && 'which' in e && e.which === 3) return;
-  if (params.noSwiping && findElementInEvent(e, `.${params.noSwipingClass}`)) {
+  if (params.noSwiping && $(e).closest(`.${params.noSwipingClass}`)[0]) {
     swiper.allowClick = true;
     return;
   }
   if (params.swipeHandler) {
-    if (!findElementInEvent(e, params.swipeHandler)) return;
+    if (!$(e).closest(params.swipeHandler)[0]) return;
   }
 
   touches.currentX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
