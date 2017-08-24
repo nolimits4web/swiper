@@ -184,10 +184,14 @@ export default function (event) {
       }
 
       swiper.updateActiveIndex();
+      swiper.updateSlidesClasses();
+      swiper.updateRealIndex();
     }
     if (!params.freeModeMomentum || timeDiff >= params.longSwipesMs) {
       swiper.updateProgress();
       swiper.updateActiveIndex();
+      swiper.updateSlidesClasses();
+      swiper.updateRealIndex();
     }
     return;
   }

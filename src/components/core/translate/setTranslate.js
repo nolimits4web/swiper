@@ -37,7 +37,11 @@ export default function (translate, updateActiveIndex, byController) {
     swiper.updateProgress(translate);
   }
 
-  if (updateActiveIndex) swiper.updateActiveIndex();
+  if (updateActiveIndex) {
+    swiper.updateActiveIndex();
+    swiper.updateSlidesClasses();
+    swiper.updateRealIndex();
+  }
 
   // if (s.params.effect !== 'slide' && s.effects[s.params.effect]) {
   //   s.effects[s.params.effect].setTranslate(s.translate);

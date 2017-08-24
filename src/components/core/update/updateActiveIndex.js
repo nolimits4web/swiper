@@ -32,7 +32,4 @@ export default function () {
     previousIndex: activeIndex,
     activeIndex: newActiveIndex,
   });
-
-  swiper.updateSlidesClasses();
-  swiper.updateRealIndex();
 }

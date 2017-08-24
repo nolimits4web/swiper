@@ -170,6 +170,8 @@ export default function (event) {
   // Update active index in free mode
   if (params.freeMode || params.watchSlidesProgress) {
     swiper.updateActiveIndex();
+    swiper.updateSlidesClasses();
+    swiper.updateRealIndex();
   }
   if (params.freeMode) {
     // Velocity

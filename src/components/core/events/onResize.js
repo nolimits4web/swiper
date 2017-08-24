@@ -30,6 +30,7 @@ export default function () {
     swiper.setTranslate(newTranslate);
     swiper.updateActiveIndex();
     swiper.updateSlidesClasses();
+    swiper.updateRealIndex();
 
     if (params.autoHeight) {
       swiper.updateAutoHeight();
