@@ -276,6 +276,18 @@ export default {
       swiper.scrollbar.updateSize();
       swiper.scrollbar.setTranslate();
     },
+    update() {
+      const swiper = this;
+      swiper.scrollbar.updateSize();
+    },
+    resize() {
+      const swiper = this;
+      swiper.scrollbar.updateSize();
+    },
+    observerUpdate() {
+      const swiper = this;
+      swiper.scrollbar.updateSize();
+    },
     setTranslate() {
       const swiper = this;
       swiper.scrollbar.setTranslate();
