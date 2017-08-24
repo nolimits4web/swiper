@@ -48,13 +48,15 @@
     <script>
         var swiper = new Swiper({
             el: '.swiper-container',
+            initialSlide: 2,
             spaceBetween: 50,
             slidesPerView: 2,
             centeredSlides: true,
             slideToClickedSlide: true,
             grabCursor: true,
-            scrollbar: '.swiper-scrollbar',
-
+            scrollbar: {
+              el: '.swiper-scrollbar',
+            },
             mousewheel: {
               enabled: true,
             },
