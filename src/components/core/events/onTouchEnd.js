@@ -27,7 +27,7 @@ export default function (event) {
     swiper.emit('tap', e);
     if (timeDiff < 300 && (touchEndTime - data.lastClickTime) > 300) {
       if (data.clickTimeout) clearTimeout(data.clickTimeout);
-      data.clickTimeout = setTimeout(() => {
+      data.clickTimeout = Utils.nextTick(() => {
         if (!swiper) return;
         swiper.emit('click', e);
       }, 300);
@@ -39,9 +39,9 @@ export default function (event) {
   }
 
   data.lastClickTime = Utils.now();
-  setTimeout(() => {
+  Utils.nextTick(() => {
     if (swiper) swiper.allowClick = true;
-  }, 0);
+  });
 
   if (!data.isTouched || !data.isMoved || !swiper.swipeDirection || touches.diff === 0 || data.currentTranslate === data.startTranslate) {
     data.isTouched = false;

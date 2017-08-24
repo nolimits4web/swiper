@@ -1,4 +1,5 @@
 import $ from '../../../utils/dom';
+import Utils from '../../../utils/utils';
 
 export default function () {
   const swiper = this;
@@ -21,9 +22,9 @@ export default function () {
           .eq(0)
           .index();
 
-        setTimeout(() => {
+        Utils.nextTick(() => {
           swiper.slideTo(slideToIndex);
-        }, 0);
+        });
       } else {
         swiper.slideTo(slideToIndex);
       }
@@ -34,9 +35,9 @@ export default function () {
         .eq(0)
         .index();
 
-      setTimeout(() => {
+      Utils.nextTick(() => {
         swiper.slideTo(slideToIndex);
-      }, 0);
+      });
     } else {
       swiper.slideTo(slideToIndex);
     }

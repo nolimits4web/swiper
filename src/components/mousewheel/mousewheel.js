@@ -154,7 +154,7 @@ const Mousewheel = {
 
       if (swiper.params.freeModeSticky) {
         clearTimeout(Mousewheel.timeout);
-        Mousewheel.timeout = setTimeout(() => {
+        Mousewheel.timeout = Utils.nextTick(() => {
           swiper.slideReset();
         }, 300);
       }
