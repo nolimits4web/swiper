@@ -127,6 +127,14 @@ export default {
       swiper.navigation.init();
       swiper.navigation.update();
     },
+    toEdge() {
+      const swiper = this;
+      swiper.navigation.update();
+    },
+    fromEdge() {
+      const swiper = this;
+      swiper.navigation.update();
+    },
     destroy() {
       const swiper = this;
       swiper.navigation.destroy();
