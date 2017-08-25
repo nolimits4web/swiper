@@ -25,8 +25,15 @@ export default function (translate = this.translate || 0) {
 
   if (params.watchSlidesProgress) swiper.updateSlidesProgress(translate);
 
-  if (isBeginning && !wasBeginning) swiper.emit('reachBeginning');
-  if (isEnd && !wasEnd) swiper.emit('reachEnd');
+  if (isBeginning && !wasBeginning) {
+    swiper.emit('reachBeginning toEdge');
+  }
+  if (isEnd && !wasEnd) {
+    swiper.emit('reachEnd toEdge');
+  }
+  if ((wasBeginning && !isBeginning) || (wasEnd && !isEnd)) {
+    swiper.emit('fromEdge');
+  }
 
   swiper.emit('progress', progress);
 }
