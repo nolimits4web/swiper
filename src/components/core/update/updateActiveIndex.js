@@ -32,4 +32,6 @@ export default function () {
     previousIndex: activeIndex,
     activeIndex: newActiveIndex,
   });
+  swiper.emit('aciveIndexChange');
+  swiper.emit('snapIndexChange');
 }

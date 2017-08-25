@@ -5,7 +5,7 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   let slideIndex = index;
   if (slideIndex < 0) slideIndex = 0;
 
-  const { params, snapGrid, slidesGrid, previousIndex, activeIndex, rtl, $wrapperEl } = swiper;
+  const { params, snapGrid, slidesGrid, previousIndex, activeIndex, snapIndex: previousSnapIndex, rtl, $wrapperEl } = swiper;
 
   swiper.snapIndex = Math.floor(slideIndex / params.slidesPerGroup);
   if (swiper.snapIndex >= snapGrid.length) swiper.snapIndex = snapGrid.length - 1;
@@ -39,6 +39,12 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   // Update Index
   swiper.previousIndex = activeIndex || 0;
   swiper.activeIndex = slideIndex;
+  if (previousIndex !== slideIndex || activeIndex !== slideIndex) {
+    swiper.emit('activeIndexChange');
+  }
+  if (previousSnapIndex !== swiper.snapIndex) {
+    swiper.emit('snapIndexChange');
+  }
   swiper.updateRealIndex();
   if ((rtl && -translate === swiper.translate) || (!rtl && translate === swiper.translate)) {
     // Update Height
