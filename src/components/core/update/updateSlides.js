@@ -5,11 +5,14 @@ export default function () {
   const params = swiper.params;
 
   const { $wrapperEl, size: swiperSize, rtl, wrongRTL } = swiper;
-
   const slides = $wrapperEl.children(`.${swiper.params.slideClass}`);
   let snapGrid = [];
   const slidesGrid = [];
   const slidesSizesGrid = [];
+
+  const previousSlidesLength = swiper.slides.length;
+  const previousSnapGridLength = swiper.snapGrid.length;
+  const previousSlidesGridLength = swiper.snapGrid.length;
 
   let spaceBetween = params.spaceBetween;
   let slidePosition = -params.slidesOffsetBefore;
@@ -175,6 +178,16 @@ export default function () {
     slidesGrid,
     slidesSizesGrid,
   });
+
+  if (slides.length !== previousSlidesLength) {
+    swiper.emit('slidesLengthChange');
+  }
+  if (snapGrid.length !== previousSnapGridLength) {
+    swiper.emit('snapGridLengthChange');
+  }
+  if (slidesGrid.length !== previousSlidesGridLength) {
+    swiper.emit('slidesGridLengthChange');
+  }
 
   if (params.watchSlidesProgress) {
     swiper.updateSlidesOffset();
