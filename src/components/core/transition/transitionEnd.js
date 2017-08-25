@@ -4,8 +4,8 @@ export default function (runCallbacks = true) {
   swiper.animating = false;
   swiper.setTransition(0);
 
+  swiper.emit('transitionEnd');
   if (runCallbacks) {
-    swiper.emit('transitionEnd');
     if (activeIndex !== previousIndex) {
       swiper.emit('slideChangeEnd');
       if (activeIndex > previousIndex) {

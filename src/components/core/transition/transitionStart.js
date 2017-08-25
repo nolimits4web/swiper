@@ -4,9 +4,9 @@ export default function (runCallbacks = true) {
   if (params.autoHeight) {
     swiper.updateAutoHeight();
   }
-  if (!runCallbacks) return;
-
   swiper.emit('transitionStart');
+
+  if (!runCallbacks) return;
   if (activeIndex !== previousIndex) {
     swiper.emit('slideChangeStart');
     if (activeIndex > previousIndex) {
