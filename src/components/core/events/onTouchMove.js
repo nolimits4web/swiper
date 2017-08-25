@@ -61,7 +61,7 @@ export default function (event) {
   touches.currentX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
   touches.currentY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY;
 
-  if (typeof isScrolling === 'undefined') {
+  if (typeof data.isScrolling === 'undefined') {
     let touchAngle;
     if ((swiper.isHorizontal() && touches.currentY === touches.startY) || (swiper.isVertical() && touches.currentX === touches.startX)) {
       data.isScrolling = false;
@@ -180,7 +180,6 @@ export default function (event) {
       time: (new window.Date()).getTime(),
     });
   }
-
   // Update progress
   swiper.updateProgress(data.currentTranslate);
   // Update translate
