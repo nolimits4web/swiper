@@ -240,7 +240,8 @@ const Scrollbar = {
     }
   },
   destroy() {
-
+    const swiper = this;
+    swiper.scrollbar.disableDraggable();
   },
 };
 
@@ -260,6 +261,7 @@ export default {
     Utils.extend(swiper, {
       scrollbar: {
         init: Scrollbar.init.bind(swiper),
+        destroy: Scrollbar.destroy.bind(swiper),
         updateSize: Scrollbar.updateSize.bind(swiper),
         setTranslate: Scrollbar.setTranslate.bind(swiper),
         setTransition: Scrollbar.setTransition.bind(swiper),
