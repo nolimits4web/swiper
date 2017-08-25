@@ -49,13 +49,6 @@ export default {
   zoomMax: 3,
   zoomMin: 1,
   zoomToggle: true,
-  // Hash Navigation
-  hashnav: false,
-  hashnavWatchState: false,
-  // History
-  history: false,
-  // Commong Nav State
-  replaceState: false,
   // Breakpoints
   breakpoints: undefined,
   // Slides grid
