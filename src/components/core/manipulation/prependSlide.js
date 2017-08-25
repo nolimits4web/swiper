@@ -20,7 +20,7 @@ export default function (slides) {
     swiper.loopCreate();
   }
   if (!(params.observer && Support.observer)) {
-    swiper.update(true);
+    swiper.update();
   }
   swiper.slideTo(newActiveIndex, 0, false);
 }

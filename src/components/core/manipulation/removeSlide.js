@@ -30,7 +30,7 @@ export default function (slidesIndexes) {
   }
 
   if (!(params.observer && Support.observer)) {
-    swiper.update(true);
+    swiper.update();
   }
   if (params.loop) {
     swiper.slideTo(newActiveIndex + swiper.loopedSlides, 0, false);
