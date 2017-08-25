@@ -17,13 +17,6 @@ export default function () {
   swiper.updateSize();
   swiper.updateSlides();
 
-  // if (params.slidesPerView === 'auto' || params.freeMode || forceUpdatePagination) s.updatePagination();
-  // if (s.params.scrollbar && s.scrollbar) {
-  //   s.scrollbar.set();
-  // }
-  // if (s.controller && s.controller.spline) {
-  //   s.controller.spline = undefined;
-  // }
   let slideChangedBySlideTo = false;
   if (params.freeMode) {
     const newTranslate = Math.min(Math.max(swiper.translate, swiper.maxTranslate()), swiper.minTranslate());
