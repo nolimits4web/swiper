@@ -160,9 +160,6 @@ const Mousewheel = {
           swiper.slideReset();
         }, 300);
       }
-      /* else if (swiper.params.lazyLoading && swiper.lazy) {
-        swiper.lazy.load();
-      } */
       // Emit event
       swiper.emit('scroll', e);
 
