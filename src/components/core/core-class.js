@@ -17,6 +17,7 @@ import manipulation from './manipulation/';
 import events from './events/';
 import breakpoints from './breakpoints/';
 import classes from './classes/';
+import images from './images/';
 
 class Swiper extends SwiperClass {
   constructor(...args) {
@@ -133,6 +134,10 @@ class Swiper extends SwiperClass {
         currentY: 0,
         diff: 0,
       },
+
+      // Images
+      imagesToLoad: [],
+      imagesLoaded: 0,
     });
 
 
@@ -229,10 +234,10 @@ class Swiper extends SwiperClass {
       swiper.loopCreate();
     }
 
-    // Update size .updateSize
+    // Update size
     swiper.updateSize();
 
-    // Update slides .updateSlides
+    // Update slides
     swiper.updateSlides();
 
     // Set Grab Cursor
@@ -240,7 +245,11 @@ class Swiper extends SwiperClass {
       swiper.setGrabCursor();
     }
 
-    // Slide To Initial Slide .slideTo
+    if (swiper.params.preloadImages) {
+      swiper.preloadImages();
+    }
+
+    // Slide To Initial Slide
     if (swiper.params.loop) {
       swiper.slideTo(swiper.params.initialSlide + swiper.loopedSlides, 0, swiper.params.runCallbacksOnInit);
     } else {
@@ -312,7 +321,8 @@ const prototypes = Utils.extend(
   manipulation,
   events,
   breakpoints,
-  classes
+  classes,
+  images
 );
 
 Object.keys(prototypes).forEach((protoMethod) => {
