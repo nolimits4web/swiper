@@ -28,7 +28,6 @@ Swiper
   .use(Support)
   .use(Browser)
   .use(Resize)
-
   // Install Components
   .use(Keyboard)
   .use(Mousewheel)
