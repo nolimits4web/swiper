@@ -84,11 +84,6 @@ export default {
   preventClicks: true,
   preventClicksPropagation: true,
   slideToClickedSlide: false,
-  // Lazy Loading
-  lazyLoading: false,
-  lazyLoadingInPrevNext: false,
-  lazyLoadingInPrevNextAmount: 1,
-  lazyLoadingOnTransitionStart: false,
   // Images
   preloadImages: true,
   updateOnImagesReady: true,
@@ -124,10 +119,7 @@ export default {
   slideDuplicatePrevClass: 'swiper-slide-duplicate-prev',
   wrapperClass: 'swiper-wrapper',
 
-  lazyLoadingClass: 'swiper-lazy',
-  lazyStatusLoadingClass: 'swiper-lazy-loading',
-  lazyStatusLoadedClass: 'swiper-lazy-loaded',
-  lazyPreloaderClass: 'swiper-lazy-preloader',
+
   notificationClass: 'swiper-notification',
   preloaderClass: 'preloader',
 
