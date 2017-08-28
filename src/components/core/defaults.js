@@ -44,11 +44,6 @@ export default {
   fade: {
     crossFade: false,
   },
-  // Zoom
-  zoom: false,
-  zoomMax: 3,
-  zoomMin: 1,
-  zoomToggle: true,
   // Breakpoints
   breakpoints: undefined,
   // Slides grid
@@ -135,7 +130,6 @@ export default {
   lazyPreloaderClass: 'swiper-lazy-preloader',
   notificationClass: 'swiper-notification',
   preloaderClass: 'preloader',
-  zoomContainerClass: 'swiper-zoom-container',
 
   // Observer
   observer: false,
