@@ -263,7 +263,7 @@ const Zoom = {
     }
   },
   // Toggle Zoom
-  toggleZoom(e) {
+  toggle(e) {
     const swiper = this;
     const params = swiper.params.zoom;
     const { gesture, image } = Zoom;
@@ -355,79 +355,64 @@ const Zoom = {
     }
   },
   // Attach/Detach Events
-  attachEvents() {
+  enable() {
     const swiper = this;
+    if (swiper.zoom.enabled) return;
 
-    if (!swiper.params.zoom.enabled) return;
+    swiper.zoom.enabled = true;
+
+    const slides = swiper.slides;
+
     const passiveListener = swiper.touchEvents.start === 'touchstart' && Support.passiveListener && swiper.params.passiveListeners ? { passive: true, capture: false } : false;
+
     // Scale image
     if (Support.gestures) {
-      swiper.slides.on('gesturestart', swiper.zoom.onGestureStart, passiveListener);
-      swiper.slides.on('gesturechange', swiper.zoom.onGestureChange, passiveListener);
-      swiper.slides.on('gestureend', swiper.zoom.onGestureEnd, passiveListener);
+      slides.on('gesturestart', swiper.zoom.onGestureStart, passiveListener);
+      slides.on('gesturechange', swiper.zoom.onGestureChange, passiveListener);
+      slides.on('gestureend', swiper.zoom.onGestureEnd, passiveListener);
     } else if (swiper.touchEvents.start === 'touchstart') {
-      swiper.slides.on(swiper.touchEvents.start, swiper.zoom.onGestureStart, passiveListener);
-      swiper.slides.on(swiper.touchEvents.move, swiper.zoom.onGestureChange, passiveListener);
-      swiper.slides.on(swiper.touchEvents.end, swiper.zoom.onGestureEnd, passiveListener);
+      slides.on(swiper.touchEvents.start, swiper.zoom.onGestureStart, passiveListener);
+      slides.on(swiper.touchEvents.move, swiper.zoom.onGestureChange, passiveListener);
+      slides.on(swiper.touchEvents.end, swiper.zoom.onGestureEnd, passiveListener);
     }
 
     // Move image
-    swiper.on('touchStart', swiper.zoom.onTouchStart);
     swiper.slides.each((index, slideEl) => {
       const $slideEl = $(slideEl);
       if ($slideEl.find(`.${swiper.params.zoom.containerClass}`).length > 0) {
         $slideEl.on(swiper.touchEvents.move, swiper.zoom.onTouchMove);
       }
     });
-    swiper.on('touchEnd', swiper.zoom.onTouchEnd);
-
-    // Scale Out
-    swiper.on('transitionEnd', swiper.zoom.onTransitionEnd);
-    if (swiper.params.zoom.toggle) {
-      swiper.on('doubleTap', swiper.zoom.toggleZoom);
-    }
   },
-  detachEvents() {
+  disable() {
     const swiper = this;
 
-    if (!swiper.params.zoom.enabled) return;
+    if (!swiper.zoom.enabled) return;
+
+    swiper.zoom.enabled = false;
+
+    const slides = swiper.slides;
+
     const passiveListener = swiper.touchEvents.start === 'touchstart' && Support.passiveListener && swiper.params.passiveListeners ? { passive: true, capture: false } : false;
+
     // Scale image
     if (Support.gestures) {
-      swiper.slides.off('gesturestart', swiper.zoom.onGestureStart, passiveListener);
-      swiper.slides.off('gesturechange', swiper.zoom.onGestureChange, passiveListener);
-      swiper.slides.off('gestureend', swiper.zoom.onGestureEnd, passiveListener);
+      slides.off('gesturestart', swiper.zoom.onGestureStart, passiveListener);
+      slides.off('gesturechange', swiper.zoom.onGestureChange, passiveListener);
+      slides.off('gestureend', swiper.zoom.onGestureEnd, passiveListener);
     } else if (swiper.touchEvents.start === 'touchstart') {
-      swiper.slides.off(swiper.touchEvents.start, swiper.zoom.onGestureStart, passiveListener);
-      swiper.slides.off(swiper.touchEvents.move, swiper.zoom.onGestureChange, passiveListener);
-      swiper.slides.off(swiper.touchEvents.end, swiper.zoom.onGestureEnd, passiveListener);
+      slides.off(swiper.touchEvents.start, swiper.zoom.onGestureStart, passiveListener);
+      slides.off(swiper.touchEvents.move, swiper.zoom.onGestureChange, passiveListener);
+      slides.off(swiper.touchEvents.end, swiper.zoom.onGestureEnd, passiveListener);
     }
 
     // Move image
-    swiper.off('touchStart', swiper.zoom.onTouchStart);
     swiper.slides.each((index, slideEl) => {
       const $slideEl = $(slideEl);
       if ($slideEl.find(`.${swiper.params.zoom.containerClass}`).length > 0) {
         $slideEl.off(swiper.touchEvents.move, swiper.zoom.onTouchMove);
       }
     });
-    swiper.off('touchEnd', swiper.zoom.onTouchEnd);
-
-    // Scale Out
-    swiper.off('transitionEnd', swiper.zoom.onTransitionEnd);
-    if (swiper.params.zoom.toggle) {
-      swiper.off('doubleTap', swiper.zoom.toggleZoom);
-    }
-  },
-  init() {
-    const swiper = this;
-    if (!swiper.params.zoom.enabled) return;
-    swiper.zoom.attachEvents();
-  },
-  destroy() {
-    const swiper = this;
-    if (!swiper.params.zoom.enabled) return;
-    swiper.zoom.detachEvents();
   },
 };
 
@@ -444,8 +429,10 @@ export default {
   },
   create() {
     const swiper = this;
-    const zoom = {};
-    ('onGestureStart onGestureChange onGestureEnd onTouchStart onTouchMove onTouchEnd onTransitionEnd toggleZoom attachEvents detachEvents init destroy').split(' ').forEach((methodName) => {
+    const zoom = {
+      enabled: false,
+    };
+    ('onGestureStart onGestureChange onGestureEnd onTouchStart onTouchMove onTouchEnd onTransitionEnd toggle enable disable').split(' ').forEach((methodName) => {
       zoom[methodName] = Zoom[methodName].bind(swiper);
     });
     Utils.extend(swiper, {
@@ -455,11 +442,35 @@ export default {
   on: {
     init() {
       const swiper = this;
-      swiper.zoom.init();
+      if (swiper.params.zoom.enabled) {
+        swiper.zoom.enable();
+      }
     },
     destroy() {
       const swiper = this;
-      swiper.zoom.destroy();
+      swiper.zoom.disable();
+    },
+    touchStart(e) {
+      const swiper = this;
+      if (!swiper.zoom.enabled) return;
+      swiper.zoom.onTouchStart(e);
+    },
+    touchEnd(e) {
+      const swiper = this;
+      if (!swiper.zoom.enabled) return;
+      swiper.zoom.onTouchEnd(e);
+    },
+    doubleTap(e) {
+      const swiper = this;
+      if (swiper.params.zoom.enabled && swiper.zoom.enabled && swiper.params.zoom.toggle) {
+        swiper.zoom.toggle(e);
+      }
+    },
+    transitionEnd() {
+      const swiper = this;
+      if (swiper.zoom.enabled && swiper.params.zoom.enabled) {
+        swiper.zoom.onTransitionEnd();
+      }
     },
   },
 };
