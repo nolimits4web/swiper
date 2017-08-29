@@ -2,7 +2,6 @@ import Utils from '../../utils/utils';
 import Support from '../../utils/support';
 
 const Observer = {
-  observers: [],
   func: window.MutationObserver || window.WebkitMutationObserver,
   attach(target, options = {}) {
     const swiper = this;
@@ -20,7 +19,7 @@ const Observer = {
       characterData: typeof options.characterData === 'undefined' ? true : options.characterData,
     });
 
-    Observer.observers.push(observer);
+    swiper.observer.observers.push(observer);
   },
   init() {
     const swiper = this;
@@ -28,7 +27,7 @@ const Observer = {
     if (swiper.params.observer === 'parents') {
       const containerParents = swiper.$el.parents();
       for (let i = 0; i < containerParents.length; i += 1) {
-        Observer.attach(containerParents[i]);
+        swiper.observer.attach(containerParents[i]);
       }
     }
     // Observe container
@@ -38,10 +37,11 @@ const Observer = {
     swiper.observer.attach(swiper.$wrapperEl[0], { attributes: false });
   },
   destroy() {
-    Observer.observers.forEach((observer) => {
+    const swiper = this;
+    swiper.observer.observers.forEach((observer) => {
       observer.disconnect();
     });
-    Observer.observers = [];
+    swiper.observer.observers = [];
   },
 };
 
@@ -57,6 +57,7 @@ export default {
         init: Observer.init.bind(swiper),
         attach: Observer.attach.bind(swiper),
         destroy: Observer.destroy.bind(swiper),
+        observers: [],
       },
     });
   },

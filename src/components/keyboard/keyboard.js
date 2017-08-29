@@ -2,7 +2,6 @@ import $ from '../../utils/dom';
 import Utils from '../../utils/utils';
 
 const Keyboard = {
-  bound: false,
   handle(event) {
     const swiper = this;
     let e = event;
@@ -73,17 +72,13 @@ const Keyboard = {
   enable() {
     const swiper = this;
     if (swiper.keyboard.enabled) return;
-    if (!Keyboard.bound) {
-      Keyboard.bound = true;
-      Keyboard.handle = Keyboard.handle.bind(swiper);
-    }
-    $(document).on('keydown', Keyboard.handle);
+    $(document).on('keydown', swiper.keyboard.handle);
     swiper.keyboard.enabled = true;
   },
   disable() {
     const swiper = this;
     if (!swiper.keyboard.enabled) return;
-    $(document).off('keydown', Keyboard.handle);
+    $(document).off('keydown', swiper.keyboard.handle);
     swiper.keyboard.enabled = false;
   },
 };
@@ -102,6 +97,7 @@ export default {
         enabled: false,
         enable: Keyboard.enable.bind(swiper),
         disable: Keyboard.disable.bind(swiper),
+        handle: Keyboard.handle.bind(swiper),
       },
     });
   },

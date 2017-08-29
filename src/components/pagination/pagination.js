@@ -2,7 +2,6 @@ import $ from '../../utils/dom';
 import Utils from '../../utils/utils';
 
 const Pagination = {
-  bulletSize: undefined,
   update() {
     // Render || Update Pagination bullets/items
     const swiper = this;
@@ -28,8 +27,8 @@ const Pagination = {
     if (params.type === 'bullets' && swiper.pagination.bullets && swiper.pagination.bullets.length > 0) {
       const bullets = swiper.pagination.bullets;
       if (params.dynamicBullets) {
-        Pagination.bulletSize = bullets.eq(0)[swiper.isHorizontal() ? 'outerWidth' : 'outerHeight'](true);
-        $el.css(swiper.isHorizontal() ? 'width' : 'height', `${Pagination.bulletSize * 5}px`);
+        swiper.pagination.bulletSize = bullets.eq(0)[swiper.isHorizontal() ? 'outerWidth' : 'outerHeight'](true);
+        $el.css(swiper.isHorizontal() ? 'width' : 'height', `${swiper.pagination.bulletSize * 5}px`);
       }
       bullets.removeClass(`${params.bulletActiveClass} ${params.bulletActiveClass}-next ${params.bulletActiveClass}-next-next ${params.bulletActiveClass}-prev ${params.bulletActiveClass}-prev-prev`);
       if ($el.length > 1) {
@@ -68,7 +67,7 @@ const Pagination = {
         }
       }
       if (params.dynamicBullets) {
-        const bulletsOffset = (((Pagination.bulletSize * 5) - (Pagination.bulletSize)) / 2) - (current * Pagination.bulletSize);
+        const bulletsOffset = (((swiper.pagination.bulletSize * 5) - (swiper.pagination.bulletSize)) / 2) - (current * swiper.pagination.bulletSize);
         bullets.css(swiper.isHorizontal() ? 'left' : 'top', `${bulletsOffset}px`);
       }
     }

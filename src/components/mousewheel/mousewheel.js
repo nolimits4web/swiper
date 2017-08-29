@@ -25,7 +25,6 @@ function isEventSupported() {
   return isSupported;
 }
 const Mousewheel = {
-  bound: false,
   lastScrollTime: Utils.now(),
   event: (function getEvent() {
     if (window.navigator.userAgent.indexOf('firefox') > -1) return 'DOMMouseScroll';
@@ -122,7 +121,7 @@ const Mousewheel = {
     if (params.invert) delta = -delta;
 
     if (!swiper.params.freeMode) {
-      if (Utils.now() - Mousewheel.lastScrollTime > 60) {
+      if (Utils.now() - swiper.mousewheel.lastScrollTime > 60) {
         if (delta < 0) {
           if ((!swiper.isEnd || swiper.params.loop) && !swiper.animating) {
             swiper.slideNext();
@@ -133,7 +132,7 @@ const Mousewheel = {
           swiper.emit('scroll', e);
         } else if (params.releaseOnEdges) return true;
       }
-      Mousewheel.lastScrollTime = (new window.Date()).getTime();
+      swiper.mousewheel.lastScrollTime = (new window.Date()).getTime();
     } else {
       // Freemode or scrollContainer:
       let position = swiper.getTranslate() + (delta * params.sensitivity);
@@ -155,8 +154,8 @@ const Mousewheel = {
       }
 
       if (swiper.params.freeModeSticky) {
-        clearTimeout(Mousewheel.timeout);
-        Mousewheel.timeout = Utils.nextTick(() => {
+        clearTimeout(swiper.mousewheel.timeout);
+        swiper.mousewheel.timeout = Utils.nextTick(() => {
           swiper.slideReset();
         }, 300);
       }
@@ -182,11 +181,7 @@ const Mousewheel = {
     if (swiper.params.mousewheel.eventsTarged !== 'container') {
       target = $(swiper.params.mousewheel.eventsTarged);
     }
-    if (!Mousewheel.bound) {
-      Mousewheel.bound = true;
-      Mousewheel.handle = Mousewheel.handle.bind(swiper);
-    }
-    target.on(Mousewheel.event, Mousewheel.handle);
+    target.on(Mousewheel.event, swiper.mousewheel.handle);
     swiper.mousewheel.enabled = true;
     return true;
   },
@@ -198,7 +193,7 @@ const Mousewheel = {
     if (swiper.params.mousewheel.eventsTarged !== 'container') {
       target = $(swiper.params.mousewheel.eventsTarged);
     }
-    target.off(Mousewheel.event, Mousewheel.handle);
+    target.off(Mousewheel.event, swiper.mousewheel.handle);
     swiper.mousewheel.enabled = false;
     return true;
   },
@@ -223,6 +218,8 @@ export default {
         enabled: false,
         enable: Mousewheel.enable.bind(swiper),
         disable: Mousewheel.disable.bind(swiper),
+        handle: Mousewheel.handle.bind(swiper),
+        lastScrollTime: Utils.now(),
       },
     });
   },

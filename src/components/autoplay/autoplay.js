@@ -1,8 +1,6 @@
 import Utils from '../../utils/utils';
 
 const Autoplay = {
-  timeout: undefined,
-
   run() {
     const swiper = this;
     const $activeSlideEl = swiper.slides.eq(swiper.activeIndex);
@@ -10,7 +8,7 @@ const Autoplay = {
     if ($activeSlideEl.attr('data-swiper-autoplay')) {
       delay = $activeSlideEl.attr('data-swiper-autoplay') || swiper.params.autoplay.delay;
     }
-    Autoplay.timeout = Utils.nextTick(() => {
+    swiper.autoplay.timeout = Utils.nextTick(() => {
       if (swiper.params.loop) {
         swiper.loopFix();
         swiper.slideNext(swiper.params.speed, true, true);
@@ -28,7 +26,7 @@ const Autoplay = {
   },
   start() {
     const swiper = this;
-    if (typeof Autoplay.timeout !== 'undefined') return false;
+    if (typeof swiper.autoplay.timeout !== 'undefined') return false;
     if (swiper.autoplay.running) return false;
     swiper.autoplay.running = true;
     swiper.emit('autoplayStart');
@@ -38,11 +36,11 @@ const Autoplay = {
   stop() {
     const swiper = this;
     if (!swiper.autoplay.running) return false;
-    if (typeof Autoplay.timeout === 'undefined') return false;
+    if (typeof swiper.autoplay.timeout === 'undefined') return false;
 
-    if (Autoplay.timeout) {
-      clearTimeout(Autoplay.timeout);
-      Autoplay.timeout = undefined;
+    if (swiper.autoplay.timeout) {
+      clearTimeout(swiper.autoplay.timeout);
+      swiper.autoplay.timeout = undefined;
     }
     swiper.autoplay.running = false;
     swiper.emit('autoplayStop');
@@ -52,7 +50,7 @@ const Autoplay = {
     const swiper = this;
     if (!swiper.autoplay.running) return;
     if (swiper.autoplay.paused) return;
-    if (Autoplay.timeout) clearTimeout(Autoplay.timeout);
+    if (swiper.autoplay.timeout) clearTimeout(swiper.autoplay.timeout);
     swiper.autoplay.paused = true;
     if (speed === 0) {
       swiper.autoplay.paused = false;

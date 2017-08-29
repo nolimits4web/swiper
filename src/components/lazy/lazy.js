@@ -2,7 +2,6 @@ import $ from '../../utils/dom';
 import Utils from '../../utils/utils';
 
 const Lazy = {
-  initialImageLoaded: false,
   loadImagesInSlide(index, loadInDuplicate = true) {
     const swiper = this;
     const params = swiper.params.lazy;
@@ -73,7 +72,7 @@ const Lazy = {
       slidesPerView = 0;
     }
 
-    if (!Lazy.initialImageLoaded) Lazy.initialImageLoaded = true;
+    if (!swiper.lazy.initialImageLoaded) swiper.lazy.initialImageLoaded = true;
     if (swiper.params.watchSlidesVisibility) {
       $wrapperEl.children(`.${swiperParams.slideVisibleClass}`).each((index, slideEl) => {
         swiper.lazy.loadImagesInSlide($(slideEl).index());
@@ -129,6 +128,7 @@ export default {
     const swiper = this;
     Utils.extend(swiper, {
       lazy: {
+        initialImageLoaded: false,
         load: Lazy.load.bind(swiper),
         loadImagesInSlide: Lazy.loadImagesInSlide.bind(swiper),
       },
@@ -154,7 +154,7 @@ export default {
     transitionStart() {
       const swiper = this;
       if (swiper.params.lazy.enabled) {
-        if (swiper.params.lazy.loadOnTransitionStart || (!swiper.params.lazy.loadOnTransitionStart && !Lazy.initialImageLoaded)) {
+        if (swiper.params.lazy.loadOnTransitionStart || (!swiper.params.lazy.loadOnTransitionStart && !swiper.lazy.initialImageLoaded)) {
           swiper.lazy.load();
         }
       }

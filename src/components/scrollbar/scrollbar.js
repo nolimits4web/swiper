@@ -3,9 +3,6 @@ import Utils from '../../utils/utils';
 import Support from '../../utils/support';
 
 const Scrollbar = {
-  isTouched: false,
-  timeout: null,
-  dragTimeout: null,
   setTranslate() {
     const swiper = this;
     if (!swiper.params.scrollbar.el || !swiper.scrollbar.el) return;
@@ -45,9 +42,9 @@ const Scrollbar = {
       $dragEl[0].style.height = `${newSize}px`;
     }
     if (params.hide) {
-      clearTimeout(Scrollbar.timeout);
+      clearTimeout(swiper.scrollbar.timeout);
       $el[0].style.opacity = 1;
-      Scrollbar.timeout = setTimeout(() => {
+      swiper.scrollbar.timeout = setTimeout(() => {
         $el[0].style.opacity = 0;
         $el.transition(400);
       }, 1000);
@@ -130,12 +127,12 @@ const Scrollbar = {
     const params = swiper.params.scrollbar;
     const { scrollbar, $wrapperEl } = swiper;
     const { $el, $dragEl } = scrollbar;
-    Scrollbar.isTouched = true;
+    swiper.scrollbar.isTouched = true;
     e.preventDefault();
     e.stopPropagation();
 
     scrollbar.setDragPosition(e);
-    clearTimeout(Scrollbar.dragTimeout);
+    clearTimeout(swiper.scrollbar.dragTimeout);
 
     $el.transition(0);
     if (params.hide) {
@@ -150,7 +147,7 @@ const Scrollbar = {
     const { scrollbar, $wrapperEl } = swiper;
     const { $el, $dragEl } = scrollbar;
 
-    if (!Scrollbar.isTouched) return;
+    if (!swiper.scrollbar.isTouched) return;
     if (e.preventDefault) e.preventDefault();
     else e.returnValue = false;
     scrollbar.setDragPosition(e);
@@ -166,11 +163,11 @@ const Scrollbar = {
     const { scrollbar } = swiper;
     const { $el } = scrollbar;
 
-    if (!Scrollbar.isTouched) return;
-    Scrollbar.isTouched = false;
+    if (!swiper.scrollbar.isTouched) return;
+    swiper.scrollbar.isTouched = false;
     if (params.hide) {
-      clearTimeout(Scrollbar.dragTimeout);
-      Scrollbar.dragTimeout = Utils.nextTick(() => {
+      clearTimeout(swiper.scrollbar.dragTimeout);
+      swiper.scrollbar.dragTimeout = Utils.nextTick(() => {
         $el.css('opacity', 0);
         $el.transition(400);
       }, 1000);
@@ -186,9 +183,9 @@ const Scrollbar = {
     const { scrollbar } = swiper;
     const $el = scrollbar.$el;
     const target = Support.touch ? $el[0] : document;
-    $el.on(Scrollbar.dragEvents.start, Scrollbar.onDragStart.bind(swiper));
-    $(target).on(Scrollbar.dragEvents.move, Scrollbar.onDragMove.bind(swiper));
-    $(target).on(Scrollbar.dragEvents.end, Scrollbar.onDragEnd.bind(swiper));
+    $el.on(swiper.scrollbar.dragEvents.start, swiper.scrollbar.onDragStart.bind(swiper));
+    $(target).on(swiper.scrollbar.dragEvents.move, swiper.scrollbar.onDragMove.bind(swiper));
+    $(target).on(swiper.scrollbar.dragEvents.end, swiper.scrollbar.onDragEnd.bind(swiper));
   },
   disableDraggable() {
     const swiper = this;
@@ -196,9 +193,9 @@ const Scrollbar = {
     const { scrollbar } = swiper;
     const $el = scrollbar.$el;
     const target = Support.touch ? $el[0] : document;
-    $el.off(Scrollbar.dragEvents.start);
-    $(target).off(Scrollbar.dragEvents.move);
-    $(target).off(Scrollbar.dragEvents.end);
+    $el.off(swiper.scrollbar.dragEvents.start);
+    $(target).off(swiper.scrollbar.dragEvents.move);
+    $(target).off(swiper.scrollbar.dragEvents.end);
   },
   init() {
     const swiper = this;
@@ -217,7 +214,7 @@ const Scrollbar = {
       $el.append($dragEl);
     }
 
-    Scrollbar.dragEvents = (function dragEvents() {
+    swiper.scrollbar.dragEvents = (function dragEvents() {
       if ((swiper.params.simulateTouch === false && !Support.touch)) {
         return {
           start: 'mousedown',
@@ -268,6 +265,9 @@ export default {
         enableDraggable: Scrollbar.enableDraggable.bind(swiper),
         disableDraggable: Scrollbar.disableDraggable.bind(swiper),
         setDragPosition: Scrollbar.setDragPosition.bind(swiper),
+        isTouched: false,
+        timeout: null,
+        dragTimeout: null,
       },
     });
   },

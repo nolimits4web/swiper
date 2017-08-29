@@ -1,7 +1,5 @@
 import Utils from '../../../utils/utils';
 
-let currentBreakpoint;
-
 function getBreakpoint(breakpoints) {
   // Get breakpoint for window width
   if (!breakpoints) return undefined;
@@ -27,13 +25,13 @@ export default function () {
   if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) return;
   // Set breakpoint for window width and update parameters
   const breakpoint = getBreakpoint(breakpoints);
-  if (breakpoint && currentBreakpoint !== breakpoint) {
+  if (breakpoint && swiper.currentBreakpoint !== breakpoint) {
     const breakPointsParams = breakpoint in breakpoints ? breakpoints[breakpoint] : swiper.originalParams;
     const needsReLoop = params.loop && (breakPointsParams.slidesPerView !== params.slidesPerView);
 
     Utils.extend(swiper.params, breakPointsParams);
 
-    currentBreakpoint = breakpoint;
+    swiper.currentBreakpoint = breakpoint;
 
     if (needsReLoop) {
       const oldIndex = activeIndex - loopedSlides;
