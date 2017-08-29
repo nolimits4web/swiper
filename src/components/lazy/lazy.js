@@ -45,7 +45,7 @@ const Lazy = {
         }
 
         $imageEl.addClass(params.loadedClass).removeClass(params.loadingClass);
-        $slideEl.find(`.${params.preloaderClass}, .${params.preloaderClass}`).remove();
+        $slideEl.find(`.${params.preloaderClass}`).remove();
         if (swiper.params.loop && loadInDuplicate) {
           const slideOriginalIndex = $slideEl.attr('data-swiper-slide-index');
           if ($slideEl.hasClass(swiper.params.slideDuplicateClass)) {
