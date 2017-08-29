@@ -22,6 +22,12 @@ import History from './components/history/history';
 import HashNavigation from './components/hash-navigation/hash-navigation';
 import Autoplay from './components/autoplay/autoplay';
 
+// Effects
+import EffectFade from './components/effect-fade/effect-fade';
+import EffectCube from './components/effect-cube/effect-cube';
+import EffectFlip from './components/effect-flip/effect-flip';
+import EffectCoverflow from './components/effect-coverflow/effect-coverflow';
+
 // Install Modules
 Swiper
   .use(Device)
@@ -42,6 +48,10 @@ Swiper
   .use(A11y)
   .use(History)
   .use(HashNavigation)
-  .use(Autoplay);
+  .use(Autoplay)
+  .use(EffectFade)
+  .use(EffectFlip)
+  .use(EffectCube)
+  .use(EffectCoverflow);
 
 export default Swiper;
