@@ -115,8 +115,6 @@ export default {
   slideDuplicatePrevClass: 'swiper-slide-duplicate-prev',
   wrapperClass: 'swiper-wrapper',
 
-  preloaderClass: 'preloader',
-
   // Observer
   observer: false,
   observeParents: false,
