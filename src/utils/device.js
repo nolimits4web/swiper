@@ -1,3 +1,5 @@
+import window from './window';
+
 function Device() {
   const ua = window.navigator.userAgent;
 

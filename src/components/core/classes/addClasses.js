@@ -1,3 +1,4 @@
+import window from '../../../utils/window';
 import Support from '../../../utils/support';
 import Device from '../../../utils/device';
 

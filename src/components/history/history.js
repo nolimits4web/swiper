@@ -1,3 +1,4 @@
+import window from '../../utils/window';
 import Utils from '../../utils/utils';
 
 const History = {

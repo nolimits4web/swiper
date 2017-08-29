@@ -1,3 +1,4 @@
+import window from '../../utils/window';
 import $ from '../../utils/dom';
 import Utils from '../../utils/utils';
 import Support from '../../utils/support';

@@ -1,3 +1,5 @@
+import window from './window';
+
 function Browser() {
   function isIE9() {
     // create temporary DIV

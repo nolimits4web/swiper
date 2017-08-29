@@ -1,3 +1,5 @@
+import window from './window';
+
 const Utils = {
   deleteProps(obj) {
     const object = obj;

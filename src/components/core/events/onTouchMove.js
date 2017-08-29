@@ -180,7 +180,7 @@ export default function (event) {
     }
     data.velocities.push({
       position: touches[swiper.isHorizontal() ? 'currentX' : 'currentY'],
-      time: (new window.Date()).getTime(),
+      time: Utils.now(),
     });
   }
   // Update progress
