@@ -11,7 +11,6 @@ import update from './update/';
 import translate from './translate/';
 import transition from './transition/';
 import slide from './slide/';
-import slideLock from './slide-lock/';
 import loop from './loop/';
 import grabCursor from './grab-cursor/';
 import manipulation from './manipulation/';
@@ -130,6 +129,8 @@ class Swiper extends SwiperClass {
       allowClick: true,
 
       // Touches
+      allowTouchMove: swiper.params.allowTouchMove,
+
       touches: {
         startX: 0,
         startY: 0,
@@ -319,7 +320,6 @@ const prototypes = Utils.extend(
   translate,
   transition,
   slide,
-  slideLock,
   loop,
   grabCursor,
   manipulation,
