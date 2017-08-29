@@ -17,15 +17,17 @@ const rename = require('gulp-rename');
 const config = require('./config.js');
 const banner = require('./banner.js');
 
-function es(cb) {
+function es(components, cb) {
   const env = process.env.NODE_ENV || 'development';
-  const target = process.env.TARGET || 'universal';
+  const target = process.env.TARGET || config.target;
   rollup({
     entry: './src/swiper.js',
     plugins: [
       replace({
         'process.env.NODE_ENV': JSON.stringify(env), // or 'production'
         'process.env.TARGET': JSON.stringify(target), // or 'production'
+        '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
+        '//INSTALL_COMPONENTS': components.map(component => `.use(${component.capitalized})`).join('\n  '),
       }),
       buble(),
     ],
@@ -48,15 +50,17 @@ function es(cb) {
       if (cb) cb();
     });
 }
-function umd(cb) {
+function umd(components, cb) {
   const env = process.env.NODE_ENV || 'development';
-  const target = process.env.TARGET || 'universal';
+  const target = process.env.TARGET || config.target;
   rollup({
     entry: './src/swiper.js',
     plugins: [
       replace({
         'process.env.NODE_ENV': JSON.stringify(env), // or 'production'
         'process.env.TARGET': JSON.stringify(target), // or 'production'
+        '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
+        '//INSTALL_COMPONENTS': components.map(component => `.use(${component.capitalized})`).join('\n  '),
       }),
       resolve({ jsnext: true }),
       buble(),
@@ -98,16 +102,30 @@ function umd(cb) {
 function build(cb) {
   const env = process.env.NODE_ENV || 'development';
 
+  const components = [];
+  config.components.forEach((name) => {
+    const capitalized = name.split('-').map((word) => {
+      return word.split('').map((char, index) => {
+        if (index === 0) return char.toUpperCase();
+        return char;
+      }).join('');
+    }).join('');
+    const jsFilePath = `./src/components/${name}/${name}.js`;
+    if (fs.existsSync(jsFilePath)) {
+      components.push({ name, capitalized });
+    }
+  });
+
   const expectCbs = env === 'development' ? 1 : 2;
   let cbs = 0;
 
-  umd(() => {
+  umd(components, () => {
     cbs += 1;
     if (cbs === expectCbs) cb();
   });
 
   if (env === 'production') {
-    es(() => {
+    es(components, () => {
       cbs += 1;
       if (cbs === expectCbs) cb();
     });

@@ -1,4 +1,3 @@
-/* Pagination Styles */
 .swiper-pagination {
   position: absolute;
   text-align: center;
@@ -56,20 +55,12 @@
   .swiper-pagination-clickable & {
     cursor: pointer;
   }
-  .swiper-pagination-white & {
-    background: #fff;
-  }
 }
 .swiper-pagination-bullet-active {
   opacity: 1;
-  background: #007aff;
-  .swiper-pagination-white & {
-    background: #fff;
-  }
-  .swiper-pagination-black & {
-    background: #000;
-  }
+  background: @themeColor;
 }
+
 .swiper-container-vertical {
   > .swiper-pagination-bullets {
     right: 10px;
@@ -110,7 +101,7 @@
   background: rgba(0,0,0,0.25);
   position: absolute;
   .swiper-pagination-progressbar-fill {
-    background: #007aff;
+    background: @themeColor;
     position: absolute;
     left: 0;
     top: 0;
@@ -134,15 +125,15 @@
     left: 0;
     top: 0;
   }
-  &.swiper-pagination-white {
-    background: rgba(255,255,255,0.5);
-    .swiper-pagination-progressbar-fill {
-      background: #fff;
-    }
-  }
-  &.swiper-pagination-black {
-    .swiper-pagination-progressbar-fill {
-      background: #000;
-    }
-  }
 }
+.pagination-color-loop({
+  .swiper-pagination-@{paginationColorName} .swiper-pagination-bullet-active {
+    background: @paginationColorValue;
+  }
+  .swiper-pagination-progressbar.swiper-pagination-@{paginationColorName} {
+    background: rgba(red(@paginationColorValue), green(@paginationColorValue), blue(@paginationColorValue), 0.25);
+    .swiper-pagination-progressbar-fill {
+      background: @paginationColorValue;
+    }
+  }
+});

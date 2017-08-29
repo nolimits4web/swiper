@@ -16,7 +16,28 @@ const banner = require('./banner.js');
 function build(cb) {
   const env = process.env.NODE_ENV || 'development';
 
+  const components = [];
+  config.components.forEach((name) => {
+    const lessFilePath = `./src/components/${name}/${name}.less`;
+    if (fs.existsSync(lessFilePath)) {
+      components.push(name);
+    }
+  });
+
+  const colors = [];
+
+  Object.keys(config.colors).forEach((key) => {
+    colors.push(`${key} ${config.colors[key]}`);
+  });
+
   gulp.src('./src/swiper.less')
+    .pipe(modifyFile((content) => {
+      const newContent = content
+        .replace('//IMPORT_COMPONENTS', components.map(component => `@import url('./components/${component}/${component}.less');`).join('\n'))
+        .replace('$themeColor', config.themeColor)
+        .replace('$colors', colors.join(', '));
+      return newContent;
+    }))
     .pipe(less())
     .on('error', (err) => {
       if (cb) cb();
