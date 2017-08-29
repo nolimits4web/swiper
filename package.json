@@ -6,8 +6,8 @@
   "jsnext:main": "dist/js/swiper.module.js",
   "module": "dist/js/swiper.module.js",
   "scripts": {
-    "build": "NODE_ENV=development gulp build",
-    "dist": "NODE_ENV=production gulp build",
+    "build-dev": "NODE_ENV=development gulp build",
+    "build-prod": "NODE_ENV=production gulp build",
     "dev": "NODE_ENV=development gulp build && NODE_ENV=development gulp playground && gulp server",
     "prod": "NODE_ENV=production gulp playground && gulp server",
     "test": "npm run build"
