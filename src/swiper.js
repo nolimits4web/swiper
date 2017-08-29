@@ -18,4 +18,4 @@ Swiper
   .use(Resize)
   //INSTALL_COMPONENTS
 
-export default Swiper;
+//EXPORT
