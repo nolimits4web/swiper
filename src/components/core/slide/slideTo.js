@@ -63,12 +63,12 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   swiper.transitionStart(runCallbacks);
 
   if (speed === 0 || Browser.lteIE9) {
-    swiper.setTranslate(translate);
     swiper.setTransition(0);
+    swiper.setTranslate(translate);
     swiper.transitionEnd(runCallbacks);
   } else {
-    swiper.setTranslate(translate);
     swiper.setTransition(speed);
+    swiper.setTranslate(translate);
     if (!swiper.animating) {
       swiper.animating = true;
       $wrapperEl.transitionEnd(() => {
