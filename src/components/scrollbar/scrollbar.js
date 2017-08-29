@@ -131,15 +131,16 @@ const Scrollbar = {
     e.preventDefault();
     e.stopPropagation();
 
+    $wrapperEl.transition(100);
+    $dragEl.transition(100);
     scrollbar.setDragPosition(e);
+
     clearTimeout(swiper.scrollbar.dragTimeout);
 
     $el.transition(0);
     if (params.hide) {
       $el.css('opacity', 1);
     }
-    $wrapperEl.transition(100);
-    $dragEl.transition(100);
     swiper.emit('scrollbarDragStart', e);
   },
   onDragMove(e) {
@@ -183,9 +184,9 @@ const Scrollbar = {
     const { scrollbar } = swiper;
     const $el = scrollbar.$el;
     const target = Support.touch ? $el[0] : document;
-    $el.on(swiper.scrollbar.dragEvents.start, swiper.scrollbar.onDragStart.bind(swiper));
-    $(target).on(swiper.scrollbar.dragEvents.move, swiper.scrollbar.onDragMove.bind(swiper));
-    $(target).on(swiper.scrollbar.dragEvents.end, swiper.scrollbar.onDragEnd.bind(swiper));
+    $el.on(swiper.scrollbar.dragEvents.start, swiper.scrollbar.onDragStart);
+    $(target).on(swiper.scrollbar.dragEvents.move, swiper.scrollbar.onDragMove);
+    $(target).on(swiper.scrollbar.dragEvents.end, swiper.scrollbar.onDragEnd);
   },
   disableDraggable() {
     const swiper = this;
@@ -265,6 +266,9 @@ export default {
         enableDraggable: Scrollbar.enableDraggable.bind(swiper),
         disableDraggable: Scrollbar.disableDraggable.bind(swiper),
         setDragPosition: Scrollbar.setDragPosition.bind(swiper),
+        onDragStart: Scrollbar.onDragStart.bind(swiper),
+        onDragMove: Scrollbar.onDragMove.bind(swiper),
+        onDragEnd: Scrollbar.onDragEnd.bind(swiper),
         isTouched: false,
         timeout: null,
         dragTimeout: null,
