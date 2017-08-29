@@ -395,7 +395,7 @@ export default {
   name: 'zoom',
   params: {
     zoom: {
-      enabled: true,
+      enabled: false,
       maxRatio: 3,
       minRatio: 1,
       toggle: true,
