@@ -10,7 +10,7 @@
     "build-prod": "NODE_ENV=production gulp build",
     "dev": "NODE_ENV=development gulp build && NODE_ENV=development gulp playground && gulp server",
     "prod": "NODE_ENV=production gulp playground && gulp server",
-    "test": "npm run build"
+    "test": "npm run build-dev"
   },
   "files": [
     "dist",
