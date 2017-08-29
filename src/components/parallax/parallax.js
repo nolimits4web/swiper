@@ -81,6 +81,10 @@ export default {
     });
   },
   on: {
+    beforeInit() {
+      const swiper = this;
+      swiper.params.watchSlidesProgress = true;
+    },
     init() {
       const swiper = this;
       if (!swiper.params.parallax) return;
