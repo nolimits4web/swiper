@@ -22,7 +22,5 @@ module.exports = {
   globals: {
     'window': true,
     'document': true,
-    'Modernizr': true,
-    'DocumentTouch': true,
   }
 };

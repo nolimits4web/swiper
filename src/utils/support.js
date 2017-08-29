@@ -2,8 +2,8 @@ import window from './window';
 
 function Support() {
   return {
-    touch: (window.Modernizr && Modernizr.touch === true) || (function checkTouch() {
-      return !!(('ontouchstart' in window) || (window.DocumentTouch && document instanceof DocumentTouch));
+    touch: (window.Modernizr && window.Modernizr.touch === true) || (function checkTouch() {
+      return !!(('ontouchstart' in window) || (window.DocumentTouch && document instanceof window.DocumentTouch));
     }()),
 
     transforms3d: (window.Modernizr && window.Modernizr.csstransforms3d === true) || (function checkTransforms3d() {
