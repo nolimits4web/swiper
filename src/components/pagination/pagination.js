@@ -87,9 +87,9 @@ const Pagination = {
     }
     if (params.type === 'custom' && params.renderCustom) {
       $el.html(params.renderCustom(swiper, current + 1, total));
-      swiper.emit('paginationRendered', swiper, $el[0]);
+      swiper.emit('paginationRender', swiper, $el[0]);
     } else {
-      swiper.emit('paginationUpdated', swiper, $el[0]);
+      swiper.emit('paginationUpdate', swiper, $el[0]);
     }
   },
   render() {
@@ -111,10 +111,6 @@ const Pagination = {
       }
       $el.html(paginationHTML);
       swiper.pagination.bullets = $el.find(`.${params.bulletClass}`);
-
-      // if (params.clickable && swiper.params.a11y && swiper.a11y) {
-      //   swiper.a11y.initPagination();
-      // }
     }
     if (params.type === 'fraction') {
       if (params.renderFraction) {
@@ -136,7 +132,7 @@ const Pagination = {
       $el.html(paginationHTML);
     }
     if (params.type !== 'custom') {
-      swiper.emit('paginationRendered', swiper.pagination.$el[0]);
+      swiper.emit('paginationRender', swiper.pagination.$el[0]);
     }
   },
   init() {
@@ -173,7 +169,6 @@ const Pagination = {
         if (swiper.params.loop) index += swiper.loopedSlides;
         swiper.slideTo(index);
       });
-      // if (s.params.a11y && s.a11y) s.paginationContainer[actionDom]('keydown', `.${s.params.bulletClass}`, s.a11y.onEnterKey);
     }
 
     Utils.extend(swiper.pagination, {
@@ -192,7 +187,6 @@ const Pagination = {
     if (swiper.pagination.bullets) swiper.pagination.bullets.removeClass(params.bulletActiveClass);
     if (params.clickable) {
       $el.off('click', `.${params.bulletClass}`);
-      // if (s.params.a11y && s.a11y) s.paginationContainer[actionDom]('keydown', `.${s.params.bulletClass}`, s.a11y.onEnterKey);
     }
   },
 };

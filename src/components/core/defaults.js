@@ -115,21 +115,11 @@ export default {
   slideDuplicatePrevClass: 'swiper-slide-duplicate-prev',
   wrapperClass: 'swiper-wrapper',
 
-
-  notificationClass: 'swiper-notification',
   preloaderClass: 'preloader',
 
   // Observer
   observer: false,
   observeParents: false,
-
-  // Accessibility
-  a11y: false,
-  prevSlideMessage: 'Previous slide',
-  nextSlideMessage: 'Next slide',
-  firstSlideMessage: 'This is the first slide',
-  lastSlideMessage: 'This is the last slide',
-  paginationBulletMessage: 'Go to slide {{index}}',
 
   // Callbacks
   runCallbacksOnInit: true,

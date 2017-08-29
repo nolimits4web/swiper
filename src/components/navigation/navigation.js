@@ -13,19 +13,15 @@ const Navigation = {
     if ($prevEl && $prevEl.length > 0) {
       if (swiper.isBeginning) {
         $prevEl.addClass(params.disabledClass);
-        // if (s.params.a11y && s.a11y) s.a11y.disable(s.prevButton);
       } else {
         $prevEl.removeClass(params.disabledClass);
-        // if (s.params.a11y && s.a11y) s.a11y.enable(s.prevButton);
       }
     }
     if ($nextEl && $nextEl.length > 0) {
       if (swiper.isEnd) {
         $nextEl.addClass(params.disabledClass);
-        // if (s.params.a11y && s.a11y) s.a11y.disable(s.nextButton);
       } else {
         $nextEl.removeClass(params.disabledClass);
-        // if (s.params.a11y && s.a11y) s.a11y.enable(s.nextButton);
       }
     }
   },
@@ -67,7 +63,6 @@ const Navigation = {
         if (swiper.isEnd && !swiper.params.loop) return;
         swiper.slideNext();
       });
-      // if (s.params.a11y && s.a11y) s.nextButton[actionDom]('keydown', s.a11y.onEnterKey);
     }
     if ($prevEl && $prevEl.length > 0) {
       $prevEl.on('click', (e) => {
@@ -75,7 +70,6 @@ const Navigation = {
         if (swiper.isBeginning && !swiper.params.loop) return;
         swiper.slidePrev();
       });
-      // if (s.params.a11y && s.a11y) s.prevButton[actionDom]('keydown', s.a11y.onEnterKey);
     }
 
     Utils.extend(swiper.navigation, {
