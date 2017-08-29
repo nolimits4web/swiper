@@ -23,7 +23,7 @@ export default function (translate = this.translate || 0) {
     isEnd,
   });
 
-  if (params.watchSlidesProgress) swiper.updateSlidesProgress(translate);
+  if (params.watchSlidesProgress || params.watchSlidesVisibility) swiper.updateSlidesProgress(translate);
 
   if (isBeginning && !wasBeginning) {
     swiper.emit('reachBeginning toEdge');

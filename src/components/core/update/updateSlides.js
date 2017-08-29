@@ -189,7 +189,7 @@ export default function () {
     swiper.emit('slidesGridLengthChange');
   }
 
-  if (params.watchSlidesProgress) {
+  if (params.watchSlidesProgress || params.watchSlidesVisibility) {
     swiper.updateSlidesOffset();
   }
 }
