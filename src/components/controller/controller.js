@@ -55,7 +55,7 @@ const Controller = {
   },
   setTranslate(setTranslate, byController) {
     const swiper = this;
-    const controlled = swiper.params.controller.control;
+    const controlled = swiper.controller.control;
     let multiplier;
     let controlledTranslate;
     function setControlledTranslate(c) {
@@ -64,7 +64,7 @@ const Controller = {
       // it makes sense to create this only once and recall it for the interpolation
       // the function does a lot of value caching for performance
       const translate = c.rtl && c.params.direction === 'horizontal' ? -swiper.translate : swiper.translate;
-      if (swiper.params.contoller.by === 'slide') {
+      if (swiper.params.controller.by === 'slide') {
         swiper.controller.getInterpolateFunction(c);
         // i am not sure why the values have to be multiplicated this way, tried to invert the snapGrid
         // but it did not work out
@@ -95,18 +95,18 @@ const Controller = {
   },
   setTransition(duration, byController) {
     const swiper = this;
-    const controlled = swiper.params.control;
+    const controlled = swiper.controller.control;
     let i;
     function setControlledTransition(c) {
       c.setTransition(duration, swiper);
       if (duration !== 0) {
-        c.onTransitionStart();
-        c.wrapper.transitionEnd(() => {
+        c.transitionStart();
+        c.$wrapperEl.transitionEnd(() => {
           if (!controlled) return;
           if (c.params.loop && swiper.params.controller.by === 'slide') {
-            c.fixLoop();
+            c.loopFix();
           }
-          c.onTransitionEnd();
+          c.transitionEnd();
         });
       }
     }
@@ -133,7 +133,8 @@ export default {
   create() {
     const swiper = this;
     Utils.extend(swiper, {
-      contoller: {
+      controller: {
+        control: swiper.params.controller.control,
         getInterpolateFunction: Controller.getInterpolateFunction.bind(swiper),
         setTranslate: Controller.setTranslate.bind(swiper),
         setTransition: Controller.setTransition.bind(swiper),
@@ -143,7 +144,7 @@ export default {
   on: {
     update() {
       const swiper = this;
-      if (!swiper.params.controller.control) return;
+      if (!swiper.controller.control) return;
       if (swiper.controller.spline) {
         swiper.controller.spline = undefined;
         delete swiper.controller.spline;
@@ -151,7 +152,7 @@ export default {
     },
     resize() {
       const swiper = this;
-      if (!swiper.params.controller.control) return;
+      if (!swiper.controller.control) return;
       if (swiper.controller.spline) {
         swiper.controller.spline = undefined;
         delete swiper.controller.spline;
@@ -159,7 +160,7 @@ export default {
     },
     observerUpdate() {
       const swiper = this;
-      if (!swiper.params.controller.control) return;
+      if (!swiper.controller.control) return;
       if (swiper.controller.spline) {
         swiper.controller.spline = undefined;
         delete swiper.controller.spline;
@@ -167,12 +168,12 @@ export default {
     },
     setTranslate(translate, byController) {
       const swiper = this;
-      if (!swiper.params.controller.control) return;
+      if (!swiper.controller.control) return;
       swiper.controller.setTranslate(translate, byController);
     },
     setTransition(duration, byController) {
       const swiper = this;
-      if (!swiper.params.controller.control) return;
+      if (!swiper.controller.control) return;
       swiper.controller.setTransition(duration, byController);
     },
   },
