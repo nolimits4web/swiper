@@ -31,6 +31,12 @@ export default function () {
 
     Utils.extend(swiper.params, breakPointsParams);
 
+    Utils.extend(swiper, {
+      allowTouchMove: swiper.params.allowTouchMove,
+      allowSlideNext: swiper.params.allowSlideNext,
+      allowSlidePrev: swiper.params.allowSlidePrev,
+    });
+
     swiper.currentBreakpoint = breakpoint;
 
     if (needsReLoop) {
