@@ -37,17 +37,5 @@ export default function (translate, byController) {
     swiper.updateProgress(translate);
   }
 
-  // if (s.params.effect !== 'slide' && s.effects[s.params.effect]) {
-  //   s.effects[s.params.effect].setTranslate(s.translate);
-  // }
-  // if (s.params.parallax && s.parallax) {
-  //   s.parallax.setTranslate(s.translate);
-  // }
-  // if (s.params.scrollbar && s.scrollbar) {
-  //   s.scrollbar.setTranslate(s.translate);
-  // }
-  // if (s.params.control && s.controller) {
-  //   s.controller.setTranslate(s.translate, byController);
-  // }
   swiper.emit('setTranslate', swiper.translate, byController);
 }
