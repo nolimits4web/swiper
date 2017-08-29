@@ -20,21 +20,23 @@ const banner = require('./banner.js');
 function es(components, cb) {
   const env = process.env.NODE_ENV || 'development';
   const target = process.env.TARGET || config.target;
+
   rollup({
     entry: './src/swiper.js',
     plugins: [
       replace({
-        'process.env.NODE_ENV': JSON.stringify(env), // or 'production'
-        'process.env.TARGET': JSON.stringify(target), // or 'production'
+        'process.env.NODE_ENV': JSON.stringify(env),
+        'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
         '//INSTALL_COMPONENTS': components.map(component => `.use(${component.capitalized})`).join('\n  '),
+        '//EXPORT': 'export default Swiper;',
       }),
       buble(),
     ],
     format: 'es',
     moduleName: 'Swiper',
     useStrict: true,
-    sourceMap: false,
+    sourceMap: env === 'development',
     banner,
   })
     .on('error', (err) => {
@@ -43,7 +45,6 @@ function es(components, cb) {
     })
     .pipe(source('swiper.js', './src'))
     .pipe(buffer())
-    .pipe(header(banner))
     .pipe(rename('swiper.module.js'))
     .pipe(gulp.dest(`./${env === 'development' ? 'build' : 'dist'}/js/`))
     .on('end', () => {
@@ -53,14 +54,16 @@ function es(components, cb) {
 function umd(components, cb) {
   const env = process.env.NODE_ENV || 'development';
   const target = process.env.TARGET || config.target;
+
   rollup({
     entry: './src/swiper.js',
     plugins: [
       replace({
-        'process.env.NODE_ENV': JSON.stringify(env), // or 'production'
-        'process.env.TARGET': JSON.stringify(target), // or 'production'
+        'process.env.NODE_ENV': JSON.stringify(env),
+        'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
         '//INSTALL_COMPONENTS': components.map(component => `.use(${component.capitalized})`).join('\n  '),
+        '//EXPORT': 'export default Swiper;',
       }),
       resolve({ jsnext: true }),
       buble(),
@@ -124,12 +127,10 @@ function build(cb) {
     if (cbs === expectCbs) cb();
   });
 
-  if (env === 'production') {
-    es(components, () => {
-      cbs += 1;
-      if (cbs === expectCbs) cb();
-    });
-  }
+  es(components, () => {
+    cbs += 1;
+    if (cbs === expectCbs) cb();
+  });
 }
 
 module.exports = build;
