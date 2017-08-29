@@ -1,9 +1,9 @@
 import Utils from '../../../utils/utils';
 
-import data from './data';
-
 export default function (event) {
   const swiper = this;
+  const data = swiper.touchEventsData;
+
   const { params, touches, rtl, $wrapperEl, slidesGrid, snapGrid } = swiper;
   let e = event;
   if (e.originalEvent) e = e.originalEvent;

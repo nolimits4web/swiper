@@ -5,6 +5,7 @@ import Support from '../../utils/support';
 import SwiperClass from '../../utils/class';
 
 import defaults from './defaults';
+import touchEventsData from './events/touchEventsData';
 
 import update from './update/';
 import translate from './translate/';
@@ -46,6 +47,7 @@ class Swiper extends SwiperClass {
     // Extend defaults with passed params
     swiper.params = Utils.extend(defaults, params);
     swiper.originalParams = Utils.extend({}, swiper.params);
+    swiper.passedParams = Utils.extend({}, params);
 
     // Find el
     const $el = $(swiper.params.el);
@@ -122,6 +124,7 @@ class Swiper extends SwiperClass {
           end: Support.touch || !swiper.params.simulateTouch ? touch[2] : desktop[2],
         };
       }()),
+      touchEventsData: Utils.extend({}, touchEventsData),
 
       // Clicks
       allowClick: true,
@@ -138,6 +141,7 @@ class Swiper extends SwiperClass {
       // Images
       imagesToLoad: [],
       imagesLoaded: 0,
+
     });
 
 

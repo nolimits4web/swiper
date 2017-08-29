@@ -2,10 +2,9 @@ import $ from '../../../utils/dom';
 import Device from '../../../utils/device';
 import Utils from '../../../utils/utils';
 
-import data from './data';
-
 export default function (event) {
   const swiper = this;
+  const data = swiper.touchEventsData;
   const { params, touches } = swiper;
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
