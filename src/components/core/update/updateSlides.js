@@ -10,12 +10,22 @@ export default function () {
   const slidesGrid = [];
   const slidesSizesGrid = [];
 
+  let offsetBefore = params.slidesOffsetBefore;
+  if (typeof offsetBefore === 'function') {
+    offsetBefore = params.slidesOffsetBefore.call(swiper);
+  }
+
+  let offsetAfter = params.slidesOffsetAfter;
+  if (typeof offsetAfter === 'function') {
+    offsetAfter = params.slidesOffsetAfter.call(swiper);
+  }
+
   const previousSlidesLength = swiper.slides.length;
   const previousSnapGridLength = swiper.snapGrid.length;
   const previousSlidesGridLength = swiper.snapGrid.length;
 
   let spaceBetween = params.spaceBetween;
-  let slidePosition = -params.slidesOffsetBefore;
+  let slidePosition = -offsetBefore;
   let prevSlideSize = 0;
   let index = 0;
   if (typeof swiperSize === 'undefined') {
@@ -124,7 +134,7 @@ export default function () {
 
     index += 1;
   }
-  swiper.virtualSize = Math.max(swiper.virtualSize, swiperSize) + params.slidesOffsetAfter;
+  swiper.virtualSize = Math.max(swiper.virtualSize, swiperSize) + offsetAfter;
   let newSlidesGrid;
 
   if (
