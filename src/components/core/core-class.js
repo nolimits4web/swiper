@@ -33,7 +33,6 @@ class Swiper extends SwiperClass {
     params = Utils.extend({}, params);
     if (el && !params.el) params.el = el;
 
-
     super(params);
 
     // Swiper Instance
@@ -44,7 +43,7 @@ class Swiper extends SwiperClass {
     swiper.useModulesParams(defaults);
 
     // Extend defaults with passed params
-    swiper.params = Utils.extend(defaults, params);
+    swiper.params = Utils.extend({}, defaults, params);
     swiper.originalParams = Utils.extend({}, swiper.params);
     swiper.passedParams = Utils.extend({}, params);
 
@@ -54,6 +53,15 @@ class Swiper extends SwiperClass {
 
     if (!el) {
       return undefined;
+    }
+
+    if ($el.length > 1) {
+      const swipers = [];
+      $el.each((index, containerEl) => {
+        const newParams = Utils.extend({}, params, { el: containerEl });
+        swipers.push(new Swiper(newParams));
+      });
+      return swipers;
     }
 
     el.swiper = swiper;
