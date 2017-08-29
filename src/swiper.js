@@ -6,6 +6,7 @@ import Device from './modules/device/device';
 import Support from './modules/support/support';
 import Browser from './modules/browser/browser';
 import Resize from './modules/resize/resize';
+import Observer from './modules/observer/observer';
 
 //IMPORT_COMPONENTS
 
@@ -16,6 +17,7 @@ Swiper
   .use(Support)
   .use(Browser)
   .use(Resize)
+  .use(Observer)
   //INSTALL_COMPONENTS
 
 //EXPORT

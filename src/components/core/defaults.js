@@ -115,10 +115,6 @@ export default {
   slideDuplicatePrevClass: 'swiper-slide-duplicate-prev',
   wrapperClass: 'swiper-wrapper',
 
-  // Observer
-  observer: false,
-  observeParents: false,
-
   // Callbacks
   runCallbacksOnInit: true,
 };

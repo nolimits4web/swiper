@@ -25,7 +25,7 @@ const Observer = {
   init() {
     const swiper = this;
     if (!Support.observer || !swiper.params.observer) return;
-    if (swiper.params.observer === 'parents') {
+    if (swiper.params.observeParents) {
       const containerParents = swiper.$el.parents();
       for (let i = 0; i < containerParents.length; i += 1) {
         swiper.observer.attach(containerParents[i]);
@@ -50,6 +50,7 @@ export default {
   name: 'observer',
   params: {
     observer: false,
+    observeParents: false,
   },
   create() {
     const swiper = this;

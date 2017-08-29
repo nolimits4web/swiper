@@ -1,6 +1,5 @@
 module.exports = {
   components: [
-    'observer',
     'keyboard',
     'mousewheel',
     'navigation',
