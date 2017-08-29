@@ -151,6 +151,12 @@ export default {
         swiper.lazy.load();
       }
     },
+    resize() {
+      const swiper = this;
+      if (swiper.params.lazy.enabled) {
+        swiper.lazy.load();
+      }
+    },
     transitionStart() {
       const swiper = this;
       if (swiper.params.lazy.enabled) {
