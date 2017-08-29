@@ -57,7 +57,7 @@ export default {
   longSwipesRatio: 0.5,
   longSwipesMs: 300,
   followFinger: true,
-  onlyExternal: false,
+  allowTouchMove: true,
   threshold: 0,
   touchMoveStopPropagation: true,
   touchReleaseOnEdges: false,

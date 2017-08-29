@@ -15,7 +15,7 @@ export default function (event) {
     touches.startY = pageY;
     return;
   }
-  if (params.onlyExternal) {
+  if (!swiper.allowTouchMove) {
     // isMoved = true;
     swiper.allowClick = false;
     if (data.isTouched) {
