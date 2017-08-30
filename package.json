@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "4.0.0",
+  "version": "4.0.0-beta.1",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/js/swiper.js",
   "jsnext:main": "dist/js/swiper.module.js",
@@ -68,6 +68,6 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "dom7": "^1.6.4"
+    "dom7": "^1.7.0"
   }
 }
