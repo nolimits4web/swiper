@@ -29,7 +29,7 @@ function es(components, cb) {
         'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
         '//INSTALL_COMPONENTS': components.map(component => `.use(${component.capitalized})`).join('\n  '),
-        '//EXPORT': 'export default Swiper;',
+        '//EXPORT': 'export default Swiper',
       }),
       buble(),
     ],
@@ -46,6 +46,37 @@ function es(components, cb) {
     .pipe(source('swiper.js', './src'))
     .pipe(buffer())
     .pipe(rename('swiper.module.js'))
+    .pipe(gulp.dest(`./${env === 'development' ? 'build' : 'dist'}/js/`))
+    .on('end', () => {
+      if (cb) cb();
+    });
+
+  // Modular
+  rollup({
+    entry: './src/swiper.js',
+    plugins: [
+      replace({
+        'process.env.NODE_ENV': JSON.stringify(env),
+        'process.env.TARGET': JSON.stringify(target),
+        '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
+        '//INSTALL_COMPONENTS': '',
+        '//EXPORT': `export { Swiper, ${components.map(component => component.capitalized).join(', ')} }`,
+      }),
+      buble(),
+    ],
+    format: 'es',
+    moduleName: 'Swiper',
+    useStrict: true,
+    sourceMap: env === 'development',
+    banner,
+  })
+    .on('error', (err) => {
+      if (cb) cb();
+      console.error(err.toString());
+    })
+    .pipe(source('swiper.js', './src'))
+    .pipe(buffer())
+    .pipe(rename('swiper.modular.js'))
     .pipe(gulp.dest(`./${env === 'development' ? 'build' : 'dist'}/js/`))
     .on('end', () => {
       if (cb) cb();
