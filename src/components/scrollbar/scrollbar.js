@@ -250,7 +250,7 @@ export default {
       el: null,
       dragSize: 'auto',
       hide: false,
-      draggable: true,
+      draggable: false,
       snapOnRelease: false,
     },
   },
