@@ -45,10 +45,14 @@ const History = {
     if (!window.location.pathname.includes(key)) {
       value = `${key}/${value}`;
     }
+    const currentState = window.history.state;
+    if (currentState && currentState.value === value) {
+      return;
+    }
     if (swiper.params.history.replaceState) {
-      window.history.replaceState(null, null, value);
+      window.history.replaceState({ value }, null, value);
     } else {
-      window.history.pushState(null, null, value);
+      window.history.pushState({ value }, null, value);
     }
   },
   slugify(text) {
