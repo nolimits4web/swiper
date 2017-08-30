@@ -79,6 +79,9 @@ const Utils = {
     }
     return query;
   },
+  isObject(o) {
+    return typeof o === 'object' && o !== null && o.constructor && o.constructor === Object;
+  },
   extend(...args) {
     const to = Object(args[0]);
     for (let i = 1; i < args.length; i += 1) {
@@ -89,7 +92,10 @@ const Utils = {
           const nextKey = keysArray[nextIndex];
           const desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
           if (desc !== undefined && desc.enumerable) {
-            if (typeof to[nextKey] === 'object' && typeof nextSource[nextKey] === 'object') {
+            if (Utils.isObject(to[nextKey]) && Utils.isObject(nextSource[nextKey])) {
+              Utils.extend(to[nextKey], nextSource[nextKey]);
+            } else if (!Utils.isObject(to[nextKey]) && Utils.isObject(nextSource[nextKey])) {
+              to[nextKey] = {};
               Utils.extend(to[nextKey], nextSource[nextKey]);
             } else {
               to[nextKey] = nextSource[nextKey];
