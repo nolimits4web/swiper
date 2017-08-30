@@ -104,7 +104,7 @@ const Pagination = {
       const numberOfBullets = swiper.params.loop ? Math.ceil((swiper.slides.length - (swiper.loopedSlides * 2)) / swiper.params.slidesPerGroup) : swiper.snapGrid.length;
       for (let i = 0; i < numberOfBullets; i += 1) {
         if (params.renderBullet) {
-          paginationHTML += params.renderBullet(swiper, i, params.bulletClass);
+          paginationHTML += params.renderBullet.call(swiper, i, params.bulletClass);
         } else {
           paginationHTML += `<${params.bulletElement} class="${params.bulletClass}"></${params.bulletElement}>`;
         }
@@ -114,7 +114,7 @@ const Pagination = {
     }
     if (params.type === 'fraction') {
       if (params.renderFraction) {
-        paginationHTML = params.renderFraction(swiper, params.currentClass, params.totalClass);
+        paginationHTML = params.renderFraction.call(swiper, params.currentClass, params.totalClass);
       } else {
         paginationHTML =
         `<span class="${params.currentClass}"></span>` +
@@ -125,7 +125,7 @@ const Pagination = {
     }
     if (params.type === 'progressbar') {
       if (params.renderProgressbar) {
-        paginationHTML = params.renderProgressbar(swiper, params.progressbarFillClass);
+        paginationHTML = params.renderProgressbar.call(swiper, params.progressbarFillClass);
       } else {
         paginationHTML = `<span class="${params.progressbarFillClass}"></span>`;
       }
@@ -197,14 +197,14 @@ export default {
     pagination: {
       el: null,
       bulletElement: 'span',
-      clickable: true,
-      hideOnClick: true,
+      clickable: false,
+      hideOnClick: false,
       renderBullet: null,
       renderProgressbar: null,
       renderFraction: null,
       renderCustom: null,
       type: 'bullets', // 'bullets' or 'progressbar' or 'fraction' or 'custom'
-      dynamicBullets: true,
+      dynamicBullets: false,
 
       bulletClass: 'swiper-pagination-bullet',
       bulletActiveClass: 'swiper-pagination-bullet-active',
