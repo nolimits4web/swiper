@@ -113,7 +113,7 @@ export default {
   name: 'lazy',
   params: {
     lazy: {
-      enabled: true,
+      enabled: false,
       loadPrevNext: false,
       loadPrevNextAmount: 1,
       loadOnTransitionStart: false,
