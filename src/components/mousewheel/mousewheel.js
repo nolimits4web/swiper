@@ -151,7 +151,7 @@ const Mousewheel = {
       swiper.updateRealIndex();
 
       if ((!wasBeginning && swiper.isBeginning) || (!wasEnd && swiper.isEnd)) {
-        swiper.updateClasses();
+        swiper.updateSlidesClasses();
       }
 
       if (swiper.params.freeModeSticky) {
