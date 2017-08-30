@@ -8,8 +8,8 @@
   "scripts": {
     "build-dev": "NODE_ENV=development gulp build",
     "build-prod": "NODE_ENV=production gulp build",
-    "dev": "NODE_ENV=development gulp build && NODE_ENV=development gulp playground && gulp server",
-    "prod": "NODE_ENV=production gulp playground && gulp server",
+    "dev": "NODE_ENV=development gulp build && NODE_ENV=development gulp playground && NODE_ENV=development gulp server",
+    "prod": "NODE_ENV=production gulp playground && NODE_ENV=production gulp server",
     "test": "npm run build-dev"
   },
   "files": [
