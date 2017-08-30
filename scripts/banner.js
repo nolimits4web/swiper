@@ -1,6 +1,6 @@
 const pkg = require('../package.json');
 
-const releaseDate = {
+const date = {
   day: new Date().getDate(),
   month: ('January February March April May June July August September October November December').split(' ')[new Date().getMonth()],
   year: new Date().getFullYear(),
@@ -12,10 +12,10 @@ module.exports = `${`
  * ${pkg.description}
  * ${pkg.homepage}
  *
- * Copyright 2014-${releaseDate.year} ${pkg.author}
+ * Copyright 2014-${date.year} ${pkg.author}
  *
  * Released under the ${pkg.license} License
  *
- * Released on: ${releaseDate.month} ${releaseDate.day}, ${releaseDate.year}
+ * Released on: ${date.month} ${date.day}, ${date.year}
  */
 `.trim()}\n`;
