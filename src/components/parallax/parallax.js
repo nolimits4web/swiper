@@ -10,45 +10,56 @@ const Parallax = {
     const rtlFactor = rtl ? -1 : 1;
 
     const p = $el.attr('data-swiper-parallax') || '0';
-    let pX = $el.attr('data-swiper-parallax-x');
-    let pY = $el.attr('data-swiper-parallax-y');
+    let x = $el.attr('data-swiper-parallax-x');
+    let y = $el.attr('data-swiper-parallax-y');
+    const scale = $el.attr('data-swiper-parallax-scale');
+    const opacity = $el.attr('data-swiper-parallax-opacity');
 
-    if (pX || pY) {
-      pX = pX || '0';
-      pY = pY || '0';
+    if (x || y) {
+      x = x || '0';
+      y = y || '0';
     } else if (swiper.isHorizontal()) {
-      pX = p;
-      pY = '0';
+      x = p;
+      y = '0';
     } else {
-      pY = p;
-      pX = '0';
+      y = p;
+      x = '0';
     }
 
-    if ((pX).indexOf('%') >= 0) {
-      pX = `${parseInt(pX, 10) * progress * rtlFactor}%`;
+    if ((x).indexOf('%') >= 0) {
+      x = `${parseInt(x, 10) * progress * rtlFactor}%`;
     } else {
-      pX = `${pX * progress * rtlFactor}px`;
+      x = `${x * progress * rtlFactor}px`;
     }
-    if ((pY).indexOf('%') >= 0) {
-      pY = `${parseInt(pY, 10) * progress}%`;
+    if ((y).indexOf('%') >= 0) {
+      y = `${parseInt(y, 10) * progress}%`;
     } else {
-      pY = `${pY * progress}px`;
+      y = `${y * progress}px`;
     }
 
-    $el.transform(`translate3d(${pX}, ${pY}, 0px)`);
+    if (typeof pOpacity !== 'undefined' && opacity !== null) {
+      const currentOpacity = opacity - ((opacity - 1) * (1 - Math.abs(progress)));
+      $el[0].style.opacity = currentOpacity;
+    }
+    if (typeof pScale === 'undefined' || scale === null) {
+      $el.transform(`translate3d(${x}, ${y}, 0px)`);
+    } else {
+      const currentScale = scale - ((scale - 1) * (1 - Math.abs(progress)));
+      $el.transform(`translate3d(${x}, ${y}, 0px) scale(${currentScale})`);
+    }
   },
   setTranslate() {
     const swiper = this;
     const { $el, slides, progress } = swiper;
     $el.children('[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y]')
       .each((index, el) => {
-        Parallax.setTransform(el, progress);
+        swiper.parallax.setTransform(el, progress);
       });
     slides.each((slideIndex, slideEl) => {
       $(slideEl).find('[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y]')
         .each((index, el) => {
           const slideProgress = Math.min(Math.max(slideEl.progress, -1), 1);
-          Parallax.setTransform(el, slideProgress);
+          swiper.parallax.setTransform(el, slideProgress);
         });
     });
   },
@@ -68,7 +79,9 @@ const Parallax = {
 export default {
   name: 'parallax',
   params: {
-    parallax: false,
+    parallax: {
+      enabled: false,
+    },
   },
   create() {
     const swiper = this;
