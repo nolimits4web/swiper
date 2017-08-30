@@ -74,12 +74,16 @@
     <!-- Initialize Swiper -->
     <script>
     var swiper = new Swiper('.swiper-container', {
-        pagination: '.swiper-pagination',
         direction: 'vertical',
         slidesPerView: 1,
-        paginationClickable: true,
         spaceBetween: 30,
-        mousewheelControl: true
+        mousewheel: {
+          enabled: true,
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
     });
     </script>
 </body>

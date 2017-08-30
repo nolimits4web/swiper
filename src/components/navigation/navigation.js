@@ -55,8 +55,6 @@ const Navigation = {
       }
     }
 
-    if (!($nextEl || $prevEl) || ($nextEl.length === 0 && $prevEl.length === 0)) return;
-
     if ($nextEl && $nextEl.length > 0) {
       $nextEl.on('click', (e) => {
         e.preventDefault();
@@ -74,9 +72,9 @@ const Navigation = {
 
     Utils.extend(swiper.navigation, {
       $nextEl,
-      nextEl: $nextEl[0],
+      nextEl: $nextEl && $nextEl[0],
       $prevEl,
-      prevEl: $prevEl[0],
+      prevEl: $prevEl && $prevEl[0],
     });
   },
   destroy() {
@@ -94,7 +92,7 @@ const Navigation = {
 };
 
 export default {
-  name: 'navgiation',
+  name: 'navigation',
   params: {
     navigation: {
       nextEl: null,
@@ -136,7 +134,6 @@ export default {
     click(e) {
       const swiper = this;
       const { $nextEl, $prevEl } = swiper.navigation;
-      if (!($nextEl || $prevEl) || ($nextEl.length === 0 && $prevEl.length === 0)) return;
       if (
         swiper.params.navigation.hideOnClick &&
         !$(e.target).is($prevEl) &&

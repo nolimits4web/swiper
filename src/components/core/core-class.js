@@ -18,6 +18,7 @@ import events from './events/index';
 import breakpoints from './breakpoints/index';
 import classes from './classes/index';
 import images from './images/index';
+import defaults from './defaults';
 
 class Swiper extends SwiperClass {
   constructor(...args) {
@@ -39,7 +40,7 @@ class Swiper extends SwiperClass {
     const swiper = this;
 
     // Extend defaults with modules params
-    const swiperParams = {};
+    const swiperParams = Utils.extend({}, defaults);
     swiper.useModulesParams(swiperParams);
 
     // Extend defaults with passed params
