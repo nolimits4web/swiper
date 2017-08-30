@@ -1,4 +1,4 @@
-export default {
+const defaults = {
   init: true,
   direction: 'horizontal',
   touchEventsTarget: 'container',
@@ -117,4 +117,13 @@ export default {
 
   // Callbacks
   runCallbacksOnInit: true,
+};
+
+export default {
+  name: 'defaults',
+  static: {
+    defaults,
+    Defaults: defaults,
+  },
+  params: defaults,
 };

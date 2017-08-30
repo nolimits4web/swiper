@@ -5,7 +5,6 @@ import Support from '../../utils/support';
 
 import SwiperClass from '../../utils/class';
 
-import defaults from './defaults';
 import touchEventsData from './events/touchEventsData';
 
 import update from './update/index';
@@ -39,12 +38,12 @@ class Swiper extends SwiperClass {
     // Swiper Instance
     const swiper = this;
 
-
     // Extend defaults with modules params
-    swiper.useModulesParams(defaults);
+    const swiperParams = {};
+    swiper.useModulesParams(swiperParams);
 
     // Extend defaults with passed params
-    swiper.params = Utils.extend({}, defaults, params);
+    swiper.params = Utils.extend({}, swiperParams, params);
     swiper.originalParams = Utils.extend({}, swiper.params);
     swiper.passedParams = Utils.extend({}, params);
 
@@ -153,7 +152,6 @@ class Swiper extends SwiperClass {
       imagesLoaded: 0,
 
     });
-
 
     // Install Modules
     swiper.useModules();
