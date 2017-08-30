@@ -82,6 +82,8 @@ const Controller = {
       c.updateProgress(controlledTranslate);
       c.setTranslate(controlledTranslate, swiper);
       c.updateActiveIndex();
+      c.updateSlidesClasses();
+      c.updateRealIndex();
     }
     if (Array.isArray(controlled)) {
       for (let i = 0; i < controlled.length; i += 1) {
