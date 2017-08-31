@@ -283,6 +283,9 @@ class Swiper extends SwiperClass {
     const { params, $el, $wrapperEl, slides } = swiper;
     swiper.emit('beforeDestroy');
 
+    // Init Flag
+    swiper.initialized = false;
+
     // Detach events
     swiper.detachEvents();
 
@@ -312,6 +315,11 @@ class Swiper extends SwiperClass {
     }
 
     swiper.emit('destroy');
+
+    // Detach emitter events
+    Object.keys(swiper.eventsListeners).forEach((eventName) => {
+      swiper.off(eventName);
+    });
 
     if (deleteInstance !== false) {
       swiper.$el[0].swiper = null;
