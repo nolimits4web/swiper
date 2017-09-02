@@ -25,7 +25,7 @@ const Lazy = {
       const sizes = $imageEl.attr('data-sizes');
 
       swiper.loadImage($imageEl[0], (src || background), srcset, sizes, false, () => {
-        if (typeof swiper === 'undefined' || swiper === null || !swiper) return;
+        if (typeof swiper === 'undefined' || swiper === null || !swiper || (swiper && !swiper.params)) return;
         if (background) {
           $imageEl.css('background-image', `url("${background}")`);
           $imageEl.removeAttr('data-background');
