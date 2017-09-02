@@ -153,7 +153,7 @@ export default {
   name: 'a11y',
   params: {
     a11y: {
-      enabled: true,
+      enabled: false,
       notificationClass: 'swiper-notification',
       prevSlideMessage: 'Previous slide',
       nextSlideMessage: 'Next slide',
