@@ -1,5 +1,5 @@
 /**
- * Swiper 4.0.0-beta.1
+ * Swiper 4.0.0-beta.2
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: August 30, 2017
+ * Released on: September 2, 2017
  */
 
 import $ from 'dom7/src/$';
@@ -36,10 +36,7 @@ if (typeof window === 'undefined') {
 var win = w;
 
 // Methods
-Object.keys(Methods).forEach(function (key) {
-  if ($.fn[key]) { return; }
-  $.fn[key] = Methods[key];
-});
+$.use(Methods);
 
 var Utils = {
   deleteProps: function deleteProps(obj) {
@@ -219,6 +216,7 @@ var SwiperClass = function SwiperClass(params) {
 };
 SwiperClass.prototype.on = function on (events, handler) {
   var self = this;
+  if (typeof handler !== 'function') { return self; }
   events.split(' ').forEach(function (event) {
     if (!self.eventsListeners[event]) { self.eventsListeners[event] = []; }
     self.eventsListeners[event].push(handler);
@@ -227,6 +225,7 @@ SwiperClass.prototype.on = function on (events, handler) {
 };
 SwiperClass.prototype.once = function once (events, handler) {
   var self = this;
+  if (typeof handler !== 'function') { return self; }
   function onceHandler() {
       var args = [], len = arguments.length;
       while ( len-- ) args[ len ] = arguments[ len ];
@@ -2076,11 +2075,6 @@ var onClick = function (e) {
   }
 };
 
-var onTouchStartBound;
-var onTouchMoveBound;
-var onTouchEndBound;
-var onClickBound;
-
 function attachEvents() {
   var swiper = this;
 
@@ -2090,12 +2084,12 @@ function attachEvents() {
   var wrapperEl = swiper.wrapperEl;
 
   {
-    onTouchStartBound = onTouchStart.bind(swiper);
-    onTouchMoveBound = onTouchMove.bind(swiper);
-    onTouchEndBound = onTouchEnd.bind(swiper);
+    swiper.onTouchStart = onTouchStart.bind(swiper);
+    swiper.onTouchMove = onTouchMove.bind(swiper);
+    swiper.onTouchEnd = onTouchEnd.bind(swiper);
   }
 
-  onClickBound = onClick.bind(swiper);
+  swiper.onClick = onClick.bind(swiper);
 
   var target = params.touchEventsTarget === 'container' ? el : wrapperEl;
   var capture = !!params.nested;
@@ -2103,25 +2097,25 @@ function attachEvents() {
   // Touch Events
   {
     if (Browser$1.ie) {
-      target.addEventListener(touchEvents.start, onTouchStartBound, false);
-      (Support$1.touch ? target : document).addEventListener(touchEvents.move, onTouchMoveBound, capture);
-      (Support$1.touch ? target : document).addEventListener(touchEvents.end, onTouchEndBound, false);
+      target.addEventListener(touchEvents.start, swiper.onTouchStart, false);
+      (Support$1.touch ? target : document).addEventListener(touchEvents.move, swiper.onTouchMove, capture);
+      (Support$1.touch ? target : document).addEventListener(touchEvents.end, swiper.onTouchEnd, false);
     } else {
       if (Support$1.touch) {
         var passiveListener = touchEvents.start === 'onTouchStart' && Support$1.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
-        target.addEventListener(touchEvents.start, onTouchStartBound, passiveListener);
-        target.addEventListener(touchEvents.move, onTouchMoveBound, capture);
-        target.addEventListener(touchEvents.end, onTouchEndBound, passiveListener);
+        target.addEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
+        target.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
+        target.addEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
       }
       if ((params.simulateTouch && !Device$1.ios && !Device$1.android) || (params.simulateTouch && !Support$1.touch && Device$1.ios)) {
-        target.addEventListener('mousedown', onTouchStartBound, false);
-        document.addEventListener('mousemove', onTouchMoveBound, capture);
-        document.addEventListener('mouseup', onTouchEndBound, false);
+        target.addEventListener('mousedown', swiper.onTouchStart, false);
+        document.addEventListener('mousemove', swiper.onTouchMove, capture);
+        document.addEventListener('mouseup', swiper.onTouchEnd, false);
       }
     }
     // Prevent Links Clicks
     if (params.preventClicks || params.preventClicksPropagation) {
-      target.addEventListener('click', onClickBound, true);
+      target.addEventListener('click', swiper.onClick, true);
     }
   }
 
@@ -2143,25 +2137,25 @@ function detachEvents() {
   // Touch Events
   {
     if (Browser$1.ie) {
-      target.removeEventListener(touchEvents.start, onTouchStartBound, false);
-      (Support$1.touch ? target : document).removeEventListener(touchEvents.move, onTouchMoveBound, capture);
-      (Support$1.touch ? target : document).removeEventListener(touchEvents.end, onTouchEndBound, false);
+      target.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
+      (Support$1.touch ? target : document).removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
+      (Support$1.touch ? target : document).removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
     } else {
       if (Support$1.touch) {
         var passiveListener = touchEvents.start === 'onTouchStart' && Support$1.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
-        target.removeEventListener(touchEvents.start, onTouchStartBound, passiveListener);
-        target.removeEventListener(touchEvents.move, onTouchMoveBound, capture);
-        target.removeEventListener(touchEvents.end, onTouchEndBound, passiveListener);
+        target.removeEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
+        target.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
+        target.removeEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
       }
       if ((params.simulateTouch && !Device$1.ios && !Device$1.android) || (params.simulateTouch && !Support$1.touch && Device$1.ios)) {
-        target.removeEventListener('mousedown', onTouchStartBound, false);
-        document.removeEventListener('mousemove', onTouchMoveBound, capture);
-        document.removeEventListener('mouseup', onTouchEndBound, false);
+        target.removeEventListener('mousedown', swiper.onTouchStart, false);
+        document.removeEventListener('mousemove', swiper.onTouchMove, capture);
+        document.removeEventListener('mouseup', swiper.onTouchEnd, false);
       }
     }
     // Prevent Links Clicks
     if (params.preventClicks || params.preventClicksPropagation) {
-      target.removeEventListener('click', onClickBound, true);
+      target.removeEventListener('click', swiper.onClick, true);
     }
   }
 
@@ -2739,6 +2733,9 @@ var Swiper$1 = (function (SwiperClass$$1) {
     var slides = swiper.slides;
     swiper.emit('beforeDestroy');
 
+    // Init Flag
+    swiper.initialized = false;
+
     // Detach events
     swiper.detachEvents();
 
@@ -2767,6 +2764,11 @@ var Swiper$1 = (function (SwiperClass$$1) {
     }
 
     swiper.emit('destroy');
+
+    // Detach emitter events
+    Object.keys(swiper.eventsListeners).forEach(function (eventName) {
+      swiper.off(eventName);
+    });
 
     if (deleteInstance !== false) {
       swiper.$el[0].swiper = null;
@@ -2832,18 +2834,34 @@ var Browser$2 = {
 
 var Resize = {
   name: 'resize',
+  create: function create() {
+    var swiper = this;
+    Utils.extend(swiper, {
+      resize: {
+        resizeHandler: function resizeHandler() {
+          if (!swiper || !swiper.initialized) { return; }
+          swiper.emit('resize');
+        },
+        orientationChangeHandler: function orientationChangeHandler() {
+          if (!swiper || !swiper.initialized) { return; }
+          swiper.emit('orientationchange');
+        },
+      },
+    });
+  },
   on: {
     init: function init() {
       var swiper = this;
       // Emit resize
-      window.addEventListener('resize', function () {
-        swiper.emit('resize');
-      }, false);
+      win.addEventListener('resize', swiper.resize.resizeHandler);
 
       // Emit orientationchange
-      window.addEventListener('orientationchange', function () {
-        swiper.emit('orientationchange');
-      });
+      win.addEventListener('orientationchange', swiper.resize.orientationChangeHandler);
+    },
+    destroy: function destroy() {
+      var swiper = this;
+      win.removeEventListener('resize', swiper.resize.resizeHandler);
+      win.removeEventListener('orientationchange', swiper.resize.orientationChangeHandler);
     },
   },
 };
@@ -4683,7 +4701,7 @@ var Lazy = {
       var sizes = $imageEl.attr('data-sizes');
 
       swiper.loadImage($imageEl[0], (src || background), srcset, sizes, false, function () {
-        if (typeof swiper === 'undefined' || swiper === null || !swiper) { return; }
+        if (typeof swiper === 'undefined' || swiper === null || !swiper || (swiper && !swiper.params)) { return; }
         if (background) {
           $imageEl.css('background-image', ("url(\"" + background + "\")"));
           $imageEl.removeAttr('data-background');
@@ -5169,7 +5187,7 @@ var A11y = {
   name: 'a11y',
   params: {
     a11y: {
-      enabled: true,
+      enabled: false,
       notificationClass: 'swiper-notification',
       prevSlideMessage: 'Previous slide',
       nextSlideMessage: 'Next slide',

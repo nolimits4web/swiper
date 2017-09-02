@@ -1,5 +1,14 @@
 # Change Log
 
+## Swiper 4.0.0-beta.2 - Released on September 2, 2017
+  * Disable a11y by default
+  * Fixed issue with events sharing between multiple swipers
+  * Fixed issue with resize handling after destroy
+  * Few minor fixes
+
+## Swiper 4.0.0-beta.1 - Released on August 30, 2017
+  * Initial 4.0.0 release
+
 ## Swiper 3.4.2 - Released on March 10, 2017
   * Fixed an issue with lazy loading callbacks when swiper is destroyed
   * New `onAfterResize` and `onBeforeResize` callbacks

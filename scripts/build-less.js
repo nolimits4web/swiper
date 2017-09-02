@@ -10,7 +10,7 @@ const header = require('gulp-header');
 const rename = require('gulp-rename');
 const cleanCSS = require('gulp-clean-css');
 
-const config = require('./config.js');
+const config = require('./build-config.js');
 const banner = require('./banner.js');
 
 function build(cb) {

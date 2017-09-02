@@ -14,7 +14,7 @@ const uglify = require('gulp-uglify');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 
-const config = require('./config.js');
+const config = require('./build-config.js');
 const banner = require('./banner.js');
 
 function es(components, cb) {
