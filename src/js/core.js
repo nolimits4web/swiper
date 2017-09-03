@@ -2144,9 +2144,9 @@ s.slidePrev = function (runCallbacks, speed, internal) {
         if (s.animating) return false;
         s.fixLoop();
         var clientLeft = s.container[0].clientLeft;
-        return s.slideTo(s.activeIndex - 1, speed, runCallbacks, internal);
+        return s.slideTo(s.snapIndex - 1, speed, runCallbacks, internal);
     }
-    else return s.slideTo(s.activeIndex - 1, speed, runCallbacks, internal);
+    else return s.slideTo(s.snapIndex - 1, speed, runCallbacks, internal);
 };
 s._slidePrev = function (speed) {
     return s.slidePrev(true, speed, true);
