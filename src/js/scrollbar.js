@@ -19,6 +19,9 @@ s.scrollbar = {
         else if (position > positionMax) {
             position = positionMax;
         }
+        if (s.rtl) {
+            position = positionMax - position;
+        }
         position = -position / sb.moveDivider;
         s.updateProgress(position);
         s.setWrapperTranslate(position, true);
