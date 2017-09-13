@@ -22,21 +22,20 @@ function es(components, cb) {
   const target = process.env.TARGET || config.target;
 
   rollup({
-    entry: './src/swiper.js',
+    input: './src/swiper.js',
     plugins: [
       replace({
         'process.env.NODE_ENV': JSON.stringify(env),
         'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
-        '//INSTALL_COMPONENTS': components.map(component => `.use(${component.capitalized})`).join('\n  '),
+        '//INSTALL_COMPONENTS': components.map(component => `${component.capitalized}`).join(',\n  '),
         '//EXPORT': 'export default Swiper',
       }),
-      buble(),
     ],
     format: 'es',
-    moduleName: 'Swiper',
-    useStrict: true,
-    sourceMap: env === 'development',
+    name: 'Swiper',
+    strict: true,
+    sourcemap: env === 'development',
     banner,
   })
     .on('error', (err) => {
@@ -53,7 +52,7 @@ function es(components, cb) {
 
   // Modular
   rollup({
-    entry: './src/swiper.js',
+    input: './src/swiper.js',
     plugins: [
       replace({
         'process.env.NODE_ENV': JSON.stringify(env),
@@ -62,12 +61,11 @@ function es(components, cb) {
         '//INSTALL_COMPONENTS': '',
         '//EXPORT': `export { Swiper, ${components.map(component => component.capitalized).join(', ')} }`,
       }),
-      buble(),
     ],
     format: 'es',
-    moduleName: 'Swiper',
-    useStrict: true,
-    sourceMap: env === 'development',
+    name: 'Swiper',
+    strict: true,
+    sourcemap: env === 'development',
     banner,
   })
     .on('error', (err) => {
@@ -87,22 +85,22 @@ function umd(components, cb) {
   const target = process.env.TARGET || config.target;
 
   rollup({
-    entry: './src/swiper.js',
+    input: './src/swiper.js',
     plugins: [
       replace({
         'process.env.NODE_ENV': JSON.stringify(env),
         'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
-        '//INSTALL_COMPONENTS': components.map(component => `.use(${component.capitalized})`).join('\n  '),
+        '//INSTALL_COMPONENTS': components.map(component => `${component.capitalized}`).join(',\n  '),
         '//EXPORT': 'export default Swiper;',
       }),
       resolve({ jsnext: true }),
       buble(),
     ],
     format: 'umd',
-    moduleName: 'Swiper',
-    useStrict: true,
-    sourceMap: env === 'development',
+    name: 'Swiper',
+    strict: true,
+    sourcemap: env === 'development',
     banner,
   })
     .on('error', (err) => {
