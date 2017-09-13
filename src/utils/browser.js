@@ -1,6 +1,6 @@
 import window from './window';
 
-function Browser() {
+const Browser = (function Browser() {
   function isIE9() {
     // create temporary DIV
     const div = document.createElement('div');
@@ -21,6 +21,6 @@ function Browser() {
              (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1),
     lteIE9: isIE9(),
   };
-}
+}());
 
-export default Browser();
+export default Browser;

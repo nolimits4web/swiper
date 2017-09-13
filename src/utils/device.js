@@ -1,6 +1,6 @@
 import window from './window';
 
-function Device() {
+const Device = (function Device() {
   const ua = window.navigator.userAgent;
 
   const device = {
@@ -82,6 +82,6 @@ function Device() {
 
   // Export object
   return device;
-}
+}());
 
-export default Device();
+export default Device;

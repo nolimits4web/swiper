@@ -5,8 +5,6 @@ import Support from '../../utils/support';
 
 import SwiperClass from '../../utils/class';
 
-import touchEventsData from './events/touchEventsData';
-
 import update from './update/index';
 import translate from './translate/index';
 import transition from './transition/index';
@@ -18,7 +16,22 @@ import events from './events/index';
 import breakpoints from './breakpoints/index';
 import classes from './classes/index';
 import images from './images/index';
+
 import defaults from './defaults';
+
+const prototypes = {
+  update,
+  translate,
+  transition,
+  slide,
+  loop,
+  grabCursor,
+  manipulation,
+  events,
+  breakpoints,
+  classes,
+  images,
+};
 
 class Swiper extends SwiperClass {
   constructor(...args) {
@@ -35,6 +48,14 @@ class Swiper extends SwiperClass {
     if (el && !params.el) params.el = el;
 
     super(params);
+
+    Object.keys(prototypes).forEach((prototypeGroup) => {
+      Object.keys(prototypes[prototypeGroup]).forEach((protoMethod) => {
+        if (!Swiper.prototype[protoMethod]) {
+          Swiper.prototype[protoMethod] = prototypes[prototypeGroup][protoMethod];
+        }
+      });
+    });
 
     // Swiper Instance
     const swiper = this;
@@ -132,7 +153,26 @@ class Swiper extends SwiperClass {
           end: Support.touch || !swiper.params.simulateTouch ? touch[2] : desktop[2],
         };
       }()),
-      touchEventsData: Utils.extend({}, touchEventsData),
+      touchEventsData: {
+        isTouched: undefined,
+        isMoved: undefined,
+        allowTouchCallbacks: undefined,
+        touchStartTime: undefined,
+        isScrolling: undefined,
+        currentTranslate: undefined,
+        startTranslate: undefined,
+        allowThresholdMove: undefined,
+        // Form elements to match
+        formElements: 'input, select, textarea, button, video',
+        // Last click time
+        lastClickTime: Utils.now(),
+        clickTimeout: undefined,
+        // Velocities
+        velocities: [],
+        allowMomentumBounce: undefined,
+        isTouchEvent: undefined,
+        startMoving: undefined,
+      },
 
       // Clicks
       allowClick: true,
@@ -328,27 +368,12 @@ class Swiper extends SwiperClass {
       swiper = null;
     }
   }
+  static get Class() {
+    return SwiperClass;
+  }
+  static get $() {
+    return $;
+  }
 }
-
-const prototypes = Utils.extend(
-  {},
-  update,
-  translate,
-  transition,
-  slide,
-  loop,
-  grabCursor,
-  manipulation,
-  events,
-  breakpoints,
-  classes,
-  images
-);
-
-Object.keys(prototypes).forEach((protoMethod) => {
-  Swiper.prototype[protoMethod] = prototypes[protoMethod];
-});
-
-Swiper.Class = SwiperClass;
 
 export default Swiper;

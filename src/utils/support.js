@@ -1,6 +1,6 @@
 import window from './window';
 
-function Support() {
+const Support = (function Support() {
   return {
     touch: (window.Modernizr && window.Modernizr.touch === true) || (function checkTouch() {
       return !!(('ontouchstart' in window) || (window.DocumentTouch && document instanceof window.DocumentTouch));
@@ -43,5 +43,6 @@ function Support() {
       return 'ongesturestart' in window;
     }()),
   };
-}
-export default Support();
+}());
+
+export default Support;
