@@ -6,6 +6,6 @@ export default {
     device: Device,
   },
   static: {
-    Device,
+    device: Device,
   },
 };

@@ -6,6 +6,6 @@ export default {
     browser: Browser,
   },
   static: {
-    Browser,
+    browser: Browser,
   },
 };
