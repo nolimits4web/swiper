@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "4.0.0-beta.2",
+  "version": "4.0.0-beta.3",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/js/swiper.js",
   "jsnext:main": "dist/js/swiper.module.js",
@@ -46,12 +46,12 @@
     "node": ">= 4.7.0"
   },
   "devDependencies": {
-    "eslint": "^4.5.0",
-    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint": "^4.6.1",
+    "eslint-config-airbnb-base": "^11.3.2",
     "eslint-plugin-import": "^2.7.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
-    "gulp-clean-css": "^3.7.0",
+    "gulp-clean-css": "^3.8.0",
     "gulp-connect": "^5.0.0",
     "gulp-header": "^1.8.9",
     "gulp-less": "^3.3.2",
@@ -62,12 +62,12 @@
     "gulp-uglify": "^3.0.0",
     "rollup-plugin-buble": "^0.15.0",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-replace": "^1.1.1",
-    "rollup-stream": "^1.23.1",
+    "rollup-plugin-replace": "^1.2.1",
+    "rollup-stream": "^1.24.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "dom7": "^1.7.1"
+    "dom7": "^2.0.0"
   }
 }

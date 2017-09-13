@@ -1,5 +1,9 @@
 # Change Log
 
+## Swiper 4.0.0-beta.3 - Released on September 13, 2017
+  * Dom7 update to latest version
+  * Small core refactoring to get better results within tree-shaking bundles
+
 ## Swiper 4.0.0-beta.2 - Released on September 2, 2017
   * Disable a11y by default
   * Fixed issue with events sharing between multiple swipers
