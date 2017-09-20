@@ -136,6 +136,7 @@ function build(cb) {
 
   const components = [];
   config.components.forEach((name) => {
+    // eslint-disable-next-line
     const capitalized = name.split('-').map((word) => {
       return word.split('').map((char, index) => {
         if (index === 0) return char.toUpperCase();
@@ -155,11 +156,12 @@ function build(cb) {
     cbs += 1;
     if (cbs === expectCbs) cb();
   });
-
-  es(components, () => {
-    cbs += 1;
-    if (cbs === expectCbs) cb();
-  });
+  if (env !== 'development') {
+    es(components, () => {
+      cbs += 1;
+      if (cbs === expectCbs) cb();
+    });
+  }
 }
 
 module.exports = build;

@@ -2,7 +2,6 @@
 const gulp = require('gulp');
 const connect = require('gulp-connect');
 const gopen = require('gulp-open');
-const fs = require('fs');
 const modifyFile = require('gulp-modify-file');
 
 const buildJs = require('./build-js.js');

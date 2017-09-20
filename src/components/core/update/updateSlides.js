@@ -97,7 +97,7 @@ export default function () {
         .attr('data-swiper-column', column)
         .attr('data-swiper-row', row);
     }
-    if (slide.css('display') === 'none') continue;
+    if (slide.css('display') === 'none') continue; // eslint-disable-line
     if (params.slidesPerView === 'auto') {
       slideSize = swiper.isHorizontal() ? slide.outerWidth(true) : slide.outerHeight(true);
       if (params.roundLengths) slideSize = Math.floor(slideSize);

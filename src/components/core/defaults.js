@@ -117,4 +117,4 @@ export default {
 
   // Callbacks
   runCallbacksOnInit: true,
-}
+};

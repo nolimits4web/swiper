@@ -110,14 +110,14 @@ const Mousewheel = {
     if (params.forceToAxis) {
       if (swiper.isHorizontal()) {
         if (Math.abs(data.pixelX) > Math.abs(data.pixelY)) delta = data.pixelX * rtlFactor;
-        else return;
+        else return true;
       } else if (Math.abs(data.pixelY) > Math.abs(data.pixelX)) delta = data.pixelY;
-      else return;
+      else return true;
     } else {
       delta = Math.abs(data.pixelX) > Math.abs(data.pixelY) ? -data.pixelX * rtlFactor : -data.pixelY;
     }
 
-    if (delta === 0) return;
+    if (delta === 0) return true;
 
     if (params.invert) delta = -delta;
 
@@ -167,7 +167,7 @@ const Mousewheel = {
       if (swiper.params.autoplay && swiper.params.autoplayDisableOnInteraction) swiper.stopAutoplay();
 
       // Return page scroll on edge positions
-      if (position === 0 || position === swiper.maxTranslate()) return;
+      if (position === 0 || position === swiper.maxTranslate()) return true;
     }
 
     if (e.preventDefault) e.preventDefault();

@@ -16,8 +16,8 @@ const Device = (function Device() {
     phonegap: window.cordova || window.phonegap,
   };
 
-  const windows = ua.match(/(Windows Phone);?[\s\/]+([\d.]+)?/);
-  const android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
+  const windows = ua.match(/(Windows Phone);?[\s\/]+([\d.]+)?/); // eslint-disable-line
+  const android = ua.match(/(Android);?[\s\/]+([\d.]+)?/); // eslint-disable-line
   const ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
   const ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
   const iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
