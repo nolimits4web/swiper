@@ -11,7 +11,7 @@ export default function (slidesIndexes) {
   let newActiveIndex = activeIndex;
   let indexToRemove;
 
-  if (typeof slidesIndexes === 'object' && slidesIndexes.length) {
+  if (typeof slidesIndexes === 'object' && 'length' in slidesIndexes) {
     for (let i = 0; i < slidesIndexes.length; i += 1) {
       indexToRemove = slidesIndexes[i];
       if (swiper.slides[indexToRemove]) swiper.slides.eq(indexToRemove).remove();

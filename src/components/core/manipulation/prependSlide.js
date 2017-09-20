@@ -8,7 +8,7 @@ export default function (slides) {
     swiper.loopDestroy();
   }
   let newActiveIndex = activeIndex + 1;
-  if (typeof slides === 'object' && slides.length) {
+  if (typeof slides === 'object' && 'length' in slides) {
     for (let i = 0; i < slides.length; i += 1) {
       if (slides[i]) $wrapperEl.prepend(slides[i]);
     }

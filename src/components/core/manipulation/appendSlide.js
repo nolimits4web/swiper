@@ -6,7 +6,7 @@ export default function (slides) {
   if (params.loop) {
     swiper.loopDestroy();
   }
-  if (typeof slides === 'object' && slides.length) {
+  if (typeof slides === 'object' && 'length' in slides) {
     for (let i = 0; i < slides.length; i += 1) {
       if (slides[i]) $wrapperEl.append(slides[i]);
     }
