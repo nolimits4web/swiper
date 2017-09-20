@@ -1,5 +1,5 @@
 /**
- * Swiper 4.0.0-beta.3
+ * Swiper 4.0.0-beta.4
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: September 13, 2017
+ * Released on: September 20, 2017
  */
 
 import $ from 'dom7/src/$';
@@ -467,7 +467,7 @@ var updateSlides = function () {
         .attr('data-swiper-column', column)
         .attr('data-swiper-row', row);
     }
-    if (slide.css('display') === 'none') continue;
+    if (slide.css('display') === 'none') continue; // eslint-disable-line
     if (params.slidesPerView === 'auto') {
       slideSize = swiper.isHorizontal() ? slide.outerWidth(true) : slide.outerHeight(true);
       if (params.roundLengths) slideSize = Math.floor(slideSize);
@@ -1059,6 +1059,8 @@ var slideNext = function (speed = this.params.speed, runCallbacks = true, intern
   if (params.loop) {
     if (animating) return false;
     swiper.loopFix();
+    // eslint-disable-next-line
+    swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
     return swiper.slideTo(swiper.activeIndex + params.slidesPerGroup, speed, runCallbacks, internal);
   }
   return swiper.slideTo(swiper.activeIndex + params.slidesPerGroup, speed, runCallbacks, internal);
@@ -1072,6 +1074,8 @@ var slidePrev = function (speed = this.params.speed, runCallbacks = true, intern
   if (params.loop) {
     if (animating) return false;
     swiper.loopFix();
+    // eslint-disable-next-line
+    swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
     return swiper.slideTo(swiper.activeIndex - 1, speed, runCallbacks, internal);
   }
   return swiper.slideTo(swiper.activeIndex - 1, speed, runCallbacks, internal);
@@ -1237,7 +1241,7 @@ var appendSlide = function (slides) {
   if (params.loop) {
     swiper.loopDestroy();
   }
-  if (typeof slides === 'object' && slides.length) {
+  if (typeof slides === 'object' && 'length' in slides) {
     for (let i = 0; i < slides.length; i += 1) {
       if (slides[i]) $wrapperEl.append(slides[i]);
     }
@@ -1260,7 +1264,7 @@ var prependSlide = function (slides) {
     swiper.loopDestroy();
   }
   let newActiveIndex = activeIndex + 1;
-  if (typeof slides === 'object' && slides.length) {
+  if (typeof slides === 'object' && 'length' in slides) {
     for (let i = 0; i < slides.length; i += 1) {
       if (slides[i]) $wrapperEl.prepend(slides[i]);
     }
@@ -1288,7 +1292,7 @@ var removeSlide = function (slidesIndexes) {
   let newActiveIndex = activeIndex;
   let indexToRemove;
 
-  if (typeof slidesIndexes === 'object' && slidesIndexes.length) {
+  if (typeof slidesIndexes === 'object' && 'length' in slidesIndexes) {
     for (let i = 0; i < slidesIndexes.length; i += 1) {
       indexToRemove = slidesIndexes[i];
       if (swiper.slides[indexToRemove]) swiper.slides.eq(indexToRemove).remove();
@@ -1349,8 +1353,8 @@ const Device = (function Device() {
     phonegap: win.cordova || win.phonegap,
   };
 
-  const windows = ua.match(/(Windows Phone);?[\s\/]+([\d.]+)?/);
-  const android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
+  const windows = ua.match(/(Windows Phone);?[\s\/]+([\d.]+)?/); // eslint-disable-line
+  const android = ua.match(/(Android);?[\s\/]+([\d.]+)?/); // eslint-disable-line
   const ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
   const ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
   const iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
@@ -3037,14 +3041,14 @@ const Mousewheel = {
     if (params.forceToAxis) {
       if (swiper.isHorizontal()) {
         if (Math.abs(data.pixelX) > Math.abs(data.pixelY)) delta = data.pixelX * rtlFactor;
-        else return;
+        else return true;
       } else if (Math.abs(data.pixelY) > Math.abs(data.pixelX)) delta = data.pixelY;
-      else return;
+      else return true;
     } else {
       delta = Math.abs(data.pixelX) > Math.abs(data.pixelY) ? -data.pixelX * rtlFactor : -data.pixelY;
     }
 
-    if (delta === 0) return;
+    if (delta === 0) return true;
 
     if (params.invert) delta = -delta;
 
@@ -3094,7 +3098,7 @@ const Mousewheel = {
       if (swiper.params.autoplay && swiper.params.autoplayDisableOnInteraction) swiper.stopAutoplay();
 
       // Return page scroll on edge positions
-      if (position === 0 || position === swiper.maxTranslate()) return;
+      if (position === 0 || position === swiper.maxTranslate()) return true;
     }
 
     if (e.preventDefault) e.preventDefault();
@@ -3699,6 +3703,9 @@ const Scrollbar = {
       position = positionMin;
     } else if (position > positionMax) {
       position = positionMax;
+    }
+    if (swiper.rtl) {
+      position = positionMax - position;
     }
     position = -position / moveDivider;
     swiper.updateProgress(position);

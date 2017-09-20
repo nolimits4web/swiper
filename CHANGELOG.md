@@ -1,5 +1,9 @@
 # Change Log
 
+## Swiper 4.0.0-beta.4 - Released on September 20, 2017
+  * Fixed issue with draggable Scrollbar in RTL layout
+  * Minor fixes
+
 ## Swiper 4.0.0-beta.3 - Released on September 13, 2017
   * Dom7 update to latest version
   * Small core refactoring to get better results within tree-shaking bundles

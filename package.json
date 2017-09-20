@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "4.0.0-beta.3",
+  "version": "4.0.0-beta.4",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/js/swiper.js",
   "jsnext:main": "dist/js/swiper.module.js",
