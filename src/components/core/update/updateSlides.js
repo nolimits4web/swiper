@@ -1,4 +1,5 @@
 import Utils from '../../../utils/utils';
+import Support from '../../../utils/support';
 
 export default function () {
   const swiper = this;
