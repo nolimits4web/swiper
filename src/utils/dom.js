@@ -1,7 +1,80 @@
 import $ from 'dom7/src/$';
-import Methods from 'dom7/src/methods';
+import {
+  addClass,
+  removeClass,
+  hasClass,
+  toggleClass,
+  attr,
+  removeAttr,
+  data,
+  transform,
+  transition,
+  on,
+  off,
+  trigger,
+  transitionEnd,
+  outerWidth,
+  outerHeight,
+  offset,
+  css,
+  each,
+  html,
+  text,
+  is,
+  index,
+  eq,
+  append,
+  prepend,
+  next,
+  prev,
+  parent,
+  parents,
+  closest,
+  find,
+  children,
+  remove,
+  add,
+} from 'dom7/src/methods';
 
-// Methods
-$.use(Methods);
+const Methods = {
+  addClass,
+  removeClass,
+  hasClass,
+  toggleClass,
+  attr,
+  removeAttr,
+  data,
+  transform,
+  transition,
+  on,
+  off,
+  trigger,
+  transitionEnd,
+  outerWidth,
+  outerHeight,
+  offset,
+  css,
+  each,
+  html,
+  text,
+  is,
+  index,
+  eq,
+  append,
+  prepend,
+  next,
+  prev,
+  parent,
+  parents,
+  closest,
+  find,
+  children,
+  remove,
+  add,
+};
+
+Object.keys(Methods).forEach((methodName) => {
+  $.fn[methodName] = Methods[methodName];
+});
 
 export default $;
