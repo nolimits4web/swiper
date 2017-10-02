@@ -69,6 +69,6 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "dom7": "^2.0.0"
+    "dom7": "^2.0.1"
   }
 }
