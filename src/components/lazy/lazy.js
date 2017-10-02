@@ -157,6 +157,12 @@ export default {
         swiper.lazy.load();
       }
     },
+    scrollbarDragMove() {
+      const swiper = this;
+      if (swiper.params.lazy.enabled) {
+        swiper.lazy.load();
+      }
+    },
     transitionStart() {
       const swiper = this;
       if (swiper.params.lazy.enabled) {
