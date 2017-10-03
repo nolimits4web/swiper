@@ -33,6 +33,8 @@ const prototypes = {
   images,
 };
 
+const extendedDefaults = {};
+
 class Swiper extends SwiperClass {
   constructor(...args) {
     let el;
@@ -65,7 +67,7 @@ class Swiper extends SwiperClass {
     swiper.useModulesParams(swiperParams);
 
     // Extend defaults with passed params
-    swiper.params = Utils.extend({}, swiperParams, params);
+    swiper.params = Utils.extend({}, swiperParams, extendedDefaults, params);
     swiper.originalParams = Utils.extend({}, swiper.params);
     swiper.passedParams = Utils.extend({}, params);
 
@@ -205,7 +207,7 @@ class Swiper extends SwiperClass {
     // Return app instance
     return swiper;
   }
-  slidesPerView() {
+  slidesPerViewDynamic() {
     const swiper = this;
     const { params, slides, slidesGrid, size: swiperSize, activeIndex } = swiper;
     let spv = 1;
@@ -367,6 +369,15 @@ class Swiper extends SwiperClass {
       Utils.deleteProps(swiper);
       swiper = null;
     }
+  }
+  static extendDefaults(newDefaults) {
+    Utils.extend(extendedDefaults, newDefaults);
+  }
+  static get extendedDefaults() {
+    return extendedDefaults;
+  }
+  static get defaults() {
+    return defaults;
   }
   static get Class() {
     return SwiperClass;
