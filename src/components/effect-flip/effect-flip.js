@@ -101,10 +101,8 @@ export default {
         slidesPerGroup: 1,
         watchSlidesProgress: true,
         spaceBetween: 0,
+        virtualTranslate: true,
       });
-      if (typeof swiper.passedParams.virtualTranslate === 'undefined') {
-        swiper.params.virtualTranslate = true;
-      }
     },
     setTranslate() {
       const swiper = this;
