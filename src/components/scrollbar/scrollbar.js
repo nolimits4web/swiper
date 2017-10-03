@@ -254,7 +254,7 @@ export default {
       dragSize: 'auto',
       hide: false,
       draggable: false,
-      snapOnRelease: false,
+      snapOnRelease: true,
     },
   },
   create() {
