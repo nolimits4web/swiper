@@ -96,7 +96,7 @@ const Virtual = {
     appendIndexes.forEach((index) => {
       swiper.$wrapperEl.append(renderSlide(slides[index], index));
     });
-    prependIndexes.forEach((index) => {
+    prependIndexes.sort((a, b) => a < b).forEach((index) => {
       swiper.$wrapperEl.prepend(renderSlide(slides[index], index));
     });
     swiper.$wrapperEl.children('.swiper-slide').css(offsetProp, `${offset}px`);
@@ -166,7 +166,6 @@ export default {
       if (!swiper.params.virtual.enabled) return;
       swiper.classNames.push(`${swiper.params.containerModifierClass}virtual-slides`);
       Utils.extend(swiper.params, {
-        setWrapperSize: swiper.params.effect !== 'cube',
         watchSlidesProgress: true,
       });
       swiper.virtual.update();
