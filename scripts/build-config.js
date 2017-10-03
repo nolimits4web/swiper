@@ -1,5 +1,6 @@
 module.exports = {
   components: [
+    'virtual',
     'keyboard',
     'mousewheel',
     'navigation',
