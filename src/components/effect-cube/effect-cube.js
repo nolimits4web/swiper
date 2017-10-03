@@ -8,6 +8,7 @@ const Cube = {
     const { $el, $wrapperEl, slides, width: swiperWidth, height: swiperHeight, rtl, size: swiperSize } = swiper;
     const params = swiper.params.cubeEffect;
     const isHorizontal = swiper.isHorizontal();
+    const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
     let wrapperRotate = 0;
     let $cubeShadowEl;
     if (params.shadow) {
@@ -28,7 +29,11 @@ const Cube = {
     }
     for (let i = 0; i < slides.length; i += 1) {
       const $slideEl = slides.eq(i);
-      let slideAngle = i * 90;
+      let slideIndex = i;
+      if (isVirtual) {
+        slideIndex = parseInt($slideEl.attr('data-swiper-slide-index'), 10);
+      }
+      let slideAngle = slideIndex * 90;
       let round = Math.floor(slideAngle / 360);
       if (rtl) {
         slideAngle = -slideAngle;
@@ -38,16 +43,16 @@ const Cube = {
       let tx = 0;
       let ty = 0;
       let tz = 0;
-      if (i % 4 === 0) {
+      if (slideIndex % 4 === 0) {
         tx = -round * 4 * swiperSize;
         tz = 0;
-      } else if ((i - 1) % 4 === 0) {
+      } else if ((slideIndex - 1) % 4 === 0) {
         tx = 0;
         tz = -round * 4 * swiperSize;
-      } else if ((i - 2) % 4 === 0) {
+      } else if ((slideIndex - 2) % 4 === 0) {
         tx = swiperSize + (round * 4 * swiperSize);
         tz = swiperSize;
-      } else if ((i - 3) % 4 === 0) {
+      } else if ((slideIndex - 3) % 4 === 0) {
         tx = -swiperSize;
         tz = (3 * swiperSize) + (swiperSize * 4 * round);
       }
@@ -62,8 +67,8 @@ const Cube = {
 
       const transform = `rotateX(${isHorizontal ? 0 : -slideAngle}deg) rotateY(${isHorizontal ? slideAngle : 0}deg) translate3d(${tx}px, ${ty}px, ${tz}px)`;
       if (progress <= 1 && progress > -1) {
-        wrapperRotate = (i * 90) + (progress * 90);
-        if (rtl) wrapperRotate = (-i * 90) - (progress * 90);
+        wrapperRotate = (slideIndex * 90) + (progress * 90);
+        if (rtl) wrapperRotate = (-slideIndex * 90) - (progress * 90);
       }
       $slideEl.transform(transform);
       if (params.slideShadows) {

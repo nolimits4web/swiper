@@ -2,10 +2,16 @@ export default function () {
   const swiper = this;
 
   const { slides, params, $wrapperEl, activeIndex, realIndex } = swiper;
+  const isVirtual = swiper.virtual && params.virtual.enabled;
 
   slides.removeClass(`${params.slideActiveClass} ${params.slideNextClass} ${params.slidePrevClass} ${params.slideDuplicateActiveClass} ${params.slideDuplicateNextClass} ${params.slideDuplicatePrevClass}`);
 
-  const activeSlide = slides.eq(activeIndex);
+  let activeSlide;
+  if (isVirtual) {
+    activeSlide = swiper.$wrapperEl.find(`.${params.slideClass}[data-swiper-slide-index="${activeIndex}"]`);
+  } else {
+    activeSlide = slides.eq(activeIndex);
+  }
 
   // Active classes
   activeSlide.addClass(params.slideActiveClass);
@@ -23,13 +29,13 @@ export default function () {
     }
   }
   // Next Slide
-  let nextSlide = activeSlide.next(`.${params.slideClass}`).addClass(params.slideNextClass);
+  let nextSlide = activeSlide.nextAll(`.${params.slideClass}`).eq(0).addClass(params.slideNextClass);
   if (params.loop && nextSlide.length === 0) {
     nextSlide = slides.eq(0);
     nextSlide.addClass(params.slideNextClass);
   }
   // Prev Slide
-  let prevSlide = activeSlide.prev(`.${params.slideClass}`).addClass(params.slidePrevClass);
+  let prevSlide = activeSlide.prevAll(`.${params.slideClass}`).eq(0).addClass(params.slidePrevClass);
   if (params.loop && prevSlide.length === 0) {
     prevSlide = slides.eq(-1);
     prevSlide.addClass(params.slidePrevClass);
