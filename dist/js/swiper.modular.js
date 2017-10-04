@@ -11,7 +11,7 @@
  */
 
 import $ from 'dom7/src/$';
-import Methods from 'dom7/src/methods';
+import * as Methods from 'dom7/src/methods';
 
 let w;
 if (typeof window === 'undefined') {

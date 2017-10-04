@@ -1,5 +1,5 @@
 import $ from 'dom7/src/$';
-import Methods from 'dom7/src/methods';
+import * as Methods from 'dom7/src/methods';
 
 // Methods
 $.use(Methods);
