@@ -7,11 +7,11 @@ export default function (runCallbacks = true) {
   swiper.emit('transitionEnd');
   if (runCallbacks) {
     if (activeIndex !== previousIndex) {
-      swiper.emit('slideChangeEnd');
+      swiper.emit('slideChangeTransitionEnd');
       if (activeIndex > previousIndex) {
-        swiper.emit('slideNextEnd');
+        swiper.emit('slideNextTransitionEnd');
       } else {
-        swiper.emit('slidePrevEnd');
+        swiper.emit('slidePrevTransitionEnd');
       }
     }
   }

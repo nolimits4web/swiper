@@ -8,11 +8,11 @@ export default function (runCallbacks = true) {
 
   if (!runCallbacks) return;
   if (activeIndex !== previousIndex) {
-    swiper.emit('slideChangeStart');
+    swiper.emit('slideChangeTransitionStart');
     if (activeIndex > previousIndex) {
-      swiper.emit('slideNextStart');
+      swiper.emit('slideNextTransitionStart');
     } else {
-      swiper.emit('slidePrevStart');
+      swiper.emit('slidePrevTransitionStart');
     }
   }
 }
