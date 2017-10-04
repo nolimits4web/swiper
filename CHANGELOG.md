@@ -1,5 +1,17 @@
 # Change Log
 
+## [Swiper 4.0.0](https://github.com/nolimits4web/swiper/compare/v3.4.2...v4.0.0) - Released on October 4, 2017 🎉
+  * New API (check [Documentation](http://idangero.us/swiper/api/))
+  * Virtual Slides - new module that keeps in DOM just required amount of slides
+  * Source code has been fully rewritten in ES-next syntax
+  * Dist package contains additional ES-next modules:
+    * `swiper.module.js` - swiper bundle for `import Swiper from 'swiper'`
+    * `swiper.modular.js` - modular version for using Swiper with required components only
+  * New `scripts/build-config.js` for creating custom Swiper build with required components and custom color theme
+  * jQuery version of Swiper has been removed
+  * Imporved compatibility with server-side rendering
+  * Hundreds of improvements and fixes
+
 ## Swiper 4.0.0-beta.4 - Released on September 20, 2017
   * Fixed issue with draggable Scrollbar in RTL layout
   * Minor fixes
