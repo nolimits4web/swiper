@@ -41,6 +41,7 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   swiper.activeIndex = slideIndex;
   if (previousIndex !== slideIndex || activeIndex !== slideIndex) {
     swiper.emit('activeIndexChange');
+    swiper.emit('slideChange');
   }
   if (previousSnapIndex !== swiper.snapIndex) {
     swiper.emit('snapIndexChange');
