@@ -1,5 +1,5 @@
-import $ from 'dom7/src/$';
 import {
+  $,
   addClass,
   removeClass,
   hasClass,
@@ -36,7 +36,8 @@ import {
   children,
   remove,
   add,
-} from 'dom7/src/methods';
+  styles,
+} from 'dom7/dist/dom7.modular';
 
 const Methods = {
   addClass,
@@ -75,6 +76,7 @@ const Methods = {
   children,
   remove,
   add,
+  styles,
 };
 
 Object.keys(Methods).forEach((methodName) => {
