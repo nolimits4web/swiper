@@ -70,8 +70,8 @@
   </div>
   <p class="append-buttons">
     <a href="#" class="slide-1">Slide 1</a>
-    <a href="#" class="slide-300">Slide 300</a>
-    <a href="#" class="slide-600">Slide 600</a>
+    <a href="#" class="slide-250">Slide 250</a>
+    <a href="#" class="slide-500">Slide 500</a>
   </p>
   <!-- Swiper JS -->
   <script src="../dist/js/swiper.min.js"></script>
@@ -91,7 +91,6 @@
         prevEl: '.swiper-button-prev',
       },
       virtual: {
-        enabled: true,
         slides: (function () {
           var slides = [];
           for (var i = 0; i < 600; i += 1) {
@@ -107,11 +106,11 @@
     });
     document.querySelector('.slide-300').addEventListener('click', function (e) {
       e.preventDefault();
-      swiper.slideTo(299, 0);
+      swiper.slideTo(249, 0);
     });
     document.querySelector('.slide-600').addEventListener('click', function (e) {
       e.preventDefault();
-      swiper.slideTo(599, 0);
+      swiper.slideTo(499, 0);
     });
   </script>
 </body>
