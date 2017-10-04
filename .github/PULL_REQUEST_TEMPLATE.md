@@ -2,4 +2,4 @@ Describe the big picture of your changes here to communicate to the maintainers 
 
 The best way to propose a feature is to open an issue first and discuss your ideas there before implementing them.
 
-Always follow the [contribution guidelines](https://github.com/nolimits4web/Swiper/blob/master/.github/CONTRIBUTING.md) when submitting a pull request. 
+Always follow the [contribution guidelines](https://github.com/nolimits4web/Swiper/blob/master/CONTRIBUTING.md) when submitting a pull request.

@@ -19,9 +19,9 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
 
 On production use files (JS and CSS) only from `dist/` folder, there will be the most stable versions, `build/` folder is only for development purpose
 
-### Build
+### Development Build
 
-Swiper uses `gulp` to build a development (build) and dist versions.
+Swiper uses `gulp` to build a development (build) and production (dist) versions.
 
 First you need to have `gulp-cli` which you should install globally.
 
@@ -37,29 +37,35 @@ $ npm install
 
 And build development version of Swiper:
 ```
-$ gulp build
+$ npm run build-dev
 ```
 
 The result is available in `build/` folder.
 
-### Dist/Release
-
-After you have made build:
+### Production Build
 
 ```
-$ gulp dist
+$ npm run build-prod
 ```
 
-Distributable version will available in `dist/` folder.
+Production version will available in `dist/` folder.
 
 # Contributing
 
-All changes should be committed to `src/` files. Swiper uses LESS for CSS compilations, and concatenated JS files (look at gulpfile.js for concat files order)
+All changes should be committed to `src/` files only. Before you open an issue please review the [contributing](https://github.com/nolimits4web/Swiper/blob/master/CONTRIBUTING.md) guideline.
 
-Swiper 2.x.x
+Swiper 3.x
 ==========
 
-If you still using Swiper 2.x.x or you need old browsers support, you may find it in [Swiper2 Branch](https://github.com/nolimits4web/Swiper/tree/Swiper2)
+If you are still using Swiper 3.x.x, you may find it in [Swiper3 Branch](https://github.com/nolimits4web/Swiper/tree/Swiper3)
+* [Download Latest Swiper 3.4.2](https://github.com/nolimits4web/Swiper/archive/v3.4.2.zip)
+* [Source Files](https://github.com/nolimits4web/Swiper/tree/Swiper3/src)
+* [API](https://github.com/nolimits4web/Swiper/blob/Swiper3/API.md)
+
+Swiper 2.x
+==========
+
+If you are still using Swiper 2.x.x or you need old browsers support, you may find it in [Swiper2 Branch](https://github.com/nolimits4web/Swiper/tree/Swiper2)
 * [Download Latest Swiper 2.7.6](https://github.com/nolimits4web/Swiper/archive/v2.7.6.zip)
 * [Source Files](https://github.com/nolimits4web/Swiper/tree/Swiper2/src)
 * [API](https://github.com/nolimits4web/Swiper/blob/Swiper2/API.md)

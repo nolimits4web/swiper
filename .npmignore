@@ -1,0 +1,6 @@
+.git
+.github
+build
+demos
+node_modules
+playground
