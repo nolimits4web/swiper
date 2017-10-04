@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "4.0.0-beta.4",
+  "version": "4.0.0",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/js/swiper.js",
   "jsnext:main": "dist/js/swiper.module.js",
@@ -34,8 +34,10 @@
     "phonegap",
     "app",
     "framework",
+    "framework7",
     "carousel",
-    "gallery"
+    "gallery",
+    "plugin"
   ],
   "author": "Vladimir Kharlampidi",
   "license": "MIT",
@@ -46,6 +48,12 @@
   "engines": {
     "node": ">= 4.7.0"
   },
+  "browserslist": [
+    "Android > 4",
+    "IOS >= 7",
+    "last 4 versions",
+    "ie >= 10"
+  ],
   "devDependencies": {
     "eslint": "^4.6.1",
     "eslint-config-airbnb-base": "^11.3.2",

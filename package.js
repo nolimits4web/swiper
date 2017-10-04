@@ -1,4 +1,4 @@
-var version = '4.0.0-beta.3';
+var version = '4.0.0';
 
 Package.describe({
   name: 'nolimits4web:swiper',
@@ -20,5 +20,4 @@ Package.onUse(function (api) {
   // api.export('Swiper');
 });
 
-Package.onTest(function (api) {
-});
+Package.onTest(function (api) {});
