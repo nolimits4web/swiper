@@ -13,7 +13,11 @@ export default function (e) {
 
   if (slide && slideFound) {
     swiper.clickedSlide = slide;
-    swiper.clickedIndex = $(slide).index();
+    if (swiper.virtual && swiper.params.virtual.enabled) {
+      swiper.clickedIndex = parseInt($(slide).attr('data-swiper-slide-index'), 10);
+    } else {
+      swiper.clickedIndex = $(slide).index();
+    }
   } else {
     swiper.clickedSlide = undefined;
     swiper.clickedIndex = undefined;
