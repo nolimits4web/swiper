@@ -4,8 +4,7 @@ Swiper loves to welcome your contributions. There are several ways to help out:
 
 * Create an [issue](https://github.com/nolimits4web/Swiper/issues) on GitHub, if you have found a bug
 * Write test cases or provide examples for open bug issues
-* Write patches for open bug/feature issues, preferably with test cases included
-
+* Write patches for open bug/feature issues
 
 There are a few guidelines that we need contributors to follow so that we have a
 chance of keeping on top of things.
@@ -37,3 +36,7 @@ chance of keeping on top of things.
 
 * Push your changes to a topic branch in your fork of the repository.
 * Submit a pull request to the repository
+
+## Editor Config
+
+The project uses .editorconfig to define the coding style of each file. We recommend that you install the Editor Config extension for your preferred IDE.
