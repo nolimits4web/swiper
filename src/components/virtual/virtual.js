@@ -4,7 +4,7 @@ import Utils from '../../utils/utils';
 const Virtual = {
   update(force) {
     const swiper = this;
-    const { slidesPerView, centeredSlides } = swiper.params;
+    const { slidesPerView, slidesPerGroup, centeredSlides } = swiper.params;
     const {
       from: previousFrom,
       to: previousTo,
@@ -23,11 +23,11 @@ const Virtual = {
     let slidesAfter;
     let slidesBefore;
     if (centeredSlides) {
-      slidesAfter = Math.floor(slidesPerView / 2) + 1;
-      slidesBefore = Math.floor(slidesPerView / 2) + 1;
+      slidesAfter = Math.floor(slidesPerView / 2) + slidesPerGroup;
+      slidesBefore = Math.floor(slidesPerView / 2) + slidesPerGroup;
     } else {
-      slidesAfter = slidesPerView;
-      slidesBefore = 1;
+      slidesAfter = slidesPerView + (slidesPerGroup - 1);
+      slidesBefore = slidesPerGroup;
     }
     const from = Math.max((activeIndex || 0) - slidesBefore, 0);
     const to = Math.min((activeIndex || 0) + slidesAfter, slides.length - 1);
@@ -164,7 +164,7 @@ export default {
     beforeInit() {
       const swiper = this;
       if (!swiper.params.virtual.enabled) return;
-      swiper.classNames.push(`${swiper.params.containerModifierClass}virtual-slides`);
+      swiper.classNames.push(`${swiper.params.containerModifierClass}virtual`);
       Utils.extend(swiper.params, {
         watchSlidesProgress: true,
       });
