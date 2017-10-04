@@ -5,6 +5,43 @@
   <title>Swiper Playground</title>
   <link rel="stylesheet" href="../dist/css/swiper.min.css">
   <meta name="viewport" content="width=device-width">
+  <style>
+    html, body {
+      position: relative;
+      height: 100%;
+    }
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color:#000;
+      margin: 0;
+      padding: 0;
+    }
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+  </style>
 </head>
 <body>
   <div class="swiper-container">
@@ -25,39 +62,14 @@
     </div>
     <div class="swiper-pagination"></div>
   </div>
-  <style>
-    body, html {
-      padding: 0;
-      margin: 0;
-      position: relative;
-      height: 100%;
-    }
-    .swiper-container {
-      width: 100%;
-      height: 300px;
-      margin: 50px auto;
-    }
-    .swiper-slide {
-      background: #f1f1f1;
-      color:#000;
-      text-align: center;
-      line-height: 300px;
-    }
-  </style>
   <script src="../dist/js/swiper.min.js"></script>
   <script>
     var swiper = new Swiper('.swiper-container', {
       spaceBetween: 50,
-      slidesPerView: 2,
-      centeredSlides: true,
-      slideToClickedSlide: true,
-      grabCursor: true,
+      slidesPerView: 1,
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
-      },
-      scrollbar: {
-        el: '.swiper-scrollbar',
       },
       pagination: {
         el: '.swiper-pagination',

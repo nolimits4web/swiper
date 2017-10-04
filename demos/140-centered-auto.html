@@ -10,6 +10,10 @@
 
   <!-- Demo styles -->
   <style>
+    html, body {
+      position: relative;
+      height: 100%;
+    }
     body {
       background: #eee;
       font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -20,14 +24,12 @@
     }
     .swiper-container {
       width: 100%;
-      height: 300px;
-      margin: 20px auto;
+      height: 100%;
     }
     .swiper-slide {
       text-align: center;
       font-size: 18px;
       background: #fff;
-      width: 60%;
 
       /* Center slide text vertically */
       display: -webkit-box;
@@ -42,6 +44,7 @@
       -ms-flex-align: center;
       -webkit-align-items: center;
       align-items: center;
+      width: 60%;
     }
     .swiper-slide:nth-child(2n) {
       width: 40%;

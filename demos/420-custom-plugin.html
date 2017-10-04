@@ -78,6 +78,7 @@
     Debugger plugin, simple demo plugin to console.log some of callbacks
     ======== */
     var myPlugin = {
+      name: 'debugger',
       params: {
         debugger: false,
       },
@@ -102,27 +103,35 @@
           if (!this.params.debugger) return;
           console.log('sliderMove');
         },
-        slideChangeStart: function () {
+        slideChange: function () {
           if (!this.params.debugger) return;
-          console.log('slideChangeStart');
+          console.log('slideChange', this.previousIndex, '->', this.activeIndex);
         },
-        slideChangeEnd: function () {
+        slideChangeTransitionStart: function () {
           if (!this.params.debugger) return;
-          console.log('slideChangeEnd');
+          console.log('slideChangeTransitionStart');
+        },
+        slideChangeTransitionEnd: function () {
+          if (!this.params.debugger) return;
+          console.log('slideChangeTransitionEnd');
         },
         transitionStart: function () {
           if (!this.params.debugger) return;
           console.log('transitionStart');
         },
-        transitionEnd: function (swiper) {
+        transitionEnd: function () {
           if (!this.params.debugger) return;
           console.log('transitionEnd');
         },
-        reachBeginning: function (swiper) {
+        fromEdge: function () {
+          if (!this.params.debugger) return;
+          console.log('fromEdge');
+        },
+        reachBeginning: function () {
           if (!this.params.debugger) return;
           console.log('reachBeginning');
         },
-        reachEnd: function (swiper) {
+        reachEnd: function () {
           if (!this.params.debugger) return;
           console.log('reachEnd');
         },

@@ -10,6 +10,10 @@
 
   <!-- Demo styles -->
   <style>
+    html, body {
+      position: relative;
+      height: 100%;
+    }
     body {
       background: #eee;
       font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -20,14 +24,12 @@
     }
     .swiper-container {
       width: 100%;
-      height: 300px;
-      margin: 20px auto;
+      height: 100%;
     }
     .swiper-slide {
       text-align: center;
       font-size: 18px;
       background: #fff;
-      width: 250px;
 
       /* Center slide text vertically */
       display: -webkit-box;
@@ -60,8 +62,8 @@
       <div class="swiper-slide">Slide 9</div>
       <div class="swiper-slide">Slide 10</div>
     </div>
-    <!-- Add Scrollbar -->
-    <div class="swiper-scrollbar"></div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
   </div>
 
   <!-- Swiper JS -->
@@ -70,13 +72,12 @@
   <!-- Initialize Swiper -->
   <script>
     var swiper = new Swiper('.swiper-container', {
-      slidesPerView: 'auto',
-      centeredSlides: true,
+      slidesPerView: 4,
       spaceBetween: 30,
-      grabCursor: true,
-      scrollbar: {
-        el: '.swiper-scrollbar',
-        hide: true,
+      centeredSlides: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
       },
     });
   </script>

@@ -10,6 +10,10 @@
 
   <!-- Demo styles -->
   <style>
+    html, body {
+      position: relative;
+      height: 100%;
+    }
     body {
       background: #eee;
       font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -20,14 +24,12 @@
     }
     .swiper-container {
       width: 100%;
-      height: 300px;
-      margin: 20px auto;
+      height: 100%;
     }
     .swiper-slide {
       text-align: center;
       font-size: 18px;
       background: #fff;
-      width: 60%;
 
       /* Center slide text vertically */
       display: -webkit-box;
@@ -42,12 +44,6 @@
       -ms-flex-align: center;
       -webkit-align-items: center;
       align-items: center;
-    }
-    .swiper-slide:nth-child(2n) {
-      width: 40%;
-    }
-    .swiper-slide:nth-child(3n) {
-      width: 20%;
     }
   </style>
 </head>
@@ -66,8 +62,9 @@
       <div class="swiper-slide">Slide 9</div>
       <div class="swiper-slide">Slide 10</div>
     </div>
-    <!-- Add Pagination -->
-    <div class="swiper-pagination"></div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
   </div>
 
   <!-- Swiper JS -->
@@ -76,12 +73,9 @@
   <!-- Initialize Swiper -->
   <script>
     var swiper = new Swiper('.swiper-container', {
-      slidesPerView: 4,
-      spaceBetween: 30,
-      centeredSlides: true,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
       },
     });
   </script>
