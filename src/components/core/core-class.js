@@ -62,6 +62,25 @@ class Swiper extends SwiperClass {
     // Swiper Instance
     const swiper = this;
 
+    Object.keys(swiper.modules).forEach((moduleName) => {
+      const module = swiper.modules[moduleName];
+      if (module.params) {
+        const moduleParamName = Object.keys(module.params)[0];
+        const moduleParams = module.params[moduleParamName];
+        if (!(moduleParamName in params && 'enabled' in moduleParams)) return;
+        if (params[moduleParamName] === true) {
+          params[moduleParamName] = { enabled: true };
+        }
+        if (
+          typeof params[moduleParamName] === 'object' &&
+          !('enabled' in params[moduleParamName])
+        ) {
+          params[moduleParamName].enabled = true;
+        }
+        if (!params[moduleParamName]) params[moduleParamName] = { enabled: false };
+      }
+    });
+
     // Extend defaults with modules params
     const swiperParams = Utils.extend({}, defaults);
     swiper.useModulesParams(swiperParams);
