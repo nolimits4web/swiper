@@ -144,6 +144,7 @@ class SwiperClass {
     const Class = this;
     if (Array.isArray(module)) {
       module.forEach(m => Class.installModule(m));
+      return Class;
     }
     return Class.installModule(module, ...params);
   }
