@@ -35,7 +35,7 @@ const Fade = {
         if (!swiper) return;
         eventTriggered = true;
         swiper.animating = false;
-        const triggerEvents = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'];
+        const triggerEvents = ['webkitTransitionEnd', 'transitionend'];
         for (let i = 0; i < triggerEvents.length; i += 1) {
           $wrapperEl.trigger(triggerEvents[i]);
         }
