@@ -11,11 +11,11 @@ const Pagination = {
     const $el = swiper.pagination.$el;
     // Current/Total
     let current;
-    const total = swiper.params.loop ? Math.ceil((slidesLength.length - (swiper.loopedSlides * 2)) / swiper.params.slidesPerGroup) : swiper.snapGrid.length;
+    const total = swiper.params.loop ? Math.ceil((slidesLength - (swiper.loopedSlides * 2)) / swiper.params.slidesPerGroup) : swiper.snapGrid.length;
     if (swiper.params.loop) {
       current = Math.ceil((swiper.activeIndex - swiper.loopedSlides) / swiper.params.slidesPerGroup);
-      if (current > slidesLength.length - 1 - (swiper.loopedSlides * 2)) {
-        current -= (slidesLength.length - (swiper.loopedSlides * 2));
+      if (current > slidesLength - 1 - (swiper.loopedSlides * 2)) {
+        current -= (slidesLength - (swiper.loopedSlides * 2));
       }
       if (current > total - 1) current -= total;
       if (current < 0 && swiper.params.paginationType !== 'bullets') current = total + current;
@@ -103,7 +103,7 @@ const Pagination = {
     const $el = swiper.pagination.$el;
     let paginationHTML = '';
     if (params.type === 'bullets') {
-      const numberOfBullets = swiper.params.loop ? Math.ceil((slidesLength.length - (swiper.loopedSlides * 2)) / swiper.params.slidesPerGroup) : swiper.snapGrid.length;
+      const numberOfBullets = swiper.params.loop ? Math.ceil((slidesLength - (swiper.loopedSlides * 2)) / swiper.params.slidesPerGroup) : swiper.snapGrid.length;
       for (let i = 0; i < numberOfBullets; i += 1) {
         if (params.renderBullet) {
           paginationHTML += params.renderBullet.call(swiper, i, params.bulletClass);
