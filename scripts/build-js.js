@@ -44,7 +44,7 @@ function es(components, cb) {
     })
     .pipe(source('swiper.js', './src'))
     .pipe(buffer())
-    .pipe(rename('swiper.module.js'))
+    .pipe(rename('swiper.esm.bundle.js'))
     .pipe(gulp.dest(`./${env === 'development' ? 'build' : 'dist'}/js/`))
     .on('end', () => {
       if (cb) cb();
@@ -74,7 +74,7 @@ function es(components, cb) {
     })
     .pipe(source('swiper.js', './src'))
     .pipe(buffer())
-    .pipe(rename('swiper.modular.js'))
+    .pipe(rename('swiper.esm.js'))
     .pipe(gulp.dest(`./${env === 'development' ? 'build' : 'dist'}/js/`))
     .on('end', () => {
       if (cb) cb();
