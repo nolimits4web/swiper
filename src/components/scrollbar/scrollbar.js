@@ -123,7 +123,6 @@ const Scrollbar = {
     swiper.setTranslate(position);
     swiper.updateActiveIndex();
     swiper.updateSlidesClasses();
-    swiper.updateRealIndex();
   },
   onDragStart(e) {
     const swiper = this;

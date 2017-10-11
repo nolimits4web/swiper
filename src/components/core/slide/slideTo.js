@@ -5,16 +5,16 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   let slideIndex = index;
   if (slideIndex < 0) slideIndex = 0;
 
-  const { params, snapGrid, slidesGrid, previousIndex, activeIndex, snapIndex: previousSnapIndex, rtl, $wrapperEl } = swiper;
+  const { params, snapGrid, slidesGrid, previousIndex, activeIndex, rtl, $wrapperEl } = swiper;
 
-  swiper.snapIndex = Math.floor(slideIndex / params.slidesPerGroup);
-  if (swiper.snapIndex >= snapGrid.length) swiper.snapIndex = snapGrid.length - 1;
+  let snapIndex = Math.floor(slideIndex / params.slidesPerGroup);
+  if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
 
   if ((activeIndex || params.initialSlide || 0) === (previousIndex || 0) && runCallbacks) {
     swiper.emit('beforeSlideChangeStart');
   }
 
-  const translate = -snapGrid[swiper.snapIndex];
+  const translate = -snapGrid[snapIndex];
 
   // Update progress
   swiper.updateProgress(translate);
@@ -33,20 +33,12 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
     return false;
   }
   if (!swiper.allowSlidePrev && translate > swiper.translate && translate > swiper.maxTranslate()) {
-    if ((swiper.activeIndex || 0) !== slideIndex) return false;
+    if ((activeIndex || 0) !== slideIndex) return false;
   }
 
   // Update Index
-  swiper.previousIndex = activeIndex || 0;
-  swiper.activeIndex = slideIndex;
-  if (previousIndex !== slideIndex || activeIndex !== slideIndex) {
-    swiper.emit('activeIndexChange');
-    swiper.emit('slideChange');
-  }
-  if (previousSnapIndex !== swiper.snapIndex) {
-    swiper.emit('snapIndexChange');
-  }
-  swiper.updateRealIndex();
+  swiper.updateActiveIndex(slideIndex);
+
   if ((rtl && -translate === swiper.translate) || (!rtl && translate === swiper.translate)) {
     // Update Height
     if (params.autoHeight) {

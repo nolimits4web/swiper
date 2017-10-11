@@ -148,7 +148,6 @@ const Mousewheel = {
       swiper.updateProgress();
       swiper.updateActiveIndex();
       swiper.updateSlidesClasses();
-      swiper.updateRealIndex();
 
       if ((!wasBeginning && swiper.isBeginning) || (!wasEnd && swiper.isEnd)) {
         swiper.updateSlidesClasses();

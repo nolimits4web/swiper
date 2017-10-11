@@ -4,7 +4,6 @@ import updateAutoHeight from './updateAutoHeight';
 import updateSlidesOffset from './updateSlidesOffset';
 import updateSlidesProgress from './updateSlidesProgress';
 import updateProgress from './updateProgress';
-import updateRealIndex from './updateRealIndex';
 import updateSlidesClasses from './updateSlidesClasses';
 import updateActiveIndex from './updateActiveIndex';
 import updateClickedSlide from './updateClickedSlide';
@@ -16,7 +15,6 @@ export default {
   updateSlidesOffset,
   updateSlidesProgress,
   updateProgress,
-  updateRealIndex,
   updateSlidesClasses,
   updateActiveIndex,
   updateClickedSlide,

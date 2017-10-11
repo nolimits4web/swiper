@@ -64,7 +64,11 @@ class SwiperClass {
     const eventsArray = Array.isArray(events) ? events : events.split(' ');
     eventsArray.forEach((event) => {
       if (self.eventsListeners[event]) {
+        const handlers = [];
         self.eventsListeners[event].forEach((eventHandler) => {
+          handlers.push(eventHandler);
+        });
+        handlers.forEach((eventHandler) => {
           eventHandler.apply(context, data);
         });
       }

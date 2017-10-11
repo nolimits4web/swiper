@@ -168,7 +168,6 @@ export default function (event) {
   if (params.freeMode || params.watchSlidesProgress || params.watchSlidesVisibility) {
     swiper.updateActiveIndex();
     swiper.updateSlidesClasses();
-    swiper.updateRealIndex();
   }
   if (params.freeMode) {
     // Velocity
