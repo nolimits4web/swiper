@@ -1,5 +1,13 @@
 # Change Log
 
+## [Swiper 4.0.1](https://github.com/nolimits4web/swiper/compare/v4.0.0...v4.0.1) - Released on October 11, 2017
+  * Fixed issue with pagination being broken with loop mode
+  * Reworked `realIndex` calculation ordering
+  * ES-module files renamed (**possible breaking change**):
+    * `swiper.module.js` -> `swiper.esm.bundle.js` (exported by default)
+    * `swiper.modular.js` -> `swiper.esm.js`
+  * Minor fixes
+
 ## [Swiper 4.0.0](https://github.com/nolimits4web/swiper/compare/v3.4.2...v4.0.0) - Released on October 4, 2017 🎉
   * New API (check [Documentation](http://idangero.us/swiper/api/))
   * Virtual Slides - new module that keeps in DOM just required amount of slides
