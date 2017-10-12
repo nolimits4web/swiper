@@ -10,7 +10,7 @@
  * 
  * Licensed under MIT
  * 
- * Released on: March 10, 2017
+ * Released on: October 12, 2017
  */
 .swiper-container {
   margin-left: auto;
@@ -80,6 +80,9 @@
   height: 100%;
   position: relative;
 }
+.swiper-invisible-blank-slide {
+  visibility: hidden;
+}
 /* Auto Height */
 .swiper-container-autoheight,
 .swiper-container-autoheight .swiper-slide {
@@ -106,11 +109,11 @@
   z-index: -1000;
 }
 /* IE10 Windows Phone 8 Fixes */
-.swiper-wp8-horizontal {
+.swiper-container-wp8-horizontal {
   -ms-touch-action: pan-y;
   touch-action: pan-y;
 }
-.swiper-wp8-vertical {
+.swiper-container-wp8-vertical {
   -ms-touch-action: pan-x;
   touch-action: pan-x;
 }
