@@ -21,7 +21,7 @@ function getBreakpoint(breakpoints) {
 
 export default function () {
   const swiper = this;
-  const { activeIndex, loopedSlides, params } = swiper;
+  const { activeIndex, loopedSlides = 0, params } = swiper;
   const breakpoints = params.breakpoints;
   if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) return;
   // Set breakpoint for window width and update parameters
