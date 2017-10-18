@@ -2,7 +2,7 @@ import $ from '../../utils/dom';
 import Utils from '../../utils/utils';
 
 const Lazy = {
-  loadImagesInSlide(index, loadInDuplicate = true) {
+  loadInSlide(index, loadInDuplicate = true) {
     const swiper = this;
     const params = swiper.params.lazy;
     if (typeof index === 'undefined') return;
@@ -54,10 +54,10 @@ const Lazy = {
           const slideOriginalIndex = $slideEl.attr('data-swiper-slide-index');
           if ($slideEl.hasClass(swiper.params.slideDuplicateClass)) {
             const originalSlide = swiper.$wrapperEl.children(`[data-swiper-slide-index="${slideOriginalIndex}"]:not(.${swiper.params.slideDuplicateClass})`);
-            swiper.lazy.loadImagesInSlide(originalSlide.index(), false);
+            swiper.lazy.loadInSlide(originalSlide.index(), false);
           } else {
             const duplicatedSlide = swiper.$wrapperEl.children(`.${swiper.params.slideDuplicateClass}[data-swiper-slide-index="${slideOriginalIndex}"]`);
-            swiper.lazy.loadImagesInSlide(duplicatedSlide.index(), false);
+            swiper.lazy.loadInSlide(duplicatedSlide.index(), false);
           }
         }
         swiper.emit('lazyImageReady', $slideEl[0], $imageEl[0]);
@@ -96,14 +96,14 @@ const Lazy = {
     if (swiper.params.watchSlidesVisibility) {
       $wrapperEl.children(`.${swiperParams.slideVisibleClass}`).each((elIndex, slideEl) => {
         const index = isVirtual ? $(slideEl).attr('data-swiper-slide-index') : $(slideEl).index();
-        swiper.lazy.loadImagesInSlide(index);
+        swiper.lazy.loadInSlide(index);
       });
     } else if (slidesPerView > 1) {
       for (let i = activeIndex; i < activeIndex + slidesPerView; i += 1) {
-        if (slideExist(i)) swiper.lazy.loadImagesInSlide(i);
+        if (slideExist(i)) swiper.lazy.loadInSlide(i);
       }
     } else {
-      swiper.lazy.loadImagesInSlide(activeIndex);
+      swiper.lazy.loadInSlide(activeIndex);
     }
     if (params.loadPrevNext) {
       if (slidesPerView > 1 || (params.loadPrevNextAmount && params.loadPrevNextAmount > 1)) {
@@ -113,18 +113,18 @@ const Lazy = {
         const minIndex = Math.max(activeIndex - Math.max(spv, amount), 0);
         // Next Slides
         for (let i = activeIndex + slidesPerView; i < maxIndex; i += 1) {
-          if (slideExist(i)) swiper.lazy.loadImagesInSlide(i);
+          if (slideExist(i)) swiper.lazy.loadInSlide(i);
         }
         // Prev Slides
         for (let i = minIndex; i < activeIndex; i += 1) {
-          if (slideExist(i)) swiper.lazy.loadImagesInSlide(i);
+          if (slideExist(i)) swiper.lazy.loadInSlide(i);
         }
       } else {
         const nextSlide = $wrapperEl.children(`.${swiperParams.slideNextClass}`);
-        if (nextSlide.length > 0) swiper.lazy.loadImagesInSlide(slideIndex(nextSlide));
+        if (nextSlide.length > 0) swiper.lazy.loadInSlide(slideIndex(nextSlide));
 
         const prevSlide = $wrapperEl.children(`.${swiperParams.slidePrevClass}`);
-        if (prevSlide.length > 0) swiper.lazy.loadImagesInSlide(slideIndex(prevSlide));
+        if (prevSlide.length > 0) swiper.lazy.loadInSlide(slideIndex(prevSlide));
       }
     }
   },
@@ -151,7 +151,7 @@ export default {
       lazy: {
         initialImageLoaded: false,
         load: Lazy.load.bind(swiper),
-        loadImagesInSlide: Lazy.loadImagesInSlide.bind(swiper),
+        loadInSlide: Lazy.loadInSlide.bind(swiper),
       },
     });
   },
