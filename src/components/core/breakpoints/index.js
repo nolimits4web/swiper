@@ -1,3 +1,4 @@
 import setBreakpoint from './setBreakpoint';
+import getBreakpoint from './getBreakpoint';
 
-export default { setBreakpoint };
+export default { setBreakpoint, getBreakpoint };
