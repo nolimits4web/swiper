@@ -11,6 +11,7 @@ This is a (multiple allowed):
 
 * Swiper Version: EXACT RELEASE VERSION OR COMMIT HASH, HERE.
 * Platform/Target and Browser Versions: PLATFORM CLIENT YOU ARE TARGETING SUCH AS macOS, Windows, CORDOVA, IOS, ANDROID, CHROME, ETC.
+* Live Link or JSFiddle/Codepen or website with isssue: PREFERABLY _(IF YOU WANT YOUR ISSUE TO BE RESOLVED ASAP)_.
 
 ### What you did
 EXPLAIN WHAT YOU DID, PREFERABLY WITH CODE EXAMPLES, HERE.
