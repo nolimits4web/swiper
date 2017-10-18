@@ -1,4 +1,4 @@
-var defaults = {
+var defaults = Swiper.defaults = {
     direction: 'horizontal',
     touchEventsTarget: 'container',
     initialSlide: 0,
