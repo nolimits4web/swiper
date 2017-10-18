@@ -9,6 +9,7 @@ export default {
       resize: {
         resizeHandler() {
           if (!swiper || !swiper.initialized) return;
+          swiper.emit('beforeResize');
           swiper.emit('resize');
         },
         orientationChangeHandler() {
