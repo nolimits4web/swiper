@@ -1,5 +1,10 @@
 # Change Log
 
+## [Swiper 4.0.2](https://github.com/nolimits4web/swiper/compare/v4.0.1...v4.0.2) - Released on October 18, 2017
+  * Lazy loading support for Virtual slides
+  * Added `beforeResize` event
+  * Minor fixes
+
 ## [Swiper 4.0.1](https://github.com/nolimits4web/swiper/compare/v4.0.0...v4.0.1) - Released on October 11, 2017
   * Fixed issue with pagination being broken with loop mode
   * Reworked `realIndex` calculation ordering

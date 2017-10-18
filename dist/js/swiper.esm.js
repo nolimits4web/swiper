@@ -1,5 +1,5 @@
 /**
- * Swiper 4.0.1
+ * Swiper 4.0.2
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: October 11, 2017
+ * Released on: October 18, 2017
  */
 
 import { $, add, addClass, append, attr, children, closest, css, data, each, eq, find, hasClass, html, index, is, next, nextAll, off, offset, on, outerHeight, outerWidth, parent, parents, prepend, prev, prevAll, remove, removeAttr, removeClass, styles, text, toggleClass, transform, transition, transitionEnd, trigger } from 'dom7/dist/dom7.modular';
@@ -2100,31 +2100,13 @@ var events = {
   detachEvents,
 };
 
-function getBreakpoint(breakpoints) {
-  // Get breakpoint for window width
-  if (!breakpoints) return undefined;
-  let breakpoint = false;
-  const points = [];
-  Object.keys(breakpoints).forEach((point) => {
-    points.push(point);
-  });
-  points.sort((a, b) => parseInt(a, 10) > parseInt(b, 10));
-  for (let i = 0; i < points.length; i += 1) {
-    const point = points[i];
-    if (point >= win.innerWidth && !breakpoint) {
-      breakpoint = point;
-    }
-  }
-  return breakpoint || 'max';
-}
-
 var setBreakpoint = function () {
   const swiper = this;
-  const { activeIndex, loopedSlides, params } = swiper;
+  const { activeIndex, loopedSlides = 0, params } = swiper;
   const breakpoints = params.breakpoints;
   if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) return;
   // Set breakpoint for window width and update parameters
-  const breakpoint = getBreakpoint(breakpoints);
+  const breakpoint = swiper.getBreakpoint(breakpoints);
   if (breakpoint && swiper.currentBreakpoint !== breakpoint) {
     const breakPointsParams = breakpoint in breakpoints ? breakpoints[breakpoint] : swiper.originalParams;
     const needsReLoop = params.loop && (breakPointsParams.slidesPerView !== params.slidesPerView);
@@ -2149,7 +2131,25 @@ var setBreakpoint = function () {
   }
 };
 
-var breakpoints = { setBreakpoint };
+var getBreakpoint = function (breakpoints) {
+  // Get breakpoint for window width
+  if (!breakpoints) return undefined;
+  let breakpoint = false;
+  const points = [];
+  Object.keys(breakpoints).forEach((point) => {
+    points.push(point);
+  });
+  points.sort((a, b) => parseInt(a, 10) > parseInt(b, 10));
+  for (let i = 0; i < points.length; i += 1) {
+    const point = points[i];
+    if (point >= win.innerWidth && !breakpoint) {
+      breakpoint = point;
+    }
+  }
+  return breakpoint || 'max';
+};
+
+var breakpoints = { setBreakpoint, getBreakpoint };
 
 var addClasses = function () {
   const swiper = this;
@@ -2804,6 +2804,7 @@ var Resize = {
       resize: {
         resizeHandler() {
           if (!swiper || !swiper.initialized) return;
+          swiper.emit('beforeResize');
           swiper.emit('resize');
         },
         orientationChangeHandler() {
@@ -3013,7 +3014,7 @@ const Virtual = {
     const $slideEl = params.renderSlide
       ? $(params.renderSlide.call(swiper, slide, index$$1))
       : $(`<div class="${swiper.params.slideClass}" data-swiper-slide-index="${index$$1}">${slide}</div>`);
-
+    if (!$slideEl.attr('data-swiper-slide-index')) $slideEl.attr('data-swiper-slide-index', index$$1);
     if (params.cache) swiper.virtual.cache[index$$1] = $slideEl;
     return $slideEl;
   },
@@ -4789,13 +4790,17 @@ var zoom = {
 };
 
 const Lazy = {
-  loadImagesInSlide(index$$1, loadInDuplicate = true) {
+  loadInSlide(index$$1, loadInDuplicate = true) {
     const swiper = this;
     const params = swiper.params.lazy;
     if (typeof index$$1 === 'undefined') return;
     if (swiper.slides.length === 0) return;
+    const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
 
-    const $slideEl = swiper.slides.eq(index$$1);
+    const $slideEl = isVirtual
+      ? swiper.$wrapperEl.children(`.${swiper.params.slideClass}[data-swiper-slide-index="${index$$1}"]`)
+      : swiper.slides.eq(index$$1);
+
     let $images = $slideEl.find(`.${params.elementClass}:not(.${params.loadedClass}):not(.${params.loadingClass})`);
     if ($slideEl.hasClass(params.elementClass) && !$slideEl.hasClass(params.loadedClass) && !$slideEl.hasClass(params.loadingClass)) {
       $images = $images.add($slideEl[0]);
@@ -4837,10 +4842,10 @@ const Lazy = {
           const slideOriginalIndex = $slideEl.attr('data-swiper-slide-index');
           if ($slideEl.hasClass(swiper.params.slideDuplicateClass)) {
             const originalSlide = swiper.$wrapperEl.children(`[data-swiper-slide-index="${slideOriginalIndex}"]:not(.${swiper.params.slideDuplicateClass})`);
-            swiper.lazy.loadImagesInSlide(originalSlide.index(), false);
+            swiper.lazy.loadInSlide(originalSlide.index(), false);
           } else {
             const duplicatedSlide = swiper.$wrapperEl.children(`.${swiper.params.slideDuplicateClass}[data-swiper-slide-index="${slideOriginalIndex}"]`);
-            swiper.lazy.loadImagesInSlide(duplicatedSlide.index(), false);
+            swiper.lazy.loadInSlide(duplicatedSlide.index(), false);
           }
         }
         swiper.emit('lazyImageReady', $slideEl[0], $imageEl[0]);
@@ -4852,6 +4857,7 @@ const Lazy = {
   load() {
     const swiper = this;
     const { $wrapperEl, params: swiperParams, slides, activeIndex } = swiper;
+    const isVirtual = swiper.virtual && swiperParams.virtual.enabled;
     const params = swiperParams.lazy;
 
     let slidesPerView = swiperParams.slidesPerView;
@@ -4859,17 +4865,33 @@ const Lazy = {
       slidesPerView = 0;
     }
 
+    function slideExist(index$$1) {
+      if (isVirtual) {
+        if ($wrapperEl.children(`.${swiperParams.slideClass}[data-swiper-slide-index="${index$$1}"]`).length) {
+          return true;
+        }
+      } else if (slides[index$$1]) return true;
+      return false;
+    }
+    function slideIndex(slideEl) {
+      if (isVirtual) {
+        return $(slideEl).attr('data-swiper-slide-index');
+      }
+      return $(slideEl).index();
+    }
+
     if (!swiper.lazy.initialImageLoaded) swiper.lazy.initialImageLoaded = true;
     if (swiper.params.watchSlidesVisibility) {
-      $wrapperEl.children(`.${swiperParams.slideVisibleClass}`).each((index$$1, slideEl) => {
-        swiper.lazy.loadImagesInSlide($(slideEl).index());
+      $wrapperEl.children(`.${swiperParams.slideVisibleClass}`).each((elIndex, slideEl) => {
+        const index$$1 = isVirtual ? $(slideEl).attr('data-swiper-slide-index') : $(slideEl).index();
+        swiper.lazy.loadInSlide(index$$1);
       });
     } else if (slidesPerView > 1) {
       for (let i = activeIndex; i < activeIndex + slidesPerView; i += 1) {
-        if (slides[i]) swiper.lazy.loadImagesInSlide(i);
+        if (slideExist(i)) swiper.lazy.loadInSlide(i);
       }
     } else {
-      swiper.lazy.loadImagesInSlide(activeIndex);
+      swiper.lazy.loadInSlide(activeIndex);
     }
     if (params.loadPrevNext) {
       if (slidesPerView > 1 || (params.loadPrevNextAmount && params.loadPrevNextAmount > 1)) {
@@ -4879,18 +4901,18 @@ const Lazy = {
         const minIndex = Math.max(activeIndex - Math.max(spv, amount), 0);
         // Next Slides
         for (let i = activeIndex + slidesPerView; i < maxIndex; i += 1) {
-          if (slides[i]) swiper.lazy.loadImagesInSlide(i);
+          if (slideExist(i)) swiper.lazy.loadInSlide(i);
         }
         // Prev Slides
         for (let i = minIndex; i < activeIndex; i += 1) {
-          if (slides[i]) swiper.lazy.loadImagesInSlide(i);
+          if (slideExist(i)) swiper.lazy.loadInSlide(i);
         }
       } else {
         const nextSlide = $wrapperEl.children(`.${swiperParams.slideNextClass}`);
-        if (nextSlide.length > 0) swiper.lazy.loadImagesInSlide(nextSlide.index());
+        if (nextSlide.length > 0) swiper.lazy.loadInSlide(slideIndex(nextSlide));
 
         const prevSlide = $wrapperEl.children(`.${swiperParams.slidePrevClass}`);
-        if (prevSlide.length > 0) swiper.lazy.loadImagesInSlide(prevSlide.index());
+        if (prevSlide.length > 0) swiper.lazy.loadInSlide(slideIndex(prevSlide));
       }
     }
   },
@@ -4917,7 +4939,7 @@ var lazy = {
       lazy: {
         initialImageLoaded: false,
         load: Lazy.load.bind(swiper),
-        loadImagesInSlide: Lazy.loadImagesInSlide.bind(swiper),
+        loadInSlide: Lazy.loadInSlide.bind(swiper),
       },
     });
   },
