@@ -10,19 +10,18 @@
  * 
  * Licensed under MIT
  * 
- * Released on: October 12, 2017
+ * Released on: March 10, 2017
  */
-        (function () {
-            'use strict';
-            var $;
-        
+(function () {
+    'use strict';
+    var $;
 
-        /*===========================
-        Swiper
-        ===========================*/
-        var Swiper = function (container, params) {
-            if (!(this instanceof Swiper)) return new Swiper(container, params);
-        
+    /*===========================
+    Swiper
+    ===========================*/
+    var Swiper = function (container, params) {
+        if (!(this instanceof Swiper)) return new Swiper(container, params);
+    
 
         var defaults = {
             direction: 'horizontal',
@@ -138,8 +137,6 @@
             paginationFractionRender: null,
             paginationCustomRender: null,
             paginationType: 'bullets', // 'bullets' or 'progress' or 'fraction' or 'custom'
-            fitSlideGroupWithBlank: false,
-            blankClass: 'swiper-invisible-blank-slide',
             // Resistance
             resistance: true,
             resistanceRatio: 0.85,
@@ -440,7 +437,7 @@
             }
         
             if (s.params.paginationType === 'bullets' && s.params.paginationClickable) {
-                s.paginationContainer.addClass(s.params.paginationClickableClass);
+                s.paginationContainer.addClass(s.params.paginationModifierClass + 'clickable');
             }
             else {
                 s.params.paginationClickable = false;
@@ -1275,8 +1272,6 @@
           Resize Handler
           ===========================*/
         s.onResize = function (forceUpdatePagination) {
-            if (s.container[0] && s.container[0].offsetWidth === 0) return;
-        
             if (s.params.onBeforeResize) s.params.onBeforeResize(s);
             //Breakpoints
             if (s.params.breakpoints) {
@@ -1343,7 +1338,7 @@
         
         // WP8 Touch Events Fix
         if (window.navigator.pointerEnabled || window.navigator.msPointerEnabled) {
-            (s.params.touchEventsTarget === 'container' ? s.container : s.wrapper).addClass(s.params.containerModifierClass + 'wp8-' + s.params.direction);
+            (s.params.touchEventsTarget === 'container' ? s.container : s.wrapper).addClass('swiper-wp8-' + s.params.direction);
         }
         
         // Attach/detach events
@@ -2034,10 +2029,6 @@
             s.snapIndex = Math.floor(slideIndex / s.params.slidesPerGroup);
             if (s.snapIndex >= s.snapGrid.length) s.snapIndex = s.snapGrid.length - 1;
         
-            if ((s.activeIndex || s.initialSlide || 0) === (s.previousIndex || 0) && runCallbacks) {
-                s.emit('beforeSlideChangeStart', s);
-            }
-        
             var translate = - s.snapGrid[s.snapIndex];
             // Stop autoplay
             if (s.params.autoplay && s.autoplaying) {
@@ -2372,17 +2363,6 @@
             s.wrapper.children('.' + s.params.slideClass + '.' + s.params.slideDuplicateClass).remove();
         
             var slides = s.wrapper.children('.' + s.params.slideClass);
-        
-            if (s.params.fitSlideGroupWithBlank) {
-                var blankSlidesNum = s.params.slidesPerGroup - slides.length % s.params.slidesPerGroup;
-                if (blankSlidesNum !== s.params.slidesPerGroup) {
-                    for (var i = 0; i < blankSlidesNum; i++) {
-                        var blankNode = $(document.createElement('div')).addClass(s.params.slideClass + ' ' + s.params.blankClass);
-                        s.wrapper.append(blankNode);
-                    }
-                    slides = s.wrapper.children();
-                }
-            }
         
             if(s.params.slidesPerView === 'auto' && !s.params.loopedSlides) s.params.loopedSlides = slides.length;
         
@@ -4180,10 +4160,8 @@
           ===========================*/
         s._plugins = [];
         for (var plugin in s.plugins) {
-          if (s.plugins.hasOwnProperty(plugin)) {
             var p = s.plugins[plugin](s, s.params[plugin]);
             if (p) s._plugins.push(p);
-          }
         }
         // Method to call all plugins event/method
         s.callPlugins = function (eventName) {
@@ -4499,220 +4477,212 @@
             // Destroy callback
             s.emit('onDestroy');
             // Delete instance
-            if (deleteInstance !== false){
-                s.container[0].swiper = null;
-                s.container.data('swiper', null);
-                s.container = null;
-                s.wrapper = null;
-                s = null;
-            }
+            if (deleteInstance !== false) s = null;
         };
         
         s.init();
         
 
-        
-            // Return swiper instance
-            return s;
-        };
-        
+    
+        // Return swiper instance
+        return s;
+    };
+    
 
+    /*==================================================
+        Prototype
+    ====================================================*/
+    Swiper.prototype = {
+        isSafari: (function () {
+            var ua = window.navigator.userAgent.toLowerCase();
+            return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
+        })(),
+        isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent),
+        isArray: function (arr) {
+            return Object.prototype.toString.apply(arr) === '[object Array]';
+        },
         /*==================================================
-            Prototype
+        Browser
         ====================================================*/
-        Swiper.prototype = {
-            isSafari: (function () {
-                var ua = window.navigator.userAgent.toLowerCase();
-                return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
+        browser: {
+            ie: window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
+            ieTouch: (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1),
+            lteIE9: (function() {
+                // create temporary DIV
+                var div = document.createElement('div');
+                // add content to tmp DIV which is wrapped into the IE HTML conditional statement
+                div.innerHTML = '<!--[if lte IE 9]><i></i><![endif]-->';
+                // return true / false value based on what will browser render
+                return div.getElementsByTagName('i').length === 1;
+            })()
+        },
+        /*==================================================
+        Devices
+        ====================================================*/
+        device: (function () {
+            var ua = window.navigator.userAgent;
+            var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
+            var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+            var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
+            var iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
+            return {
+                ios: ipad || iphone || ipod,
+                android: android
+            };
+        })(),
+        /*==================================================
+        Feature Detection
+        ====================================================*/
+        support: {
+            touch : (window.Modernizr && Modernizr.touch === true) || (function () {
+                return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
             })(),
-            isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent),
-            isArray: function (arr) {
-                return Object.prototype.toString.apply(arr) === '[object Array]';
-            },
-            /*==================================================
-            Browser
-            ====================================================*/
-            browser: {
-                ie: window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
-                ieTouch: (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) || (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1),
-                lteIE9: (function() {
-                    // create temporary DIV
-                    var div = document.createElement('div');
-                    // add content to tmp DIV which is wrapped into the IE HTML conditional statement
-                    div.innerHTML = '<!--[if lte IE 9]><i></i><![endif]-->';
-                    // return true / false value based on what will browser render
-                    return div.getElementsByTagName('i').length === 1;
-                })()
-            },
-            /*==================================================
-            Devices
-            ====================================================*/
-            device: (function () {
-                var ua = window.navigator.userAgent;
-                var android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
-                var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
-                var ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
-                var iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
-                return {
-                    ios: ipad || iphone || ipod,
-                    android: android
-                };
+    
+            transforms3d : (window.Modernizr && Modernizr.csstransforms3d === true) || (function () {
+                var div = document.createElement('div').style;
+                return ('webkitPerspective' in div || 'MozPerspective' in div || 'OPerspective' in div || 'MsPerspective' in div || 'perspective' in div);
             })(),
-            /*==================================================
-            Feature Detection
-            ====================================================*/
-            support: {
-                touch : (window.Modernizr && Modernizr.touch === true) || (function () {
-                    return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
-                })(),
-        
-                transforms3d : (window.Modernizr && Modernizr.csstransforms3d === true) || (function () {
-                    var div = document.createElement('div').style;
-                    return ('webkitPerspective' in div || 'MozPerspective' in div || 'OPerspective' in div || 'MsPerspective' in div || 'perspective' in div);
-                })(),
-        
-                flexbox: (function () {
-                    var div = document.createElement('div').style;
-                    var styles = ('alignItems webkitAlignItems webkitBoxAlign msFlexAlign mozBoxAlign webkitFlexDirection msFlexDirection mozBoxDirection mozBoxOrient webkitBoxDirection webkitBoxOrient').split(' ');
-                    for (var i = 0; i < styles.length; i++) {
-                        if (styles[i] in div) return true;
-                    }
-                })(),
-        
-                observer: (function () {
-                    return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
-                })(),
-        
-                passiveListener: (function () {
-                    var supportsPassive = false;
-                    try {
-                        var opts = Object.defineProperty({}, 'passive', {
-                            get: function() {
-                                supportsPassive = true;
-                            }
-                        });
-                        window.addEventListener('testPassiveListener', null, opts);
-                    } catch (e) {}
-                    return supportsPassive;
-                })(),
-        
-                gestures: (function () {
-                    return 'ongesturestart' in window;
-                })()
-            },
-            /*==================================================
-            Plugins
-            ====================================================*/
-            plugins: {}
+    
+            flexbox: (function () {
+                var div = document.createElement('div').style;
+                var styles = ('alignItems webkitAlignItems webkitBoxAlign msFlexAlign mozBoxAlign webkitFlexDirection msFlexDirection mozBoxDirection mozBoxOrient webkitBoxDirection webkitBoxOrient').split(' ');
+                for (var i = 0; i < styles.length; i++) {
+                    if (styles[i] in div) return true;
+                }
+            })(),
+    
+            observer: (function () {
+                return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
+            })(),
+    
+            passiveListener: (function () {
+                var supportsPassive = false;
+                try {
+                    var opts = Object.defineProperty({}, 'passive', {
+                        get: function() {
+                            supportsPassive = true;
+                        }
+                    });
+                    window.addEventListener('testPassiveListener', null, opts);
+                } catch (e) {}
+                return supportsPassive;
+            })(),
+    
+            gestures: (function () {
+                return 'ongesturestart' in window;
+            })()
+        },
+        /*==================================================
+        Plugins
+        ====================================================*/
+        plugins: {}
+    };
+    
+
+    /*===========================
+     Get Dom libraries
+     ===========================*/
+    var swiperDomPlugins = ['jQuery', 'Zepto', 'Dom7'];
+    for (var i = 0; i < swiperDomPlugins.length; i++) {
+    	if (window[swiperDomPlugins[i]]) {
+    		addLibraryPlugin(window[swiperDomPlugins[i]]);
+    	}
+    }
+    // Required DOM Plugins
+    var domLib;
+    if (typeof Dom7 === 'undefined') {
+    	domLib = window.Dom7 || window.Zepto || window.jQuery;
+    }
+    else {
+    	domLib = Dom7;
+    }
+    
+
+    /*===========================
+    Add .swiper plugin from Dom libraries
+    ===========================*/
+    function addLibraryPlugin(lib) {
+        lib.fn.swiper = function (params) {
+            var firstInstance;
+            lib(this).each(function () {
+                var s = new Swiper(this, params);
+                if (!firstInstance) firstInstance = s;
+            });
+            return firstInstance;
         };
-        
-
-        /*===========================
-         Get Dom libraries
-         ===========================*/
-        var swiperDomPlugins = ['jQuery', 'Zepto', 'Dom7'];
-        for (var i = 0; i < swiperDomPlugins.length; i++) {
-        	if (window[swiperDomPlugins[i]]) {
-        		addLibraryPlugin(window[swiperDomPlugins[i]]);
-        	}
-        }
-        // Required DOM Plugins
-        var domLib;
-        if (typeof Dom7 === 'undefined') {
-        	domLib = window.Dom7 || window.Zepto || window.jQuery;
-        }
-        else {
-        	domLib = Dom7;
-        }
-        
-
-        /*===========================
-        Add .swiper plugin from Dom libraries
-        ===========================*/
-        function addLibraryPlugin(lib) {
-            lib.fn.swiper = function (params) {
-                var firstInstance;
-                lib(this).each(function () {
-                    var s = new Swiper(this, params);
-                    if (!firstInstance) firstInstance = s;
-                });
-                return firstInstance;
+    }
+    
+    if (domLib) {
+        if (!('transitionEnd' in domLib.fn)) {
+            domLib.fn.transitionEnd = function (callback) {
+                var events = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'],
+                    i, j, dom = this;
+                function fireCallBack(e) {
+                    /*jshint validthis:true */
+                    if (e.target !== this) return;
+                    callback.call(this, e);
+                    for (i = 0; i < events.length; i++) {
+                        dom.off(events[i], fireCallBack);
+                    }
+                }
+                if (callback) {
+                    for (i = 0; i < events.length; i++) {
+                        dom.on(events[i], fireCallBack);
+                    }
+                }
+                return this;
             };
         }
-        
-        if (domLib) {
-            if (!('transitionEnd' in domLib.fn)) {
-                domLib.fn.transitionEnd = function (callback) {
-                    var events = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'],
-                        i, j, dom = this;
-                    function fireCallBack(e) {
-                        /*jshint validthis:true */
-                        if (e.target !== this) return;
-                        callback.call(this, e);
-                        for (i = 0; i < events.length; i++) {
-                            dom.off(events[i], fireCallBack);
-                        }
-                    }
-                    if (callback) {
-                        for (i = 0; i < events.length; i++) {
-                            dom.on(events[i], fireCallBack);
-                        }
-                    }
-                    return this;
-                };
-            }
-            if (!('transform' in domLib.fn)) {
-                domLib.fn.transform = function (transform) {
-                    for (var i = 0; i < this.length; i++) {
-                        var elStyle = this[i].style;
-                        elStyle.webkitTransform = elStyle.MsTransform = elStyle.msTransform = elStyle.MozTransform = elStyle.OTransform = elStyle.transform = transform;
-                    }
-                    return this;
-                };
-            }
-            if (!('transition' in domLib.fn)) {
-                domLib.fn.transition = function (duration) {
-                    if (typeof duration !== 'string') {
-                        duration = duration + 'ms';
-                    }
-                    for (var i = 0; i < this.length; i++) {
-                        var elStyle = this[i].style;
-                        elStyle.webkitTransitionDuration = elStyle.MsTransitionDuration = elStyle.msTransitionDuration = elStyle.MozTransitionDuration = elStyle.OTransitionDuration = elStyle.transitionDuration = duration;
-                    }
-                    return this;
-                };
-            }
-            if (!('outerWidth' in domLib.fn)) {
-                domLib.fn.outerWidth = function (includeMargins) {
-                    if (this.length > 0) {
-                        if (includeMargins)
-                            return this[0].offsetWidth + parseFloat(this.css('margin-right')) + parseFloat(this.css('margin-left'));
-                        else
-                            return this[0].offsetWidth;
-                    }
-                    else return null;
-                };
-            }
+        if (!('transform' in domLib.fn)) {
+            domLib.fn.transform = function (transform) {
+                for (var i = 0; i < this.length; i++) {
+                    var elStyle = this[i].style;
+                    elStyle.webkitTransform = elStyle.MsTransform = elStyle.msTransform = elStyle.MozTransform = elStyle.OTransform = elStyle.transform = transform;
+                }
+                return this;
+            };
         }
-        
+        if (!('transition' in domLib.fn)) {
+            domLib.fn.transition = function (duration) {
+                if (typeof duration !== 'string') {
+                    duration = duration + 'ms';
+                }
+                for (var i = 0; i < this.length; i++) {
+                    var elStyle = this[i].style;
+                    elStyle.webkitTransitionDuration = elStyle.MsTransitionDuration = elStyle.msTransitionDuration = elStyle.MozTransitionDuration = elStyle.OTransitionDuration = elStyle.transitionDuration = duration;
+                }
+                return this;
+            };
+        }
+        if (!('outerWidth' in domLib.fn)) {
+            domLib.fn.outerWidth = function (includeMargins) {
+                if (this.length > 0) {
+                    if (includeMargins)
+                        return this[0].offsetWidth + parseFloat(this.css('margin-right')) + parseFloat(this.css('margin-left'));
+                    else
+                        return this[0].offsetWidth;
+                }
+                else return null;
+            };
+        }
+    }
+    
 
-            window.Swiper = Swiper;
-        })();
-        
+    window.Swiper = Swiper;
+})();
 
-        /*===========================
-        Swiper AMD Export
-        ===========================*/
-        if (typeof(module) !== 'undefined')
-        {
-            module.exports = window.Swiper;
-        }
-        else if (typeof define === 'function' && define.amd) {
-            define([], function () {
-                'use strict';
-                return window.Swiper;
-            });
-        }
-        
+/*===========================
+Swiper AMD Export
+===========================*/
+if (typeof(module) !== 'undefined')
+{
+    module.exports = window.Swiper;
+}
+else if (typeof define === 'function' && define.amd) {
+    define([], function () {
+        'use strict';
+        return window.Swiper;
+    });
+}
 
 //# sourceMappingURL=maps/swiper.jquery.js.map
