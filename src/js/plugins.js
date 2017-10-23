@@ -3,8 +3,10 @@
   ===========================*/
 s._plugins = [];
 for (var plugin in s.plugins) {
+  if (s.plugins.hasOwnProperty(plugin)) {
     var p = s.plugins[plugin](s, s.params[plugin]);
     if (p) s._plugins.push(p);
+  }
 }
 // Method to call all plugins event/method
 s.callPlugins = function (eventName) {
