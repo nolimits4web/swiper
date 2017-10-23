@@ -37,11 +37,11 @@ const Parallax = {
       y = `${y * progress}px`;
     }
 
-    if (typeof pOpacity !== 'undefined' && opacity !== null) {
+    if (typeof opacity !== 'undefined' && opacity !== null) {
       const currentOpacity = opacity - ((opacity - 1) * (1 - Math.abs(progress)));
       $el[0].style.opacity = currentOpacity;
     }
-    if (typeof pScale === 'undefined' || scale === null) {
+    if (typeof scale === 'undefined' || scale === null) {
       $el.transform(`translate3d(${x}, ${y}, 0px)`);
     } else {
       const currentScale = scale - ((scale - 1) * (1 - Math.abs(progress)));
