@@ -3,7 +3,7 @@ import Utils from '../../../utils/utils';
 export default function (newActiveIndex) {
   const swiper = this;
   const translate = swiper.rtl ? swiper.translate : -swiper.translate;
-  const { slidesGrid, snapGrid, params, activeIndex: previousIndex, realIndex: previousRealIndex } = swiper;
+  const { slidesGrid, snapGrid, params, activeIndex: previousIndex, realIndex: previousRealIndex, snapIndex: previousSnapIndex } = swiper;
   let activeIndex = newActiveIndex;
   let snapIndex;
   if (typeof activeIndex === 'undefined') {
@@ -23,11 +23,17 @@ export default function (newActiveIndex) {
       if (activeIndex < 0 || typeof activeIndex === 'undefined') activeIndex = 0;
     }
   }
-
-  snapIndex = Math.floor(activeIndex / params.slidesPerGroup);
+  if (snapGrid.indexOf(translate) >= 0) {
+    snapIndex = snapGrid.indexOf(translate);
+  } else {
+    snapIndex = Math.floor(activeIndex / params.slidesPerGroup);
+  }
   if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
-
   if (activeIndex === previousIndex) {
+    if (snapIndex !== previousSnapIndex) {
+      swiper.snapIndex = snapIndex;
+      swiper.emit('snapIndexChange');
+    }
     return;
   }
 

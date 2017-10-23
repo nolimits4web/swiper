@@ -37,9 +37,8 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   }
 
   // Update Index
-  swiper.updateActiveIndex(slideIndex);
-
   if ((rtl && -translate === swiper.translate) || (!rtl && translate === swiper.translate)) {
+    swiper.updateActiveIndex(slideIndex);
     // Update Height
     if (params.autoHeight) {
       swiper.updateAutoHeight();
@@ -50,18 +49,22 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
     }
     return false;
   }
-  swiper.updateSlidesClasses();
-
-  swiper.emit('beforeTransitionStart', speed, internal);
-  swiper.transitionStart(runCallbacks);
 
   if (speed === 0 || Browser.lteIE9) {
     swiper.setTransition(0);
     swiper.setTranslate(translate);
+    swiper.updateActiveIndex(slideIndex);
+    swiper.updateSlidesClasses();
+    swiper.emit('beforeTransitionStart', speed, internal);
+    swiper.transitionStart(runCallbacks);
     swiper.transitionEnd(runCallbacks);
   } else {
     swiper.setTransition(speed);
     swiper.setTranslate(translate);
+    swiper.updateActiveIndex(slideIndex);
+    swiper.updateSlidesClasses();
+    swiper.emit('beforeTransitionStart', speed, internal);
+    swiper.transitionStart(runCallbacks);
     if (!swiper.animating) {
       swiper.animating = true;
       $wrapperEl.transitionEnd(() => {
