@@ -1,3 +1,4 @@
+import document from '../../../utils/document';
 import $ from '../../../utils/dom';
 import Utils from '../../../utils/utils';
 

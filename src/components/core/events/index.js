@@ -1,3 +1,4 @@
+import document from '../../../utils/document';
 import Device from '../../../utils/device';
 import Support from '../../../utils/support';
 import Browser from '../../../utils/browser';

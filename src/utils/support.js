@@ -1,4 +1,5 @@
 import window from './window';
+import document from './document';
 
 const Support = (function Support() {
   return {
