@@ -38,7 +38,7 @@ $ npm install
 
 And build development version of Swiper:
 ```
-$ npm run build-dev
+$ npm run build:dev
 ```
 
 The result is available in `build/` folder.
@@ -46,7 +46,7 @@ The result is available in `build/` folder.
 ### Production Build
 
 ```
-$ npm run build-prod
+$ npm run build:prod
 ```
 
 Production version will available in `dist/` folder.

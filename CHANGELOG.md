@@ -1,5 +1,12 @@
 # Change Log
 
+## [Swiper 4.0.3](https://github.com/nolimits4web/swiper/compare/v4.0.2...v4.0.5) - Released on October 27, 2017
+  * Fixed Parallax opacity and scale transitions
+  * Better compatability with SSR by using dummy `document` object
+  * Fixed styles for dynamic pagination buttons in RTL mode
+  * Fixed issue with last pagination button not being active with `slidesPerView: 'auto'`
+  * Renamed build tasks: `build-dev` -> `build:dev`, `build-prod` -> `build:prod`
+
 ## [Swiper 4.0.2](https://github.com/nolimits4web/swiper/compare/v4.0.1...v4.0.2) - Released on October 18, 2017
   * Lazy loading support for Virtual slides
   * Added `beforeResize` event

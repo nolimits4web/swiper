@@ -1,5 +1,5 @@
 /**
- * Swiper 4.0.2
+ * Swiper 4.0.3
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: October 18, 2017
+ * Released on: October 27, 2017
  */
 
 import { $, add, addClass, append, attr, children, closest, css, data, each, eq, find, hasClass, html, index, is, next, nextAll, off, offset, on, outerHeight, outerWidth, parent, parents, prepend, prev, prevAll, remove, removeAttr, removeClass, styles, text, toggleClass, transform, transition, transitionEnd, trigger } from 'dom7/dist/dom7.modular';
@@ -186,19 +186,51 @@ const Utils = {
   },
 };
 
+let d;
+if (typeof document === 'undefined') {
+  d = {
+    addEventListener() {},
+    removeEventListener() {},
+    activeElement: {
+      blur() {},
+      nodeName: '',
+    },
+    querySelector() {
+      return {};
+    },
+    querySelectorAll() {
+      return [];
+    },
+    createElement() {
+      return {
+        style: {},
+        setAttribute() {},
+        getElementsByTagName() {
+          return [];
+        },
+      };
+    },
+    location: { hash: '' },
+  };
+} else {
+  d = document;
+}
+
+const doc = d;
+
 const Support = (function Support() {
   return {
     touch: (win.Modernizr && win.Modernizr.touch === true) || (function checkTouch() {
-      return !!(('ontouchstart' in win) || (win.DocumentTouch && document instanceof win.DocumentTouch));
+      return !!(('ontouchstart' in win) || (win.DocumentTouch && doc instanceof win.DocumentTouch));
     }()),
 
     transforms3d: (win.Modernizr && win.Modernizr.csstransforms3d === true) || (function checkTransforms3d() {
-      const div = document.createElement('div').style;
+      const div = doc.createElement('div').style;
       return ('webkitPerspective' in div || 'MozPerspective' in div || 'OPerspective' in div || 'MsPerspective' in div || 'perspective' in div);
     }()),
 
     flexbox: (function checkFlexbox() {
-      const div = document.createElement('div').style;
+      const div = doc.createElement('div').style;
       const styles$$1 = ('alignItems webkitAlignItems webkitBoxAlign msFlexAlign mozBoxAlign webkitFlexDirection msFlexDirection mozBoxDirection mozBoxOrient webkitBoxDirection webkitBoxOrient').split(' ');
       for (let i = 0; i < styles$$1.length; i += 1) {
         if (styles$$1[i] in div) return true;
@@ -804,7 +836,7 @@ var updateSlidesClasses = function () {
 var updateActiveIndex = function (newActiveIndex) {
   const swiper = this;
   const translate = swiper.rtl ? swiper.translate : -swiper.translate;
-  const { slidesGrid, snapGrid, params, activeIndex: previousIndex, realIndex: previousRealIndex } = swiper;
+  const { slidesGrid, snapGrid, params, activeIndex: previousIndex, realIndex: previousRealIndex, snapIndex: previousSnapIndex } = swiper;
   let activeIndex = newActiveIndex;
   let snapIndex;
   if (typeof activeIndex === 'undefined') {
@@ -824,11 +856,17 @@ var updateActiveIndex = function (newActiveIndex) {
       if (activeIndex < 0 || typeof activeIndex === 'undefined') activeIndex = 0;
     }
   }
-
-  snapIndex = Math.floor(activeIndex / params.slidesPerGroup);
+  if (snapGrid.indexOf(translate) >= 0) {
+    snapIndex = snapGrid.indexOf(translate);
+  } else {
+    snapIndex = Math.floor(activeIndex / params.slidesPerGroup);
+  }
   if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
-
   if (activeIndex === previousIndex) {
+    if (snapIndex !== previousSnapIndex) {
+      swiper.snapIndex = snapIndex;
+      swiper.emit('snapIndexChange');
+    }
     return;
   }
 
@@ -1014,7 +1052,7 @@ var transition$1 = {
 const Browser = (function Browser() {
   function isIE9() {
     // create temporary DIV
-    const div = document.createElement('div');
+    const div = doc.createElement('div');
     // add content to tmp DIV which is wrapped into the IE HTML conditional statement
     div.innerHTML = '<!--[if lte IE 9]><i></i><![endif]-->';
     // return true / false value based on what will browser render
@@ -1071,9 +1109,8 @@ var slideTo = function (index$$1 = 0, speed = this.params.speed, runCallbacks = 
   }
 
   // Update Index
-  swiper.updateActiveIndex(slideIndex);
-
   if ((rtl && -translate === swiper.translate) || (!rtl && translate === swiper.translate)) {
+    swiper.updateActiveIndex(slideIndex);
     // Update Height
     if (params.autoHeight) {
       swiper.updateAutoHeight();
@@ -1084,18 +1121,22 @@ var slideTo = function (index$$1 = 0, speed = this.params.speed, runCallbacks = 
     }
     return false;
   }
-  swiper.updateSlidesClasses();
-
-  swiper.emit('beforeTransitionStart', speed, internal);
-  swiper.transitionStart(runCallbacks);
 
   if (speed === 0 || Browser.lteIE9) {
     swiper.setTransition(0);
     swiper.setTranslate(translate);
+    swiper.updateActiveIndex(slideIndex);
+    swiper.updateSlidesClasses();
+    swiper.emit('beforeTransitionStart', speed, internal);
+    swiper.transitionStart(runCallbacks);
     swiper.transitionEnd(runCallbacks);
   } else {
     swiper.setTransition(speed);
     swiper.setTranslate(translate);
+    swiper.updateActiveIndex(slideIndex);
+    swiper.updateSlidesClasses();
+    swiper.emit('beforeTransitionStart', speed, internal);
+    swiper.transitionStart(runCallbacks);
     if (!swiper.animating) {
       swiper.animating = true;
       $wrapperEl.transitionEnd(() => {
@@ -1208,7 +1249,7 @@ var loopCreate = function () {
     const blankSlidesNum = params.slidesPerGroup - (slides.length % params.slidesPerGroup);
     if (blankSlidesNum !== params.slidesPerGroup) {
       for (let i = 0; i < blankSlidesNum; i += 1) {
-        const blankNode = $(document.createElement('div')).addClass(`${params.slideClass} ${params.slideBlankClass}`);
+        const blankNode = $(doc.createElement('div')).addClass(`${params.slideClass} ${params.slideBlankClass}`);
         $wrapperEl.append(blankNode);
       }
       slides = $wrapperEl.children(`.${params.slideClass}`);
@@ -1465,7 +1506,7 @@ const Device = (function Device() {
   // Minimal UI
   if (device.os && device.os === 'ios') {
     const osVersionArr = device.osVersion.split('.');
-    const metaViewport = document.querySelector('meta[name="viewport"]');
+    const metaViewport = doc.querySelector('meta[name="viewport"]');
     device.minimalUi =
       !device.webView &&
       (ipod || iphone) &&
@@ -1523,8 +1564,8 @@ var onTouchStart = function (event) {
   if (e.type !== 'touchstart') {
     let preventDefault = true;
     if ($(e.target).is(data$$1.formElements)) preventDefault = false;
-    if (document.activeElement && $(document.activeElement).is(data$$1.formElements)) {
-      document.activeElement.blur();
+    if (doc.activeElement && $(doc.activeElement).is(data$$1.formElements)) {
+      doc.activeElement.blur();
     }
     if (preventDefault) {
       e.preventDefault();
@@ -1577,8 +1618,8 @@ var onTouchMove = function (event) {
       return;
     }
   }
-  if (data$$1.isTouchEvent && document.activeElement) {
-    if (e.target === document.activeElement && $(e.target).is(data$$1.formElements)) {
+  if (data$$1.isTouchEvent && doc.activeElement) {
+    if (e.target === doc.activeElement && $(e.target).is(data$$1.formElements)) {
       data$$1.isMoved = true;
       swiper.allowClick = false;
       return;
@@ -2033,8 +2074,8 @@ function attachEvents() {
   {
     if (Browser.ie) {
       target.addEventListener(touchEvents.start, swiper.onTouchStart, false);
-      (Support.touch ? target : document).addEventListener(touchEvents.move, swiper.onTouchMove, capture);
-      (Support.touch ? target : document).addEventListener(touchEvents.end, swiper.onTouchEnd, false);
+      (Support.touch ? target : doc).addEventListener(touchEvents.move, swiper.onTouchMove, capture);
+      (Support.touch ? target : doc).addEventListener(touchEvents.end, swiper.onTouchEnd, false);
     } else {
       if (Support.touch) {
         const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
@@ -2044,8 +2085,8 @@ function attachEvents() {
       }
       if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
         target.addEventListener('mousedown', swiper.onTouchStart, false);
-        document.addEventListener('mousemove', swiper.onTouchMove, capture);
-        document.addEventListener('mouseup', swiper.onTouchEnd, false);
+        doc.addEventListener('mousemove', swiper.onTouchMove, capture);
+        doc.addEventListener('mouseup', swiper.onTouchEnd, false);
       }
     }
     // Prevent Links Clicks
@@ -2070,8 +2111,8 @@ function detachEvents() {
   {
     if (Browser.ie) {
       target.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
-      (Support.touch ? target : document).removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
-      (Support.touch ? target : document).removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
+      (Support.touch ? target : doc).removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
+      (Support.touch ? target : doc).removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
     } else {
       if (Support.touch) {
         const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
@@ -2081,8 +2122,8 @@ function detachEvents() {
       }
       if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
         target.removeEventListener('mousedown', swiper.onTouchStart, false);
-        document.removeEventListener('mousemove', swiper.onTouchMove, capture);
-        document.removeEventListener('mouseup', swiper.onTouchEnd, false);
+        doc.removeEventListener('mousemove', swiper.onTouchMove, capture);
+        doc.removeEventListener('mouseup', swiper.onTouchEnd, false);
       }
     }
     // Prevent Links Clicks
@@ -3097,7 +3138,7 @@ const Keyboard = {
     if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) {
       return undefined;
     }
-    if (document.activeElement && document.activeElement.nodeName && (document.activeElement.nodeName.toLowerCase() === 'input' || document.activeElement.nodeName.toLowerCase() === 'textarea')) {
+    if (doc.activeElement && doc.activeElement.nodeName && (doc.activeElement.nodeName.toLowerCase() === 'input' || doc.activeElement.nodeName.toLowerCase() === 'textarea')) {
       return undefined;
     }
     if (kc === 37 || kc === 39 || kc === 38 || kc === 40) {
@@ -3152,13 +3193,13 @@ const Keyboard = {
   enable() {
     const swiper = this;
     if (swiper.keyboard.enabled) return;
-    $(document).on('keydown', swiper.keyboard.handle);
+    $(doc).on('keydown', swiper.keyboard.handle);
     swiper.keyboard.enabled = true;
   },
   disable() {
     const swiper = this;
     if (!swiper.keyboard.enabled) return;
-    $(document).off('keydown', swiper.keyboard.handle);
+    $(doc).off('keydown', swiper.keyboard.handle);
     swiper.keyboard.enabled = false;
   },
 };
@@ -3199,23 +3240,23 @@ var Keyboard$1 = {
 
 function isEventSupported() {
   const eventName = 'onwheel';
-  let isSupported = eventName in document;
+  let isSupported = eventName in doc;
 
   if (!isSupported) {
-    const element = document.createElement('div');
+    const element = doc.createElement('div');
     element.setAttribute(eventName, 'return;');
     isSupported = typeof element[eventName] === 'function';
   }
 
   if (!isSupported &&
-    document.implementation &&
-    document.implementation.hasFeature &&
+    doc.implementation &&
+    doc.implementation.hasFeature &&
     // always returns true in newer browsers as per the standard.
     // @see http://dom.spec.whatwg.org/#dom-domimplementation-hasfeature
-    document.implementation.hasFeature('', '') !== true
+    doc.implementation.hasFeature('', '') !== true
   ) {
     // This is the only way to test support for the `wheel` event in IE9+.
-    isSupported = document.implementation.hasFeature('Events.wheel', '3.0');
+    isSupported = doc.implementation.hasFeature('Events.wheel', '3.0');
   }
 
   return isSupported;
@@ -3579,6 +3620,7 @@ const Pagination = {
   update() {
     // Render || Update Pagination bullets/items
     const swiper = this;
+    const rtl = swiper.rtl;
     const params = swiper.params.pagination;
     if (!params.el || !swiper.pagination.el || !swiper.pagination.$el || swiper.pagination.$el.length === 0) return;
     const slidesLength = swiper.virtual && swiper.params.virtual.enabled ? swiper.virtual.slides.length : swiper.slides.length;
@@ -3643,7 +3685,8 @@ const Pagination = {
       }
       if (params.dynamicBullets) {
         const bulletsOffset = (((swiper.pagination.bulletSize * 5) - (swiper.pagination.bulletSize)) / 2) - (current * swiper.pagination.bulletSize);
-        bullets.css(swiper.isHorizontal() ? 'left' : 'top', `${bulletsOffset}px`);
+        const offsetProp = rtl ? 'right' : 'left';
+        bullets.css(swiper.isHorizontal() ? offsetProp : 'top', `${bulletsOffset}px`);
       }
     }
     if (params.type === 'fraction') {
@@ -4201,11 +4244,11 @@ const Parallax = {
       y = `${y * progress}px`;
     }
 
-    if (typeof pOpacity !== 'undefined' && opacity !== null) {
+    if (typeof opacity !== 'undefined' && opacity !== null) {
       const currentOpacity = opacity - ((opacity - 1) * (1 - Math.abs(progress)));
       $el[0].style.opacity = currentOpacity;
     }
-    if (typeof pScale === 'undefined' || scale === null) {
+    if (typeof scale === 'undefined' || scale === null) {
       $el.transform(`translate3d(${x}, ${y}, 0px)`);
     } else {
       const currentScale = scale - ((scale - 1) * (1 - Math.abs(progress)));
@@ -5494,7 +5537,7 @@ var History$1 = {
 const HashNavigation = {
   onHashCange() {
     const swiper = this;
-    const newHash = document.location.hash.replace('#', '');
+    const newHash = doc.location.hash.replace('#', '');
     const activeSlideHash = swiper.slides.eq(swiper.activeIndex).attr('data-hash');
     if (newHash !== activeSlideHash) {
       swiper.slideTo(swiper.$wrapperEl.children(`.${swiper.params.slideClass}[data-hash="${newHash}"]`).index());
@@ -5508,14 +5551,14 @@ const HashNavigation = {
     } else {
       const slide = swiper.slides.eq(swiper.activeIndex);
       const hash = slide.attr('data-hash') || slide.attr('data-history');
-      document.location.hash = hash || '';
+      doc.location.hash = hash || '';
     }
   },
   init() {
     const swiper = this;
     if (!swiper.params.hashNavigation.enabled || (swiper.params.history && swiper.params.history.enabled)) return;
     swiper.hashNavigation.initialized = true;
-    const hash = document.location.hash.replace('#', '');
+    const hash = doc.location.hash.replace('#', '');
     if (hash) {
       const speed = 0;
       for (let i = 0, length = swiper.slides.length; i < length; i += 1) {
