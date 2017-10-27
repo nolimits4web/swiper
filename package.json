@@ -11,7 +11,7 @@
     "dev": "NODE_ENV=development gulp build && NODE_ENV=development gulp playground && NODE_ENV=development gulp server",
     "prod": "NODE_ENV=production gulp playground && NODE_ENV=production gulp server",
     "lint": "eslint .",
-    "test": "npm run lint && npm run build-dev"
+    "test": "npm run lint && npm run build:dev"
   },
   "files": [
     "dist",
