@@ -1,6 +1,14 @@
 # Change Log
 
-## [Swiper 4.0.3](https://github.com/nolimits4web/swiper/compare/v4.0.2...v4.0.5) - Released on October 27, 2017
+## [Swiper 4.0.5](https://github.com/nolimits4web/swiper/compare/v4.0.3...v4.0.5) - Released on November 7, 2017
+  * Fixed issue with not working `noSwiping` parameter
+  * Parallax now considers `slidesPerGroup` parameter
+  * Zoom: imporved gestures handling
+  * Pagination: fixed issues with wrong positioned dynamic-bullets when there are not enough slides
+  * Fixed issues with some effects being broken with enabled `breakpoints`
+  * Minor fixes
+
+## [Swiper 4.0.3](https://github.com/nolimits4web/swiper/compare/v4.0.2...v4.0.3) - Released on October 27, 2017
   * Fixed Parallax opacity and scale transitions
   * Better compatability with SSR by using dummy `document` object
   * Fixed styles for dynamic pagination buttons in RTL mode
