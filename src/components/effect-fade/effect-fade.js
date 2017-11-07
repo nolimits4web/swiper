@@ -65,14 +65,16 @@ export default {
       const swiper = this;
       if (swiper.params.effect !== 'fade') return;
       swiper.classNames.push(`${swiper.params.containerModifierClass}fade`);
-      Utils.extend(swiper.params, {
+      const overwriteParams = {
         slidesPerView: 1,
         slidesPerColumn: 1,
         slidesPerGroup: 1,
         watchSlidesProgress: true,
         spaceBetween: 0,
         virtualTranslate: true,
-      });
+      };
+      Utils.extend(swiper.params, overwriteParams);
+      Utils.extend(swiper.originalParams, overwriteParams);
     },
     setTranslate() {
       const swiper = this;

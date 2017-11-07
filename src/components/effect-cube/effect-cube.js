@@ -151,7 +151,7 @@ export default {
       if (swiper.params.effect !== 'cube') return;
       swiper.classNames.push(`${swiper.params.containerModifierClass}cube`);
       swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
-      Utils.extend(swiper.params, {
+      const overwriteParams = {
         slidesPerView: 1,
         slidesPerColumn: 1,
         slidesPerGroup: 1,
@@ -160,7 +160,9 @@ export default {
         spaceBetween: 0,
         centeredSlides: false,
         virtualTranslate: true,
-      });
+      };
+      Utils.extend(swiper.params, overwriteParams);
+      Utils.extend(swiper.originalParams, overwriteParams);
     },
     setTranslate() {
       const swiper = this;
