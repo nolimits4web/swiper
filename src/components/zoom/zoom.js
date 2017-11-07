@@ -20,10 +20,13 @@ const Zoom = {
     const params = swiper.params.zoom;
     const zoom = swiper.zoom;
     const { gesture } = zoom;
+    zoom.fakeGestureTouched = false;
+    zoom.fakeGestureMoved = false;
     if (!Support.gestures) {
       if (e.type !== 'touchstart' || (e.type === 'touchstart' && e.targetTouches.length < 2)) {
         return;
       }
+      zoom.fakeGestureTouched = true;
       gesture.scaleStart = Zoom.getDistanceBetweenTouches(e);
     }
     if (!gesture.$slideEl || !gesture.$slideEl.length) {
@@ -49,6 +52,7 @@ const Zoom = {
       if (e.type !== 'touchmove' || (e.type === 'touchmove' && e.targetTouches.length < 2)) {
         return;
       }
+      zoom.fakeGestureMoved = true;
       gesture.scaleMove = Zoom.getDistanceBetweenTouches(e);
     }
     if (!gesture.$imageEl || gesture.$imageEl.length === 0) return;
@@ -71,9 +75,14 @@ const Zoom = {
     const zoom = swiper.zoom;
     const { gesture } = zoom;
     if (!Support.gestures) {
-      if (e.type !== 'touchend' || (e.type === 'touchend' && e.changedTouches.length < 2)) {
+      if (!zoom.fakeGestureTouched || !zoom.fakeGestureMoved) {
         return;
       }
+      if (e.type !== 'touchend' || (e.type === 'touchend' && e.changedTouches.length < 2 && !Device.android)) {
+        return;
+      }
+      zoom.fakeGestureTouched = false;
+      zoom.fakeGestureMoved = false;
     }
     if (!gesture.$imageEl || gesture.$imageEl.length === 0) return;
     zoom.scale = Math.max(Math.min(zoom.scale, gesture.maxRatio), params.minRatio);
