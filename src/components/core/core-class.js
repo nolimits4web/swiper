@@ -341,7 +341,7 @@ class Swiper extends SwiperClass {
     swiper.emit('init');
   }
   destroy(deleteInstance = true, cleanStyles = true) {
-    let swiper = this;
+    const swiper = this;
     const { params, $el, $wrapperEl, slides } = swiper;
     swiper.emit('beforeDestroy');
 
