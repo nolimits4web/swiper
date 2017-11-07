@@ -57,7 +57,7 @@ const Autoplay = {
       swiper.autoplay.run();
     } else {
       swiper.$wrapperEl.transitionEnd(() => {
-        if (!swiper) return;
+        if (!swiper || swiper.destroyed) return;
         swiper.autoplay.paused = false;
         if (!swiper.autoplay.running) {
           swiper.autoplay.stop();

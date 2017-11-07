@@ -2,7 +2,7 @@ export default function () {
   const swiper = this;
   swiper.imagesToLoad = swiper.$el.find('img');
   function onReady() {
-    if (typeof swiper === 'undefined' || swiper === null || !swiper) return;
+    if (typeof swiper === 'undefined' || swiper === null || !swiper || swiper.destroyed) return;
     if (swiper.imagesLoaded !== undefined) swiper.imagesLoaded += 1;
     if (swiper.imagesLoaded === swiper.imagesToLoad.length) {
       if (swiper.params.updateOnImagesReady) swiper.update();

@@ -32,7 +32,7 @@ const Fade = {
       let eventTriggered = false;
       slides.transitionEnd(() => {
         if (eventTriggered) return;
-        if (!swiper) return;
+        if (!swiper || swiper.destroyed) return;
         eventTriggered = true;
         swiper.animating = false;
         const triggerEvents = ['webkitTransitionEnd', 'transitionend'];

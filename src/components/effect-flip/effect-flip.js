@@ -59,7 +59,7 @@ const Flip = {
       let eventTriggered = false;
       slides.eq(activeIndex).transitionEnd(function onTransitionEnd() {
         if (eventTriggered) return;
-        if (!swiper) return;
+        if (!swiper || swiper.destroyed) return;
         if (!$(this).hasClass(swiper.params.slideActiveClass)) return;
         eventTriggered = true;
         swiper.animating = false;

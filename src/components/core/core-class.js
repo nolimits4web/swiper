@@ -259,7 +259,7 @@ class Swiper extends SwiperClass {
   }
   update() {
     const swiper = this;
-    if (!swiper) return;
+    if (!swiper || swiper.destroyed) return;
     swiper.updateSize();
     swiper.updateSlides();
     swiper.updateProgress();
@@ -387,8 +387,8 @@ class Swiper extends SwiperClass {
       swiper.$el[0].swiper = null;
       swiper.$el.data('swiper', null);
       Utils.deleteProps(swiper);
-      swiper = null;
     }
+    swiper.destroyed = true;
   }
   static extendDefaults(newDefaults) {
     Utils.extend(extendedDefaults, newDefaults);

@@ -68,7 +68,7 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
     if (!swiper.animating) {
       swiper.animating = true;
       $wrapperEl.transitionEnd(() => {
-        if (!swiper) return;
+        if (!swiper || swiper.destroyed) return;
         swiper.transitionEnd(runCallbacks);
       });
     }

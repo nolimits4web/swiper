@@ -28,7 +28,7 @@ export default function (event) {
     if (timeDiff < 300 && (touchEndTime - data.lastClickTime) > 300) {
       if (data.clickTimeout) clearTimeout(data.clickTimeout);
       data.clickTimeout = Utils.nextTick(() => {
-        if (!swiper) return;
+        if (!swiper || swiper.destroyed) return;
         swiper.emit('click', e);
       }, 300);
     }
@@ -40,7 +40,7 @@ export default function (event) {
 
   data.lastClickTime = Utils.now();
   Utils.nextTick(() => {
-    if (swiper) swiper.allowClick = true;
+    if (!swiper.destroyed) swiper.allowClick = true;
   });
 
   if (!data.isTouched || !data.isMoved || !swiper.swipeDirection || touches.diff === 0 || data.currentTranslate === data.startTranslate) {
@@ -157,13 +157,13 @@ export default function (event) {
         swiper.transitionStart();
         swiper.animating = true;
         $wrapperEl.transitionEnd(() => {
-          if (!swiper || !data.allowMomentumBounce) return;
+          if (!swiper || swiper.destroyed || !data.allowMomentumBounce) return;
           swiper.emit('momentumBounce');
 
           swiper.setTransition(params.speed);
           swiper.setTranslate(afterBouncePosition);
           $wrapperEl.transitionEnd(() => {
-            if (!swiper) return;
+            if (!swiper || swiper.destroyed) return;
             swiper.transitionEnd();
           });
         });
@@ -175,7 +175,7 @@ export default function (event) {
         if (!swiper.animating) {
           swiper.animating = true;
           $wrapperEl.transitionEnd(() => {
-            if (!swiper) return;
+            if (!swiper || swiper.destroyed) return;
             swiper.transitionEnd();
           });
         }
