@@ -21,6 +21,7 @@ function es(components, cb) {
   const env = process.env.NODE_ENV || 'development';
   const target = process.env.TARGET || config.target;
 
+  // Bundle
   rollup({
     input: './src/swiper.js',
     plugins: [
