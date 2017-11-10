@@ -99,6 +99,7 @@ export default {
       swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
 
       swiper.params.watchSlidesProgress = true;
+      swiper.originalParams.watchSlidesProgress = true;
     },
     setTranslate() {
       const swiper = this;
