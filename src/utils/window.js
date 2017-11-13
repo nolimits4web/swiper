@@ -13,6 +13,7 @@ if (typeof window === 'undefined') {
     },
     Image() {},
     Date() {},
+    screen: {},
   };
 } else {
   w = window;
