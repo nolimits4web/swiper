@@ -61,13 +61,19 @@ export default function (event) {
   touches.currentX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
   touches.currentY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY;
 
+  const diffX = touches.currentX - touches.startX;
+  const diffY = touches.currentY - touches.startY;
+
   if (typeof data.isScrolling === 'undefined') {
     let touchAngle;
     if ((swiper.isHorizontal() && touches.currentY === touches.startY) || (swiper.isVertical() && touches.currentX === touches.startX)) {
       data.isScrolling = false;
     } else {
-      touchAngle = (Math.atan2(Math.abs(touches.currentY - touches.startY), Math.abs(touches.currentX - touches.startX)) * 180) / Math.PI;
-      data.isScrolling = swiper.isHorizontal() ? touchAngle > params.touchAngle : (90 - touchAngle > params.touchAngle);
+      // eslint-disable-next-line
+      if ((diffX * diffX) + (diffY * diffY) >= 25) {
+        touchAngle = (Math.atan2(Math.abs(diffY), Math.abs(diffX)) * 180) / Math.PI;
+        data.isScrolling = swiper.isHorizontal() ? touchAngle > params.touchAngle : (90 - touchAngle > params.touchAngle);
+      }
     }
   }
   if (data.isScrolling) {
