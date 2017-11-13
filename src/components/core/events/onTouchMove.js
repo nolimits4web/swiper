@@ -117,7 +117,7 @@ export default function (event) {
   swiper.emit('sliderMove', e);
   data.isMoved = true;
 
-  let diff = swiper.isHorizontal() ? touches.currentX - touches.startX : touches.currentY - touches.startY;
+  let diff = swiper.isHorizontal() ? diffX : diffY;
   touches.diff = diff;
 
   diff *= params.touchRatio;
