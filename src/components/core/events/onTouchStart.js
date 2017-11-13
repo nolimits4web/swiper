@@ -58,7 +58,7 @@ export default function (event) {
     if (document.activeElement && $(document.activeElement).is(data.formElements)) {
       document.activeElement.blur();
     }
-    if (preventDefault) {
+    if (preventDefault && swiper.allowTouchMove) {
       e.preventDefault();
     }
   }
