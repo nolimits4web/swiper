@@ -1,5 +1,5 @@
 /**
- * Swiper 4.0.5
+ * Swiper 4.0.6
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: November 7, 2017
+ * Released on: November 13, 2017
  */
 
 import { $, add, addClass, append, attr, children, closest, css, data, each, eq, find, hasClass, html, index, is, next, nextAll, off, offset, on, outerHeight, outerWidth, parent, parents, prepend, prev, prevAll, remove, removeAttr, removeClass, styles, text, toggleClass, transform, transition, transitionEnd, trigger } from 'dom7/dist/dom7.modular';
@@ -27,6 +27,7 @@ if (typeof window === 'undefined') {
     },
     Image() {},
     Date() {},
+    screen: {},
   };
 } else {
   w = window;
@@ -1545,9 +1546,17 @@ var onTouchStart = function (event) {
   const startY = touches.currentY;
 
   // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
-  if (Device.ios && params.iOSEdgeSwipeDetection && startX <= params.iOSEdgeSwipeThreshold) {
+
+  if (
+    Device.ios &&
+    !Device.cordova &&
+    params.iOSEdgeSwipeDetection &&
+    (startX <= params.iOSEdgeSwipeThreshold) &&
+    (startX >= window.screen.width - params.iOSEdgeSwipeThreshold)
+  ) {
     return;
   }
+
   Utils.extend(data$$1, {
     isTouched: true,
     isMoved: false,
@@ -1569,7 +1578,7 @@ var onTouchStart = function (event) {
     if (doc.activeElement && $(doc.activeElement).is(data$$1.formElements)) {
       doc.activeElement.blur();
     }
-    if (preventDefault) {
+    if (preventDefault && swiper.allowTouchMove) {
       e.preventDefault();
     }
   }
@@ -1635,13 +1644,19 @@ var onTouchMove = function (event) {
   touches.currentX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
   touches.currentY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY;
 
+  const diffX = touches.currentX - touches.startX;
+  const diffY = touches.currentY - touches.startY;
+
   if (typeof data$$1.isScrolling === 'undefined') {
     let touchAngle;
     if ((swiper.isHorizontal() && touches.currentY === touches.startY) || (swiper.isVertical() && touches.currentX === touches.startX)) {
       data$$1.isScrolling = false;
     } else {
-      touchAngle = (Math.atan2(Math.abs(touches.currentY - touches.startY), Math.abs(touches.currentX - touches.startX)) * 180) / Math.PI;
-      data$$1.isScrolling = swiper.isHorizontal() ? touchAngle > params.touchAngle : (90 - touchAngle > params.touchAngle);
+      // eslint-disable-next-line
+      if ((diffX * diffX) + (diffY * diffY) >= 25) {
+        touchAngle = (Math.atan2(Math.abs(diffY), Math.abs(diffX)) * 180) / Math.PI;
+        data$$1.isScrolling = swiper.isHorizontal() ? touchAngle > params.touchAngle : (90 - touchAngle > params.touchAngle);
+      }
     }
   }
   if (data$$1.isScrolling) {
@@ -1685,7 +1700,7 @@ var onTouchMove = function (event) {
   swiper.emit('sliderMove', e);
   data$$1.isMoved = true;
 
-  let diff = swiper.isHorizontal() ? touches.currentX - touches.startX : touches.currentY - touches.startY;
+  let diff = swiper.isHorizontal() ? diffX : diffY;
   touches.diff = diff;
 
   diff *= params.touchRatio;
@@ -1899,7 +1914,7 @@ var onTouchEnd = function (event) {
         } else {
           newPosition = snapGrid[nextSlide - 1];
         }
-        if (!rtl) newPosition = -newPosition;
+        newPosition = -newPosition;
       }
       // Fix duration
       if (swiper.velocity !== 0) {
@@ -2080,9 +2095,9 @@ function attachEvents() {
       (Support.touch ? target : doc).addEventListener(touchEvents.end, swiper.onTouchEnd, false);
     } else {
       if (Support.touch) {
-        const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
+        const passiveListener = touchEvents.start === 'touchstart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
         target.addEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
-        target.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
+        target.addEventListener(touchEvents.move, swiper.onTouchMove, Support.passiveListener ? { passive: false, capture } : capture);
         target.addEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
       }
       if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
@@ -2171,6 +2186,7 @@ var setBreakpoint = function () {
       swiper.updateSlides();
       swiper.slideTo(oldIndex + loopedSlides, 0, false);
     }
+    swiper.emit('breakpoint', breakPointsParams);
   }
 };
 
@@ -5462,7 +5478,7 @@ const History = {
     swiper.history.scrollToSlide(swiper.params.speed, swiper.history.paths.value, false);
   },
   getPathValues() {
-    const pathArray = win.location.pathname.slice(1).split('/');
+    const pathArray = win.location.pathname.slice(1).split('/').filter(part => part !== '');
     const total = pathArray.length;
     const key = pathArray[total - 2];
     const value = pathArray[total - 1];
@@ -6250,6 +6266,7 @@ var effectCoverflow = {
       swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
 
       swiper.params.watchSlidesProgress = true;
+      swiper.originalParams.watchSlidesProgress = true;
     },
     setTranslate() {
       const swiper = this;

@@ -1,5 +1,5 @@
 /**
- * Swiper 4.0.5
+ * Swiper 4.0.6
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: November 7, 2017
+ * Released on: November 13, 2017
  */
 
 (function (global, factory) {
@@ -31,6 +31,7 @@ if (typeof window === 'undefined') {
     },
     Image: function Image() {},
     Date: function Date() {},
+    screen: {},
   };
 } else {
   w = window;
@@ -2392,9 +2393,17 @@ var onTouchStart = function (event) {
   var startY = touches.currentY;
 
   // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
-  if (Device.ios && params.iOSEdgeSwipeDetection && startX <= params.iOSEdgeSwipeThreshold) {
+
+  if (
+    Device.ios &&
+    !Device.cordova &&
+    params.iOSEdgeSwipeDetection &&
+    (startX <= params.iOSEdgeSwipeThreshold) &&
+    (startX >= window.screen.width - params.iOSEdgeSwipeThreshold)
+  ) {
     return;
   }
+
   Utils.extend(data, {
     isTouched: true,
     isMoved: false,
@@ -2416,7 +2425,7 @@ var onTouchStart = function (event) {
     if (doc.activeElement && $$1(doc.activeElement).is(data.formElements)) {
       doc.activeElement.blur();
     }
-    if (preventDefault) {
+    if (preventDefault && swiper.allowTouchMove) {
       e.preventDefault();
     }
   }
@@ -2484,13 +2493,19 @@ var onTouchMove = function (event) {
   touches.currentX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
   touches.currentY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY;
 
+  var diffX = touches.currentX - touches.startX;
+  var diffY = touches.currentY - touches.startY;
+
   if (typeof data.isScrolling === 'undefined') {
     var touchAngle;
     if ((swiper.isHorizontal() && touches.currentY === touches.startY) || (swiper.isVertical() && touches.currentX === touches.startX)) {
       data.isScrolling = false;
     } else {
-      touchAngle = (Math.atan2(Math.abs(touches.currentY - touches.startY), Math.abs(touches.currentX - touches.startX)) * 180) / Math.PI;
-      data.isScrolling = swiper.isHorizontal() ? touchAngle > params.touchAngle : (90 - touchAngle > params.touchAngle);
+      // eslint-disable-next-line
+      if ((diffX * diffX) + (diffY * diffY) >= 25) {
+        touchAngle = (Math.atan2(Math.abs(diffY), Math.abs(diffX)) * 180) / Math.PI;
+        data.isScrolling = swiper.isHorizontal() ? touchAngle > params.touchAngle : (90 - touchAngle > params.touchAngle);
+      }
     }
   }
   if (data.isScrolling) {
@@ -2534,7 +2549,7 @@ var onTouchMove = function (event) {
   swiper.emit('sliderMove', e);
   data.isMoved = true;
 
-  var diff = swiper.isHorizontal() ? touches.currentX - touches.startX : touches.currentY - touches.startY;
+  var diff = swiper.isHorizontal() ? diffX : diffY;
   touches.diff = diff;
 
   diff *= params.touchRatio;
@@ -2753,7 +2768,7 @@ var onTouchEnd = function (event) {
         } else {
           newPosition = snapGrid[nextSlide - 1];
         }
-        if (!rtl) { newPosition = -newPosition; }
+        newPosition = -newPosition;
       }
       // Fix duration
       if (swiper.velocity !== 0) {
@@ -2940,9 +2955,9 @@ function attachEvents() {
       (Support.touch ? target : doc).addEventListener(touchEvents.end, swiper.onTouchEnd, false);
     } else {
       if (Support.touch) {
-        var passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
+        var passiveListener = touchEvents.start === 'touchstart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
         target.addEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
-        target.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
+        target.addEventListener(touchEvents.move, swiper.onTouchMove, Support.passiveListener ? { passive: false, capture: capture } : capture);
         target.addEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
       }
       if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
@@ -3036,6 +3051,7 @@ var setBreakpoint = function () {
       swiper.updateSlides();
       swiper.slideTo(oldIndex + loopedSlides, 0, false);
     }
+    swiper.emit('breakpoint', breakPointsParams);
   }
 };
 
@@ -6395,7 +6411,7 @@ var History = {
     swiper.history.scrollToSlide(swiper.params.speed, swiper.history.paths.value, false);
   },
   getPathValues: function getPathValues() {
-    var pathArray = win.location.pathname.slice(1).split('/');
+    var pathArray = win.location.pathname.slice(1).split('/').filter(function (part) { return part !== ''; });
     var total = pathArray.length;
     var key = pathArray[total - 2];
     var value = pathArray[total - 1];
@@ -7197,6 +7213,7 @@ var EffectCoverflow = {
       swiper.classNames.push(((swiper.params.containerModifierClass) + "3d"));
 
       swiper.params.watchSlidesProgress = true;
+      swiper.originalParams.watchSlidesProgress = true;
     },
     setTranslate: function setTranslate() {
       var swiper = this;

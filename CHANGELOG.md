@@ -1,5 +1,12 @@
 # Change Log
 
+## [Swiper 4.0.6](https://github.com/nolimits4web/swiper/compare/v4.0.5...v4.0.6) - Released on November 13, 2017
+  * Fixed Coverflow effect issue using with breakpoints
+  * `iOSEdgeSwipeDetection` will also be in consideration with right-edge swipe
+  * Fixed `freeModeSticky` behavior in RTL mode
+  * Swiper now emits `breakpoint` event on breakpoint change
+  * Minor fixes
+
 ## [Swiper 4.0.5](https://github.com/nolimits4web/swiper/compare/v4.0.3...v4.0.5) - Released on November 7, 2017
   * Fixed issue with not working `noSwiping` parameter
   * Parallax now considers `slidesPerGroup` parameter
