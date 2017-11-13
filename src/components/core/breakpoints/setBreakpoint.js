@@ -28,5 +28,6 @@ export default function () {
       swiper.updateSlides();
       swiper.slideTo(oldIndex + loopedSlides, 0, false);
     }
+    swiper.emit('breakpoint', breakPointsParams);
   }
 }
