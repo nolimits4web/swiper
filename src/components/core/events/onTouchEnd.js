@@ -136,7 +136,7 @@ export default function (event) {
         } else {
           newPosition = snapGrid[nextSlide - 1];
         }
-        if (!rtl) newPosition = -newPosition;
+        newPosition = -newPosition;
       }
       // Fix duration
       if (swiper.velocity !== 0) {
