@@ -97,6 +97,7 @@ export default {
         setHistory: History.setHistory.bind(swiper),
         setHistoryPopState: History.setHistoryPopState.bind(swiper),
         scrollToSlide: History.scrollToSlide.bind(swiper),
+        destroy: History.destroy.bind(swiper),
       },
     });
   },
