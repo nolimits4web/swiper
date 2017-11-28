@@ -34,14 +34,16 @@ export default function (event) {
     if (swiper.isVertical()) {
       // Vertical
       if (
-        (touches.currentY < touches.startY && swiper.translate <= swiper.maxTranslate()) ||
-        (touches.currentY > touches.startY && swiper.translate >= swiper.minTranslate())
+        (pageY < touches.startY && swiper.translate <= swiper.maxTranslate()) ||
+        (pageY > touches.startY && swiper.translate >= swiper.minTranslate())
       ) {
+        data.isTouched = false;
+        data.isMoved = false;
         return;
       }
     } else if (
-      (touches.currentX < touches.startX && swiper.translate <= swiper.maxTranslate()) ||
-      (touches.currentX > touches.startX && swiper.translate >= swiper.minTranslate())
+      (pageX < touches.startX && swiper.translate <= swiper.maxTranslate()) ||
+      (pageX > touches.startX && swiper.translate >= swiper.minTranslate())
     ) {
       return;
     }
@@ -58,8 +60,8 @@ export default function (event) {
   }
   if (e.targetTouches && e.targetTouches.length > 1) return;
 
-  touches.currentX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
-  touches.currentY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY;
+  touches.currentX = pageX;
+  touches.currentY = pageY;
 
   const diffX = touches.currentX - touches.startX;
   const diffY = touches.currentY - touches.startY;
