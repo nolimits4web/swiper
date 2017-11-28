@@ -158,7 +158,9 @@ export default {
   on: {
     beforeInit() {
       const swiper = this;
-      if (swiper.params.preloadImages) swiper.params.preloadImages = false;
+      if (swiper.params.lazy.enabled && swiper.params.preloadImages) {
+        swiper.params.preloadImages = false;
+      }
     },
     init() {
       const swiper = this;
