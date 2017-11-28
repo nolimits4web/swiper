@@ -99,7 +99,7 @@ const Scrollbar = {
   setDragPosition(e) {
     const swiper = this;
     const { scrollbar } = swiper;
-    const { $el, dragSize, moveDivider } = scrollbar;
+    const { $el, dragSize, trackSize } = scrollbar;
 
     let pointerPosition;
     if (swiper.isHorizontal()) {
@@ -107,18 +107,15 @@ const Scrollbar = {
     } else {
       pointerPosition = ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].pageY : e.pageY || e.clientY);
     }
-    let position = (pointerPosition) - $el.offset()[swiper.isHorizontal() ? 'left' : 'top'] - (dragSize / 2);
-    const positionMin = -swiper.minTranslate() * moveDivider;
-    const positionMax = -swiper.maxTranslate() * moveDivider;
-    if (position < positionMin) {
-      position = positionMin;
-    } else if (position > positionMax) {
-      position = positionMax;
-    }
+    let positionRatio;
+    positionRatio = ((pointerPosition) - $el.offset()[swiper.isHorizontal() ? 'left' : 'top'] - (dragSize / 2)) / (trackSize - dragSize);
+    positionRatio = Math.max(Math.min(positionRatio, 1), 0);
     if (swiper.rtl) {
-      position = positionMax - position;
+      positionRatio = 1 - positionRatio;
     }
-    position = -position / moveDivider;
+
+    const position = swiper.minTranslate() + ((swiper.maxTranslate() - swiper.minTranslate()) * positionRatio);
+
     swiper.updateProgress(position);
     swiper.setTranslate(position);
     swiper.updateActiveIndex();
