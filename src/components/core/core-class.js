@@ -61,7 +61,9 @@ class Swiper extends SwiperClass {
 
     // Swiper Instance
     const swiper = this;
-
+    if (typeof swiper.modules === 'undefined') {
+      swiper.modules = {};
+    }
     Object.keys(swiper.modules).forEach((moduleName) => {
       const module = swiper.modules[moduleName];
       if (module.params) {

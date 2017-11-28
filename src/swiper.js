@@ -10,12 +10,12 @@ import Observer from './modules/observer/observer';
 
 //IMPORT_COMPONENTS
 
-Swiper.components = [
+Swiper.use([
   Device,
   Support,
   Browser,
   Resize,
   Observer,
   //INSTALL_COMPONENTS
-];
+]);
 //EXPORT
