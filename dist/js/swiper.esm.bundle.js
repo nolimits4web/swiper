@@ -1,5 +1,5 @@
 /**
- * Swiper 4.0.6
+ * Swiper 4.0.7
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: November 13, 2017
+ * Released on: November 28, 2017
  */
 
 import { $, add, addClass, append, attr, children, closest, css, data, each, eq, find, hasClass, html, index, is, next, nextAll, off, offset, on, outerHeight, outerWidth, parent, parents, prepend, prev, prevAll, remove, removeAttr, removeClass, styles, text, toggleClass, transform, transition, transitionEnd, trigger } from 'dom7/dist/dom7.modular';
@@ -1617,14 +1617,16 @@ var onTouchMove = function (event) {
     if (swiper.isVertical()) {
       // Vertical
       if (
-        (touches.currentY < touches.startY && swiper.translate <= swiper.maxTranslate()) ||
-        (touches.currentY > touches.startY && swiper.translate >= swiper.minTranslate())
+        (pageY < touches.startY && swiper.translate <= swiper.maxTranslate()) ||
+        (pageY > touches.startY && swiper.translate >= swiper.minTranslate())
       ) {
+        data$$1.isTouched = false;
+        data$$1.isMoved = false;
         return;
       }
     } else if (
-      (touches.currentX < touches.startX && swiper.translate <= swiper.maxTranslate()) ||
-      (touches.currentX > touches.startX && swiper.translate >= swiper.minTranslate())
+      (pageX < touches.startX && swiper.translate <= swiper.maxTranslate()) ||
+      (pageX > touches.startX && swiper.translate >= swiper.minTranslate())
     ) {
       return;
     }
@@ -1641,8 +1643,8 @@ var onTouchMove = function (event) {
   }
   if (e.targetTouches && e.targetTouches.length > 1) return;
 
-  touches.currentX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
-  touches.currentY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY;
+  touches.currentX = pageX;
+  touches.currentY = pageY;
 
   const diffX = touches.currentX - touches.startX;
   const diffY = touches.currentY - touches.startY;
@@ -2022,7 +2024,7 @@ var onTouchEnd = function (event) {
 var onResize = function () {
   const swiper = this;
 
-  const { params, el, allowSlideNext, allowSlidePrev } = swiper;
+  const { params, el } = swiper;
 
   if (el && el.offsetWidth === 0) return;
 
@@ -2030,6 +2032,9 @@ var onResize = function () {
   if (params.breakpoints) {
     swiper.setBreakpoint();
   }
+
+  // Save locks
+  const { allowSlideNext, allowSlidePrev } = swiper;
 
   // Disable locks on resize
   swiper.allowSlideNext = true;
@@ -2180,11 +2185,10 @@ var setBreakpoint = function () {
     swiper.currentBreakpoint = breakpoint;
 
     if (needsReLoop) {
-      const oldIndex = activeIndex - loopedSlides;
       swiper.loopDestroy();
       swiper.loopCreate();
       swiper.updateSlides();
-      swiper.slideTo(oldIndex + loopedSlides, 0, false);
+      swiper.slideTo((activeIndex - loopedSlides) + swiper.loopedSlides, 0, false);
     }
     swiper.emit('breakpoint', breakPointsParams);
   }
@@ -2198,7 +2202,7 @@ var getBreakpoint = function (breakpoints) {
   Object.keys(breakpoints).forEach((point) => {
     points.push(point);
   });
-  points.sort((a, b) => parseInt(a, 10) > parseInt(b, 10));
+  points.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
   for (let i = 0; i < points.length; i += 1) {
     const point = points[i];
     if (point >= win.innerWidth && !breakpoint) {
@@ -2479,7 +2483,9 @@ class Swiper$1 extends SwiperClass {
 
     // Swiper Instance
     const swiper = this;
-
+    if (typeof swiper.modules === 'undefined') {
+      swiper.modules = {};
+    }
     Object.keys(swiper.modules).forEach((moduleName) => {
       const module = swiper.modules[moduleName];
       if (module.params) {
@@ -4018,7 +4024,7 @@ const Scrollbar = {
   setDragPosition(e) {
     const swiper = this;
     const { scrollbar } = swiper;
-    const { $el, dragSize, moveDivider } = scrollbar;
+    const { $el, dragSize, trackSize } = scrollbar;
 
     let pointerPosition;
     if (swiper.isHorizontal()) {
@@ -4026,18 +4032,15 @@ const Scrollbar = {
     } else {
       pointerPosition = ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].pageY : e.pageY || e.clientY);
     }
-    let position = (pointerPosition) - $el.offset()[swiper.isHorizontal() ? 'left' : 'top'] - (dragSize / 2);
-    const positionMin = -swiper.minTranslate() * moveDivider;
-    const positionMax = -swiper.maxTranslate() * moveDivider;
-    if (position < positionMin) {
-      position = positionMin;
-    } else if (position > positionMax) {
-      position = positionMax;
-    }
+    let positionRatio;
+    positionRatio = ((pointerPosition) - $el.offset()[swiper.isHorizontal() ? 'left' : 'top'] - (dragSize / 2)) / (trackSize - dragSize);
+    positionRatio = Math.max(Math.min(positionRatio, 1), 0);
     if (swiper.rtl) {
-      position = positionMax - position;
+      positionRatio = 1 - positionRatio;
     }
-    position = -position / moveDivider;
+
+    const position = swiper.minTranslate() + ((swiper.maxTranslate() - swiper.minTranslate()) * positionRatio);
+
     swiper.updateProgress(position);
     swiper.setTranslate(position);
     swiper.updateActiveIndex();
@@ -5024,7 +5027,9 @@ var Lazy$1 = {
   on: {
     beforeInit() {
       const swiper = this;
-      if (swiper.params.preloadImages) swiper.params.preloadImages = false;
+      if (swiper.params.lazy.enabled && swiper.params.preloadImages) {
+        swiper.params.preloadImages = false;
+      }
     },
     init() {
       const swiper = this;
@@ -5544,6 +5549,7 @@ var History$1 = {
         setHistory: History.setHistory.bind(swiper),
         setHistoryPopState: History.setHistoryPopState.bind(swiper),
         scrollToSlide: History.scrollToSlide.bind(swiper),
+        destroy: History.destroy.bind(swiper),
       },
     });
   },
@@ -6283,7 +6289,7 @@ var EffectCoverflow = {
 
 // Swiper Class
 // Core Modules
-Swiper$1.components = [
+Swiper$1.use([
   Device$2,
   Support$2,
   Browser$2,
@@ -6307,6 +6313,6 @@ Swiper$1.components = [
   EffectCube,
   EffectFlip,
   EffectCoverflow
-];
+]);
 
 export default Swiper$1;

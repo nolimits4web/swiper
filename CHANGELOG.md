@@ -1,5 +1,11 @@
 # Change Log
 
+## [Swiper 4.0.7](https://github.com/nolimits4web/swiper/compare/v4.0.6...v4.0.7) - Released on November 28, 2017
+  * Fixed issue with not working correctly `touchReleaseOnEdges` on iOS
+  * Fixed issue with not working allowSlideNext/Prev change on Breakpoints
+  * Fixed wrong scrollbar dragging when using custom `dragSize`
+  * Minor fixes
+
 ## [Swiper 4.0.6](https://github.com/nolimits4web/swiper/compare/v4.0.5...v4.0.6) - Released on November 13, 2017
   * Fixed Coverflow effect issue using with breakpoints
   * `iOSEdgeSwipeDetection` will also be in consideration with right-edge swipe
