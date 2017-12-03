@@ -16,6 +16,7 @@ import events from './events/index';
 import breakpoints from './breakpoints/index';
 import classes from './classes/index';
 import images from './images/index';
+import checkOverflow from './check-overflow/index';
 
 import defaults from './defaults';
 
@@ -29,6 +30,7 @@ const prototypes = {
   manipulation,
   events,
   breakpoints,
+  checkOverflow,
   classes,
   images,
 };
@@ -316,6 +318,10 @@ class Swiper extends SwiperClass {
 
     // Update slides
     swiper.updateSlides();
+
+    if (swiper.params.watchOverflow) {
+      swiper.checkOverflow();
+    }
 
     // Set Grab Cursor
     if (swiper.params.grabCursor) {
