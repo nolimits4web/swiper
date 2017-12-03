@@ -1,6 +1,6 @@
 
 export default {
-  checkOverflow: function() {
+  checkOverflow: function () {
     const swiper = this;
     const wasLocked = swiper.isLocked;
 
@@ -11,5 +11,5 @@ export default {
       swiper.isEnd = false;
       swiper.navigation.update();
     }
-  }
+  },
 }
