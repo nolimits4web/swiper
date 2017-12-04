@@ -3,7 +3,7 @@ import Swiper from '../core/core-class';
 import Utils from '../../utils/utils';
 
 const Controller = {
-  LinearSpline(x, y) {
+  LinearSpline: function LinearSpline(x, y) {
     const binarySearch = (function search() {
       let maxIndex;
       let minIndex;
