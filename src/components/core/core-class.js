@@ -168,7 +168,7 @@ class Swiper extends SwiperClass {
         if (window.navigator.pointerEnabled) {
           desktop = ['pointerdown', 'pointermove', 'pointerup'];
         } else if (window.navigator.msPointerEnabled) {
-          desktop = ['MSPointerDown', 'MsPointerMove', 'MsPointerUp'];
+          desktop = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
         }
 
         return {
