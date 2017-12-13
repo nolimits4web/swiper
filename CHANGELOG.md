@@ -340,7 +340,7 @@ runCallbacks=false
     * Scroll Container. Removed in favor of pure CSS `overflow: auto` with `-webkit-overflow-scrolling: touch`
   * New features
     * Swiper now uses modern flexbox layout, which by itself give more features and advantages
-    * Such Swiper 2.x plugins as Hash Navigation, Smooth Progress, 3D Flow and Scrollbar are now incoroporated into Swiper 3.x core
+    * Such Swiper 2.x plugins as Hash Navigation, Smooth Progress, 3D Flow and Scrollbar are now incorporated into Swiper 3.x core
     * Full RTL support
     * Built-in navigation buttons/arrows
     * Controller. Now one Swiper could be controlled (or control itself) by another Swiper
