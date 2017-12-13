@@ -95,6 +95,7 @@ const Scrollbar = {
       moveDivider,
       dragSize,
     });
+    scrollbar.$el[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](swiper.params.scrollbar.lockClass);
   },
   setDragPosition(e) {
     const swiper = this;
@@ -251,6 +252,7 @@ export default {
       hide: false,
       draggable: false,
       snapOnRelease: true,
+      lockClass: 'swiper-scrollbar-lock',
     },
   },
   create() {
