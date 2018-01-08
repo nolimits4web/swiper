@@ -167,7 +167,7 @@ class Swiper extends SwiperClass {
       touchEvents: (function touchEvents() {
         const touch = ['touchstart', 'touchmove', 'touchend'];
         let desktop = ['mousedown', 'mousemove', 'mouseup'];
-        if (window.navigator.pointerEnabled) {
+        if (window.navigator.pointerEnabled || window.PointerEvent) {
           desktop = ['pointerdown', 'pointermove', 'pointerup'];
         } else if (window.navigator.msPointerEnabled) {
           desktop = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
