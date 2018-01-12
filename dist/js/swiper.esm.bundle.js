@@ -3,11 +3,11 @@
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
- * Copyright 2014-2017 Vladimir Kharlampidi
+ * Copyright 2014-2018 Vladimir Kharlampidi
  *
  * Released under the MIT License
  *
- * Released on: November 28, 2017
+ * Released on: January 12, 2018
  */
 
 import { $, add, addClass, append, attr, children, closest, css, data, each, eq, find, hasClass, html, index, is, next, nextAll, off, offset, on, outerHeight, outerWidth, parent, parents, prepend, prev, prevAll, remove, removeAttr, removeClass, styles, text, toggleClass, transform, transition, transitionEnd, trigger } from 'dom7/dist/dom7.modular';
@@ -648,6 +648,7 @@ var updateSlides = function () {
     swiper.emit('slidesLengthChange');
   }
   if (snapGrid.length !== previousSnapGridLength) {
+    if (swiper.params.watchOverflow) swiper.checkOverflow();
     swiper.emit('snapGridLengthChange');
   }
   if (slidesGrid.length !== previousSlidesGridLength) {
@@ -2320,6 +2321,21 @@ var images = {
   preloadImages,
 };
 
+function checkOverflow() {
+  const swiper = this;
+  const wasLocked = swiper.isLocked;
+
+  swiper.isLocked = swiper.snapGrid.length === 1;
+  swiper.allowTouchMove = !swiper.isLocked;
+
+  if (wasLocked && wasLocked !== swiper.isLocked) {
+    swiper.isEnd = false;
+    swiper.navigation.update();
+  }
+}
+
+var checkOverflow$1 = { checkOverflow };
+
 var defaults = {
   init: true,
   direction: 'horizontal',
@@ -2366,6 +2382,9 @@ var defaults = {
   slidesOffsetBefore: 0, // in px
   slidesOffsetAfter: 0, // in px
   normalizeSlideIndex: true,
+
+  // Disable swiper and hide navigation when container not overflow
+  watchOverflow: false,
 
   // Round length
   roundLengths: false,
@@ -2451,6 +2470,7 @@ const prototypes = {
   manipulation,
   events,
   breakpoints,
+  checkOverflow: checkOverflow$1,
   classes,
   images,
 };
@@ -2590,7 +2610,7 @@ class Swiper$1 extends SwiperClass {
         if (win.navigator.pointerEnabled) {
           desktop = ['pointerdown', 'pointermove', 'pointerup'];
         } else if (win.navigator.msPointerEnabled) {
-          desktop = ['MSPointerDown', 'MsPointerMove', 'MsPointerUp'];
+          desktop = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
         }
 
         return {
@@ -2690,8 +2710,9 @@ class Swiper$1 extends SwiperClass {
     swiper.updateSlidesClasses();
 
     let newTranslate;
+    const translateValue = (swiper.rtl === true) ? swiper.translate * -1 : swiper.translate;
     function setTranslate() {
-      newTranslate = Math.min(Math.max(swiper.translate, swiper.maxTranslate()), swiper.minTranslate());
+      newTranslate = Math.min(Math.max(translateValue, swiper.maxTranslate()), swiper.minTranslate());
       swiper.setTranslate(newTranslate);
       swiper.updateActiveIndex();
       swiper.updateSlidesClasses();
@@ -2738,6 +2759,10 @@ class Swiper$1 extends SwiperClass {
 
     // Update slides
     swiper.updateSlides();
+
+    if (swiper.params.watchOverflow) {
+      swiper.checkOverflow();
+    }
 
     // Set Grab Cursor
     if (swiper.params.grabCursor) {
@@ -3513,6 +3538,7 @@ const Navigation = {
       } else {
         $prevEl.removeClass(params.disabledClass);
       }
+      $prevEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
     }
     if ($nextEl && $nextEl.length > 0) {
       if (swiper.isEnd) {
@@ -3520,6 +3546,7 @@ const Navigation = {
       } else {
         $nextEl.removeClass(params.disabledClass);
       }
+      $nextEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
     }
   },
   init() {
@@ -3598,6 +3625,7 @@ var Navigation$1 = {
       hideOnClick: false,
       disabledClass: 'swiper-button-disabled',
       hiddenClass: 'swiper-button-hidden',
+      lockClass: 'swiper-button-lock',
     },
   },
   create() {
@@ -3737,6 +3765,7 @@ const Pagination = {
     } else {
       swiper.emit('paginationUpdate', swiper, $el[0]);
     }
+    $el[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
   },
   render() {
     // Render Container
@@ -3861,6 +3890,7 @@ var Pagination$1 = {
       hiddenClass: 'swiper-pagination-hidden',
       progressbarFillClass: 'swiper-pagination-progressbar-fill',
       clickableClass: 'swiper-pagination-clickable', // NEW
+      lockClass: 'swiper-pagination-lock',
     },
   },
   create() {
@@ -4020,6 +4050,7 @@ const Scrollbar = {
       moveDivider,
       dragSize,
     });
+    scrollbar.$el[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](swiper.params.scrollbar.lockClass);
   },
   setDragPosition(e) {
     const swiper = this;
@@ -4176,6 +4207,7 @@ var Scrollbar$1 = {
       hide: false,
       draggable: false,
       snapOnRelease: true,
+      lockClass: 'swiper-scrollbar-lock',
     },
   },
   create() {
@@ -5074,7 +5106,7 @@ var Lazy$1 = {
 
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
 const Controller = {
-  LinearSpline(x, y) {
+  LinearSpline: function LinearSpline(x, y) {
     const binarySearch = (function search() {
       let maxIndex;
       let minIndex;
@@ -5674,7 +5706,21 @@ const Autoplay = {
       delay = $activeSlideEl.attr('data-swiper-autoplay') || swiper.params.autoplay.delay;
     }
     swiper.autoplay.timeout = Utils.nextTick(() => {
-      if (swiper.params.loop) {
+      if (swiper.params.autoplay.reverseDirection) {
+        if (swiper.params.loop) {
+          swiper.loopFix();
+          swiper.slidePrev(swiper.params.speed, true, true);
+          swiper.emit('autoplay');
+        } else if (!swiper.isBeginning) {
+          swiper.slidePrev(swiper.params.speed, true, true);
+          swiper.emit('autoplay');
+        } else if (!swiper.params.autoplay.stopOnLastSlide) {
+          swiper.slideTo(swiper.slides.length - 1, swiper.params.speed, true, true);
+          swiper.emit('autoplay');
+        } else {
+          swiper.autoplay.stop();
+        }
+      } else if (swiper.params.loop) {
         swiper.loopFix();
         swiper.slideNext(swiper.params.speed, true, true);
         swiper.emit('autoplay');
@@ -5742,6 +5788,7 @@ var Autoplay$1 = {
       delay: 3000,
       disableOnInteraction: true,
       stopOnLastSlide: false,
+      reverseDirection: false,
     },
   },
   create() {
@@ -6289,7 +6336,7 @@ var EffectCoverflow = {
 
 // Swiper Class
 // Core Modules
-Swiper$1.use([
+const components = [
   Device$2,
   Support$2,
   Browser$2,
@@ -6313,6 +6360,13 @@ Swiper$1.use([
   EffectCube,
   EffectFlip,
   EffectCoverflow
-]);
+];
+
+if (typeof Swiper$1.use === 'undefined') {
+  Swiper$1.use = Swiper$1.Class.use;
+  Swiper$1.installModule = Swiper$1.Class.installModule;
+}
+
+Swiper$1.use(components);
 
 export default Swiper$1;
