@@ -18,6 +18,7 @@ module.exports = {
       exports: 'always-multiline',
       functions: 'never',
     }],
+    'prefer-destructuring': ['off'],
   },
   globals: {
     'window': true,
