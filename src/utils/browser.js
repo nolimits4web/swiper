@@ -17,9 +17,9 @@ const Browser = (function Browser() {
   return {
     isSafari: isSafari(),
     isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent),
-    ie: window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
+    ie: window.navigator.pointerEnabled || window.PointerEvent || window.navigator.msPointerEnabled,
     ieTouch: (window.navigator.msPointerEnabled && window.navigator.msMaxTouchPoints > 1) ||
-             (window.navigator.pointerEnabled && window.navigator.maxTouchPoints > 1),
+             ((window.navigator.pointerEnabled || window.PointerEvent) && window.navigator.maxTouchPoints > 1),
     lteIE9: isIE9(),
   };
 }());

@@ -31,7 +31,7 @@ export default function () {
     suffixes.push('ios');
   }
   // WP8 Touch Events Fix
-  if (window.navigator.pointerEnabled || window.navigator.msPointerEnabled) {
+  if (window.navigator.pointerEnabled || window.navigator.msPointerEnabled || window.PointerEvent) {
     suffixes.push(`wp8-${params.direction}`);
   }
 
