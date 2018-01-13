@@ -66,7 +66,7 @@ const Autoplay = {
     if (swiper.autoplay.paused) return;
     if (swiper.autoplay.timeout) clearTimeout(swiper.autoplay.timeout);
     swiper.autoplay.paused = true;
-    if (speed === 0) {
+    if (speed === 0 || !swiper.params.autoplay.waitsForTransition) {
       swiper.autoplay.paused = false;
       swiper.autoplay.run();
     } else {
@@ -89,6 +89,7 @@ export default {
     autoplay: {
       enabled: false,
       delay: 3000,
+      waitsForTransition: true,
       disableOnInteraction: true,
       stopOnLastSlide: false,
       reverseDirection: false,
