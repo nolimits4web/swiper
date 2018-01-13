@@ -1,5 +1,15 @@
 # Change Log
 
+## [Swiper 4.1.0](https://github.com/nolimits4web/swiper/compare/v4.0.7...v4.1.0) - Released on January 13, 2018
+  * Improved IE 10 support. But it is recommended to use [__proto__ polyfill](https://www.npmjs.com/package/proto-polyfill)
+  * Improved touch support for Edge
+  * New `watchOverflow` (disabled by default). When enabled Swiper will be disabled and hide navigation buttons on case there are not enough slides for sliding
+  * Autoplay
+    * New `reverseDirection` to enable autoplay in reverse direction
+    * New `waitForTransition` parameter when autoplay will wait for wrapper transition to continue (enabled by default). Can be disabled in case of using Virtual Translate when your slider may not have transition
+  * Keyboard
+    * New `onlyInViewport` parameter (enabled by default). When enabled it will control sliders that are currently in viewport
+
 ## [Swiper 4.0.7](https://github.com/nolimits4web/swiper/compare/v4.0.6...v4.0.7) - Released on November 28, 2017
   * Fixed issue with not working correctly `touchReleaseOnEdges` on iOS
   * Fixed issue with not working allowSlideNext/Prev change on Breakpoints
