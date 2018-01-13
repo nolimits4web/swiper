@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "4.0.7",
+  "version": "4.1.0",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/js/swiper.js",
   "jsnext:main": "dist/js/swiper.esm.bundle.js",
@@ -56,7 +56,6 @@
     "ie >= 10"
   ],
   "devDependencies": {
-    "eslint": "^4.6.1",
     "eslint": "^4.15.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.7.0",
@@ -72,7 +71,7 @@
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
     "rollup-plugin-buble": "^0.18.0",
-    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-node-resolve": "^3.0.2",
     "rollup-plugin-replace": "^2.0.0",
     "rollup-stream": "^1.24.1",
     "vinyl-buffer": "^1.0.0",

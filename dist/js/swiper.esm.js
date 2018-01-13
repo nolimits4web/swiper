@@ -1,39 +1,16 @@
 /**
- * Swiper 4.0.7
+ * Swiper 4.1.0
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
- * Copyright 2014-2017 Vladimir Kharlampidi
+ * Copyright 2014-2018 Vladimir Kharlampidi
  *
  * Released under the MIT License
  *
- * Released on: November 28, 2017
+ * Released on: January 13, 2018
  */
 
 import { $, add, addClass, append, attr, children, closest, css, data, each, eq, find, hasClass, html, index, is, next, nextAll, off, offset, on, outerHeight, outerWidth, parent, parents, prepend, prev, prevAll, remove, removeAttr, removeClass, styles, text, toggleClass, transform, transition, transitionEnd, trigger } from 'dom7/dist/dom7.modular';
-
-let w;
-if (typeof window === 'undefined') {
-  w = {
-    navigator: {
-      userAgent: '',
-    },
-    location: {},
-    history: {},
-    addEventListener() {},
-    removeEventListener() {},
-    getComputedStyle() {
-      return {};
-    },
-    Image() {},
-    Date() {},
-    screen: {},
-  };
-} else {
-  w = window;
-}
-
-const win = w;
 
 const Methods = {
   addClass,
@@ -78,6 +55,29 @@ const Methods = {
 Object.keys(Methods).forEach((methodName) => {
   $.fn[methodName] = Methods[methodName];
 });
+
+let w;
+if (typeof window === 'undefined') {
+  w = {
+    navigator: {
+      userAgent: '',
+    },
+    location: {},
+    history: {},
+    addEventListener() {},
+    removeEventListener() {},
+    getComputedStyle() {
+      return {};
+    },
+    Image() {},
+    Date() {},
+    screen: {},
+  };
+} else {
+  w = window;
+}
+
+const win = w;
 
 const Utils = {
   deleteProps(obj) {
@@ -220,21 +220,29 @@ if (typeof document === 'undefined') {
 const doc = d;
 
 const Support = (function Support() {
+  const testDiv = doc.createElement('div');
   return {
     touch: (win.Modernizr && win.Modernizr.touch === true) || (function checkTouch() {
       return !!(('ontouchstart' in win) || (win.DocumentTouch && doc instanceof win.DocumentTouch));
     }()),
 
+    pointerEvents: !!(win.navigator.pointerEnabled || win.PointerEvent),
+    prefixedPointerEvents: !!win.navigator.msPointerEnabled,
+
+    transition: (function checkTransition() {
+      const style = testDiv.style;
+      return ('transition' in style || 'webkitTransition' in style || 'MozTransition' in style);
+    }()),
     transforms3d: (win.Modernizr && win.Modernizr.csstransforms3d === true) || (function checkTransforms3d() {
-      const div = doc.createElement('div').style;
-      return ('webkitPerspective' in div || 'MozPerspective' in div || 'OPerspective' in div || 'MsPerspective' in div || 'perspective' in div);
+      const style = testDiv.style;
+      return ('webkitPerspective' in style || 'MozPerspective' in style || 'OPerspective' in style || 'MsPerspective' in style || 'perspective' in style);
     }()),
 
     flexbox: (function checkFlexbox() {
-      const div = doc.createElement('div').style;
+      const style = testDiv.style;
       const styles$$1 = ('alignItems webkitAlignItems webkitBoxAlign msFlexAlign mozBoxAlign webkitFlexDirection msFlexDirection mozBoxDirection mozBoxOrient webkitBoxDirection webkitBoxOrient').split(' ');
       for (let i = 0; i < styles$$1.length; i += 1) {
-        if (styles$$1[i] in div) return true;
+        if (styles$$1[i] in style) return true;
       }
       return false;
     }()),
@@ -247,6 +255,7 @@ const Support = (function Support() {
       let supportsPassive = false;
       try {
         const opts = Object.defineProperty({}, 'passive', {
+          // eslint-disable-next-line
           get() {
             supportsPassive = true;
           },
@@ -453,7 +462,9 @@ var updateSlides = function () {
   const swiper = this;
   const params = swiper.params;
 
-  const { $wrapperEl, size: swiperSize, rtl, wrongRTL } = swiper;
+  const {
+    $wrapperEl, size: swiperSize, rtl, wrongRTL,
+  } = swiper;
   const slides = $wrapperEl.children(`.${swiper.params.slideClass}`);
   const isVirtual = swiper.virtual && params.virtual.enabled;
   const slidesLength = isVirtual ? swiper.virtual.slides.length : slides.length;
@@ -648,6 +659,7 @@ var updateSlides = function () {
     swiper.emit('slidesLengthChange');
   }
   if (snapGrid.length !== previousSnapGridLength) {
+    if (swiper.params.watchOverflow) swiper.checkOverflow();
     swiper.emit('snapGridLengthChange');
   }
   if (slidesGrid.length !== previousSlidesGridLength) {
@@ -773,7 +785,9 @@ var updateProgress = function (translate = this.translate || 0) {
 var updateSlidesClasses = function () {
   const swiper = this;
 
-  const { slides, params, $wrapperEl, activeIndex, realIndex } = swiper;
+  const {
+    slides, params, $wrapperEl, activeIndex, realIndex,
+  } = swiper;
   const isVirtual = swiper.virtual && params.virtual.enabled;
 
   slides.removeClass(`${params.slideActiveClass} ${params.slideNextClass} ${params.slidePrevClass} ${params.slideDuplicateActiveClass} ${params.slideDuplicateNextClass} ${params.slideDuplicatePrevClass}`);
@@ -838,7 +852,9 @@ var updateSlidesClasses = function () {
 var updateActiveIndex = function (newActiveIndex) {
   const swiper = this;
   const translate = swiper.rtl ? swiper.translate : -swiper.translate;
-  const { slidesGrid, snapGrid, params, activeIndex: previousIndex, realIndex: previousRealIndex, snapIndex: previousSnapIndex } = swiper;
+  const {
+    slidesGrid, snapGrid, params, activeIndex: previousIndex, realIndex: previousRealIndex, snapIndex: previousSnapIndex,
+  } = swiper;
   let activeIndex = newActiveIndex;
   let snapIndex;
   if (typeof activeIndex === 'undefined') {
@@ -932,7 +948,9 @@ var update = {
 var getTranslate = function (axis = this.isHorizontal() ? 'x' : 'y') {
   const swiper = this;
 
-  const { params, rtl, translate, $wrapperEl } = swiper;
+  const {
+    params, rtl, translate, $wrapperEl,
+  } = swiper;
 
   if (params.virtualTranslate) {
     return rtl ? -translate : translate;
@@ -946,7 +964,9 @@ var getTranslate = function (axis = this.isHorizontal() ? 'x' : 'y') {
 
 var setTranslate = function (translate, byController) {
   const swiper = this;
-  const { rtl, params, $wrapperEl, progress } = swiper;
+  const {
+    rtl, params, $wrapperEl, progress,
+  } = swiper;
   let x = 0;
   let y = 0;
   const z = 0;
@@ -1051,35 +1071,14 @@ var transition$1 = {
   transitionEnd: transitionEnd$1,
 };
 
-const Browser = (function Browser() {
-  function isIE9() {
-    // create temporary DIV
-    const div = doc.createElement('div');
-    // add content to tmp DIV which is wrapped into the IE HTML conditional statement
-    div.innerHTML = '<!--[if lte IE 9]><i></i><![endif]-->';
-    // return true / false value based on what will browser render
-    return div.getElementsByTagName('i').length === 1;
-  }
-  function isSafari() {
-    const ua = win.navigator.userAgent.toLowerCase();
-    return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
-  }
-  return {
-    isSafari: isSafari(),
-    isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(win.navigator.userAgent),
-    ie: win.navigator.pointerEnabled || win.navigator.msPointerEnabled,
-    ieTouch: (win.navigator.msPointerEnabled && win.navigator.msMaxTouchPoints > 1) ||
-             (win.navigator.pointerEnabled && win.navigator.maxTouchPoints > 1),
-    lteIE9: isIE9(),
-  };
-}());
-
 var slideTo = function (index$$1 = 0, speed = this.params.speed, runCallbacks = true, internal) {
   const swiper = this;
   let slideIndex = index$$1;
   if (slideIndex < 0) slideIndex = 0;
 
-  const { params, snapGrid, slidesGrid, previousIndex, activeIndex, rtl, $wrapperEl } = swiper;
+  const {
+    params, snapGrid, slidesGrid, previousIndex, activeIndex, rtl, $wrapperEl,
+  } = swiper;
 
   let snapIndex = Math.floor(slideIndex / params.slidesPerGroup);
   if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
@@ -1103,11 +1102,13 @@ var slideTo = function (index$$1 = 0, speed = this.params.speed, runCallbacks = 
   }
 
   // Directions locks
-  if (!swiper.allowSlideNext && translate < swiper.translate && translate < swiper.minTranslate()) {
-    return false;
-  }
-  if (!swiper.allowSlidePrev && translate > swiper.translate && translate > swiper.maxTranslate()) {
-    if ((activeIndex || 0) !== slideIndex) return false;
+  if (swiper.initialized) {
+    if (!swiper.allowSlideNext && translate < swiper.translate && translate < swiper.minTranslate()) {
+      return false;
+    }
+    if (!swiper.allowSlidePrev && translate > swiper.translate && translate > swiper.maxTranslate()) {
+      if ((activeIndex || 0) !== slideIndex) return false;
+    }
   }
 
   // Update Index
@@ -1124,7 +1125,7 @@ var slideTo = function (index$$1 = 0, speed = this.params.speed, runCallbacks = 
     return false;
   }
 
-  if (speed === 0 || Browser.lteIE9) {
+  if (speed === 0 || !Support.transition) {
     swiper.setTransition(0);
     swiper.setTranslate(translate);
     swiper.updateActiveIndex(slideIndex);
@@ -1284,7 +1285,9 @@ var loopCreate = function () {
 
 var loopFix = function () {
   const swiper = this;
-  const { params, activeIndex, slides, loopedSlides, allowSlidePrev, allowSlideNext } = swiper;
+  const {
+    params, activeIndex, slides, loopedSlides, allowSlidePrev, allowSlideNext,
+  } = swiper;
   let newIndex;
   swiper.allowSlidePrev = true;
   swiper.allowSlideNext = true;
@@ -1784,7 +1787,9 @@ var onTouchEnd = function (event) {
   const swiper = this;
   const data$$1 = swiper.touchEventsData;
 
-  const { params, touches, rtl, $wrapperEl, slidesGrid, snapGrid } = swiper;
+  const {
+    params, touches, rtl, $wrapperEl, slidesGrid, snapGrid,
+  } = swiper;
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
   if (data$$1.allowTouchCallbacks) {
@@ -2079,7 +2084,9 @@ var onClick = function (e) {
 function attachEvents() {
   const swiper = this;
 
-  const { params, touchEvents, el, wrapperEl } = swiper;
+  const {
+    params, touchEvents, el, wrapperEl,
+  } = swiper;
 
   {
     swiper.onTouchStart = onTouchStart.bind(swiper);
@@ -2094,7 +2101,7 @@ function attachEvents() {
 
   // Touch Events
   {
-    if (Browser.ie) {
+    if (Support.pointerEvents || Support.prefixedPointerEvents) {
       target.addEventListener(touchEvents.start, swiper.onTouchStart, false);
       (Support.touch ? target : doc).addEventListener(touchEvents.move, swiper.onTouchMove, capture);
       (Support.touch ? target : doc).addEventListener(touchEvents.end, swiper.onTouchEnd, false);
@@ -2124,14 +2131,16 @@ function attachEvents() {
 function detachEvents() {
   const swiper = this;
 
-  const { params, touchEvents, el, wrapperEl } = swiper;
+  const {
+    params, touchEvents, el, wrapperEl,
+  } = swiper;
 
   const target = params.touchEventsTarget === 'container' ? el : wrapperEl;
   const capture = !!params.nested;
 
   // Touch Events
   {
-    if (Browser.ie) {
+    if (Support.pointerEvents || Support.prefixedPointerEvents) {
       target.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
       (Support.touch ? target : doc).removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
       (Support.touch ? target : doc).removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
@@ -2216,7 +2225,9 @@ var breakpoints = { setBreakpoint, getBreakpoint };
 
 var addClasses = function () {
   const swiper = this;
-  const { classNames, params, rtl, $el } = swiper;
+  const {
+    classNames, params, rtl, $el,
+  } = swiper;
   const suffixes = [];
 
   suffixes.push(params.direction);
@@ -2243,7 +2254,7 @@ var addClasses = function () {
     suffixes.push('ios');
   }
   // WP8 Touch Events Fix
-  if (win.navigator.pointerEnabled || win.navigator.msPointerEnabled) {
+  if (Support.pointerEvents || Support.prefixedPointerEvents) {
     suffixes.push(`wp8-${params.direction}`);
   }
 
@@ -2320,6 +2331,21 @@ var images = {
   preloadImages,
 };
 
+function checkOverflow() {
+  const swiper = this;
+  const wasLocked = swiper.isLocked;
+
+  swiper.isLocked = swiper.snapGrid.length === 1;
+  swiper.allowTouchMove = !swiper.isLocked;
+
+  if (wasLocked && wasLocked !== swiper.isLocked) {
+    swiper.isEnd = false;
+    swiper.navigation.update();
+  }
+}
+
+var checkOverflow$1 = { checkOverflow };
+
 var defaults = {
   init: true,
   direction: 'horizontal',
@@ -2366,6 +2392,9 @@ var defaults = {
   slidesOffsetBefore: 0, // in px
   slidesOffsetAfter: 0, // in px
   normalizeSlideIndex: true,
+
+  // Disable swiper and hide navigation when container not overflow
+  watchOverflow: false,
 
   // Round length
   roundLengths: false,
@@ -2451,6 +2480,7 @@ const prototypes = {
   manipulation,
   events,
   breakpoints,
+  checkOverflow: checkOverflow$1,
   classes,
   images,
 };
@@ -2587,10 +2617,10 @@ class Swiper extends SwiperClass {
       touchEvents: (function touchEvents() {
         const touch = ['touchstart', 'touchmove', 'touchend'];
         let desktop = ['mousedown', 'mousemove', 'mouseup'];
-        if (win.navigator.pointerEnabled) {
+        if (Support.pointerEvents) {
           desktop = ['pointerdown', 'pointermove', 'pointerup'];
-        } else if (win.navigator.msPointerEnabled) {
-          desktop = ['MSPointerDown', 'MsPointerMove', 'MsPointerUp'];
+        } else if (Support.prefixedPointerEvents) {
+          desktop = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
         }
 
         return {
@@ -2653,7 +2683,9 @@ class Swiper extends SwiperClass {
   }
   slidesPerViewDynamic() {
     const swiper = this;
-    const { params, slides, slidesGrid, size: swiperSize, activeIndex } = swiper;
+    const {
+      params, slides, slidesGrid, size: swiperSize, activeIndex,
+    } = swiper;
     let spv = 1;
     if (params.centeredSlides) {
       let slideSize = slides[activeIndex].swiperSlideSize;
@@ -2689,9 +2721,9 @@ class Swiper extends SwiperClass {
     swiper.updateProgress();
     swiper.updateSlidesClasses();
 
-    let newTranslate;
     function setTranslate() {
-      newTranslate = Math.min(Math.max(swiper.translate, swiper.maxTranslate()), swiper.minTranslate());
+      const translateValue = swiper.rtl ? swiper.translate * -1 : swiper.translate;
+      const newTranslate = Math.min(Math.max(translateValue, swiper.maxTranslate()), swiper.minTranslate());
       swiper.setTranslate(newTranslate);
       swiper.updateActiveIndex();
       swiper.updateSlidesClasses();
@@ -2739,6 +2771,10 @@ class Swiper extends SwiperClass {
     // Update slides
     swiper.updateSlides();
 
+    if (swiper.params.watchOverflow) {
+      swiper.checkOverflow();
+    }
+
     // Set Grab Cursor
     if (swiper.params.grabCursor) {
       swiper.setGrabCursor();
@@ -2766,7 +2802,9 @@ class Swiper extends SwiperClass {
   }
   destroy(deleteInstance = true, cleanStyles = true) {
     const swiper = this;
-    const { params, $el, $wrapperEl, slides } = swiper;
+    const {
+      params, $el, $wrapperEl, slides,
+    } = swiper;
     swiper.emit('beforeDestroy');
 
     // Init Flag
@@ -2851,13 +2889,24 @@ var Support$2 = {
   },
 };
 
-var Browser$2 = {
+const Browser$1 = (function Browser() {
+  function isSafari() {
+    const ua = win.navigator.userAgent.toLowerCase();
+    return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
+  }
+  return {
+    isSafari: isSafari(),
+    isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(win.navigator.userAgent),
+  };
+}());
+
+var Browser = {
   name: 'browser',
   proto: {
-    browser: Browser,
+    browser: Browser$1,
   },
   static: {
-    browser: Browser,
+    browser: Browser$1,
   },
 };
 
@@ -3168,7 +3217,7 @@ const Keyboard = {
     if (doc.activeElement && doc.activeElement.nodeName && (doc.activeElement.nodeName.toLowerCase() === 'input' || doc.activeElement.nodeName.toLowerCase() === 'textarea')) {
       return undefined;
     }
-    if (kc === 37 || kc === 39 || kc === 38 || kc === 40) {
+    if (swiper.params.keyboard.onlyInViewport && (kc === 37 || kc === 39 || kc === 38 || kc === 40)) {
       let inView = false;
       // Check that swiper should be inside of visible area of window
       if (swiper.$el.parents(`.${swiper.params.slideClass}`).length > 0 && swiper.$el.parents(`.${swiper.params.slideActiveClass}`).length === 0) {
@@ -3236,6 +3285,7 @@ var keyboard = {
   params: {
     keyboard: {
       enabled: false,
+      onlyInViewport: true,
     },
   },
   create() {
@@ -3513,6 +3563,7 @@ const Navigation = {
       } else {
         $prevEl.removeClass(params.disabledClass);
       }
+      $prevEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
     }
     if ($nextEl && $nextEl.length > 0) {
       if (swiper.isEnd) {
@@ -3520,6 +3571,7 @@ const Navigation = {
       } else {
         $nextEl.removeClass(params.disabledClass);
       }
+      $nextEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
     }
   },
   init() {
@@ -3598,6 +3650,7 @@ var navigation = {
       hideOnClick: false,
       disabledClass: 'swiper-button-disabled',
       hiddenClass: 'swiper-button-hidden',
+      lockClass: 'swiper-button-lock',
     },
   },
   create() {
@@ -3737,6 +3790,7 @@ const Pagination = {
     } else {
       swiper.emit('paginationUpdate', swiper, $el[0]);
     }
+    $el[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
   },
   render() {
     // Render Container
@@ -3861,6 +3915,7 @@ var pagination = {
       hiddenClass: 'swiper-pagination-hidden',
       progressbarFillClass: 'swiper-pagination-progressbar-fill',
       clickableClass: 'swiper-pagination-clickable', // NEW
+      lockClass: 'swiper-pagination-lock',
     },
   },
   create() {
@@ -3932,7 +3987,9 @@ const Scrollbar = {
     const swiper = this;
     if (!swiper.params.scrollbar.el || !swiper.scrollbar.el) return;
     const { scrollbar, rtl, progress } = swiper;
-    const { dragSize, trackSize, $dragEl, $el } = scrollbar;
+    const {
+      dragSize, trackSize, $dragEl, $el,
+    } = scrollbar;
     const params = swiper.params.scrollbar;
 
     let newSize = dragSize;
@@ -4020,6 +4077,7 @@ const Scrollbar = {
       moveDivider,
       dragSize,
     });
+    scrollbar.$el[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](swiper.params.scrollbar.lockClass);
   },
   setDragPosition(e) {
     const swiper = this;
@@ -4176,6 +4234,7 @@ var scrollbar = {
       hide: false,
       draggable: false,
       snapOnRelease: true,
+      lockClass: 'swiper-scrollbar-lock',
     },
   },
   create() {
@@ -4282,7 +4341,9 @@ const Parallax = {
   },
   setTranslate() {
     const swiper = this;
-    const { $el, slides, progress, snapGrid } = swiper;
+    const {
+      $el, slides, progress, snapGrid,
+    } = swiper;
     $el.children('[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y]')
       .each((index$$1, el) => {
         swiper.parallax.setTransform(el, progress);
@@ -4937,7 +4998,9 @@ const Lazy = {
   },
   load() {
     const swiper = this;
-    const { $wrapperEl, params: swiperParams, slides, activeIndex } = swiper;
+    const {
+      $wrapperEl, params: swiperParams, slides, activeIndex,
+    } = swiper;
     const isVirtual = swiper.virtual && swiperParams.virtual.enabled;
     const params = swiperParams.lazy;
 
@@ -5074,7 +5137,7 @@ var lazy = {
 
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
 const Controller = {
-  LinearSpline(x, y) {
+  LinearSpline: function LinearSpline(x, y) {
     const binarySearch = (function search() {
       let maxIndex;
       let minIndex;
@@ -5674,7 +5737,21 @@ const Autoplay = {
       delay = $activeSlideEl.attr('data-swiper-autoplay') || swiper.params.autoplay.delay;
     }
     swiper.autoplay.timeout = Utils.nextTick(() => {
-      if (swiper.params.loop) {
+      if (swiper.params.autoplay.reverseDirection) {
+        if (swiper.params.loop) {
+          swiper.loopFix();
+          swiper.slidePrev(swiper.params.speed, true, true);
+          swiper.emit('autoplay');
+        } else if (!swiper.isBeginning) {
+          swiper.slidePrev(swiper.params.speed, true, true);
+          swiper.emit('autoplay');
+        } else if (!swiper.params.autoplay.stopOnLastSlide) {
+          swiper.slideTo(swiper.slides.length - 1, swiper.params.speed, true, true);
+          swiper.emit('autoplay');
+        } else {
+          swiper.autoplay.stop();
+        }
+      } else if (swiper.params.loop) {
         swiper.loopFix();
         swiper.slideNext(swiper.params.speed, true, true);
         swiper.emit('autoplay');
@@ -5717,7 +5794,7 @@ const Autoplay = {
     if (swiper.autoplay.paused) return;
     if (swiper.autoplay.timeout) clearTimeout(swiper.autoplay.timeout);
     swiper.autoplay.paused = true;
-    if (speed === 0) {
+    if (speed === 0 || !swiper.params.autoplay.waitForTransition) {
       swiper.autoplay.paused = false;
       swiper.autoplay.run();
     } else {
@@ -5740,8 +5817,10 @@ var autoplay = {
     autoplay: {
       enabled: false,
       delay: 3000,
+      waitForTransition: true,
       disableOnInteraction: true,
       stopOnLastSlide: false,
+      reverseDirection: false,
     },
   },
   create() {
@@ -5885,7 +5964,9 @@ var effectFade = {
 const Cube = {
   setTranslate() {
     const swiper = this;
-    const { $el, $wrapperEl, slides, width: swiperWidth, height: swiperHeight, rtl, size: swiperSize } = swiper;
+    const {
+      $el, $wrapperEl, slides, width: swiperWidth, height: swiperHeight, rtl, size: swiperSize,
+    } = swiper;
     const params = swiper.params.cubeEffect;
     const isHorizontal = swiper.isHorizontal();
     const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
@@ -5989,7 +6070,7 @@ const Cube = {
         $cubeShadowEl.transform(`scale3d(${scale1}, 1, ${scale2}) translate3d(0px, ${(swiperHeight / 2) + offset$$1}px, ${-swiperHeight / 2 / scale2}px) rotateX(-90deg)`);
       }
     }
-    const zFactor = (Browser.isSafari || Browser.isUiWebView) ? (-swiperSize / 2) : 0;
+    const zFactor = (Browser$1.isSafari || Browser$1.isUiWebView) ? (-swiperSize / 2) : 0;
     $wrapperEl
       .transform(`translate3d(0px,0,${zFactor}px) rotateX(${swiper.isHorizontal() ? 0 : wrapperRotate}deg) rotateY(${swiper.isHorizontal() ? -wrapperRotate : 0}deg)`);
   },
@@ -6178,7 +6259,9 @@ var effectFlip = {
 const Coverflow = {
   setTranslate() {
     const swiper = this;
-    const { width: swiperWidth, height: swiperHeight, slides, $wrapperEl, slidesSizesGrid } = swiper;
+    const {
+      width: swiperWidth, height: swiperHeight, slides, $wrapperEl, slidesSizesGrid,
+    } = swiper;
     const params = swiper.params.coverflowEffect;
     const isHorizontal = swiper.isHorizontal();
     const transform$$1 = swiper.translate;
@@ -6229,7 +6312,7 @@ const Coverflow = {
     }
 
     // Set correct perspective for IE10
-    if (Browser.ie) {
+    if (Support.pointerEvents || Support.prefixedPointerEvents) {
       const ws = $wrapperEl[0].style;
       ws.perspectiveOrigin = `${center}px 50%`;
     }
@@ -6289,13 +6372,20 @@ var effectCoverflow = {
 
 // Swiper Class
 // Core Modules
-Swiper.use([
+const components = [
   Device$2,
   Support$2,
-  Browser$2,
+  Browser,
   Resize,
   Observer$1,
   
-]);
+];
+
+if (typeof Swiper.use === 'undefined') {
+  Swiper.use = Swiper.Class.use;
+  Swiper.installModule = Swiper.Class.installModule;
+}
+
+Swiper.use(components);
 
 export { Swiper, virtual as Virtual, keyboard as Keyboard, mousewheel as Mousewheel, navigation as Navigation, pagination as Pagination, scrollbar as Scrollbar, parallax as Parallax, zoom as Zoom, lazy as Lazy, controller as Controller, a11y$1 as A11y, history as History, hashNavigation as HashNavigation, autoplay as Autoplay, effectFade as EffectFade, effectCube as EffectCube, effectFlip as EffectFlip, effectCoverflow as EffectCoverflow };
