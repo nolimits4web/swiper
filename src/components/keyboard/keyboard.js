@@ -22,7 +22,7 @@ const Keyboard = {
     if (document.activeElement && document.activeElement.nodeName && (document.activeElement.nodeName.toLowerCase() === 'input' || document.activeElement.nodeName.toLowerCase() === 'textarea')) {
       return undefined;
     }
-    if (kc === 37 || kc === 39 || kc === 38 || kc === 40) {
+    if (swiper.params.keyboard.onlyInViewport && (kc === 37 || kc === 39 || kc === 38 || kc === 40)) {
       let inView = false;
       // Check that swiper should be inside of visible area of window
       if (swiper.$el.parents(`.${swiper.params.slideClass}`).length > 0 && swiper.$el.parents(`.${swiper.params.slideActiveClass}`).length === 0) {
@@ -90,6 +90,7 @@ export default {
   params: {
     keyboard: {
       enabled: false,
+      onlyInViewport: true,
     },
   },
   create() {
