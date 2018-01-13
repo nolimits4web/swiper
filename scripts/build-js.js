@@ -26,6 +26,7 @@ function es(components, cb) {
     input: './src/swiper.js',
     plugins: [
       replace({
+        delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env),
         'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
@@ -56,6 +57,7 @@ function es(components, cb) {
     input: './src/swiper.js',
     plugins: [
       replace({
+        delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env),
         'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
@@ -89,6 +91,7 @@ function umd(components, cb) {
     input: './src/swiper.js',
     plugins: [
       replace({
+        delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env),
         'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
