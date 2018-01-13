@@ -11,7 +11,9 @@ import onClick from './onClick';
 function attachEvents() {
   const swiper = this;
 
-  const { params, touchEvents, el, wrapperEl } = swiper;
+  const {
+    params, touchEvents, el, wrapperEl,
+  } = swiper;
 
   if (process.env.TARGET !== 'desktop') {
     swiper.onTouchStart = onTouchStart.bind(swiper);
@@ -58,7 +60,9 @@ function attachEvents() {
 function detachEvents() {
   const swiper = this;
 
-  const { params, touchEvents, el, wrapperEl } = swiper;
+  const {
+    params, touchEvents, el, wrapperEl,
+  } = swiper;
 
   const target = params.touchEventsTarget === 'container' ? el : wrapperEl;
   const capture = !!params.nested;

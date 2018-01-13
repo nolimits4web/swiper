@@ -11,6 +11,7 @@
     "dev": "NODE_ENV=development gulp build && NODE_ENV=development gulp playground && NODE_ENV=development gulp server",
     "prod": "NODE_ENV=production gulp playground && NODE_ENV=production gulp server",
     "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
     "test": "npm run lint && npm run build:dev"
   },
   "files": [
@@ -55,8 +56,8 @@
     "ie >= 10"
   ],
   "devDependencies": {
-    "eslint": "^4.6.1",
-    "eslint-config-airbnb-base": "^11.3.2",
+    "eslint": "^4.15.0",
+    "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.7.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
