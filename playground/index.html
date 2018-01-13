@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Swiper Playground</title>
-    <link rel="stylesheet" href="../dist/css/swiper.min.css">
+    <link rel="stylesheet" href="../build/css/swiper.css">
     <meta name="viewport" content="width=device-width">
 </head>
 <body>
-    <div class="swiper-container">
+    <div class="swiper-container" id="swiper-ex">
         <div class="swiper-scrollbar"></div>
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
@@ -22,6 +22,20 @@
             <div class="swiper-slide">Slide 8</div>
             <div class="swiper-slide">Slide 9</div>
             <div class="swiper-slide">Slide 10</div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <h4 class="title">RTL with append slides <button onclick="appendSlide('swiper-rtl')">Append Slide</button></h4>
+    <div class="swiper-container" id="swiper-rtl">
+        <div class="swiper-scrollbar"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">Slide 1</div>
+            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide">Slide 3</div>
+            <div class="swiper-slide">Slide 4</div>
         </div>
         <div class="swiper-pagination"></div>
     </div>
@@ -43,11 +57,21 @@
         text-align: center;
         line-height: 300px;
     }
+    .title {
+        text-align: center;
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+    }
+
+    #swiper-rtl {
+        direction: rtl;
+    }
     </style>
-    <script src="../dist/js/swiper.min.js"></script>
+    <script src="../build/js/swiper.js"></script>
     <script>
-        var swiper = new Swiper({
-            el: '.swiper-container',
+        var swipersMap = {};
+        swipersMap['swiper-ex'] = new Swiper({
+            el: '#swiper-ex',
             initialSlide: 2,
             spaceBetween: 50,
             slidesPerView: 2,
@@ -71,6 +95,41 @@
               prevEl: '.swiper-button-prev',
             },
         });
+
+        swipersMap['swiper-rtl'] = new Swiper({
+            el: '#swiper-rtl',
+            initialSlide: 0,
+            spaceBetween: 50,
+            slidesPerView: 3,
+            centeredSlides: false,
+            slideToClickedSlide: true,
+            grabCursor: true,
+            scrollbar: {
+                el: '.swiper-scrollbar',
+            },
+            mousewheel: {
+                enabled: true,
+            },
+            keyboard: {
+                enabled: true,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
+        function appendSlide (swiperId) {
+            var swiperWraper = document.querySelector('#' + swiperId + ' .swiper-wrapper');
+            var newSlide = document.createElement('DIV');
+            newSlide.classList.add('swiper-slide');
+            newSlide.innerText = 'Slide ' + (swiperWraper.childElementCount + 1);
+            swiperWraper.appendChild(newSlide);
+            swipersMap[swiperId].update();
+        }
     </script>
 </body>
 </html>
