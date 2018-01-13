@@ -1,4 +1,4 @@
-import Browser from '../../../utils/browser';
+import Support from '../../../utils/support';
 
 export default function (index = 0, speed = this.params.speed, runCallbacks = true, internal) {
   const swiper = this;
@@ -50,7 +50,7 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
     return false;
   }
 
-  if (speed === 0 || Browser.lteIE9) {
+  if (speed === 0 || !Support.transition) {
     swiper.setTransition(0);
     swiper.setTranslate(translate);
     swiper.updateActiveIndex(slideIndex);

@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import Browser from '../../utils/browser';
+import Support from '../../utils/support';
 import Utils from '../../utils/utils';
 
 const Coverflow = {
@@ -56,7 +56,7 @@ const Coverflow = {
     }
 
     // Set correct perspective for IE10
-    if (Browser.ie) {
+    if (Support.pointerEvents || Support.prefixedPointerEvents) {
       const ws = $wrapperEl[0].style;
       ws.perspectiveOrigin = `${center}px 50%`;
     }

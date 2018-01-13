@@ -1,4 +1,3 @@
-import window from '../../../utils/window';
 import Support from '../../../utils/support';
 import Device from '../../../utils/device';
 
@@ -31,7 +30,7 @@ export default function () {
     suffixes.push('ios');
   }
   // WP8 Touch Events Fix
-  if (window.navigator.pointerEnabled || window.navigator.msPointerEnabled || window.PointerEvent) {
+  if (Support.pointerEvents || Support.prefixedPointerEvents) {
     suffixes.push(`wp8-${params.direction}`);
   }
 

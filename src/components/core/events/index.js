@@ -1,7 +1,6 @@
 import document from '../../../utils/document';
 import Device from '../../../utils/device';
 import Support from '../../../utils/support';
-import Browser from '../../../utils/browser';
 
 import onTouchStart from './onTouchStart';
 import onTouchMove from './onTouchMove';
@@ -27,7 +26,7 @@ function attachEvents() {
 
   // Touch Events
   if (process.env.TARGET !== 'desktop') {
-    if (Browser.ie) {
+    if (Support.pointerEvents || Support.prefixedPointerEvents) {
       target.addEventListener(touchEvents.start, swiper.onTouchStart, false);
       (Support.touch ? target : document).addEventListener(touchEvents.move, swiper.onTouchMove, capture);
       (Support.touch ? target : document).addEventListener(touchEvents.end, swiper.onTouchEnd, false);
@@ -66,7 +65,7 @@ function detachEvents() {
 
   // Touch Events
   if (process.env.TARGET !== 'desktop') {
-    if (Browser.ie) {
+    if (Support.pointerEvents || Support.prefixedPointerEvents) {
       target.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
       (Support.touch ? target : document).removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
       (Support.touch ? target : document).removeEventListener(touchEvents.end, swiper.onTouchEnd, false);

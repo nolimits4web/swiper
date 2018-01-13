@@ -1,4 +1,3 @@
-import window from '../../utils/window';
 import $ from '../../utils/dom';
 import Utils from '../../utils/utils';
 import Support from '../../utils/support';
@@ -167,9 +166,9 @@ class Swiper extends SwiperClass {
       touchEvents: (function touchEvents() {
         const touch = ['touchstart', 'touchmove', 'touchend'];
         let desktop = ['mousedown', 'mousemove', 'mouseup'];
-        if (window.navigator.pointerEnabled || window.PointerEvent) {
+        if (Support.pointerEvents) {
           desktop = ['pointerdown', 'pointermove', 'pointerup'];
-        } else if (window.navigator.msPointerEnabled) {
+        } else if (Support.prefixedPointerEvents) {
           desktop = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
         }
 
