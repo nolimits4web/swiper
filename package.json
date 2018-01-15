@@ -6,10 +6,10 @@
   "jsnext:main": "dist/js/swiper.esm.bundle.js",
   "module": "dist/js/swiper.esm.bundle.js",
   "scripts": {
-    "build:dev": "NODE_ENV=development gulp build",
-    "build:prod": "NODE_ENV=production gulp build",
-    "dev": "NODE_ENV=development gulp build && NODE_ENV=development gulp playground && NODE_ENV=development gulp server",
-    "prod": "NODE_ENV=production gulp playground && NODE_ENV=production gulp server",
+    "build:dev": "cross-env NODE_ENV=development gulp build",
+    "build:prod": "cross-env NODE_ENV=production gulp build",
+    "dev": "cross-env NODE_ENV=development gulp build && cross-env NODE_ENV=development gulp playground && cross-env NODE_ENV=development gulp server",
+    "prod": "cross-env NODE_ENV=production gulp playground && cross-env NODE_ENV=production gulp server",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "test": "npm run lint && npm run build:dev"
@@ -56,6 +56,7 @@
     "ie >= 10"
   ],
   "devDependencies": {
+    "cross-env": "^5.1.3",
     "eslint": "^4.15.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.7.0",
