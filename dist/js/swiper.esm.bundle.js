@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: January 13, 2018
+ * Released on: January 16, 2018
  */
 
 import { $, add, addClass, append, attr, children, closest, css, data, each, eq, find, hasClass, html, index, is, next, nextAll, off, offset, on, outerHeight, outerWidth, parent, parents, prepend, prev, prevAll, remove, removeAttr, removeClass, styles, text, toggleClass, transform, transition, transitionEnd, trigger } from 'dom7/dist/dom7.modular';
@@ -1442,7 +1442,7 @@ var manipulation = {
   removeAllSlides,
 };
 
-const Device = (function Device() {
+const Device$1 = (function Device() {
   const ua = win.navigator.userAgent;
 
   const device = {
@@ -1551,8 +1551,8 @@ var onTouchStart = function (event) {
   // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
 
   if (
-    Device.ios &&
-    !Device.cordova &&
+    Device$1.ios &&
+    !Device$1.cordova &&
     params.iOSEdgeSwipeDetection &&
     (startX <= params.iOSEdgeSwipeThreshold) &&
     (startX >= window.screen.width - params.iOSEdgeSwipeThreshold)
@@ -2105,6 +2105,13 @@ function attachEvents() {
       target.addEventListener(touchEvents.start, swiper.onTouchStart, false);
       (Support.touch ? target : doc).addEventListener(touchEvents.move, swiper.onTouchMove, capture);
       (Support.touch ? target : doc).addEventListener(touchEvents.end, swiper.onTouchEnd, false);
+      if (Support.touch && !Device$1.ios && !Device$1.android && Device$1.desktop) {
+        target.addEventListener('mousedown', swiper.onTouchStart, capture);
+        target.addEventListener('mousemove', swiper.onTouchMove, capture);
+        target.addEventListener('mouseup', swiper.onTouchEnd, capture);
+        doc.addEventListener('mousemove', swiper.onTouchMove, capture);
+        doc.addEventListener('mouseup', swiper.onTouchEnd, capture);
+      }
     } else {
       if (Support.touch) {
         const passiveListener = touchEvents.start === 'touchstart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
@@ -2112,7 +2119,7 @@ function attachEvents() {
         target.addEventListener(touchEvents.move, swiper.onTouchMove, Support.passiveListener ? { passive: false, capture } : capture);
         target.addEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
       }
-      if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
+      if ((params.simulateTouch && !Device$1.ios && !Device$1.android) || (params.simulateTouch && !Support.touch && Device$1.ios)) {
         target.addEventListener('mousedown', swiper.onTouchStart, false);
         doc.addEventListener('mousemove', swiper.onTouchMove, capture);
         doc.addEventListener('mouseup', swiper.onTouchEnd, false);
@@ -2151,7 +2158,7 @@ function detachEvents() {
         target.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
         target.removeEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
       }
-      if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
+      if ((params.simulateTouch && !Device$1.ios && !Device$1.android) || (params.simulateTouch && !Support.touch && Device$1.ios)) {
         target.removeEventListener('mousedown', swiper.onTouchStart, false);
         doc.removeEventListener('mousemove', swiper.onTouchMove, capture);
         doc.removeEventListener('mouseup', swiper.onTouchEnd, false);
@@ -2247,10 +2254,10 @@ var addClasses = function () {
   if (params.slidesPerColumn > 1) {
     suffixes.push('multirow');
   }
-  if (Device.android) {
+  if (Device$1.android) {
     suffixes.push('android');
   }
-  if (Device.ios) {
+  if (Device$1.ios) {
     suffixes.push('ios');
   }
   // WP8 Touch Events Fix
@@ -2869,13 +2876,13 @@ class Swiper$1 extends SwiperClass {
   }
 }
 
-var Device$2 = {
+var Device$3 = {
   name: 'device',
   proto: {
-    device: Device,
+    device: Device$1,
   },
   static: {
-    device: Device,
+    device: Device$1,
   },
 };
 
@@ -4198,6 +4205,20 @@ const Scrollbar = {
     }
 
     swiper.scrollbar.dragEvents = (function dragEvents() {
+      if (Support.touch && !Device.ios && !Device.android && Device.desktop) {
+        if (swiper.params.simulateTouch === false) {
+          return {
+            start: 'mousedown',
+            move: 'mousemove',
+            end: 'mouseup',
+          };
+        }
+        return {
+          start: 'mousedown touchstart',
+          move: 'mousemove touchmove',
+          end: 'mouseup touchend mouseout',
+        };
+      }
       if ((swiper.params.simulateTouch === false && !Support.touch)) {
         return {
           start: 'mousedown',
@@ -4488,7 +4509,7 @@ const Zoom = {
       if (!zoom.fakeGestureTouched || !zoom.fakeGestureMoved) {
         return;
       }
-      if (e.type !== 'touchend' || (e.type === 'touchend' && e.changedTouches.length < 2 && !Device.android)) {
+      if (e.type !== 'touchend' || (e.type === 'touchend' && e.changedTouches.length < 2 && !Device$1.android)) {
         return;
       }
       zoom.fakeGestureTouched = false;
@@ -4507,7 +4528,7 @@ const Zoom = {
     const { gesture, image } = zoom;
     if (!gesture.$imageEl || gesture.$imageEl.length === 0) return;
     if (image.isTouched) return;
-    if (Device.android) e.preventDefault();
+    if (Device$1.android) e.preventDefault();
     image.isTouched = true;
     image.touchesStart.x = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
     image.touchesStart.y = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
@@ -6373,7 +6394,7 @@ var EffectCoverflow = {
 // Swiper Class
 // Core Modules
 const components = [
-  Device$2,
+  Device$3,
   Support$2,
   Browser,
   Resize,
