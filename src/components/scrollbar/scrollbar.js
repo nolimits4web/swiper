@@ -1,5 +1,6 @@
 import $ from '../../utils/dom';
 import Utils from '../../utils/utils';
+import Device from '../../utils/device';
 import Support from '../../utils/support';
 
 const Scrollbar = {
