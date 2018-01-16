@@ -218,6 +218,20 @@ const Scrollbar = {
     }
 
     swiper.scrollbar.dragEvents = (function dragEvents() {
+      if (Support.touch && !Device.ios && !Device.android && Device.desktop) {
+        if (swiper.params.simulateTouch === false) {
+          return {
+            start: 'mousedown',
+            move: 'mousemove',
+            end: 'mouseup',
+          };
+        }
+        return {
+          start: 'mousedown touchstart',
+          move: 'mousemove touchmove',
+          end: 'mouseup touchend mouseout',
+        };
+      }
       if ((swiper.params.simulateTouch === false && !Support.touch)) {
         return {
           start: 'mousedown',
