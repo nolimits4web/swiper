@@ -28,10 +28,6 @@ const Keyboard = {
       if (swiper.$el.parents(`.${swiper.params.slideClass}`).length > 0 && swiper.$el.parents(`.${swiper.params.slideActiveClass}`).length === 0) {
         return undefined;
       }
-      const windowScroll = {
-        left: window.pageXOffset,
-        top: window.pageYOffset,
-      };
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
       const swiperOffset = swiper.$el.offset();
@@ -45,8 +41,8 @@ const Keyboard = {
       for (let i = 0; i < swiperCoord.length; i += 1) {
         const point = swiperCoord[i];
         if (
-          point[0] >= windowScroll.left && point[0] <= windowScroll.left + windowWidth &&
-            point[1] >= windowScroll.top && point[1] <= windowScroll.top + windowHeight
+          point[0] >= 0 && point[0] <= windowWidth &&
+          point[1] >= 0 && point[1] <= windowHeight
         ) {
           inView = true;
         }
