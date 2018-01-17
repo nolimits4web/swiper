@@ -64,7 +64,7 @@
     "gulp-autoprefixer": "^4.0.0",
     "gulp-clean-css": "^3.8.0",
     "gulp-connect": "^5.0.0",
-    "gulp-header": "^1.8.9",
+    "gulp-header": "^2.0.1",
     "gulp-less": "^3.3.2",
     "gulp-modify-file": "^1.0.0",
     "gulp-open": "^2.0.0",
