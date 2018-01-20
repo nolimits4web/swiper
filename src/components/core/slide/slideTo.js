@@ -29,9 +29,8 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
       }
     }
   }
-
   // Directions locks
-  if (swiper.initialized) {
+  if (swiper.initialized && slideIndex !== activeIndex) {
     if (!swiper.allowSlideNext && translate < swiper.translate && translate < swiper.minTranslate()) {
       return false;
     }
