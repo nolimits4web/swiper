@@ -32,13 +32,6 @@ function attachEvents() {
       target.addEventListener(touchEvents.start, swiper.onTouchStart, false);
       (Support.touch ? target : document).addEventListener(touchEvents.move, swiper.onTouchMove, capture);
       (Support.touch ? target : document).addEventListener(touchEvents.end, swiper.onTouchEnd, false);
-      if (Support.touch && !Device.ios && !Device.android && Device.desktop) {
-        target.addEventListener('mousedown', swiper.onTouchStart, capture);
-        target.addEventListener('mousemove', swiper.onTouchMove, capture);
-        target.addEventListener('mouseup', swiper.onTouchEnd, capture);
-        document.addEventListener('mousemove', swiper.onTouchMove, capture);
-        document.addEventListener('mouseup', swiper.onTouchEnd, capture);
-      }
     } else {
       if (Support.touch) {
         const passiveListener = touchEvents.start === 'touchstart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
@@ -60,6 +53,13 @@ function attachEvents() {
     target.addEventListener('click', swiper.onClick, false);
   }
 
+  if (Support.touch && Device.desktop) {
+    if (params.simulateTouch === true) {
+      target.addEventListener('mousedown', swiper.onTouchStart, capture);
+      target.addEventListener('mousemove', swiper.onTouchMove, capture);
+      target.addEventListener('mouseup', swiper.onTouchEnd, capture);
+    }
+  }
   // Resize handler
   swiper.on('resize observerUpdate', onResize);
 }
@@ -80,13 +80,6 @@ function detachEvents() {
       target.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
       (Support.touch ? target : document).removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
       (Support.touch ? target : document).removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
-      if (Support.touch && !Device.ios && !Device.android && Device.desktop) {
-        target.addEventListener('mousedown', swiper.onTouchStart, capture);
-        target.addEventListener('mousemove', swiper.onTouchMove, capture);
-        target.addEventListener('mouseup', swiper.onTouchEnd, capture);
-        document.addEventListener('mousemove', swiper.onTouchMove, capture);
-        document.addEventListener('mouseup', swiper.onTouchEnd, capture);
-      }
     } else {
       if (Support.touch) {
         const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
@@ -108,6 +101,13 @@ function detachEvents() {
     target.removeEventListener('click', swiper.onClick, true);
   }
 
+  if (Support.touch && Device.desktop) {
+    if (params.simulateTouch === true) {
+      target.addEventListener('mousedown', swiper.onTouchStart, capture);
+      target.addEventListener('mousemove', swiper.onTouchMove, capture);
+      target.addEventListener('mouseup', swiper.onTouchEnd, capture);
+    }
+  }
   // Resize handler
   swiper.off('resize observerUpdate', onResize);
 }

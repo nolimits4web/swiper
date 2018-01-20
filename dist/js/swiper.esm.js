@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: January 13, 2018
+ * Released on: January 20, 2018
  */
 
 import { $, add, addClass, append, attr, children, closest, css, data, each, eq, find, hasClass, html, index, is, next, nextAll, off, offset, on, outerHeight, outerWidth, parent, parents, prepend, prev, prevAll, remove, removeAttr, removeClass, styles, text, toggleClass, transform, transition, transitionEnd, trigger } from 'dom7/dist/dom7.modular';
@@ -2124,6 +2124,13 @@ function attachEvents() {
     }
   }
 
+  if (Support.touch && Device.desktop) {
+    if (params.simulateTouch === true) {
+      target.addEventListener('mousedown', swiper.onTouchStart, capture);
+      target.addEventListener('mousemove', swiper.onTouchMove, capture);
+      target.addEventListener('mouseup', swiper.onTouchEnd, capture);
+    }
+  }
   // Resize handler
   swiper.on('resize observerUpdate', onResize);
 }
@@ -2163,6 +2170,13 @@ function detachEvents() {
     }
   }
 
+  if (Support.touch && Device.desktop) {
+    if (params.simulateTouch === true) {
+      target.addEventListener('mousedown', swiper.onTouchStart, capture);
+      target.addEventListener('mousemove', swiper.onTouchMove, capture);
+      target.addEventListener('mouseup', swiper.onTouchEnd, capture);
+    }
+  }
   // Resize handler
   swiper.off('resize observerUpdate', onResize);
 }
@@ -4198,6 +4212,20 @@ const Scrollbar = {
     }
 
     swiper.scrollbar.dragEvents = (function dragEvents() {
+      if (Support.touch && Device.desktop) {
+        if (swiper.params.simulateTouch === false) {
+          return {
+            start: 'touchstart',
+            move: 'touchmove',
+            end: 'touchend',
+          };
+        }
+        return {
+          start: 'mousedown touchstart',
+          move: 'mousemove touchmove',
+          end: 'mouseleave mouseup touchend',
+        };
+      }
       if ((swiper.params.simulateTouch === false && !Support.touch)) {
         return {
           start: 'mousedown',
