@@ -10,7 +10,6 @@ import onClick from './onClick';
 
 function attachEvents() {
   const swiper = this;
-
   const {
     params, touchEvents, el, wrapperEl,
   } = swiper;
@@ -28,10 +27,10 @@ function attachEvents() {
 
   // Touch Events
   if (process.env.TARGET !== 'desktop') {
-    if (Support.pointerEvents || Support.prefixedPointerEvents) {
+    if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
       target.addEventListener(touchEvents.start, swiper.onTouchStart, false);
-      (Support.touch ? target : document).addEventListener(touchEvents.move, swiper.onTouchMove, capture);
-      (Support.touch ? target : document).addEventListener(touchEvents.end, swiper.onTouchEnd, false);
+      document.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
+      document.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
     } else {
       if (Support.touch) {
         const passiveListener = touchEvents.start === 'touchstart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
@@ -69,10 +68,10 @@ function detachEvents() {
 
   // Touch Events
   if (process.env.TARGET !== 'desktop') {
-    if (Support.pointerEvents || Support.prefixedPointerEvents) {
+    if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
       target.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
-      (Support.touch ? target : document).removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
-      (Support.touch ? target : document).removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
+      document.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
+      document.removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
     } else {
       if (Support.touch) {
         const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
