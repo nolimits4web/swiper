@@ -53,6 +53,13 @@ function attachEvents() {
     target.addEventListener('click', swiper.onClick, false);
   }
 
+  if (Support.touch && Device.desktop) {
+    if (params.simulateTouch === true) {
+      target.addEventListener('mousedown', swiper.onTouchStart, capture);
+      target.addEventListener('mousemove', swiper.onTouchMove, capture);
+      target.addEventListener('mouseup', swiper.onTouchEnd, capture);
+    }
+  }
   // Resize handler
   swiper.on('resize observerUpdate', onResize);
 }
@@ -94,6 +101,13 @@ function detachEvents() {
     target.removeEventListener('click', swiper.onClick, true);
   }
 
+  if (Support.touch && Device.desktop) {
+    if (params.simulateTouch === true) {
+      target.addEventListener('mousedown', swiper.onTouchStart, capture);
+      target.addEventListener('mousemove', swiper.onTouchMove, capture);
+      target.addEventListener('mouseup', swiper.onTouchEnd, capture);
+    }
+  }
   // Resize handler
   swiper.off('resize observerUpdate', onResize);
 }

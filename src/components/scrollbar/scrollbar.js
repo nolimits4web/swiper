@@ -1,5 +1,6 @@
 import $ from '../../utils/dom';
 import Utils from '../../utils/utils';
+import Device from '../../utils/device';
 import Support from '../../utils/support';
 
 const Scrollbar = {
@@ -218,6 +219,20 @@ const Scrollbar = {
     }
 
     swiper.scrollbar.dragEvents = (function dragEvents() {
+      if (Support.touch && Device.desktop) {
+        if (swiper.params.simulateTouch === false) {
+          return {
+            start: 'touchstart',
+            move: 'touchmove',
+            end: 'touchend',
+          };
+        }
+        return {
+          start: 'mousedown touchstart',
+          move: 'mousemove touchmove',
+          end: 'mouseup touchend',
+        };
+      }
       if ((swiper.params.simulateTouch === false && !Support.touch)) {
         return {
           start: 'mousedown',
