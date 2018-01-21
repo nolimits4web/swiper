@@ -234,7 +234,7 @@ const Scrollbar = {
   init() {
     const swiper = this;
     if (!swiper.params.scrollbar.el) return;
-    const { scrollbar, $el: $swiperEl, touchEvents } = swiper;
+    const { scrollbar, $el: $swiperEl } = swiper;
     const params = swiper.params.scrollbar;
 
     let $el = $(params.el);
