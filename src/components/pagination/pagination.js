@@ -28,7 +28,6 @@ const Pagination = {
     // Types
     if (params.type === 'bullets' && swiper.pagination.bullets && swiper.pagination.bullets.length > 0) {
       const bullets = swiper.pagination.bullets;
-      
       let firstIndex;
       let lastIndex;
       let midIndex;
@@ -37,17 +36,15 @@ const Pagination = {
         $el.css(swiper.isHorizontal() ? 'width' : 'height', `${swiper.pagination.bulletSize * (params.dynamicBullets.numOfMainBullets + 4)}px`);
         if (params.dynamicBullets.numOfMainBullets > 1 && swiper.previousIndex !== undefined) {
           if (current > swiper.previousIndex && params.dynamicBullets.indexOnMainBullets < (params.dynamicBullets.numOfMainBullets - 1)) {
-            params.dynamicBullets.indexOnMainBullets++;
-          } else if(current < swiper.previousIndex && params.dynamicBullets.indexOnMainBullets > 0) {
-            params.dynamicBullets.indexOnMainBullets--;
+            params.dynamicBullets.indexOnMainBullets += 1;
+          } else if (current < swiper.previousIndex && params.dynamicBullets.indexOnMainBullets > 0) {
+            params.dynamicBullets.indexOnMainBullets -= 1;
           }
         }
-        
         firstIndex = current - params.dynamicBullets.indexOnMainBullets;
         lastIndex = current + (params.dynamicBullets.numOfMainBullets >= 1 && (params.dynamicBullets.numOfMainBullets - 1) - params.dynamicBullets.indexOnMainBullets);
         midIndex = (lastIndex + firstIndex) / 2;
       }
-      
       bullets.removeClass(`${params.bulletActiveClass} ${params.bulletActiveClass}-next ${params.bulletActiveClass}-next-next ${params.bulletActiveClass}-prev ${params.bulletActiveClass}-prev-prev ${params.bulletActiveClass}-main`);
       if ($el.length > 1) {
         bullets.each((index, bullet) => {
@@ -82,7 +79,7 @@ const Pagination = {
         if (params.dynamicBullets) {
           const $firstDisplayedBullet = bullets.eq(firstIndex);
           const $lastDisplayedBullet = bullets.eq(lastIndex);
-          for (let i = firstIndex; i <= lastIndex; i++) {
+          for (let i = firstIndex; i <= lastIndex; i += 1) {
             bullets.eq(i).addClass(`${params.bulletActiveClass}-main`);
           }
           $firstDisplayedBullet
@@ -197,8 +194,8 @@ const Pagination = {
       $el.addClass(`${params.modifierClass}${params.type}-dynamic`);
       if (typeof params.dynamicBullets !== 'object') {
         params.dynamicBullets = {
-          numOfMainBullets: 1,
-        }
+          numOfMainBullets: 1
+        };
       }
       params.dynamicBullets.indexOnMainBullets = 0;
       if (typeof params.dynamicBullets === 'object' && params.dynamicBullets.numOfMainBullets < 1) {
