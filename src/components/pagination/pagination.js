@@ -194,7 +194,7 @@ const Pagination = {
       $el.addClass(`${params.modifierClass}${params.type}-dynamic`);
       if (typeof params.dynamicBullets !== 'object') {
         params.dynamicBullets = {
-          numOfMainBullets: 1
+          numOfMainBullets: 1,
         };
       }
       params.dynamicBullets.indexOnMainBullets = 0;
