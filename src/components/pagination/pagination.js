@@ -28,22 +28,46 @@ const Pagination = {
     // Types
     if (params.type === 'bullets' && swiper.pagination.bullets && swiper.pagination.bullets.length > 0) {
       const bullets = swiper.pagination.bullets;
+      
+      let firstIndex;
+      let lastIndex;
+      let midIndex;
       if (params.dynamicBullets) {
         swiper.pagination.bulletSize = bullets.eq(0)[swiper.isHorizontal() ? 'outerWidth' : 'outerHeight'](true);
-        $el.css(swiper.isHorizontal() ? 'width' : 'height', `${swiper.pagination.bulletSize * 5}px`);
+        $el.css(swiper.isHorizontal() ? 'width' : 'height', `${swiper.pagination.bulletSize * (params.dynamicBullets.numOfMainBullets + 4)}px`);
+        if (params.dynamicBullets.numOfMainBullets > 1 && swiper.previousIndex !== undefined) {
+          if (current > swiper.previousIndex && params.dynamicBullets.indexOnMainBullets < (params.dynamicBullets.numOfMainBullets - 1)) {
+            params.dynamicBullets.indexOnMainBullets++;
+          } else if(current < swiper.previousIndex && params.dynamicBullets.indexOnMainBullets > 0) {
+            params.dynamicBullets.indexOnMainBullets--;
+          }
+        }
+        
+        firstIndex = current - params.dynamicBullets.indexOnMainBullets;
+        lastIndex = current + (params.dynamicBullets.numOfMainBullets >= 1 && (params.dynamicBullets.numOfMainBullets - 1) - params.dynamicBullets.indexOnMainBullets);
+        midIndex = (lastIndex + firstIndex) / 2;
       }
-      bullets.removeClass(`${params.bulletActiveClass} ${params.bulletActiveClass}-next ${params.bulletActiveClass}-next-next ${params.bulletActiveClass}-prev ${params.bulletActiveClass}-prev-prev`);
+      
+      bullets.removeClass(`${params.bulletActiveClass} ${params.bulletActiveClass}-next ${params.bulletActiveClass}-next-next ${params.bulletActiveClass}-prev ${params.bulletActiveClass}-prev-prev ${params.bulletActiveClass}-main`);
       if ($el.length > 1) {
         bullets.each((index, bullet) => {
           const $bullet = $(bullet);
-          if ($bullet.index() === current) {
+          const bulletIndex = $bullet.index();
+          if (bulletIndex === current) {
             $bullet.addClass(params.bulletActiveClass);
-            if (params.dynamicBullets) {
+          }
+          if (params.dynamicBullets) {
+            if (bulletIndex >= firstIndex && bulletIndex <= lastIndex) {
+              $bullet.addClass(`${params.bulletActiveClass}-main`);
+            }
+            if (bulletIndex === firstIndex) {
               $bullet
                 .prev()
                 .addClass(`${params.bulletActiveClass}-prev`)
                 .prev()
                 .addClass(`${params.bulletActiveClass}-prev-prev`);
+            }
+            if (bulletIndex === lastIndex) {
               $bullet
                 .next()
                 .addClass(`${params.bulletActiveClass}-next`)
@@ -56,12 +80,17 @@ const Pagination = {
         const $bullet = bullets.eq(current);
         $bullet.addClass(params.bulletActiveClass);
         if (params.dynamicBullets) {
-          $bullet
+          const $firstDisplayedBullet = bullets.eq(firstIndex);
+          const $lastDisplayedBullet = bullets.eq(lastIndex);
+          for (let i = firstIndex; i <= lastIndex; i++) {
+            bullets.eq(i).addClass(`${params.bulletActiveClass}-main`);
+          }
+          $firstDisplayedBullet
             .prev()
             .addClass(`${params.bulletActiveClass}-prev`)
             .prev()
             .addClass(`${params.bulletActiveClass}-prev-prev`);
-          $bullet
+          $lastDisplayedBullet
             .next()
             .addClass(`${params.bulletActiveClass}-next`)
             .next()
@@ -69,8 +98,8 @@ const Pagination = {
         }
       }
       if (params.dynamicBullets) {
-        const dynamicBulletsLength = Math.min(bullets.length, 5);
-        const bulletsOffset = (((swiper.pagination.bulletSize * dynamicBulletsLength) - (swiper.pagination.bulletSize)) / 2) - (current * swiper.pagination.bulletSize);
+        const dynamicBulletsLength = Math.min(bullets.length, params.dynamicBullets.numOfMainBullets + 4);
+        const bulletsOffset = (((swiper.pagination.bulletSize * dynamicBulletsLength) - (swiper.pagination.bulletSize)) / 2) - (midIndex * swiper.pagination.bulletSize);
         const offsetProp = rtl ? 'right' : 'left';
         bullets.css(swiper.isHorizontal() ? offsetProp : 'top', `${bulletsOffset}px`);
       }
@@ -166,6 +195,15 @@ const Pagination = {
 
     if (params.type === 'bullets' && params.dynamicBullets) {
       $el.addClass(`${params.modifierClass}${params.type}-dynamic`);
+      if (typeof params.dynamicBullets !== 'object') {
+        params.dynamicBullets = {
+          numOfMainBullets: 1,
+        }
+      }
+      params.dynamicBullets.indexOnMainBullets = 0;
+      if (typeof params.dynamicBullets === 'object' && params.dynamicBullets.numOfMainBullets < 1) {
+        params.dynamicBullets.numOfMainBullets = 1;
+      }
     }
 
     if (params.clickable) {
