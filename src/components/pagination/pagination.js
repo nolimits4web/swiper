@@ -198,7 +198,7 @@ const Pagination = {
         };
       }
       params.dynamicBullets.indexOnMainBullets = 0;
-      if (typeof params.dynamicBullets === 'object' && params.dynamicBullets.numOfMainBullets < 1) {
+      if (typeof params.dynamicBullets.numOfMainBullets !== "number" || params.dynamicBullets.numOfMainBullets < 1) {
         params.dynamicBullets.numOfMainBullets = 1;
       }
     }
