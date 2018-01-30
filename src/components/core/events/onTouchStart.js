@@ -12,7 +12,7 @@ export default function (event) {
   data.isTouchEvent = e.type === 'touchstart';
   if (!data.isTouchEvent && 'which' in e && e.which === 3) return;
   if (data.isTouched && data.isMoved) return;
-  if (params.noSwiping && $(e.target).closest(`.${params.noSwipingClass}`)[0]) {
+  if (params.noSwiping && $(e.target).closest(params.noSwipingSelector ? params.noSwipingSelector : `.${params.noSwipingClass}`)[0]) {
     swiper.allowClick = true;
     return;
   }

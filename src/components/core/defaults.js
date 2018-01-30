@@ -100,6 +100,7 @@ export default {
   swipeHandler: null, // '.swipe-handler',
   noSwiping: true,
   noSwipingClass: 'swiper-no-swiping',
+  noSwipingSelector: null,
 
   // Passive Listeners
   passiveListeners: true,
