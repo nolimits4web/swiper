@@ -1,6 +1,5 @@
 import $ from '../../utils/dom';
 import Utils from '../../utils/utils';
-import Support from '../../utils/support';
 
 import SwiperClass from '../../utils/class';
 
@@ -163,21 +162,7 @@ class Swiper extends SwiperClass {
       allowSlidePrev: swiper.params.allowSlidePrev,
 
       // Touch Events
-      touchEvents: (function touchEvents() {
-        const touch = ['touchstart', 'touchmove', 'touchend'];
-        let desktop = ['mousedown', 'mousemove', 'mouseup'];
-        if (Support.pointerEvents) {
-          desktop = ['pointerdown', 'pointermove', 'pointerup'];
-        } else if (Support.prefixedPointerEvents) {
-          desktop = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
-        }
-
-        return {
-          start: Support.touch || !swiper.params.simulateTouch ? touch[0] : desktop[0],
-          move: Support.touch || !swiper.params.simulateTouch ? touch[1] : desktop[1],
-          end: Support.touch || !swiper.params.simulateTouch ? touch[2] : desktop[2],
-        };
-      }()),
+      touchEvents: (Utils.touchEvents(swiper)),
       touchEventsData: {
         isTouched: undefined,
         isMoved: undefined,
