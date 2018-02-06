@@ -184,11 +184,13 @@ const Scrollbar = {
   enableDraggable() {
     const swiper = this;
     if (!swiper.params.scrollbar.el) return;
-    const { scrollbar, touchEvents, params } = swiper;
+    const { scrollbar, params } = swiper;
+    const touchEvents = Utils.touchEvents(swiper, true);
     const $el = scrollbar.$el;
     const target = $el[0];
     const activeListener = Support.passiveListener && params.passiveListener ? { passive: false, capture: false } : false;
     const passiveListener = Support.passiveListener && params.passiveListener ? { passive: true, capture: false } : false;
+
     if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
       target.addEventListener(touchEvents.start, swiper.scrollbar.onDragStart, activeListener);
       document.addEventListener(touchEvents.move, swiper.scrollbar.onDragMove, activeListener);
@@ -209,7 +211,8 @@ const Scrollbar = {
   disableDraggable() {
     const swiper = this;
     if (!swiper.params.scrollbar.el) return;
-    const { scrollbar, touchEvents, params } = swiper;
+    const { scrollbar, params } = swiper;
+    const touchEvents = Utils.touchEvents(swiper, true);
     const $el = scrollbar.$el;
     const target = $el[0];
     const activeListener = Support.passiveListener && params.passiveListener ? { passive: false, capture: false } : false;
@@ -242,9 +245,9 @@ const Scrollbar = {
       $el = $swiperEl.find(params.el);
     }
 
-    let $dragEl = $el.find('.swiper-scrollbar-drag');
+    let $dragEl = $el.find(`.${swiper.params.scrollbar.dragClass}`);
     if ($dragEl.length === 0) {
-      $dragEl = $('<div class="swiper-scrollbar-drag"></div>');
+      $dragEl = $(`<div class="${swiper.params.scrollbar.dragClass}"></div>`);
       $el.append($dragEl);
     }
 
@@ -275,6 +278,7 @@ export default {
       draggable: false,
       snapOnRelease: true,
       lockClass: 'swiper-scrollbar-lock',
+      dragClass: 'swiper-scrollbar-drag',
     },
   },
   create() {

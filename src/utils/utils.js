@@ -1,4 +1,5 @@
 import window from './window';
+import Support from './support';
 
 const Utils = {
   deleteProps(obj) {
@@ -105,6 +106,26 @@ const Utils = {
       }
     }
     return to;
+  },
+  touchEvents(swiper, isScrollbarEvent = false) {
+    const touch = ['touchstart', 'touchmove', 'touchend'];
+    let desktop = ['mousedown', 'mousemove', 'mouseup'];
+    if (Support.pointerEvents) {
+      desktop = ['pointerdown', 'pointermove', 'pointerup'];
+    } else if (Support.prefixedPointerEvents) {
+      desktop = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
+    }
+
+    let simulateTouch = swiper.params.simulateTouch;
+    if (isScrollbarEvent && swiper.params.scrollbar) {
+      simulateTouch = swiper.params.scrollbar.draggable;
+    }
+
+    return {
+      start: Support.touch || !simulateTouch ? touch[0] : desktop[0],
+      move: Support.touch || !simulateTouch ? touch[1] : desktop[1],
+      end: Support.touch || !simulateTouch ? touch[2] : desktop[2],
+    };
   },
 };
 export default Utils;
