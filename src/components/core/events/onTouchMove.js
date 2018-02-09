@@ -8,6 +8,12 @@ export default function (event) {
   const { params, touches, rtl } = swiper;
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
+  if (!data.isTouched) {
+    if (data.isMoved && data.isScrolling) {
+      swiper.emit('touchMoveOpposite', e);
+    }
+    return;
+  }
   if (data.isTouchEvent && e.type === 'mousemove') return;
   const pageX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
   const pageY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY;
@@ -86,7 +92,6 @@ export default function (event) {
       data.startMoving = true;
     }
   }
-  if (!data.isTouched) return;
   if (data.isScrolling) {
     data.isTouched = false;
     return;
