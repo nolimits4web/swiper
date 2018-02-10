@@ -54,12 +54,10 @@ export default function (event) {
   if (!data.isTouched || !data.isMoved || !swiper.swipeDirection || touches.diff === 0 || data.currentTranslate === data.startTranslate) {
     data.isTouched = false;
     data.isMoved = false;
-    console.log('wtf?!1111111');
     return;
   }
   data.isTouched = false;
   data.isMoved = false;
-  console.log('222');
 
   let currentPos;
   if (params.followFinger) {
