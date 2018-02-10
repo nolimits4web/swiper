@@ -9,7 +9,7 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
     params, snapGrid, slidesGrid, previousIndex, activeIndex, rtl, $wrapperEl,
   } = swiper;
   if (swiper.animating && params.preventIntercationOnTransition) {
-    return;
+    return false;
   }
 
   let snapIndex = Math.floor(slideIndex / params.slidesPerGroup);
