@@ -1,4 +1,4 @@
-import document from '../../../utils/document';
+import { document } from 'ssr-window';
 import $ from '../../../utils/dom';
 import Utils from '../../../utils/utils';
 

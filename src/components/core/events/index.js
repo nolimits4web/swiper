@@ -1,4 +1,4 @@
-import document from '../../../utils/document';
+import { document } from 'ssr-window';
 import Device from '../../../utils/device';
 import Support from '../../../utils/support';
 

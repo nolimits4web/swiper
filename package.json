@@ -79,6 +79,7 @@
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
-    "dom7": "^2.0.1"
+    "dom7": "^2.0.2",
+    "ssr-window": "^1.0.0"
   }
 }

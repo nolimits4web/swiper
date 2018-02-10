@@ -1,4 +1,4 @@
-import window from '../../utils/window';
+import { window } from 'ssr-window';
 import Utils from '../../utils/utils';
 
 const History = {

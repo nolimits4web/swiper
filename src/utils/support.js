@@ -1,5 +1,4 @@
-import window from './window';
-import document from './document';
+import { window, document } from 'ssr-window';
 
 const Support = (function Support() {
   const testDiv = document.createElement('div');
