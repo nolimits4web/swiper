@@ -1,5 +1,6 @@
 import Support from '../../../utils/support';
 import Device from '../../../utils/device';
+import Browser from '../../../utils/browser';
 
 export default function () {
   const swiper = this;
@@ -32,7 +33,7 @@ export default function () {
     suffixes.push('ios');
   }
   // WP8 Touch Events Fix
-  if (Support.pointerEvents || Support.prefixedPointerEvents) {
+  if (Browser.isIE && (Support.pointerEvents || Support.prefixedPointerEvents)) {
     suffixes.push(`wp8-${params.direction}`);
   }
 
