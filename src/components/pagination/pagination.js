@@ -38,8 +38,7 @@ const Pagination = {
           swiper.pagination.dynamicBulletIndex += (current - swiper.previousIndex);
           if (swiper.pagination.dynamicBulletIndex > (params.dynamicMainBullets - 1)) {
             swiper.pagination.dynamicBulletIndex = params.dynamicMainBullets - 1;
-          }
-          else if (swiper.pagination.dynamicBulletIndex < 0) {
+          } else if (swiper.pagination.dynamicBulletIndex < 0) {
             swiper.pagination.dynamicBulletIndex = 0;
           }
         }
