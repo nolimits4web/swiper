@@ -1,4 +1,4 @@
-import document from '../../../utils/document';
+import { document } from 'ssr-window';
 import $ from '../../../utils/dom';
 import Device from '../../../utils/device';
 import Utils from '../../../utils/utils';
@@ -58,7 +58,11 @@ export default function (event) {
   if (e.type !== 'touchstart') {
     let preventDefault = true;
     if ($(e.target).is(data.formElements)) preventDefault = false;
-    if (document.activeElement && $(document.activeElement).is(data.formElements)) {
+    if (
+      document.activeElement &&
+      $(document.activeElement).is(data.formElements) &&
+      document.activeElement !== e.target
+    ) {
       document.activeElement.blur();
     }
     if (preventDefault && swiper.allowTouchMove) {
