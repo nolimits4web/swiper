@@ -94,6 +94,9 @@ class Swiper extends SwiperClass {
     swiper.originalParams = Utils.extend({}, swiper.params);
     swiper.passedParams = Utils.extend({}, params);
 
+    // Save Dom lib
+    swiper.$ = $;
+
     // Find el
     const $el = $(swiper.params.el);
     el = $el[0];
