@@ -1,5 +1,22 @@
 # Change Log
 
+## [Swiper 4.1.5](https://github.com/nolimits4web/swiper/compare/v4.1.0...v4.1.5) - Released on February 10, 2018
+  * Improved touch events support on desktop Windows devices with touch screen
+  * Improved "loop fix" when slider is in the free mode
+  * New `noSwipingSelector` parameter that can be used instead of `noSwipingClass`
+  * New `preventIntercationOnTransition` parameter to prevent interaction during slice change transition
+  * New `.slideToLoop` method to be used in loop mode
+  * Fixed issue with `slideChange` events being fired when slide wasn't actually changed
+  * Scrollbar
+    * Now doesn't require to enable `simulateTouch` for desktops when it is `draggable`
+  * Keyboard
+    * Fixed detection statement whether a swiper is in the viewport
+  * Pagination
+    * Added new multiple main bullets support for dynamic bullets pagination
+  * Zoom
+    * Now supports Virtual Slides
+  * Minor fixes
+
 ## [Swiper 4.1.0](https://github.com/nolimits4web/swiper/compare/v4.0.7...v4.1.0) - Released on January 13, 2018
   * Improved IE 10 support. But it is recommended to use [__proto__ polyfill](https://www.npmjs.com/package/proto-polyfill)
   * Improved touch support for Edge

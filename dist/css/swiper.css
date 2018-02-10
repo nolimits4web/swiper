@@ -1,5 +1,5 @@
 /**
- * Swiper 4.1.0
+ * Swiper 4.1.5
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: January 13, 2018
+ * Released on: February 10, 2018
  */
 .swiper-container {
   margin: 0 auto;
@@ -238,6 +238,11 @@
   position: relative;
 }
 .swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active {
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+.swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-main {
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
