@@ -7,6 +7,9 @@ export default function (event) {
   const swiper = this;
   const data = swiper.touchEventsData;
   const { params, touches } = swiper;
+  if (swiper.animating && params.preventIntercationOnTransition) {
+    return;
+  }
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
   data.isTouchEvent = e.type === 'touchstart';
