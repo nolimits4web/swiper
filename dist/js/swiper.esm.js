@@ -1,5 +1,5 @@
 /**
- * Swiper 4.1.5
+ * Swiper 4.1.6
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: February 10, 2018
+ * Released on: February 11, 2018
  */
 
 import { $, add, addClass, append, attr, children, closest, css, data, each, eq, find, hasClass, html, index, is, next, nextAll, off, offset, on, outerHeight, outerWidth, parent, parents, prepend, prev, prevAll, remove, removeAttr, removeClass, styles, text, toggleClass, transform, transition, transitionEnd, trigger } from 'dom7/dist/dom7.modular';
@@ -1603,7 +1603,7 @@ var onTouchMove = function (event) {
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
   if (!data$$1.isTouched) {
-    if (data$$1.isMoved && data$$1.isScrolling) {
+    if (data$$1.startMoving && data$$1.isScrolling) {
       swiper.emit('touchMoveOpposite', e);
     }
     return;
@@ -1814,6 +1814,7 @@ var onTouchEnd = function (event) {
       swiper.setGrabCursor(false);
     }
     data$$1.isMoved = false;
+    data$$1.startMoving = false;
     return;
   }
   // Return Grab Cursor
@@ -1850,10 +1851,12 @@ var onTouchEnd = function (event) {
   if (!data$$1.isTouched || !data$$1.isMoved || !swiper.swipeDirection || touches.diff === 0 || data$$1.currentTranslate === data$$1.startTranslate) {
     data$$1.isTouched = false;
     data$$1.isMoved = false;
+    data$$1.startMoving = false;
     return;
   }
   data$$1.isTouched = false;
   data$$1.isMoved = false;
+  data$$1.startMoving = false;
 
   let currentPos;
   if (params.followFinger) {

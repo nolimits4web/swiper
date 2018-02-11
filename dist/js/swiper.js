@@ -1,5 +1,5 @@
 /**
- * Swiper 4.1.5
+ * Swiper 4.1.6
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: February 10, 2018
+ * Released on: February 11, 2018
  */
 
 (function (global, factory) {
@@ -2532,7 +2532,7 @@ var onTouchMove = function (event) {
   var e = event;
   if (e.originalEvent) { e = e.originalEvent; }
   if (!data.isTouched) {
-    if (data.isMoved && data.isScrolling) {
+    if (data.startMoving && data.isScrolling) {
       swiper.emit('touchMoveOpposite', e);
     }
     return;
@@ -2746,6 +2746,7 @@ var onTouchEnd = function (event) {
       swiper.setGrabCursor(false);
     }
     data.isMoved = false;
+    data.startMoving = false;
     return;
   }
   // Return Grab Cursor
@@ -2782,10 +2783,12 @@ var onTouchEnd = function (event) {
   if (!data.isTouched || !data.isMoved || !swiper.swipeDirection || touches.diff === 0 || data.currentTranslate === data.startTranslate) {
     data.isTouched = false;
     data.isMoved = false;
+    data.startMoving = false;
     return;
   }
   data.isTouched = false;
   data.isMoved = false;
+  data.startMoving = false;
 
   var currentPos;
   if (params.followFinger) {

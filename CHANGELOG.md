@@ -1,5 +1,8 @@
 # Change Log
 
+## [Swiper 4.1.6](https://github.com/nolimits4web/swiper/compare/v4.1.5...v4.1.6) - Released on February 11, 2018
+  * Fixed onTouchMoveOpposite event on touch devices
+
 ## [Swiper 4.1.5](https://github.com/nolimits4web/swiper/compare/v4.1.0...v4.1.5) - Released on February 10, 2018
   * Improved touch events support on desktop Windows devices with touch screen
   * Improved "loop fix" when slider is in the free mode
