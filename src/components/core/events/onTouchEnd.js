@@ -18,6 +18,7 @@ export default function (event) {
       swiper.setGrabCursor(false);
     }
     data.isMoved = false;
+    data.startMoving = false;
     return;
   }
   // Return Grab Cursor
@@ -54,10 +55,12 @@ export default function (event) {
   if (!data.isTouched || !data.isMoved || !swiper.swipeDirection || touches.diff === 0 || data.currentTranslate === data.startTranslate) {
     data.isTouched = false;
     data.isMoved = false;
+    data.startMoving = false;
     return;
   }
   data.isTouched = false;
   data.isMoved = false;
+  data.startMoving = false;
 
   let currentPos;
   if (params.followFinger) {

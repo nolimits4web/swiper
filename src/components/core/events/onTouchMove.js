@@ -9,7 +9,7 @@ export default function (event) {
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
   if (!data.isTouched) {
-    if (data.isMoved && data.isScrolling) {
+    if (data.startMoving && data.isScrolling) {
       swiper.emit('touchMoveOpposite', e);
     }
     return;
