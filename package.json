@@ -67,7 +67,7 @@
     "gulp-header": "^2.0.1",
     "gulp-less": "^3.3.2",
     "gulp-modify-file": "^1.0.0",
-    "gulp-open": "^2.0.0",
+    "gulp-open": "^3.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
