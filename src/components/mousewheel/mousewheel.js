@@ -192,7 +192,7 @@ const Mousewheel = {
       target = $(swiper.params.mousewheel.eventsTarged);
     }
     target.on('mouseenter', swiper.mousewheel.handleMouseEnter);
-    target.on('mouseenter', swiper.mousewheel.handleMouseLeave);
+    target.on('mouseleave', swiper.mousewheel.handleMouseLeave);
     target.on(Mousewheel.event, swiper.mousewheel.handle);
     swiper.mousewheel.enabled = true;
     return true;
@@ -232,7 +232,7 @@ export default {
         disable: Mousewheel.disable.bind(swiper),
         handle: Mousewheel.handle.bind(swiper),
         handleMouseEnter: Mousewheel.handleMouseEnter.bind(swiper),
-        handlemouseLeave: Mousewheel.handlemouseLeave.bind(swiper),
+        handleMouseLeave: Mousewheel.handleMouseLeave.bind(swiper),
         lastScrollTime: Utils.now(),
       },
     });
