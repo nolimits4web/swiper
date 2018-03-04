@@ -191,8 +191,8 @@ const Mousewheel = {
     if (swiper.params.mousewheel.eventsTarged !== 'container') {
       target = $(swiper.params.mousewheel.eventsTarged);
     }
-    target.on("mouseenter", swiper.mousewheel.handleMouseEnter);
-    target.on("mouseenter", swiper.mousewheel.handleMouseLeave);
+    target.on('mouseenter', swiper.mousewheel.handleMouseEnter);
+    target.on('mouseenter', swiper.mousewheel.handleMouseLeave);
     target.on(Mousewheel.event, swiper.mousewheel.handle);
     swiper.mousewheel.enabled = true;
     return true;
