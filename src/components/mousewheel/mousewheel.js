@@ -97,9 +97,22 @@ const Mousewheel = {
       pixelY: pY,
     };
   },
+  handleMouseEnter() {
+    const swiper = this;
+    swiper.mouseEntered = true
+  },
+  handleMouseLeave() {
+    const swiper = this;
+    swiper.mouseEntered = false
+  },
   handle(event) {
     let e = event;
     const swiper = this;
+
+    if(!swiper.mouseEntered) {
+      return;
+    }
+
     const params = swiper.params.mousewheel;
     if (e.originalEvent) e = e.originalEvent; // jquery fix
     let delta = 0;
@@ -180,6 +193,8 @@ const Mousewheel = {
     if (swiper.params.mousewheel.eventsTarged !== 'container') {
       target = $(swiper.params.mousewheel.eventsTarged);
     }
+    target.on("mouseenter", swiper.mousewheel.handleMouseEnter);
+    target.on("mouseenter", swiper.mousewheel.handleMouseLeave);
     target.on(Mousewheel.event, swiper.mousewheel.handle);
     swiper.mousewheel.enabled = true;
     return true;
@@ -218,6 +233,8 @@ export default {
         enable: Mousewheel.enable.bind(swiper),
         disable: Mousewheel.disable.bind(swiper),
         handle: Mousewheel.handle.bind(swiper),
+        handleMouseEnter: Mousewheel.handleMouseEnter.bind(swiper),
+        handlemouseLeave: Mousewheel.handlemouseLeave.bind(swiper),
         lastScrollTime: Utils.now(),
       },
     });
