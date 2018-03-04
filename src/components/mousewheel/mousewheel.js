@@ -99,19 +99,17 @@ const Mousewheel = {
   },
   handleMouseEnter() {
     const swiper = this;
-    swiper.mouseEntered = true
+    swiper.mouseEntered = true;
   },
   handleMouseLeave() {
     const swiper = this;
-    swiper.mouseEntered = false
+    swiper.mouseEntered = false;
   },
   handle(event) {
     let e = event;
     const swiper = this;
 
-    if(!swiper.mouseEntered) {
-      return;
-    }
+    if (!swiper.mouseEntered) return true;
 
     const params = swiper.params.mousewheel;
     if (e.originalEvent) e = e.originalEvent; // jquery fix
