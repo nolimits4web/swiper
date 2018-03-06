@@ -1439,8 +1439,7 @@ spaceBetween: 30
     <tr>
       <td>mySwiper.slidePrev(<span>runCallbacks</span>, <span>speed</span>);</td>
       <td>
-
-        Run transition to previous slide<br>
+        Run transition to previous slide
         <ul class="method-parameters">
           <li><span class="parameter">runCallbacks</span> - <span class="parameter-type">boolean</span> - Set it to <code>false</code> (by default it is <code>true</code>) and transition will not produce onSlideChange callback functions. <em>Optional</em></li>
           <li><span class="parameter">speed</span> - <span class="parameter-type">number</span> - transition duration (in ms). <em>Optional</em></li>
@@ -1450,8 +1449,7 @@ spaceBetween: 30
     <tr>
       <td>mySwiper.slideTo(<span>index</span>, <span>speed</span>, <span>runCallbacks</span>);</td>
       <td>
-
-        Run transition to the slide with index number equal to 'index' parameter for the duration equal to 'speed' parameter.<br>
+        Run transition to the slide with index number equal to 'index' parameter for the duration equal to 'speed' parameter.
         <ul class="method-parameters">
           <li><span class="parameter">index</span> - <span class="parameter-type">number</span> - index number of slide</li>
           <li><span class="parameter">speed</span> - <span class="parameter-type">number</span> - transition duration (in ms). <em>Optional</em></li>
