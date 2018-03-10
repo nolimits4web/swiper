@@ -108,10 +108,10 @@ const Mousewheel = {
   handle(event) {
     let e = event;
     const swiper = this;
+    const params = swiper.params.mousewheel;
 
     if (!swiper.mouseEntered && !params.releaseOnEdges) return true;
 
-    const params = swiper.params.mousewheel;
     if (e.originalEvent) e = e.originalEvent; // jquery fix
     let delta = 0;
     const rtlFactor = swiper.rtl ? -1 : 1;
