@@ -109,7 +109,7 @@ const Mousewheel = {
     let e = event;
     const swiper = this;
 
-    if (!swiper.mouseEntered) return true;
+    if (!swiper.mouseEntered && !params.releaseOnEdges) return true;
 
     const params = swiper.params.mousewheel;
     if (e.originalEvent) e = e.originalEvent; // jquery fix
