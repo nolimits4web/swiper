@@ -105,9 +105,6 @@ export default function () {
     if (slide.css('display') === 'none') continue; // eslint-disable-line
 
     if (params.slidesPerView === 'auto') {
-      // slideSize = swiper.isHorizontal()
-      //   ? slide.outerWidth(true)
-      //   : slide.outerHeight(true);
       const slideStyles = window.getComputedStyle(slide[0], null);
       if (swiper.isHorizontal()) {
         slideSize = slide[0].getBoundingClientRect().width +
