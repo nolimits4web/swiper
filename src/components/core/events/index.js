@@ -53,7 +53,7 @@ function attachEvents() {
   }
 
   // Resize handler
-  swiper.on('resize observerUpdate', onResize);
+  swiper.on('resize observerUpdate', onResize, true);
 }
 
 function detachEvents() {
