@@ -6,7 +6,7 @@ export default function () {
   const params = swiper.params;
 
   const {
-    $wrapperEl, size: swiperSize, rtl, wrongRTL,
+    $wrapperEl, size: swiperSize, rtlTranslate: rtl, wrongRTL,
   } = swiper;
   const slides = $wrapperEl.children(`.${swiper.params.slideClass}`);
   const isVirtual = swiper.virtual && params.virtual.enabled;

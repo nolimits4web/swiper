@@ -5,7 +5,7 @@ import Utils from '../../../utils/utils';
 export default function (event) {
   const swiper = this;
   const data = swiper.touchEventsData;
-  const { params, touches, rtl } = swiper;
+  const { params, touches, rtlTranslate: rtl } = swiper;
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
   if (!data.isTouched) {

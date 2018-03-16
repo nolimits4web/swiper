@@ -4,7 +4,7 @@ export default function (axis = this.isHorizontal() ? 'x' : 'y') {
   const swiper = this;
 
   const {
-    params, rtl, translate, $wrapperEl,
+    params, rtlTranslate: rtl, translate, $wrapperEl,
   } = swiper;
 
   if (params.virtualTranslate) {

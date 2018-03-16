@@ -17,7 +17,7 @@ const Virtual = {
     const activeIndex = swiper.activeIndex || 0;
 
     let offsetProp;
-    if (swiper.rtl && swiper.isHorizontal()) offsetProp = 'right';
+    if (swiper.rtlTranslate) offsetProp = 'right';
     else offsetProp = swiper.isHorizontal() ? 'left' : 'top';
 
     let slidesAfter;

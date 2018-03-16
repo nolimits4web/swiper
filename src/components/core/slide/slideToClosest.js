@@ -5,7 +5,7 @@ export default function (speed = this.params.speed, runCallbacks = true, interna
   const snapIndex = Math.floor(index / swiper.params.slidesPerGroup);
 
   if (snapIndex < swiper.snapGrid.length - 1) {
-    const translate = swiper.rtl ? swiper.translate : -swiper.translate;
+    const translate = swiper.rtlTranslate ? swiper.translate : -swiper.translate;
 
     const currentSnap = swiper.snapGrid[snapIndex];
     const nextSnap = swiper.snapGrid[snapIndex + 1];

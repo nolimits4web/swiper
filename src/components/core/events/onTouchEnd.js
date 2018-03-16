@@ -5,7 +5,7 @@ export default function (event) {
   const data = swiper.touchEventsData;
 
   const {
-    params, touches, rtl, $wrapperEl, slidesGrid, snapGrid,
+    params, touches, rtlTranslate: rtl, $wrapperEl, slidesGrid, snapGrid,
   } = swiper;
   let e = event;
   if (e.originalEvent) e = e.originalEvent;

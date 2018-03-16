@@ -103,7 +103,7 @@ const Mousewheel = {
     const params = swiper.params.mousewheel;
     if (e.originalEvent) e = e.originalEvent; // jquery fix
     let delta = 0;
-    const rtlFactor = swiper.rtl ? -1 : 1;
+    const rtlFactor = swiper.rtlTranslate ? -1 : 1;
 
     const data = Mousewheel.normalize(e);
 

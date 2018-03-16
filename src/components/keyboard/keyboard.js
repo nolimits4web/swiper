@@ -5,6 +5,7 @@ import Utils from '../../utils/utils';
 const Keyboard = {
   handle(event) {
     const swiper = this;
+    const { rtlTranslate: rtl } = swiper;
     let e = event;
     if (e.originalEvent) e = e.originalEvent; // jquery fix
     const kc = e.keyCode || e.charCode;
@@ -30,7 +31,7 @@ const Keyboard = {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
       const swiperOffset = swiper.$el.offset();
-      if (swiper.rtl) swiperOffset.left -= swiper.$el[0].scrollLeft;
+      if (rtl) swiperOffset.left -= swiper.$el[0].scrollLeft;
       const swiperCoord = [
         [swiperOffset.left, swiperOffset.top],
         [swiperOffset.left + swiper.width, swiperOffset.top],
@@ -53,8 +54,8 @@ const Keyboard = {
         if (e.preventDefault) e.preventDefault();
         else e.returnValue = false;
       }
-      if ((kc === 39 && !swiper.rtl) || (kc === 37 && swiper.rtl)) swiper.slideNext();
-      if ((kc === 37 && !swiper.rtl) || (kc === 39 && swiper.rtl)) swiper.slidePrev();
+      if ((kc === 39 && !rtl) || (kc === 37 && rtl)) swiper.slideNext();
+      if ((kc === 37 && !rtl) || (kc === 39 && rtl)) swiper.slidePrev();
     } else {
       if (kc === 38 || kc === 40) {
         if (e.preventDefault) e.preventDefault();

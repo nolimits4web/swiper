@@ -8,7 +8,7 @@ const Scrollbar = {
   setTranslate() {
     const swiper = this;
     if (!swiper.params.scrollbar.el || !swiper.scrollbar.el) return;
-    const { scrollbar, rtl, progress } = swiper;
+    const { scrollbar, rtlTranslate: rtl, progress } = swiper;
     const {
       dragSize, trackSize, $dragEl, $el,
     } = scrollbar;
@@ -16,7 +16,7 @@ const Scrollbar = {
 
     let newSize = dragSize;
     let newPos = (trackSize - dragSize) * progress;
-    if (rtl && swiper.isHorizontal()) {
+    if (rtl) {
       newPos = -newPos;
       if (newPos > 0) {
         newSize = dragSize - newPos;
@@ -103,7 +103,7 @@ const Scrollbar = {
   },
   setDragPosition(e) {
     const swiper = this;
-    const { scrollbar } = swiper;
+    const { scrollbar, rtlTranslate: rtl } = swiper;
     const { $el, dragSize, trackSize } = scrollbar;
 
     let pointerPosition;
@@ -115,7 +115,7 @@ const Scrollbar = {
     let positionRatio;
     positionRatio = ((pointerPosition) - $el.offset()[swiper.isHorizontal() ? 'left' : 'top'] - (dragSize / 2)) / (trackSize - dragSize);
     positionRatio = Math.max(Math.min(positionRatio, 1), 0);
-    if (swiper.rtl) {
+    if (rtl) {
       positionRatio = 1 - positionRatio;
     }
 

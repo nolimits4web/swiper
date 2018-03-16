@@ -4,7 +4,7 @@ import Utils from '../../utils/utils';
 const Flip = {
   setTranslate() {
     const swiper = this;
-    const { slides } = swiper;
+    const { slides, rtlTranslate: rtl } = swiper;
     for (let i = 0; i < slides.length; i += 1) {
       const $slideEl = slides.eq(i);
       let progress = $slideEl[0].progress;
@@ -22,7 +22,7 @@ const Flip = {
         tx = 0;
         rotateX = -rotateY;
         rotateY = 0;
-      } else if (swiper.rtl) {
+      } else if (rtl) {
         rotateY = -rotateY;
       }
 

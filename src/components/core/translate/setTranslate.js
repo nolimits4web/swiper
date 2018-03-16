@@ -3,7 +3,7 @@ import Support from '../../../utils/support';
 export default function (translate, byController) {
   const swiper = this;
   const {
-    rtl, params, $wrapperEl, progress,
+    rtlTranslate: rtl, params, $wrapperEl, progress,
   } = swiper;
   let x = 0;
   let y = 0;

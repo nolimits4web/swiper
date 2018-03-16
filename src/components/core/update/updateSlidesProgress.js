@@ -2,7 +2,7 @@ export default function (translate = this.translate || 0) {
   const swiper = this;
   const params = swiper.params;
 
-  const { slides, rtl } = swiper;
+  const { slides, rtlTranslate: rtl } = swiper;
 
   if (slides.length === 0) return;
   if (typeof slides[0].swiperSlideOffset === 'undefined') swiper.updateSlidesOffset();

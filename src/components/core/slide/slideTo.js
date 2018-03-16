@@ -6,7 +6,7 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   if (slideIndex < 0) slideIndex = 0;
 
   const {
-    params, snapGrid, slidesGrid, previousIndex, activeIndex, rtl, $wrapperEl,
+    params, snapGrid, slidesGrid, previousIndex, activeIndex, rtlTranslate: rtl, $wrapperEl,
   } = swiper;
   if (swiper.animating && params.preventIntercationOnTransition) {
     return false;
