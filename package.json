@@ -71,15 +71,13 @@
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
-    "rollup-plugin-buble": "^0.19.0",
+    "rollup": "^0.57.0",
+    "rollup-plugin-buble": "^0.19.2",
     "rollup-plugin-node-resolve": "^3.0.2",
-    "rollup-plugin-replace": "^2.0.0",
-    "rollup-stream": "^1.24.1",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^2.0.0"
+    "rollup-plugin-replace": "^2.0.0"
   },
   "dependencies": {
-    "dom7": "^2.0.2",
+    "dom7": "^2.0.3",
     "ssr-window": "^1.0.0"
   }
 }
