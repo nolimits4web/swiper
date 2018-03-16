@@ -68,7 +68,10 @@ export default function (event) {
   } else {
     currentPos = -data.currentTranslate;
   }
-  if (params.freeMode) {
+
+  const isFreeMode = params.freeMode && !(params.freeModeSticky && !params.freeModeMomentum);
+
+  if (isFreeMode) {
     if (currentPos < -swiper.minTranslate()) {
       swiper.slideTo(swiper.activeIndex);
       return;
@@ -109,6 +112,7 @@ export default function (event) {
 
       let newPosition = swiper.translate + momentumDistance;
       if (rtl) newPosition = -newPosition;
+
       let doBounce = false;
       let afterBouncePosition;
       const bounceAmount = Math.abs(swiper.velocity) * 20 * params.freeModeMomentumBounceRatio;
@@ -142,6 +146,7 @@ export default function (event) {
             break;
           }
         }
+
         if (Math.abs(snapGrid[nextSlide] - newPosition) < Math.abs(snapGrid[nextSlide - 1] - newPosition) || swiper.swipeDirection === 'next') {
           newPosition = snapGrid[nextSlide];
         } else {
