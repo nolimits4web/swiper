@@ -69,9 +69,7 @@ export default function (event) {
     currentPos = -data.currentTranslate;
   }
 
-  const isFreeMode = params.freeMode && !(params.freeModeSticky && !params.freeModeMomentum);
-
-  if (isFreeMode) {
+  if (params.freeMode) {
     if (currentPos < -swiper.minTranslate()) {
       swiper.slideTo(swiper.activeIndex);
       return;
@@ -201,7 +199,11 @@ export default function (event) {
 
       swiper.updateActiveIndex();
       swiper.updateSlidesClasses();
+    } else if (params.freeModeSticky) {
+      swiper.slideToClosest();
+      return;
     }
+
     if (!params.freeModeMomentum || timeDiff >= params.longSwipesMs) {
       swiper.updateProgress();
       swiper.updateActiveIndex();
