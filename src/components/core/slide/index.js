@@ -3,6 +3,7 @@ import slideToLoop from './slideToLoop';
 import slideNext from './slideNext';
 import slidePrev from './slidePrev';
 import slideReset from './slideReset';
+import slideToClosest from './slideToClosest';
 import slideToClickedSlide from './slideToClickedSlide';
 
 export default {
@@ -11,5 +12,6 @@ export default {
   slideNext,
   slidePrev,
   slideReset,
+  slideToClosest,
   slideToClickedSlide,
 };
