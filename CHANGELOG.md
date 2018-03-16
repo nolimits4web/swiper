@@ -2,8 +2,9 @@
 
 ## [Swiper 4.2.0](https://github.com/nolimits4web/swiper/compare/v4.1.6...v4.2.0) - Released on March 16, 2018
   * Core
-    * `updateAutoHeight(speed)` now supports `speed` parameter to resize swiper wrapper with duration
+    * `swiper.updateAutoHeight(speed)` now supports `speed` parameter to resize swiper wrapper with duration
     * Fixed issues in free mode with `freeModeSticky` not being able to snap to closest snap point
+    * New `swiper.slideToClosest()` method to slide to closest snap point when it is somewhere in between
   * A11y (Accessibility)
     * It is now enabled by default (if installed)
   * Controller
