@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: March 16, 2018
+ * Released on: March 19, 2018
  */
 
 (function (global, factory) {
@@ -2066,7 +2066,11 @@ function slideNext (speed, runCallbacks, internal) {
   var params = swiper.params;
   var animating = swiper.animating;
   if (params.loop) {
-    if (animating) { return false; }
+    if (!swiper.params.virtualTranslate) {
+      if (animating) { return false; }
+    } else {
+      swiper.autoplay.paused = false;
+    }
     swiper.loopFix();
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
@@ -2083,9 +2087,12 @@ function slidePrev (speed, runCallbacks, internal) {
   var swiper = this;
   var params = swiper.params;
   var animating = swiper.animating;
-
   if (params.loop) {
-    if (animating) { return false; }
+    if (!swiper.params.virtualTranslate) {
+      if (animating) { return false; }
+    } else {
+      swiper.autoplay.paused = false;
+    }
     swiper.loopFix();
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
@@ -6931,15 +6938,23 @@ var Autoplay = {
       swiper.autoplay.paused = false;
       swiper.autoplay.run();
     } else {
-      swiper.$wrapperEl.transitionEnd(function () {
-        if (!swiper || swiper.destroyed) { return; }
-        swiper.autoplay.paused = false;
+      if (!swiper.params.virtualTranslate) {
+        swiper.$wrapperEl.transitionEnd(function () {
+          if (!swiper || swiper.destroyed) { return; }
+          swiper.autoplay.paused = false;
+          if (!swiper.autoplay.running) {
+            swiper.autoplay.stop();
+          } else {
+            swiper.autoplay.run();
+          }
+        });
+      } else {
         if (!swiper.autoplay.running) {
           swiper.autoplay.stop();
         } else {
           swiper.autoplay.run();
         }
-      });
+      }
     }
   },
 };

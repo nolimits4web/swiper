@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: March 16, 2018
+ * Released on: March 19, 2018
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition, on, off, trigger, transitionEnd, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -1161,7 +1161,11 @@ function slideNext (speed = this.params.speed, runCallbacks = true, internal) {
   const swiper = this;
   const { params, animating } = swiper;
   if (params.loop) {
-    if (animating) return false;
+    if (!swiper.params.virtualTranslate) {
+      if (animating) { return false; }
+    } else {
+      swiper.autoplay.paused = false;
+    }
     swiper.loopFix();
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
@@ -1174,9 +1178,12 @@ function slideNext (speed = this.params.speed, runCallbacks = true, internal) {
 function slidePrev (speed = this.params.speed, runCallbacks = true, internal) {
   const swiper = this;
   const { params, animating } = swiper;
-
   if (params.loop) {
-    if (animating) return false;
+    if (!swiper.params.virtualTranslate) {
+      if (animating) { return false; }
+    } else {
+      swiper.autoplay.paused = false;
+    }
     swiper.loopFix();
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
@@ -5932,15 +5939,23 @@ const Autoplay = {
       swiper.autoplay.paused = false;
       swiper.autoplay.run();
     } else {
-      swiper.$wrapperEl.transitionEnd(() => {
-        if (!swiper || swiper.destroyed) return;
-        swiper.autoplay.paused = false;
+      if (!swiper.params.virtualTranslate) {
+        swiper.$wrapperEl.transitionEnd(() => {
+          if (!swiper || swiper.destroyed) return;
+          swiper.autoplay.paused = false;
+          if (!swiper.autoplay.running) {
+            swiper.autoplay.stop();
+          } else {
+            swiper.autoplay.run();
+          }
+        });
+      } else {
         if (!swiper.autoplay.running) {
           swiper.autoplay.stop();
         } else {
           swiper.autoplay.run();
         }
-      });
+      }
     }
   },
 };
