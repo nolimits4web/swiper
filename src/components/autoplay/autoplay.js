@@ -70,15 +70,23 @@ const Autoplay = {
       swiper.autoplay.paused = false;
       swiper.autoplay.run();
     } else {
-      swiper.$wrapperEl.transitionEnd(() => {
-        if (!swiper || swiper.destroyed) return;
-        swiper.autoplay.paused = false;
+      if (!swiper.params.virtualTranslate) {
+        swiper.$wrapperEl.transitionEnd(() => {
+          if (!swiper || swiper.destroyed) return;
+          swiper.autoplay.paused = false;
+          if (!swiper.autoplay.running) {
+            swiper.autoplay.stop();
+          } else {
+            swiper.autoplay.run();
+          }
+        });
+      } else {
         if (!swiper.autoplay.running) {
           swiper.autoplay.stop();
         } else {
           swiper.autoplay.run();
         }
-      });
+      }
     }
   },
 };
