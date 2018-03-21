@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: March 16, 2018
+ * Released on: March 21, 2018
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition, on, off, trigger, transitionEnd, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -3549,6 +3549,13 @@ const Mousewheel = {
 
       if ((!wasBeginning && swiper.isBeginning) || (!wasEnd && swiper.isEnd)) {
         swiper.updateSlidesClasses();
+      }
+
+      var prevTrigerIndex = Math.ceil(swiper.params.slidesPerView / 2);
+      var nextTrigerIndex = swiper.slides.length - Math.ceil(swiper.params.slidesPerView / 2);
+      
+      if (swiper.activeIndex === prevTrigerIndex || swiper.activeIndex === nextTrigerIndex) {
+        swiper.slideTo(swiper.realIndex + swiper.params.slidesPerView, 0, false, true);
       }
 
       if (swiper.params.freeModeSticky) {
