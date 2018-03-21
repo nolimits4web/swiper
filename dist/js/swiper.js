@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: March 21, 2018
+ * Released on: March 16, 2018
  */
 
 (function (global, factory) {
@@ -4514,13 +4514,6 @@ var Mousewheel = {
 
       if ((!wasBeginning && swiper.isBeginning) || (!wasEnd && swiper.isEnd)) {
         swiper.updateSlidesClasses();
-      }
-
-      var prevTrigerIndex = Math.ceil(swiper.params.slidesPerView / 2);
-      var nextTrigerIndex = swiper.slides.length - Math.ceil(swiper.params.slidesPerView / 2);
-      
-      if (swiper.activeIndex === prevTrigerIndex || swiper.activeIndex === nextTrigerIndex) {
-        swiper.slideTo(swiper.realIndex + swiper.params.slidesPerView, 0, false, true);
       }
 
       if (swiper.params.freeModeSticky) {
