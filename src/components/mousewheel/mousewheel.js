@@ -164,6 +164,13 @@ const Mousewheel = {
         swiper.updateSlidesClasses();
       }
 
+      var prevTrigerIndex = Math.ceil(swiper.params.slidesPerView / 2);
+      var nextTrigerIndex = swiper.slides.length - Math.ceil(swiper.params.slidesPerView / 2);
+      
+      if (swiper.activeIndex === prevTrigerIndex || swiper.activeIndex === nextTrigerIndex) {
+        swiper.slideTo(swiper.realIndex + swiper.params.slidesPerView, 0, false, true);
+      }
+
       if (swiper.params.freeModeSticky) {
         clearTimeout(swiper.mousewheel.timeout);
         swiper.mousewheel.timeout = Utils.nextTick(() => {
