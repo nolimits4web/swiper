@@ -147,6 +147,9 @@ const Mousewheel = {
       swiper.mousewheel.lastScrollTime = (new window.Date()).getTime();
     } else {
       // Freemode or scrollContainer:
+      if (swiper.params.loop) {
+        swiper.loopFix();
+      }
       let position = swiper.getTranslate() + (delta * params.sensitivity);
       const wasBeginning = swiper.isBeginning;
       const wasEnd = swiper.isEnd;
