@@ -107,12 +107,19 @@ const Pagination = {
       $el.find(`.${params.totalClass}`).text(total);
     }
     if (params.type === 'progressbar') {
+      let progressbarDirection;
+      if (params.progressbarOpposite) {
+        progressbarDirection = swiper.isHorizontal() ? 'vertical' : 'horizontal';
+      } else {
+        progressbarDirection = swiper.isHorizontal() ? 'horizontal' : 'vertical';
+      }
       const scale = (current + 1) / total;
-      let scaleX = scale;
+      let scaleX = 1;
       let scaleY = 1;
-      if (!swiper.isHorizontal()) {
+      if (progressbarDirection === 'horizontal') {
+        scaleX = scale;
+      } else {
         scaleY = scale;
-        scaleX = 1;
       }
       $el.find(`.${params.progressbarFillClass}`).transform(`translate3d(0,0,0) scaleX(${scaleX}) scaleY(${scaleY})`).transition(swiper.params.speed);
     }
@@ -198,6 +205,9 @@ const Pagination = {
         params.dynamicMainBullets = 1;
       }
     }
+    if (params.type === 'progressbar' && params.progressbarOpposite) {
+      $el.addClass(params.progressbarOppositeClass);
+    }
 
     if (params.clickable) {
       $el.on('click', `.${params.bulletClass}`, function onClick(e) {
@@ -240,6 +250,7 @@ export default {
       renderProgressbar: null,
       renderFraction: null,
       renderCustom: null,
+      progressbarOpposite: false,
       type: 'bullets', // 'bullets' or 'progressbar' or 'fraction' or 'custom'
       dynamicBullets: false,
       dynamicMainBullets: 1,
@@ -250,6 +261,7 @@ export default {
       totalClass: 'swiper-pagination-total',
       hiddenClass: 'swiper-pagination-hidden',
       progressbarFillClass: 'swiper-pagination-progressbar-fill',
+      progressbarOppositeClass: 'swiper-pagination-progressbar-opposite',
       clickableClass: 'swiper-pagination-clickable', // NEW
       lockClass: 'swiper-pagination-lock',
     },
