@@ -11,7 +11,7 @@ export default function () {
   }
 
   // Save locks
-  const { allowSlideNext, allowSlidePrev } = swiper;
+  const { allowSlideNext, allowSlidePrev, snapGrid } = swiper;
 
   // Disable locks on resize
   swiper.allowSlideNext = true;
@@ -40,4 +40,8 @@ export default function () {
   // Return locks after resize
   swiper.allowSlidePrev = allowSlidePrev;
   swiper.allowSlideNext = allowSlideNext;
+
+  if (swiper.params.watchOverflow && snapGrid !== swiper.snapGrid) {
+    swiper.checkOverflow();
+  }
 }
