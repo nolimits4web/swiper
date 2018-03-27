@@ -150,6 +150,8 @@ const Mousewheel = {
       let position = swiper.getTranslate() + (delta * params.sensitivity);
       const wasBeginning = swiper.isBeginning;
       const wasEnd = swiper.isEnd;
+      const prevTrigerIndex = Math.ceil(swiper.params.slidesPerView / 2);
+      const nextTrigerIndex = swiper.slides.length - Math.ceil(swiper.params.slidesPerView / 2);
 
       if (position >= swiper.minTranslate()) position = swiper.minTranslate();
       if (position <= swiper.maxTranslate()) position = swiper.maxTranslate();
@@ -162,6 +164,10 @@ const Mousewheel = {
 
       if ((!wasBeginning && swiper.isBeginning) || (!wasEnd && swiper.isEnd)) {
         swiper.updateSlidesClasses();
+      }
+
+      if (swiper.activeIndex === prevTrigerIndex || swiper.activeIndex === nextTrigerIndex) {
+        swiper.slideTo(swiper.realIndex + swiper.params.slidesPerView, 0, false, true);
       }
 
       if (swiper.params.freeModeSticky) {
