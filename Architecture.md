@@ -53,6 +53,7 @@ What if you want to be ale to swipe left right up or down?  Well then you will n
 And of course you have to put the slides into the above html
 in the right places.  
 
+## Virtual Slides
 Now let us talk about virtual slides. 
 
 First if you are using virtual slides, then do not include any slides in the HTML.  Or you will get a mumbled display.  Or else use the removeAllSlides() function before 
