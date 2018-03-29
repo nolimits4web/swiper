@@ -18,6 +18,7 @@
   "files": [
     "dist",
     "src",
+    "scripts",
     "*.json",
     "*.js"
   ],
