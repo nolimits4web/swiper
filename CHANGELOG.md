@@ -1,5 +1,14 @@
 # Change Log
 
+## [Swiper 4.2.2](https://github.com/nolimits4web/swiper/compare/v4.2.0...v4.2.2) - Released on April 1, 2018
+  * Core
+    * Respect and update breakpoints when calling Swiper's `.update()` method
+  * Pagination
+    * New `progressbarOpposite` parameter to make pagination progressbar opposite to `direction` parameter, means vertical progressbar for horizontal swiper direction and horizontal progressbar for vertical swiper direction
+  * Mousewheel
+    * Fixed issue in `loop` + `freeMode` for loop not being set correctly
+  * Minor fixes
+
 ## [Swiper 4.2.0](https://github.com/nolimits4web/swiper/compare/v4.1.6...v4.2.0) - Released on March 16, 2018
   * Core
     * `swiper.updateAutoHeight(speed)` now supports `speed` parameter to resize swiper wrapper with duration

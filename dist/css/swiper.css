@@ -1,5 +1,5 @@
 /**
- * Swiper 4.2.0
+ * Swiper 4.2.2
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: March 16, 2018
+ * Released on: April 1, 2018
  */
 .swiper-container {
   margin: 0 auto;
@@ -365,13 +365,15 @@ button.swiper-pagination-bullet {
   -ms-transform-origin: right top;
   transform-origin: right top;
 }
-.swiper-container-horizontal > .swiper-pagination-progressbar {
+.swiper-container-horizontal > .swiper-pagination-progressbar,
+.swiper-container-vertical > .swiper-pagination-progressbar.swiper-pagination-progressbar-opposite {
   width: 100%;
   height: 4px;
   left: 0;
   top: 0;
 }
-.swiper-container-vertical > .swiper-pagination-progressbar {
+.swiper-container-vertical > .swiper-pagination-progressbar,
+.swiper-container-horizontal > .swiper-pagination-progressbar.swiper-pagination-progressbar-opposite {
   width: 4px;
   height: 100%;
   left: 0;
