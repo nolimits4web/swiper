@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: April 1, 2018
+ * Released on: April 19, 2018
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition, on, off, trigger, transitionEnd, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -1369,7 +1369,7 @@ var loop = {
 
 function setGrabCursor (moving) {
   const swiper = this;
-  if (Support.touch || !swiper.params.simulateTouch) return;
+  if (Support.touch || !swiper.params.simulateTouch || (swiper.params.watchOverflow && swiper.isLocked)) return;
   const el = swiper.el;
   el.style.cursor = 'move';
   el.style.cursor = moving ? '-webkit-grabbing' : '-webkit-grab';
@@ -1379,7 +1379,7 @@ function setGrabCursor (moving) {
 
 function unsetGrabCursor () {
   const swiper = this;
-  if (Support.touch) return;
+  if (Support.touch || (swiper.params.watchOverflow && swiper.isLocked)) return;
   swiper.el.style.cursor = '';
 }
 
@@ -2261,7 +2261,9 @@ var events = {
 
 function setBreakpoint () {
   const swiper = this;
-  const { activeIndex, loopedSlides = 0, params } = swiper;
+  const {
+    activeIndex, initialized, loopedSlides = 0, params,
+  } = swiper;
   const breakpoints = params.breakpoints;
   if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) return;
   // Set breakpoint for window width and update parameters
@@ -2280,7 +2282,7 @@ function setBreakpoint () {
 
     swiper.currentBreakpoint = breakpoint;
 
-    if (needsReLoop) {
+    if (needsReLoop && initialized) {
       swiper.loopDestroy();
       swiper.loopCreate();
       swiper.updateSlides();
