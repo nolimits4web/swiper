@@ -79,7 +79,7 @@
     "rollup-plugin-replace": "^2.0.0"
   },
   "dependencies": {
-    "dom7": "^2.0.3",
+    "dom7": "^2.0.5",
     "ssr-window": "^1.0.0"
   }
 }
