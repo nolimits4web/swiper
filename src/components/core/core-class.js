@@ -344,9 +344,9 @@ class Swiper extends SwiperClass {
     let swiper = this;
     const { params, $el, $wrapperEl, slides } = swiper;
 
-    if(typeof swiper.params === 'undefined'){
-      return true
-    }
+    if (typeof swiper.params === 'undefined') {
+      return ''
+    };
 
     swiper.emit('beforeDestroy');
 
