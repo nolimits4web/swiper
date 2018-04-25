@@ -367,13 +367,15 @@ class Swiper extends SwiperClass {
     swiper.emit('init');
   }
   destroy(deleteInstance = true, cleanStyles = true) {
-    let swiper = this;
-    const { params, $el, $wrapperEl, slides } = swiper;
+    const swiper = this;
+    const {
+      params, $el, $wrapperEl, slides,
+    } = swiper;
 
     if (typeof swiper.params === 'undefined') {
-      return ''
-    };
-    
+      return null;
+    }
+
     swiper.emit('beforeDestroy');
 
     // Init Flag
@@ -420,6 +422,8 @@ class Swiper extends SwiperClass {
       Utils.deleteProps(swiper);
     }
     swiper.destroyed = true;
+
+    return null;
   }
   static extendDefaults(newDefaults) {
     Utils.extend(extendedDefaults, newDefaults);
