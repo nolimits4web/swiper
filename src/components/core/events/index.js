@@ -61,6 +61,10 @@ function detachEvents() {
 
   const { params, touchEvents, el, wrapperEl } = swiper;
 
+  if(typeof params === 'undefined'){
+    return true
+  }
+
   const target = params.touchEventsTarget === 'container' ? el : wrapperEl;
   const capture = !!params.nested;
 
