@@ -1,7 +1,7 @@
 export default function () {
   const swiper = this;
 
-  const { params, el, allowSlideNext, allowSlidePrev } = swiper;
+  const { params, el } = swiper;
 
   if (el && el.offsetWidth === 0) return;
 
@@ -9,6 +9,9 @@ export default function () {
   if (params.breakpoints) {
     swiper.setBreakpoint();
   }
+
+  // Save locks
+  const { allowSlideNext, allowSlidePrev, snapGrid } = swiper;
 
   // Disable locks on resize
   swiper.allowSlideNext = true;
@@ -37,4 +40,8 @@ export default function () {
   // Return locks after resize
   swiper.allowSlidePrev = allowSlidePrev;
   swiper.allowSlideNext = allowSlideNext;
+
+  if (swiper.params.watchOverflow && snapGrid !== swiper.snapGrid) {
+    swiper.checkOverflow();
+  }
 }

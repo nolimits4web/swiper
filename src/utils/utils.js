@@ -1,4 +1,4 @@
-import window from './window';
+import { window } from 'ssr-window';
 
 const Utils = {
   deleteProps(obj) {

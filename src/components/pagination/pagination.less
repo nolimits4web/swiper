@@ -25,6 +25,9 @@
   .swiper-pagination-bullet-active {
     transform: scale(1);
   }
+  .swiper-pagination-bullet-active-main {
+    transform: scale(1);
+  }
   .swiper-pagination-bullet-active-prev {
     transform: scale(0.66);
   }
@@ -116,13 +119,15 @@
   .swiper-container-rtl & .swiper-pagination-progressbar-fill {
     transform-origin: right top;
   }
-  .swiper-container-horizontal > & {
+  .swiper-container-horizontal > &,
+  .swiper-container-vertical > &.swiper-pagination-progressbar-opposite {
     width: 100%;
     height: 4px;
     left: 0;
     top: 0;
   }
-  .swiper-container-vertical > & {
+  .swiper-container-vertical > &,
+  .swiper-container-horizontal > &.swiper-pagination-progressbar-opposite {
     width: 4px;
     height: 100%;
     left: 0;
@@ -140,3 +145,6 @@
     }
   }
 });
+.swiper-pagination-lock {
+  display: none;
+}

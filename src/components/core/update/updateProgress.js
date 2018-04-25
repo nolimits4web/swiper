@@ -1,6 +1,6 @@
 import Utils from '../../../utils/utils';
 
-export default function (translate = this.translate || 0) {
+export default function (translate = (this && this.translate) || 0) {
   const swiper = this;
   const params = swiper.params;
 

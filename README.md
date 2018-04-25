@@ -1,10 +1,12 @@
 [![Join the chat at https://gitter.im/nolimits4web/Swiper](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nolimits4web/Swiper)
-[![Build Status](https://travis-ci.org/nolimits4web/Swiper.svg?branch=master)](https://travis-ci.org/nolimits4web/Swiper)
+[![Build Status](https://travis-ci.org/nolimits4web/swiper.svg?branch=master)](https://travis-ci.org/nolimits4web/swiper)
 [![devDependency Status](https://david-dm.org/nolimits4web/swiper/dev-status.svg)](https://david-dm.org/nolimits4web/swiper#info=devDependencies)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/swiper/badge?style=rounded)](https://www.jsdelivr.com/package/npm/swiper)
 
 Swiper
 ==========
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/nolimits4web/Swiper.svg)](https://greenkeeper.io/)
 
 Swiper - is the free and most modern mobile touch slider with hardware accelerated transitions and amazing native behavior. It is intended to be used in mobile websites, mobile web apps, and mobile native/hybrid apps. Designed mostly for iOS, but also works great on latest Android, Windows Phone 8 and modern Desktop browsers
 
@@ -38,7 +40,7 @@ $ npm install
 
 And build development version of Swiper:
 ```
-$ npm run build-dev
+$ npm run build:dev
 ```
 
 The result is available in `build/` folder.
@@ -46,7 +48,7 @@ The result is available in `build/` folder.
 ### Production Build
 
 ```
-$ npm run build-prod
+$ npm run build:prod
 ```
 
 Production version will available in `dist/` folder.

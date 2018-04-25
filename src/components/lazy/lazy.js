@@ -29,7 +29,7 @@ const Lazy = {
       const sizes = $imageEl.attr('data-sizes');
 
       swiper.loadImage($imageEl[0], (src || background), srcset, sizes, false, () => {
-        if (typeof swiper === 'undefined' || swiper === null || !swiper || (swiper && !swiper.params)) return;
+        if (typeof swiper === 'undefined' || swiper === null || !swiper || (swiper && !swiper.params) || swiper.destroyed) return;
         if (background) {
           $imageEl.css('background-image', `url("${background}")`);
           $imageEl.removeAttr('data-background');
@@ -68,7 +68,9 @@ const Lazy = {
   },
   load() {
     const swiper = this;
-    const { $wrapperEl, params: swiperParams, slides, activeIndex } = swiper;
+    const {
+      $wrapperEl, params: swiperParams, slides, activeIndex,
+    } = swiper;
     const isVirtual = swiper.virtual && swiperParams.virtual.enabled;
     const params = swiperParams.lazy;
 
@@ -158,7 +160,9 @@ export default {
   on: {
     beforeInit() {
       const swiper = this;
-      if (swiper.params.preloadImages) swiper.params.preloadImages = false;
+      if (swiper.params.lazy.enabled && swiper.params.preloadImages) {
+        swiper.params.preloadImages = false;
+      }
     },
     init() {
       const swiper = this;

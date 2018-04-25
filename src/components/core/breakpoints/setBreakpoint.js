@@ -2,7 +2,9 @@ import Utils from '../../../utils/utils';
 
 export default function () {
   const swiper = this;
-  const { activeIndex, loopedSlides = 0, params } = swiper;
+  const {
+    activeIndex, initialized, loopedSlides = 0, params,
+  } = swiper;
   const breakpoints = params.breakpoints;
   if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) return;
   // Set breakpoint for window width and update parameters
@@ -21,12 +23,12 @@ export default function () {
 
     swiper.currentBreakpoint = breakpoint;
 
-    if (needsReLoop) {
-      const oldIndex = activeIndex - loopedSlides;
+    if (needsReLoop && initialized) {
       swiper.loopDestroy();
       swiper.loopCreate();
       swiper.updateSlides();
-      swiper.slideTo(oldIndex + loopedSlides, 0, false);
+      swiper.slideTo((activeIndex - loopedSlides) + swiper.loopedSlides, 0, false);
     }
+    swiper.emit('breakpoint', breakPointsParams);
   }
 }

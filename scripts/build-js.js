@@ -3,10 +3,8 @@
 
 const gulp = require('gulp');
 const fs = require('fs');
-const rollup = require('rollup-stream');
+const rollup = require('rollup');
 const buble = require('rollup-plugin-buble');
-const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
 const replace = require('rollup-plugin-replace');
 const resolve = require('rollup-plugin-node-resolve');
 const header = require('gulp-header');
@@ -21,10 +19,13 @@ function es(components, cb) {
   const env = process.env.NODE_ENV || 'development';
   const target = process.env.TARGET || config.target;
 
-  rollup({
+  // Bundle
+  rollup.rollup({
     input: './src/swiper.js',
+    external: ['dom7', 'ssr-window'],
     plugins: [
       replace({
+        delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env),
         'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
@@ -32,29 +33,28 @@ function es(components, cb) {
         '//EXPORT': 'export default Swiper',
       }),
     ],
+  }).then(bundle => bundle.write({
     format: 'es',
     name: 'Swiper',
     strict: true,
     sourcemap: env === 'development',
+    sourcemapFile: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.esm.bundle.js.map`,
     banner,
-  })
-    .on('error', (err) => {
-      if (cb) cb();
-      console.error(err.toString());
-    })
-    .pipe(source('swiper.js', './src'))
-    .pipe(buffer())
-    .pipe(rename('swiper.esm.bundle.js'))
-    .pipe(gulp.dest(`./${env === 'development' ? 'build' : 'dist'}/js/`))
-    .on('end', () => {
-      if (cb) cb();
-    });
+    file: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.esm.bundle.js`,
+  })).then(() => {
+    if (cb) cb();
+  }).catch((err) => {
+    if (cb) cb();
+    console.error(err.toString());
+  });
 
   // Modular
-  rollup({
+  rollup.rollup({
     input: './src/swiper.js',
+    external: ['dom7', 'ssr-window'],
     plugins: [
       replace({
+        delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env),
         'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
@@ -62,32 +62,30 @@ function es(components, cb) {
         '//EXPORT': `export { Swiper, ${components.map(component => component.capitalized).join(', ')} }`,
       }),
     ],
+  }).then(bundle => bundle.write({
     format: 'es',
     name: 'Swiper',
     strict: true,
-    sourcemap: env === 'development',
     banner,
-  })
-    .on('error', (err) => {
-      if (cb) cb();
-      console.error(err.toString());
-    })
-    .pipe(source('swiper.js', './src'))
-    .pipe(buffer())
-    .pipe(rename('swiper.esm.js'))
-    .pipe(gulp.dest(`./${env === 'development' ? 'build' : 'dist'}/js/`))
-    .on('end', () => {
-      if (cb) cb();
-    });
+    sourcemap: env === 'development',
+    sourcemapFile: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.esm.js.map`,
+    file: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.esm.js`,
+  })).then(() => {
+    if (cb) cb();
+  }).catch((err) => {
+    if (cb) cb();
+    console.error(err.toString());
+  });
 }
 function umd(components, cb) {
   const env = process.env.NODE_ENV || 'development';
   const target = process.env.TARGET || config.target;
 
-  rollup({
+  rollup.rollup({
     input: './src/swiper.js',
     plugins: [
       replace({
+        delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env),
         'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
@@ -97,39 +95,37 @@ function umd(components, cb) {
       resolve({ jsnext: true }),
       buble(),
     ],
+  }).then(bundle => bundle.write({
     format: 'umd',
     name: 'Swiper',
     strict: true,
     sourcemap: env === 'development',
+    sourcemapFile: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.js.map`,
     banner,
-  })
-    .on('error', (err) => {
+    file: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.js`,
+  })).then(() => {
+    if (env === 'development') {
       if (cb) cb();
-      console.error(err.toString());
-    })
-    .pipe(source('swiper.js', './src'))
-    .pipe(buffer())
-    .pipe(gulp.dest(`./${env === 'development' ? 'build' : 'dist'}/js/`))
-    .on('end', () => {
-      if (env === 'development') {
-        if (cb) cb();
-        return;
-      }
-      // Minified version
-      gulp.src('./dist/js/swiper.js')
-        .pipe(sourcemaps.init())
-        .pipe(uglify())
-        .pipe(header(banner))
-        .pipe(rename((filePath) => {
-          /* eslint no-param-reassign: ["error", { "props": false }] */
-          filePath.basename += '.min';
-        }))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/js/'))
-        .on('end', () => {
-          cb();
-        });
-    });
+      return;
+    }
+    // Minified version
+    gulp.src('./dist/js/swiper.js')
+      .pipe(sourcemaps.init())
+      .pipe(uglify())
+      .pipe(header(banner))
+      .pipe(rename((filePath) => {
+        /* eslint no-param-reassign: ["error", { "props": false }] */
+        filePath.basename += '.min';
+      }))
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest('./dist/js/'))
+      .on('end', () => {
+        cb();
+      });
+  }).catch((err) => {
+    if (cb) cb();
+    console.error(err.toString());
+  });
 }
 function build(cb) {
   const env = process.env.NODE_ENV || 'development';

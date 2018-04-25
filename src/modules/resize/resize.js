@@ -1,4 +1,4 @@
-import window from '../../utils/window';
+import { window } from 'ssr-window';
 import Utils from '../../utils/utils';
 
 export default {
@@ -8,12 +8,12 @@ export default {
     Utils.extend(swiper, {
       resize: {
         resizeHandler() {
-          if (!swiper || !swiper.initialized) return;
+          if (!swiper || swiper.destroyed || !swiper.initialized) return;
           swiper.emit('beforeResize');
           swiper.emit('resize');
         },
         orientationChangeHandler() {
-          if (!swiper || !swiper.initialized) return;
+          if (!swiper || swiper.destroyed || !swiper.initialized) return;
           swiper.emit('orientationchange');
         },
       },

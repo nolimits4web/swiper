@@ -1,5 +1,85 @@
 # Change Log
 
+## [Swiper 4.2.2](https://github.com/nolimits4web/swiper/compare/v4.2.0...v4.2.2) - Released on April 1, 2018
+  * Core
+    * Respect and update breakpoints when calling Swiper's `.update()` method
+  * Pagination
+    * New `progressbarOpposite` parameter to make pagination progressbar opposite to `direction` parameter, means vertical progressbar for horizontal swiper direction and horizontal progressbar for vertical swiper direction
+  * Mousewheel
+    * Fixed issue in `loop` + `freeMode` for loop not being set correctly
+  * Minor fixes
+
+## [Swiper 4.2.0](https://github.com/nolimits4web/swiper/compare/v4.1.6...v4.2.0) - Released on March 16, 2018
+  * Core
+    * `swiper.updateAutoHeight(speed)` now supports `speed` parameter to resize swiper wrapper with duration
+    * Fixed issues in free mode with `freeModeSticky` not being able to snap to closest snap point
+    * New `swiper.slideToClosest()` method to slide to closest snap point when it is somewhere in between
+  * A11y (Accessibility)
+    * It is now enabled by default (if installed)
+  * Controller
+    * Fixed RTL issue when vertical swiper controls horizontal one
+  * Lazy
+    * Fixed issue when lazy loading not always triggered on window resize
+  * Minor fixes
+
+## [Swiper 4.1.6](https://github.com/nolimits4web/swiper/compare/v4.1.5...v4.1.6) - Released on February 11, 2018
+  * Fixed onTouchMoveOpposite event on touch devices
+
+## [Swiper 4.1.5](https://github.com/nolimits4web/swiper/compare/v4.1.0...v4.1.5) - Released on February 10, 2018
+  * Improved touch events support on desktop Windows devices with touch screen
+  * Improved "loop fix" when slider is in the free mode
+  * New `noSwipingSelector` parameter that can be used instead of `noSwipingClass`
+  * New `preventIntercationOnTransition` parameter to prevent interaction during slice change transition
+  * New `.slideToLoop` method to be used in loop mode
+  * Fixed issue with `slideChange` events being fired when slide wasn't actually changed
+  * Scrollbar
+    * Now doesn't require to enable `simulateTouch` for desktops when it is `draggable`
+  * Keyboard
+    * Fixed detection statement whether a swiper is in the viewport
+  * Pagination
+    * Added new multiple main bullets support for dynamic bullets pagination
+  * Zoom
+    * Now supports Virtual Slides
+  * Minor fixes
+
+## [Swiper 4.1.0](https://github.com/nolimits4web/swiper/compare/v4.0.7...v4.1.0) - Released on January 13, 2018
+  * Improved IE 10 support. But it is recommended to use [__proto__ polyfill](https://www.npmjs.com/package/proto-polyfill)
+  * Improved touch support for Edge
+  * New `watchOverflow` (disabled by default). When enabled Swiper will be disabled and hide navigation buttons on case there are not enough slides for sliding
+  * Autoplay
+    * New `reverseDirection` to enable autoplay in reverse direction
+    * New `waitForTransition` parameter when autoplay will wait for wrapper transition to continue (enabled by default). Can be disabled in case of using Virtual Translate when your slider may not have transition
+  * Keyboard
+    * New `onlyInViewport` parameter (enabled by default). When enabled it will control sliders that are currently in viewport
+
+## [Swiper 4.0.7](https://github.com/nolimits4web/swiper/compare/v4.0.6...v4.0.7) - Released on November 28, 2017
+  * Fixed issue with not working correctly `touchReleaseOnEdges` on iOS
+  * Fixed issue with not working allowSlideNext/Prev change on Breakpoints
+  * Fixed wrong scrollbar dragging when using custom `dragSize`
+  * Minor fixes
+
+## [Swiper 4.0.6](https://github.com/nolimits4web/swiper/compare/v4.0.5...v4.0.6) - Released on November 13, 2017
+  * Fixed Coverflow effect issue using with breakpoints
+  * `iOSEdgeSwipeDetection` will also be in consideration with right-edge swipe
+  * Fixed `freeModeSticky` behavior in RTL mode
+  * Swiper now emits `breakpoint` event on breakpoint change
+  * Minor fixes
+
+## [Swiper 4.0.5](https://github.com/nolimits4web/swiper/compare/v4.0.3...v4.0.5) - Released on November 7, 2017
+  * Fixed issue with not working `noSwiping` parameter
+  * Parallax now considers `slidesPerGroup` parameter
+  * Zoom: imporved gestures handling
+  * Pagination: fixed issues with wrong positioned dynamic-bullets when there are not enough slides
+  * Fixed issues with some effects being broken with enabled `breakpoints`
+  * Minor fixes
+
+## [Swiper 4.0.3](https://github.com/nolimits4web/swiper/compare/v4.0.2...v4.0.3) - Released on October 27, 2017
+  * Fixed Parallax opacity and scale transitions
+  * Better compatability with SSR by using dummy `document` object
+  * Fixed styles for dynamic pagination buttons in RTL mode
+  * Fixed issue with last pagination button not being active with `slidesPerView: 'auto'`
+  * Renamed build tasks: `build-dev` -> `build:dev`, `build-prod` -> `build:prod`
+
 ## [Swiper 4.0.2](https://github.com/nolimits4web/swiper/compare/v4.0.1...v4.0.2) - Released on October 18, 2017
   * Lazy loading support for Virtual slides
   * Added `beforeResize` event
@@ -312,7 +392,7 @@ runCallbacks=false
     * Scroll Container. Removed in favor of pure CSS `overflow: auto` with `-webkit-overflow-scrolling: touch`
   * New features
     * Swiper now uses modern flexbox layout, which by itself give more features and advantages
-    * Such Swiper 2.x plugins as Hash Navigation, Smooth Progress, 3D Flow and Scrollbar are now incoroporated into Swiper 3.x core
+    * Such Swiper 2.x plugins as Hash Navigation, Smooth Progress, 3D Flow and Scrollbar are now incorporated into Swiper 3.x core
     * Full RTL support
     * Built-in navigation buttons/arrows
     * Controller. Now one Swiper could be controlled (or control itself) by another Swiper

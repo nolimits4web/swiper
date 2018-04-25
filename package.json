@@ -1,21 +1,24 @@
 {
   "name": "swiper",
-  "version": "4.0.2",
+  "version": "4.2.2",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/js/swiper.js",
   "jsnext:main": "dist/js/swiper.esm.bundle.js",
   "module": "dist/js/swiper.esm.bundle.js",
   "scripts": {
-    "build-dev": "NODE_ENV=development gulp build",
-    "build-prod": "NODE_ENV=production gulp build",
-    "dev": "NODE_ENV=development gulp build && NODE_ENV=development gulp playground && NODE_ENV=development gulp server",
-    "prod": "NODE_ENV=production gulp playground && NODE_ENV=production gulp server",
+    "build:dev": "cross-env NODE_ENV=development gulp build",
+    "build:prod": "cross-env NODE_ENV=production gulp build",
+    "dev": "cross-env NODE_ENV=development gulp build && cross-env NODE_ENV=development gulp playground && cross-env NODE_ENV=development gulp server",
+    "prod": "cross-env NODE_ENV=production gulp playground && cross-env NODE_ENV=production gulp server",
     "lint": "eslint .",
-    "test": "npm run lint && npm run build-dev"
+    "lint-fix": "eslint . --fix",
+    "test": "npm run lint && npm run build:dev",
+    "postinstall": "node -e \"console.log('\\u001b[35m\\u001b[1mLove Swiper? Support Vladimir\\'s work by donating or pledging on patreon:\\u001b[22m\\u001b[39m\\n > \\u001b[32mhttps://patreon.com/vladimirkharlampidi\\u001b[0m\\n')\""
   },
   "files": [
     "dist",
     "src",
+    "scripts",
     "*.json",
     "*.js"
   ],
@@ -55,28 +58,28 @@
     "ie >= 10"
   ],
   "devDependencies": {
-    "eslint": "^4.6.1",
-    "eslint-config-airbnb-base": "^11.3.2",
+    "cross-env": "^5.1.3",
+    "eslint": "^4.15.0",
+    "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.7.0",
     "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^4.0.0",
+    "gulp-autoprefixer": "^5.0.0",
     "gulp-clean-css": "^3.8.0",
     "gulp-connect": "^5.0.0",
-    "gulp-header": "^1.8.9",
+    "gulp-header": "^2.0.1",
     "gulp-less": "^3.3.2",
-    "gulp-modify-file": "^0.1.0",
-    "gulp-open": "^2.0.0",
+    "gulp-modify-file": "^1.0.0",
+    "gulp-open": "^3.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
-    "rollup-plugin-buble": "^0.15.0",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-replace": "^1.2.1",
-    "rollup-stream": "^1.24.1",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "rollup": "^0.58.0",
+    "rollup-plugin-buble": "^0.19.2",
+    "rollup-plugin-node-resolve": "^3.0.2",
+    "rollup-plugin-replace": "^2.0.0"
   },
   "dependencies": {
-    "dom7": "^2.0.1"
+    "dom7": "^2.0.5",
+    "ssr-window": "^1.0.0"
   }
 }
