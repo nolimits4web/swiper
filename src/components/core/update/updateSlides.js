@@ -107,6 +107,10 @@ export default function () {
 
     if (params.slidesPerView === 'auto') {
       const slideStyles = window.getComputedStyle(slide[0], null);
+      const currentTransform = slide[0].style.transform;
+      if (currentTransform) {
+        slide[0].style.transform = 'none';
+      }
       if (swiper.isHorizontal()) {
         slideSize = slide[0].getBoundingClientRect().width +
           parseFloat(slideStyles.getPropertyValue('margin-left')) +
@@ -115,6 +119,9 @@ export default function () {
         slideSize = slide[0].getBoundingClientRect().height +
           parseFloat(slideStyles.getPropertyValue('margin-top')) +
           parseFloat(slideStyles.getPropertyValue('margin-bottom'));
+      }
+      if (currentTransform) {
+        slide[0].style.transform = currentTransform;
       }
       if (params.roundLengths) slideSize = Math.floor(slideSize);
     } else {
