@@ -372,7 +372,7 @@ class Swiper extends SwiperClass {
       params, $el, $wrapperEl, slides,
     } = swiper;
 
-    if (typeof swiper.params === 'undefined') {
+    if (typeof swiper.params === 'undefined' || swiper.destroyed) {
       return null;
     }
 
