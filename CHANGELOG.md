@@ -1,5 +1,16 @@
 # Change Log
 
+## [Swiper 4.2.5](https://github.com/nolimits4web/swiper/compare/v4.2.2...v4.2.5) - Released on April 29, 2018
+  * Core
+    * Prevent apply grab cursor when swiper is locked
+    * Fixed breakpoint with loop getting wrong realIndex when on init
+    * Fixed "transformed" slides sizes calculation that could cause issues in with Coverflow effect
+  * Autoplay
+    * Fixed issue that can cause memory leak
+  * Dom7 update to latest
+    *Imporved internal events proxies logic for better memory management
+  * Minor fixes
+
 ## [Swiper 4.2.2](https://github.com/nolimits4web/swiper/compare/v4.2.0...v4.2.2) - Released on April 1, 2018
   * Core
     * Respect and update breakpoints when calling Swiper's `.update()` method

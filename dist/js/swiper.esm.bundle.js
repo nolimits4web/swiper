@@ -1,5 +1,5 @@
 /**
- * Swiper 4.2.2
+ * Swiper 4.2.5
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: April 1, 2018
+ * Released on: April 29, 2018
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition, on, off, trigger, transitionEnd, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -511,6 +511,10 @@ function updateSlides () {
 
     if (params.slidesPerView === 'auto') {
       const slideStyles = window.getComputedStyle(slide[0], null);
+      const currentTransform = slide[0].style.transform;
+      if (currentTransform) {
+        slide[0].style.transform = 'none';
+      }
       if (swiper.isHorizontal()) {
         slideSize = slide[0].getBoundingClientRect().width +
           parseFloat(slideStyles.getPropertyValue('margin-left')) +
@@ -519,6 +523,9 @@ function updateSlides () {
         slideSize = slide[0].getBoundingClientRect().height +
           parseFloat(slideStyles.getPropertyValue('margin-top')) +
           parseFloat(slideStyles.getPropertyValue('margin-bottom'));
+      }
+      if (currentTransform) {
+        slide[0].style.transform = currentTransform;
       }
       if (params.roundLengths) slideSize = Math.floor(slideSize);
     } else {
@@ -670,7 +677,7 @@ function updateSlidesOffset () {
   }
 }
 
-function updateSlidesProgress (translate = this.translate || 0) {
+function updateSlidesProgress (translate = (this && this.translate) || 0) {
   const swiper = this;
   const params = swiper.params;
 
@@ -706,7 +713,7 @@ function updateSlidesProgress (translate = this.translate || 0) {
   }
 }
 
-function updateProgress (translate = this.translate || 0) {
+function updateProgress (translate = (this && this.translate) || 0) {
   const swiper = this;
   const params = swiper.params;
 
@@ -1060,7 +1067,7 @@ function slideTo (index$$1 = 0, speed = this.params.speed, runCallbacks = true, 
   if (slideIndex < 0) slideIndex = 0;
 
   const {
-    params, snapGrid, slidesGrid, previousIndex, activeIndex, rtlTranslate: rtl, $wrapperEl,
+    params, snapGrid, slidesGrid, previousIndex, activeIndex, rtlTranslate: rtl,
   } = swiper;
   if (swiper.animating && params.preventIntercationOnTransition) {
     return false;
@@ -1137,10 +1144,17 @@ function slideTo (index$$1 = 0, speed = this.params.speed, runCallbacks = true, 
     swiper.transitionStart(runCallbacks, direction);
     if (!swiper.animating) {
       swiper.animating = true;
-      $wrapperEl.transitionEnd(() => {
-        if (!swiper || swiper.destroyed) return;
-        swiper.transitionEnd(runCallbacks, direction);
-      });
+      if (!swiper.onSlideToWrapperTransitionEnd) {
+        swiper.onSlideToWrapperTransitionEnd = function transitionEnd$$1(e) {
+          if (!swiper || swiper.destroyed) return;
+          if (e.target !== this) return;
+          swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
+          swiper.$wrapperEl[0].removeEventListener('webkitTransitionEnd', swiper.onSlideToWrapperTransitionEnd);
+          swiper.transitionEnd(runCallbacks, direction);
+        };
+      }
+      swiper.$wrapperEl[0].addEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
+      swiper.$wrapperEl[0].addEventListener('webkitTransitionEnd', swiper.onSlideToWrapperTransitionEnd);
     }
   }
 
@@ -1369,7 +1383,7 @@ var loop = {
 
 function setGrabCursor (moving) {
   const swiper = this;
-  if (Support.touch || !swiper.params.simulateTouch) return;
+  if (Support.touch || !swiper.params.simulateTouch || (swiper.params.watchOverflow && swiper.isLocked)) return;
   const el = swiper.el;
   el.style.cursor = 'move';
   el.style.cursor = moving ? '-webkit-grabbing' : '-webkit-grab';
@@ -1379,7 +1393,7 @@ function setGrabCursor (moving) {
 
 function unsetGrabCursor () {
   const swiper = this;
-  if (Support.touch) return;
+  if (Support.touch || (swiper.params.watchOverflow && swiper.isLocked)) return;
   swiper.el.style.cursor = '';
 }
 
@@ -2261,7 +2275,9 @@ var events = {
 
 function setBreakpoint () {
   const swiper = this;
-  const { activeIndex, loopedSlides = 0, params } = swiper;
+  const {
+    activeIndex, initialized, loopedSlides = 0, params,
+  } = swiper;
   const breakpoints = params.breakpoints;
   if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) return;
   // Set breakpoint for window width and update parameters
@@ -2280,7 +2296,7 @@ function setBreakpoint () {
 
     swiper.currentBreakpoint = breakpoint;
 
-    if (needsReLoop) {
+    if (needsReLoop && initialized) {
       swiper.loopDestroy();
       swiper.loopCreate();
       swiper.updateSlides();
@@ -2928,6 +2944,11 @@ class Swiper extends SwiperClass {
     const {
       params, $el, $wrapperEl, slides,
     } = swiper;
+
+    if (typeof swiper.params === 'undefined' || swiper.destroyed) {
+      return null;
+    }
+
     swiper.emit('beforeDestroy');
 
     // Init Flag
@@ -2974,6 +2995,8 @@ class Swiper extends SwiperClass {
       Utils.deleteProps(swiper);
     }
     swiper.destroyed = true;
+
+    return null;
   }
   static extendDefaults(newDefaults) {
     Utils.extend(extendedDefaults, newDefaults);
@@ -5912,6 +5935,8 @@ var HashNavigation$1 = {
   },
 };
 
+/* eslint no-underscore-dangle: "off" */
+
 const Autoplay = {
   run() {
     const swiper = this;
@@ -5982,15 +6007,8 @@ const Autoplay = {
       swiper.autoplay.paused = false;
       swiper.autoplay.run();
     } else {
-      swiper.$wrapperEl.transitionEnd(() => {
-        if (!swiper || swiper.destroyed) return;
-        swiper.autoplay.paused = false;
-        if (!swiper.autoplay.running) {
-          swiper.autoplay.stop();
-        } else {
-          swiper.autoplay.run();
-        }
-      });
+      swiper.$wrapperEl[0].addEventListener('transitionend', swiper.autoplay.onTransitionEnd);
+      swiper.$wrapperEl[0].addEventListener('webkitTransitionEnd', swiper.autoplay.onTransitionEnd);
     }
   },
 };
@@ -6017,6 +6035,18 @@ var Autoplay$1 = {
         start: Autoplay.start.bind(swiper),
         stop: Autoplay.stop.bind(swiper),
         pause: Autoplay.pause.bind(swiper),
+        onTransitionEnd(e) {
+          if (!swiper || swiper.destroyed || !swiper.$wrapperEl) return;
+          if (e.target !== this) return;
+          swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.autoplay.onTransitionEnd);
+          swiper.$wrapperEl[0].removeEventListener('webkitTransitionEnd', swiper.autoplay.onTransitionEnd);
+          swiper.autoplay.paused = false;
+          if (!swiper.autoplay.running) {
+            swiper.autoplay.stop();
+          } else {
+            swiper.autoplay.run();
+          }
+        },
       },
     });
   },

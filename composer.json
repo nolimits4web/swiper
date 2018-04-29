@@ -7,7 +7,7 @@
     "authors": [
         {
             "homepage": "https://idangero.us",
-            "role": "Designer",
+            "role": "Developer",
             "name": "Vladimir Kharalmpidi",
             "email": "nolimits4web@gmail.com"
         }
@@ -30,8 +30,8 @@
     ],
 	"support": {
 
-		"issues": "https://github.com/nolimits4web/Swiper/issues",
-		"source": "https://github.com/nolimits4web/Swiper.git",
+		"issues": "https://github.com/nolimits4web/swiper/issues",
+		"source": "https://github.com/nolimits4web/swiper.git",
 		"docs": "http://idangero.us/swiper/api/"
 
 	},
