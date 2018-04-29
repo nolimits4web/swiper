@@ -371,6 +371,11 @@ class Swiper extends SwiperClass {
     const {
       params, $el, $wrapperEl, slides,
     } = swiper;
+
+    if (typeof swiper.params === 'undefined') {
+      return null;
+    }
+
     swiper.emit('beforeDestroy');
 
     // Init Flag
@@ -417,6 +422,8 @@ class Swiper extends SwiperClass {
       Utils.deleteProps(swiper);
     }
     swiper.destroyed = true;
+
+    return null;
   }
   static extendDefaults(newDefaults) {
     Utils.extend(extendedDefaults, newDefaults);
