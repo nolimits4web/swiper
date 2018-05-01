@@ -1,5 +1,8 @@
 # Change Log
 
+## [Swiper 4.2.6](https://github.com/nolimits4web/swiper/compare/v4.2.5...v4.2.6) - Released on May 1, 2018
+  * `console.log` cleanup
+
 ## [Swiper 4.2.5](https://github.com/nolimits4web/swiper/compare/v4.2.2...v4.2.5) - Released on April 29, 2018
   * Core
     * Prevent apply grab cursor when swiper is locked
