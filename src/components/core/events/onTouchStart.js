@@ -34,8 +34,8 @@ export default function (event) {
     Device.ios &&
     !Device.cordova &&
     params.iOSEdgeSwipeDetection &&
-    (startX <= params.iOSEdgeSwipeThreshold) &&
-    (startX >= window.screen.width - params.iOSEdgeSwipeThreshold)
+    ((startX <= params.iOSEdgeSwipeThreshold) ||
+    (startX >= window.screen.width - params.iOSEdgeSwipeThreshold))
   ) {
     return;
   }
