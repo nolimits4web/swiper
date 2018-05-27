@@ -1,5 +1,14 @@
 # Change Log
 
+## [Swiper 4.3.0](https://github.com/nolimits4web/swiper/compare/v4.2.6...v4.3.0) - Released on May 1, 2018
+  * Core
+    * Fixed issue when `swipeBack` sometimes slides to wrong slide
+    * Fixed issue when window resizing can break Coverflow effect layout
+    * Fixed issue with wrong detection of iOSEdgeSwipeDetection
+  * Dom7 update to latest v2.0.6:
+    * Fixed issue with remove event listeners when they was not added
+  * Minor fixes
+
 ## [Swiper 4.2.6](https://github.com/nolimits4web/swiper/compare/v4.2.5...v4.2.6) - Released on May 1, 2018
   * `console.log` cleanup
 

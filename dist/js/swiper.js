@@ -1,5 +1,5 @@
 /**
- * Swiper 4.2.6
+ * Swiper 4.3.0
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: May 1, 2018
+ * Released on: May 27, 2018
  */
 
 (function (global, factory) {
@@ -106,7 +106,7 @@
   var win = w;
 
   /**
-   * Dom7 2.0.5
+   * Dom7 2.0.6
    * Minimalistic JavaScript library for DOM manipulation, with a jQuery-compatible API
    * http://framework7.io/docs/dom.html
    *
@@ -116,7 +116,7 @@
    *
    * Licensed under MIT
    *
-   * Released on: April 20, 2018
+   * Released on: May 27, 2018
    */
 
   var Dom7 = function Dom7(arr) {
@@ -420,14 +420,16 @@
         } else if (targetSelector && el.dom7LiveListeners) {
           handlers = el.dom7LiveListeners[event];
         }
-        for (var k = handlers.length - 1; k >= 0; k -= 1) {
-          var handler = handlers[k];
-          if (listener && handler.listener === listener) {
-            el.removeEventListener(event, handler.proxyListener, capture);
-            handlers.splice(k, 1);
-          } else if (!listener) {
-            el.removeEventListener(event, handler.proxyListener, capture);
-            handlers.splice(k, 1);
+        if (handlers && handlers.length) {
+          for (var k = handlers.length - 1; k >= 0; k -= 1) {
+            var handler = handlers[k];
+            if (listener && handler.listener === listener) {
+              el.removeEventListener(event, handler.proxyListener, capture);
+              handlers.splice(k, 1);
+            } else if (!listener) {
+              el.removeEventListener(event, handler.proxyListener, capture);
+              handlers.splice(k, 1);
+            }
           }
         }
       }
@@ -1380,8 +1382,12 @@
       if (params.slidesPerView === 'auto') {
         var slideStyles = win.getComputedStyle(slide[0], null);
         var currentTransform = slide[0].style.transform;
+        var currentWebKitTransform = slide[0].style.webkitTransform;
         if (currentTransform) {
           slide[0].style.transform = 'none';
+        }
+        if (currentWebKitTransform) {
+          slide[0].style.webkitTransform = 'none';
         }
         if (swiper.isHorizontal()) {
           slideSize = slide[0].getBoundingClientRect().width +
@@ -1394,6 +1400,9 @@
         }
         if (currentTransform) {
           slide[0].style.transform = currentTransform;
+        }
+        if (currentWebKitTransform) {
+          slide[0].style.webkitTransform = currentWebKitTransform;
         }
         if (params.roundLengths) { slideSize = Math.floor(slideSize); }
       } else {
@@ -2110,11 +2119,15 @@
       swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
     }
     var translate = rtlTranslate ? swiper.translate : -swiper.translate;
-    var currentSnap = snapGrid[snapGrid.indexOf(translate)];
-    var prevSnap = snapGrid[snapGrid.indexOf(translate) - 1];
-    var prevIndex;
 
-    if (prevSnap) {
+    var normalizedTranslate = translate < 0 ? -Math.floor(Math.abs(translate)) : Math.floor(translate);
+    var normalizedSnapGrid = snapGrid.map(function (val) { return Math.floor(val); });
+    var normalizedSlidesGrid = slidesGrid.map(function (val) { return Math.floor(val); });
+
+    var currentSnap = snapGrid[normalizedSnapGrid.indexOf(normalizedTranslate)];
+    var prevSnap = snapGrid[normalizedSnapGrid.indexOf(normalizedTranslate) - 1];
+    var prevIndex;
+    if (typeof prevSnap !== 'undefined') {
       prevIndex = slidesGrid.indexOf(prevSnap);
       if (prevIndex < 0) { prevIndex = swiper.activeIndex - 1; }
     }
@@ -2551,8 +2564,8 @@
       Device.ios &&
       !Device.cordova &&
       params.iOSEdgeSwipeDetection &&
-      (startX <= params.iOSEdgeSwipeThreshold) &&
-      (startX >= win.screen.width - params.iOSEdgeSwipeThreshold)
+      ((startX <= params.iOSEdgeSwipeThreshold) ||
+      (startX >= win.screen.width - params.iOSEdgeSwipeThreshold))
     ) {
       return;
     }
@@ -3167,7 +3180,7 @@
     }
 
     // Resize handler
-    swiper.on('resize observerUpdate', onResize, true);
+    swiper.on((Device.ios || Device.android ? 'resize orientationchange observerUpdate' : 'resize observerUpdate'), onResize, true);
   }
 
   function detachEvents() {
@@ -3207,7 +3220,7 @@
     }
 
     // Resize handler
-    swiper.off('resize observerUpdate', onResize);
+    swiper.off((Device.ios || Device.android ? 'resize orientationchange observerUpdate' : 'resize observerUpdate'), onResize);
   }
 
   var events = {
