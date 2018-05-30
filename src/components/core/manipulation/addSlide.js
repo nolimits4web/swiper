@@ -3,7 +3,9 @@ import Support from '../../../utils/support';
 export default function (index, slides) {
   const swiper = this;
   const { $wrapperEl, params, activeIndex } = swiper;
+  let activeIndexBuffer = activeIndex;
   if (params.loop) {
+    activeIndexBuffer -= swiper.loopedSlides;
     swiper.loopDestroy();
     swiper.slides = $wrapperEl.children(`.${params.slideClass}`);
   }
@@ -15,7 +17,7 @@ export default function (index, slides) {
     swiper.appendSlide(slides);
     return;
   }
-  let newActiveIndex = activeIndex > index ? activeIndex + 1 : activeIndex;
+  let newActiveIndex = activeIndexBuffer > index ? activeIndexBuffer + 1 : activeIndexBuffer;
 
   const slidesBuffer = [];
   for (let i = baseLength - 1; i >= index; i -= 1) {
@@ -28,7 +30,7 @@ export default function (index, slides) {
     for (let i = 0; i < slides.length; i += 1) {
       if (slides[i]) $wrapperEl.append(slides[i]);
     }
-    newActiveIndex = activeIndex > index ? activeIndex + slides.length : activeIndex;
+    newActiveIndex = activeIndexBuffer > index ? activeIndexBuffer + slides.length : activeIndexBuffer;
   } else {
     $wrapperEl.append(slides);
   }
@@ -43,5 +45,9 @@ export default function (index, slides) {
   if (!(params.observer && Support.observer)) {
     swiper.update();
   }
-  swiper.slideTo(newActiveIndex, 0, false);
+  if (params.loop) {
+    swiper.slideTo(newActiveIndex + swiper.loopedSlides, 0, false);
+  } else {
+    swiper.slideTo(newActiveIndex, 0, false);
+  }
 }
