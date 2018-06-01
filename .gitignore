@@ -5,3 +5,4 @@ custom
 *.log
 
 .versions
+.idea
