@@ -1,5 +1,5 @@
 /**
- * Swiper 4.3.0
+ * Swiper 4.3.2
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: May 27, 2018
+ * Released on: June 1, 2018
  */
 
 (function (global, factory) {
@@ -1283,8 +1283,9 @@
     var swiperSize = swiper.size;
     var rtl = swiper.rtlTranslate;
     var wrongRTL = swiper.wrongRTL;
-    var slides = $wrapperEl.children(("." + (swiper.params.slideClass)));
     var isVirtual = swiper.virtual && params.virtual.enabled;
+    var previousSlidesLength = isVirtual ? swiper.virtual.slides.length : swiper.slides.length;
+    var slides = $wrapperEl.children(("." + (swiper.params.slideClass)));
     var slidesLength = isVirtual ? swiper.virtual.slides.length : slides.length;
     var snapGrid = [];
     var slidesGrid = [];
@@ -1300,7 +1301,6 @@
       offsetAfter = params.slidesOffsetAfter.call(swiper);
     }
 
-    var previousSlidesLength = slidesLength;
     var previousSnapGridLength = swiper.snapGrid.length;
     var previousSlidesGridLength = swiper.snapGrid.length;
 
@@ -2292,7 +2292,7 @@
       if (slideChanged && diff !== 0) {
         swiper.setTranslate((rtl ? -swiper.translate : swiper.translate) - diff);
       }
-    } else if ((params.slidesPerView === 'auto' && activeIndex >= loopedSlides * 2) || (activeIndex > slides.length - (params.slidesPerView * 2))) {
+    } else if ((params.slidesPerView === 'auto' && activeIndex >= loopedSlides * 2) || (activeIndex >= slides.length - loopedSlides)) {
       // Fix For Positive Oversliding
       newIndex = -slides.length + activeIndex + loopedSlides;
       newIndex += loopedSlides;
@@ -2390,17 +2390,73 @@
     swiper.slideTo(newActiveIndex, 0, false);
   }
 
+  function addSlide (index, slides) {
+    var swiper = this;
+    var $wrapperEl = swiper.$wrapperEl;
+    var params = swiper.params;
+    var activeIndex = swiper.activeIndex;
+    var activeIndexBuffer = activeIndex;
+    if (params.loop) {
+      activeIndexBuffer -= swiper.loopedSlides;
+      swiper.loopDestroy();
+      swiper.slides = $wrapperEl.children(("." + (params.slideClass)));
+    }
+    var baseLength = swiper.slides.length;
+    if (index <= 0) {
+      swiper.prependSlide(slides);
+      return;
+    } else if (index >= baseLength) {
+      swiper.appendSlide(slides);
+      return;
+    }
+    var newActiveIndex = activeIndexBuffer > index ? activeIndexBuffer + 1 : activeIndexBuffer;
+
+    var slidesBuffer = [];
+    for (var i = baseLength - 1; i >= index; i -= 1) {
+      var currentSlide = swiper.slides.eq(i);
+      currentSlide.remove();
+      slidesBuffer.unshift(currentSlide);
+    }
+
+    if (typeof slides === 'object' && 'length' in slides) {
+      for (var i$1 = 0; i$1 < slides.length; i$1 += 1) {
+        if (slides[i$1]) { $wrapperEl.append(slides[i$1]); }
+      }
+      newActiveIndex = activeIndexBuffer > index ? activeIndexBuffer + slides.length : activeIndexBuffer;
+    } else {
+      $wrapperEl.append(slides);
+    }
+
+    for (var i$2 = 0; i$2 < slidesBuffer.length; i$2 += 1) {
+      $wrapperEl.append(slidesBuffer[i$2]);
+    }
+
+    if (params.loop) {
+      swiper.loopCreate();
+    }
+    if (!(params.observer && Support.observer)) {
+      swiper.update();
+    }
+    if (params.loop) {
+      swiper.slideTo(newActiveIndex + swiper.loopedSlides, 0, false);
+    } else {
+      swiper.slideTo(newActiveIndex, 0, false);
+    }
+  }
+
   function removeSlide (slidesIndexes) {
     var swiper = this;
     var params = swiper.params;
     var $wrapperEl = swiper.$wrapperEl;
     var activeIndex = swiper.activeIndex;
 
+    var activeIndexBuffer = activeIndex;
     if (params.loop) {
+      activeIndexBuffer -= swiper.loopedSlides;
       swiper.loopDestroy();
       swiper.slides = $wrapperEl.children(("." + (params.slideClass)));
     }
-    var newActiveIndex = activeIndex;
+    var newActiveIndex = activeIndexBuffer;
     var indexToRemove;
 
     if (typeof slidesIndexes === 'object' && 'length' in slidesIndexes) {
@@ -2444,6 +2500,7 @@
   var manipulation = {
     appendSlide: appendSlide,
     prependSlide: prependSlide,
+    addSlide: addSlide,
     removeSlide: removeSlide,
     removeAllSlides: removeAllSlides,
   };
@@ -4934,8 +4991,8 @@
         }
       }
       if (params.type === 'fraction') {
-        $el.find(("." + (params.currentClass))).text(current + 1);
-        $el.find(("." + (params.totalClass))).text(total);
+        $el.find(("." + (params.currentClass))).text(params.formatFractionCurrent(current + 1));
+        $el.find(("." + (params.totalClass))).text(params.formatFractionTotal(total));
       }
       if (params.type === 'progressbar') {
         var progressbarDirection;
@@ -5085,6 +5142,8 @@
         type: 'bullets', // 'bullets' or 'progressbar' or 'fraction' or 'custom'
         dynamicBullets: false,
         dynamicMainBullets: 1,
+        formatFractionCurrent: function (number) { return number; },
+        formatFractionTotal: function (number) { return number; },
         bulletClass: 'swiper-pagination-bullet',
         bulletActiveClass: 'swiper-pagination-bullet-active',
         modifierClass: 'swiper-pagination-', // NEW

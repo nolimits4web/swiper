@@ -22,7 +22,7 @@ function es(components, cb) {
   // Bundle
   rollup.rollup({
     input: './src/swiper.js',
-    external: ['dom7', 'ssr-window'],
+    external: ['dom7/dist/dom7.modular', 'ssr-window'],
     plugins: [
       replace({
         delimiters: ['', ''],
@@ -32,6 +32,7 @@ function es(components, cb) {
         '//INSTALL_COMPONENTS': components.map(component => `${component.capitalized}`).join(',\n  '),
         '//EXPORT': 'export default Swiper',
       }),
+      resolve({ jsnext: true }),
     ],
   }).then(bundle => bundle.write({
     format: 'es',
@@ -51,7 +52,7 @@ function es(components, cb) {
   // Modular
   rollup.rollup({
     input: './src/swiper.js',
-    external: ['dom7', 'ssr-window'],
+    external: ['dom7/dist/dom7.modular', 'ssr-window'],
     plugins: [
       replace({
         delimiters: ['', ''],
@@ -61,6 +62,7 @@ function es(components, cb) {
         '//INSTALL_COMPONENTS': '',
         '//EXPORT': `export { Swiper, ${components.map(component => component.capitalized).join(', ')} }`,
       }),
+      resolve({ jsnext: true }),
     ],
   }).then(bundle => bundle.write({
     format: 'es',
