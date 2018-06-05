@@ -1,5 +1,11 @@
 # Change Log
 
+## [Swiper 4.3.3](https://github.com/nolimits4web/swiper/compare/v4.3.2...v4.3.3) - Released on June 5, 2018
+  * Core
+    * Fixed issue when slidePrev goes to wrong slide #2650
+    * Fixed issue when roundLength was not considered for grids calculation #2656
+    * Fixed typo in API #2659
+
 ## [Swiper 4.3.2](https://github.com/nolimits4web/swiper/compare/v4.3.0...v4.3.2) - Released on June 1, 2018
   * Core
     * Added `addSlide(index, slide)` method to add slide at required position. Thanks to @kochizufan
