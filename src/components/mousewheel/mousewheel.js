@@ -177,7 +177,7 @@ const Mousewheel = {
       swiper.emit('scroll', e);
 
       // Stop autoplay
-      if (swiper.params.autoplay && swiper.params.autoplayDisableOnInteraction) swiper.stopAutoplay();
+      if (swiper.params.autoplay && swiper.params.autoplayDisableOnInteraction) swiper.autoplay.stop();
       // Return page scroll on edge positions
       if (position === swiper.minTranslate() || position === swiper.maxTranslate()) return true;
     }
