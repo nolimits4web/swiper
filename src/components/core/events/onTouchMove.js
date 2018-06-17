@@ -71,6 +71,7 @@ export default function (event) {
 
   const diffX = touches.currentX - touches.startX;
   const diffY = touches.currentY - touches.startY;
+  if (swiper.params.threshold && Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2)) < swiper.params.threshold) return;
 
   if (typeof data.isScrolling === 'undefined') {
     let touchAngle;
@@ -87,7 +88,7 @@ export default function (event) {
   if (data.isScrolling) {
     swiper.emit('touchMoveOpposite', e);
   }
-  if (typeof startMoving === 'undefined') {
+  if (typeof data.startMoving === 'undefined') {
     if (touches.currentX !== touches.startX || touches.currentY !== touches.startY) {
       data.startMoving = true;
     }
