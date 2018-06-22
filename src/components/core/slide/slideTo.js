@@ -8,7 +8,7 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   const {
     params, snapGrid, slidesGrid, previousIndex, activeIndex, rtlTranslate: rtl,
   } = swiper;
-  if (swiper.animating && params.preventIntercationOnTransition) {
+  if (swiper.animating && params.preventInteractionOnTransition) {
     return false;
   }
 
