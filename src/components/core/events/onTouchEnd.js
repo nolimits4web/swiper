@@ -73,7 +73,8 @@ export default function (event) {
     if (currentPos < -swiper.minTranslate()) {
       swiper.slideTo(swiper.activeIndex);
       return;
-    } else if (currentPos > -swiper.maxTranslate()) {
+    }
+    if (currentPos > -swiper.maxTranslate()) {
       if (swiper.slides.length < snapGrid.length) {
         swiper.slideTo(snapGrid.length - 1);
       } else {

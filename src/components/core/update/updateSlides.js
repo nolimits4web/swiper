@@ -116,13 +116,13 @@ export default function () {
         slide[0].style.webkitTransform = 'none';
       }
       if (swiper.isHorizontal()) {
-        slideSize = slide[0].getBoundingClientRect().width +
-          parseFloat(slideStyles.getPropertyValue('margin-left')) +
-          parseFloat(slideStyles.getPropertyValue('margin-right'));
+        slideSize = slide[0].getBoundingClientRect().width
+          + parseFloat(slideStyles.getPropertyValue('margin-left'))
+          + parseFloat(slideStyles.getPropertyValue('margin-right'));
       } else {
-        slideSize = slide[0].getBoundingClientRect().height +
-          parseFloat(slideStyles.getPropertyValue('margin-top')) +
-          parseFloat(slideStyles.getPropertyValue('margin-bottom'));
+        slideSize = slide[0].getBoundingClientRect().height
+          + parseFloat(slideStyles.getPropertyValue('margin-top'))
+          + parseFloat(slideStyles.getPropertyValue('margin-bottom'));
       }
       if (currentTransform) {
         slide[0].style.transform = currentTransform;

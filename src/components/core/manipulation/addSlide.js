@@ -13,7 +13,8 @@ export default function (index, slides) {
   if (index <= 0) {
     swiper.prependSlide(slides);
     return;
-  } else if (index >= baseLength) {
+  }
+  if (index >= baseLength) {
     swiper.appendSlide(slides);
     return;
   }
