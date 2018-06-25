@@ -1,3 +1,4 @@
+daysUntilLock: 180
 exemptLabels:
   - feature request
   - in progress
