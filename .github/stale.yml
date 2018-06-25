@@ -1,4 +1,4 @@
-daysUntilStale: 60
+daysUntilStale: 90
 daysUntilClose: 7
 exemptLabels:
   - feature request
