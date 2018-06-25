@@ -1,5 +1,5 @@
 daysUntilStale: 90
-daysUntilClose: 7
+daysUntilClose: 14
 exemptLabels:
   - feature request
   - in progress
