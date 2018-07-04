@@ -30,12 +30,12 @@ export default function (event) {
 
   // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
 
+  const edgeSwipeDetection = params.edgeSwipeDetection || params.iOSEdgeSwipeDetection;
+  const edgeSwipeThreshold = params.edgeSwipeThreshold || params.iOSEdgeSwipeThreshold;
   if (
-    Device.ios
-    && !Device.cordova
-    && params.iOSEdgeSwipeDetection
-    && ((startX <= params.iOSEdgeSwipeThreshold)
-    || (startX >= window.screen.width - params.iOSEdgeSwipeThreshold))
+    edgeSwipeDetection
+    && ((startX <= edgeSwipeThreshold)
+    || (startX >= window.screen.width - edgeSwipeThreshold))
   ) {
     return;
   }

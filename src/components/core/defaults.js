@@ -8,8 +8,8 @@ export default {
   preventInteractionOnTransition: false,
 
   // To support iOS's swipe-to-go-back gesture (when being used in-app, with UIWebView).
-  iOSEdgeSwipeDetection: false,
-  iOSEdgeSwipeThreshold: 20,
+  edgeSwipeDetection: false,
+  edgeSwipeThreshold: 20,
 
   // Free mode
   freeMode: false,
