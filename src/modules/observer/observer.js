@@ -9,9 +9,18 @@ const Observer = {
 
     const ObserverFunc = Observer.func;
     const observer = new ObserverFunc((mutations) => {
-      mutations.forEach((mutation) => {
-        swiper.emit('observerUpdate', mutation);
-      });
+      // The observerUpdate event should only be triggered
+      // once despite the number of mutations.  Additional
+      // triggers are redundant and are very costly
+      const observerUpdate = function observerUpdate() {
+        swiper.emit('observerUpdate', mutations[0]);
+      };
+
+      if (window.requestAnimationFrame) {
+        window.requestAnimationFrame(observerUpdate);
+      } else {
+        window.setTimeout(observerUpdate, 0);
+      }
     });
 
     observer.observe(target, {
