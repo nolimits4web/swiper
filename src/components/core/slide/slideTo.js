@@ -89,6 +89,8 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
           if (e.target !== this) return;
           swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
           swiper.$wrapperEl[0].removeEventListener('webkitTransitionEnd', swiper.onSlideToWrapperTransitionEnd);
+          swiper.onSlideToWrapperTransitionEnd = null;
+          delete swiper.onSlideToWrapperTransitionEnd;
           swiper.transitionEnd(runCallbacks, direction);
         };
       }
