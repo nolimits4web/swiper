@@ -38,7 +38,9 @@ function build(cb) {
         .replace('$colors', colors.join(', '));
       return newContent;
     }))
-    .pipe(less())
+    .pipe(less({
+      javascriptEnabled: true,
+    }))
     .on('error', (err) => {
       if (cb) cb();
       console.error(err.toString());
