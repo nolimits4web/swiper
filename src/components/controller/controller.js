@@ -102,6 +102,11 @@ const Controller = {
       c.setTransition(duration, swiper);
       if (duration !== 0) {
         c.transitionStart();
+        if (c.params.autoHeight) {
+          Utils.nextTick(() => {
+            c.updateAutoHeight();
+          });
+        }
         c.$wrapperEl.transitionEnd(() => {
           if (!controlled) return;
           if (c.params.loop && swiper.params.controller.by === 'slide') {
