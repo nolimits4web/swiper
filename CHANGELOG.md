@@ -1,5 +1,15 @@
 # Change Log
 
+## [Swiper 4.3.5](https://github.com/nolimits4web/swiper/compare/v4.3.3...v4.3.5) - Released on July 31, 2018
+  * Core
+    * `iOSEdgeSwipeThreshold` parameter renamed to just `edgeSwipeThreshold`. Old `iOSEdgeSwipeThreshold` name is still supported
+    * Improved observer performance if there are many mutations at a time. Thanks to @rayvincent-bsd
+  * Controller
+    * Fixed issue with wrong auto height resizing
+  * Scrollbar
+    * Fixed issue when it was using active event listeners instead of passive. Thanks to @nyon
+  * Minor fixes
+
 ## [Swiper 4.3.3](https://github.com/nolimits4web/swiper/compare/v4.3.2...v4.3.3) - Released on June 5, 2018
   * Core
     * Fixed issue when slidePrev goes to wrong slide #2650

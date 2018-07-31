@@ -1,5 +1,5 @@
 /**
- * Swiper 4.3.3
+ * Swiper 4.3.5
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: June 5, 2018
+ * Released on: July 31, 2018
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition, on, off, trigger, transitionEnd, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -233,6 +233,7 @@ class SwiperClass {
       });
     }
   }
+
   on(events, handler, priority) {
     const self = this;
     if (typeof handler !== 'function') return self;
@@ -243,6 +244,7 @@ class SwiperClass {
     });
     return self;
   }
+
   once(events, handler, priority) {
     const self = this;
     if (typeof handler !== 'function') return self;
@@ -252,6 +254,7 @@ class SwiperClass {
     }
     return self.on(events, onceHandler, priority);
   }
+
   off(events, handler) {
     const self = this;
     if (!self.eventsListeners) return self;
@@ -268,6 +271,7 @@ class SwiperClass {
     });
     return self;
   }
+
   emit(...args) {
     const self = this;
     if (!self.eventsListeners) return self;
@@ -297,6 +301,7 @@ class SwiperClass {
     });
     return self;
   }
+
   useModulesParams(instanceParams) {
     const instance = this;
     if (!instance.modules) return;
@@ -308,6 +313,7 @@ class SwiperClass {
       }
     });
   }
+
   useModules(modulesParams = {}) {
     const instance = this;
     if (!instance.modules) return;
@@ -338,11 +344,13 @@ class SwiperClass {
       }
     });
   }
+
   static set components(components) {
     const Class = this;
     if (!Class.use) return;
     Class.use(components);
   }
+
   static installModule(module, ...params) {
     const Class = this;
     if (!Class.prototype.modules) Class.prototype.modules = {};
@@ -366,6 +374,7 @@ class SwiperClass {
     }
     return Class;
   }
+
   static use(module, ...params) {
     const Class = this;
     if (Array.isArray(module)) {
@@ -520,13 +529,13 @@ function updateSlides () {
         slide[0].style.webkitTransform = 'none';
       }
       if (swiper.isHorizontal()) {
-        slideSize = slide[0].getBoundingClientRect().width +
-          parseFloat(slideStyles.getPropertyValue('margin-left')) +
-          parseFloat(slideStyles.getPropertyValue('margin-right'));
+        slideSize = slide[0].getBoundingClientRect().width
+          + parseFloat(slideStyles.getPropertyValue('margin-left'))
+          + parseFloat(slideStyles.getPropertyValue('margin-right'));
       } else {
-        slideSize = slide[0].getBoundingClientRect().height +
-          parseFloat(slideStyles.getPropertyValue('margin-top')) +
-          parseFloat(slideStyles.getPropertyValue('margin-bottom'));
+        slideSize = slide[0].getBoundingClientRect().height
+          + parseFloat(slideStyles.getPropertyValue('margin-top'))
+          + parseFloat(slideStyles.getPropertyValue('margin-bottom'));
       }
       if (currentTransform) {
         slide[0].style.transform = currentTransform;
@@ -707,17 +716,15 @@ function updateSlidesProgress (translate = (this && this.translate) || 0) {
 
   for (let i = 0; i < slides.length; i += 1) {
     const slide = slides[i];
-    const slideProgress =
-      (
-        (offsetCenter + (params.centeredSlides ? swiper.minTranslate() : 0)) - slide.swiperSlideOffset
-      ) / (slide.swiperSlideSize + params.spaceBetween);
+    const slideProgress = (
+      (offsetCenter + (params.centeredSlides ? swiper.minTranslate() : 0)) - slide.swiperSlideOffset
+    ) / (slide.swiperSlideSize + params.spaceBetween);
     if (params.watchSlidesVisibility) {
       const slideBefore = -(offsetCenter - slide.swiperSlideOffset);
       const slideAfter = slideBefore + swiper.slidesSizesGrid[i];
-      const isVisible =
-                (slideBefore >= 0 && slideBefore < swiper.size) ||
-                (slideAfter > 0 && slideAfter <= swiper.size) ||
-                (slideBefore <= 0 && slideAfter >= swiper.size);
+      const isVisible = (slideBefore >= 0 && slideBefore < swiper.size)
+                || (slideAfter > 0 && slideAfter <= swiper.size)
+                || (slideBefore <= 0 && slideAfter >= swiper.size);
       if (isVisible) {
         slides.eq(i).addClass(params.slideVisibleClass);
       }
@@ -1082,7 +1089,7 @@ function slideTo (index$$1 = 0, speed = this.params.speed, runCallbacks = true, 
   const {
     params, snapGrid, slidesGrid, previousIndex, activeIndex, rtlTranslate: rtl,
   } = swiper;
-  if (swiper.animating && params.preventIntercationOnTransition) {
+  if (swiper.animating && params.preventInteractionOnTransition) {
     return false;
   }
 
@@ -1163,6 +1170,8 @@ function slideTo (index$$1 = 0, speed = this.params.speed, runCallbacks = true, 
           if (e.target !== this) return;
           swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
           swiper.$wrapperEl[0].removeEventListener('webkitTransitionEnd', swiper.onSlideToWrapperTransitionEnd);
+          swiper.onSlideToWrapperTransitionEnd = null;
+          delete swiper.onSlideToWrapperTransitionEnd;
           swiper.transitionEnd(runCallbacks, direction);
         };
       }
@@ -1268,8 +1277,8 @@ function slideToClickedSlide () {
     realIndex = parseInt($(swiper.clickedSlide).attr('data-swiper-slide-index'), 10);
     if (params.centeredSlides) {
       if (
-        (slideToIndex < swiper.loopedSlides - (slidesPerView / 2)) ||
-        (slideToIndex > (swiper.slides.length - swiper.loopedSlides) + (slidesPerView / 2))
+        (slideToIndex < swiper.loopedSlides - (slidesPerView / 2))
+        || (slideToIndex > (swiper.slides.length - swiper.loopedSlides) + (slidesPerView / 2))
       ) {
         swiper.loopFix();
         slideToIndex = $wrapperEl
@@ -1481,7 +1490,8 @@ function addSlide (index$$1, slides) {
   if (index$$1 <= 0) {
     swiper.prependSlide(slides);
     return;
-  } else if (index$$1 >= baseLength) {
+  }
+  if (index$$1 >= baseLength) {
     swiper.appendSlide(slides);
     return;
   }
@@ -1649,11 +1659,10 @@ const Device = (function Device() {
   if (device.os && device.os === 'ios') {
     const osVersionArr = device.osVersion.split('.');
     const metaViewport = document.querySelector('meta[name="viewport"]');
-    device.minimalUi =
-      !device.webView &&
-      (ipod || iphone) &&
-      (osVersionArr[0] * 1 === 7 ? osVersionArr[1] * 1 >= 1 : osVersionArr[0] * 1 > 7) &&
-      metaViewport && metaViewport.getAttribute('content').indexOf('minimal-ui') >= 0;
+    device.minimalUi = !device.webView
+      && (ipod || iphone)
+      && (osVersionArr[0] * 1 === 7 ? osVersionArr[1] * 1 >= 1 : osVersionArr[0] * 1 > 7)
+      && metaViewport && metaViewport.getAttribute('content').indexOf('minimal-ui') >= 0;
   }
 
   // Pixel Ratio
@@ -1667,7 +1676,7 @@ function onTouchStart (event) {
   const swiper = this;
   const data$$1 = swiper.touchEventsData;
   const { params, touches } = swiper;
-  if (swiper.animating && params.preventIntercationOnTransition) {
+  if (swiper.animating && params.preventInteractionOnTransition) {
     return;
   }
   let e = event;
@@ -1690,12 +1699,12 @@ function onTouchStart (event) {
 
   // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
 
+  const edgeSwipeDetection = params.edgeSwipeDetection || params.iOSEdgeSwipeDetection;
+  const edgeSwipeThreshold = params.edgeSwipeThreshold || params.iOSEdgeSwipeThreshold;
   if (
-    Device.ios &&
-    !Device.cordova &&
-    params.iOSEdgeSwipeDetection &&
-    ((startX <= params.iOSEdgeSwipeThreshold) ||
-    (startX >= window.screen.width - params.iOSEdgeSwipeThreshold))
+    edgeSwipeDetection
+    && ((startX <= edgeSwipeThreshold)
+    || (startX >= window.screen.width - edgeSwipeThreshold))
   ) {
     return;
   }
@@ -1719,9 +1728,9 @@ function onTouchStart (event) {
     let preventDefault = true;
     if ($(e.target).is(data$$1.formElements)) preventDefault = false;
     if (
-      document.activeElement &&
-      $(document.activeElement).is(data$$1.formElements) &&
-      document.activeElement !== e.target
+      document.activeElement
+      && $(document.activeElement).is(data$$1.formElements)
+      && document.activeElement !== e.target
     ) {
       document.activeElement.blur();
     }
@@ -1770,16 +1779,16 @@ function onTouchMove (event) {
     if (swiper.isVertical()) {
       // Vertical
       if (
-        (pageY < touches.startY && swiper.translate <= swiper.maxTranslate()) ||
-        (pageY > touches.startY && swiper.translate >= swiper.minTranslate())
+        (pageY < touches.startY && swiper.translate <= swiper.maxTranslate())
+        || (pageY > touches.startY && swiper.translate >= swiper.minTranslate())
       ) {
         data$$1.isTouched = false;
         data$$1.isMoved = false;
         return;
       }
     } else if (
-      (pageX < touches.startX && swiper.translate <= swiper.maxTranslate()) ||
-      (pageX > touches.startX && swiper.translate >= swiper.minTranslate())
+      (pageX < touches.startX && swiper.translate <= swiper.maxTranslate())
+      || (pageX > touches.startX && swiper.translate >= swiper.minTranslate())
     ) {
       return;
     }
@@ -1801,6 +1810,7 @@ function onTouchMove (event) {
 
   const diffX = touches.currentX - touches.startX;
   const diffY = touches.currentY - touches.startY;
+  if (swiper.params.threshold && Math.sqrt((diffX ** 2) + (diffY ** 2)) < swiper.params.threshold) return;
 
   if (typeof data$$1.isScrolling === 'undefined') {
     let touchAngle;
@@ -1817,7 +1827,7 @@ function onTouchMove (event) {
   if (data$$1.isScrolling) {
     swiper.emit('touchMoveOpposite', e);
   }
-  if (typeof startMoving === 'undefined') {
+  if (typeof data$$1.startMoving === 'undefined') {
     if (touches.currentX !== touches.startX || touches.currentY !== touches.startY) {
       data$$1.startMoving = true;
     }
@@ -2005,7 +2015,8 @@ function onTouchEnd (event) {
     if (currentPos < -swiper.minTranslate()) {
       swiper.slideTo(swiper.activeIndex);
       return;
-    } else if (currentPos > -swiper.maxTranslate()) {
+    }
+    if (currentPos > -swiper.maxTranslate()) {
       if (swiper.slides.length < snapGrid.length) {
         swiper.slideTo(snapGrid.length - 1);
       } else {
@@ -2547,11 +2558,11 @@ var defaults = {
   initialSlide: 0,
   speed: 300,
   //
-  preventIntercationOnTransition: false,
+  preventInteractionOnTransition: false,
 
   // To support iOS's swipe-to-go-back gesture (when being used in-app, with UIWebView).
-  iOSEdgeSwipeDetection: false,
-  iOSEdgeSwipeThreshold: 20,
+  edgeSwipeDetection: false,
+  edgeSwipeThreshold: 20,
 
   // Free mode
   freeMode: false,
@@ -2724,8 +2735,8 @@ class Swiper extends SwiperClass {
           params[moduleParamName] = { enabled: true };
         }
         if (
-          typeof params[moduleParamName] === 'object' &&
-          !('enabled' in params[moduleParamName])
+          typeof params[moduleParamName] === 'object'
+          && !('enabled' in params[moduleParamName])
         ) {
           params[moduleParamName].enabled = true;
         }
@@ -2888,6 +2899,7 @@ class Swiper extends SwiperClass {
     // Return app instance
     return swiper;
   }
+
   slidesPerViewDynamic() {
     const swiper = this;
     const {
@@ -2920,6 +2932,7 @@ class Swiper extends SwiperClass {
     }
     return spv;
   }
+
   update() {
     const swiper = this;
     if (!swiper || swiper.destroyed) return;
@@ -2961,6 +2974,7 @@ class Swiper extends SwiperClass {
     }
     swiper.emit('update');
   }
+
   init() {
     const swiper = this;
     if (swiper.initialized) return;
@@ -3015,6 +3029,7 @@ class Swiper extends SwiperClass {
     // Emit
     swiper.emit('init');
   }
+
   destroy(deleteInstance = true, cleanStyles = true) {
     const swiper = this;
     const {
@@ -3074,18 +3089,23 @@ class Swiper extends SwiperClass {
 
     return null;
   }
+
   static extendDefaults(newDefaults) {
     Utils.extend(extendedDefaults, newDefaults);
   }
+
   static get extendedDefaults() {
     return extendedDefaults;
   }
+
   static get defaults() {
     return defaults;
   }
+
   static get Class() {
     return SwiperClass;
   }
+
   static get $() {
     return $;
   }
@@ -3163,9 +3183,22 @@ const Observer = {
 
     const ObserverFunc = Observer.func;
     const observer = new ObserverFunc((mutations) => {
-      mutations.forEach((mutation) => {
-        swiper.emit('observerUpdate', mutation);
-      });
+      // The observerUpdate event should only be triggered
+      // once despite the number of mutations.  Additional
+      // triggers are redundant and are very costly
+      if (mutations.length === 1) {
+        swiper.emit('observerUpdate', mutations[0]);
+        return;
+      }
+      const observerUpdate = function observerUpdate() {
+        swiper.emit('observerUpdate', mutations[0]);
+      };
+
+      if (window.requestAnimationFrame) {
+        window.requestAnimationFrame(observerUpdate);
+      } else {
+        window.setTimeout(observerUpdate, 0);
+      }
     });
 
     observer.observe(target, {
@@ -3448,8 +3481,8 @@ const Keyboard = {
       for (let i = 0; i < swiperCoord.length; i += 1) {
         const point = swiperCoord[i];
         if (
-          point[0] >= 0 && point[0] <= windowWidth &&
-          point[1] >= 0 && point[1] <= windowHeight
+          point[0] >= 0 && point[0] <= windowWidth
+          && point[1] >= 0 && point[1] <= windowHeight
         ) {
           inView = true;
         }
@@ -3533,12 +3566,12 @@ function isEventSupported() {
     isSupported = typeof element[eventName] === 'function';
   }
 
-  if (!isSupported &&
-    document.implementation &&
-    document.implementation.hasFeature &&
+  if (!isSupported
+    && document.implementation
+    && document.implementation.hasFeature
     // always returns true in newer browsers as per the standard.
     // @see http://dom.spec.whatwg.org/#dom-domimplementation-hasfeature
-    document.implementation.hasFeature('', '') !== true
+    && document.implementation.hasFeature('', '') !== true
   ) {
     // This is the only way to test support for the `wheel` event in IE9+.
     isSupported = document.implementation.hasFeature('Events.wheel', '3.0');
@@ -3809,10 +3842,10 @@ const Navigation = {
     if (params.nextEl) {
       $nextEl = $(params.nextEl);
       if (
-        swiper.params.uniqueNavElements &&
-        typeof params.nextEl === 'string' &&
-        $nextEl.length > 1 &&
-        swiper.$el.find(params.nextEl).length === 1
+        swiper.params.uniqueNavElements
+        && typeof params.nextEl === 'string'
+        && $nextEl.length > 1
+        && swiper.$el.find(params.nextEl).length === 1
       ) {
         $nextEl = swiper.$el.find(params.nextEl);
       }
@@ -3820,10 +3853,10 @@ const Navigation = {
     if (params.prevEl) {
       $prevEl = $(params.prevEl);
       if (
-        swiper.params.uniqueNavElements &&
-        typeof params.prevEl === 'string' &&
-        $prevEl.length > 1 &&
-        swiper.$el.find(params.prevEl).length === 1
+        swiper.params.uniqueNavElements
+        && typeof params.prevEl === 'string'
+        && $prevEl.length > 1
+        && swiper.$el.find(params.prevEl).length === 1
       ) {
         $prevEl = swiper.$el.find(params.prevEl);
       }
@@ -3910,9 +3943,9 @@ var Navigation$1 = {
       const swiper = this;
       const { $nextEl, $prevEl } = swiper.navigation;
       if (
-        swiper.params.navigation.hideOnClick &&
-        !$(e.target).is($prevEl) &&
-        !$(e.target).is($nextEl)
+        swiper.params.navigation.hideOnClick
+        && !$(e.target).is($prevEl)
+        && !$(e.target).is($nextEl)
       ) {
         if ($nextEl) $nextEl.toggleClass(swiper.params.navigation.hiddenClass);
         if ($prevEl) $prevEl.toggleClass(swiper.params.navigation.hiddenClass);
@@ -4076,10 +4109,9 @@ const Pagination = {
       if (params.renderFraction) {
         paginationHTML = params.renderFraction.call(swiper, params.currentClass, params.totalClass);
       } else {
-        paginationHTML =
-        `<span class="${params.currentClass}"></span>` +
-        ' / ' +
-        `<span class="${params.totalClass}"></span>`;
+        paginationHTML = `<span class="${params.currentClass}"></span>`
+        + ' / '
+        + `<span class="${params.totalClass}"></span>`;
       }
       $el.html(paginationHTML);
     }
@@ -4104,10 +4136,10 @@ const Pagination = {
     if ($el.length === 0) return;
 
     if (
-      swiper.params.uniqueNavElements &&
-      typeof params.el === 'string' &&
-      $el.length > 1 &&
-      swiper.$el.find(params.el).length === 1
+      swiper.params.uniqueNavElements
+      && typeof params.el === 'string'
+      && $el.length > 1
+      && swiper.$el.find(params.el).length === 1
     ) {
       $el = swiper.$el.find(params.el);
     }
@@ -4242,10 +4274,10 @@ var Pagination$1 = {
     click(e) {
       const swiper = this;
       if (
-        swiper.params.pagination.el &&
-        swiper.params.pagination.hideOnClick &&
-        swiper.pagination.$el.length > 0 &&
-        !$(e.target).hasClass(swiper.params.pagination.bulletClass)
+        swiper.params.pagination.el
+        && swiper.params.pagination.hideOnClick
+        && swiper.pagination.$el.length > 0
+        && !$(e.target).hasClass(swiper.params.pagination.bulletClass)
       ) {
         swiper.pagination.$el.toggleClass(swiper.params.pagination.hiddenClass);
       }
@@ -4439,8 +4471,8 @@ const Scrollbar = {
     } = swiper;
     const $el = scrollbar.$el;
     const target = $el[0];
-    const activeListener = Support.passiveListener && params.passiveListener ? { passive: false, capture: false } : false;
-    const passiveListener = Support.passiveListener && params.passiveListener ? { passive: true, capture: false } : false;
+    const activeListener = Support.passiveListener && params.passiveListeners ? { passive: false, capture: false } : false;
+    const passiveListener = Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
     if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
       target.addEventListener(touchEventsDesktop.start, swiper.scrollbar.onDragStart, activeListener);
       document.addEventListener(touchEventsDesktop.move, swiper.scrollbar.onDragMove, activeListener);
@@ -4466,8 +4498,8 @@ const Scrollbar = {
     } = swiper;
     const $el = scrollbar.$el;
     const target = $el[0];
-    const activeListener = Support.passiveListener && params.passiveListener ? { passive: false, capture: false } : false;
-    const passiveListener = Support.passiveListener && params.passiveListener ? { passive: true, capture: false } : false;
+    const activeListener = Support.passiveListener && params.passiveListeners ? { passive: false, capture: false } : false;
+    const passiveListener = Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
     if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
       target.removeEventListener(touchEventsDesktop.start, swiper.scrollbar.onDragStart, activeListener);
       document.removeEventListener(touchEventsDesktop.move, swiper.scrollbar.onDragMove, activeListener);
@@ -4845,19 +4877,19 @@ const Zoom = {
 
     if (!image.isMoved && !zoom.isScaling) {
       if (
-        swiper.isHorizontal() &&
-        (
-          (Math.floor(image.minX) === Math.floor(image.startX) && image.touchesCurrent.x < image.touchesStart.x) ||
-          (Math.floor(image.maxX) === Math.floor(image.startX) && image.touchesCurrent.x > image.touchesStart.x)
+        swiper.isHorizontal()
+        && (
+          (Math.floor(image.minX) === Math.floor(image.startX) && image.touchesCurrent.x < image.touchesStart.x)
+          || (Math.floor(image.maxX) === Math.floor(image.startX) && image.touchesCurrent.x > image.touchesStart.x)
         )
       ) {
         image.isTouched = false;
         return;
-      } else if (
-        !swiper.isHorizontal() &&
-        (
-          (Math.floor(image.minY) === Math.floor(image.startY) && image.touchesCurrent.y < image.touchesStart.y) ||
-          (Math.floor(image.maxY) === Math.floor(image.startY) && image.touchesCurrent.y > image.touchesStart.y)
+      } if (
+        !swiper.isHorizontal()
+        && (
+          (Math.floor(image.minY) === Math.floor(image.startY) && image.touchesCurrent.y < image.touchesStart.y)
+          || (Math.floor(image.maxY) === Math.floor(image.startY) && image.touchesCurrent.y > image.touchesStart.y)
         )
       ) {
         image.isTouched = false;
@@ -5467,9 +5499,9 @@ const Controller = {
   getInterpolateFunction(c) {
     const swiper = this;
     if (!swiper.controller.spline) {
-      swiper.controller.spline = swiper.params.loop ?
-        new Controller.LinearSpline(swiper.slidesGrid, c.slidesGrid) :
-        new Controller.LinearSpline(swiper.snapGrid, c.snapGrid);
+      swiper.controller.spline = swiper.params.loop
+        ? new Controller.LinearSpline(swiper.slidesGrid, c.slidesGrid)
+        : new Controller.LinearSpline(swiper.snapGrid, c.snapGrid);
     }
   },
   setTranslate(setTranslate, byController) {
@@ -5521,6 +5553,11 @@ const Controller = {
       c.setTransition(duration, swiper);
       if (duration !== 0) {
         c.transitionStart();
+        if (c.params.autoHeight) {
+          Utils.nextTick(() => {
+            c.updateAutoHeight();
+          });
+        }
         c.$wrapperEl.transitionEnd(() => {
           if (!controlled) return;
           if (c.params.loop && swiper.params.controller.by === 'slide') {
@@ -6178,9 +6215,9 @@ const Fade = {
         ty = tx;
         tx = 0;
       }
-      const slideOpacity = swiper.params.fadeEffect.crossFade ?
-        Math.max(1 - Math.abs($slideEl[0].progress), 0) :
-        1 + Math.min(Math.max($slideEl[0].progress, -1), 0);
+      const slideOpacity = swiper.params.fadeEffect.crossFade
+        ? Math.max(1 - Math.abs($slideEl[0].progress), 0)
+        : 1 + Math.min(Math.max($slideEl[0].progress, -1), 0);
       $slideEl
         .css({
           opacity: slideOpacity,
@@ -6353,8 +6390,8 @@ const Cube = {
       } else {
         const shadowAngle = Math.abs(wrapperRotate) - (Math.floor(Math.abs(wrapperRotate) / 90) * 90);
         const multiplier = 1.5 - (
-          (Math.sin((shadowAngle * 2 * Math.PI) / 360) / 2) +
-          (Math.cos((shadowAngle * 2 * Math.PI) / 360) / 2)
+          (Math.sin((shadowAngle * 2 * Math.PI) / 360) / 2)
+          + (Math.cos((shadowAngle * 2 * Math.PI) / 360) / 2)
         );
         const scale1 = params.shadowScale;
         const scale2 = params.shadowScale / multiplier;
