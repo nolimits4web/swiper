@@ -12,6 +12,10 @@ const Observer = {
       // The observerUpdate event should only be triggered
       // once despite the number of mutations.  Additional
       // triggers are redundant and are very costly
+      if (mutations.length === 1) {
+        swiper.emit('observerUpdate', mutations[0]);
+        return;
+      }
       const observerUpdate = function observerUpdate() {
         swiper.emit('observerUpdate', mutations[0]);
       };
