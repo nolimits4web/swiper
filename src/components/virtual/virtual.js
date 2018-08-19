@@ -170,8 +170,6 @@ export default {
       };
       Utils.extend(swiper.params, overwriteParams);
       Utils.extend(swiper.originalParams, overwriteParams);
-
-      swiper.virtual.update();
     },
     setTranslate() {
       const swiper = this;
