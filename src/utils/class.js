@@ -42,7 +42,7 @@ class SwiperClass {
     events.split(' ').forEach((event) => {
       if (typeof handler === 'undefined') {
         self.eventsListeners[event] = [];
-      } else {
+      } else if (self.eventsListeners[event] && self.eventsListeners[event].length) {
         self.eventsListeners[event].forEach((eventHandler, index) => {
           if (eventHandler === handler) {
             self.eventsListeners[event].splice(index, 1);
