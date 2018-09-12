@@ -65,6 +65,7 @@ export default {
   allowTouchMove: true,
   threshold: 0,
   touchMoveStopPropagation: true,
+  touchStartPreventDefault: true,
   touchReleaseOnEdges: false,
 
   // Unique Navigation Elements
