@@ -64,7 +64,7 @@ export default function (event) {
     ) {
       document.activeElement.blur();
     }
-    if (preventDefault && swiper.allowTouchMove) {
+    if (preventDefault && swiper.allowTouchMove && swiper.touchStartPreventDefault) {
       e.preventDefault();
     }
   }
