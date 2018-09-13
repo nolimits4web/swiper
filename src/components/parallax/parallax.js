@@ -104,6 +104,7 @@ export default {
       const swiper = this;
       if (!swiper.params.parallax.enabled) return;
       swiper.params.watchSlidesProgress = true;
+      swiper.originalParams.watchSlidesProgress = true;
     },
     init() {
       const swiper = this;
