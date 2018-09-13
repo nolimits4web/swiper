@@ -5,6 +5,7 @@ const Virtual = {
   update(force) {
     const swiper = this;
     const { slidesPerView, slidesPerGroup, centeredSlides } = swiper.params;
+    const { addSlidesBefore, addSlidesAfter } = swiper.params.virtual;
     const {
       from: previousFrom,
       to: previousTo,
@@ -23,11 +24,11 @@ const Virtual = {
     let slidesAfter;
     let slidesBefore;
     if (centeredSlides) {
-      slidesAfter = Math.floor(slidesPerView / 2) + slidesPerGroup;
-      slidesBefore = Math.floor(slidesPerView / 2) + slidesPerGroup;
+      slidesAfter = Math.floor(slidesPerView / 2) + slidesPerGroup + addSlidesBefore;
+      slidesBefore = Math.floor(slidesPerView / 2) + slidesPerGroup + addSlidesAfter;
     } else {
-      slidesAfter = slidesPerView + (slidesPerGroup - 1);
-      slidesBefore = slidesPerGroup;
+      slidesAfter = slidesPerView + (slidesPerGroup - 1) + addSlidesBefore;
+      slidesBefore = slidesPerGroup + addSlidesAfter;
     }
     const from = Math.max((activeIndex || 0) - slidesBefore, 0);
     const to = Math.min((activeIndex || 0) + slidesAfter, slides.length - 1);
@@ -145,6 +146,8 @@ export default {
       cache: true,
       renderSlide: null,
       renderExternal: null,
+      addSlidesBefore: 0,
+      addSlidesAfter: 0,
     },
   },
   create() {
@@ -170,6 +173,8 @@ export default {
       };
       Utils.extend(swiper.params, overwriteParams);
       Utils.extend(swiper.originalParams, overwriteParams);
+
+      swiper.virtual.update();
     },
     setTranslate() {
       const swiper = this;
