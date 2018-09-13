@@ -11,7 +11,7 @@ export default function (breakpoints) {
   points.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
   for (let i = 0; i < points.length; i += 1) {
     const point = points[i];
-    if (point >= window.innerWidth && !breakpoint) {
+    if (point <= window.innerWidth) {
       breakpoint = point;
     }
   }
