@@ -118,7 +118,7 @@ export default function () {
       if (params.roundLengths) {
         slideSize = swiper.isHorizontal()
           ? slide.outerWidth(true)
-          : slide.outerHeight(true)
+          : slide.outerHeight(true);
       } else {
         // eslint-disable-next-line
         if (swiper.isHorizontal()) {
