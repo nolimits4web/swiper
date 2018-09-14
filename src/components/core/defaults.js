@@ -35,6 +35,7 @@ export default {
 
   // Breakpoints
   breakpoints: undefined,
+  breakpointsInverse: false,
 
   // Slides grid
   spaceBetween: 0,
