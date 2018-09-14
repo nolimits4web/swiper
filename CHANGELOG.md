@@ -1,5 +1,13 @@
 # Change Log
 
+## [Swiper 4.4.0](https://github.com/nolimits4web/swiper/compare/v4.3.5...v4.4.0) - Released on September 14, 2018
+  * Core
+    * New `centerInsufficientSlides` parameter to center slides if the amount of slides less than `slidesPerView`
+    * New `breakpointsInverse` parameter (boolean), if enabled then it will count breakpoints in reversed direction, e.g. will override parameters if window width is more than specified breakpoint
+  * Thumbs
+    * All new "Thumbs" module/component designed to control slider thumbnails, in more logical and correct way than with Controller module.
+  * Lots of minor fixes
+
 ## [Swiper 4.3.5](https://github.com/nolimits4web/swiper/compare/v4.3.3...v4.3.5) - Released on July 31, 2018
   * Core
     * `iOSEdgeSwipeThreshold` parameter renamed to just `edgeSwipeThreshold`. Old `iOSEdgeSwipeThreshold` name is still supported
