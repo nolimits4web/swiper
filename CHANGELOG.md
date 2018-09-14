@@ -1,5 +1,8 @@
 # Change Log
 
+## [Swiper 4.4.1](https://github.com/nolimits4web/swiper/compare/v4.4.0...v4.4.1) - Released on September 14, 2018
+  * Fixed issue with preventing touchstart event
+
 ## [Swiper 4.4.0](https://github.com/nolimits4web/swiper/compare/v4.3.5...v4.4.0) - Released on September 14, 2018
   * Core
     * New `centerInsufficientSlides` parameter to center slides if the amount of slides less than `slidesPerView`

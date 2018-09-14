@@ -1,5 +1,5 @@
 /**
- * Swiper 4.4.0
+ * Swiper 4.4.1
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -2685,7 +2685,7 @@
       ) {
         doc.activeElement.blur();
       }
-      if (preventDefault && swiper.allowTouchMove && swiper.touchStartPreventDefault) {
+      if (preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault) {
         e.preventDefault();
       }
     }
