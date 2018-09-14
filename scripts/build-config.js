@@ -18,6 +18,7 @@ module.exports = {
     'effect-cube',
     'effect-flip',
     'effect-coverflow',
+    'thumbs',
   ],
   target: 'universal',
   themeColor: '#007aff',

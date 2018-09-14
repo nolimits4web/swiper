@@ -45,7 +45,7 @@
       height: 100%;
       opacity: 0.4;
     }
-    .gallery-thumbs .swiper-slide-active {
+    .gallery-thumbs .swiper-slide-thumb-active {
       opacity: 1;
     }
 
@@ -90,23 +90,23 @@
 
   <!-- Initialize Swiper -->
   <script>
+    var galleryThumbs = new Swiper('.gallery-thumbs', {
+      spaceBetween: 10,
+      slidesPerView: 4,
+      freeMode: true,
+      watchSlidesVisibility: true,
+      watchSlidesProgress: true,
+    });
     var galleryTop = new Swiper('.gallery-top', {
       spaceBetween: 10,
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       },
+      thumbs: {
+        swiper: galleryThumbs
+      }
     });
-    var galleryThumbs = new Swiper('.gallery-thumbs', {
-      spaceBetween: 10,
-      centeredSlides: true,
-      slidesPerView: 'auto',
-      touchRatio: 0.2,
-      slideToClickedSlide: true,
-    });
-    galleryTop.controller.control = galleryThumbs;
-    galleryThumbs.controller.control = galleryTop;
-
   </script>
 </body>
 </html>

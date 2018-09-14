@@ -44,7 +44,7 @@
       height: 100%;
       opacity: 0.4;
     }
-    .gallery-thumbs .swiper-slide-active {
+    .gallery-thumbs .swiper-slide-thumb-active {
       opacity: 1;
     }
 
@@ -85,10 +85,18 @@
   </div>
 
   <!-- Swiper JS -->
-  <script src="../dist/js/swiper.js"></script>
+  <script src="../dist/js/swiper.min.js"></script>
 
   <!-- Initialize Swiper -->
   <script>
+    var galleryThumbs = new Swiper('.gallery-thumbs', {
+      spaceBetween: 10,
+      slidesPerView: 4,
+      loop: true,
+      loopedSlides: 5, //looped slides should be the same
+      watchSlidesVisibility: true,
+      watchSlidesProgress: true,
+    });
     var galleryTop = new Swiper('.gallery-top', {
       spaceBetween: 10,
       loop:true,
@@ -97,18 +105,10 @@
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       },
+      thumbs: {
+        swiper: galleryThumbs,
+      },
     });
-    var galleryThumbs = new Swiper('.gallery-thumbs', {
-      spaceBetween: 10,
-      slidesPerView: 4,
-      touchRatio: 0.2,
-      loop: true,
-      loopedSlides: 5, //looped slides should be the same
-      slideToClickedSlide: true,
-    });
-    galleryTop.controller.control = galleryThumbs;
-    galleryThumbs.controller.control = galleryTop;
-
   </script>
 </body>
 </html>
