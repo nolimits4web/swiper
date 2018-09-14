@@ -24,7 +24,7 @@ const Thumbs = {
       }));
       swiper.thumbs.swiperCreated = true;
     }
-    swiper.thumbs.swiper.$el.addClass('swiper-container-thumbs');
+    swiper.thumbs.swiper.$el.addClass(swiper.params.thumbs.thumbsContainerClass);
     swiper.thumbs.swiper.on('tap', swiper.thumbs.onThumbClick);
   },
   onThumbClick() {
@@ -126,6 +126,7 @@ export default {
     thumbs: {
       swiper: null,
       slideThumbActiveClass: 'swiper-slide-thumb-active',
+      thumbsContainerClass: 'swiper-container-thumbs',
     },
   },
   create() {
