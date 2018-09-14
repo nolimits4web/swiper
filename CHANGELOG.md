@@ -4,6 +4,8 @@
   * Core
     * New `centerInsufficientSlides` parameter to center slides if the amount of slides less than `slidesPerView`
     * New `breakpointsInverse` parameter (boolean), if enabled then it will count breakpoints in reversed direction, e.g. will override parameters if window width is more than specified breakpoint
+  * Virtual Slides
+    * New `addSlidesBefore` and `addSlidesAfter` parameters to increase amount of pre-rendered slides
   * Thumbs
     * All new "Thumbs" module/component designed to control slider thumbnails, in more logical and correct way than with Controller module.
   * Lots of minor fixes
