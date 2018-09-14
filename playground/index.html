@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Swiper Playground</title>
-    <link rel="stylesheet" href="../build/css/swiper.css">
+    <link rel="stylesheet" href="../dist/css/swiper.min.css">
     <meta name="viewport" content="width=device-width">
 </head>
 <body>
-    <div class="swiper-container top">
+    <div class="swiper-container">
         <div class="swiper-scrollbar"></div>
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
@@ -22,26 +22,8 @@
             <div class="swiper-slide">Slide 8</div>
             <div class="swiper-slide">Slide 9</div>
             <div class="swiper-slide">Slide 10</div>
-            <div class="swiper-slide">Slide 11</div>
-            <div class="swiper-slide">Slide 12</div>
         </div>
         <div class="swiper-pagination"></div>
-    </div>
-    <div class="swiper-container thumbs">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">Slide 1</div>
-            <div class="swiper-slide">Slide 2</div>
-            <div class="swiper-slide">Slide 3</div>
-            <div class="swiper-slide">Slide 4</div>
-            <div class="swiper-slide">Slide 5</div>
-            <div class="swiper-slide">Slide 6</div>
-            <div class="swiper-slide">Slide 7</div>
-            <div class="swiper-slide">Slide 8</div>
-            <div class="swiper-slide">Slide 9</div>
-            <div class="swiper-slide">Slide 10</div>
-            <div class="swiper-slide">Slide 11</div>
-            <div class="swiper-slide">Slide 12</div>
-        </div>
     </div>
     <style>
     body, html {
@@ -62,26 +44,14 @@
         line-height: 300px;
     }
     </style>
-    <script src="../build/js/swiper.js"></script>
+    <script src="../dist/js/swiper.min.js"></script>
     <script>
-        var swiperThumbs = new Swiper({
-            el: '.thumbs',
-            slidesPerView: 4,
-            spaceBetween: 20,
-            watchSlidesVisibility: true,
-            watchSlidesProgress: true,
-            loop: true,
-            // freeMode: true,
-            // centeredSlides: true,
-            // slideToClickedSlide: true,
-        })
         var swiper = new Swiper({
-            el: '.swiper-container.top',
-            initialSlide: 0,
+            el: '.swiper-container',
+            initialSlide: 2,
             spaceBetween: 50,
-            slidesPerView: 1,
-            // centeredSlides: true,
-            loop: true,
+            slidesPerView: 2,
+            centeredSlides: true,
             slideToClickedSlide: true,
             grabCursor: true,
             scrollbar: {
@@ -99,9 +69,6 @@
             navigation: {
               nextEl: '.swiper-button-next',
               prevEl: '.swiper-button-prev',
-            },
-            thumbs: {
-                swiper: swiperThumbs,
             },
         });
     </script>
