@@ -231,8 +231,8 @@ export default function () {
 
   if (params.centerInsufficientSlides) {
     let allSlidesSize = 0;
-    slidesSizesGrid.forEach((slideSize) => {
-      allSlidesSize += slideSize + (params.spaceBetween ? params.spaceBetween : 0);
+    slidesSizesGrid.forEach((slideSizeValue) => {
+      allSlidesSize += slideSizeValue + (params.spaceBetween ? params.spaceBetween : 0);
     });
     allSlidesSize -= params.spaceBetween;
     if (allSlidesSize < swiperSize) {
