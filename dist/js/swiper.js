@@ -1438,7 +1438,14 @@
         slidePosition = slidePosition + slideSize + spaceBetween;
       }
 
-      swiper.virtualSize += slideSize + spaceBetween;
+      try {
+        // For some reason the Javascript engine I was using was concatenating strings instead of adding numbers.
+        swiper.virtualSize = parseInt(swiper.virtualSize,10);
+        swiper.virtualSize += (parseInt(slideSize, 10) + (parseInt(spaceBetween, 10)));
+      } catch (err) {
+        // This is the code that was concatenating strings instead of adding numbers.
+        swiper.virtualSize += slideSize + spaceBetween;
+      }
 
       prevSlideSize = slideSize;
 
@@ -3343,7 +3350,8 @@
       });
 
       swiper.currentBreakpoint = breakpoint;
-
+      var default_slidesPerView = params.slidesPerView; //Do we need this?
+      swiper.params.slidesPerView = breakPointsParams.slidesPerView; // Use the breakpoint slidesPerView.
       if (needsReLoop && initialized) {
         swiper.loopDestroy();
         swiper.loopCreate();
