@@ -67,7 +67,7 @@ export default function (event) {
     }
 
     const shouldPreventDefault = preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault;
-    if (params.forcePreventDefault || shouldPreventDefault) {
+    if (params.touchStartForcePreventDefault || shouldPreventDefault) {
       e.preventDefault();
     }
   }
