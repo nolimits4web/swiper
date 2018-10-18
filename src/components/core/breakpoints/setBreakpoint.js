@@ -9,12 +9,11 @@ export default function () {
   if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) return;
   // Set breakpoint for window width and update parameters
   const breakpoint = swiper.getBreakpoint(breakpoints);
-  
   if (breakpoint && swiper.currentBreakpoint !== breakpoint) {
     // Unless 'auto', these values must be integers, we must do math operations, not string concatenations.
     if (breakpoint in breakpoints && typeof breakpoints[breakpoint].slidesPerView !== 'undefined') {
       // If it's 'auto' cannot make it an integer but we can make it lowercase.
-      if (breakpoints[breakpoint].slidesPerView == 'auto' || breakpoints[breakpoint].slidesPerView == 'AUTO') {
+      if (breakpoints[breakpoint].slidesPerView === 'auto' || breakpoints[breakpoint].slidesPerView === 'AUTO') {
         breakpoints[breakpoint].slidesPerView = breakpoints[breakpoint].slidesPerView.toLowerCase();
       } else {
         // Force slidesPerView to an integer using parseInt(x, 10) (base 10).
