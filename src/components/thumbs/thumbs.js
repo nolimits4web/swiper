@@ -68,7 +68,6 @@ const Thumbs = {
       : thumbsSwiper.params.slidesPerView;
 
     if (swiper.realIndex !== thumbsSwiper.realIndex) {
-      console.log('wtf?!');
       let currentThumbsIndex = thumbsSwiper.activeIndex;
       let newThumbsIndex;
       if (thumbsSwiper.params.loop) {
