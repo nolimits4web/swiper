@@ -32,6 +32,8 @@ const Thumbs = {
     const thumbsSwiper = swiper.thumbs.swiper;
     if (!thumbsSwiper) return;
     const clickedIndex = thumbsSwiper.clickedIndex;
+    const clickedSlide = thumbsSwiper.clickedSlide;
+    if (clickedSlide && $(clickedSlide).hasClass(swiper.params.thumbs.slideThumbActiveClass)) return;
     if (typeof clickedIndex === 'undefined' || clickedIndex === null) return;
     let slideToIndex;
     if (thumbsSwiper.params.loop) {
@@ -66,6 +68,7 @@ const Thumbs = {
       : thumbsSwiper.params.slidesPerView;
 
     if (swiper.realIndex !== thumbsSwiper.realIndex) {
+      console.log('wtf?!');
       let currentThumbsIndex = thumbsSwiper.activeIndex;
       let newThumbsIndex;
       if (thumbsSwiper.params.loop) {
@@ -80,12 +83,12 @@ const Thumbs = {
         const nextThumbsIndex = thumbsSwiper.slides.eq(currentThumbsIndex).nextAll(`[data-swiper-slide-index="${swiper.realIndex}"]`).eq(0).index();
         if (typeof prevThumbsIndex === 'undefined') newThumbsIndex = nextThumbsIndex;
         else if (typeof nextThumbsIndex === 'undefined') newThumbsIndex = prevThumbsIndex;
+        else if (nextThumbsIndex - currentThumbsIndex === currentThumbsIndex - prevThumbsIndex) newThumbsIndex = currentThumbsIndex;
         else if (nextThumbsIndex - currentThumbsIndex < currentThumbsIndex - prevThumbsIndex) newThumbsIndex = nextThumbsIndex;
         else newThumbsIndex = prevThumbsIndex;
       } else {
         newThumbsIndex = swiper.realIndex;
       }
-
       if (thumbsSwiper.visibleSlidesIndexes.indexOf(newThumbsIndex) < 0) {
         if (thumbsSwiper.params.centeredSlides) {
           if (newThumbsIndex > currentThumbsIndex) {
