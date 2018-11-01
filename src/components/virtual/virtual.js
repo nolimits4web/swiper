@@ -97,7 +97,7 @@ const Virtual = {
     appendIndexes.forEach((index) => {
       swiper.$wrapperEl.append(renderSlide(slides[index], index));
     });
-    prependIndexes.sort((a, b) => a < b).forEach((index) => {
+    prependIndexes.sort((a, b) => b - a).forEach((index) => {
       swiper.$wrapperEl.prepend(renderSlide(slides[index], index));
     });
     swiper.$wrapperEl.children('.swiper-slide').css(offsetProp, `${offset}px`);
