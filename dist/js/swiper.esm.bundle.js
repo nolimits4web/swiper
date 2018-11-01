@@ -1,5 +1,5 @@
 /**
- * Swiper 4.4.1
+ * Swiper 4.4.2
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: September 14, 2018
+ * Released on: November 1, 2018
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition, on, off, trigger, transitionEnd, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -172,7 +172,7 @@ const Support = (function Support() {
       return !!(('ontouchstart' in window) || (window.DocumentTouch && document instanceof window.DocumentTouch));
     }()),
 
-    pointerEvents: !!(window.navigator.pointerEnabled || window.PointerEvent),
+    pointerEvents: !!(window.navigator.pointerEnabled || window.PointerEvent || ('maxTouchPoints' in window.navigator)),
     prefixedPointerEvents: !!window.navigator.msPointerEnabled,
 
     transition: (function checkTransition() {
@@ -535,11 +535,11 @@ function updateSlides () {
       } else {
         // eslint-disable-next-line
         if (swiper.isHorizontal()) {
-          slideSize = slide[0].getBoundingClientRect().width
+          slideSize = parseFloat(slideStyles.getPropertyValue('width'))
             + parseFloat(slideStyles.getPropertyValue('margin-left'))
             + parseFloat(slideStyles.getPropertyValue('margin-right'));
         } else {
-          slideSize = slide[0].getBoundingClientRect().height
+          slideSize = parseFloat(slideStyles.getPropertyValue('height'))
             + parseFloat(slideStyles.getPropertyValue('margin-top'))
             + parseFloat(slideStyles.getPropertyValue('margin-bottom'));
         }
@@ -1765,7 +1765,9 @@ function onTouchStart (event) {
     ) {
       document.activeElement.blur();
     }
-    if (preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault) {
+
+    const shouldPreventDefault = preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault;
+    if (params.touchStartForcePreventDefault || shouldPreventDefault) {
       e.preventDefault();
     }
   }
@@ -2397,13 +2399,30 @@ function setBreakpoint () {
   } = swiper;
   const breakpoints = params.breakpoints;
   if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) return;
+
   // Set breakpoint for window width and update parameters
   const breakpoint = swiper.getBreakpoint(breakpoints);
-  if (breakpoint && swiper.currentBreakpoint !== breakpoint) {
-    const breakPointsParams = breakpoint in breakpoints ? breakpoints[breakpoint] : swiper.originalParams;
-    const needsReLoop = params.loop && (breakPointsParams.slidesPerView !== params.slidesPerView);
 
-    Utils.extend(swiper.params, breakPointsParams);
+  if (breakpoint && swiper.currentBreakpoint !== breakpoint) {
+    const breakpointOnlyParams = breakpoint in breakpoints ? breakpoints[breakpoint] : undefined;
+    if (breakpointOnlyParams) {
+      ['slidesPerView', 'spaceBetween', 'slidesPerGroup'].forEach((param) => {
+        const paramValue = breakpointOnlyParams[param];
+        if (typeof paramValue === 'undefined') return;
+        if (param === 'slidesPerView' && (paramValue === 'AUTO' || paramValue === 'auto')) {
+          breakpointOnlyParams[param] = 'auto';
+        } else if (param === 'slidesPerView') {
+          breakpointOnlyParams[param] = parseFloat(paramValue);
+        } else {
+          breakpointOnlyParams[param] = parseInt(paramValue, 10);
+        }
+      });
+    }
+
+    const breakpointParams = breakpointOnlyParams || swiper.originalParams;
+    const needsReLoop = params.loop && (breakpointParams.slidesPerView !== params.slidesPerView);
+
+    Utils.extend(swiper.params, breakpointParams);
 
     Utils.extend(swiper, {
       allowTouchMove: swiper.params.allowTouchMove,
@@ -2419,7 +2438,7 @@ function setBreakpoint () {
       swiper.updateSlides();
       swiper.slideTo((activeIndex - loopedSlides) + swiper.loopedSlides, 0, false);
     }
-    swiper.emit('breakpoint', breakPointsParams);
+    swiper.emit('breakpoint', breakpointParams);
   }
 }
 
@@ -2658,6 +2677,7 @@ var defaults = {
   threshold: 0,
   touchMoveStopPropagation: true,
   touchStartPreventDefault: true,
+  touchStartForcePreventDefault: false,
   touchReleaseOnEdges: false,
 
   // Unique Navigation Elements
@@ -3398,7 +3418,7 @@ const Virtual = {
     appendIndexes.forEach((index$$1) => {
       swiper.$wrapperEl.append(renderSlide(slides[index$$1], index$$1));
     });
-    prependIndexes.sort((a, b) => a < b).forEach((index$$1) => {
+    prependIndexes.sort((a, b) => b - a).forEach((index$$1) => {
       swiper.$wrapperEl.prepend(renderSlide(slides[index$$1], index$$1));
     });
     swiper.$wrapperEl.children('.swiper-slide').css(offsetProp, `${offset$$1}px`);
@@ -3475,7 +3495,9 @@ var Virtual$1 = {
       Utils.extend(swiper.params, overwriteParams);
       Utils.extend(swiper.originalParams, overwriteParams);
 
-      swiper.virtual.update();
+      if (!swiper.params.initialSlide) {
+        swiper.virtual.update();
+      }
     },
     setTranslate() {
       const swiper = this;
@@ -3875,6 +3897,18 @@ const Navigation = {
       $nextEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
     }
   },
+  onPrevClick(e) {
+    const swiper = this;
+    e.preventDefault();
+    if (swiper.isBeginning && !swiper.params.loop) return;
+    swiper.slidePrev();
+  },
+  onNextClick(e) {
+    const swiper = this;
+    e.preventDefault();
+    if (swiper.isEnd && !swiper.params.loop) return;
+    swiper.slideNext();
+  },
   init() {
     const swiper = this;
     const params = swiper.params.navigation;
@@ -3906,18 +3940,10 @@ const Navigation = {
     }
 
     if ($nextEl && $nextEl.length > 0) {
-      $nextEl.on('click', (e) => {
-        e.preventDefault();
-        if (swiper.isEnd && !swiper.params.loop) return;
-        swiper.slideNext();
-      });
+      $nextEl.on('click', swiper.navigation.onNextClick);
     }
     if ($prevEl && $prevEl.length > 0) {
-      $prevEl.on('click', (e) => {
-        e.preventDefault();
-        if (swiper.isBeginning && !swiper.params.loop) return;
-        swiper.slidePrev();
-      });
+      $prevEl.on('click', swiper.navigation.onPrevClick);
     }
 
     Utils.extend(swiper.navigation, {
@@ -3931,11 +3957,11 @@ const Navigation = {
     const swiper = this;
     const { $nextEl, $prevEl } = swiper.navigation;
     if ($nextEl && $nextEl.length) {
-      $nextEl.off('click');
+      $nextEl.off('click', swiper.navigation.onNextClick);
       $nextEl.removeClass(swiper.params.navigation.disabledClass);
     }
     if ($prevEl && $prevEl.length) {
-      $prevEl.off('click');
+      $prevEl.off('click', swiper.navigation.onPrevClick);
       $prevEl.removeClass(swiper.params.navigation.disabledClass);
     }
   },
@@ -3961,6 +3987,8 @@ var Navigation$1 = {
         init: Navigation.init.bind(swiper),
         update: Navigation.update.bind(swiper),
         destroy: Navigation.destroy.bind(swiper),
+        onNextClick: Navigation.onNextClick.bind(swiper),
+        onPrevClick: Navigation.onPrevClick.bind(swiper),
       },
     });
   },
@@ -4510,54 +4538,40 @@ const Scrollbar = {
     const swiper = this;
     if (!swiper.params.scrollbar.el) return;
     const {
-      scrollbar, touchEvents, touchEventsDesktop, params,
+      scrollbar, touchEventsTouch, touchEventsDesktop, params,
     } = swiper;
     const $el = scrollbar.$el;
     const target = $el[0];
     const activeListener = Support.passiveListener && params.passiveListeners ? { passive: false, capture: false } : false;
     const passiveListener = Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
-    if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+    if (!Support.touch) {
       target.addEventListener(touchEventsDesktop.start, swiper.scrollbar.onDragStart, activeListener);
       document.addEventListener(touchEventsDesktop.move, swiper.scrollbar.onDragMove, activeListener);
       document.addEventListener(touchEventsDesktop.end, swiper.scrollbar.onDragEnd, passiveListener);
     } else {
-      if (Support.touch) {
-        target.addEventListener(touchEvents.start, swiper.scrollbar.onDragStart, activeListener);
-        target.addEventListener(touchEvents.move, swiper.scrollbar.onDragMove, activeListener);
-        target.addEventListener(touchEvents.end, swiper.scrollbar.onDragEnd, passiveListener);
-      }
-      if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
-        target.addEventListener('mousedown', swiper.scrollbar.onDragStart, activeListener);
-        document.addEventListener('mousemove', swiper.scrollbar.onDragMove, activeListener);
-        document.addEventListener('mouseup', swiper.scrollbar.onDragEnd, passiveListener);
-      }
+      target.addEventListener(touchEventsTouch.start, swiper.scrollbar.onDragStart, activeListener);
+      target.addEventListener(touchEventsTouch.move, swiper.scrollbar.onDragMove, activeListener);
+      target.addEventListener(touchEventsTouch.end, swiper.scrollbar.onDragEnd, passiveListener);
     }
   },
   disableDraggable() {
     const swiper = this;
     if (!swiper.params.scrollbar.el) return;
     const {
-      scrollbar, touchEvents, touchEventsDesktop, params,
+      scrollbar, touchEventsTouch, touchEventsDesktop, params,
     } = swiper;
     const $el = scrollbar.$el;
     const target = $el[0];
     const activeListener = Support.passiveListener && params.passiveListeners ? { passive: false, capture: false } : false;
     const passiveListener = Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
-    if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+    if (!Support.touch) {
       target.removeEventListener(touchEventsDesktop.start, swiper.scrollbar.onDragStart, activeListener);
       document.removeEventListener(touchEventsDesktop.move, swiper.scrollbar.onDragMove, activeListener);
       document.removeEventListener(touchEventsDesktop.end, swiper.scrollbar.onDragEnd, passiveListener);
     } else {
-      if (Support.touch) {
-        target.removeEventListener(touchEvents.start, swiper.scrollbar.onDragStart, activeListener);
-        target.removeEventListener(touchEvents.move, swiper.scrollbar.onDragMove, activeListener);
-        target.removeEventListener(touchEvents.end, swiper.scrollbar.onDragEnd, passiveListener);
-      }
-      if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
-        target.removeEventListener('mousedown', swiper.scrollbar.onDragStart, activeListener);
-        document.removeEventListener('mousemove', swiper.scrollbar.onDragMove, activeListener);
-        document.removeEventListener('mouseup', swiper.scrollbar.onDragEnd, passiveListener);
-      }
+      target.removeEventListener(touchEventsTouch.start, swiper.scrollbar.onDragStart, activeListener);
+      target.removeEventListener(touchEventsTouch.move, swiper.scrollbar.onDragMove, activeListener);
+      target.removeEventListener(touchEventsTouch.end, swiper.scrollbar.onDragEnd, passiveListener);
     }
   },
   init() {
@@ -6776,6 +6790,8 @@ const Thumbs = {
     const thumbsSwiper = swiper.thumbs.swiper;
     if (!thumbsSwiper) return;
     const clickedIndex = thumbsSwiper.clickedIndex;
+    const clickedSlide = thumbsSwiper.clickedSlide;
+    if (clickedSlide && $(clickedSlide).hasClass(swiper.params.thumbs.slideThumbActiveClass)) return;
     if (typeof clickedIndex === 'undefined' || clickedIndex === null) return;
     let slideToIndex;
     if (thumbsSwiper.params.loop) {
@@ -6824,12 +6840,12 @@ const Thumbs = {
         const nextThumbsIndex = thumbsSwiper.slides.eq(currentThumbsIndex).nextAll(`[data-swiper-slide-index="${swiper.realIndex}"]`).eq(0).index();
         if (typeof prevThumbsIndex === 'undefined') newThumbsIndex = nextThumbsIndex;
         else if (typeof nextThumbsIndex === 'undefined') newThumbsIndex = prevThumbsIndex;
+        else if (nextThumbsIndex - currentThumbsIndex === currentThumbsIndex - prevThumbsIndex) newThumbsIndex = currentThumbsIndex;
         else if (nextThumbsIndex - currentThumbsIndex < currentThumbsIndex - prevThumbsIndex) newThumbsIndex = nextThumbsIndex;
         else newThumbsIndex = prevThumbsIndex;
       } else {
         newThumbsIndex = swiper.realIndex;
       }
-
       if (thumbsSwiper.visibleSlidesIndexes.indexOf(newThumbsIndex) < 0) {
         if (thumbsSwiper.params.centeredSlides) {
           if (newThumbsIndex > currentThumbsIndex) {

@@ -1,5 +1,12 @@
 # Change Log
 
+## [Swiper 4.4.2](https://github.com/nolimits4web/swiper/compare/v4.4.1...v4.4.2) - Released on November 1, 2018
+  * New `touchStartForcePreventDefault` parameter to force touch start event prevent default
+  * Breakpoints fix when breakpoint keys are strings
+  * Fixed issue when draggable scrollbar may not work on desktop Safari
+  * Fixed issue with wrong sort of Virtual Slides
+  * Minor fixes
+
 ## [Swiper 4.4.1](https://github.com/nolimits4web/swiper/compare/v4.4.0...v4.4.1) - Released on September 14, 2018
   * Fixed issue with preventing touchstart event
 
