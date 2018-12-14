@@ -123,10 +123,14 @@ export default function () {
         // eslint-disable-next-line
         if (swiper.isHorizontal()) {
           slideSize = parseFloat(slideStyles.getPropertyValue('width'))
+            + parseFloat(slideStyles.getPropertyValue('padding-left'))
+            + parseFloat(slideStyles.getPropertyValue('padding-right'))
             + parseFloat(slideStyles.getPropertyValue('margin-left'))
             + parseFloat(slideStyles.getPropertyValue('margin-right'));
         } else {
           slideSize = parseFloat(slideStyles.getPropertyValue('height'))
+            + parseFloat(slideStyles.getPropertyValue('padding-top'))
+            + parseFloat(slideStyles.getPropertyValue('padding-bottom'))
             + parseFloat(slideStyles.getPropertyValue('margin-top'))
             + parseFloat(slideStyles.getPropertyValue('margin-bottom'));
         }
