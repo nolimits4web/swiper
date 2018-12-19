@@ -1,5 +1,5 @@
 /**
- * Swiper 4.4.5
+ * Swiper 4.4.6
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: December 14, 2018
+ * Released on: December 19, 2018
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition, on, off, trigger, transitionEnd, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -535,17 +535,29 @@ function updateSlides () {
       } else {
         // eslint-disable-next-line
         if (swiper.isHorizontal()) {
-          slideSize = parseFloat(slideStyles.getPropertyValue('width'))
-            + parseFloat(slideStyles.getPropertyValue('padding-left'))
-            + parseFloat(slideStyles.getPropertyValue('padding-right'))
-            + parseFloat(slideStyles.getPropertyValue('margin-left'))
-            + parseFloat(slideStyles.getPropertyValue('margin-right'));
+          const width = parseFloat(slideStyles.getPropertyValue('width'));
+          const paddingLeft = parseFloat(slideStyles.getPropertyValue('padding-left'));
+          const paddingRight = parseFloat(slideStyles.getPropertyValue('padding-right'));
+          const marginLeft = parseFloat(slideStyles.getPropertyValue('margin-left'));
+          const marginRight = parseFloat(slideStyles.getPropertyValue('margin-right'));
+          const boxSizing = slideStyles.getPropertyValue('box-sizing');
+          if (boxSizing && boxSizing === 'border-box') {
+            slideSize = width + marginLeft + marginRight;
+          } else {
+            slideSize = width + paddingLeft + paddingRight + marginLeft + marginRight;
+          }
         } else {
-          slideSize = parseFloat(slideStyles.getPropertyValue('height'))
-            + parseFloat(slideStyles.getPropertyValue('padding-top'))
-            + parseFloat(slideStyles.getPropertyValue('padding-bottom'))
-            + parseFloat(slideStyles.getPropertyValue('margin-top'))
-            + parseFloat(slideStyles.getPropertyValue('margin-bottom'));
+          const height = parseFloat(slideStyles.getPropertyValue('height'));
+          const paddingTop = parseFloat(slideStyles.getPropertyValue('padding-top'));
+          const paddingBottom = parseFloat(slideStyles.getPropertyValue('padding-bottom'));
+          const marginTop = parseFloat(slideStyles.getPropertyValue('margin-top'));
+          const marginBottom = parseFloat(slideStyles.getPropertyValue('margin-bottom'));
+          const boxSizing = slideStyles.getPropertyValue('box-sizing');
+          if (boxSizing && boxSizing === 'border-box') {
+            slideSize = height + marginTop + marginBottom;
+          } else {
+            slideSize = height + paddingTop + paddingBottom + marginTop + marginBottom;
+          }
         }
       }
       if (currentTransform) {

@@ -1,5 +1,9 @@
 # Change Log
 
+## [Swiper 4.4.6](https://github.com/nolimits4web/swiper/compare/v4.4.5...v4.4.6) - Released on December 19, 2018
+  * Core
+    * Fixed issue with wrong slide size calculation in some cases
+
 ## [Swiper 4.4.5](https://github.com/nolimits4web/swiper/compare/v4.4.2...v4.4.5) - Released on December 14, 2018
   * Core
     * New `observeSlideChildren` parameter to enable auto update on slide children update
