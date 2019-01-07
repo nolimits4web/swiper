@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Swiper Playground</title>
-    <link rel="stylesheet" href="../build/css/swiper.css">
+    <link rel="stylesheet" href="../dist/css/swiper.min.css">
     <meta name="viewport" content="width=device-width">
 </head>
 <body>
@@ -44,18 +44,32 @@
         line-height: 300px;
     }
     </style>
-    <script src="../build/js/swiper.js"></script>
+    <script src="../dist/js/swiper.min.js"></script>
     <script>
-        var swiper = new Swiper('.swiper-container', {
+        var swiper = new Swiper({
+            el: '.swiper-container',
+            initialSlide: 2,
             spaceBetween: 50,
             slidesPerView: 2,
             centeredSlides: true,
             slideToClickedSlide: true,
             grabCursor: true,
-            nextButton: '.swiper-button-next',
-            prevButton: '.swiper-button-prev',
-            scrollbar: '.swiper-scrollbar',
-            pagination: '.swiper-pagination',
+            scrollbar: {
+              el: '.swiper-scrollbar',
+            },
+            mousewheel: {
+              enabled: true,
+            },
+            keyboard: {
+              enabled: true,
+            },
+            pagination: {
+              el: '.swiper-pagination',
+            },
+            navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+            },
         });
     </script>
 </body>
