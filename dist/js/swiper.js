@@ -12,8 +12,8 @@
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global.Swiper = factory());
+    typeof define === 'function' && define.amd ? define(factory) :
+      (global.Swiper = factory());
 }(this, (function () { 'use strict';
 
   /**
@@ -123,7 +123,7 @@
       }
     }
     if (selector) {
-        // String
+      // String
       if (typeof selector === 'string') {
         var els;
         var tempParent;
@@ -271,9 +271,10 @@
     }
     return this;
   }
+
   // Transforms
   // eslint-disable-next-line
-  function transform(transform) {
+  function transform(transform, el) {
     for (var i = 0; i < this.length; i += 1) {
       var elStyle = this[i].style;
       elStyle.webkitTransform = transform;
@@ -1048,8 +1049,8 @@
     var self = this;
     if (typeof handler !== 'function') { return self; }
     function onceHandler() {
-        var args = [], len = arguments.length;
-        while ( len-- ) args[ len ] = arguments[ len ];
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
 
       handler.apply(self, args);
       self.off(events, onceHandler);
@@ -1075,8 +1076,8 @@
   };
 
   SwiperClass.prototype.emit = function emit () {
-      var args = [], len = arguments.length;
-      while ( len-- ) args[ len ] = arguments[ len ];
+    var args = [], len = arguments.length;
+    while ( len-- ) args[ len ] = arguments[ len ];
 
     var self = this;
     if (!self.eventsListeners) { return self; }
@@ -1120,7 +1121,7 @@
   };
 
   SwiperClass.prototype.useModules = function useModules (modulesParams) {
-      if ( modulesParams === void 0 ) modulesParams = {};
+    if ( modulesParams === void 0 ) modulesParams = {};
 
     var instance = this;
     if (!instance.modules) { return; }
@@ -1159,8 +1160,8 @@
   };
 
   SwiperClass.installModule = function installModule (module) {
-      var params = [], len = arguments.length - 1;
-      while ( len-- > 0 ) params[ len ] = arguments[ len + 1 ];
+    var params = [], len = arguments.length - 1;
+    while ( len-- > 0 ) params[ len ] = arguments[ len + 1 ];
 
     var Class = this;
     if (!Class.prototype.modules) { Class.prototype.modules = {}; }
@@ -1186,8 +1187,8 @@
   };
 
   SwiperClass.use = function use (module) {
-      var params = [], len = arguments.length - 1;
-      while ( len-- > 0 ) params[ len ] = arguments[ len + 1 ];
+    var params = [], len = arguments.length - 1;
+    while ( len-- > 0 ) params[ len ] = arguments[ len + 1 ];
 
     var Class = this;
     if (Array.isArray(module)) {
@@ -1584,8 +1585,8 @@
         var slideBefore = -(offsetCenter - slide.swiperSlideOffset);
         var slideAfter = slideBefore + swiper.slidesSizesGrid[i];
         var isVisible = (slideBefore >= 0 && slideBefore < swiper.size)
-                  || (slideAfter > 0 && slideAfter <= swiper.size)
-                  || (slideBefore <= 0 && slideAfter >= swiper.size);
+          || (slideAfter > 0 && slideAfter <= swiper.size)
+          || (slideBefore <= 0 && slideAfter >= swiper.size);
         if (isVisible) {
           swiper.visibleSlides.push(slide);
           swiper.visibleSlidesIndexes.push(i);
@@ -1839,8 +1840,23 @@
 
     if (swiper.isHorizontal()) {
       x = rtl ? -translate : translate;
+      console.log(swiper);
+      if (swiper.saveDirection) {
+        swiper.$el
+          .removeClass(`swiper-container-${swiper.saveDirection}`)
+          .addClass(`swiper-container-${swiper.originalParams.direction}`)
+
+        swiper.saveDirection = undefined
+      }
     } else {
       y = translate;
+      if (swiper.originalParams.direction !== swiper.params.direction) {
+        swiper.$el
+          .removeClass(`swiper-container-${swiper.originalParams.direction}`)
+          .addClass(`swiper-container-${swiper.params.direction}`)
+
+        swiper.saveDirection = swiper.params.direction
+      }
     }
 
     if (params.roundLengths) {
@@ -5123,8 +5139,8 @@
           paginationHTML = params.renderFraction.call(swiper, params.currentClass, params.totalClass);
         } else {
           paginationHTML = "<span class=\"" + (params.currentClass) + "\"></span>"
-          + ' / '
-          + "<span class=\"" + (params.totalClass) + "\"></span>";
+            + ' / '
+            + "<span class=\"" + (params.totalClass) + "\"></span>";
         }
         $el.html(paginationHTML);
       }
