@@ -1200,11 +1200,11 @@
 
   Object.defineProperties( SwiperClass, staticAccessors );
 
-  function updateSize () {
-    var swiper = this;
+  function updateSize (newSwiper) {
+    var swiper = newSwiper ? newSwiper : this;
     var width;
     var height;
-    var $el = swiper.$el;
+    var $el = newSwiper !== undefined ? newSwiper.$el !== undefined ? newSwiper.$el : null : swiper.$el
     if (typeof swiper.params.width !== 'undefined') {
       width = swiper.params.width;
     } else {
@@ -3164,6 +3164,7 @@
           .removeClass(swiper.params.containerModifierClass+swiper.saveVertical)
           .addClass(swiper.params.containerModifierClass+swiper.originalParams.direction);
         swiper.saveVertical = undefined;
+        updateSize(swiper)
       }
 
       if (swiper.params.direction === 'horizontal') {
@@ -3172,21 +3173,22 @@
           .addClass(swiper.params.containerModifierClass+swiper.params.direction);
 
         swiper.saveHorizontal = swiper.params.direction;
-
+        updateSize(swiper)
       }
     } else if (swiper.originalParams.direction === swiper.params.direction) {
       if (swiper.saveHorizontal) {
         swiper.$el
           .removeClass(swiper.params.containerModifierClass+swiper.saveHorizontal)
           .addClass(swiper.params.containerModifierClass+swiper.params.direction);
-
         swiper.saveHorizontal = undefined;
+        updateSize(swiper)
       }
     } else if (swiper.originalParams.direction !== swiper.params.direction) {
       swiper.$el
         .removeClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
         .addClass(swiper.params.containerModifierClass+swiper.params.direction)
       swiper.saveVertical = swiper.params.direction
+      updateSize(swiper)
     }
 
     // Save locks
