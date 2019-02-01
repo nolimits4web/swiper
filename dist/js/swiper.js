@@ -3159,19 +3159,34 @@
     }
 
     if (swiper.isHorizontal()) {
-      if (swiper.saveDirection) {
+      if (swiper.saveVertical) {
         swiper.$el
-          .removeClass(swiper.params.containerModifierClass+swiper.saveDirection)
-          .addClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
-        swiper.saveDirection = undefined
+          .removeClass(swiper.params.containerModifierClass+swiper.saveVertical)
+          .addClass(swiper.params.containerModifierClass+swiper.originalParams.direction);
+        swiper.saveVertical = undefined;
       }
-    } else {
-      if (swiper.originalParams.direction !== swiper.params.direction) {
+
+      if (swiper.params.direction === 'horizontal') {
         swiper.$el
           .removeClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
-          .addClass(swiper.params.containerModifierClass+swiper.params.direction)
-        swiper.saveDirection = swiper.params.direction
+          .addClass(swiper.params.containerModifierClass+swiper.params.direction);
+
+        swiper.saveHorizontal = swiper.params.direction;
+
       }
+    } else if (swiper.originalParams.direction === swiper.params.direction) {
+      if (swiper.saveHorizontal) {
+        swiper.$el
+          .removeClass(swiper.params.containerModifierClass+swiper.saveHorizontal)
+          .addClass(swiper.params.containerModifierClass+swiper.params.direction);
+
+        swiper.saveHorizontal = undefined;
+      }
+    } else if (swiper.originalParams.direction !== swiper.params.direction) {
+      swiper.$el
+        .removeClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
+        .addClass(swiper.params.containerModifierClass+swiper.params.direction)
+      swiper.saveVertical = swiper.params.direction
     }
 
     // Save locks
