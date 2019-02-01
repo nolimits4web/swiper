@@ -1843,18 +1843,16 @@
       console.log(swiper);
       if (swiper.saveDirection) {
         swiper.$el
-          .removeClass(`swiper-container-${swiper.saveDirection}`)
-          .addClass(`swiper-container-${swiper.originalParams.direction}`)
-
+          .removeClass(swiper.params.containerModifierClass+swiper.saveDirection)
+          .addClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
         swiper.saveDirection = undefined
       }
     } else {
       y = translate;
       if (swiper.originalParams.direction !== swiper.params.direction) {
         swiper.$el
-          .removeClass(`swiper-container-${swiper.originalParams.direction}`)
-          .addClass(`swiper-container-${swiper.params.direction}`)
-
+          .removeClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
+          .addClass(swiper.params.containerModifierClass+swiper.params.direction)
         swiper.saveDirection = swiper.params.direction
       }
     }
