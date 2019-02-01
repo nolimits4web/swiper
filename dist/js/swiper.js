@@ -1840,21 +1840,20 @@
 
     if (swiper.isHorizontal()) {
       x = rtl ? -translate : translate;
-      console.log(swiper);
-      if (swiper.saveDirection) {
-        swiper.$el
-          .removeClass(swiper.params.containerModifierClass+swiper.saveDirection)
-          .addClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
-        swiper.saveDirection = undefined
-      }
+      // if (swiper.saveDirection) {
+      //   swiper.$el
+      //     .removeClass(swiper.params.containerModifierClass+swiper.saveDirection)
+      //     .addClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
+      //   swiper.saveDirection = undefined
+      // }
     } else {
       y = translate;
-      if (swiper.originalParams.direction !== swiper.params.direction) {
-        swiper.$el
-          .removeClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
-          .addClass(swiper.params.containerModifierClass+swiper.params.direction)
-        swiper.saveDirection = swiper.params.direction
-      }
+      // if (swiper.originalParams.direction !== swiper.params.direction) {
+      //   swiper.$el
+      //     .removeClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
+      //     .addClass(swiper.params.containerModifierClass+swiper.params.direction)
+      //   swiper.saveDirection = swiper.params.direction
+      // }
     }
 
     if (params.roundLengths) {
@@ -3161,7 +3160,6 @@
 
   function onResize () {
     var swiper = this;
-
     var params = swiper.params;
     var el = swiper.el;
 
@@ -3170,6 +3168,24 @@
     // Breakpoints
     if (params.breakpoints) {
       swiper.setBreakpoint();
+    }
+
+    if (swiper.isHorizontal()) {
+      if (swiper.saveDirection) {
+        console.log(1);
+        swiper.$el
+          .removeClass(swiper.params.containerModifierClass+swiper.saveDirection)
+          .addClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
+        swiper.saveDirection = undefined
+      }
+    } else {
+      if (swiper.originalParams.direction !== swiper.params.direction) {
+        console.log(2);
+        swiper.$el
+          .removeClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
+          .addClass(swiper.params.containerModifierClass+swiper.params.direction)
+        swiper.saveDirection = swiper.params.direction
+      }
     }
 
     // Save locks
