@@ -1233,7 +1233,7 @@
   function updateSlides () {
     var swiper = this;
     var params = swiper.params;
-
+    swiper.updateSize(swiper);
     var $wrapperEl = swiper.$wrapperEl;
     var swiperSize = swiper.size;
     var rtl = swiper.rtlTranslate;
@@ -3164,7 +3164,6 @@
           .removeClass(swiper.params.containerModifierClass+swiper.saveVertical)
           .addClass(swiper.params.containerModifierClass+swiper.originalParams.direction);
         swiper.saveVertical = undefined;
-        updateSize(swiper)
       }
 
       if (swiper.params.direction === 'horizontal') {
@@ -3173,7 +3172,6 @@
           .addClass(swiper.params.containerModifierClass+swiper.params.direction);
 
         swiper.saveHorizontal = swiper.params.direction;
-        updateSize(swiper)
       }
     } else if (swiper.originalParams.direction === swiper.params.direction) {
       if (swiper.saveHorizontal) {
@@ -3181,14 +3179,12 @@
           .removeClass(swiper.params.containerModifierClass+swiper.saveHorizontal)
           .addClass(swiper.params.containerModifierClass+swiper.params.direction);
         swiper.saveHorizontal = undefined;
-        updateSize(swiper)
       }
     } else if (swiper.originalParams.direction !== swiper.params.direction) {
       swiper.$el
         .removeClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
         .addClass(swiper.params.containerModifierClass+swiper.params.direction)
       swiper.saveVertical = swiper.params.direction
-      updateSize(swiper)
     }
 
     // Save locks
@@ -3200,7 +3196,7 @@
     swiper.allowSlideNext = true;
     swiper.allowSlidePrev = true;
 
-    swiper.updateSize();
+    swiper.updateSize(swiper);
     swiper.updateSlides();
 
     if (params.freeMode) {
@@ -3223,6 +3219,7 @@
     // Return locks after resize
     swiper.allowSlidePrev = allowSlidePrev;
     swiper.allowSlideNext = allowSlideNext;
+
 
     if (swiper.params.watchOverflow && snapGrid !== swiper.snapGrid) {
       swiper.checkOverflow();
