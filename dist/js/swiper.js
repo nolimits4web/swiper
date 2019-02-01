@@ -1840,20 +1840,8 @@
 
     if (swiper.isHorizontal()) {
       x = rtl ? -translate : translate;
-      // if (swiper.saveDirection) {
-      //   swiper.$el
-      //     .removeClass(swiper.params.containerModifierClass+swiper.saveDirection)
-      //     .addClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
-      //   swiper.saveDirection = undefined
-      // }
     } else {
       y = translate;
-      // if (swiper.originalParams.direction !== swiper.params.direction) {
-      //   swiper.$el
-      //     .removeClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
-      //     .addClass(swiper.params.containerModifierClass+swiper.params.direction)
-      //   swiper.saveDirection = swiper.params.direction
-      // }
     }
 
     if (params.roundLengths) {
@@ -3172,7 +3160,6 @@
 
     if (swiper.isHorizontal()) {
       if (swiper.saveDirection) {
-        console.log(1);
         swiper.$el
           .removeClass(swiper.params.containerModifierClass+swiper.saveDirection)
           .addClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
@@ -3180,7 +3167,6 @@
       }
     } else {
       if (swiper.originalParams.direction !== swiper.params.direction) {
-        console.log(2);
         swiper.$el
           .removeClass(swiper.params.containerModifierClass+swiper.originalParams.direction)
           .addClass(swiper.params.containerModifierClass+swiper.params.direction)
