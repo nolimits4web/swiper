@@ -1200,11 +1200,11 @@
 
   Object.defineProperties( SwiperClass, staticAccessors );
 
-  function updateSize (newSwiper) {
-    var swiper = newSwiper ? newSwiper : this;
+  function updateSize () {
+    var swiper = this;
     var width;
     var height;
-    var $el = newSwiper !== undefined ? newSwiper.$el !== undefined ? newSwiper.$el : null : swiper.$el
+    var $el =  swiper.$el
     if (typeof swiper.params.width !== 'undefined') {
       width = swiper.params.width;
     } else {
@@ -1233,7 +1233,7 @@
   function updateSlides () {
     var swiper = this;
     var params = swiper.params;
-    swiper.updateSize(swiper);
+    swiper.updateSize();
     var $wrapperEl = swiper.$wrapperEl;
     var swiperSize = swiper.size;
     var rtl = swiper.rtlTranslate;
