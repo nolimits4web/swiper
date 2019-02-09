@@ -1,0 +1,8 @@
+@import "./scss/functions";
+
+$themeColor: #007aff !default;
+$colors: (white: #ffffff, black: #000000) !default;
+
+@import "./components/core/core";
+
+//IMPORT_COMPONENTS

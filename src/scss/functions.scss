@@ -1,0 +1,60 @@
+/// Urlencode the SVG string
+/// @param {String} $svg - SVG image to encode
+/// @return {String} - Encoded SVG data uri
+@function swiper-svg-uri($svg) {
+  $encoded: '';
+  $chunkSize: 2048;
+  $index: 0;
+  $loops: ceil(str-length($svg) / $chunkSize);
+
+  $map: (
+   "%": "%25",
+   "<": "%3C",
+   ">": "%3E",
+   " ": "%20",
+   "!": "%21",
+   "*": "%2A",
+   '"': "%22",
+   ";": "%3B",
+   ":": "%3A",
+   "@": "%40",
+   "&": "%26",
+   "=": "%3D",
+   "+": "%2B",
+   "$": "%24",
+   ",": "%2C",
+   "/": "%2F",
+   "?": "%3F",
+   "#": "%23",
+   "[": "%5B",
+   "]": "%5D"
+  );
+
+  @for $i from 1 through $loops {
+    $chunk: str-slice($svg, $index, $index + $chunkSize - 1);
+    @each $search, $replace in $map {
+      $chunk: swiper-str-replace($chunk, $search, $replace);
+    }
+    $encoded: #{$encoded}#{$chunk};
+    $index: $index + $chunkSize;
+  }
+
+  @return url("data:image/svg+xml;charset=utf-8,#{$encoded}");
+}
+
+/// Replace `$search` with `$replace` in `$string`
+/// @author Hugo Giraudel
+/// @link http://sassmeister.com/gist/1b4f2da5527830088e4d
+/// @param {String} $string - Initial string
+/// @param {String} $search - Substring to replace
+/// @param {String} $replace ('') - New value
+/// @return {String} - Updated string
+@function swiper-str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + swiper-str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
