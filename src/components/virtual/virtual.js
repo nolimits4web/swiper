@@ -116,24 +116,42 @@ const Virtual = {
     if (params.cache) swiper.virtual.cache[index] = $slideEl;
     return $slideEl;
   },
-  appendSlide(slide) {
+  appendSlide(slides) {
     const swiper = this;
-    swiper.virtual.slides.push(slide);
+    if (typeof slides === 'object' && 'length' in slides) {
+      for (let i = 0; i < slides.length; i += 1) {
+        if (slides[i]) swiper.virtual.slides.push(slides[i]);
+      }
+    } else {
+      swiper.virtual.slides.push(slides);
+    }
     swiper.virtual.update(true);
   },
-  prependSlide(slide) {
+  prependSlide(slides) {
     const swiper = this;
-    swiper.virtual.slides.unshift(slide);
+    const activeIndex = swiper.activeIndex;
+    let newActiveIndex = activeIndex + 1;
+    let numberOfNewSlides = 1;
+
+    if (typeof slides === 'object' && 'length' in slides) {
+      for (let i = 0; i < slides.length; i += 1) {
+        if (slides[i]) swiper.virtual.slides.unshift(slides[i]);
+      }
+      newActiveIndex = activeIndex + slides.length;
+      numberOfNewSlides = slides.length;
+    } else {
+      swiper.virtual.slides.unshift(slides);
+    }
     if (swiper.params.virtual.cache) {
       const cache = swiper.virtual.cache;
       const newCache = {};
       Object.keys(cache).forEach((cachedIndex) => {
-        newCache[cachedIndex + 1] = cache[cachedIndex];
+        newCache[cachedIndex + numberOfNewSlides] = cache[cachedIndex];
       });
       swiper.virtual.cache = newCache;
     }
     swiper.virtual.update(true);
-    swiper.slideNext(0);
+    swiper.slideTo(newActiveIndex, 0);
   },
 };
 
