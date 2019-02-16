@@ -10,6 +10,36 @@ export default function () {
     swiper.setBreakpoint();
   }
 
+  // Change Direction
+  if (swiper.isHorizontal()) {
+    if (swiper.saveVertical) {
+      swiper.$el
+        .removeClass(swiper.params.containerModifierClass + swiper.saveVertical)
+        .addClass(swiper.params.containerModifierClass + swiper.originalParams.direction);
+      swiper.saveVertical = undefined;
+    }
+
+    if (swiper.params.direction === 'horizontal') {
+      swiper.$el
+        .removeClass(swiper.params.containerModifierClass + swiper.originalParams.direction)
+        .addClass(swiper.params.containerModifierClass + swiper.params.direction);
+
+      swiper.saveHorizontal = swiper.params.direction;
+    }
+  } else if (swiper.originalParams.direction === swiper.params.direction) {
+    if (swiper.saveHorizontal) {
+      swiper.$el
+        .removeClass(swiper.params.containerModifierClass + swiper.saveHorizontal)
+        .addClass(swiper.params.containerModifierClass + swiper.params.direction);
+      swiper.saveHorizontal = undefined;
+    }
+  } else if (swiper.originalParams.direction !== swiper.params.direction) {
+    swiper.$el
+      .removeClass(swiper.params.containerModifierClass + swiper.originalParams.direction)
+      .addClass(swiper.params.containerModifierClass + swiper.params.direction);
+    swiper.saveVertical = swiper.params.direction;
+  }
+
   // Save locks
   const { allowSlideNext, allowSlidePrev, snapGrid } = swiper;
 

@@ -161,8 +161,10 @@ export default function () {
       if (slides[i]) {
         if (swiper.isHorizontal()) {
           slides[i].style.width = `${slideSize}px`;
+          slides[i].style.height = '';
         } else {
           slides[i].style.height = `${slideSize}px`;
+          slides[i].style.width = '';
         }
       }
     }
