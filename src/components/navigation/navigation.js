@@ -148,8 +148,24 @@ export default {
         && !$(e.target).is($prevEl)
         && !$(e.target).is($nextEl)
       ) {
-        if ($nextEl) $nextEl.toggleClass(swiper.params.navigation.hiddenClass);
-        if ($prevEl) $prevEl.toggleClass(swiper.params.navigation.hiddenClass);
+        let isHidden;
+        if ($nextEl) {
+          isHidden = $nextEl.hasClass(swiper.params.navigation.hiddenClass);
+        } else if ($prevEl) {
+          isHidden = $prevEl.hasClass(swiper.params.navigation.hiddenClass);
+        }
+        if (isHidden === true) {
+          swiper.emit('navigationShow', swiper);
+        } else {
+          swiper.emit('navigationHide', swiper);
+        }
+        if ($nextEl) {
+          $nextEl.toggleClass(swiper.params.navigation.hiddenClass);
+        }
+        if ($prevEl) {
+          $prevEl.toggleClass(swiper.params.navigation.hiddenClass);
+        }
+
       }
     },
   },
