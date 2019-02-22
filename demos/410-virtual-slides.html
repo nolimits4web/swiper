@@ -69,15 +69,19 @@
     <div class="swiper-button-prev"></div>
   </div>
   <p class="append-buttons">
+    <a href="#" class="prepend-2-slides">Prepend 2 Slides</a>
     <a href="#" class="slide-1">Slide 1</a>
     <a href="#" class="slide-250">Slide 250</a>
     <a href="#" class="slide-500">Slide 500</a>
+    <a href="#" class="append-slide">Append Slide</a>
   </p>
   <!-- Swiper JS -->
   <script src="../dist/js/swiper.min.js"></script>
 
   <!-- Initialize Swiper -->
   <script>
+    var appendNumber = 1;
+    var prependNumber = 1;
     var swiper = new Swiper('.swiper-container', {
       slidesPerView: 3,
       centeredSlides: true,
@@ -111,6 +115,17 @@
     document.querySelector('.slide-500').addEventListener('click', function (e) {
       e.preventDefault();
       swiper.slideTo(499, 0);
+    });
+    document.querySelector('.prepend-2-slides').addEventListener('click', function (e) {
+      e.preventDefault();
+      swiper.virtual.prependSlide([
+        '<div class="swiper-slide">Slide ' + (--prependNumber) + '</div>',
+        '<div class="swiper-slide">Slide ' + (--prependNumber) + '</div>'
+        ]);
+    });
+    document.querySelector('.append-slide').addEventListener('click', function (e) {
+      e.preventDefault();
+      swiper.virtual.appendSlide('<div class="swiper-slide">Slide ' + (++appendNumber) + '</div>');
     });
   </script>
 </body>
