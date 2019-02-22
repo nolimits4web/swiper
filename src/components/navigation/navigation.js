@@ -165,7 +165,6 @@ export default {
         if ($prevEl) {
           $prevEl.toggleClass(swiper.params.navigation.hiddenClass);
         }
-
       }
     },
   },
