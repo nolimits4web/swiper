@@ -56,7 +56,7 @@ const History = {
     }
   },
   slugify(text) {
-    return text.toString().toLowerCase()
+    return text.toString()
       .replace(/\s+/g, '-')
       .replace(/[^\w-]+/g, '')
       .replace(/--+/g, '-')
