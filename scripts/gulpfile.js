@@ -53,6 +53,6 @@ gulp.task('open', () => {
   gulp.src('./playground/index.html').pipe(gopen({ uri: 'http://localhost:3000/playground/' }));
 });
 
-gulp.task('server', gulp.series(['watch', 'connect', 'open']));
+gulp.task('server', gulp.parallel(['watch', 'connect', 'open']));
 
 gulp.task('default', gulp.series('server'));
