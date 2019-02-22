@@ -80,7 +80,7 @@
 
   <!-- Initialize Swiper -->
   <script>
-    var appendNumber = 1;
+    var appendNumber = 600;
     var prependNumber = 1;
     var swiper = new Swiper('.swiper-container', {
       slidesPerView: 3,
@@ -119,13 +119,13 @@
     document.querySelector('.prepend-2-slides').addEventListener('click', function (e) {
       e.preventDefault();
       swiper.virtual.prependSlide([
-        '<div class="swiper-slide">Slide ' + (--prependNumber) + '</div>',
-        '<div class="swiper-slide">Slide ' + (--prependNumber) + '</div>'
-        ]);
+        'Slide ' + (--prependNumber),
+        'Slide ' + (--prependNumber)
+      ]);
     });
     document.querySelector('.append-slide').addEventListener('click', function (e) {
       e.preventDefault();
-      swiper.virtual.appendSlide('<div class="swiper-slide">Slide ' + (++appendNumber) + '</div>');
+      swiper.virtual.appendSlide('Slide ' + (++appendNumber));
     });
   </script>
 </body>
