@@ -1,5 +1,24 @@
 # Change Log
 
+## [Swiper 4.5.0](https://github.com/nolimits4web/swiper/compare/v4.5.0...v4.5.0) - Released on February 22, 2019
+  * Core
+    * New `swiper.changeDirection()` method to change direction from horizontal to vertical (and back) dynamically
+    * `direction` parameter can be used in breakpoints
+  * Virtual Slides
+    * `swiper.virtual.appendSlide` now accepts array of slides to add
+    * `swiper.virtual.prependSlide` now accepts array of slides to prepend
+    * New `swiper.virtual.removeSlide(indexes)` to remove virtual selected slides
+    * New `swiper.virtual.removeAllSlides()` to remove all virtual slides
+  * Navigation
+    * Now it emits `navigationHide` and `navigationShow` events when on nav hide/show
+  * Pagination
+    * Now it emits `paginationHide` and `paginationShow` events when on pagination hide/show
+  * Dom7 updated to latest 2.1.3
+    * Fixed issue when `.once` bound event could still be there after unbinding it with `.off`
+  * Source
+    * Source styles are now available in SCSS in addition to LESS
+  * Minor fixes and improvements
+
 ## [Swiper 4.4.6](https://github.com/nolimits4web/swiper/compare/v4.4.5...v4.4.6) - Released on December 19, 2018
   * Core
     * Fixed issue with wrong slide size calculation in some cases
