@@ -53,6 +53,8 @@ export default function (newActiveIndex) {
   if (previousRealIndex !== realIndex) {
     swiper.emit('realIndexChange');
   }
-  // swiper.emit('slideChange');
-  !swiper.initialized && !swiper.runCallbacksOnInit ? false : swiper.emit('slideChange');
+  
+  if (swiper.initialized || swiper.runCallbacksOnInit) {
+    swiper.emit('slideChange');
+  }
 }
