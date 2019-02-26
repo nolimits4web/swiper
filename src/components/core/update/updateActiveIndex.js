@@ -53,6 +53,10 @@ export default function (newActiveIndex) {
   if (previousRealIndex !== realIndex) {
     swiper.emit('realIndexChange');
   }
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 21ba9512ee7b540971bdc12db913543baeb140f7
   if (swiper.initialized || swiper.runCallbacksOnInit) {
     swiper.emit('slideChange');
   }
