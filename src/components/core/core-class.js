@@ -329,23 +329,12 @@ class Swiper extends SwiperClass {
       return swiper;
     }
 
-    if (currentDirection === 'vertical') {
-      swiper.$el
-        .removeClass(`${swiper.params.containerModifierClass}vertical wp8-vertical`)
-        .addClass(`${swiper.params.containerModifierClass}${newDirection}`);
+    swiper.$el
+      .removeClass(`${swiper.params.containerModifierClass}${currentDirection} wp8-${currentDirection}`)
+      .addClass(`${swiper.params.containerModifierClass}${newDirection}`);
 
-      if ((Browser.isIE || Browser.isEdge) && (Support.pointerEvents || Support.prefixedPointerEvents)) {
-        swiper.$el.addClass(`${swiper.params.containerModifierClass}wp8-${newDirection}`);
-      }
-    }
-    if (currentDirection === 'horizontal') {
-      swiper.$el
-        .removeClass(`${swiper.params.containerModifierClass}horizontal wp8-horizontal`)
-        .addClass(`${swiper.params.containerModifierClass}${newDirection}`);
-
-      if ((Browser.isIE || Browser.isEdge) && (Support.pointerEvents || Support.prefixedPointerEvents)) {
-        swiper.$el.addClass(`${swiper.params.containerModifierClass}wp8-${newDirection}`);
-      }
+    if ((Browser.isIE || Browser.isEdge) && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+      swiper.$el.addClass(`${swiper.params.containerModifierClass}wp8-${newDirection}`);
     }
 
     swiper.params.direction = newDirection;
