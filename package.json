@@ -75,7 +75,7 @@
     "gulp-uglify": "^3.0.1",
     "rollup": "^1.2.2",
     "rollup-plugin-buble": "^0.19.6",
-    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-node-resolve": "^5.0.0",
     "rollup-plugin-replace": "^2.1.0"
   },
   "dependencies": {
