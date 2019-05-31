@@ -13,8 +13,8 @@ export default function () {
 
   // Fix For Negative Oversliding
   if (activeIndex < loopedSlides) {
-    newIndex = (slides.length - (loopedSlides * 3)) + activeIndex;
-    newIndex += loopedSlides;
+    newIndex = slides.length - activeIndex - loopedSlides;
+
     const slideChanged = swiper.slideTo(newIndex, 0, false, true);
     if (slideChanged && diff !== 0) {
       swiper.setTranslate((rtl ? -swiper.translate : swiper.translate) - diff);

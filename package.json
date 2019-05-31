@@ -58,11 +58,12 @@
     "ie >= 10"
   ],
   "devDependencies": {
+    "browser-sync": "^2.26.5",
     "cross-env": "^5.2.0",
     "eslint": "^5.14.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-clean-css": "^4.0.0",
     "gulp-connect": "^5.7.0",
