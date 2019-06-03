@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: February 22, 2019
+ * Released on: June 3, 2019
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition as transition$1, on, off, trigger, transitionEnd as transitionEnd$1, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -954,7 +954,9 @@ function updateActiveIndex (newActiveIndex) {
   if (previousRealIndex !== realIndex) {
     swiper.emit('realIndexChange');
   }
-  swiper.emit('slideChange');
+  if (swiper.initialized || swiper.runCallbacksOnInit) {
+    swiper.emit('slideChange');
+  }
 }
 
 function updateClickedSlide (e) {
@@ -2866,7 +2868,15 @@ class Swiper extends SwiperClass {
     $el.data('swiper', swiper);
 
     // Find Wrapper
-    const $wrapperEl = $el.children(`.${swiper.params.wrapperClass}`);
+    // Add support for shadow dom
+    let $wrapperEl;
+    if (el && el.shadowRoot && el.shadowRoot.children) {
+      $wrapperEl = $(el.shadowRoot.children[1]);
+      // Children needs to return slot items
+      $wrapperEl.children = (options) => { $el.children(options); };
+    } else {
+      $wrapperEl = $el.children(`.${swiper.params.wrapperClass}`);
+    }
 
     // Extend Swiper
     Utils.extend(swiper, {
@@ -3075,23 +3085,12 @@ class Swiper extends SwiperClass {
       return swiper;
     }
 
-    if (currentDirection === 'vertical') {
-      swiper.$el
-        .removeClass(`${swiper.params.containerModifierClass}vertical wp8-vertical`)
-        .addClass(`${swiper.params.containerModifierClass}${newDirection}`);
+    swiper.$el
+      .removeClass(`${swiper.params.containerModifierClass}${currentDirection} wp8-${currentDirection}`)
+      .addClass(`${swiper.params.containerModifierClass}${newDirection}`);
 
-      if ((Browser.isIE || Browser.isEdge) && (Support.pointerEvents || Support.prefixedPointerEvents)) {
-        swiper.$el.addClass(`${swiper.params.containerModifierClass}wp8-${newDirection}`);
-      }
-    }
-    if (currentDirection === 'horizontal') {
-      swiper.$el
-        .removeClass(`${swiper.params.containerModifierClass}horizontal wp8-horizontal`)
-        .addClass(`${swiper.params.containerModifierClass}${newDirection}`);
-
-      if ((Browser.isIE || Browser.isEdge) && (Support.pointerEvents || Support.prefixedPointerEvents)) {
-        swiper.$el.addClass(`${swiper.params.containerModifierClass}wp8-${newDirection}`);
-      }
+    if ((Browser.isIE || Browser.isEdge) && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+      swiper.$el.addClass(`${swiper.params.containerModifierClass}wp8-${newDirection}`);
     }
 
     swiper.params.direction = newDirection;
@@ -3644,10 +3643,10 @@ const Keyboard = {
     if (e.originalEvent) e = e.originalEvent; // jquery fix
     const kc = e.keyCode || e.charCode;
     // Directions locks
-    if (!swiper.allowSlideNext && ((swiper.isHorizontal() && kc === 39) || (swiper.isVertical() && kc === 40))) {
+    if (!swiper.allowSlideNext && ((swiper.isHorizontal() && kc === 39) || (swiper.isVertical() && kc === 40) || kc === 34)) {
       return false;
     }
-    if (!swiper.allowSlidePrev && ((swiper.isHorizontal() && kc === 37) || (swiper.isVertical() && kc === 38))) {
+    if (!swiper.allowSlidePrev && ((swiper.isHorizontal() && kc === 37) || (swiper.isVertical() && kc === 38) || kc === 33)) {
       return false;
     }
     if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) {
@@ -3656,7 +3655,7 @@ const Keyboard = {
     if (document.activeElement && document.activeElement.nodeName && (document.activeElement.nodeName.toLowerCase() === 'input' || document.activeElement.nodeName.toLowerCase() === 'textarea')) {
       return undefined;
     }
-    if (swiper.params.keyboard.onlyInViewport && (kc === 37 || kc === 39 || kc === 38 || kc === 40)) {
+    if (swiper.params.keyboard.onlyInViewport && (kc === 33 || kc === 34 || kc === 37 || kc === 39 || kc === 38 || kc === 40)) {
       let inView = false;
       // Check that swiper should be inside of visible area of window
       if (swiper.$el.parents(`.${swiper.params.slideClass}`).length > 0 && swiper.$el.parents(`.${swiper.params.slideActiveClass}`).length === 0) {
@@ -3684,19 +3683,19 @@ const Keyboard = {
       if (!inView) return undefined;
     }
     if (swiper.isHorizontal()) {
-      if (kc === 37 || kc === 39) {
+      if (kc === 33 || kc === 34 || kc === 37 || kc === 39) {
         if (e.preventDefault) e.preventDefault();
         else e.returnValue = false;
       }
-      if ((kc === 39 && !rtl) || (kc === 37 && rtl)) swiper.slideNext();
-      if ((kc === 37 && !rtl) || (kc === 39 && rtl)) swiper.slidePrev();
+      if (((kc === 34 || kc === 39) && !rtl) || ((kc === 33 || kc === 37) && rtl)) swiper.slideNext();
+      if (((kc === 33 || kc === 37) && !rtl) || ((kc === 34 || kc === 39) && rtl)) swiper.slidePrev();
     } else {
-      if (kc === 38 || kc === 40) {
+      if (kc === 33 || kc === 34 || kc === 38 || kc === 40) {
         if (e.preventDefault) e.preventDefault();
         else e.returnValue = false;
       }
-      if (kc === 40) swiper.slideNext();
-      if (kc === 38) swiper.slidePrev();
+      if (kc === 34 || kc === 40) swiper.slideNext();
+      if (kc === 33 || kc === 38) swiper.slidePrev();
     }
     swiper.emit('keyPress', kc);
     return undefined;
@@ -7013,7 +7012,7 @@ const Thumbs = {
       } else {
         newThumbsIndex = swiper.realIndex;
       }
-      if (thumbsSwiper.visibleSlidesIndexes.indexOf(newThumbsIndex) < 0) {
+      if (thumbsSwiper.visibleSlidesIndexes && thumbsSwiper.visibleSlidesIndexes.indexOf(newThumbsIndex) < 0) {
         if (thumbsSwiper.params.centeredSlides) {
           if (newThumbsIndex > currentThumbsIndex) {
             newThumbsIndex = newThumbsIndex - Math.floor(slidesPerView / 2) + 1;
