@@ -120,7 +120,16 @@ class Swiper extends SwiperClass {
     $el.data('swiper', swiper);
 
     // Find Wrapper
-    const $wrapperEl = $el.children(`.${swiper.params.wrapperClass}`);
+    // Add support for shadow dom
+    if (el && el.shadowRoot &&el.shadowRoot.children) {
+      $wrapperEl = $(el.shadowRoot.children[1])
+      // Children needs to return slot items
+      $wrapperEl.children =  () => {
+        return $el.children();
+      }
+    } else {
+      $wrapperEl = $el.children(`.${swiper.params.wrapperClass}`);
+    }
 
     // Extend Swiper
     Utils.extend(swiper, {
