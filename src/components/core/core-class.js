@@ -125,7 +125,7 @@ class Swiper extends SwiperClass {
     if (el && el.shadowRoot && el.shadowRoot.children) {
       $wrapperEl = $(el.shadowRoot.children[1]);
       // Children needs to return slot items
-      $wrapperEl.children = (options) => { $el.children(options); };
+      $wrapperEl.children = options => $el.children(options);
     } else {
       $wrapperEl = $el.children(`.${swiper.params.wrapperClass}`);
     }
