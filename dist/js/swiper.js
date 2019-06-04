@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: June 3, 2019
+ * Released on: June 4, 2019
  */
 
 (function (global, factory) {
@@ -3774,7 +3774,7 @@
       if (el && el.shadowRoot && el.shadowRoot.children) {
         $wrapperEl = $(el.shadowRoot.children[1]);
         // Children needs to return slot items
-        $wrapperEl.children = function (options) { $el.children(options); };
+        $wrapperEl.children = function (options) { return $el.children(options); };
       } else {
         $wrapperEl = $el.children(("." + (swiper.params.wrapperClass)));
       }

@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: June 3, 2019
+ * Released on: June 4, 2019
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition as transition$1, on, off, trigger, transitionEnd as transitionEnd$1, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -2873,7 +2873,7 @@ class Swiper extends SwiperClass {
     if (el && el.shadowRoot && el.shadowRoot.children) {
       $wrapperEl = $(el.shadowRoot.children[1]);
       // Children needs to return slot items
-      $wrapperEl.children = (options) => { $el.children(options); };
+      $wrapperEl.children = options => $el.children(options);
     } else {
       $wrapperEl = $el.children(`.${swiper.params.wrapperClass}`);
     }
