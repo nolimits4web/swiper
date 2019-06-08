@@ -34,6 +34,27 @@ const Lazy = {
           $imageEl.css('background-image', `url("${background}")`);
           $imageEl.removeAttr('data-background');
         } else {
+          if ($imageEl.parent() && $imageEl.parent()[0].tagName === 'PICTURE') {
+            $imageEl
+              .parent()[0]
+              .querySelectorAll('source')
+              .forEach((childTag) => {
+                if (childTag.tagName === 'SOURCE') {
+                  if (childTag.dataset.srcset) {
+                    childTag.setAttribute('srcset', childTag.dataset.srcset);
+                    childTag.removeAttribute('data-srcset');
+                  }
+                  if (childTag.dataset.sizes) {
+                    childTag.setAttribute('sizes', childTag.dataset.sizes);
+                    childTag.removeAttribute('data-sizes');
+                  }
+                  if (childTag.dataset.src) {
+                    childTag.setAttribute('src', childTag.dataset.src);
+                    childTag.removeAttribute('data-src');
+                  }
+                }
+              });
+          }
           if (srcset) {
             $imageEl.attr('srcset', srcset);
             $imageEl.removeAttr('data-srcset');
