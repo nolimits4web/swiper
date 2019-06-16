@@ -28,6 +28,7 @@
 .swiper-container-android .swiper-slide,
 .swiper-wrapper {
   transform:translate3d(0px,0,0);
+  will-change: transform;
 }
 .swiper-container-multirow > .swiper-wrapper {
   flex-wrap: wrap;
