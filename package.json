@@ -3,6 +3,7 @@
   "version": "4.5.0",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/js/swiper.js",
+  "browser": "dist/js/swiper.js",
   "jsnext:main": "dist/js/swiper.esm.bundle.js",
   "module": "dist/js/swiper.esm.bundle.js",
   "scripts": {
