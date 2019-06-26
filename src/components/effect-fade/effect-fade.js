@@ -1,36 +1,35 @@
 import Utils from '../../utils/utils';
+import $ from '../../utils/dom';
 
 const Fade = {
   setTranslate() {
     const swiper = this;
     const { slides } = swiper;
-    for (let i = 0; i < slides.length; i += 1) {
-      const $slideEl = swiper.slides.eq(i);
-      const offset = $slideEl[0].swiperSlideOffset;
-      let tx = -offset;
-      if (!swiper.params.virtualTranslate) tx -= swiper.translate;
-      let ty = 0;
-      if (!swiper.isHorizontal()) {
-        ty = tx;
-        tx = 0;
+    // eslint-disable-next-line
+    for (let i = -2; i < 3; i++) {
+      const slide = slides.eq(swiper.activeIndex + i);
+      if (slide && slide.attr('transform')) {
+        slide.transform(slide.attr('transform'));
+        slide.removeAttr('transform');
       }
-      const slideOpacity = swiper.params.fadeEffect.crossFade
-        ? Math.max(1 - Math.abs($slideEl[0].progress), 0)
-        : 1 + Math.min(Math.max($slideEl[0].progress, -1), 0);
-      $slideEl
-        .css({
-          opacity: slideOpacity,
-        })
-        .transform(`translate3d(${tx}px, ${ty}px, 0px)`);
     }
   },
   setTransition(duration) {
     const swiper = this;
     const { slides, $wrapperEl } = swiper;
-    slides.transition(duration);
+
+    const foundElements = [];
+    if (slides[swiper.activeIndex]) foundElements.push(slides[swiper.activeIndex]);
+
+    if (slides[swiper.activeIndex + 1]) foundElements.push(slides[swiper.activeIndex + 1]);
+
+    if (slides[swiper.activeIndex - 1]) foundElements.push(slides[swiper.activeIndex - 1]);
+
+    $(foundElements).transition(duration);
+
     if (swiper.params.virtualTranslate && duration !== 0) {
       let eventTriggered = false;
-      slides.transitionEnd(() => {
+      $(foundElements).transitionEnd(() => {
         if (eventTriggered) return;
         if (!swiper || swiper.destroyed) return;
         eventTriggered = true;
@@ -61,6 +60,26 @@ export default {
     });
   },
   on: {
+    init() {
+      const swiper = this;
+      const slides = swiper.slides;
+      for (let i = 0; i < slides.length; i += 1) {
+        const $slideEl = swiper.slides.eq(i);
+        const offset = $slideEl[0].swiperSlideOffset;
+        let tx = -offset;
+        if (!swiper.params.virtualTranslate) { tx -= swiper.translate; }
+        let ty = 0;
+        if (!swiper.isHorizontal()) {
+          ty = tx;
+          tx = 0;
+        }
+
+        $slideEl.attr('transform', `translate(${tx}px, ${ty}px)`);
+        if (i === 0 || i === 1) {
+          $slideEl.transform(`translate(${tx}px, ${ty}px)`);
+        }
+      }
+    },
     beforeInit() {
       const swiper = this;
       if (swiper.params.effect !== 'fade') return;
