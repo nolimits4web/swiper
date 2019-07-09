@@ -7,11 +7,11 @@
  *
  * Released under the MIT License
  *
- * Released on: February 22, 2019
+ * Released on: July 8, 2019
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition as transition$1, on, off, trigger, transitionEnd as transitionEnd$1, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
-import { window, document } from 'ssr-window';
+import { window as window$1, document } from 'ssr-window';
 
 const Methods = {
   addClass,
@@ -54,7 +54,7 @@ const Methods = {
 };
 
 Object.keys(Methods).forEach((methodName) => {
-  $.fn[methodName] = Methods[methodName];
+  $.fn[methodName] = $.fn[methodName] || Methods[methodName];
 });
 
 const Utils = {
@@ -84,16 +84,16 @@ const Utils = {
     let curTransform;
     let transformMatrix;
 
-    const curStyle = window.getComputedStyle(el, null);
+    const curStyle = window$1.getComputedStyle(el, null);
 
-    if (window.WebKitCSSMatrix) {
+    if (window$1.WebKitCSSMatrix) {
       curTransform = curStyle.transform || curStyle.webkitTransform;
       if (curTransform.split(',').length > 6) {
         curTransform = curTransform.split(', ').map(a => a.replace(',', '.')).join(', ');
       }
       // Some old versions of Webkit choke when 'none' is passed; pass
       // empty string instead in this case
-      transformMatrix = new window.WebKitCSSMatrix(curTransform === 'none' ? '' : curTransform);
+      transformMatrix = new window$1.WebKitCSSMatrix(curTransform === 'none' ? '' : curTransform);
     } else {
       transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform || curStyle.transform || curStyle.getPropertyValue('transform').replace('translate(', 'matrix(1, 0, 0, 1,');
       matrix = transformMatrix.toString().split(',');
@@ -101,7 +101,7 @@ const Utils = {
 
     if (axis === 'x') {
       // Latest Chrome and webkits Fix
-      if (window.WebKitCSSMatrix) curTransform = transformMatrix.m41;
+      if (window$1.WebKitCSSMatrix) curTransform = transformMatrix.m41;
       // Crazy IE10 Matrix
       else if (matrix.length === 16) curTransform = parseFloat(matrix[12]);
       // Normal Browsers
@@ -109,7 +109,7 @@ const Utils = {
     }
     if (axis === 'y') {
       // Latest Chrome and webkits Fix
-      if (window.WebKitCSSMatrix) curTransform = transformMatrix.m42;
+      if (window$1.WebKitCSSMatrix) curTransform = transformMatrix.m42;
       // Crazy IE10 Matrix
       else if (matrix.length === 16) curTransform = parseFloat(matrix[13]);
       // Normal Browsers
@@ -119,7 +119,7 @@ const Utils = {
   },
   parseUrlQuery(url) {
     const query = {};
-    let urlToParse = url || window.location.href;
+    let urlToParse = url || window$1.location.href;
     let i;
     let params;
     let param;
@@ -168,18 +168,18 @@ const Utils = {
 const Support = (function Support() {
   const testDiv = document.createElement('div');
   return {
-    touch: (window.Modernizr && window.Modernizr.touch === true) || (function checkTouch() {
-      return !!((window.navigator.maxTouchPoints > 0) || ('ontouchstart' in window) || (window.DocumentTouch && document instanceof window.DocumentTouch));
+    touch: (window$1.Modernizr && window$1.Modernizr.touch === true) || (function checkTouch() {
+      return !!((window$1.navigator.maxTouchPoints > 0) || ('ontouchstart' in window$1) || (window$1.DocumentTouch && document instanceof window$1.DocumentTouch));
     }()),
 
-    pointerEvents: !!(window.navigator.pointerEnabled || window.PointerEvent || ('maxTouchPoints' in window.navigator && window.navigator.maxTouchPoints > 0)),
-    prefixedPointerEvents: !!window.navigator.msPointerEnabled,
+    pointerEvents: !!(window$1.navigator.pointerEnabled || window$1.PointerEvent || ('maxTouchPoints' in window$1.navigator && window$1.navigator.maxTouchPoints > 0)),
+    prefixedPointerEvents: !!window$1.navigator.msPointerEnabled,
 
     transition: (function checkTransition() {
       const style = testDiv.style;
       return ('transition' in style || 'webkitTransition' in style || 'MozTransition' in style);
     }()),
-    transforms3d: (window.Modernizr && window.Modernizr.csstransforms3d === true) || (function checkTransforms3d() {
+    transforms3d: (window$1.Modernizr && window$1.Modernizr.csstransforms3d === true) || (function checkTransforms3d() {
       const style = testDiv.style;
       return ('webkitPerspective' in style || 'MozPerspective' in style || 'OPerspective' in style || 'MsPerspective' in style || 'perspective' in style);
     }()),
@@ -194,7 +194,7 @@ const Support = (function Support() {
     }()),
 
     observer: (function checkObserver() {
-      return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
+      return ('MutationObserver' in window$1 || 'WebkitMutationObserver' in window$1);
     }()),
 
     passiveListener: (function checkPassiveListener() {
@@ -206,7 +206,7 @@ const Support = (function Support() {
             supportsPassive = true;
           },
         });
-        window.addEventListener('testPassiveListener', null, opts);
+        window$1.addEventListener('testPassiveListener', null, opts);
       } catch (e) {
         // No support
       }
@@ -214,21 +214,21 @@ const Support = (function Support() {
     }()),
 
     gestures: (function checkGestures() {
-      return 'ongesturestart' in window;
+      return 'ongesturestart' in window$1;
     }()),
   };
 }());
 
 const Browser = (function Browser() {
   function isSafari() {
-    const ua = window.navigator.userAgent.toLowerCase();
+    const ua = window$1.navigator.userAgent.toLowerCase();
     return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
   }
   return {
-    isIE: !!window.navigator.userAgent.match(/Trident/g) || !!window.navigator.userAgent.match(/MSIE/g),
-    isEdge: !!window.navigator.userAgent.match(/Edge/g),
+    isIE: !!window$1.navigator.userAgent.match(/Trident/g) || !!window$1.navigator.userAgent.match(/MSIE/g),
+    isEdge: !!window$1.navigator.userAgent.match(/Edge/g),
     isSafari: isSafari(),
-    isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent),
+    isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window$1.navigator.userAgent),
   };
 }());
 
@@ -536,7 +536,7 @@ function updateSlides () {
     if (slide.css('display') === 'none') continue; // eslint-disable-line
 
     if (params.slidesPerView === 'auto') {
-      const slideStyles = window.getComputedStyle(slide[0], null);
+      const slideStyles = window$1.getComputedStyle(slide[0], null);
       const currentTransform = slide[0].style.transform;
       const currentWebKitTransform = slide[0].style.webkitTransform;
       if (currentTransform) {
@@ -954,7 +954,9 @@ function updateActiveIndex (newActiveIndex) {
   if (previousRealIndex !== realIndex) {
     swiper.emit('realIndexChange');
   }
-  swiper.emit('slideChange');
+  if (swiper.initialized || swiper.runCallbacksOnInit) {
+    swiper.emit('slideChange');
+  }
 }
 
 function updateClickedSlide (e) {
@@ -1653,7 +1655,7 @@ var manipulation = {
 };
 
 const Device = (function Device() {
-  const ua = window.navigator.userAgent;
+  const ua = window$1.navigator.userAgent;
 
   const device = {
     ios: false,
@@ -1664,8 +1666,8 @@ const Device = (function Device() {
     iphone: false,
     ipod: false,
     ipad: false,
-    cordova: window.cordova || window.phonegap,
-    phonegap: window.cordova || window.phonegap,
+    cordova: window$1.cordova || window$1.phonegap,
+    phonegap: window$1.cordova || window$1.phonegap,
   };
 
   const windows = ua.match(/(Windows Phone);?[\s\/]+([\d.]+)?/); // eslint-disable-line
@@ -1729,7 +1731,7 @@ const Device = (function Device() {
   }
 
   // Pixel Ratio
-  device.pixelRatio = window.devicePixelRatio || 1;
+  device.pixelRatio = window$1.devicePixelRatio || 1;
 
   // Export object
   return device;
@@ -1768,7 +1770,7 @@ function onTouchStart (event) {
   if (
     edgeSwipeDetection
     && ((startX <= edgeSwipeThreshold)
-    || (startX >= window.screen.width - edgeSwipeThreshold))
+    || (startX >= window$1.screen.width - edgeSwipeThreshold))
   ) {
     return;
   }
@@ -2307,6 +2309,7 @@ function onResize () {
     if (params.autoHeight) {
       swiper.updateAutoHeight();
     }
+
   } else {
     swiper.updateSlidesClasses();
     if ((params.slidesPerView === 'auto' || params.slidesPerView > 1) && swiper.isEnd && !swiper.params.centeredSlides) {
@@ -2314,6 +2317,9 @@ function onResize () {
     } else {
       swiper.slideTo(swiper.activeIndex, 0, false, true);
     }
+  }
+  if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {
+    swiper.autoplay.run();
   }
   // Return locks after resize
   swiper.allowSlidePrev = allowSlidePrev;
@@ -2494,10 +2500,10 @@ function getBreakpoint (breakpoints) {
   for (let i = 0; i < points.length; i += 1) {
     const point = points[i];
     if (swiper.params.breakpointsInverse) {
-      if (point <= window.innerWidth) {
+      if (point <= window$1.innerWidth) {
         breakpoint = point;
       }
-    } else if (point >= window.innerWidth && !breakpoint) {
+    } else if (point >= window$1.innerWidth && !breakpoint) {
       breakpoint = point;
     }
   }
@@ -2561,13 +2567,14 @@ var classes = { addClasses, removeClasses };
 function loadImage (imageEl, src, srcset, sizes, checkForComplete, callback) {
   let image;
   function onReady() {
-    if (callback) callback();
+    // if (callback) callback();
   }
   if (!imageEl.complete || !checkForComplete) {
     if (src) {
-      image = new window.Image();
+      image = new window$1.Image();
       image.onload = onReady;
       image.onerror = onReady;
+
       if (sizes) {
         image.sizes = sizes;
       }
@@ -2577,12 +2584,7 @@ function loadImage (imageEl, src, srcset, sizes, checkForComplete, callback) {
       if (src) {
         image.src = src;
       }
-    } else {
-      onReady();
     }
-  } else {
-    // image already loaded...
-    onReady();
   }
 }
 
@@ -3075,23 +3077,12 @@ class Swiper extends SwiperClass {
       return swiper;
     }
 
-    if (currentDirection === 'vertical') {
-      swiper.$el
-        .removeClass(`${swiper.params.containerModifierClass}vertical wp8-vertical`)
-        .addClass(`${swiper.params.containerModifierClass}${newDirection}`);
+    swiper.$el
+      .removeClass(`${swiper.params.containerModifierClass}${currentDirection} wp8-${currentDirection}`)
+      .addClass(`${swiper.params.containerModifierClass}${newDirection}`);
 
-      if ((Browser.isIE || Browser.isEdge) && (Support.pointerEvents || Support.prefixedPointerEvents)) {
-        swiper.$el.addClass(`${swiper.params.containerModifierClass}wp8-${newDirection}`);
-      }
-    }
-    if (currentDirection === 'horizontal') {
-      swiper.$el
-        .removeClass(`${swiper.params.containerModifierClass}horizontal wp8-horizontal`)
-        .addClass(`${swiper.params.containerModifierClass}${newDirection}`);
-
-      if ((Browser.isIE || Browser.isEdge) && (Support.pointerEvents || Support.prefixedPointerEvents)) {
-        swiper.$el.addClass(`${swiper.params.containerModifierClass}wp8-${newDirection}`);
-      }
+    if ((Browser.isIE || Browser.isEdge) && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+      swiper.$el.addClass(`${swiper.params.containerModifierClass}wp8-${newDirection}`);
     }
 
     swiper.params.direction = newDirection;
@@ -3298,21 +3289,21 @@ var Resize = {
     init() {
       const swiper = this;
       // Emit resize
-      window.addEventListener('resize', swiper.resize.resizeHandler);
+      window$1.addEventListener('resize', swiper.resize.resizeHandler);
 
       // Emit orientationchange
-      window.addEventListener('orientationchange', swiper.resize.orientationChangeHandler);
+      window$1.addEventListener('orientationchange', swiper.resize.orientationChangeHandler);
     },
     destroy() {
       const swiper = this;
-      window.removeEventListener('resize', swiper.resize.resizeHandler);
-      window.removeEventListener('orientationchange', swiper.resize.orientationChangeHandler);
+      window$1.removeEventListener('resize', swiper.resize.resizeHandler);
+      window$1.removeEventListener('orientationchange', swiper.resize.orientationChangeHandler);
     },
   },
 };
 
 const Observer = {
-  func: window.MutationObserver || window.WebkitMutationObserver,
+  func: window$1.MutationObserver || window$1.WebkitMutationObserver,
   attach(target, options = {}) {
     const swiper = this;
 
@@ -3329,10 +3320,10 @@ const Observer = {
         swiper.emit('observerUpdate', mutations[0]);
       };
 
-      if (window.requestAnimationFrame) {
-        window.requestAnimationFrame(observerUpdate);
+      if (window$1.requestAnimationFrame) {
+        window$1.requestAnimationFrame(observerUpdate);
       } else {
-        window.setTimeout(observerUpdate, 0);
+        window$1.setTimeout(observerUpdate, 0);
       }
     });
 
@@ -3644,10 +3635,10 @@ const Keyboard = {
     if (e.originalEvent) e = e.originalEvent; // jquery fix
     const kc = e.keyCode || e.charCode;
     // Directions locks
-    if (!swiper.allowSlideNext && ((swiper.isHorizontal() && kc === 39) || (swiper.isVertical() && kc === 40))) {
+    if (!swiper.allowSlideNext && ((swiper.isHorizontal() && kc === 39) || (swiper.isVertical() && kc === 40) || kc === 34)) {
       return false;
     }
-    if (!swiper.allowSlidePrev && ((swiper.isHorizontal() && kc === 37) || (swiper.isVertical() && kc === 38))) {
+    if (!swiper.allowSlidePrev && ((swiper.isHorizontal() && kc === 37) || (swiper.isVertical() && kc === 38) || kc === 33)) {
       return false;
     }
     if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) {
@@ -3656,14 +3647,14 @@ const Keyboard = {
     if (document.activeElement && document.activeElement.nodeName && (document.activeElement.nodeName.toLowerCase() === 'input' || document.activeElement.nodeName.toLowerCase() === 'textarea')) {
       return undefined;
     }
-    if (swiper.params.keyboard.onlyInViewport && (kc === 37 || kc === 39 || kc === 38 || kc === 40)) {
+    if (swiper.params.keyboard.onlyInViewport && (kc === 33 || kc === 34 || kc === 37 || kc === 39 || kc === 38 || kc === 40)) {
       let inView = false;
       // Check that swiper should be inside of visible area of window
       if (swiper.$el.parents(`.${swiper.params.slideClass}`).length > 0 && swiper.$el.parents(`.${swiper.params.slideActiveClass}`).length === 0) {
         return undefined;
       }
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
+      const windowWidth = window$1.innerWidth;
+      const windowHeight = window$1.innerHeight;
       const swiperOffset = swiper.$el.offset();
       if (rtl) swiperOffset.left -= swiper.$el[0].scrollLeft;
       const swiperCoord = [
@@ -3684,19 +3675,19 @@ const Keyboard = {
       if (!inView) return undefined;
     }
     if (swiper.isHorizontal()) {
-      if (kc === 37 || kc === 39) {
+      if (kc === 33 || kc === 34 || kc === 37 || kc === 39) {
         if (e.preventDefault) e.preventDefault();
         else e.returnValue = false;
       }
-      if ((kc === 39 && !rtl) || (kc === 37 && rtl)) swiper.slideNext();
-      if ((kc === 37 && !rtl) || (kc === 39 && rtl)) swiper.slidePrev();
+      if (((kc === 34 || kc === 39) && !rtl) || ((kc === 33 || kc === 37) && rtl)) swiper.slideNext();
+      if (((kc === 33 || kc === 37) && !rtl) || ((kc === 34 || kc === 39) && rtl)) swiper.slidePrev();
     } else {
-      if (kc === 38 || kc === 40) {
+      if (kc === 33 || kc === 34 || kc === 38 || kc === 40) {
         if (e.preventDefault) e.preventDefault();
         else e.returnValue = false;
       }
-      if (kc === 40) swiper.slideNext();
-      if (kc === 38) swiper.slidePrev();
+      if (kc === 34 || kc === 40) swiper.slideNext();
+      if (kc === 33 || kc === 38) swiper.slidePrev();
     }
     swiper.emit('keyPress', kc);
     return undefined;
@@ -3776,7 +3767,7 @@ function isEventSupported() {
 const Mousewheel = {
   lastScrollTime: Utils.now(),
   event: (function getEvent() {
-    if (window.navigator.userAgent.indexOf('firefox') > -1) return 'DOMMouseScroll';
+    if (window$1.navigator.userAgent.indexOf('firefox') > -1) return 'DOMMouseScroll';
     return isEventSupported() ? 'wheel' : 'mousewheel';
   }()),
   normalize(e) {
@@ -3892,7 +3883,7 @@ const Mousewheel = {
           swiper.emit('scroll', e);
         } else if (params.releaseOnEdges) return true;
       }
-      swiper.mousewheel.lastScrollTime = (new window.Date()).getTime();
+      swiper.mousewheel.lastScrollTime = (new window$1.Date()).getTime();
     } else {
       // Freemode or scrollContainer:
       if (swiper.params.loop) {
@@ -5494,45 +5485,54 @@ const Lazy = {
       const $imageEl = $(imageEl);
       $imageEl.addClass(params.loadingClass);
 
-      const background = $imageEl.attr('data-background');
-      const src = $imageEl.attr('data-src');
-      const srcset = $imageEl.attr('data-srcset');
-      const sizes = $imageEl.attr('data-sizes');
+      const image = $($imageEl[0]);
 
-      swiper.loadImage($imageEl[0], (src || background), srcset, sizes, false, () => {
-        if (typeof swiper === 'undefined' || swiper === null || !swiper || (swiper && !swiper.params) || swiper.destroyed) return;
-        if (background) {
-          $imageEl.css('background-image', `url("${background}")`);
-          $imageEl.removeAttr('data-background');
+      if ($imageEl.parent() && $imageEl.parent()[0].tagName === 'PICTURE') {
+        const sources = Array.from($imageEl.parent()[0].querySelectorAll('source'));
+
+        sources.forEach(source => {
+          const $source = $(source);
+
+          if ($source.attr('data-srcset')) {
+            $source.attr('srcset', $source.attr('data-srcset'));
+            $source.removeAttr('data-srcset');
+          }
+        });
+      }
+
+      if (image.attr('data-srcset')) {
+        $imageEl.attr('srcset', image.attr('data-srcset'));
+        $imageEl.removeAttr('data-srcset');
+      }
+
+      if (image.attr('data-sizes')) {
+        $imageEl.attr('sizes', image.attr('data-sizes'));
+        $imageEl.removeAttr('data-sizes');
+      }
+
+      if (image.attr('data-src') && (!$imageEl.parent() || $imageEl.parent()[0].tagName === 'PICTURE')) {
+        $imageEl.attr('src', image.attr('data-src'));
+        $imageEl.removeAttr('data-src');
+      }
+
+      if (!window.HTMLPictureElement && window.picturefill){
+        picturefill({reevaluate: true, elements: [$imageEl[0]]});
+      }
+
+      $imageEl.addClass(params.loadedClass).removeClass(params.loadingClass);
+      $slideEl.find(`.${params.preloaderClass}`).remove();
+      if (swiper.params.loop && loadInDuplicate) {
+        const slideOriginalIndex = $slideEl.attr('data-swiper-slide-index');
+        if ($slideEl.hasClass(swiper.params.slideDuplicateClass)) {
+          const originalSlide = swiper.$wrapperEl.children(`[data-swiper-slide-index="${slideOriginalIndex}"]:not(.${swiper.params.slideDuplicateClass})`);
+          swiper.lazy.loadInSlide(originalSlide.index(), false);
         } else {
-          if (srcset) {
-            $imageEl.attr('srcset', srcset);
-            $imageEl.removeAttr('data-srcset');
-          }
-          if (sizes) {
-            $imageEl.attr('sizes', sizes);
-            $imageEl.removeAttr('data-sizes');
-          }
-          if (src) {
-            $imageEl.attr('src', src);
-            $imageEl.removeAttr('data-src');
-          }
+          const duplicatedSlide = swiper.$wrapperEl.children(`.${swiper.params.slideDuplicateClass}[data-swiper-slide-index="${slideOriginalIndex}"]`);
+          swiper.lazy.loadInSlide(duplicatedSlide.index(), false);
         }
+      }
 
-        $imageEl.addClass(params.loadedClass).removeClass(params.loadingClass);
-        $slideEl.find(`.${params.preloaderClass}`).remove();
-        if (swiper.params.loop && loadInDuplicate) {
-          const slideOriginalIndex = $slideEl.attr('data-swiper-slide-index');
-          if ($slideEl.hasClass(swiper.params.slideDuplicateClass)) {
-            const originalSlide = swiper.$wrapperEl.children(`[data-swiper-slide-index="${slideOriginalIndex}"]:not(.${swiper.params.slideDuplicateClass})`);
-            swiper.lazy.loadInSlide(originalSlide.index(), false);
-          } else {
-            const duplicatedSlide = swiper.$wrapperEl.children(`.${swiper.params.slideDuplicateClass}[data-swiper-slide-index="${slideOriginalIndex}"]`);
-            swiper.lazy.loadInSlide(duplicatedSlide.index(), false);
-          }
-        }
-        swiper.emit('lazyImageReady', $slideEl[0], $imageEl[0]);
-      });
+      swiper.emit('lazyImageReady', $slideEl[0], $imageEl[0]);
 
       swiper.emit('lazyImageLoad', $slideEl[0], $imageEl[0]);
     });
@@ -6067,7 +6067,7 @@ const History = {
   init() {
     const swiper = this;
     if (!swiper.params.history) return;
-    if (!window.history || !window.history.pushState) {
+    if (!window$1.history || !window$1.history.pushState) {
       swiper.params.history.enabled = false;
       swiper.params.hashNavigation.enabled = true;
       return;
@@ -6078,13 +6078,13 @@ const History = {
     if (!history.paths.key && !history.paths.value) return;
     history.scrollToSlide(0, history.paths.value, swiper.params.runCallbacksOnInit);
     if (!swiper.params.history.replaceState) {
-      window.addEventListener('popstate', swiper.history.setHistoryPopState);
+      window$1.addEventListener('popstate', swiper.history.setHistoryPopState);
     }
   },
   destroy() {
     const swiper = this;
     if (!swiper.params.history.replaceState) {
-      window.removeEventListener('popstate', swiper.history.setHistoryPopState);
+      window$1.removeEventListener('popstate', swiper.history.setHistoryPopState);
     }
   },
   setHistoryPopState() {
@@ -6093,7 +6093,7 @@ const History = {
     swiper.history.scrollToSlide(swiper.params.speed, swiper.history.paths.value, false);
   },
   getPathValues() {
-    const pathArray = window.location.pathname.slice(1).split('/').filter(part => part !== '');
+    const pathArray = window$1.location.pathname.slice(1).split('/').filter(part => part !== '');
     const total = pathArray.length;
     const key = pathArray[total - 2];
     const value = pathArray[total - 1];
@@ -6104,17 +6104,17 @@ const History = {
     if (!swiper.history.initialized || !swiper.params.history.enabled) return;
     const slide = swiper.slides.eq(index);
     let value = History.slugify(slide.attr('data-history'));
-    if (!window.location.pathname.includes(key)) {
+    if (!window$1.location.pathname.includes(key)) {
       value = `${key}/${value}`;
     }
-    const currentState = window.history.state;
+    const currentState = window$1.history.state;
     if (currentState && currentState.value === value) {
       return;
     }
     if (swiper.params.history.replaceState) {
-      window.history.replaceState({ value }, null, value);
+      window$1.history.replaceState({ value }, null, value);
     } else {
-      window.history.pushState({ value }, null, value);
+      window$1.history.pushState({ value }, null, value);
     }
   },
   slugify(text) {
@@ -6199,8 +6199,8 @@ const HashNavigation = {
   setHash() {
     const swiper = this;
     if (!swiper.hashNavigation.initialized || !swiper.params.hashNavigation.enabled) return;
-    if (swiper.params.hashNavigation.replaceState && window.history && window.history.replaceState) {
-      window.history.replaceState(null, null, (`#${swiper.slides.eq(swiper.activeIndex).attr('data-hash')}` || ''));
+    if (swiper.params.hashNavigation.replaceState && window$1.history && window$1.history.replaceState) {
+      window$1.history.replaceState(null, null, (`#${swiper.slides.eq(swiper.activeIndex).attr('data-hash')}` || ''));
     } else {
       const slide = swiper.slides.eq(swiper.activeIndex);
       const hash = slide.attr('data-hash') || slide.attr('data-history');
@@ -6224,13 +6224,13 @@ const HashNavigation = {
       }
     }
     if (swiper.params.hashNavigation.watchState) {
-      $(window).on('hashchange', swiper.hashNavigation.onHashCange);
+      $(window$1).on('hashchange', swiper.hashNavigation.onHashCange);
     }
   },
   destroy() {
     const swiper = this;
     if (swiper.params.hashNavigation.watchState) {
-      $(window).off('hashchange', swiper.hashNavigation.onHashCange);
+      $(window$1).off('hashchange', swiper.hashNavigation.onHashCange);
     }
   },
 };
@@ -6287,6 +6287,7 @@ const Autoplay = {
     if ($activeSlideEl.attr('data-swiper-autoplay')) {
       delay = $activeSlideEl.attr('data-swiper-autoplay') || swiper.params.autoplay.delay;
     }
+    clearTimeout(swiper.autoplay.timeout);
     swiper.autoplay.timeout = Utils.nextTick(() => {
       if (swiper.params.autoplay.reverseDirection) {
         if (swiper.params.loop) {
@@ -7013,7 +7014,7 @@ const Thumbs = {
       } else {
         newThumbsIndex = swiper.realIndex;
       }
-      if (thumbsSwiper.visibleSlidesIndexes.indexOf(newThumbsIndex) < 0) {
+      if (thumbsSwiper.visibleSlidesIndexes && thumbsSwiper.visibleSlidesIndexes.indexOf(newThumbsIndex) < 0) {
         if (thumbsSwiper.params.centeredSlides) {
           if (newThumbsIndex > currentThumbsIndex) {
             newThumbsIndex = newThumbsIndex - Math.floor(slidesPerView / 2) + 1;

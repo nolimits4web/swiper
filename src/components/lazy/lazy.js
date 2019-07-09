@@ -23,45 +23,54 @@ const Lazy = {
       const $imageEl = $(imageEl);
       $imageEl.addClass(params.loadingClass);
 
-      const background = $imageEl.attr('data-background');
-      const src = $imageEl.attr('data-src');
-      const srcset = $imageEl.attr('data-srcset');
-      const sizes = $imageEl.attr('data-sizes');
+      const image = $($imageEl[0]);
 
-      swiper.loadImage($imageEl[0], (src || background), srcset, sizes, false, () => {
-        if (typeof swiper === 'undefined' || swiper === null || !swiper || (swiper && !swiper.params) || swiper.destroyed) return;
-        if (background) {
-          $imageEl.css('background-image', `url("${background}")`);
-          $imageEl.removeAttr('data-background');
+      if ($imageEl.parent() && $imageEl.parent()[0].tagName === 'PICTURE') {
+        const sources = Array.from($imageEl.parent()[0].querySelectorAll('source'));
+
+        sources.forEach(source => {
+          const $source = $(source);
+
+          if ($source.attr('data-srcset')) {
+            $source.attr('srcset', $source.attr('data-srcset'));
+            $source.removeAttr('data-srcset');
+          }
+        });
+      }
+
+      if (image.attr('data-srcset')) {
+        $imageEl.attr('srcset', image.attr('data-srcset'));
+        $imageEl.removeAttr('data-srcset');
+      }
+
+      if (image.attr('data-sizes')) {
+        $imageEl.attr('sizes', image.attr('data-sizes'));
+        $imageEl.removeAttr('data-sizes');
+      }
+
+      if (image.attr('data-src') && (!$imageEl.parent() || $imageEl.parent()[0].tagName === 'PICTURE')) {
+        $imageEl.attr('src', image.attr('data-src'));
+        $imageEl.removeAttr('data-src');
+      }
+
+      if (!window.HTMLPictureElement && window.picturefill){
+        picturefill({reevaluate: true, elements: [$imageEl[0]]});
+      }
+
+      $imageEl.addClass(params.loadedClass).removeClass(params.loadingClass);
+      $slideEl.find(`.${params.preloaderClass}`).remove();
+      if (swiper.params.loop && loadInDuplicate) {
+        const slideOriginalIndex = $slideEl.attr('data-swiper-slide-index');
+        if ($slideEl.hasClass(swiper.params.slideDuplicateClass)) {
+          const originalSlide = swiper.$wrapperEl.children(`[data-swiper-slide-index="${slideOriginalIndex}"]:not(.${swiper.params.slideDuplicateClass})`);
+          swiper.lazy.loadInSlide(originalSlide.index(), false);
         } else {
-          if (srcset) {
-            $imageEl.attr('srcset', srcset);
-            $imageEl.removeAttr('data-srcset');
-          }
-          if (sizes) {
-            $imageEl.attr('sizes', sizes);
-            $imageEl.removeAttr('data-sizes');
-          }
-          if (src) {
-            $imageEl.attr('src', src);
-            $imageEl.removeAttr('data-src');
-          }
+          const duplicatedSlide = swiper.$wrapperEl.children(`.${swiper.params.slideDuplicateClass}[data-swiper-slide-index="${slideOriginalIndex}"]`);
+          swiper.lazy.loadInSlide(duplicatedSlide.index(), false);
         }
+      }
 
-        $imageEl.addClass(params.loadedClass).removeClass(params.loadingClass);
-        $slideEl.find(`.${params.preloaderClass}`).remove();
-        if (swiper.params.loop && loadInDuplicate) {
-          const slideOriginalIndex = $slideEl.attr('data-swiper-slide-index');
-          if ($slideEl.hasClass(swiper.params.slideDuplicateClass)) {
-            const originalSlide = swiper.$wrapperEl.children(`[data-swiper-slide-index="${slideOriginalIndex}"]:not(.${swiper.params.slideDuplicateClass})`);
-            swiper.lazy.loadInSlide(originalSlide.index(), false);
-          } else {
-            const duplicatedSlide = swiper.$wrapperEl.children(`.${swiper.params.slideDuplicateClass}[data-swiper-slide-index="${slideOriginalIndex}"]`);
-            swiper.lazy.loadInSlide(duplicatedSlide.index(), false);
-          }
-        }
-        swiper.emit('lazyImageReady', $slideEl[0], $imageEl[0]);
-      });
+      swiper.emit('lazyImageReady', $slideEl[0], $imageEl[0]);
 
       swiper.emit('lazyImageLoad', $slideEl[0], $imageEl[0]);
     });

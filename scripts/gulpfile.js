@@ -43,7 +43,7 @@ gulp.task('connect', () => {
   connect.server({
     root: ['./'],
     livereload: true,
-    port: '3000',
+    port: '3005',
   });
 });
 
