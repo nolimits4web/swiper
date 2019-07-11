@@ -111,7 +111,7 @@ const Thumbs = {
     }
 
     thumbsSwiper.slides.removeClass(thumbActiveClass);
-    if (thumbsSwiper.params.loop) {
+    if (thumbsSwiper.params.loop || thumbsSwiper.params.virtual) {
       for (let i = 0; i < thumbsToActivate; i += 1) {
         thumbsSwiper.$wrapperEl.children(`[data-swiper-slide-index="${swiper.realIndex + i}"]`).addClass(thumbActiveClass);
       }
