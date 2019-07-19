@@ -1,6 +1,7 @@
 import { window } from 'ssr-window';
 import Utils from '../../../utils/utils';
 import Support from '../../../utils/support';
+import Browser from '../../../utils/browser';
 
 export default function () {
   const swiper = this;
@@ -128,7 +129,7 @@ export default function () {
           const marginLeft = parseFloat(slideStyles.getPropertyValue('margin-left'));
           const marginRight = parseFloat(slideStyles.getPropertyValue('margin-right'));
           const boxSizing = slideStyles.getPropertyValue('box-sizing');
-          if (boxSizing && boxSizing === 'border-box') {
+          if (boxSizing && boxSizing === 'border-box' && !Browser.isIE) {
             slideSize = width + marginLeft + marginRight;
           } else {
             slideSize = width + paddingLeft + paddingRight + marginLeft + marginRight;
@@ -140,7 +141,7 @@ export default function () {
           const marginTop = parseFloat(slideStyles.getPropertyValue('margin-top'));
           const marginBottom = parseFloat(slideStyles.getPropertyValue('margin-bottom'));
           const boxSizing = slideStyles.getPropertyValue('box-sizing');
-          if (boxSizing && boxSizing === 'border-box') {
+          if (boxSizing && boxSizing === 'border-box' && !Browser.isIE) {
             slideSize = height + marginTop + marginBottom;
           } else {
             slideSize = height + paddingTop + paddingBottom + marginTop + marginBottom;
