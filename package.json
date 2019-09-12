@@ -2,9 +2,9 @@
   "name": "swiper",
   "version": "4.5.0",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
-  "main": "dist/js/swiper.js",
+  "main": "dist/js/swiper.esm.bundle.js",
   "jsnext:main": "dist/js/swiper.esm.bundle.js",
-  "module": "dist/js/swiper.esm.bundle.js",
+  "module": "dist/js/swiper.js",
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development gulp build",
     "build:prod": "cross-env NODE_ENV=production gulp build",
