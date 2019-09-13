@@ -73,15 +73,24 @@ export default function () {
       let newSlideOrderIndex;
       let column;
       let row;
-      if (params.slidesPerColumnFill === 'column') {
-        column = Math.floor(i / slidesPerColumn);
-        row = i - (column * slidesPerColumn);
-        if (column > numFullColumns || (column === numFullColumns && row === slidesPerColumn - 1)) {
-          row += 1;
-          if (row >= slidesPerColumn) {
-            row = 0;
-            column += 1;
+      if (
+        (params.slidesPerColumnFill === 'column')
+        || (params.slidesPerColumnFill === 'row' && params.slidesPerGroup > 1)
+      ) {
+        if (params.slidesPerColumnFill === 'column') {
+          column = Math.floor(i / slidesPerColumn);
+          row = i - (column * slidesPerColumn);
+          if (column > numFullColumns || (column === numFullColumns && row === slidesPerColumn - 1)) {
+            row += 1;
+            if (row >= slidesPerColumn) {
+              row = 0;
+              column += 1;
+            }
           }
+        } else {
+          const groupIndex = Math.floor(i / params.slidesPerGroup);
+          row = Math.floor(i / params.slidesPerView) - groupIndex * params.slidesPerColumn;
+          column = i - row * params.slidesPerView - groupIndex * params.slidesPerView;
         }
         newSlideOrderIndex = column + ((row * slidesNumberEvenToRows) / slidesPerColumn);
         slide
