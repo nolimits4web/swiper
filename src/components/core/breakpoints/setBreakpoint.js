@@ -3,18 +3,18 @@ import Utils from '../../../utils/utils';
 export default function () {
   const swiper = this;
   const {
-    activeIndex, initialized, loopedSlides = 0, params,
+    activeIndex, initialized, loopedSlides = 0, params, $el,
   } = swiper;
   const breakpoints = params.breakpoints;
   if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) return;
 
-  // Set breakpoint for window width and update parameters
+  // Get breakpoint for window width and update parameters
   const breakpoint = swiper.getBreakpoint(breakpoints);
 
   if (breakpoint && swiper.currentBreakpoint !== breakpoint) {
     const breakpointOnlyParams = breakpoint in breakpoints ? breakpoints[breakpoint] : undefined;
     if (breakpointOnlyParams) {
-      ['slidesPerView', 'spaceBetween', 'slidesPerGroup'].forEach((param) => {
+      ['slidesPerView', 'spaceBetween', 'slidesPerGroup', 'slidesPerColumn'].forEach((param) => {
         const paramValue = breakpointOnlyParams[param];
         if (typeof paramValue === 'undefined') return;
         if (param === 'slidesPerView' && (paramValue === 'AUTO' || paramValue === 'auto')) {
@@ -28,6 +28,17 @@ export default function () {
     }
 
     const breakpointParams = breakpointOnlyParams || swiper.originalParams;
+    const wasMultiRow = params.slidesPerColumn > 1;
+    const isMultiRow = breakpointParams.slidesPerColumn > 1;
+    if (wasMultiRow && !isMultiRow) {
+      $el.removeClass(`${params.containerModifierClass}multirow ${params.containerModifierClass}multirow-column`);
+    } else if (!wasMultiRow && isMultiRow) {
+      $el.addClass(`${params.containerModifierClass}multirow`);
+      if (breakpointParams.slidesPerColumnFill === 'column') {
+        $el.addClass(`${params.containerModifierClass}multirow-column`);
+      }
+    }
+
     const directionChanged = breakpointParams.direction && breakpointParams.direction !== params.direction;
     const needsReLoop = params.loop && (breakpointParams.slidesPerView !== params.slidesPerView || directionChanged);
 
