@@ -2,7 +2,6 @@
 import $ from '../../utils/dom';
 import Utils from '../../utils/utils';
 import Support from '../../utils/support';
-import Browser from '../../utils/browser';
 
 import SwiperClass from '../../utils/class';
 
@@ -332,10 +331,6 @@ class Swiper extends SwiperClass {
     swiper.$el
       .removeClass(`${swiper.params.containerModifierClass}${currentDirection} wp8-${currentDirection}`)
       .addClass(`${swiper.params.containerModifierClass}${newDirection}`);
-
-    if ((Browser.isIE || Browser.isEdge) && (Support.pointerEvents || Support.prefixedPointerEvents)) {
-      swiper.$el.addClass(`${swiper.params.containerModifierClass}wp8-${newDirection}`);
-    }
 
     swiper.params.direction = newDirection;
 

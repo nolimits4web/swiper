@@ -1,6 +1,4 @@
-import Support from '../../../utils/support';
 import Device from '../../../utils/device';
-import Browser from '../../../utils/browser';
 
 export default function () {
   const swiper = this;
@@ -14,9 +12,6 @@ export default function () {
 
   if (params.freeMode) {
     suffixes.push('free-mode');
-  }
-  if (!Support.flexbox) {
-    suffixes.push('no-flexbox');
   }
   if (params.autoHeight) {
     suffixes.push('autoheight');
@@ -32,10 +27,6 @@ export default function () {
   }
   if (Device.ios) {
     suffixes.push('ios');
-  }
-  // WP8 Touch Events Fix
-  if ((Browser.isIE || Browser.isEdge) && (Support.pointerEvents || Support.prefixedPointerEvents)) {
-    suffixes.push(`wp8-${params.direction}`);
   }
 
   suffixes.forEach((suffix) => {

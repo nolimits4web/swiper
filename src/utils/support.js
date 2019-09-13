@@ -1,7 +1,6 @@
 import { window, document } from 'ssr-window';
 
 const Support = (function Support() {
-  const testDiv = document.createElement('div');
   return {
     touch: (window.Modernizr && window.Modernizr.touch === true) || (function checkTouch() {
       return !!((window.navigator.maxTouchPoints > 0) || ('ontouchstart' in window) || (window.DocumentTouch && document instanceof window.DocumentTouch));
@@ -9,24 +8,6 @@ const Support = (function Support() {
 
     pointerEvents: !!(window.navigator.pointerEnabled || window.PointerEvent || ('maxTouchPoints' in window.navigator && window.navigator.maxTouchPoints > 0)),
     prefixedPointerEvents: !!window.navigator.msPointerEnabled,
-
-    transition: (function checkTransition() {
-      const style = testDiv.style;
-      return ('transition' in style || 'webkitTransition' in style || 'MozTransition' in style);
-    }()),
-    transforms3d: (window.Modernizr && window.Modernizr.csstransforms3d === true) || (function checkTransforms3d() {
-      const style = testDiv.style;
-      return ('webkitPerspective' in style || 'MozPerspective' in style || 'OPerspective' in style || 'MsPerspective' in style || 'perspective' in style);
-    }()),
-
-    flexbox: (function checkFlexbox() {
-      const style = testDiv.style;
-      const styles = ('alignItems webkitAlignItems webkitBoxAlign msFlexAlign mozBoxAlign webkitFlexDirection msFlexDirection mozBoxDirection mozBoxOrient webkitBoxDirection webkitBoxOrient').split(' ');
-      for (let i = 0; i < styles.length; i += 1) {
-        if (styles[i] in style) return true;
-      }
-      return false;
-    }()),
 
     observer: (function checkObserver() {
       return ('MutationObserver' in window || 'WebkitMutationObserver' in window);

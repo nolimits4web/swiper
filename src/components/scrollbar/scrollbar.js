@@ -30,18 +30,10 @@ const Scrollbar = {
       newSize = trackSize - newPos;
     }
     if (swiper.isHorizontal()) {
-      if (Support.transforms3d) {
-        $dragEl.transform(`translate3d(${newPos}px, 0, 0)`);
-      } else {
-        $dragEl.transform(`translateX(${newPos}px)`);
-      }
+      $dragEl.transform(`translate3d(${newPos}px, 0, 0)`);
       $dragEl[0].style.width = `${newSize}px`;
     } else {
-      if (Support.transforms3d) {
-        $dragEl.transform(`translate3d(0px, ${newPos}px, 0)`);
-      } else {
-        $dragEl.transform(`translateY(${newPos}px)`);
-      }
+      $dragEl.transform(`translate3d(0px, ${newPos}px, 0)`);
       $dragEl[0].style.height = `${newSize}px`;
     }
     if (params.hide) {

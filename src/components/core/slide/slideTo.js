@@ -1,5 +1,3 @@
-import Support from '../../../utils/support';
-
 export default function (index = 0, speed = this.params.speed, runCallbacks = true, internal) {
   const swiper = this;
   let slideIndex = index;
@@ -66,7 +64,7 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
     return false;
   }
 
-  if (speed === 0 || !Support.transition) {
+  if (speed === 0) {
     swiper.setTransition(0);
     swiper.setTranslate(translate);
     swiper.updateActiveIndex(slideIndex);
