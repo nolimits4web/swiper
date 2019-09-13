@@ -66,7 +66,7 @@ export default {
   followFinger: true,
   allowTouchMove: true,
   threshold: 0,
-  touchMoveStopPropagation: true,
+  touchMoveStopPropagation: false,
   touchStartPreventDefault: true,
   touchStartForcePreventDefault: false,
   touchReleaseOnEdges: false,
