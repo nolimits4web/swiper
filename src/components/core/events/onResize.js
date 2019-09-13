@@ -29,7 +29,6 @@ export default function () {
     if (params.autoHeight) {
       swiper.updateAutoHeight();
     }
-
   } else {
     swiper.updateSlidesClasses();
     if ((params.slidesPerView === 'auto' || params.slidesPerView > 1) && swiper.isEnd && !swiper.params.centeredSlides) {
