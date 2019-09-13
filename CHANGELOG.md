@@ -1,6 +1,21 @@
 # Change Log
 
-## [Swiper 4.5.0](https://github.com/nolimits4web/swiper/compare/v4.5.0...v4.5.0) - Released on February 22, 2019
+## [Swiper 4.5.1](https://github.com/nolimits4web/swiper/compare/v4.5.0...v4.5.1) - Released on September 13, 2019
+  * Core
+    * Fixed issue when callbacks fires on init even if it disabled (#2807)
+    * Fixed issue when "swiper-slide-visible" class name in some situations shows up when it shouldn't
+    * `slidesPerColumFill: 'row'` now considers groups (#3077)
+  * Thumbs
+    * Fixes bug 'Cannot read property `indexOf` of undefined' that sometimes occurs on use of thumbnails
+  * Keyboard
+    * Added `PageUp`/`PageDown` keybindings.
+  * Autoplay
+    * Fixed issue when window resize stopped autoplay
+  * Parallax
+    * Fixed issue when parallax opacity didn't work (#3147)
+  * Minor fixes and improvements
+
+## [Swiper 4.5.0](https://github.com/nolimits4web/swiper/compare/v4.4.5...v4.5.0) - Released on February 22, 2019
   * Core
     * New `swiper.changeDirection()` method to change direction from horizontal to vertical (and back) dynamically
     * `direction` parameter can be used in breakpoints

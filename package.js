@@ -1,4 +1,4 @@
-var version = '4.5.0';
+var version = '4.5.1';
 
 Package.describe({
   name: 'nolimits4web:swiper',
