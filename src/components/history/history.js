@@ -120,5 +120,11 @@ export default {
         swiper.history.setHistory(swiper.params.history.key, swiper.activeIndex);
       }
     },
+    slideChange() {
+      const swiper = this;
+      if (swiper.history.initialized && swiper.params.cssMode) {
+        swiper.history.setHistory(swiper.params.history.key, swiper.activeIndex);
+      }
+    },
   },
 };

@@ -110,6 +110,10 @@ const Mousewheel = {
     const swiper = this;
     const params = swiper.params.mousewheel;
 
+    if (swiper.params.cssMode) {
+      e.preventDefault();
+    }
+
     if (!swiper.mouseEntered && !params.releaseOnEdges) return true;
 
     if (e.originalEvent) e = e.originalEvent; // jquery fix
@@ -188,6 +192,10 @@ const Mousewheel = {
   },
   enable() {
     const swiper = this;
+    if (swiper.params.cssMode) {
+      swiper.wrapperEl.removeEventListener(Mousewheel.event, swiper.mousewheel.handle);
+      return true;
+    }
     if (!Mousewheel.event) return false;
     if (swiper.mousewheel.enabled) return false;
     let target = swiper.$el;
@@ -202,6 +210,10 @@ const Mousewheel = {
   },
   disable() {
     const swiper = this;
+    if (swiper.params.cssMode) {
+      swiper.wrapperEl.addEventListener(Mousewheel.event, swiper.mousewheel.handle);
+      return true;
+    }
     if (!Mousewheel.event) return false;
     if (!swiper.mousewheel.enabled) return false;
     let target = swiper.$el;
@@ -243,10 +255,16 @@ export default {
   on: {
     init() {
       const swiper = this;
+      if (!swiper.params.mousewheel.enabled && swiper.params.cssMode) {
+        swiper.mousewheel.disable();
+      }
       if (swiper.params.mousewheel.enabled) swiper.mousewheel.enable();
     },
     destroy() {
       const swiper = this;
+      if (swiper.params.cssMode) {
+        swiper.mousewheel.enable();
+      }
       if (swiper.mousewheel.enabled) swiper.mousewheel.disable();
     },
   },

@@ -61,6 +61,10 @@ export default function (event) {
     currentPos = -data.currentTranslate;
   }
 
+  if (params.cssMode) {
+    return;
+  }
+
   if (params.freeMode) {
     if (currentPos < -swiper.minTranslate()) {
       swiper.slideTo(swiper.activeIndex);

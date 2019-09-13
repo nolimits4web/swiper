@@ -91,5 +91,11 @@ export default {
         swiper.hashNavigation.setHash();
       }
     },
+    slideChange() {
+      const swiper = this;
+      if (swiper.hashNavigation.initialized && swiper.params.cssMode) {
+        swiper.hashNavigation.setHash();
+      }
+    },
   },
 };

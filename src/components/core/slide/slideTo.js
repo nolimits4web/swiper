@@ -4,7 +4,7 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   if (slideIndex < 0) slideIndex = 0;
 
   const {
-    params, snapGrid, slidesGrid, previousIndex, activeIndex, rtlTranslate: rtl,
+    params, snapGrid, slidesGrid, previousIndex, activeIndex, rtlTranslate: rtl, wrapperEl,
   } = swiper;
   if (swiper.animating && params.preventInteractionOnTransition) {
     return false;
@@ -62,6 +62,23 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
       swiper.transitionEnd(runCallbacks, direction);
     }
     return false;
+  }
+  if (params.cssMode) {
+    const isH = swiper.isHorizontal();
+    if (speed === 0) {
+      wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = -translate;
+    } else {
+      // eslint-disable-next-line
+      if (wrapperEl.scrollTo) {
+        wrapperEl.scrollTo({
+          [isH ? 'left' : 'top']: -translate,
+          behavior: 'smooth',
+        });
+      } else {
+        wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = -translate;
+      }
+    }
+    return true;
   }
 
   if (speed === 0) {

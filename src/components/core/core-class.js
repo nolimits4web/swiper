@@ -329,7 +329,7 @@ class Swiper extends SwiperClass {
     }
 
     swiper.$el
-      .removeClass(`${swiper.params.containerModifierClass}${currentDirection} wp8-${currentDirection}`)
+      .removeClass(`${swiper.params.containerModifierClass}${currentDirection}`)
       .addClass(`${swiper.params.containerModifierClass}${newDirection}`);
 
     swiper.params.direction = newDirection;

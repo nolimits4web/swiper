@@ -523,5 +523,11 @@ export default {
         swiper.zoom.onTransitionEnd();
       }
     },
+    slideChange() {
+      const swiper = this;
+      if (swiper.zoom.enabled && swiper.params.zoom.enabled && swiper.params.cssMode) {
+        swiper.zoom.onTransitionEnd();
+      }
+    },
   },
 };

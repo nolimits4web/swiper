@@ -145,6 +145,9 @@ const Scrollbar = {
     if (params.hide) {
       $el.css('opacity', 1);
     }
+    if (swiper.params.cssMode) {
+      swiper.$wrapperEl.css('scroll-snap-type', 'none');
+    }
     swiper.emit('scrollbarDragStart', e);
   },
   onDragMove(e) {
@@ -165,11 +168,15 @@ const Scrollbar = {
     const swiper = this;
 
     const params = swiper.params.scrollbar;
-    const { scrollbar } = swiper;
+    const { scrollbar, $wrapperEl } = swiper;
     const { $el } = scrollbar;
 
     if (!swiper.scrollbar.isTouched) return;
     swiper.scrollbar.isTouched = false;
+    if (swiper.params.cssMode) {
+      swiper.$wrapperEl.css('scroll-snap-type', '');
+      $wrapperEl.transition('');
+    }
     if (params.hide) {
       clearTimeout(swiper.scrollbar.dragTimeout);
       swiper.scrollbar.dragTimeout = Utils.nextTick(() => {

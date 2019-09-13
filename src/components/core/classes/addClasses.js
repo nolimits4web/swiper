@@ -32,6 +32,10 @@ export default function () {
     suffixes.push('ios');
   }
 
+  if (params.cssMode) {
+    suffixes.push('css-mode');
+  }
+
   suffixes.forEach((suffix) => {
     classNames.push(params.containerModifierClass + suffix);
   });

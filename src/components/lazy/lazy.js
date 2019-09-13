@@ -202,5 +202,11 @@ export default {
         swiper.lazy.load();
       }
     },
+    slideChange() {
+      const swiper = this;
+      if (swiper.params.lazy.enabled && swiper.params.cssMode) {
+        swiper.lazy.load();
+      }
+    },
   },
 };

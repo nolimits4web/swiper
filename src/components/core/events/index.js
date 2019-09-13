@@ -7,6 +7,7 @@ import onTouchMove from './onTouchMove';
 import onTouchEnd from './onTouchEnd';
 import onResize from './onResize';
 import onClick from './onClick';
+import onScroll from './onScroll';
 
 function attachEvents() {
   const swiper = this;
@@ -18,6 +19,9 @@ function attachEvents() {
     swiper.onTouchStart = onTouchStart.bind(swiper);
     swiper.onTouchMove = onTouchMove.bind(swiper);
     swiper.onTouchEnd = onTouchEnd.bind(swiper);
+  }
+  if (params.cssMode) {
+    swiper.onScroll = onScroll.bind(swiper);
   }
 
   swiper.onClick = onClick.bind(swiper);
@@ -50,6 +54,9 @@ function attachEvents() {
     }
   } else {
     target.addEventListener('click', swiper.onClick, false);
+  }
+  if (params.cssMode) {
+    wrapperEl.addEventListener('scroll', swiper.onScroll);
   }
 
   // Resize handler
@@ -91,6 +98,10 @@ function detachEvents() {
     }
   } else {
     target.removeEventListener('click', swiper.onClick, true);
+  }
+
+  if (params.cssMode) {
+    wrapperEl.removeEventListener('scroll', swiper.onScroll);
   }
 
   // Resize handler

@@ -86,14 +86,27 @@
   }
 }
 
-/* IE10 Windows Phone 8 Fixes */
-.swiper-container-wp8-horizontal {
-  &, & > .swiper-wrapper {
-    touch-action: pan-y;
+/* CSS Mode */
+.swiper-container-css-mode {
+  > .swiper-wrapper {
+    overflow: auto;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  > .swiper-wrapper > .swiper-slide {
+    scroll-snap-align: start start;
   }
 }
-.swiper-container-wp8-vertical {
-  &, & > .swiper-wrapper {
-    touch-action: pan-x;
+.swiper-container-horizontal.swiper-container-css-mode {
+  > .swiper-wrapper {
+    scroll-snap-type: x mandatory;
+  }
+}
+.swiper-container-vertical.swiper-container-css-mode {
+  > .swiper-wrapper {
+    scroll-snap-type: y mandatory;
   }
 }

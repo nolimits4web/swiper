@@ -10,6 +10,9 @@ export default function (axis = this.isHorizontal() ? 'x' : 'y') {
   if (params.virtualTranslate) {
     return rtl ? -translate : translate;
   }
+  if (params.cssMode) {
+    return translate;
+  }
 
   let currentTranslate = Utils.getTranslate($wrapperEl[0], axis);
   if (rtl) currentTranslate = -currentTranslate;

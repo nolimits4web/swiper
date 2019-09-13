@@ -4,6 +4,7 @@ export default {
   touchEventsTarget: 'wrapper',
   initialSlide: 0,
   speed: 300,
+  cssMode: false,
   //
   preventInteractionOnTransition: false,
 

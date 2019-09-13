@@ -3,7 +3,6 @@ import Utils from '../../../utils/utils';
 export default function (translate = (this && this.translate) || 0) {
   const swiper = this;
   const params = swiper.params;
-
   const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
   let { progress, isBeginning, isEnd } = swiper;
   const wasBeginning = isBeginning;

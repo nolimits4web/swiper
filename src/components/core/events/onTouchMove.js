@@ -101,7 +101,9 @@ export default function (event) {
     return;
   }
   swiper.allowClick = false;
-  e.preventDefault();
+  if (!params.cssMode) {
+    e.preventDefault();
+  }
   if (params.touchMoveStopPropagation && !params.nested) {
     e.stopPropagation();
   }
@@ -177,7 +179,7 @@ export default function (event) {
     }
   }
 
-  if (!params.followFinger) return;
+  if (!params.followFinger || params.cssMode) return;
 
   // Update active index in free mode
   if (params.freeMode || params.watchSlidesProgress || params.watchSlidesVisibility) {

@@ -1,7 +1,8 @@
 export default function (runCallbacks = true, direction) {
   const swiper = this;
-  const { activeIndex, previousIndex } = swiper;
+  const { activeIndex, previousIndex, params } = swiper;
   swiper.animating = false;
+  if (params.cssMode) return;
   swiper.setTransition(0);
 
   let dir = direction;
