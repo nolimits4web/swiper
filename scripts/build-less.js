@@ -33,7 +33,7 @@ function build(cb) {
 
   let lessContent = fs.readFileSync(path.resolve(__dirname, '../src/swiper.less'), 'utf8');
   lessContent = lessContent
-    .replace('//IMPORT_COMPONENTS', components.map(component => `@import url('./components/${component}/${component}.less');`).join('\n'))
+    .replace('//IMPORT_COMPONENTS', components.map((component) => `@import url('./components/${component}/${component}.less');`).join('\n'))
     .replace('$themeColor', config.themeColor)
     .replace('$colors', colors.join(', '));
   fs.writeFileSync(path.resolve(__dirname, '../src/swiper-temp.less'), lessContent);
