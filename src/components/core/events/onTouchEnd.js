@@ -33,17 +33,9 @@ export default function (event) {
   // Tap, doubleTap, Click
   if (swiper.allowClick) {
     swiper.updateClickedSlide(e);
-    swiper.emit('tap', e);
-    if (timeDiff < 300 && (touchEndTime - data.lastClickTime) > 300) {
-      if (data.clickTimeout) clearTimeout(data.clickTimeout);
-      data.clickTimeout = Utils.nextTick(() => {
-        if (!swiper || swiper.destroyed) return;
-        swiper.emit('click', e);
-      }, 300);
-    }
+    swiper.emit('tap click', e);
     if (timeDiff < 300 && (touchEndTime - data.lastClickTime) < 300) {
-      if (data.clickTimeout) clearTimeout(data.clickTimeout);
-      swiper.emit('doubleTap', e);
+      swiper.emit('doubleTap doubleClick', e);
     }
   }
 
