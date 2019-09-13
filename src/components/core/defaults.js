@@ -1,7 +1,7 @@
 export default {
   init: true,
   direction: 'horizontal',
-  touchEventsTarget: 'container',
+  touchEventsTarget: 'wrapper',
   initialSlide: 0,
   speed: 300,
   //
@@ -35,7 +35,6 @@ export default {
 
   // Breakpoints
   breakpoints: undefined,
-  breakpointsInverse: false,
 
   // Slides grid
   spaceBetween: 0,
