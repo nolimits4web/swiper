@@ -21,6 +21,9 @@ export default function () {
   }
   if (params.slidesPerColumn > 1) {
     suffixes.push('multirow');
+    if (params.slidesPerColumnFill === 'column') {
+      suffixes.push('multirow-column');
+    }
   }
   if (Device.android) {
     suffixes.push('android');
