@@ -1,39 +1,52 @@
+:root {
+  --swiper-nav-button-size: 44px;
+  /*
+  --swiper-nav-button-color: var(--swiper-theme-color);
+  */
+}
 .swiper-button-prev, .swiper-button-next {
   position: absolute;
   top: 50%;
-  width: 27px;
-  height: 44px;
-  margin-top: -22px;
+  width: calc(var(--swiper-nav-button-size) / 44 * 27);
+  height: var(--swiper-nav-button-size);
+  margin-top: calc(-1 * var(--swiper-nav-button-size) / 2);
   z-index: 10;
   cursor: pointer;
-  background-size: 27px 44px;
-  background-position: center;
-  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--swiper-nav-button-color, var(--swiper-theme-color));
   &.swiper-button-disabled {
     opacity: 0.35;
     cursor: auto;
     pointer-events: none;
   }
+  &:after {
+    font-family: swiper-icons;
+    font-size: var(--swiper-nav-button-size);
+  }
 }
-.swiper-button-prev, .swiper-container-rtl .swiper-button-next {
-  .svg-background("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M0,22L22,0l2.1,2.1L4.2,22l19.9,19.9L22,44L0,22L0,22L0,22z' fill='@{themeColor}'/></svg>");
+.swiper-button-prev,
+.swiper-container-rtl .swiper-button-next {
+  &:after {
+    content: 'prev';
+  }
   left: 10px;
   right: auto;
 }
-.swiper-button-next, .swiper-container-rtl .swiper-button-prev {
-  .svg-background("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M27,22L27,22L5,44l-2.1-2.1L22.8,22L2.9,2.1L5,0L27,22L27,22z' fill='@{themeColor}'/></svg>");
+.swiper-button-next,
+.swiper-container-rtl .swiper-button-prev {
+  &:after {
+    content: 'next';
+  }
   right: 10px;
   left: auto;
 }
 .navigation-color-loop({
-  .swiper-button-prev, .swiper-container-rtl .swiper-button-next {
+  .swiper-button-prev,
+  .swiper-button-next {
     &.swiper-button-@{navColorName} {
-      .svg-background("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M0,22L22,0l2.1,2.1L4.2,22l19.9,19.9L22,44L0,22L0,22L0,22z' fill='@{navColorValue}'/></svg>");
-    }
-  }
-  .swiper-button-next, .swiper-container-rtl .swiper-button-prev {
-    &.swiper-button-@{navColorName} {
-      .svg-background("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 44'><path d='M27,22L27,22L5,44l-2.1-2.1L22.8,22L2.9,2.1L5,0L27,22L27,22z' fill='@{navColorValue}'/></svg>");
+      --swiper-nav-button-color: @navColorValue;
     }
   }
 });
