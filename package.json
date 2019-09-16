@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "4.5.1",
+  "version": "5.0.0",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "dist/js/swiper.js",
   "jsnext:main": "dist/js/swiper.esm.bundle.js",
@@ -8,6 +8,7 @@
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development gulp build",
     "build:prod": "cross-env NODE_ENV=production gulp build",
+    "build-icons-font": "python ./scripts/icon-font/generate.py",
     "dev": "cross-env NODE_ENV=development gulp build && cross-env NODE_ENV=development gulp playground && cross-env NODE_ENV=development gulp server",
     "prod": "cross-env NODE_ENV=production gulp playground && cross-env NODE_ENV=production gulp server",
     "lint": "eslint .",
@@ -52,30 +53,30 @@
     "node": ">= 4.7.0"
   },
   "browserslist": [
-    "Android > 4",
-    "IOS >= 7",
-    "last 4 versions",
-    "ie >= 10"
+    "Android >= 7",
+    "IOS >= 11",
+    "Safari >= 11",
+    "Chrome >= 49",
+    "Firefox >= 31",
+    "Samsung >= 5"
   ],
   "devDependencies": {
+    "autoprefixer": "^9.6.1",
+    "clean-css": "^4.2.1",
     "cross-env": "^5.2.1",
-    "eslint": "^6.3.0",
+    "eslint": "^6.4.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.0",
-    "gulp-clean-css": "^4.2.0",
     "gulp-connect": "^5.7.0",
-    "gulp-header": "^2.0.9",
-    "gulp-less": "^4.0.1",
     "gulp-open": "^3.0.1",
-    "gulp-rename": "^1.4.0",
-    "gulp-sourcemaps": "^2.6.5",
-    "gulp-uglify": "^3.0.2",
-    "rollup": "^1.21.2",
+    "less": "^3.10.3",
+    "postcss": "^7.0.18",
+    "rollup": "^1.21.4",
     "rollup-plugin-buble": "^0.19.8",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-replace": "^2.2.0"
+    "rollup-plugin-replace": "^2.2.0",
+    "terser": "^4.3.1"
   },
   "dependencies": {
     "dom7": "^2.1.3",
