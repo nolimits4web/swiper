@@ -1,7 +1,4 @@
-.svg-background(@svg) {
-    @url: `encodeURIComponent(@{svg})`;
-    background-image: url("data:image/svg+xml;charset=utf-8,@{url}");
-}
+@plugin './plugin.js';
 .navigation-color-loop(@ruleset) when (length( @colors ) >= 1) {
   @length: length( @colors ) ;
   .looper( 1 ) ;
