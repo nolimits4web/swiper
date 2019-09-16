@@ -27,10 +27,10 @@ function isEventSupported() {
 }
 const Mousewheel = {
   lastScrollTime: Utils.now(),
-  event: (function getEvent() {
+  event() {
     if (window.navigator.userAgent.indexOf('firefox') > -1) return 'DOMMouseScroll';
     return isEventSupported() ? 'wheel' : 'mousewheel';
-  }()),
+  },
   normalize(e) {
     // Reasonable defaults
     const PIXEL_STEP = 10;
@@ -192,11 +192,12 @@ const Mousewheel = {
   },
   enable() {
     const swiper = this;
+    const event = Mousewheel.event();
     if (swiper.params.cssMode) {
-      swiper.wrapperEl.removeEventListener(Mousewheel.event, swiper.mousewheel.handle);
+      swiper.wrapperEl.removeEventListener(event, swiper.mousewheel.handle);
       return true;
     }
-    if (!Mousewheel.event) return false;
+    if (!event) return false;
     if (swiper.mousewheel.enabled) return false;
     let target = swiper.$el;
     if (swiper.params.mousewheel.eventsTarged !== 'container') {
@@ -204,23 +205,24 @@ const Mousewheel = {
     }
     target.on('mouseenter', swiper.mousewheel.handleMouseEnter);
     target.on('mouseleave', swiper.mousewheel.handleMouseLeave);
-    target.on(Mousewheel.event, swiper.mousewheel.handle);
+    target.on(event, swiper.mousewheel.handle);
     swiper.mousewheel.enabled = true;
     return true;
   },
   disable() {
     const swiper = this;
+    const event = Mousewheel.event();
     if (swiper.params.cssMode) {
-      swiper.wrapperEl.addEventListener(Mousewheel.event, swiper.mousewheel.handle);
+      swiper.wrapperEl.addEventListener(event, swiper.mousewheel.handle);
       return true;
     }
-    if (!Mousewheel.event) return false;
+    if (!event) return false;
     if (!swiper.mousewheel.enabled) return false;
     let target = swiper.$el;
     if (swiper.params.mousewheel.eventsTarged !== 'container') {
       target = $(swiper.params.mousewheel.eventsTarged);
     }
-    target.off(Mousewheel.event, swiper.mousewheel.handle);
+    target.off(event, swiper.mousewheel.handle);
     swiper.mousewheel.enabled = false;
     return true;
   },
