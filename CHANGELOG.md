@@ -1,5 +1,30 @@
 # Change Log
 
+## [Swiper 5.0.0](https://github.com/nolimits4web/swiper/compare/v4.5.1...v5.0.0) - Released on September 13, 2019
+  * Core
+    * All new CSS Scroll Snap mode (can be enabled with `cssMode: true`). It doesn't support all of Swiper's features, but potentially should bring a much better performance in simple configurations
+    * Fully removed Internet Explorer support
+    * `breakpointsInverse` parameter has been removed and now `breakpoints` behave like with `breakpointsInverse: true` before.
+    * `touchMoveStopPropagation` parameter now defaults to `false`
+    * `click` event won't be fired with 300ms delay anymore. Now it will be fired at the same time as `tap` event
+    * When `slidesPerColumnFill: 'column'` it now uses `flex-direction: column` layout which requires specified height on swiper-container
+    * `touchEventsTarget` now defaults to `wrapper` (rather than `container` like before)
+    * `slidesPerColumn` now can be used with breakpoints
+    * Now Swiper styles use CSS Custom Properties (CSS Custom Variables) to specify swiper's color theme (color of navigation buttons/pagination). It is now `--swiper-theme-color: #007aff;`
+    * Improved `es` module "tree-shake-ability"
+    * New `swiper.esm.browser.bundle.js` package that can be used directly in browser (`import Swiper from 'swiper.esm.browser.bundle.js'`)
+  * Autoplay
+    * Now it will be paused when document becomes hidden (in not active tab) and continued again when document becomes visible
+  * Lazy
+    * Swiper preloader image replaced with a little bit simpler loader. Now its color can be changed with `--swiper-preloader-color` CSS custom property (which is defaults to `--swiper-theme-color`)
+  * Pagination
+    * Active pagination bullets and pagination theme colors now use CSS Custom Properties. It can be defined with `--swiper-pagination-color` property (which is defaults to `--swiper-theme-color`)
+  * Navigation
+    * Navigation icons reworked with built-in (base64) icon font. It allows to apply any color and size without replacing image
+    * Navigation buttons colors now use CSS Custom Properties. It can be defined with `--swiper-navigation-color` property (which is defaults to `--swiper-theme-color`)
+    * With `--swiper-navigation-size` (defaults to `44px`) it is now possible to change size of the navigation buttons (and icons)
+  * Minor fixes and improvements
+
 ## [Swiper 4.5.1](https://github.com/nolimits4web/swiper/compare/v4.5.0...v4.5.1) - Released on September 13, 2019
   * Core
     * Fixed issue when callbacks fires on init even if it disabled (#2807)
