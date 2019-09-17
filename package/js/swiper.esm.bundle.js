@@ -774,7 +774,7 @@ function updateSlidesProgress (translate = (this && this.translate) || 0) {
   swiper.visibleSlides = $(swiper.visibleSlides);
 }
 
-function updateProgress (translate = (this && this.translate) || 0) {
+function (translate = (this && this.translate && (this.translate * updateProgress (this.rtlTranslate ? -1 : 1))) || 0) {
   const swiper = this;
   const params = swiper.params;
   const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();

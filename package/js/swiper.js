@@ -1604,7 +1604,7 @@
   }
 
   function updateProgress (translate) {
-    if ( translate === void 0 ) translate = (this && this.translate) || 0;
+    if ( translate === void 0 ) translate = (this && this.translate && (this.translate * (this.rtlTranslate ? -1 : 1))) || 0;
 
     var swiper = this;
     var params = swiper.params;

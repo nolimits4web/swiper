@@ -1,6 +1,6 @@
 # Change Log
 
-## [Swiper 5.0.0](https://github.com/nolimits4web/swiper/compare/v4.5.1...v5.0.0) - Released on September 13, 2019
+## [Swiper 5.0.0](https://github.com/nolimits4web/swiper/compare/v4.5.1...v5.0.0) - Released on September 17, 2019
   * Core
     * All new CSS Scroll Snap mode (can be enabled with `cssMode: true`). It doesn't support all of Swiper's features, but potentially should bring a much better performance in simple configurations
     * Fully removed Internet Explorer support
