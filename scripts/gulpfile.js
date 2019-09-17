@@ -14,12 +14,12 @@ gulp.task('playground', (cb) => {
   let content = fs.readFileSync(path.resolve(__dirname, '../playground/index.html'), 'utf8');
   if (env === 'development') {
     content = content
-      .replace('../dist/css/swiper.min.css', '../build/css/swiper.css')
-      .replace('../dist/js/swiper.min.js', '../build/js/swiper.js');
+      .replace('../package/css/swiper.min.css', '../build/css/swiper.css')
+      .replace('../package/js/swiper.min.js', '../build/js/swiper.js');
   } else {
     content = content
-      .replace('../build/css/swiper.css', '../dist/css/swiper.min.css')
-      .replace('../build/js/swiper.js', '../dist/js/swiper.min.js');
+      .replace('../build/css/swiper.css', '../package/css/swiper.min.css')
+      .replace('../build/js/swiper.js', '../package/js/swiper.min.js');
   }
   fs.writeFileSync(path.resolve(__dirname, '../playground/index.html'), content);
   if (cb) cb();

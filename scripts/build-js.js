@@ -35,9 +35,9 @@ function es(components, cb) {
     name: 'Swiper',
     strict: true,
     sourcemap: env === 'development',
-    sourcemapFile: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.esm.bundle.js.map`,
+    sourcemapFile: `./${env === 'development' ? 'build' : 'package'}/js/swiper.esm.bundle.js.map`,
     banner,
-    file: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.esm.bundle.js`,
+    file: `./${env === 'development' ? 'build' : 'package'}/js/swiper.esm.bundle.js`,
   })).then(() => {
     if (cb) cb();
   }).catch((err) => {
@@ -64,9 +64,9 @@ function es(components, cb) {
     name: 'Swiper',
     strict: true,
     sourcemap: env === 'development',
-    sourcemapFile: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.esm.browser.bundle.js.map`,
+    sourcemapFile: `./${env === 'development' ? 'build' : 'package'}/js/swiper.esm.browser.bundle.js.map`,
     banner,
-    file: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.esm.browser.bundle.js`,
+    file: `./${env === 'development' ? 'build' : 'package'}/js/swiper.esm.browser.bundle.js`,
   })).then(() => {
     if (cb) cb();
   }).catch((err) => {
@@ -95,8 +95,8 @@ function es(components, cb) {
     strict: true,
     banner,
     sourcemap: env === 'development',
-    sourcemapFile: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.esm.js.map`,
-    file: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.esm.js`,
+    sourcemapFile: `./${env === 'development' ? 'build' : 'package'}/js/swiper.esm.js.map`,
+    file: `./${env === 'development' ? 'build' : 'package'}/js/swiper.esm.js`,
   })).then(() => {
     if (cb) cb();
   }).catch((err) => {
@@ -127,9 +127,9 @@ function umd(components, cb) {
     name: 'Swiper',
     strict: true,
     sourcemap: env === 'development',
-    sourcemapFile: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.js.map`,
+    sourcemapFile: `./${env === 'development' ? 'build' : 'package'}/js/swiper.js.map`,
     banner,
-    file: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.js`,
+    file: `./${env === 'development' ? 'build' : 'package'}/js/swiper.js`,
   })).then((bundle) => {
     if (env === 'development') {
       if (cb) cb();
@@ -147,8 +147,8 @@ function umd(components, cb) {
       },
     });
 
-    fs.writeFileSync('./dist/js/swiper.min.js', minified.code);
-    fs.writeFileSync('./dist/js/swiper.min.js.map', minified.map);
+    fs.writeFileSync('./package/js/swiper.min.js', minified.code);
+    fs.writeFileSync('./package/js/swiper.min.js.map', minified.map);
 
     cb();
   }).catch((err) => {

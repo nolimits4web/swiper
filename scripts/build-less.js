@@ -44,7 +44,7 @@ async function build(cb) {
   }
 
   // Write file
-  fs.writeFileSync(`./${env === 'development' ? 'build' : 'dist'}/css/swiper.css`, `${banner}\n${cssContent}`);
+  fs.writeFileSync(`./${env === 'development' ? 'build' : 'package'}/css/swiper.css`, `${banner}\n${cssContent}`);
 
   if (env === 'development') {
     if (cb) cb();
@@ -55,7 +55,7 @@ async function build(cb) {
   const minifiedContent = await cleanCSS(cssContent);
 
   // Write file
-  fs.writeFileSync(`./${env === 'development' ? 'build' : 'dist'}/css/swiper.min.css`, `${banner}\n${minifiedContent}`);
+  fs.writeFileSync(`./${env === 'development' ? 'build' : 'package'}/css/swiper.min.css`, `${banner}\n${minifiedContent}`);
 
   if (cb) cb();
 }
