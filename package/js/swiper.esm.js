@@ -1,5 +1,5 @@
 /**
- * Swiper 5.0.0
+ * Swiper 5.0.1
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -774,8 +774,13 @@ function updateSlidesProgress (translate = (this && this.translate) || 0) {
   swiper.visibleSlides = $(swiper.visibleSlides);
 }
 
-function (translate = (this && this.translate && (this.translate * updateProgress (this.rtlTranslate ? -1 : 1))) || 0) {
+function updateProgress (translate) {
   const swiper = this;
+  if (typeof translate === 'undefined') {
+    const multiplier = swiper.rtlTranslate ? -1 : 1;
+    // eslint-disable-next-line
+    translate = (swiper && swiper.translate && (swiper.translate * multiplier)) || 0;
+  }
   const params = swiper.params;
   const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
   let { progress, isBeginning, isEnd } = swiper;
