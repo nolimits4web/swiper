@@ -3,6 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const fse = require('./utils/fs-extra.js');
 const less = require('./utils/less.js');
 const autoprefixer = require('./utils/autoprefixer.js');
 const cleanCSS = require('./utils/clean-css.js');
@@ -44,7 +45,7 @@ async function build(cb) {
   }
 
   // Write file
-  fs.writeFileSync(`./${env === 'development' ? 'build' : 'package'}/css/swiper.css`, `${banner}\n${cssContent}`);
+  fse.writeFileSync(`./${env === 'development' ? 'build' : 'package'}/css/swiper.css`, `${banner}\n${cssContent}`);
 
   if (env === 'development') {
     if (cb) cb();
@@ -55,7 +56,7 @@ async function build(cb) {
   const minifiedContent = await cleanCSS(cssContent);
 
   // Write file
-  fs.writeFileSync(`./${env === 'development' ? 'build' : 'package'}/css/swiper.min.css`, `${banner}\n${minifiedContent}`);
+  fse.writeFileSync(`./${env === 'development' ? 'build' : 'package'}/css/swiper.min.css`, `${banner}\n${minifiedContent}`);
 
   if (cb) cb();
 }
