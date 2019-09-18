@@ -3,6 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const glob = require('glob');
 const fse = require('./utils/fs-extra.js');
 const less = require('./utils/less.js');
 const autoprefixer = require('./utils/autoprefixer.js');
@@ -10,6 +11,13 @@ const cleanCSS = require('./utils/clean-css.js');
 const banner = require('./banner.js');
 
 const config = require('./build-config.js');
+
+function base64Encode(file) {
+  // read binary data
+  const bitmap = fs.readFileSync(file);
+  // convert binary data to base64 encoded string
+  return Buffer.from(bitmap).toString('base64');
+}
 
 async function build(cb) {
   const env = process.env.NODE_ENV || 'development';
@@ -52,11 +60,32 @@ async function build(cb) {
     return;
   }
 
+  // Copy less & scss
+  const iconsFontBase64 = base64Encode('./src/icons/font/swiper-icons.woff');
+
+  glob('**/*.*', { cwd: path.resolve(__dirname, '../src') }, (err, files) => {
+    files.forEach((file, index) => {
+      if (file.indexOf('icons/') === 0) return;
+      if (file.indexOf('.js') >= 0) return;
+
+      let fileContent = fse.readFileSync(path.resolve(__dirname, '../src', file));
+      if (file.indexOf('swiper.less') >= 0) {
+        fileContent = fileContent
+          .replace('swiperIconsFont()', `'${iconsFontBase64}'`)
+          .replace('$themeColor', config.themeColor)
+          .replace('$colors', colors.join(', '));
+      }
+
+      fse.writeFileSync(path.resolve(__dirname, '../package', file), fileContent);
+      if (index === files.length - 1) cb();
+    });
+  });
+
   // Minified
   const minifiedContent = await cleanCSS(cssContent);
 
   // Write file
-  fse.writeFileSync(`./${env === 'development' ? 'build' : 'package'}/css/swiper.min.css`, `${banner}\n${minifiedContent}`);
+  fse.writeFileSync('./package/css/swiper.min.css', `${banner}\n${minifiedContent}`);
 
   if (cb) cb();
 }

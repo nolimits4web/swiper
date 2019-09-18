@@ -56,6 +56,7 @@
     "eslint": "^6.4.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
+    "glob": "^7.1.4",
     "gulp": "^4.0.2",
     "gulp-connect": "^5.7.0",
     "gulp-open": "^3.0.1",

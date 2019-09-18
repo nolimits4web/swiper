@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const buildJs = require('./build-js.js');
-const buildLess = require('./build-less.js');
+const buildStyles = require('./build-styles.js');
 
 // Tasks
 gulp.task('playground', (cb) => {
@@ -28,15 +28,15 @@ gulp.task('js', (cb) => {
   buildJs(cb);
 });
 
-gulp.task('less', (cb) => {
-  buildLess(cb);
+gulp.task('styles', (cb) => {
+  buildStyles(cb);
 });
 
-gulp.task('build', gulp.series(['js', 'less']));
+gulp.task('build', gulp.series(['js', 'styles']));
 
 gulp.task('watch', () => {
   gulp.watch('./src/**/**/*.js', gulp.series('js'));
-  gulp.watch('./src/**/**/*.less', gulp.series('less'));
+  gulp.watch('./src/**/**/*.less', gulp.series('styles'));
 });
 
 gulp.task('connect', () => {
