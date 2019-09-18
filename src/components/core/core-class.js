@@ -251,11 +251,7 @@ class Swiper extends SwiperClass {
   slidesPerViewDynamic() {
     const swiper = this;
     const {
-      params,
-      slides,
-      slidesGrid,
-      size: swiperSize,
-      activeIndex,
+      params, slides, slidesGrid, size: swiperSize, activeIndex,
     } = swiper;
     let spv = 1;
     if (params.centeredSlides) {
