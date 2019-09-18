@@ -78,7 +78,7 @@ class Swiper extends SwiperClass {
         }
         if (
           typeof params[moduleParamName] === 'object'
-                    && !('enabled' in params[moduleParamName])
+          && !('enabled' in params[moduleParamName])
         ) {
           params[moduleParamName].enabled = true;
         }
@@ -328,7 +328,7 @@ class Swiper extends SwiperClass {
     const currentDirection = swiper.params.direction;
     if (!newDirection) {
       // eslint-disable-next-line
-            newDirection = currentDirection === 'horizontal' ? 'vertical' : 'horizontal';
+      newDirection = currentDirection === 'horizontal' ? 'vertical' : 'horizontal';
     }
     if ((newDirection === currentDirection) || (newDirection !== 'horizontal' && newDirection !== 'vertical')) {
       return swiper;
@@ -412,10 +412,7 @@ class Swiper extends SwiperClass {
   destroy(deleteInstance = true, cleanStyles = true) {
     const swiper = this;
     const {
-      params,
-      $el,
-      $wrapperEl,
-      slides,
+      params, $el, $wrapperEl, slides,
     } = swiper;
 
     if (typeof swiper.params === 'undefined' || swiper.destroyed) {
