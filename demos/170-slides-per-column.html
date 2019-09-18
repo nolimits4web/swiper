@@ -10,6 +10,10 @@
 
   <!-- Demo styles -->
   <style>
+    html, body {
+      position: relative;
+      height: 100%;
+    }
     body {
       background: #eee;
       font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -17,10 +21,11 @@
       color:#000;
       margin: 0;
       padding: 0;
+
     }
     .swiper-container {
       width: 100%;
-      height: auto;
+      height: 100%;
       margin-left: auto;
       margin-right: auto;
     }
@@ -28,7 +33,7 @@
       text-align: center;
       font-size: 18px;
       background: #fff;
-      height: 200px;
+      height: calc((100% - 30px) / 2);
 
       /* Center slide text vertically */
       display: -webkit-box;
