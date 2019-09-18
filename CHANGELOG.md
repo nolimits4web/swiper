@@ -1,5 +1,12 @@
 # Change Log
 
+## [Swiper 5.0.2](https://github.com/nolimits4web/swiper/compare/v5.0.1...v5.0.2) - Released on September 18, 2019
+  * Package
+    * npm package now includes `.less` and `.scss` sources
+  * Core
+    * Better support for Shadow DOM
+    * Fixed issue with wrong order calculation in `slidesPerColumnFill: 'row'` mode
+
 ## [Swiper 5.0.1](https://github.com/nolimits4web/swiper/compare/v5.0.0...v5.0.1) - Released on September 17, 2019
   * Core
     * Fixed typo in code

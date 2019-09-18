@@ -1,5 +1,5 @@
 /**
- * Swiper 5.0.1
+ * Swiper 5.0.2
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: September 17, 2019
+ * Released on: September 18, 2019
  */
 
 (function (global, factory) {
@@ -1306,7 +1306,7 @@
         var column = (void 0);
         var row = (void 0);
         if (params.slidesPerColumnFill === 'row' && params.slidesPerGroup > 1) {
-          var groupIndex = Math.floor(i / params.slidesPerGroup);
+          var groupIndex = Math.floor(i / (params.slidesPerGroup * params.slidesPerColumn));
           row = Math.floor(i / params.slidesPerView) - groupIndex * params.slidesPerColumn;
           column = i - row * params.slidesPerView - groupIndex * params.slidesPerView;
           newSlideOrderIndex = column + ((row * slidesNumberEvenToRows) / slidesPerColumn);
@@ -3831,8 +3831,14 @@
       $el.data('swiper', swiper);
 
       // Find Wrapper
-      var $wrapperEl = $el.children(("." + (swiper.params.wrapperClass)));
-
+      var $wrapperEl;
+      if (el && el.shadowRoot && el.shadowRoot.querySelector) {
+        $wrapperEl = $(el.shadowRoot.querySelector(("." + (swiper.params.wrapperClass))));
+        // Children needs to return slot items
+        $wrapperEl.children = function (options) { return $el.children(options); };
+      } else {
+        $wrapperEl = $el.children(("." + (swiper.params.wrapperClass)));
+      }
       // Extend Swiper
       Utils.extend(swiper, {
         $el: $el,
