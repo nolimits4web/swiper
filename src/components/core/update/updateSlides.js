@@ -81,8 +81,11 @@ export default function () {
       let row;
       if (params.slidesPerColumnFill === 'row' && params.slidesPerGroup > 1) {
         const groupIndex = Math.floor(i / (params.slidesPerGroup * params.slidesPerColumn));
-        row = Math.floor(i / params.slidesPerView) - groupIndex * params.slidesPerColumn;
-        column = i - row * params.slidesPerView - groupIndex * params.slidesPerView;
+        const slideIndexInGroup = i - params.slidesPerColumn * params.slidesPerGroup * groupIndex;
+
+        row = Math.floor(slideIndexInGroup / params.slidesPerColumn);
+        column = (slideIndexInGroup - row * params.slidesPerGroup) + groupIndex * params.slidesPerGroup;
+
         newSlideOrderIndex = column + ((row * slidesNumberEvenToRows) / slidesPerColumn);
         slide
           .css({
