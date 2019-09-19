@@ -82,8 +82,7 @@ export default function () {
       if (params.slidesPerColumnFill === 'row' && params.slidesPerGroup > 1) {
         const groupIndex = Math.floor(i / (params.slidesPerGroup * params.slidesPerColumn));
         const slideIndexInGroup = i - params.slidesPerColumn * params.slidesPerGroup * groupIndex;
-
-        row = Math.floor(slideIndexInGroup / params.slidesPerColumn);
+        row = Math.floor(slideIndexInGroup / params.slidesPerGroup);
         column = (slideIndexInGroup - row * params.slidesPerGroup) + groupIndex * params.slidesPerGroup;
 
         newSlideOrderIndex = column + ((row * slidesNumberEvenToRows) / slidesPerColumn);
