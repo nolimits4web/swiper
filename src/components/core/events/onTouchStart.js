@@ -6,21 +6,27 @@ export default function (event) {
   const swiper = this;
   const data = swiper.touchEventsData;
   const { params, touches } = swiper;
+
   if (swiper.animating && params.preventInteractionOnTransition) {
     return;
   }
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
+  const $targetEl = $(e.target);
+
+  if (params.touchEventsTarget === 'wrapper') {
+    if (!$targetEl.closest(swiper.wrapperEl).length) return;
+  }
   data.isTouchEvent = e.type === 'touchstart';
   if (!data.isTouchEvent && 'which' in e && e.which === 3) return;
   if (!data.isTouchEvent && 'button' in e && e.button > 0) return;
   if (data.isTouched && data.isMoved) return;
-  if (params.noSwiping && $(e.target).closest(params.noSwipingSelector ? params.noSwipingSelector : `.${params.noSwipingClass}`)[0]) {
+  if (params.noSwiping && $targetEl.closest(params.noSwipingSelector ? params.noSwipingSelector : `.${params.noSwipingClass}`)[0]) {
     swiper.allowClick = true;
     return;
   }
   if (params.swipeHandler) {
-    if (!$(e).closest(params.swipeHandler)[0]) return;
+    if (!$targetEl.closest(params.swipeHandler)[0]) return;
   }
 
   touches.currentX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
@@ -57,11 +63,11 @@ export default function (event) {
   if (params.threshold > 0) data.allowThresholdMove = false;
   if (e.type !== 'touchstart') {
     let preventDefault = true;
-    if ($(e.target).is(data.formElements)) preventDefault = false;
+    if ($targetEl.is(data.formElements)) preventDefault = false;
     if (
       document.activeElement
       && $(document.activeElement).is(data.formElements)
-      && document.activeElement !== e.target
+      && document.activeElement !== $targetEl[0]
     ) {
       document.activeElement.blur();
     }

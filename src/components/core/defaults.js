@@ -1,7 +1,7 @@
 export default {
   init: true,
   direction: 'horizontal',
-  touchEventsTarget: 'wrapper',
+  touchEventsTarget: 'container',
   initialSlide: 0,
   speed: 300,
   cssMode: false,
