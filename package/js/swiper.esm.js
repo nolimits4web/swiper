@@ -1,5 +1,5 @@
 /**
- * Swiper 5.0.2
+ * Swiper 5.0.3
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: September 18, 2019
+ * Released on: September 19, 2019
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition as transition$1, on, off, trigger, transitionEnd as transitionEnd$1, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, filter, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -481,8 +481,11 @@ function updateSlides () {
       let row;
       if (params.slidesPerColumnFill === 'row' && params.slidesPerGroup > 1) {
         const groupIndex = Math.floor(i / (params.slidesPerGroup * params.slidesPerColumn));
-        row = Math.floor(i / params.slidesPerView) - groupIndex * params.slidesPerColumn;
-        column = i - row * params.slidesPerView - groupIndex * params.slidesPerView;
+        const slideIndexInGroup = i - params.slidesPerColumn * params.slidesPerGroup * groupIndex;
+
+        row = Math.floor(slideIndexInGroup / params.slidesPerColumn);
+        column = (slideIndexInGroup - row * params.slidesPerGroup) + groupIndex * params.slidesPerGroup;
+
         newSlideOrderIndex = column + ((row * slidesNumberEvenToRows) / slidesPerColumn);
         slide
           .css({
@@ -1753,21 +1756,27 @@ function onTouchStart (event) {
   const swiper = this;
   const data = swiper.touchEventsData;
   const { params, touches } = swiper;
+
   if (swiper.animating && params.preventInteractionOnTransition) {
     return;
   }
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
+  const $targetEl = $(e.target);
+
+  if (params.touchEventsTarget === 'wrapper') {
+    if (!$targetEl.closest(swiper.wrapperEl).length) return;
+  }
   data.isTouchEvent = e.type === 'touchstart';
   if (!data.isTouchEvent && 'which' in e && e.which === 3) return;
   if (!data.isTouchEvent && 'button' in e && e.button > 0) return;
   if (data.isTouched && data.isMoved) return;
-  if (params.noSwiping && $(e.target).closest(params.noSwipingSelector ? params.noSwipingSelector : `.${params.noSwipingClass}`)[0]) {
+  if (params.noSwiping && $targetEl.closest(params.noSwipingSelector ? params.noSwipingSelector : `.${params.noSwipingClass}`)[0]) {
     swiper.allowClick = true;
     return;
   }
   if (params.swipeHandler) {
-    if (!$(e).closest(params.swipeHandler)[0]) return;
+    if (!$targetEl.closest(params.swipeHandler)[0]) return;
   }
 
   touches.currentX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
@@ -1804,11 +1813,11 @@ function onTouchStart (event) {
   if (params.threshold > 0) data.allowThresholdMove = false;
   if (e.type !== 'touchstart') {
     let preventDefault = true;
-    if ($(e.target).is(data.formElements)) preventDefault = false;
+    if ($targetEl.is(data.formElements)) preventDefault = false;
     if (
       document$1.activeElement
       && $(document$1.activeElement).is(data.formElements)
-      && document$1.activeElement !== e.target
+      && document$1.activeElement !== $targetEl[0]
     ) {
       document$1.activeElement.blur();
     }
@@ -2381,43 +2390,41 @@ function attachEvents() {
     params, touchEvents, el, wrapperEl,
   } = swiper;
 
-  {
-    swiper.onTouchStart = onTouchStart.bind(swiper);
-    swiper.onTouchMove = onTouchMove.bind(swiper);
-    swiper.onTouchEnd = onTouchEnd.bind(swiper);
-  }
+  swiper.onTouchStart = onTouchStart.bind(swiper);
+  swiper.onTouchMove = onTouchMove.bind(swiper);
+  swiper.onTouchEnd = onTouchEnd.bind(swiper);
   if (params.cssMode) {
     swiper.onScroll = onScroll.bind(swiper);
   }
 
   swiper.onClick = onClick.bind(swiper);
 
-  const target = params.touchEventsTarget === 'container' ? el : wrapperEl;
   const capture = !!params.nested;
 
   // Touch Events
-  {
-    if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
-      target.addEventListener(touchEvents.start, swiper.onTouchStart, false);
-      document$1.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
-      document$1.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
-    } else {
-      if (Support.touch) {
-        const passiveListener = touchEvents.start === 'touchstart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
-        target.addEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
-        target.addEventListener(touchEvents.move, swiper.onTouchMove, Support.passiveListener ? { passive: false, capture } : capture);
-        target.addEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
-      }
-      if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
-        target.addEventListener('mousedown', swiper.onTouchStart, false);
-        document$1.addEventListener('mousemove', swiper.onTouchMove, capture);
-        document$1.addEventListener('mouseup', swiper.onTouchEnd, false);
+  if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+    el.addEventListener(touchEvents.start, swiper.onTouchStart, false);
+    document$1.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
+    document$1.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
+  } else {
+    if (Support.touch) {
+      const passiveListener = touchEvents.start === 'touchstart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
+      el.addEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
+      el.addEventListener(touchEvents.move, swiper.onTouchMove, Support.passiveListener ? { passive: false, capture } : capture);
+      el.addEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
+      if (touchEvents.cancel) {
+        el.addEventListener(touchEvents.cancel, swiper.onTouchEnd, passiveListener);
       }
     }
-    // Prevent Links Clicks
-    if (params.preventClicks || params.preventClicksPropagation) {
-      target.addEventListener('click', swiper.onClick, true);
+    if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
+      el.addEventListener('mousedown', swiper.onTouchStart, false);
+      document$1.addEventListener('mousemove', swiper.onTouchMove, capture);
+      document$1.addEventListener('mouseup', swiper.onTouchEnd, false);
     }
+  }
+  // Prevent Links Clicks
+  if (params.preventClicks || params.preventClicksPropagation) {
+    el.addEventListener('click', swiper.onClick, true);
   }
   if (params.cssMode) {
     wrapperEl.addEventListener('scroll', swiper.onScroll);
@@ -2434,32 +2441,32 @@ function detachEvents() {
     params, touchEvents, el, wrapperEl,
   } = swiper;
 
-  const target = params.touchEventsTarget === 'container' ? el : wrapperEl;
   const capture = !!params.nested;
 
   // Touch Events
-  {
-    if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
-      target.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
-      document$1.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
-      document$1.removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
-    } else {
-      if (Support.touch) {
-        const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
-        target.removeEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
-        target.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
-        target.removeEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
-      }
-      if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
-        target.removeEventListener('mousedown', swiper.onTouchStart, false);
-        document$1.removeEventListener('mousemove', swiper.onTouchMove, capture);
-        document$1.removeEventListener('mouseup', swiper.onTouchEnd, false);
+  if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+    el.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
+    document$1.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
+    document$1.removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
+  } else {
+    if (Support.touch) {
+      const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
+      el.removeEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
+      el.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
+      el.removeEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
+      if (touchEvents.cancel) {
+        el.removeEventListener(touchEvents.cancel, swiper.onTouchEnd, passiveListener);
       }
     }
-    // Prevent Links Clicks
-    if (params.preventClicks || params.preventClicksPropagation) {
-      target.removeEventListener('click', swiper.onClick, true);
+    if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
+      el.removeEventListener('mousedown', swiper.onTouchStart, false);
+      document$1.removeEventListener('mousemove', swiper.onTouchMove, capture);
+      document$1.removeEventListener('mouseup', swiper.onTouchEnd, false);
     }
+  }
+  // Prevent Links Clicks
+  if (params.preventClicks || params.preventClicksPropagation) {
+    el.removeEventListener('click', swiper.onClick, true);
   }
 
   if (params.cssMode) {
@@ -2693,7 +2700,7 @@ var checkOverflow$1 = { checkOverflow };
 var defaults = {
   init: true,
   direction: 'horizontal',
-  touchEventsTarget: 'wrapper',
+  touchEventsTarget: 'container',
   initialSlide: 0,
   speed: 300,
   cssMode: false,
@@ -2979,7 +2986,7 @@ class Swiper extends SwiperClass {
 
       // Touch Events
       touchEvents: (function touchEvents() {
-        const touch = ['touchstart', 'touchmove', 'touchend'];
+        const touch = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
         let desktop = ['mousedown', 'mousemove', 'mouseup'];
         if (Support.pointerEvents) {
           desktop = ['pointerdown', 'pointermove', 'pointerup'];
@@ -2990,6 +2997,7 @@ class Swiper extends SwiperClass {
           start: touch[0],
           move: touch[1],
           end: touch[2],
+          cancel: touch[3],
         };
         swiper.touchEventsDesktop = {
           start: desktop[0],
@@ -3600,7 +3608,12 @@ const Virtual = {
       const cache = swiper.virtual.cache;
       const newCache = {};
       Object.keys(cache).forEach((cachedIndex) => {
-        newCache[parseInt(cachedIndex, 10) + numberOfNewSlides] = cache[cachedIndex];
+        const $cachedEl = cache[cachedIndex];
+        const cachedElIndex = $cachedEl.attr('data-swiper-slide-index');
+        if (cachedElIndex) {
+          $cachedEl.attr('data-swiper-slide-index', parseInt(cachedElIndex, 10) + 1);
+        }
+        newCache[parseInt(cachedIndex, 10) + numberOfNewSlides] = $cachedEl;
       });
       swiper.virtual.cache = newCache;
     }
@@ -5408,6 +5421,7 @@ const Zoom = {
     zoom.enabled = true;
 
     const passiveListener = swiper.touchEvents.start === 'touchstart' && Support.passiveListener && swiper.params.passiveListeners ? { passive: true, capture: false } : false;
+    const activeListenerWithCapture = Support.passiveListener ? { passive: false, capture: true } : true;
 
     // Scale image
     if (Support.gestures) {
@@ -5418,10 +5432,13 @@ const Zoom = {
       swiper.$wrapperEl.on(swiper.touchEvents.start, '.swiper-slide', zoom.onGestureStart, passiveListener);
       swiper.$wrapperEl.on(swiper.touchEvents.move, '.swiper-slide', zoom.onGestureChange, passiveListener);
       swiper.$wrapperEl.on(swiper.touchEvents.end, '.swiper-slide', zoom.onGestureEnd, passiveListener);
+      if (swiper.touchEvents.cancel) {
+        swiper.$wrapperEl.on(swiper.touchEvents.cancel, '.swiper-slide', zoom.onGestureEnd, passiveListener);
+      }
     }
 
     // Move image
-    swiper.$wrapperEl.on(swiper.touchEvents.move, `.${swiper.params.zoom.containerClass}`, zoom.onTouchMove);
+    swiper.$wrapperEl.on(swiper.touchEvents.move, `.${swiper.params.zoom.containerClass}`, zoom.onTouchMove, activeListenerWithCapture);
   },
   disable() {
     const swiper = this;
@@ -5431,6 +5448,7 @@ const Zoom = {
     swiper.zoom.enabled = false;
 
     const passiveListener = swiper.touchEvents.start === 'touchstart' && Support.passiveListener && swiper.params.passiveListeners ? { passive: true, capture: false } : false;
+    const activeListenerWithCapture = Support.passiveListener ? { passive: false, capture: true } : true;
 
     // Scale image
     if (Support.gestures) {
@@ -5441,10 +5459,13 @@ const Zoom = {
       swiper.$wrapperEl.off(swiper.touchEvents.start, '.swiper-slide', zoom.onGestureStart, passiveListener);
       swiper.$wrapperEl.off(swiper.touchEvents.move, '.swiper-slide', zoom.onGestureChange, passiveListener);
       swiper.$wrapperEl.off(swiper.touchEvents.end, '.swiper-slide', zoom.onGestureEnd, passiveListener);
+      if (swiper.touchEvents.cancel) {
+        swiper.$wrapperEl.off(swiper.touchEvents.cancel, '.swiper-slide', zoom.onGestureEnd, passiveListener);
+      }
     }
 
     // Move image
-    swiper.$wrapperEl.off(swiper.touchEvents.move, `.${swiper.params.zoom.containerClass}`, zoom.onTouchMove);
+    swiper.$wrapperEl.off(swiper.touchEvents.move, `.${swiper.params.zoom.containerClass}`, zoom.onTouchMove, activeListenerWithCapture);
   },
 };
 
