@@ -13,7 +13,6 @@ const banner = require('./banner.js');
 
 function es(components, cb) {
   const env = process.env.NODE_ENV || 'development';
-  const target = process.env.TARGET || config.target;
 
   // Bundle
   rollup.rollup({
@@ -23,7 +22,6 @@ function es(components, cb) {
       replace({
         delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env),
-        'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map((component) => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
         '//INSTALL_COMPONENTS': components.map((component) => `${component.capitalized}`).join(',\n  '),
         '//EXPORT': 'export default Swiper',
@@ -52,7 +50,6 @@ function es(components, cb) {
       replace({
         delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env),
-        'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map((component) => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
         '//INSTALL_COMPONENTS': components.map((component) => `${component.capitalized}`).join(',\n  '),
         '//EXPORT': 'export default Swiper',
@@ -82,7 +79,6 @@ function es(components, cb) {
       replace({
         delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env),
-        'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map((component) => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
         '//INSTALL_COMPONENTS': '',
         '//EXPORT': `export { Swiper, ${components.map((component) => component.capitalized).join(', ')} }`,
@@ -106,7 +102,6 @@ function es(components, cb) {
 }
 function umd(components, cb) {
   const env = process.env.NODE_ENV || 'development';
-  const target = process.env.TARGET || config.target;
 
   rollup.rollup({
     input: './src/swiper.js',
@@ -114,7 +109,6 @@ function umd(components, cb) {
       replace({
         delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env),
-        'process.env.TARGET': JSON.stringify(target),
         '//IMPORT_COMPONENTS': components.map((component) => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
         '//INSTALL_COMPONENTS': components.map((component) => `${component.capitalized}`).join(',\n  '),
         '//EXPORT': 'export default Swiper;',
