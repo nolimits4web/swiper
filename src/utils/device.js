@@ -1,6 +1,8 @@
-import { window, document } from 'ssr-window';
+import { window } from 'ssr-window';
+import Support from './support';
 
 const Device = (function Device() {
+  const platform = window.navigator.platform;
   const ua = window.navigator.userAgent;
 
   const device = {
@@ -8,27 +10,52 @@ const Device = (function Device() {
     android: false,
     androidChrome: false,
     desktop: false,
-    windows: false,
     iphone: false,
     ipod: false,
     ipad: false,
-    cordova: window.cordova || window.phonegap,
-    phonegap: window.cordova || window.phonegap,
+    edge: false,
+    ie: false,
+    firefox: false,
+    macos: false,
+    windows: false,
+    cordova: !!(window.cordova || window.phonegap),
+    phonegap: !!(window.cordova || window.phonegap),
+    electron: false,
   };
 
-  const windows = ua.match(/(Windows Phone);?[\s\/]+([\d.]+)?/); // eslint-disable-line
+  const screenWidth = window.screen.width;
+  const screenHeight = window.screen.height;
+
   const android = ua.match(/(Android);?[\s\/]+([\d.]+)?/); // eslint-disable-line
-  const ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+  let ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
   const ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
   const iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
+  const ie = ua.indexOf('MSIE ') >= 0 || ua.indexOf('Trident/') >= 0;
+  const edge = ua.indexOf('Edge/') >= 0;
+  const firefox = ua.indexOf('Gecko/') >= 0 && ua.indexOf('Firefox/') >= 0;
+  const windows = platform === 'Win32';
+  const electron = ua.toLowerCase().indexOf('electron') >= 0;
+  let macos = platform === 'MacIntel';
 
-
-  // Windows
-  if (windows) {
-    device.os = 'windows';
-    device.osVersion = windows[2];
-    device.windows = true;
+  // iPadOs 13 fix
+  if (!ipad
+    && macos
+    && Support.touch
+    && (
+      (screenWidth === 1024 && screenHeight === 1366) // Pro 12.9
+      || (screenWidth === 834 && screenHeight === 1194) // Pro 11
+      || (screenWidth === 834 && screenHeight === 1112) // Pro 10.5
+      || (screenWidth === 768 && screenHeight === 1024) // other
+    )
+  ) {
+    ipad = ua.match(/(Version)\/([\d.]+)/);
+    macos = false;
   }
+
+  device.ie = ie;
+  device.edge = edge;
+  device.firefox = firefox;
+
   // Android
   if (android && !windows) {
     device.os = 'android';
@@ -51,7 +78,7 @@ const Device = (function Device() {
   }
   if (ipod) {
     device.osVersion = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
-    device.iphone = true;
+    device.ipod = true;
   }
   // iOS 8+ changed UA
   if (device.ios && device.osVersion && ua.indexOf('Version/') >= 0) {
@@ -60,20 +87,24 @@ const Device = (function Device() {
     }
   }
 
-  // Desktop
-  device.desktop = !(device.os || device.android || device.webView);
-
   // Webview
-  device.webView = (iphone || ipad || ipod) && ua.match(/.*AppleWebKit(?!.*Safari)/i);
+  device.webView = !!((iphone || ipad || ipod) && (ua.match(/.*AppleWebKit(?!.*Safari)/i) || window.navigator.standalone))
+    || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+  device.webview = device.webView;
+  device.standalone = device.webView;
 
-  // Minimal UI
-  if (device.os && device.os === 'ios') {
-    const osVersionArr = device.osVersion.split('.');
-    const metaViewport = document.querySelector('meta[name="viewport"]');
-    device.minimalUi = !device.webView
-      && (ipod || iphone)
-      && (osVersionArr[0] * 1 === 7 ? osVersionArr[1] * 1 >= 1 : osVersionArr[0] * 1 > 7)
-      && metaViewport && metaViewport.getAttribute('content').indexOf('minimal-ui') >= 0;
+  // Desktop
+  device.desktop = !(device.ios || device.android) || electron;
+  if (device.desktop) {
+    device.electron = electron;
+    device.macos = macos;
+    device.windows = windows;
+    if (device.macos) {
+      device.os = 'macos';
+    }
+    if (device.windows) {
+      device.os = 'windows';
+    }
   }
 
   // Pixel Ratio
