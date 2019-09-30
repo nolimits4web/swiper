@@ -100,7 +100,6 @@ export default function (event) {
   if (!data.startMoving) {
     return;
   }
-  swiper.allowClick = false;
   if (!params.cssMode) {
     e.preventDefault();
   }
