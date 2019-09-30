@@ -1,0 +1,13 @@
+daysUntilStale: 180
+daysUntilClose: 60
+exemptLabels:
+  - feature request
+  - in progress
+staleLabel: wontfix
+markComment: >
+  This issue has been automatically marked as stale because it has not had
+  recent activity. It will be closed if no further activity occurs. Thank you
+  for your contributions.
+closeComment: >
+  This issue has been automatically closed due to inactivity.
+  If this issue is still actual, please, create the new one.

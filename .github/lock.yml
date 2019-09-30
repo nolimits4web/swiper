@@ -1,0 +1,6 @@
+daysUntilLock: 240
+exemptLabels:
+  - feature request
+  - in progress
+lockLabel: outdated
+lockComment: false
