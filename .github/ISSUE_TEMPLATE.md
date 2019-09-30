@@ -1,6 +1,6 @@
 <!--
 
-Do you want to ask a question? Are you looking for support? The Swiper forum (http://idangero.us/swiper/forum/) and Stack Overflow (http://stackoverflow.com/questions/tagged/swiper) are the best places for getting support
+Do you want to ask a question? Are you looking for support? Stack Overflow (http://stackoverflow.com/questions/tagged/swiper) is the best place for getting support
 
 -->
 
