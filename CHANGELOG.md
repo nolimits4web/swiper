@@ -1,5 +1,15 @@
 # Change Log
 
+## [Swiper 5.0.4](https://github.com/nolimits4web/swiper/compare/v5.0.3...v5.0.4) - Released on September 30, 2019
+  * Core
+    * Now on short swipes over navigation buttons, it will treat it like nav button click (#3237 by @robpop)
+    * Fixed issue when passing float `slidesPerView` could break loop mode (#3225 by @robpop)
+  * Scrollbar
+    * Fixed issue with wrong "pointer" position calculation on scroll bar tap
+  * Autoplay
+    * Fixed issue when it was `paused` after returning from hidden tab
+  * Minor fixes
+
 ## [Swiper 5.0.3](https://github.com/nolimits4web/swiper/compare/v5.0.2...v5.0.3) - Released on September 19, 2019
   * Core
     * `touchEventsTarget` defaults back to `container`

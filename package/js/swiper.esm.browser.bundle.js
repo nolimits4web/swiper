@@ -1,5 +1,5 @@
 /**
- * Swiper 5.0.3
+ * Swiper 5.0.4
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: September 19, 2019
+ * Released on: September 30, 2019
  */
 
 /**
@@ -943,8 +943,7 @@ const Support = (function Support() {
       return !!((win.navigator.maxTouchPoints > 0) || ('ontouchstart' in win) || (win.DocumentTouch && doc instanceof win.DocumentTouch));
     }()),
 
-    pointerEvents: !!(win.navigator.pointerEnabled || win.PointerEvent || ('maxTouchPoints' in win.navigator && win.navigator.maxTouchPoints > 0)),
-    prefixedPointerEvents: !!win.navigator.msPointerEnabled,
+    pointerEvents: !!win.PointerEvent && ('maxTouchPoints' in win.navigator) && win.navigator.maxTouchPoints > 0,
 
     observer: (function checkObserver() {
       return ('MutationObserver' in win || 'WebkitMutationObserver' in win);
@@ -1253,8 +1252,7 @@ function updateSlides () {
       if (params.slidesPerColumnFill === 'row' && params.slidesPerGroup > 1) {
         const groupIndex = Math.floor(i / (params.slidesPerGroup * params.slidesPerColumn));
         const slideIndexInGroup = i - params.slidesPerColumn * params.slidesPerGroup * groupIndex;
-
-        row = Math.floor(slideIndexInGroup / params.slidesPerColumn);
+        row = Math.floor(slideIndexInGroup / params.slidesPerGroup);
         column = (slideIndexInGroup - row * params.slidesPerGroup) + groupIndex * params.slidesPerGroup;
 
         newSlideOrderIndex = column + ((row * slidesNumberEvenToRows) / slidesPerColumn);
@@ -2192,7 +2190,7 @@ function loopCreate () {
 
   if (params.slidesPerView === 'auto' && !params.loopedSlides) params.loopedSlides = slides.length;
 
-  swiper.loopedSlides = parseInt(params.loopedSlides || params.slidesPerView, 10);
+  swiper.loopedSlides = Math.ceil(parseFloat(params.loopedSlides || params.slidesPerView, 10));
   swiper.loopedSlides += params.loopAdditionalSlides;
   if (swiper.loopedSlides > slides.length) {
     swiper.loopedSlides = slides.length;
@@ -2441,6 +2439,7 @@ var manipulation = {
 };
 
 const Device = (function Device() {
+  const platform = win.navigator.platform;
   const ua = win.navigator.userAgent;
 
   const device = {
@@ -2448,27 +2447,52 @@ const Device = (function Device() {
     android: false,
     androidChrome: false,
     desktop: false,
-    windows: false,
     iphone: false,
     ipod: false,
     ipad: false,
-    cordova: win.cordova || win.phonegap,
-    phonegap: win.cordova || win.phonegap,
+    edge: false,
+    ie: false,
+    firefox: false,
+    macos: false,
+    windows: false,
+    cordova: !!(win.cordova || win.phonegap),
+    phonegap: !!(win.cordova || win.phonegap),
+    electron: false,
   };
 
-  const windows = ua.match(/(Windows Phone);?[\s\/]+([\d.]+)?/); // eslint-disable-line
+  const screenWidth = win.screen.width;
+  const screenHeight = win.screen.height;
+
   const android = ua.match(/(Android);?[\s\/]+([\d.]+)?/); // eslint-disable-line
-  const ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+  let ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
   const ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
   const iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
+  const ie = ua.indexOf('MSIE ') >= 0 || ua.indexOf('Trident/') >= 0;
+  const edge = ua.indexOf('Edge/') >= 0;
+  const firefox = ua.indexOf('Gecko/') >= 0 && ua.indexOf('Firefox/') >= 0;
+  const windows = platform === 'Win32';
+  const electron = ua.toLowerCase().indexOf('electron') >= 0;
+  let macos = platform === 'MacIntel';
 
-
-  // Windows
-  if (windows) {
-    device.os = 'windows';
-    device.osVersion = windows[2];
-    device.windows = true;
+  // iPadOs 13 fix
+  if (!ipad
+    && macos
+    && Support.touch
+    && (
+      (screenWidth === 1024 && screenHeight === 1366) // Pro 12.9
+      || (screenWidth === 834 && screenHeight === 1194) // Pro 11
+      || (screenWidth === 834 && screenHeight === 1112) // Pro 10.5
+      || (screenWidth === 768 && screenHeight === 1024) // other
+    )
+  ) {
+    ipad = ua.match(/(Version)\/([\d.]+)/);
+    macos = false;
   }
+
+  device.ie = ie;
+  device.edge = edge;
+  device.firefox = firefox;
+
   // Android
   if (android && !windows) {
     device.os = 'android';
@@ -2491,7 +2515,7 @@ const Device = (function Device() {
   }
   if (ipod) {
     device.osVersion = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
-    device.iphone = true;
+    device.ipod = true;
   }
   // iOS 8+ changed UA
   if (device.ios && device.osVersion && ua.indexOf('Version/') >= 0) {
@@ -2500,20 +2524,24 @@ const Device = (function Device() {
     }
   }
 
-  // Desktop
-  device.desktop = !(device.os || device.android || device.webView);
-
   // Webview
-  device.webView = (iphone || ipad || ipod) && ua.match(/.*AppleWebKit(?!.*Safari)/i);
+  device.webView = !!((iphone || ipad || ipod) && (ua.match(/.*AppleWebKit(?!.*Safari)/i) || win.navigator.standalone))
+    || (win.matchMedia && win.matchMedia('(display-mode: standalone)').matches);
+  device.webview = device.webView;
+  device.standalone = device.webView;
 
-  // Minimal UI
-  if (device.os && device.os === 'ios') {
-    const osVersionArr = device.osVersion.split('.');
-    const metaViewport = doc.querySelector('meta[name="viewport"]');
-    device.minimalUi = !device.webView
-      && (ipod || iphone)
-      && (osVersionArr[0] * 1 === 7 ? osVersionArr[1] * 1 >= 1 : osVersionArr[0] * 1 > 7)
-      && metaViewport && metaViewport.getAttribute('content').indexOf('minimal-ui') >= 0;
+  // Desktop
+  device.desktop = !(device.ios || device.android) || electron;
+  if (device.desktop) {
+    device.electron = electron;
+    device.macos = macos;
+    device.windows = windows;
+    if (device.macos) {
+      device.os = 'macos';
+    }
+    if (device.windows) {
+      device.os = 'windows';
+    }
   }
 
   // Pixel Ratio
@@ -3059,10 +3087,17 @@ function onTouchEnd (event) {
       swiper.slideTo(swiper.activeIndex);
       return;
     }
-    if (swiper.swipeDirection === 'next') {
+    const isNavButtonTarget = swiper.navigation && (e.target === swiper.navigation.nextEl || e.target === swiper.navigation.prevEl);
+    if (!isNavButtonTarget) {
+      if (swiper.swipeDirection === 'next') {
+        swiper.slideTo(stopIndex + params.slidesPerGroup);
+      }
+      if (swiper.swipeDirection === 'prev') {
+        swiper.slideTo(stopIndex);
+      }
+    } else if (e.target === swiper.navigation.nextEl) {
       swiper.slideTo(stopIndex + params.slidesPerGroup);
-    }
-    if (swiper.swipeDirection === 'prev') {
+    } else {
       swiper.slideTo(stopIndex);
     }
   }
@@ -3173,7 +3208,7 @@ function attachEvents() {
   const capture = !!params.nested;
 
   // Touch Events
-  if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+  if (!Support.touch && Support.pointerEvents) {
     el.addEventListener(touchEvents.start, swiper.onTouchStart, false);
     doc.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
     doc.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
@@ -3215,7 +3250,7 @@ function detachEvents() {
   const capture = !!params.nested;
 
   // Touch Events
-  if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+  if (!Support.touch && Support.pointerEvents) {
     el.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
     doc.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
     doc.removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
@@ -3761,8 +3796,6 @@ class Swiper extends SwiperClass {
         let desktop = ['mousedown', 'mousemove', 'mouseup'];
         if (Support.pointerEvents) {
           desktop = ['pointerdown', 'pointermove', 'pointerup'];
-        } else if (Support.prefixedPointerEvents) {
-          desktop = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
         }
         swiper.touchEventsTouch = {
           start: touch[0],
@@ -4661,6 +4694,11 @@ const Mousewheel = {
       pX = e.deltaX;
     }
 
+    if (e.shiftKey && !pX) { // if user scrolls with shift he wants horizontal scroll
+      pX = pY;
+      pY = 0;
+    }
+
     if ((pX || pY) && e.deltaMode) {
       if (e.deltaMode === 1) { // delta in LINE units
         pX *= LINE_HEIGHT;
@@ -5459,9 +5497,9 @@ const Scrollbar = {
   getPointerPosition(e) {
     const swiper = this;
     if (swiper.isHorizontal()) {
-      return ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].pageX : e.pageX || e.clientX);
+      return ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].clientX : e.clientX);
     }
-    return ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].pageY : e.pageY || e.clientY);
+    return ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].clientY : e.clientY);
   },
   setDragPosition(e) {
     const swiper = this;
@@ -7287,6 +7325,7 @@ var Autoplay$1 = {
           }
           if (document.visibilityState === 'visible' && swiper.autoplay.paused) {
             swiper.autoplay.run();
+            swiper.autoplay.paused = false;
           }
         },
         onTransitionEnd(e) {
