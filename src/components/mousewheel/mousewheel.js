@@ -72,6 +72,11 @@ const Mousewheel = {
       pX = e.deltaX;
     }
 
+    if (e.shiftKey && !pX) { // if user scrolls with shift he wants horizontal scroll
+      pX = pY;
+      pY = 0;
+    }
+
     if ((pX || pY) && e.deltaMode) {
       if (e.deltaMode === 1) { // delta in LINE units
         pX *= LINE_HEIGHT;
