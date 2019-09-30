@@ -263,6 +263,10 @@ export default function (event) {
       if (swiper.swipeDirection === 'prev') {
         swiper.slideTo(stopIndex);
       }
+    } else if (e.target === swiper.navigation.nextEl) {
+      swiper.slideTo(stopIndex + params.slidesPerGroup);
+    } else {
+      swiper.slideTo(stopIndex);
     }
   }
 }
