@@ -255,7 +255,8 @@ export default function (event) {
       swiper.slideTo(swiper.activeIndex);
       return;
     }
-    if (e.target.className !== 'swiper-button-next' && e.target.className !== 'swiper-button-prev') {
+    const isNavButtonTarget = swiper.navigation && (e.target === swiper.navigation.nextEl || e.target === swiper.navigation.prevEl);
+    if (!isNavButtonTarget) {
       if (swiper.swipeDirection === 'next') {
         swiper.slideTo(stopIndex + params.slidesPerGroup);
       }
