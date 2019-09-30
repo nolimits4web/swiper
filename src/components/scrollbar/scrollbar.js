@@ -95,9 +95,9 @@ const Scrollbar = {
   getPointerPosition(e) {
     const swiper = this;
     if (swiper.isHorizontal()) {
-      return ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].pageX : e.pageX || e.clientX);
+      return ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].clientX : e.clientX);
     }
-    return ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].pageY : e.pageY || e.clientY);
+    return ((e.type === 'touchstart' || e.type === 'touchmove') ? e.targetTouches[0].clientY : e.clientY);
   },
   setDragPosition(e) {
     const swiper = this;
