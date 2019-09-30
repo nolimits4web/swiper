@@ -27,7 +27,7 @@ function attachEvents() {
   const capture = !!params.nested;
 
   // Touch Events
-  if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+  if (!Support.touch && Support.pointerEvents) {
     el.addEventListener(touchEvents.start, swiper.onTouchStart, false);
     document.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
     document.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
@@ -69,7 +69,7 @@ function detachEvents() {
   const capture = !!params.nested;
 
   // Touch Events
-  if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+  if (!Support.touch && Support.pointerEvents) {
     el.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
     document.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
     document.removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
