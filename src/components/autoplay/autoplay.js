@@ -107,6 +107,7 @@ export default {
           }
           if (document.visibilityState === 'visible' && swiper.autoplay.paused) {
             swiper.autoplay.run();
+            swiper.autoplay.paused = false;
           }
         },
         onTransitionEnd(e) {
