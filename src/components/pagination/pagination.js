@@ -76,6 +76,7 @@ const Pagination = {
         });
       } else {
         const $bullet = bullets.eq(current);
+        const bulletIndex = $bullet.index();
         $bullet.addClass(params.bulletActiveClass);
         if (params.dynamicBullets) {
           const $firstDisplayedBullet = bullets.eq(firstIndex);
@@ -83,16 +84,21 @@ const Pagination = {
           for (let i = firstIndex; i <= lastIndex; i += 1) {
             bullets.eq(i).addClass(`${params.bulletActiveClass}-main`);
           }
-          $firstDisplayedBullet
-            .prev()
-            .addClass(`${params.bulletActiveClass}-prev`)
-            .prev()
-            .addClass(`${params.bulletActiveClass}-prev-prev`);
-          $lastDisplayedBullet
-            .next()
-            .addClass(`${params.bulletActiveClass}-next`)
-            .next()
-            .addClass(`${params.bulletActiveClass}-next-next`);
+          if (bulletIndex === (bullets.length - 1)) {
+            bullets.eq(bulletIndex - 1).removeClass(((params.bulletActiveClass) + "-prev")).addClass(((params.bulletActiveClass) + "-main"));
+            bullets.eq(bulletIndex - 2).removeClass(((params.bulletActiveClass) + "-prev-prev")).addClass(((params.bulletActiveClass) + "-prev"));
+          } else {
+            $firstDisplayedBullet
+              .prev()
+              .addClass(((params.bulletActiveClass) + "-prev"))
+              .prev()
+              .addClass(((params.bulletActiveClass) + "-prev-prev"));
+            $lastDisplayedBullet
+              .next()
+              .addClass(((params.bulletActiveClass) + "-next"))
+              .next()
+              .addClass(((params.bulletActiveClass) + "-next-next"));
+          }
         }
       }
       if (params.dynamicBullets) {
