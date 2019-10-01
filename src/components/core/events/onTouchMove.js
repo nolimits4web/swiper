@@ -100,7 +100,18 @@ export default function (event) {
   if (!data.startMoving) {
     return;
   }
-  swiper.allowClick = false;
+  var isPaginationBullet = false;
+  if (swiper.pagination.bullets) {
+    var bullets = swiper.pagination.bullets;
+    bullets.each(function (b){
+      if (bullets.eq(b)[0] === e.target) {
+        isPaginationBullet = true;
+      }
+    });
+  }
+  if (!isPaginationBullet) {
+    swiper.allowClick = false;
+  }
   if (!params.cssMode) {
     e.preventDefault();
   }
