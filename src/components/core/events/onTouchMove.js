@@ -102,7 +102,7 @@ export default function (event) {
     return;
   }
   if (swiper.pagination.bullets) {
-    swiper.pagination.bullets.each(function (b) {
+    swiper.pagination.bullets.each((b) => {
       if (swiper.pagination.bullets.eq(b)[0] === e.target) {
         isPaginationBullet = true;
       }
