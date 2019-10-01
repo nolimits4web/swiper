@@ -7,6 +7,7 @@ export default function (event) {
   const data = swiper.touchEventsData;
   const { params, touches, rtlTranslate: rtl } = swiper;
   let e = event;
+  let isPaginationBullet = false;
   if (e.originalEvent) e = e.originalEvent;
   if (!data.isTouched) {
     if (data.startMoving && data.isScrolling) {
@@ -100,11 +101,9 @@ export default function (event) {
   if (!data.startMoving) {
     return;
   }
-  var isPaginationBullet = false;
   if (swiper.pagination.bullets) {
-    var bullets = swiper.pagination.bullets;
-    bullets.each(function (b){
-      if (bullets.eq(b)[0] === e.target) {
+    swiper.pagination.bullets.each(function (b) {
+      if (swiper.pagination.bullets.eq(b)[0] === e.target) {
         isPaginationBullet = true;
       }
     });
