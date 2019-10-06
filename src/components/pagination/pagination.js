@@ -84,22 +84,22 @@ const Pagination = {
           for (let i = firstIndex; i <= lastIndex; i += 1) {
             bullets.eq(i).addClass(`${params.bulletActiveClass}-main`);
           }
-          if (bulletIndex >= bullets.length-params.dynamicMainBullets) {
-            for (let i = params.dynamicMainBullets; i >= 0; i--) {
-              bullets.eq(bullets.length - i).addClass(((params.bulletActiveClass) + "-main"));
+          if (bulletIndex >= bullets.length - params.dynamicMainBullets) {
+            for (let i = params.dynamicMainBullets; i >= 0; i -= 1) {
+              bullets.eq(bullets.length - i).addClass(`${params.bulletActiveClass}-main`);
             }
-            bullets.eq(bullets.length - (params.dynamicMainBullets+1)).addClass(((params.bulletActiveClass) + "-prev"));
+            bullets.eq(bullets.length - (params.dynamicMainBullets+1)).addClass(`${params.bulletActiveClass}-prev`);
           } else {
             $firstDisplayedBullet
               .prev()
-              .addClass(((params.bulletActiveClass) + "-prev"))
+              .addClass(`${params.bulletActiveClass}-prev`)
               .prev()
-              .addClass(((params.bulletActiveClass) + "-prev-prev"));
+              .addClass(`${params.bulletActiveClass}-prev-prev`);
             $lastDisplayedBullet
               .next()
-              .addClass(((params.bulletActiveClass) + "-next"))
+              .addClass(`${params.bulletActiveClass}-next`)
               .next()
-              .addClass(((params.bulletActiveClass) + "-next-next"));
+              .addClass(`${params.bulletActiveClass}-next-next`);
           }
         }
       }
