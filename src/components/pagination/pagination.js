@@ -84,9 +84,11 @@ const Pagination = {
           for (let i = firstIndex; i <= lastIndex; i += 1) {
             bullets.eq(i).addClass(`${params.bulletActiveClass}-main`);
           }
-          if (bulletIndex === (bullets.length - 1)) {
-            bullets.eq(bulletIndex - 1).removeClass(((params.bulletActiveClass) + "-prev")).addClass(((params.bulletActiveClass) + "-main"));
-            bullets.eq(bulletIndex - 2).removeClass(((params.bulletActiveClass) + "-prev-prev")).addClass(((params.bulletActiveClass) + "-prev"));
+          if (bulletIndex >= bullets.length-params.dynamicMainBullets) {
+            for (let i = params.dynamicMainBullets; i >= 0; i--) {
+              bullets.eq(bullets.length - i).addClass(((params.bulletActiveClass) + "-main"));
+            }
+            bullets.eq(bullets.length - (params.dynamicMainBullets+1)).addClass(((params.bulletActiveClass) + "-prev"));
           } else {
             $firstDisplayedBullet
               .prev()
