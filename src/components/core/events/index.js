@@ -9,6 +9,9 @@ import onResize from './onResize';
 import onClick from './onClick';
 import onScroll from './onScroll';
 
+let dummyEventAttached = false;
+function dummyEventListener() {}
+
 function attachEvents() {
   const swiper = this;
   const {
@@ -39,6 +42,10 @@ function attachEvents() {
       el.addEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
       if (touchEvents.cancel) {
         el.addEventListener(touchEvents.cancel, swiper.onTouchEnd, passiveListener);
+      }
+      if (!dummyEventAttached) {
+        document.addEventListener('touchstart', dummyEventListener);
+        dummyEventAttached = true;
       }
     }
     if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
