@@ -15,8 +15,9 @@ export default function (event) {
     return;
   }
   if (data.isTouchEvent && e.type === 'mousemove') return;
-  const pageX = e.type === 'touchmove' ? e.changedTouches[0].pageX : e.pageX;
-  const pageY = e.type === 'touchmove' ? e.changedTouches[0].pageY : e.pageY;
+  const targetTouch = e.type === 'touchmove' && e.targetTouches[0] && (e.targetTouches[0] || e.changedTouches[0]);
+  const pageX = e.type === 'touchmove' ? targetTouch.pageX : e.pageX;
+  const pageY = e.type === 'touchmove' ? targetTouch.pageY : e.pageY;
   if (e.preventedByNestedSwiper) {
     touches.startX = pageX;
     touches.startY = pageY;
