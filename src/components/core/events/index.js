@@ -40,7 +40,7 @@ function attachEvents() {
         target.addEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
         target.addEventListener(touchEvents.move, swiper.onTouchMove, Support.passiveListener ? { passive: false, capture } : capture);
         target.addEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
-        
+
         if (!dummyEventAttached) {
           document.addEventListener('touchstart', dummyEventListener);
           dummyEventAttached = true;
