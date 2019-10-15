@@ -8,6 +8,9 @@ import onTouchEnd from './onTouchEnd';
 import onResize from './onResize';
 import onClick from './onClick';
 
+let dummyEventAttached = false;
+function dummyEventListener() {}
+
 function attachEvents() {
   const swiper = this;
   const {
@@ -37,6 +40,11 @@ function attachEvents() {
         target.addEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
         target.addEventListener(touchEvents.move, swiper.onTouchMove, Support.passiveListener ? { passive: false, capture } : capture);
         target.addEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
+        
+        if (!dummyEventAttached) {
+          document.addEventListener('touchstart', dummyEventListener);
+          dummyEventAttached = true;
+        }
       }
       if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
         target.addEventListener('mousedown', swiper.onTouchStart, false);
