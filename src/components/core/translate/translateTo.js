@@ -35,21 +35,21 @@ export default function (coordinate = 0, speed = this.params.speed, runCallbacks
     }
     if (!swiper.animating) {
       swiper.animating = true;
-      if (!swiper.onScrollToWrapperTransitionEnd) {
-        swiper.onScrollToWrapperTransitionEnd = function transitionEnd(e) {
+      if (!swiper.onTranslateToWrapperTransitionEnd) {
+        swiper.onTranslateToWrapperTransitionEnd = function transitionEnd(e) {
           if (!swiper || swiper.destroyed) return;
           if (e.target !== this) return;
-          swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.onScrollToWrapperTransitionEnd);
-          swiper.$wrapperEl[0].removeEventListener('webkitTransitionEnd', swiper.onScrollToWrapperTransitionEnd);
-          swiper.onScrollToWrapperTransitionEnd = null;
-          delete swiper.onScrollToWrapperTransitionEnd;
+          swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.onTranslateToWrapperTransitionEnd);
+          swiper.$wrapperEl[0].removeEventListener('webkitTransitionEnd', swiper.onTranslateToWrapperTransitionEnd);
+          swiper.onTranslateToWrapperTransitionEnd = null;
+          delete swiper.onTranslateToWrapperTransitionEnd;
           if (runCallbacks) {
             swiper.emit('transitionEnd');
           }
         };
       }
-      swiper.$wrapperEl[0].addEventListener('transitionend', swiper.onScrollToWrapperTransitionEnd);
-      swiper.$wrapperEl[0].addEventListener('webkitTransitionEnd', swiper.onScrollToWrapperTransitionEnd);
+      swiper.$wrapperEl[0].addEventListener('transitionend', swiper.onTranslateToWrapperTransitionEnd);
+      swiper.$wrapperEl[0].addEventListener('webkitTransitionEnd', swiper.onTranslateToWrapperTransitionEnd);
     }
   }
 
