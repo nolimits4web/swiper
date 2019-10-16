@@ -255,6 +255,20 @@ export default function () {
     } else slides.filter(slidesForMargin).css({ marginBottom: `${spaceBetween}px` });
   }
 
+  if (params.centeredSlides && params.centeredSlidesBounds) {
+    let allSlidesSize = 0;
+    slidesSizesGrid.forEach((slideSizeValue) => {
+      allSlidesSize += slideSizeValue + (params.spaceBetween ? params.spaceBetween : 0);
+    });
+    allSlidesSize -= params.spaceBetween;
+    const maxSnap = allSlidesSize - swiperSize;
+    snapGrid = snapGrid.map((snap) => {
+      if (snap < 0) return -offsetBefore;
+      if (snap > maxSnap) return maxSnap + offsetAfter;
+      return snap;
+    });
+  }
+
   if (params.centerInsufficientSlides) {
     let allSlidesSize = 0;
     slidesSizesGrid.forEach((slideSizeValue) => {
