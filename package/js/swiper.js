@@ -1,5 +1,5 @@
 /**
- * Swiper 5.0.4
+ * Swiper 5.1.0
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: September 30, 2019
+ * Released on: October 16, 2019
  */
 
 (function (global, factory) {
@@ -1894,11 +1894,90 @@
     return (-this.snapGrid[this.snapGrid.length - 1]);
   }
 
+  function translateTo (translate, speed, runCallbacks, translateBounds, internal) {
+    var obj;
+
+    if ( translate === void 0 ) translate = 0;
+    if ( speed === void 0 ) speed = this.params.speed;
+    if ( runCallbacks === void 0 ) runCallbacks = true;
+    if ( translateBounds === void 0 ) translateBounds = true;
+    var swiper = this;
+
+    var params = swiper.params;
+    var wrapperEl = swiper.wrapperEl;
+
+    if (swiper.animating && params.preventInteractionOnTransition) {
+      return false;
+    }
+
+    var minTranslate = swiper.minTranslate();
+    var maxTranslate = swiper.maxTranslate();
+    var newTranslate;
+    if (translateBounds && translate > minTranslate) { newTranslate = minTranslate; }
+    else if (translateBounds && translate < maxTranslate) { newTranslate = maxTranslate; }
+    else { newTranslate = translate; }
+
+    // Update progress
+    swiper.updateProgress(newTranslate);
+
+    if (params.cssMode) {
+      var isH = swiper.isHorizontal();
+      if (speed === 0) {
+        wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = -newTranslate;
+      } else {
+        // eslint-disable-next-line
+        if (wrapperEl.scrollTo) {
+          wrapperEl.scrollTo(( obj = {}, obj[isH ? 'left' : 'top'] = -newTranslate, obj.behavior = 'smooth', obj ));
+        } else {
+          wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = -newTranslate;
+        }
+      }
+      return true;
+    }
+
+    if (speed === 0) {
+      swiper.setTransition(0);
+      swiper.setTranslate(newTranslate);
+      if (runCallbacks) {
+        swiper.emit('beforeTransitionStart', speed, internal);
+        swiper.emit('transitionEnd');
+      }
+    } else {
+      swiper.setTransition(speed);
+      swiper.setTranslate(newTranslate);
+      if (runCallbacks) {
+        swiper.emit('beforeTransitionStart', speed, internal);
+        swiper.emit('transitionStart');
+      }
+      if (!swiper.animating) {
+        swiper.animating = true;
+        if (!swiper.onTranslateToWrapperTransitionEnd) {
+          swiper.onTranslateToWrapperTransitionEnd = function transitionEnd(e) {
+            if (!swiper || swiper.destroyed) { return; }
+            if (e.target !== this) { return; }
+            swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.onTranslateToWrapperTransitionEnd);
+            swiper.$wrapperEl[0].removeEventListener('webkitTransitionEnd', swiper.onTranslateToWrapperTransitionEnd);
+            swiper.onTranslateToWrapperTransitionEnd = null;
+            delete swiper.onTranslateToWrapperTransitionEnd;
+            if (runCallbacks) {
+              swiper.emit('transitionEnd');
+            }
+          };
+        }
+        swiper.$wrapperEl[0].addEventListener('transitionend', swiper.onTranslateToWrapperTransitionEnd);
+        swiper.$wrapperEl[0].addEventListener('webkitTransitionEnd', swiper.onTranslateToWrapperTransitionEnd);
+      }
+    }
+
+    return true;
+  }
+
   var translate = {
     getTranslate: getTranslate,
     setTranslate: setTranslate,
     minTranslate: minTranslate,
     maxTranslate: maxTranslate,
+    translateTo: translateTo,
   };
 
   function setTransition (duration, byController) {
@@ -2764,8 +2843,9 @@
       return;
     }
     if (data.isTouchEvent && e.type === 'mousemove') { return; }
-    var pageX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
-    var pageY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY;
+    var targetTouch = e.type === 'touchmove' && e.targetTouches && (e.targetTouches[0] || e.changedTouches[0]);
+    var pageX = e.type === 'touchmove' ? targetTouch.pageX : e.pageX;
+    var pageY = e.type === 'touchmove' ? targetTouch.pageY : e.pageY;
     if (e.preventedByNestedSwiper) {
       touches.startX = pageX;
       touches.startY = pageY;
@@ -3318,6 +3398,9 @@
     swiper.emit('setTranslate', swiper.translate, false);
   }
 
+  var dummyEventAttached = false;
+  function dummyEventListener() {}
+
   function attachEvents() {
     var swiper = this;
     var params = swiper.params;
@@ -3349,6 +3432,10 @@
         el.addEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
         if (touchEvents.cancel) {
           el.addEventListener(touchEvents.cancel, swiper.onTouchEnd, passiveListener);
+        }
+        if (!dummyEventAttached) {
+          doc.addEventListener('touchstart', dummyEventListener);
+          dummyEventAttached = true;
         }
       }
       if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
@@ -5310,6 +5397,7 @@
           });
         } else {
           var $bullet = bullets.eq(current);
+          var bulletIndex = $bullet.index();
           $bullet.addClass(params.bulletActiveClass);
           if (params.dynamicBullets) {
             var $firstDisplayedBullet = bullets.eq(firstIndex);
@@ -5317,16 +5405,36 @@
             for (var i = firstIndex; i <= lastIndex; i += 1) {
               bullets.eq(i).addClass(((params.bulletActiveClass) + "-main"));
             }
-            $firstDisplayedBullet
-              .prev()
-              .addClass(((params.bulletActiveClass) + "-prev"))
-              .prev()
-              .addClass(((params.bulletActiveClass) + "-prev-prev"));
-            $lastDisplayedBullet
-              .next()
-              .addClass(((params.bulletActiveClass) + "-next"))
-              .next()
-              .addClass(((params.bulletActiveClass) + "-next-next"));
+            if (swiper.params.loop) {
+              if (bulletIndex >= bullets.length - params.dynamicMainBullets) {
+                for (var i$1 = params.dynamicMainBullets; i$1 >= 0; i$1 -= 1) {
+                  bullets.eq(bullets.length - i$1).addClass(((params.bulletActiveClass) + "-main"));
+                }
+                bullets.eq(bullets.length - params.dynamicMainBullets - 1).addClass(((params.bulletActiveClass) + "-prev"));
+              } else {
+                $firstDisplayedBullet
+                  .prev()
+                  .addClass(((params.bulletActiveClass) + "-prev"))
+                  .prev()
+                  .addClass(((params.bulletActiveClass) + "-prev-prev"));
+                $lastDisplayedBullet
+                  .next()
+                  .addClass(((params.bulletActiveClass) + "-next"))
+                  .next()
+                  .addClass(((params.bulletActiveClass) + "-next-next"));
+              }
+            } else {
+              $firstDisplayedBullet
+                .prev()
+                .addClass(((params.bulletActiveClass) + "-prev"))
+                .prev()
+                .addClass(((params.bulletActiveClass) + "-prev-prev"));
+              $lastDisplayedBullet
+                .next()
+                .addClass(((params.bulletActiveClass) + "-next"))
+                .next()
+                .addClass(((params.bulletActiveClass) + "-next-next"));
+            }
           }
         }
         if (params.dynamicBullets) {
@@ -6426,7 +6534,7 @@
         swiper.$wrapperEl.on('gestureend', '.swiper-slide', zoom.onGestureEnd, passiveListener);
       } else if (swiper.touchEvents.start === 'touchstart') {
         swiper.$wrapperEl.on(swiper.touchEvents.start, '.swiper-slide', zoom.onGestureStart, passiveListener);
-        swiper.$wrapperEl.on(swiper.touchEvents.move, '.swiper-slide', zoom.onGestureChange, passiveListener);
+        swiper.$wrapperEl.on(swiper.touchEvents.move, '.swiper-slide', zoom.onGestureChange, activeListenerWithCapture);
         swiper.$wrapperEl.on(swiper.touchEvents.end, '.swiper-slide', zoom.onGestureEnd, passiveListener);
         if (swiper.touchEvents.cancel) {
           swiper.$wrapperEl.on(swiper.touchEvents.cancel, '.swiper-slide', zoom.onGestureEnd, passiveListener);
@@ -6453,7 +6561,7 @@
         swiper.$wrapperEl.off('gestureend', '.swiper-slide', zoom.onGestureEnd, passiveListener);
       } else if (swiper.touchEvents.start === 'touchstart') {
         swiper.$wrapperEl.off(swiper.touchEvents.start, '.swiper-slide', zoom.onGestureStart, passiveListener);
-        swiper.$wrapperEl.off(swiper.touchEvents.move, '.swiper-slide', zoom.onGestureChange, passiveListener);
+        swiper.$wrapperEl.off(swiper.touchEvents.move, '.swiper-slide', zoom.onGestureChange, activeListenerWithCapture);
         swiper.$wrapperEl.off(swiper.touchEvents.end, '.swiper-slide', zoom.onGestureEnd, passiveListener);
         if (swiper.touchEvents.cancel) {
           swiper.$wrapperEl.off(swiper.touchEvents.cancel, '.swiper-slide', zoom.onGestureEnd, passiveListener);

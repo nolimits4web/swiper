@@ -1,5 +1,15 @@
 # Change Log
 
+## [Swiper 5.1.0](https://github.com/nolimits4web/swiper/compare/v5.0.4...v5.1.0) - Released on October 16, 2019
+  * Core
+    * Fixed issues with touch on iOS 13
+    * New `translateTo` method #3268
+  * Pagination
+    * Improved dynamic bullets behavior when `loop: true` #3255
+  * Zoom
+    * Fixed issue with pinch to zoom on Android
+  * Minor fixes
+
 ## [Swiper 5.0.4](https://github.com/nolimits4web/swiper/compare/v5.0.3...v5.0.4) - Released on September 30, 2019
   * Core
     * Now on short swipes over navigation buttons, it will treat it like nav button click (#3237 by @robpop)
