@@ -1,5 +1,5 @@
 /**
- * Swiper 4.5.2
+ * Swiper 4.5.3
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -1584,10 +1584,12 @@
   }
 
   function updateSlidesProgress (translate) {
-    if ( translate === void 0 ) translate = (this && this.translate) || 0;
-
     var swiper = this;
     var params = swiper.params;
+    if (typeof translate === 'undefined') {
+      // eslint-disable-next-line
+      translate = (swiper && swiper.translate) || 0;
+    }
 
     var slides = swiper.slides;
     var rtl = swiper.rtlTranslate;
@@ -1627,10 +1629,14 @@
   }
 
   function updateProgress (translate) {
-    if ( translate === void 0 ) translate = (this && this.translate && (this.translate * (this.rtlTranslate ? -1 : 1))) || 0;
-
     var swiper = this;
     var params = swiper.params;
+
+    if (typeof translate === 'undefined') {
+      var multiplier = swiper.rtlTranslate ? -1 : 1;
+      // eslint-disable-next-line
+      translate = (swiper && swiper.translate && (swiper.translate * multiplier)) || 0;
+    }
 
     var translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
     var progress = swiper.progress;

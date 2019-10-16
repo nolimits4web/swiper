@@ -1,5 +1,5 @@
 /**
- * Swiper 4.5.2
+ * Swiper 4.5.3
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://www.idangero.us/swiper/
  *
@@ -765,9 +765,13 @@ function updateSlidesOffset () {
   }
 }
 
-function updateSlidesProgress (translate = (this && this.translate) || 0) {
+function updateSlidesProgress (translate) {
   const swiper = this;
   const params = swiper.params;
+  if (typeof translate === 'undefined') {
+    // eslint-disable-next-line
+    translate = (swiper && swiper.translate) || 0;
+  }
 
   const { slides, rtlTranslate: rtl } = swiper;
 
@@ -805,9 +809,15 @@ function updateSlidesProgress (translate = (this && this.translate) || 0) {
   swiper.visibleSlides = $(swiper.visibleSlides);
 }
 
-function (translate = (this && this.translate && (this.translate * updateProgress (this.rtlTranslate ? -1 : 1))) || 0) {
+function updateProgress (translate) {
   const swiper = this;
   const params = swiper.params;
+
+  if (typeof translate === 'undefined') {
+    const multiplier = swiper.rtlTranslate ? -1 : 1;
+    // eslint-disable-next-line
+    translate = (swiper && swiper.translate && (swiper.translate * multiplier)) || 0;
+  }
 
   const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
   let { progress, isBeginning, isEnd } = swiper;

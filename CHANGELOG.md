@@ -1,5 +1,8 @@
 # Change Log
 
+## [Swiper 4.5.3](https://github.com/nolimits4web/swiper/compare/v4.5.2...v4.5.3) - Released on October 16, 2019
+  * Fixed babel compilation error
+
 ## [Swiper 4.5.2](https://github.com/nolimits4web/swiper/compare/v4.5.1...v4.5.2) - Released on October 16, 2019
   * Core
     * Fixed issue with touch on iOS 13
