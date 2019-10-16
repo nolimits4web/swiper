@@ -1,4 +1,4 @@
-export default function (coordinate = 0, speed = this.params.speed, runCallbacks = true, translateBounds = true, internal) {
+export default function (translate = 0, speed = this.params.speed, runCallbacks = true, translateBounds = true, internal) {
   const swiper = this;
 
   const {
@@ -11,10 +11,8 @@ export default function (coordinate = 0, speed = this.params.speed, runCallbacks
 
   const minTranslate = swiper.minTranslate();
   const maxTranslate = swiper.maxTranslate();
-  let translate;
-  if (translateBounds && coordinate > minTranslate) translate = minTranslate;
-  else if (translateBounds && coordinate < maxTranslate) translate = maxTranslate;
-  else translate = coordinate;
+  if (translateBounds && translate > minTranslate) translate = minTranslate;
+  else if (translateBounds && translate < maxTranslate) translate = maxTranslate;
 
   // Update progress
   swiper.updateProgress(translate);
