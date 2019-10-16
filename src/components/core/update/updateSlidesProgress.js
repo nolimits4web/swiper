@@ -1,8 +1,12 @@
 import $ from '../../../utils/dom';
 
-export default function (translate = (this && this.translate) || 0) {
+export default function (translate) {
   const swiper = this;
   const params = swiper.params;
+  if (typeof translate === 'undefined') {
+    // eslint-disable-next-line
+    translate = (swiper && swiper.translate) || 0;
+  }
 
   const { slides, rtlTranslate: rtl } = swiper;
 
