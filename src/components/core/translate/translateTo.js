@@ -11,22 +11,24 @@ export default function (translate = 0, speed = this.params.speed, runCallbacks 
 
   const minTranslate = swiper.minTranslate();
   const maxTranslate = swiper.maxTranslate();
-  if (translateBounds && translate > minTranslate) translate = minTranslate;
-  else if (translateBounds && translate < maxTranslate) translate = maxTranslate;
+  let newTranslate;
+  if (translateBounds && translate > minTranslate) newTranslate = minTranslate;
+  else if (translateBounds && translate < maxTranslate) newTranslate = maxTranslate;
+  else newTranslate = translate;
 
   // Update progress
-  swiper.updateProgress(translate);
+  swiper.updateProgress(newTranslate);
 
   if (speed === 0) {
     swiper.setTransition(0);
-    swiper.setTranslate(translate);
+    swiper.setTranslate(newTranslate);
     if (runCallbacks) {
       swiper.emit('beforeTransitionStart', speed, internal);
       swiper.emit('transitionEnd');
     }
   } else {
     swiper.setTransition(speed);
-    swiper.setTranslate(translate);
+    swiper.setTranslate(newTranslate);
     if (runCallbacks) {
       swiper.emit('beforeTransitionStart', speed, internal);
       swiper.emit('transitionStart');
