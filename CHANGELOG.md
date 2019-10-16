@@ -1,5 +1,9 @@
 # Change Log
 
+## [Swiper 4.5.2](https://github.com/nolimits4web/swiper/compare/v4.5.1...v4.5.2) - Released on October 16, 2019
+  * Core
+    * Fixed issue with touch on iOS 13
+
 ## [Swiper 4.5.1](https://github.com/nolimits4web/swiper/compare/v4.5.0...v4.5.1) - Released on September 13, 2019
   * Core
     * Fixed issue when callbacks fires on init even if it disabled (#2807)
