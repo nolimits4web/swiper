@@ -3,6 +3,7 @@ export default function (translate = 0, speed = this.params.speed, runCallbacks 
 
   const {
     params,
+    wrapperEl,
   } = swiper;
 
   if (swiper.animating && params.preventInteractionOnTransition) {
@@ -18,6 +19,24 @@ export default function (translate = 0, speed = this.params.speed, runCallbacks 
 
   // Update progress
   swiper.updateProgress(newTranslate);
+
+  if (params.cssMode) {
+    const isH = swiper.isHorizontal();
+    if (speed === 0) {
+      wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = -newTranslate;
+    } else {
+      // eslint-disable-next-line
+      if (wrapperEl.scrollTo) {
+        wrapperEl.scrollTo({
+          [isH ? 'left' : 'top']: -newTranslate,
+          behavior: 'smooth',
+        });
+      } else {
+        wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = -newTranslate;
+      }
+    }
+    return true;
+  }
 
   if (speed === 0) {
     swiper.setTransition(0);
