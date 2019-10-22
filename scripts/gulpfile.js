@@ -32,7 +32,37 @@ gulp.task('styles', (cb) => {
   buildStyles(cb);
 });
 
-gulp.task('build', gulp.series(['js', 'styles']));
+
+// in prod builds, copy /src folder into /package
+gulp.task('prod-source-copy', (cb) => {
+  const env = process.env.NODE_ENV || 'development';
+  if (env === 'production') {
+    gulp.src(['./src/**/*']).pipe(gulp.dest('./package/src/'));
+  }
+  if (cb) cb();
+});
+
+// in prod builds, adjust sourcemap paths to actual src location
+gulp.task('prod-source-sourcemap-fix-paths', (cb) => {
+  const env = process.env.NODE_ENV || 'development';
+  if (env === 'production') {
+    const jsDir = path.resolve(__dirname, '../package/js/');
+    const mapFiles = fs
+      .readdirSync(jsDir)
+      .filter((file) => file.toLowerCase().endsWith('.map'));
+    mapFiles.forEach((mapFile) => {
+      const mapFilePath = path.resolve(jsDir, mapFile);
+      let content = fs.readFileSync(mapFilePath, 'utf8');
+      content = content
+        .replace(/"\.\.\/\.\.\//g, '"../')
+        .replace(/"\.\.\/node_modules\//g, '"~/');
+      fs.writeFileSync(mapFilePath, content);
+    });
+  }
+  if (cb) cb();
+});
+
+gulp.task('build', gulp.series(['js', 'styles', 'prod-source-copy', 'prod-source-sourcemap-fix-paths']));
 
 gulp.task('watch', () => {
   gulp.watch('./src/**/**/*.js', gulp.series('js'));
