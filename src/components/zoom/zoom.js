@@ -11,7 +11,7 @@ const Zoom = {
     const y1 = e.targetTouches[0].pageY;
     const x2 = e.targetTouches[1].pageX;
     const y2 = e.targetTouches[1].pageY;
-    const distance = Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2));
+    const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     return distance;
   },
   // Events
