@@ -64,7 +64,25 @@ function es(components, cb) {
     sourcemapFile: `./${env === 'development' ? 'build' : 'package'}/js/swiper.esm.browser.bundle.js.map`,
     banner,
     file: `./${env === 'development' ? 'build' : 'package'}/js/swiper.esm.browser.bundle.js`,
-  })).then(() => {
+  })).then((bundle) => {
+    if (env === 'development') {
+      if (cb) cb();
+      return;
+    }
+    const result = bundle.output[0];
+    const minified = Terser.minify(result.code, {
+      sourceMap: {
+        content: env === 'development' ? result.map : undefined,
+        filename: env === 'development' ? undefined : 'swiper.esm.browser.bundle.min.js',
+        url: 'swiper.esm.browser.bundle.min.js.map',
+      },
+      output: {
+        preamble: banner,
+      },
+    });
+
+    fs.writeFileSync('./package/js/swiper.esm.browser.bundle.min.js', minified.code);
+    fs.writeFileSync('./package/js/swiper.esm.browser.bundle.min.js.map', minified.map);
     if (cb) cb();
   }).catch((err) => {
     if (cb) cb();
