@@ -1,5 +1,19 @@
 # Change Log
 
+## [Swiper 5.2.0](https://github.com/nolimits4web/swiper/compare/v5.1.0...v5.2.0) - Released on October 26, 2019
+  * Core
+    * New `centeredSlidesBounds` parameter that when enabled will keep first and last slides at bounds
+    * Fixed issue when `freeMode` could break position on resize (#2708, #3303)
+    * Fixed transitin duration issue with `freeModeSticky` (#3302)
+    * Fixed issue with wrong row/column if not full groups (#3294)
+    * Fixed issue when `watchOverflow` and `slidesOffsetBefore`/`slidesOffsetAfter` couldn't work together (#3291)
+  * Mousewheel
+    * Faster & smoother mousewheel inertial scrolling (#3304)
+  * Package
+    * Added source maps to package builds (#3306)
+    * Added minified version of browser.esm.bundle
+  * Minor fixes
+
 ## [Swiper 5.1.0](https://github.com/nolimits4web/swiper/compare/v5.0.4...v5.1.0) - Released on October 16, 2019
   * Core
     * Fixed issues with touch on iOS 13
