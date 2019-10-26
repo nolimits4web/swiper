@@ -164,6 +164,24 @@ export default function (event) {
         } else {
           momentumDuration = Math.abs((newPosition - swiper.translate) / swiper.velocity);
         }
+        if (params.freeModeSticky) {
+          // If freeModeSticky is active and the user ends a swipe with a slow-velocity
+          // event, then durations can be 20+ seconds to slide one (or zero!) slides.
+          // It's easy to see this when simulating touch with mouse events. To fix this,
+          // limit single-slide swipes to the default slide duration. This also has the
+          // nice side effect of matching slide speed if the user stopped moving before
+          // lifting finger or mouse vs. moving slowly before lifting the finger/mouse.
+          // For faster swipes, also apply limits (albeit higher ones).
+          const moveDistance = Math.abs((rtl ? -newPosition : newPosition) - swiper.translate);
+          const currentSlideSize = swiper.slidesSizesGrid[swiper.activeIndex];
+          if (moveDistance < currentSlideSize) {
+            momentumDuration = params.speed;
+          } else if (moveDistance < 2 * currentSlideSize) {
+            momentumDuration = params.speed * 1.5;
+          } else {
+            momentumDuration = params.speed * 2.5;
+          }
+        }
       } else if (params.freeModeSticky) {
         swiper.slideToClosest();
         return;
