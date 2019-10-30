@@ -27,17 +27,30 @@ const Navigation = {
       $nextEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
     }
   },
+
   onPrevClick(e) {
     const swiper = this;
     e.preventDefault();
     if (swiper.isBeginning && !swiper.params.loop) return;
-    swiper.slidePrev();
+    if (swiper.params.navigation.navByPage) {
+        for(let i = 0; i<swiper.params.slidesPerView; ++i) {
+            swiper.slidePrev();
+        }
+    } else {
+        swiper.slidePrev();
+    }
   },
   onNextClick(e) {
     const swiper = this;
     e.preventDefault();
     if (swiper.isEnd && !swiper.params.loop) return;
-    swiper.slideNext();
+    if (swiper.params.navigation.navByPage) {
+        for(let i = 0; i<swiper.params.slidesPerView; ++i) {
+            swiper.slideNext();
+        }
+    } else {
+        swiper.slideNext();
+    }
   },
   init() {
     const swiper = this;
