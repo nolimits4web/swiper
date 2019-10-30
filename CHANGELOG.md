@@ -1,6 +1,92 @@
 # Change Log
 
-## [Swiper 4.5.0](https://github.com/nolimits4web/swiper/compare/v4.5.0...v4.5.0) - Released on February 22, 2019
+## [Swiper 5.2.0](https://github.com/nolimits4web/swiper/compare/v5.1.0...v5.2.0) - Released on October 26, 2019
+  * Core
+    * New `centeredSlidesBounds` parameter that when enabled will keep first and last slides at bounds
+    * Fixed issue when `freeMode` could break position on resize (#2708, #3303)
+    * Fixed transitin duration issue with `freeModeSticky` (#3302)
+    * Fixed issue with wrong row/column if not full groups (#3294)
+    * Fixed issue when `watchOverflow` and `slidesOffsetBefore`/`slidesOffsetAfter` couldn't work together (#3291)
+  * Mousewheel
+    * Faster & smoother mousewheel inertial scrolling (#3304)
+  * Package
+    * Added source maps to package builds (#3306)
+    * Added minified version of browser.esm.bundle
+  * Minor fixes
+
+## [Swiper 5.1.0](https://github.com/nolimits4web/swiper/compare/v5.0.4...v5.1.0) - Released on October 16, 2019
+  * Core
+    * Fixed issues with touch on iOS 13
+    * New `translateTo` method #3268
+  * Pagination
+    * Improved dynamic bullets behavior when `loop: true` #3255
+  * Zoom
+    * Fixed issue with pinch to zoom on Android
+  * Minor fixes
+
+## [Swiper 5.0.4](https://github.com/nolimits4web/swiper/compare/v5.0.3...v5.0.4) - Released on September 30, 2019
+  * Core
+    * Now on short swipes over navigation buttons, it will treat it like nav button click (#3237 by @robpop)
+    * Fixed issue when passing float `slidesPerView` could break loop mode (#3225 by @robpop)
+  * Scrollbar
+    * Fixed issue with wrong "pointer" position calculation on scroll bar tap
+  * Autoplay
+    * Fixed issue when it was `paused` after returning from hidden tab
+  * Minor fixes
+
+## [Swiper 5.0.3](https://github.com/nolimits4web/swiper/compare/v5.0.2...v5.0.3) - Released on September 19, 2019
+  * Core
+    * `touchEventsTarget` defaults back to `container`
+    * Added handling of `touchcancel` event #3219
+    * Fixed issue with wrong order calculation in `slidesPerColumnFill: 'row'` mode
+    * Fixed issue with slides missplacing when prepending slides in virutal mode
+    * Fixed issue when zoomed image still swiped to another slide on mobiles
+
+## [Swiper 5.0.1](https://github.com/nolimits4web/swiper/compare/v5.0.0...v5.0.1) - Released on September 17, 2019
+  * Core
+    * Fixed typo in code
+
+## [Swiper 5.0.0](https://github.com/nolimits4web/swiper/compare/v4.5.1...v5.0.0) - Released on September 17, 2019
+  * Core
+    * All new CSS Scroll Snap mode (can be enabled with `cssMode: true`). It doesn't support all of Swiper's features, but potentially should bring a much better performance in simple configurations
+    * Fully removed Internet Explorer support
+    * `breakpointsInverse` parameter has been removed and now `breakpoints` behave like with `breakpointsInverse: true` before.
+    * `touchMoveStopPropagation` parameter now defaults to `false`
+    * `click` event won't be fired with 300ms delay anymore. Now it will be fired at the same time as `tap` event
+    * When `slidesPerColumnFill: 'column'` it now uses `flex-direction: column` layout which requires specified height on swiper-container
+    * `touchEventsTarget` now defaults to `wrapper` (rather than `container` like before)
+    * `slidesPerColumn` now can be used with breakpoints
+    * Now Swiper styles use CSS Custom Properties (CSS Custom Variables) to specify swiper's color theme (color of navigation buttons/pagination). It is now `--swiper-theme-color: #007aff;`
+    * Improved `es` module "tree-shake-ability"
+    * New `swiper.esm.browser.bundle.js` package that can be used directly in browser (`import Swiper from 'swiper.esm.browser.bundle.js'`)
+  * Autoplay
+    * Now it will be paused when document becomes hidden (in not active tab) and continued again when document becomes visible
+  * Lazy
+    * Swiper preloader image replaced with a little bit simpler loader. Now its color can be changed with `--swiper-preloader-color` CSS custom property (which is defaults to `--swiper-theme-color`)
+  * Pagination
+    * Active pagination bullets and pagination theme colors now use CSS Custom Properties. It can be defined with `--swiper-pagination-color` property (which is defaults to `--swiper-theme-color`)
+  * Navigation
+    * Navigation icons reworked with built-in (base64) icon font. It allows to apply any color and size without replacing image
+    * Navigation buttons colors now use CSS Custom Properties. It can be defined with `--swiper-navigation-color` property (which is defaults to `--swiper-theme-color`)
+    * With `--swiper-navigation-size` (defaults to `44px`) it is now possible to change size of the navigation buttons (and icons)
+  * Minor fixes and improvements
+
+## [Swiper 4.5.1](https://github.com/nolimits4web/swiper/compare/v4.5.0...v4.5.1) - Released on September 13, 2019
+  * Core
+    * Fixed issue when callbacks fires on init even if it disabled (#2807)
+    * Fixed issue when "swiper-slide-visible" class name in some situations shows up when it shouldn't
+    * `slidesPerColumFill: 'row'` now considers groups (#3077)
+  * Thumbs
+    * Fixes bug 'Cannot read property `indexOf` of undefined' that sometimes occurs on use of thumbnails
+  * Keyboard
+    * Added `PageUp`/`PageDown` keybindings.
+  * Autoplay
+    * Fixed issue when window resize stopped autoplay
+  * Parallax
+    * Fixed issue when parallax opacity didn't work (#3147)
+  * Minor fixes and improvements
+
+## [Swiper 4.5.0](https://github.com/nolimits4web/swiper/compare/v4.4.5...v4.5.0) - Released on February 22, 2019
   * Core
     * New `swiper.changeDirection()` method to change direction from horizontal to vertical (and back) dynamically
     * `direction` parameter can be used in breakpoints

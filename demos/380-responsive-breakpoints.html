@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
   <!-- Link Swiper's CSS -->
-  <link rel="stylesheet" href="../dist/css/swiper.min.css">
+  <link rel="stylesheet" href="../package/css/swiper.min.css">
 
   <!-- Demo styles -->
   <style>
@@ -67,35 +67,31 @@
   </div>
 
   <!-- Swiper JS -->
-  <script src="../dist/js/swiper.min.js"></script>
+  <script src="../package/js/swiper.min.js"></script>
 
   <!-- Initialize Swiper -->
   <script>
     var swiper = new Swiper('.swiper-container', {
-      slidesPerView: 5,
-      spaceBetween: 50,
+      slidesPerView: 1,
+      spaceBetween: 10,
       // init: false,
       pagination: {
         el: '.swiper-pagination',
         clickable: true,
       },
       breakpoints: {
-        1024: {
-          slidesPerView: 4,
-          spaceBetween: 40,
-        },
-        768: {
-          slidesPerView: 3,
-          spaceBetween: 30,
-        },
         640: {
           slidesPerView: 2,
           spaceBetween: 20,
         },
-        320: {
-          slidesPerView: 1,
-          spaceBetween: 10,
-        }
+        768: {
+          slidesPerView: 4,
+          spaceBetween: 40,
+        },
+        1024: {
+          slidesPerView: 5,
+          spaceBetween: 50,
+        },
       }
     });
   </script>

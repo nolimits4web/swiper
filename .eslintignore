@@ -3,5 +3,5 @@ build
 playground
 node_modules
 dist
-package.js
+package
 src/swiper.js

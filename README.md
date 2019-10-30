@@ -8,19 +8,18 @@ Swiper
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/nolimits4web/Swiper.svg)](https://greenkeeper.io/)
 
-Swiper - is the free and most modern mobile touch slider with hardware accelerated transitions and amazing native behavior. It is intended to be used in mobile websites, mobile web apps, and mobile native/hybrid apps. Designed mostly for iOS, but also works great on latest Android, Windows Phone 8 and modern Desktop browsers.
+Swiper - is the free and most modern mobile touch slider with hardware accelerated transitions and amazing native behavior. It is intended to be used in mobile websites, mobile web apps, and mobile native/hybrid apps.
 
 Swiper is not compatible with all platforms, it is a modern touch slider which is focused only on modern apps/platforms to bring the best experience and simplicity.
 
 # Getting Started
-  * [Getting Started Guide](http://www.idangero.us/swiper/get-started/)
-  * [API](http://www.idangero.us/swiper/api/)
-  * [Demos](http://www.idangero.us/swiper/demos/)
-  * [Forum](http://www.idangero.us/swiper/forum/)
+  * [Getting Started Guide](https://swiperjs.com/get-started/)
+  * [API](https://swiperjs.com/api/)
+  * [Demos](https://swiperjs.com/demos/)
 
 # Dist / Build
 
-On production use files (JS and CSS) only from `dist/` folder, there will be the most stable versions, `build/` folder is only for development purpose.
+On production use files (JS and CSS) only from `package/` folder, there will be the most stable versions, `build/` folder is only for development purpose.
 
 ### Development Build
 
@@ -51,11 +50,19 @@ The result is available in `build/` folder.
 $ npm run build:prod
 ```
 
-Production version will available in `dist/` folder.
+Production version will available in `package/` folder.
 
 # Contributing
 
 All changes should be committed to `src/` files only. Before you open an issue please review the [contributing](https://github.com/nolimits4web/Swiper/blob/master/CONTRIBUTING.md) guideline.
+
+Swiper 4.x
+==========
+
+If you are still using Swiper 4.x.x, you may find it in [Swiper4 Branch](https://github.com/nolimits4web/Swiper/tree/Swiper4)
+* [Download Latest Swiper 4.5.1](https://github.com/nolimits4web/Swiper/archive/v4.5.1.zip)
+* [Source Files](https://github.com/nolimits4web/Swiper/tree/Swiper4/src)
+* [API](https://github.com/nolimits4web/Swiper/blob/Swiper4/API.md)
 
 Swiper 3.x
 ==========

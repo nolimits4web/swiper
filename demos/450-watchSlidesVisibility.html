@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Swiper demo</title>
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="../package/css/swiper.min.css">
+
+    <!-- Demo styles -->
+    <style>
+        html,
+        body {
+            position: relative;
+            height: 100%;
+        }
+
+        body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .swiper-slide {
+            height: 300px;
+            background: #882525;
+            line-height: 300px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Swiper -->
+    <h3>Slider5 is visible when you slide to 2,3, or 4, and slider5 has "swiper-slide-visible" className</h3> <br>
+
+    <div class="swiper-container" id="swiper-container2" style="width:800px;">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide active-slider">
+                slider1</div>
+            <div class="swiper-slide" style="background: #8acc7d;">
+                slider2</div>
+            <div class="swiper-slide" style="background: #b7cc7d;">
+                slider3</div>
+            <div class="swiper-slide" style="background: #9eb75c;">
+                slider4</div>
+            <div class="swiper-slide" style="background: #7da8cc;">
+                slider5</div>
+            <div class="swiper-slide" style="background: #9f7dcc;">
+                slider6</div>
+            <div class="swiper-slide" style="background: #96cc7d;">
+                slider7</div>
+            <div class="swiper-slide" style="background: #cc7dae;">
+                slider8</div>
+        </div>
+    </div>
+    <!-- Swiper JS -->
+    <script src="../package/js/swiper.min.js"></script>
+    <!-- Initialize Swiper -->
+    <script>
+        var mySwiper2 = new Swiper('#swiper-container2', {
+            watchSlidesProgress: true,
+            watchSlidesVisibility: true,
+            slidesPerView: 3
+
+        })
+    </script>
+
+</body>
+
+</html>

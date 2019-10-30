@@ -1,0 +1,52 @@
+{
+  "name": "swiper",
+  "version": "5.2.0",
+  "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
+  "main": "js/swiper.js",
+  "jsnext:main": "js/swiper.esm.bundle.js",
+  "module": "js/swiper.esm.bundle.js",
+  "scripts": {
+    "postinstall": "node -e \"console.log('\\u001b[35m\\u001b[1mLove Swiper? Support Vladimir\\'s work by donating or pledging on patreon:\\u001b[22m\\u001b[39m\\n > \\u001b[32mhttps://patreon.com/vladimirkharlampidi\\u001b[0m\\n')\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nolimits4web/Swiper.git"
+  },
+  "keywords": [
+    "swiper",
+    "swipe",
+    "slider",
+    "touch",
+    "ios",
+    "mobile",
+    "cordova",
+    "phonegap",
+    "app",
+    "framework",
+    "framework7",
+    "carousel",
+    "gallery",
+    "plugin"
+  ],
+  "author": "Vladimir Kharlampidi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nolimits4web/Swiper/issues"
+  },
+  "homepage": "https://swiperjs.com",
+  "engines": {
+    "node": ">= 4.7.0"
+  },
+  "browserslist": [
+    "Android >= 7",
+    "IOS >= 11",
+    "Safari >= 11",
+    "Chrome >= 49",
+    "Firefox >= 31",
+    "Samsung >= 5"
+  ],
+  "dependencies": {
+    "dom7": "^2.1.3",
+    "ssr-window": "^1.0.1"
+  }
+}

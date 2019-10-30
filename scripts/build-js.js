@@ -1,23 +1,18 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 /* eslint no-console: "off" */
 
-const gulp = require('gulp');
 const fs = require('fs');
 const rollup = require('rollup');
 const buble = require('rollup-plugin-buble');
 const replace = require('rollup-plugin-replace');
 const resolve = require('rollup-plugin-node-resolve');
-const header = require('gulp-header');
-const uglify = require('gulp-uglify');
-const sourcemaps = require('gulp-sourcemaps');
-const rename = require('gulp-rename');
+const Terser = require('terser');
 
 const config = require('./build-config.js');
 const banner = require('./banner.js');
 
 function es(components, cb) {
   const env = process.env.NODE_ENV || 'development';
-  const target = process.env.TARGET || config.target;
 
   // Bundle
   rollup.rollup({
@@ -27,22 +22,67 @@ function es(components, cb) {
       replace({
         delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env),
-        'process.env.TARGET': JSON.stringify(target),
-        '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
-        '//INSTALL_COMPONENTS': components.map(component => `${component.capitalized}`).join(',\n  '),
+        '//IMPORT_COMPONENTS': components.map((component) => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
+        '//INSTALL_COMPONENTS': components.map((component) => `${component.capitalized}`).join(',\n  '),
         '//EXPORT': 'export default Swiper',
       }),
-      resolve({ jsnext: true }),
+      resolve({ mainFields: ['module', 'main', 'jsnext'] }),
     ],
-  }).then(bundle => bundle.write({
+  }).then((bundle) => bundle.write({
     format: 'es',
     name: 'Swiper',
     strict: true,
-    sourcemap: env === 'development',
-    sourcemapFile: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.esm.bundle.js.map`,
+    sourcemap: true,
+    sourcemapFile: `./${env === 'development' ? 'build' : 'package'}/js/swiper.esm.bundle.js.map`,
     banner,
-    file: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.esm.bundle.js`,
+    file: `./${env === 'development' ? 'build' : 'package'}/js/swiper.esm.bundle.js`,
   })).then(() => {
+    if (cb) cb();
+  }).catch((err) => {
+    if (cb) cb();
+    console.error(err.toString());
+  });
+
+  // Browser Bundle
+  rollup.rollup({
+    input: './src/swiper.js',
+    plugins: [
+      replace({
+        delimiters: ['', ''],
+        'process.env.NODE_ENV': JSON.stringify(env),
+        '//IMPORT_COMPONENTS': components.map((component) => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
+        '//INSTALL_COMPONENTS': components.map((component) => `${component.capitalized}`).join(',\n  '),
+        '//EXPORT': 'export default Swiper',
+      }),
+      resolve({ mainFields: ['module', 'main', 'jsnext'] }),
+    ],
+  }).then((bundle) => bundle.write({
+    format: 'es',
+    name: 'Swiper',
+    strict: true,
+    sourcemap: true,
+    sourcemapFile: `./${env === 'development' ? 'build' : 'package'}/js/swiper.esm.browser.bundle.js.map`,
+    banner,
+    file: `./${env === 'development' ? 'build' : 'package'}/js/swiper.esm.browser.bundle.js`,
+  })).then((bundle) => {
+    if (env === 'development') {
+      if (cb) cb();
+      return;
+    }
+    const result = bundle.output[0];
+    const minified = Terser.minify(result.code, {
+      sourceMap: {
+        content: env === 'development' ? result.map : undefined,
+        filename: env === 'development' ? undefined : 'swiper.esm.browser.bundle.min.js',
+        url: 'swiper.esm.browser.bundle.min.js.map',
+      },
+      output: {
+        preamble: banner,
+      },
+    });
+
+    fs.writeFileSync('./package/js/swiper.esm.browser.bundle.min.js', minified.code);
+    fs.writeFileSync('./package/js/swiper.esm.browser.bundle.min.js.map', minified.map);
     if (cb) cb();
   }).catch((err) => {
     if (cb) cb();
@@ -57,21 +97,20 @@ function es(components, cb) {
       replace({
         delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env),
-        'process.env.TARGET': JSON.stringify(target),
-        '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
+        '//IMPORT_COMPONENTS': components.map((component) => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
         '//INSTALL_COMPONENTS': '',
-        '//EXPORT': `export { Swiper, ${components.map(component => component.capitalized).join(', ')} }`,
+        '//EXPORT': `export { Swiper, ${components.map((component) => component.capitalized).join(', ')} }`,
       }),
-      resolve({ jsnext: true }),
+      resolve({ mainFields: ['module', 'main', 'jsnext'] }),
     ],
-  }).then(bundle => bundle.write({
+  }).then((bundle) => bundle.write({
     format: 'es',
     name: 'Swiper',
     strict: true,
     banner,
-    sourcemap: env === 'development',
-    sourcemapFile: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.esm.js.map`,
-    file: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.esm.js`,
+    sourcemap: true,
+    sourcemapFile: `./${env === 'development' ? 'build' : 'package'}/js/swiper.esm.js.map`,
+    file: `./${env === 'development' ? 'build' : 'package'}/js/swiper.esm.js`,
   })).then(() => {
     if (cb) cb();
   }).catch((err) => {
@@ -81,7 +120,6 @@ function es(components, cb) {
 }
 function umd(components, cb) {
   const env = process.env.NODE_ENV || 'development';
-  const target = process.env.TARGET || config.target;
 
   rollup.rollup({
     input: './src/swiper.js',
@@ -89,41 +127,42 @@ function umd(components, cb) {
       replace({
         delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env),
-        'process.env.TARGET': JSON.stringify(target),
-        '//IMPORT_COMPONENTS': components.map(component => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
-        '//INSTALL_COMPONENTS': components.map(component => `${component.capitalized}`).join(',\n  '),
+        '//IMPORT_COMPONENTS': components.map((component) => `import ${component.capitalized} from './components/${component.name}/${component.name}';`).join('\n'),
+        '//INSTALL_COMPONENTS': components.map((component) => `${component.capitalized}`).join(',\n  '),
         '//EXPORT': 'export default Swiper;',
       }),
-      resolve({ jsnext: true }),
+      resolve({ mainFields: ['module', 'main', 'jsnext'] }),
       buble(),
     ],
-  }).then(bundle => bundle.write({
+  }).then((bundle) => bundle.write({
     format: 'umd',
     name: 'Swiper',
     strict: true,
-    sourcemap: env === 'development',
-    sourcemapFile: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.js.map`,
+    sourcemap: true,
+    sourcemapFile: `./${env === 'development' ? 'build' : 'package'}/js/swiper.js.map`,
     banner,
-    file: `./${env === 'development' ? 'build' : 'dist'}/js/swiper.js`,
-  })).then(() => {
+    file: `./${env === 'development' ? 'build' : 'package'}/js/swiper.js`,
+  })).then((bundle) => {
     if (env === 'development') {
       if (cb) cb();
       return;
     }
-    // Minified version
-    gulp.src('./dist/js/swiper.js')
-      .pipe(sourcemaps.init())
-      .pipe(uglify())
-      .pipe(header(banner))
-      .pipe(rename((filePath) => {
-        /* eslint no-param-reassign: ["error", { "props": false }] */
-        filePath.basename += '.min';
-      }))
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./dist/js/'))
-      .on('end', () => {
-        cb();
-      });
+    const result = bundle.output[0];
+    const minified = Terser.minify(result.code, {
+      sourceMap: {
+        content: env === 'development' ? result.map : undefined,
+        filename: env === 'development' ? undefined : 'swiper.min.js',
+        url: 'swiper.min.js.map',
+      },
+      output: {
+        preamble: banner,
+      },
+    });
+
+    fs.writeFileSync('./package/js/swiper.min.js', minified.code);
+    fs.writeFileSync('./package/js/swiper.min.js.map', minified.map);
+
+    cb();
   }).catch((err) => {
     if (cb) cb();
     console.error(err.toString());
