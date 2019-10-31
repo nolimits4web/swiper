@@ -33,11 +33,11 @@ const Navigation = {
     e.preventDefault();
     if (swiper.isBeginning && !swiper.params.loop) return;
     if (swiper.params.navigation.navByPage) {
-        for(let i = 0; i<swiper.params.slidesPerView; ++i) {
-            swiper.slidePrev();
-        }
-    } else {
+      for (let i = 0; i < swiper.params.slidesPerView; i += 1) {
         swiper.slidePrev();
+      }
+    } else {
+      swiper.slidePrev();
     }
   },
   onNextClick(e) {
@@ -45,11 +45,11 @@ const Navigation = {
     e.preventDefault();
     if (swiper.isEnd && !swiper.params.loop) return;
     if (swiper.params.navigation.navByPage) {
-        for(let i = 0; i<swiper.params.slidesPerView; ++i) {
-            swiper.slideNext();
-        }
-    } else {
+      for (let i = 0; i < swiper.params.slidesPerView; i += 1) {
         swiper.slideNext();
+      }
+    } else {
+      swiper.slideNext();
     }
   },
   init() {
