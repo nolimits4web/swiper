@@ -110,7 +110,7 @@ const Thumbs = {
       thumbsToActivate = swiper.params.slidesPerView;
     }
 
-    if (!swiper.params.thumbs.allowMultipleActiveSlides) {
+    if (!swiper.params.thumbs.multipleActiveThumbs) {
       thumbsToActivate = 1;
     }
 
@@ -132,7 +132,7 @@ export default {
   name: 'thumbs',
   params: {
     thumbs: {
-      allowMultipleActiveSlides: true,
+      multipleActiveThumbs: true,
       swiper: null,
       slideThumbActiveClass: 'swiper-slide-thumb-active',
       thumbsContainerClass: 'swiper-container-thumbs',
