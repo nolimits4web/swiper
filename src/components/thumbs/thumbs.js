@@ -110,6 +110,12 @@ const Thumbs = {
       thumbsToActivate = swiper.params.slidesPerView;
     }
 
+    if (!swiper.params.thumbs.multipleActiveThumbs) {
+      thumbsToActivate = 1;
+    }
+
+    thumbsToActivate = Math.floor(thumbsToActivate);
+
     thumbsSwiper.slides.removeClass(thumbActiveClass);
     if (thumbsSwiper.params.loop || (thumbsSwiper.params.virtual && thumbsSwiper.params.virtual.enabled)) {
       for (let i = 0; i < thumbsToActivate; i += 1) {
@@ -126,6 +132,7 @@ export default {
   name: 'thumbs',
   params: {
     thumbs: {
+      multipleActiveThumbs: true,
       swiper: null,
       slideThumbActiveClass: 'swiper-slide-thumb-active',
       thumbsContainerClass: 'swiper-container-thumbs',
