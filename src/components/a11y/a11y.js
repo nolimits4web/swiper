@@ -61,7 +61,7 @@ const a11y = {
   updateNavigation() {
     const swiper = this;
 
-    if (swiper.params.loop) return;
+    if (swiper.params.loop || !swiper.navigation) return;
     const { $nextEl, $prevEl } = swiper.navigation;
 
     if ($prevEl && $prevEl.length > 0) {
