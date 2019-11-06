@@ -160,7 +160,7 @@ const Mousewheel = {
       // Freemode or scrollContainer:
 
       // If we recently snapped after a momentum scroll, then ignore wheel events
-      // to give time for the declereration to finish. Stop ignoring after 500 msecs
+      // to give time for the deceleration to finish. Stop ignoring after 500 msecs
       // or if it's a new scroll (larger delta or inverse sign as last event before
       // an end-of-momentum snap).
       const newEvent = { time: Utils.now(), delta: Math.abs(delta), direction: Math.sign(delta) };
