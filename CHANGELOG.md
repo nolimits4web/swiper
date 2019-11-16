@@ -1,5 +1,18 @@
 # Change Log
 
+## [Swiper 5.2.1](https://github.com/nolimits4web/swiper/compare/v5.2.0...v5.2.1) - Released on November 16, 2019
+  * Core
+    * New loop events `beforeLoopFix` and `loopFix`
+    * New parameter `updateOnWindowResize` (by default `true`) that will update/recalc swiper on window resize/orientationchange
+    * Added SCSS interpolation for `--swiper-theme-color` variable when not building from source (#3334)
+    * Quote SCSS color names (#3316)
+    * Fixed issue when `.once` could be called more than once (#3322)
+  * Mousewheel
+    * Fixed scroll wheel unwanted frozen effect (#3328)
+  * Thumbs
+    * New `multipleActiveThumbs` (by default `true`) option to control whether multiple thumbnail slides may get activated or not.
+  * Minor fixes
+
 ## [Swiper 5.2.0](https://github.com/nolimits4web/swiper/compare/v5.1.0...v5.2.0) - Released on October 26, 2019
   * Core
     * New `centeredSlidesBounds` parameter that when enabled will keep first and last slides at bounds

@@ -63,7 +63,11 @@ function attachEvents() {
   }
 
   // Resize handler
-  swiper.on((Device.ios || Device.android ? 'resize orientationchange observerUpdate' : 'resize observerUpdate'), onResize, true);
+  if (params.updateOnWindowResize) {
+    swiper.on((Device.ios || Device.android ? 'resize orientationchange observerUpdate' : 'resize observerUpdate'), onResize, true);
+  } else {
+    swiper.on('observerUpdate', onResize, true);
+  }
 }
 
 function detachEvents() {

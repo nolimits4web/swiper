@@ -1,5 +1,5 @@
 /**
- * Swiper 5.2.0
+ * Swiper 5.2.1
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: October 26, 2019
+ * Released on: November 16, 2019
  */
 
 /**
@@ -1001,11 +1001,11 @@ class SwiperClass {
     const self = this;
     if (typeof handler !== 'function') return self;
     function onceHandler(...args) {
-      handler.apply(self, args);
       self.off(events, onceHandler);
       if (onceHandler.f7proxy) {
         delete onceHandler.f7proxy;
       }
+      handler.apply(self, args);
     }
     onceHandler.f7proxy = handler;
     return self.on(events, onceHandler, priority);
@@ -2320,6 +2320,9 @@ function loopCreate () {
 
 function loopFix () {
   const swiper = this;
+
+  swiper.emit('beforeLoopFix');
+
   const {
     activeIndex, slides, loopedSlides, allowSlidePrev, allowSlideNext, snapGrid, rtlTranslate: rtl,
   } = swiper;
@@ -2329,7 +2332,6 @@ function loopFix () {
 
   const snapTranslate = -snapGrid[activeIndex];
   const diff = snapTranslate - swiper.getTranslate();
-
 
   // Fix For Negative Oversliding
   if (activeIndex < loopedSlides) {
@@ -2350,6 +2352,8 @@ function loopFix () {
   }
   swiper.allowSlidePrev = allowSlidePrev;
   swiper.allowSlideNext = allowSlideNext;
+
+  swiper.emit('loopFix');
 }
 
 function loopDestroy () {
@@ -3359,7 +3363,11 @@ function attachEvents() {
   }
 
   // Resize handler
-  swiper.on((Device.ios || Device.android ? 'resize orientationchange observerUpdate' : 'resize observerUpdate'), onResize, true);
+  if (params.updateOnWindowResize) {
+    swiper.on((Device.ios || Device.android ? 'resize orientationchange observerUpdate' : 'resize observerUpdate'), onResize, true);
+  } else {
+    swiper.on('observerUpdate', onResize, true);
+  }
 }
 
 function detachEvents() {
@@ -3639,6 +3647,7 @@ var defaults = {
   initialSlide: 0,
   speed: 300,
   cssMode: false,
+  updateOnWindowResize: true,
   //
   preventInteractionOnTransition: false,
 
@@ -4896,23 +4905,46 @@ const Mousewheel = {
     if (params.invert) delta = -delta;
 
     if (!swiper.params.freeMode) {
-      if (Utils.now() - swiper.mousewheel.lastScrollTime > 60) {
-        if (delta < 0) {
-          if ((!swiper.isEnd || swiper.params.loop) && !swiper.animating) {
-            swiper.slideNext();
-            swiper.emit('scroll', e);
-          } else if (params.releaseOnEdges) return true;
-        } else if ((!swiper.isBeginning || swiper.params.loop) && !swiper.animating) {
-          swiper.slidePrev();
-          swiper.emit('scroll', e);
-        } else if (params.releaseOnEdges) return true;
+      // Register the new event in a variable which stores the relevant data
+      const newEvent = {
+        time: Utils.now(),
+        delta: Math.abs(delta),
+        direction: Math.sign(delta),
+        raw: event,
+      };
+
+      // Keep the most recent events
+      const recentWheelEvents = swiper.mousewheel.recentWheelEvents;
+      if (recentWheelEvents.length >= 2) {
+        recentWheelEvents.shift(); // only store the last N events
       }
-      swiper.mousewheel.lastScrollTime = (new win.Date()).getTime();
+      const prevEvent = recentWheelEvents.length ? recentWheelEvents[recentWheelEvents.length - 1] : undefined;
+      recentWheelEvents.push(newEvent);
+
+      // If there is at least one previous recorded event:
+      //   If direction has changed or
+      //   if the scroll is quicker than the previous one:
+      //     Animate the slider.
+      // Else (this is the first time the wheel is moved):
+      //     Animate the slider.
+      if (prevEvent) {
+        if (newEvent.direction !== prevEvent.direction || newEvent.delta > prevEvent.delta) {
+          swiper.mousewheel.animateSlider(newEvent);
+        }
+      } else {
+        swiper.mousewheel.animateSlider(newEvent);
+      }
+
+      // If it's time to release the scroll:
+      //   Return now so you don't hit the preventDefault.
+      if (swiper.mousewheel.releaseScroll(newEvent)) {
+        return true;
+      }
     } else {
       // Freemode or scrollContainer:
 
       // If we recently snapped after a momentum scroll, then ignore wheel events
-      // to give time for the declereration to finish. Stop ignoring after 500 msecs
+      // to give time for the deceleration to finish. Stop ignoring after 500 msecs
       // or if it's a new scroll (larger delta or inverse sign as last event before
       // an end-of-momentum snap).
       const newEvent = { time: Utils.now(), delta: Math.abs(delta), direction: Math.sign(delta) };
@@ -5013,6 +5045,55 @@ const Mousewheel = {
     else e.returnValue = false;
     return false;
   },
+  animateSlider(newEvent) {
+    const swiper = this;
+    // If the movement is NOT big enough and
+    // if the last time the user scrolled was too close to the current one (avoid continuously triggering the slider):
+    //   Don't go any further (avoid insignificant scroll movement).
+    if (newEvent.delta >= 6 && Utils.now() - swiper.mousewheel.lastScrollTime < 60) {
+      // Return false as a default
+      return true;
+    }
+    // If user is scrolling towards the end:
+    //   If the slider hasn't hit the latest slide or
+    //   if the slider is a loop and
+    //   if the slider isn't moving right now:
+    //     Go to next slide and
+    //     emit a scroll event.
+    // Else (the user is scrolling towards the beginning) and
+    // if the slider hasn't hit the first slide or
+    // if the slider is a loop and
+    // if the slider isn't moving right now:
+    //   Go to prev slide and
+    //   emit a scroll event.
+    if (newEvent.direction < 0) {
+      if ((!swiper.isEnd || swiper.params.loop) && !swiper.animating) {
+        swiper.slideNext();
+        swiper.emit('scroll', newEvent.raw);
+      }
+    } else if ((!swiper.isBeginning || swiper.params.loop) && !swiper.animating) {
+      swiper.slidePrev();
+      swiper.emit('scroll', newEvent.raw);
+    }
+    // If you got here is because an animation has been triggered so store the current time
+    swiper.mousewheel.lastScrollTime = (new win.Date()).getTime();
+    // Return false as a default
+    return false;
+  },
+  releaseScroll(newEvent) {
+    const swiper = this;
+    const params = swiper.params.mousewheel;
+    if (newEvent.direction < 0) {
+      if (swiper.isEnd && !swiper.params.loop && params.releaseOnEdges) {
+        // Return true to animate scroll on edges
+        return true;
+      }
+    } else if (swiper.isBeginning && !swiper.params.loop && params.releaseOnEdges) {
+      // Return true to animate scroll on edges
+      return true;
+    }
+    return false;
+  },
   enable() {
     const swiper = this;
     const event = Mousewheel.event();
@@ -5073,6 +5154,8 @@ var Mousewheel$1 = {
         handle: Mousewheel.handle.bind(swiper),
         handleMouseEnter: Mousewheel.handleMouseEnter.bind(swiper),
         handleMouseLeave: Mousewheel.handleMouseLeave.bind(swiper),
+        animateSlider: Mousewheel.animateSlider.bind(swiper),
+        releaseScroll: Mousewheel.releaseScroll.bind(swiper),
         lastScrollTime: Utils.now(),
         lastEventBeforeSnap: undefined,
         recentWheelEvents: [],
@@ -7068,7 +7151,7 @@ const a11y = {
   updateNavigation() {
     const swiper = this;
 
-    if (swiper.params.loop) return;
+    if (swiper.params.loop || !swiper.navigation) return;
     const { $nextEl, $prevEl } = swiper.navigation;
 
     if ($prevEl && $prevEl.length > 0) {
@@ -8213,6 +8296,12 @@ const Thumbs = {
       thumbsToActivate = swiper.params.slidesPerView;
     }
 
+    if (!swiper.params.thumbs.multipleActiveThumbs) {
+      thumbsToActivate = 1;
+    }
+
+    thumbsToActivate = Math.floor(thumbsToActivate);
+
     thumbsSwiper.slides.removeClass(thumbActiveClass);
     if (thumbsSwiper.params.loop || (thumbsSwiper.params.virtual && thumbsSwiper.params.virtual.enabled)) {
       for (let i = 0; i < thumbsToActivate; i += 1) {
@@ -8229,6 +8318,7 @@ var Thumbs$1 = {
   name: 'thumbs',
   params: {
     thumbs: {
+      multipleActiveThumbs: true,
       swiper: null,
       slideThumbActiveClass: 'swiper-slide-thumb-active',
       thumbsContainerClass: 'swiper-container-thumbs',

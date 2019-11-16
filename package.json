@@ -1,6 +1,6 @@
 {
   "name": "swiper-src",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development gulp build",
@@ -38,6 +38,10 @@
     "url": "https://github.com/nolimits4web/Swiper/issues"
   },
   "homepage": "http://swiperjs.com",
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/vladimirkharlampidi"
+  },
   "engines": {
     "node": ">= 4.7.0"
   },

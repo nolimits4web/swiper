@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "js/swiper.js",
   "jsnext:main": "js/swiper.esm.bundle.js",
@@ -34,6 +34,10 @@
     "url": "https://github.com/nolimits4web/Swiper/issues"
   },
   "homepage": "https://swiperjs.com",
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/vladimirkharlampidi"
+  },
   "engines": {
     "node": ">= 4.7.0"
   },

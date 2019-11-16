@@ -5,6 +5,7 @@ export default {
   initialSlide: 0,
   speed: 300,
   cssMode: false,
+  updateOnWindowResize: true,
   //
   preventInteractionOnTransition: false,
 
