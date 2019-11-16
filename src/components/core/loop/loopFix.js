@@ -1,5 +1,8 @@
 export default function () {
   const swiper = this;
+
+  swiper.emit('beforeLoopFix');
+
   const {
     activeIndex, slides, loopedSlides, allowSlidePrev, allowSlideNext, snapGrid, rtlTranslate: rtl,
   } = swiper;
@@ -9,7 +12,6 @@ export default function () {
 
   const snapTranslate = -snapGrid[activeIndex];
   const diff = snapTranslate - swiper.getTranslate();
-
 
   // Fix For Negative Oversliding
   if (activeIndex < loopedSlides) {
@@ -30,4 +32,6 @@ export default function () {
   }
   swiper.allowSlidePrev = allowSlidePrev;
   swiper.allowSlideNext = allowSlideNext;
+
+  swiper.emit('loopFix');
 }
