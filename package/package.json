@@ -6,7 +6,7 @@
   "jsnext:main": "js/swiper.esm.bundle.js",
   "module": "js/swiper.esm.bundle.js",
   "scripts": {
-    "postinstall": "node -e \"console.log('\\u001b[35m\\u001b[1mLove Swiper? Support Vladimir\\'s work by donating or pledging on patreon:\\u001b[22m\\u001b[39m\\n > \\u001b[32mhttps://patreon.com/vladimirkharlampidi\\u001b[0m\\n')\""
+    "postinstall": "echo \"\u001b[35m\u001b[1mLove Swiper? Support Vladimir's work by donating or pledging on patreon:\u001b[22m\u001b[39m\n > \u001b[32mhttps://patreon.com/vladimirkharlampidi\u001b[0m\n\""
   },
   "repository": {
     "type": "git",
