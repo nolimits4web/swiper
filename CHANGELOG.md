@@ -88,7 +88,7 @@
   * Core
     * Fixed issue when callbacks fires on init even if it disabled (#2807)
     * Fixed issue when "swiper-slide-visible" class name in some situations shows up when it shouldn't
-    * `slidesPerColumFill: 'row'` now considers groups (#3077)
+    * `slidesPerColumnFill: 'row'` now considers groups (#3077)
   * Thumbs
     * Fixes bug 'Cannot read property `indexOf` of undefined' that sometimes occurs on use of thumbnails
   * Keyboard
