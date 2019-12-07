@@ -238,11 +238,12 @@ export default function (event) {
   // Find current slide
   let stopIndex = 0;
   let groupSize = swiper.slidesSizesGrid[0];
-  for (let i = 0; i < slidesGrid.length; i += params.slidesPerGroup) {
-    if (typeof slidesGrid[i + params.slidesPerGroup] !== 'undefined') {
-      if (currentPos >= slidesGrid[i] && currentPos < slidesGrid[i + params.slidesPerGroup]) {
+  for (let i = 0; i < slidesGrid.length; i += (i < params.slidesPerGroupSkip ? 1 : params.slidesPerGroup)) {
+    const increment = (i < params.slidesPerGroupSkip - 1 ? 1 : params.slidesPerGroup);
+    if (typeof slidesGrid[i + increment] !== 'undefined') {
+      if (currentPos >= slidesGrid[i] && currentPos < slidesGrid[i + increment]) {
         stopIndex = i;
-        groupSize = slidesGrid[i + params.slidesPerGroup] - slidesGrid[i];
+        groupSize = slidesGrid[i + increment] - slidesGrid[i];
       }
     } else if (currentPos >= slidesGrid[i]) {
       stopIndex = i;
@@ -252,6 +253,7 @@ export default function (event) {
 
   // Find current slide size
   const ratio = (currentPos - slidesGrid[stopIndex]) / groupSize;
+  const increment = (stopIndex < params.slidesPerGroupSkip - 1 ? 1 : params.slidesPerGroup);
 
   if (timeDiff > params.longSwipesMs) {
     // Long touches
@@ -260,11 +262,11 @@ export default function (event) {
       return;
     }
     if (swiper.swipeDirection === 'next') {
-      if (ratio >= params.longSwipesRatio) swiper.slideTo(stopIndex + params.slidesPerGroup);
+      if (ratio >= params.longSwipesRatio) swiper.slideTo(stopIndex + increment);
       else swiper.slideTo(stopIndex);
     }
     if (swiper.swipeDirection === 'prev') {
-      if (ratio > (1 - params.longSwipesRatio)) swiper.slideTo(stopIndex + params.slidesPerGroup);
+      if (ratio > (1 - params.longSwipesRatio)) swiper.slideTo(stopIndex + increment);
       else swiper.slideTo(stopIndex);
     }
   } else {
@@ -276,13 +278,13 @@ export default function (event) {
     const isNavButtonTarget = swiper.navigation && (e.target === swiper.navigation.nextEl || e.target === swiper.navigation.prevEl);
     if (!isNavButtonTarget) {
       if (swiper.swipeDirection === 'next') {
-        swiper.slideTo(stopIndex + params.slidesPerGroup);
+        swiper.slideTo(stopIndex + increment);
       }
       if (swiper.swipeDirection === 'prev') {
         swiper.slideTo(stopIndex);
       }
     } else if (e.target === swiper.navigation.nextEl) {
-      swiper.slideTo(stopIndex + params.slidesPerGroup);
+      swiper.slideTo(stopIndex + increment);
     } else {
       swiper.slideTo(stopIndex);
     }
