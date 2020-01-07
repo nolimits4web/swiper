@@ -6,11 +6,11 @@ import Support from '../../utils/support';
 const Zoom = {
   // Calc Scale From Multi-touches
   getDistanceBetweenTouches(e) {
-    if (e.targetTouches.length < 2) return 1;
-    const x1 = e.targetTouches[0].pageX;
-    const y1 = e.targetTouches[0].pageY;
-    const x2 = e.targetTouches[1].pageX;
-    const y2 = e.targetTouches[1].pageY;
+    if (e.touches.length < 2) return 1;
+    const x1 = e.touches[0].pageX;
+    const y1 = e.touches[0].pageY;
+    const x2 = e.touches[1].pageX;
+    const y2 = e.touches[1].pageY;
     const distance = Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2));
     return distance;
   },
@@ -23,7 +23,7 @@ const Zoom = {
     zoom.fakeGestureTouched = false;
     zoom.fakeGestureMoved = false;
     if (!Support.gestures) {
-      if (e.type !== 'touchstart' || (e.type === 'touchstart' && e.targetTouches.length < 2)) {
+      if (e.type !== 'touchstart' || (e.type === 'touchstart' && e.touches.length < 2)) {
         return;
       }
       zoom.fakeGestureTouched = true;
@@ -49,7 +49,7 @@ const Zoom = {
     const zoom = swiper.zoom;
     const { gesture } = zoom;
     if (!Support.gestures) {
-      if (e.type !== 'touchmove' || (e.type === 'touchmove' && e.targetTouches.length < 2)) {
+      if (e.type !== 'touchmove' || (e.type === 'touchmove' && e.touches.length < 2)) {
         return;
       }
       zoom.fakeGestureMoved = true;
@@ -99,8 +99,8 @@ const Zoom = {
     if (image.isTouched) return;
     if (Device.android) e.preventDefault();
     image.isTouched = true;
-    image.touchesStart.x = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
-    image.touchesStart.y = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
+    image.touchesStart.x = e.type === 'touchstart' ? e.touches[0].pageX : e.pageX;
+    image.touchesStart.y = e.type === 'touchstart' ? e.touches[0].pageY : e.pageY;
   },
   onTouchMove(e) {
     const swiper = this;
@@ -134,8 +134,8 @@ const Zoom = {
     image.minY = Math.min(((gesture.slideHeight / 2) - (scaledHeight / 2)), 0);
     image.maxY = -image.minY;
 
-    image.touchesCurrent.x = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
-    image.touchesCurrent.y = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY;
+    image.touchesCurrent.x = e.type === 'touchmove' ? e.touches[0].pageX : e.pageX;
+    image.touchesCurrent.y = e.type === 'touchmove' ? e.touches[0].pageY : e.pageY;
 
     if (!image.isMoved && !zoom.isScaling) {
       if (
