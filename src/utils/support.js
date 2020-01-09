@@ -3,7 +3,7 @@ import { window, document } from 'ssr-window';
 const Support = (function Support() {
   return {
     touch: (window.Modernizr && window.Modernizr.touch === true) || (function checkTouch() {
-      return !!((window.navigator.maxTouchPoints > 0) || ('ontouchstart' in window) || (window.DocumentTouch && document instanceof window.DocumentTouch));
+      return (('ontouchstart' in window)|| (navigator.MaxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
     }()),
 
     pointerEvents: !!window.PointerEvent && ('maxTouchPoints' in window.navigator) && window.navigator.maxTouchPoints > 0,
