@@ -1,5 +1,14 @@
 # Change Log
 
+## [Swiper 5.3.0](https://github.com/nolimits4web/swiper/compare/v5.2.1...v5.3.0) - Released on January 11, 2020
+  * Core
+    * New `slidesPerGroupSkip` behavior (#3361)
+    * New ratio-based breakpoints (#3389)
+    * Added SCSS interpolation (#3373, #3374)
+  * Mousehweel
+    * Fixed issue when it can fail on load (#3383)
+  * Minor fixes
+
 ## [Swiper 5.2.1](https://github.com/nolimits4web/swiper/compare/v5.2.0...v5.2.1) - Released on November 16, 2019
   * Core
     * New loop events `beforeLoopFix` and `loopFix`
