@@ -8,7 +8,6 @@ export default function (speed = this.params.speed, runCallbacks = true, interna
     swiper.loopFix();
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
-    return swiper.slideTo(swiper.activeIndex + increment, speed, runCallbacks, internal);
   }
   return swiper.slideTo(swiper.activeIndex + increment, speed, runCallbacks, internal);
 }
