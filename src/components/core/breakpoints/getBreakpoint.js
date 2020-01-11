@@ -11,7 +11,7 @@ export default function (breakpoints) {
       const value = window.innerHeight * minRatio;
       return { value, point };
     }
-    return point;
+    return { value: point, point };
   });
 
   points.sort((a, b) => parseInt(a.value, 10) - parseInt(b.value, 10));
