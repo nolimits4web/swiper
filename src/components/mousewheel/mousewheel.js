@@ -121,7 +121,11 @@ const Mousewheel = {
       e.preventDefault();
     }
 
-    if (!swiper.mouseEntered && !params.releaseOnEdges) return true;
+    let target = swiper.$el;
+    if (swiper.params.mousewheel.eventsTarged !== 'container') {
+      target = $(swiper.params.mousewheel.eventsTarged);
+    }
+    if (!swiper.mouseEntered && !target[0].contains(e.target) && !params.releaseOnEdges) return true;
 
     if (e.originalEvent) e = e.originalEvent; // jquery fix
     let delta = 0;
