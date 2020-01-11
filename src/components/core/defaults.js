@@ -44,6 +44,7 @@ export default {
   slidesPerColumn: 1,
   slidesPerColumnFill: 'column',
   slidesPerGroup: 1,
+  slidesPerGroupSkip: 0,
   centeredSlides: false,
   centeredSlidesBounds: false,
   slidesOffsetBefore: 0, // in px
