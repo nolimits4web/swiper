@@ -1,5 +1,10 @@
 # Change Log
 
+## [Swiper 5.3.1](https://github.com/nolimits4web/swiper/compare/v5.3.0...v5.3.1) - Released on February 8, 2020
+  * Core
+    * Fixed issue when slider could stuck after last slide (#3414)
+    * Added `label` to list of form events to keep clicks on it (#3407)
+
 ## [Swiper 5.3.0](https://github.com/nolimits4web/swiper/compare/v5.2.1...v5.3.0) - Released on January 11, 2020
   * Core
     * New `slidesPerGroupSkip` behavior (#3361)

@@ -12,7 +12,7 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
 
   const skip = Math.min(swiper.params.slidesPerGroupSkip, slideIndex);
   let snapIndex = skip + Math.floor((slideIndex - skip) / swiper.params.slidesPerGroup);
-  if (snapIndex >= slidesGrid.length) snapIndex = slidesGrid.length - 1;
+  if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
 
   if ((activeIndex || params.initialSlide || 0) === (previousIndex || 0) && runCallbacks) {
     swiper.emit('beforeSlideChangeStart');

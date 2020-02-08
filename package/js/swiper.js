@@ -1,5 +1,5 @@
 /**
- * Swiper 5.3.0
+ * Swiper 5.3.1
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: January 11, 2020
+ * Released on: February 8, 2020
  */
 
 (function (global, factory) {
@@ -2106,7 +2106,7 @@
 
     var skip = Math.min(swiper.params.slidesPerGroupSkip, slideIndex);
     var snapIndex = skip + Math.floor((slideIndex - skip) / swiper.params.slidesPerGroup);
-    if (snapIndex >= slidesGrid.length) { snapIndex = slidesGrid.length - 1; }
+    if (snapIndex >= snapGrid.length) { snapIndex = snapGrid.length - 1; }
 
     if ((activeIndex || params.initialSlide || 0) === (previousIndex || 0) && runCallbacks) {
       swiper.emit('beforeSlideChangeStart');
@@ -4112,7 +4112,7 @@
           startTranslate: undefined,
           allowThresholdMove: undefined,
           // Form elements to match
-          formElements: 'input, select, option, textarea, button, video',
+          formElements: 'input, select, option, textarea, button, video, label',
           // Last click time
           lastClickTime: Utils.now(),
           clickTimeout: undefined,
