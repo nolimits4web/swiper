@@ -1,13 +1,13 @@
 /**
- * Swiper 5.2.1
+ * Swiper 5.3.1
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
- * Copyright 2014-2019 Vladimir Kharlampidi
+ * Copyright 2014-2020 Vladimir Kharlampidi
  *
  * Released under the MIT License
  *
- * Released on: November 16, 2019
+ * Released on: February 8, 2020
  */
 
 (function (global, factory) {
@@ -1420,7 +1420,7 @@
         slidesGrid.push(slidePosition);
       } else {
         if (params.roundLengths) { slidePosition = Math.floor(slidePosition); }
-        if ((index) % params.slidesPerGroup === 0) { snapGrid.push(slidePosition); }
+        if ((index - Math.min(swiper.params.slidesPerGroupSkip, index)) % swiper.params.slidesPerGroup === 0) { snapGrid.push(slidePosition); }
         slidesGrid.push(slidePosition);
         slidePosition = slidePosition + slideSize + spaceBetween;
       }
@@ -1765,7 +1765,8 @@
     if (snapGrid.indexOf(translate) >= 0) {
       snapIndex = snapGrid.indexOf(translate);
     } else {
-      snapIndex = Math.floor(activeIndex / params.slidesPerGroup);
+      var skip = Math.min(params.slidesPerGroupSkip, activeIndex);
+      snapIndex = skip + Math.floor((activeIndex - skip) / params.slidesPerGroup);
     }
     if (snapIndex >= snapGrid.length) { snapIndex = snapGrid.length - 1; }
     if (activeIndex === previousIndex) {
@@ -2103,7 +2104,8 @@
       return false;
     }
 
-    var snapIndex = Math.floor(slideIndex / params.slidesPerGroup);
+    var skip = Math.min(swiper.params.slidesPerGroupSkip, slideIndex);
+    var snapIndex = skip + Math.floor((slideIndex - skip) / swiper.params.slidesPerGroup);
     if (snapIndex >= snapGrid.length) { snapIndex = snapGrid.length - 1; }
 
     if ((activeIndex || params.initialSlide || 0) === (previousIndex || 0) && runCallbacks) {
@@ -2229,14 +2231,14 @@
     var swiper = this;
     var params = swiper.params;
     var animating = swiper.animating;
+    var increment = swiper.activeIndex < params.slidesPerGroupSkip ? 1 : params.slidesPerGroup;
     if (params.loop) {
       if (animating) { return false; }
       swiper.loopFix();
       // eslint-disable-next-line
       swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
-      return swiper.slideTo(swiper.activeIndex + params.slidesPerGroup, speed, runCallbacks, internal);
     }
-    return swiper.slideTo(swiper.activeIndex + params.slidesPerGroup, speed, runCallbacks, internal);
+    return swiper.slideTo(swiper.activeIndex + increment, speed, runCallbacks, internal);
   }
 
   /* eslint no-unused-vars: "off" */
@@ -2298,7 +2300,8 @@
 
     var swiper = this;
     var index = swiper.activeIndex;
-    var snapIndex = Math.floor(index / swiper.params.slidesPerGroup);
+    var skip = Math.min(swiper.params.slidesPerGroupSkip, index);
+    var snapIndex = skip + Math.floor((index - skip) / swiper.params.slidesPerGroup);
 
     var translate = swiper.rtlTranslate ? swiper.translate : -swiper.translate;
 
@@ -2320,7 +2323,7 @@
       }
     }
     index = Math.max(index, 0);
-    index = Math.min(index, swiper.snapGrid.length - 1);
+    index = Math.min(index, swiper.slidesGrid.length - 1);
 
     return swiper.slideTo(index, speed, runCallbacks, internal);
   }
@@ -3307,11 +3310,12 @@
     // Find current slide
     var stopIndex = 0;
     var groupSize = swiper.slidesSizesGrid[0];
-    for (var i = 0; i < slidesGrid.length; i += params.slidesPerGroup) {
-      if (typeof slidesGrid[i + params.slidesPerGroup] !== 'undefined') {
-        if (currentPos >= slidesGrid[i] && currentPos < slidesGrid[i + params.slidesPerGroup]) {
+    for (var i = 0; i < slidesGrid.length; i += (i < params.slidesPerGroupSkip ? 1 : params.slidesPerGroup)) {
+      var increment$1 = (i < params.slidesPerGroupSkip - 1 ? 1 : params.slidesPerGroup);
+      if (typeof slidesGrid[i + increment$1] !== 'undefined') {
+        if (currentPos >= slidesGrid[i] && currentPos < slidesGrid[i + increment$1]) {
           stopIndex = i;
-          groupSize = slidesGrid[i + params.slidesPerGroup] - slidesGrid[i];
+          groupSize = slidesGrid[i + increment$1] - slidesGrid[i];
         }
       } else if (currentPos >= slidesGrid[i]) {
         stopIndex = i;
@@ -3321,6 +3325,7 @@
 
     // Find current slide size
     var ratio = (currentPos - slidesGrid[stopIndex]) / groupSize;
+    var increment = (stopIndex < params.slidesPerGroupSkip - 1 ? 1 : params.slidesPerGroup);
 
     if (timeDiff > params.longSwipesMs) {
       // Long touches
@@ -3329,11 +3334,11 @@
         return;
       }
       if (swiper.swipeDirection === 'next') {
-        if (ratio >= params.longSwipesRatio) { swiper.slideTo(stopIndex + params.slidesPerGroup); }
+        if (ratio >= params.longSwipesRatio) { swiper.slideTo(stopIndex + increment); }
         else { swiper.slideTo(stopIndex); }
       }
       if (swiper.swipeDirection === 'prev') {
-        if (ratio > (1 - params.longSwipesRatio)) { swiper.slideTo(stopIndex + params.slidesPerGroup); }
+        if (ratio > (1 - params.longSwipesRatio)) { swiper.slideTo(stopIndex + increment); }
         else { swiper.slideTo(stopIndex); }
       }
     } else {
@@ -3345,13 +3350,13 @@
       var isNavButtonTarget = swiper.navigation && (e.target === swiper.navigation.nextEl || e.target === swiper.navigation.prevEl);
       if (!isNavButtonTarget) {
         if (swiper.swipeDirection === 'next') {
-          swiper.slideTo(stopIndex + params.slidesPerGroup);
+          swiper.slideTo(stopIndex + increment);
         }
         if (swiper.swipeDirection === 'prev') {
           swiper.slideTo(stopIndex);
         }
       } else if (e.target === swiper.navigation.nextEl) {
-        swiper.slideTo(stopIndex + params.slidesPerGroup);
+        swiper.slideTo(stopIndex + increment);
       } else {
         swiper.slideTo(stopIndex);
       }
@@ -3565,7 +3570,7 @@
     if (breakpoint && swiper.currentBreakpoint !== breakpoint) {
       var breakpointOnlyParams = breakpoint in breakpoints ? breakpoints[breakpoint] : undefined;
       if (breakpointOnlyParams) {
-        ['slidesPerView', 'spaceBetween', 'slidesPerGroup', 'slidesPerColumn'].forEach(function (param) {
+        ['slidesPerView', 'spaceBetween', 'slidesPerGroup', 'slidesPerGroupSkip', 'slidesPerColumn'].forEach(function (param) {
           var paramValue = breakpointOnlyParams[param];
           if (typeof paramValue === 'undefined') { return; }
           if (param === 'slidesPerView' && (paramValue === 'AUTO' || paramValue === 'auto')) {
@@ -3622,14 +3627,22 @@
     // Get breakpoint for window width
     if (!breakpoints) { return undefined; }
     var breakpoint = false;
-    var points = [];
-    Object.keys(breakpoints).forEach(function (point) {
-      points.push(point);
+
+    var points = Object.keys(breakpoints).map(function (point) {
+      if (typeof point === 'string' && point.startsWith('@')) {
+        var minRatio = parseFloat(point.substr(1));
+        var value = win.innerHeight * minRatio;
+        return { value: value, point: point };
+      }
+      return { value: point, point: point };
     });
-    points.sort(function (a, b) { return parseInt(a, 10) - parseInt(b, 10); });
+
+    points.sort(function (a, b) { return parseInt(a.value, 10) - parseInt(b.value, 10); });
     for (var i = 0; i < points.length; i += 1) {
-      var point = points[i];
-      if (point <= win.innerWidth) {
+      var ref = points[i];
+      var point = ref.point;
+      var value = ref.value;
+      if (value <= win.innerWidth) {
         breakpoint = point;
       }
     }
@@ -3821,6 +3834,7 @@
     slidesPerColumn: 1,
     slidesPerColumnFill: 'column',
     slidesPerGroup: 1,
+    slidesPerGroupSkip: 0,
     centeredSlides: false,
     centeredSlidesBounds: false,
     slidesOffsetBefore: 0, // in px
@@ -4098,7 +4112,7 @@
           startTranslate: undefined,
           allowThresholdMove: undefined,
           // Form elements to match
-          formElements: 'input, select, option, textarea, button, video',
+          formElements: 'input, select, option, textarea, button, video, label',
           // Last click time
           lastClickTime: Utils.now(),
           clickTimeout: undefined,
@@ -5044,7 +5058,11 @@
         e.preventDefault();
       }
 
-      if (!swiper.mouseEntered && !params.releaseOnEdges) { return true; }
+      var target = swiper.$el;
+      if (swiper.params.mousewheel.eventsTarged !== 'container') {
+        target = $(swiper.params.mousewheel.eventsTarged);
+      }
+      if (!swiper.mouseEntered && !target[0].contains(e.target) && !params.releaseOnEdges) { return true; }
 
       if (e.originalEvent) { e = e.originalEvent; } // jquery fix
       var delta = 0;

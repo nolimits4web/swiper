@@ -60,7 +60,7 @@ Swiper 4.x
 ==========
 
 If you are still using Swiper 4.x.x, you may find it in [Swiper4 Branch](https://github.com/nolimits4web/Swiper/tree/Swiper4)
-* [Download Latest Swiper 4.5.1](https://github.com/nolimits4web/Swiper/archive/v4.5.1.zip)
+* [Download Latest Swiper 4.5.3](https://github.com/nolimits4web/Swiper/archive/v4.5.3.zip)
 * [Source Files](https://github.com/nolimits4web/Swiper/tree/Swiper4/src)
 * [API](https://github.com/nolimits4web/Swiper/blob/Swiper4/API.md)
 

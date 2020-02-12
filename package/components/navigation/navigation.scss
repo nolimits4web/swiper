@@ -51,7 +51,7 @@
   .swiper-button-prev,
   .swiper-button-next {
     &.swiper-button-#{$navColorName} {
-      --swiper-navigation-color: $navColorValue;
+      --swiper-navigation-color: #{$navColorValue};
     }
   }
 }

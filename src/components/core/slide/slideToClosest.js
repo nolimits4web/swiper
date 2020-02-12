@@ -2,7 +2,8 @@
 export default function (speed = this.params.speed, runCallbacks = true, internal, threshold = 0.5) {
   const swiper = this;
   let index = swiper.activeIndex;
-  const snapIndex = Math.floor(index / swiper.params.slidesPerGroup);
+  const skip = Math.min(swiper.params.slidesPerGroupSkip, index);
+  const snapIndex = skip + Math.floor((index - skip) / swiper.params.slidesPerGroup);
 
   const translate = swiper.rtlTranslate ? swiper.translate : -swiper.translate;
 
@@ -24,7 +25,7 @@ export default function (speed = this.params.speed, runCallbacks = true, interna
     }
   }
   index = Math.max(index, 0);
-  index = Math.min(index, swiper.snapGrid.length - 1);
+  index = Math.min(index, swiper.slidesGrid.length - 1);
 
   return swiper.slideTo(index, speed, runCallbacks, internal);
 }

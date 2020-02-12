@@ -10,7 +10,8 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
     return false;
   }
 
-  let snapIndex = Math.floor(slideIndex / params.slidesPerGroup);
+  const skip = Math.min(swiper.params.slidesPerGroupSkip, slideIndex);
+  let snapIndex = skip + Math.floor((slideIndex - skip) / swiper.params.slidesPerGroup);
   if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
 
   if ((activeIndex || params.initialSlide || 0) === (previousIndex || 0) && runCallbacks) {

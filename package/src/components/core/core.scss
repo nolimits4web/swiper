@@ -1,5 +1,5 @@
 :root {
-  --swiper-theme-color: $themeColor;
+  --swiper-theme-color: #{$themeColor};
 }
 .swiper-container {
   margin-left: auto;
