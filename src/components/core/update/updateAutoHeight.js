@@ -18,7 +18,7 @@ export default function (speed) {
       Math.ceil(swiper.params.slidesPerView) / 2
     );
 
-    // Then get each slide inwards from the bouncds of the view:
+    // Then get each slide inwards from the bounds of the view:
     while (amountOfSlidesOnEachSide > 0) {
       const nextSlide = slidesArray[
         centerSlideIndex + amountOfSlidesOnEachSide
