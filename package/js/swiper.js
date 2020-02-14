@@ -1557,7 +1557,7 @@
         Math.ceil(swiper.params.slidesPerView) / 2
       );
 
-      // Then get each slide inwards from the bouncds of the view:
+      // Then get each slide inwards from the bounds of the view:
       while (amountOfSlidesOnEachSide > 0) {
         var nextSlide = slidesArray[
           centerSlideIndex + amountOfSlidesOnEachSide
@@ -1601,11 +1601,10 @@
     }
 
     // Find new max height from highest slide in view
-    var maxHeight = activeSlides.reduce(function (accum, slide) {
-      return accum < slide.offsetHeight
-        ? slide.offsetHeight
-        : accum;
-    }, 0);
+    var maxHeight = activeSlides.reduce(
+      function (accum, slide) { return (accum < slide.offsetHeight ? slide.offsetHeight : accum); },
+      0
+    );
 
     // Update Height
     if (maxHeight) { swiper.$wrapperEl.css('height', (maxHeight + "px")); }

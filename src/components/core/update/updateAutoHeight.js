@@ -62,11 +62,10 @@ export default function (speed) {
   }
 
   // Find new max height from highest slide in view
-  const maxHeight = activeSlides.reduce((accum, slide) => {
-    return accum < slide.offsetHeight
-      ? slide.offsetHeight
-      : accum;
-  }, 0);
+  const maxHeight = activeSlides.reduce(
+    (accum, slide) => (accum < slide.offsetHeight ? slide.offsetHeight : accum),
+    0
+  );
 
   // Update Height
   if (maxHeight) swiper.$wrapperEl.css('height', `${maxHeight}px`);
