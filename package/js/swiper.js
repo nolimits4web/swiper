@@ -1549,13 +1549,31 @@
 
     // Find slides currently in view
     var activeSlides = [];
-    if (swiper.params.slidesPerView > 1 && swiper.params.centeredSlides) {
-      activeSlides = swiper.slides.filter(
-        function (index, slide) { return (
-          slide.classList.contains('swiper-slide-active')
-          || slide.classList.contains('swiper-slide-prev')
-          || slide.classList.contains('swiper-slide-next')); }
-      );
+    if (
+      swiper.params.slidesPerView !== 'auto'
+      && swiper.params.slidesPerView > 1
+      && swiper.params.centeredSlides
+    ) {
+      var centerSlideIndex = 0;
+      var slidesArray = Array.from(swiper.slides);
+
+      // First, get the center slide:
+      slidesArray.forEach(function (slide, index) {
+        if (slide.classList.contains('swiper-slide-active')) {
+          activeSlides.push(slide);
+          centerSlideIndex = index;
+        }
+      });
+      var amountOfSlidesOnEachSide = Math.floor(Math.ceil(swiper.params.slidesPerView) / 2);
+
+      // Then get each slide outwards - that is currently in view ...
+      while (amountOfSlidesOnEachSide > 0) {
+        var nextSlide = slidesArray[centerSlideIndex + amountOfSlidesOnEachSide];
+        if (nextSlide) { activeSlides.push(nextSlide); }
+        var prevSlide = slidesArray[centerSlideIndex - amountOfSlidesOnEachSide];
+        if (prevSlide) { activeSlides.push(prevSlide); }
+        amountOfSlidesOnEachSide -= 1;
+      }
     } else if (
       swiper.params.slidesPerView !== 'auto'
       && swiper.params.slidesPerView > 1
@@ -1563,7 +1581,7 @@
       for (i = 0; i < Math.ceil(swiper.params.slidesPerView); i += 1) {
         var index = swiper.activeIndex + i;
         if (index > swiper.slides.length) { break; }
-        activeSlides.push(swiper.slides.eq(index)[0]);
+        activeSlides.push(swiper.slides[index]);
       }
     } else {
       activeSlides.push(swiper.slides.eq(swiper.activeIndex)[0]);
