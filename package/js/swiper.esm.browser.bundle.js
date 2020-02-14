@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: February 8, 2020
+ * Released on: February 14, 2020
  */
 
 /**
@@ -1484,7 +1484,6 @@ function updateSlides () {
 
 function updateAutoHeight (speed) {
   const swiper = this;
-  const activeSlides = [];
   let newHeight = 0;
   let i;
   if (typeof speed === 'number') {
@@ -1492,8 +1491,20 @@ function updateAutoHeight (speed) {
   } else if (speed === true) {
     swiper.setTransition(swiper.params.speed);
   }
+
   // Find slides currently in view
-  if (swiper.params.slidesPerView !== 'auto' && swiper.params.slidesPerView > 1) {
+  let activeSlides = [];
+  if (swiper.params.slidesPerView > 1 && swiper.params.centeredSlides) {
+    activeSlides = swiper.slides.filter(
+      (index, slide) => (
+        slide.classList.contains('swiper-slide-active')
+        || slide.classList.contains('swiper-slide-prev')
+        || slide.classList.contains('swiper-slide-next'))
+    );
+  } else if (
+    swiper.params.slidesPerView !== 'auto'
+    && swiper.params.slidesPerView > 1
+  ) {
     for (i = 0; i < Math.ceil(swiper.params.slidesPerView); i += 1) {
       const index = swiper.activeIndex + i;
       if (index > swiper.slides.length) break;
