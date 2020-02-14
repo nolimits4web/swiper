@@ -10,8 +10,6 @@ export default function(speed) {
 
   // Find slides currently in view
   let activeSlides = [];
-
-  // Find slides currently in view
   if (swiper.params.slidesPerView > 1 && swiper.params.centeredSlides) {
     activeSlides = swiper.slides.filter(
       (index, slide) =>
