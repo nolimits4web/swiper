@@ -755,6 +755,7 @@ function updateAutoHeight (speed) {
       if (index > swiper.slides.length) break;
       activeSlides.push(swiper.slides[index]);
     }
+    return activeSlides;
   };
 
   if (typeof speed === 'number') {
@@ -763,7 +764,7 @@ function updateAutoHeight (speed) {
     swiper.setTransition(swiper.params.speed);
   }
 
-  // Find slides currently in view
+  // Find slides currently in view:
   let activeSlides = [swiper.slides.eq(swiper.activeIndex)[0]];
   if (
     swiper.params.slidesPerView !== 'auto'

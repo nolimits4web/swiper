@@ -1581,6 +1581,7 @@
         if (index > swiper.slides.length) { break; }
         activeSlides.push(swiper.slides[index]);
       }
+      return activeSlides;
     };
 
     if (typeof speed === 'number') {
@@ -1589,7 +1590,7 @@
       swiper.setTransition(swiper.params.speed);
     }
 
-    // Find slides currently in view
+    // Find slides currently in view:
     var activeSlides = [swiper.slides.eq(swiper.activeIndex)[0]];
     if (
       swiper.params.slidesPerView !== 'auto'
