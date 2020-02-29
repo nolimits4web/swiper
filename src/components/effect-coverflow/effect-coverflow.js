@@ -26,8 +26,13 @@ const Coverflow = {
       // var rotateZ = 0
       let translateZ = -translate * Math.abs(offsetMultiplier);
 
-      let translateY = isHorizontal ? 0 : params.stretch * (offsetMultiplier);
-      let translateX = isHorizontal ? params.stretch * (offsetMultiplier) : 0;
+      let stretch = params.stretch;
+      // Allow percentage to make a relative stretch for responsive sliders
+      if (typeof stretch === 'string' && stretch.indexOf('%') !== -1) {
+        stretch = ((parseFloat(params.stretch) / 100) * slideSize);
+      }
+      let translateY = isHorizontal ? 0 : stretch * (offsetMultiplier);
+      let translateX = isHorizontal ? stretch * (offsetMultiplier) : 0;
 
       // Fix for ultra small values
       if (Math.abs(translateX) < 0.001) translateX = 0;
