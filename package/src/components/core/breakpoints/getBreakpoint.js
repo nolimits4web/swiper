@@ -6,7 +6,7 @@ export default function (breakpoints) {
   let breakpoint = false;
 
   const points = Object.keys(breakpoints).map((point) => {
-    if (typeof point === 'string' && point.startsWith('@')) {
+    if (typeof point === 'string' && point.indexOf('@') === 0) {
       const minRatio = parseFloat(point.substr(1));
       const value = window.innerHeight * minRatio;
       return { value, point };

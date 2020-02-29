@@ -10,10 +10,13 @@ export default function (speed) {
   }
   // Find slides currently in view
   if (swiper.params.slidesPerView !== 'auto' && swiper.params.slidesPerView > 1) {
-    for (i = 0; i < Math.ceil(swiper.params.slidesPerView); i += 1) {
-      const index = swiper.activeIndex + i;
-      if (index > swiper.slides.length) break;
-      activeSlides.push(swiper.slides.eq(index)[0]);
+    if (swiper.params.centeredSlides) activeSlides.push(...swiper.visibleSlides);
+    else {
+      for (i = 0; i < Math.ceil(swiper.params.slidesPerView); i += 1) {
+        const index = swiper.activeIndex + i;
+        if (index > swiper.slides.length) break;
+        activeSlides.push(swiper.slides.eq(index)[0]);
+      }
     }
   } else {
     activeSlides.push(swiper.slides.eq(swiper.activeIndex)[0]);

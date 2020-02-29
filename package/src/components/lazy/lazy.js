@@ -61,6 +61,9 @@ const Lazy = {
           }
         }
         swiper.emit('lazyImageReady', $slideEl[0], $imageEl[0]);
+        if (swiper.params.autoHeight) {
+          swiper.updateAutoHeight();
+        }
       });
 
       swiper.emit('lazyImageLoad', $slideEl[0], $imageEl[0]);

@@ -1,5 +1,5 @@
 /**
- * Swiper 5.3.1
+ * Swiper 5.3.5
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: February 8, 2020
+ * Released on: February 29, 2020
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition as transition$1, on, off, trigger, transitionEnd as transitionEnd$1, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, filter, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -723,10 +723,13 @@ function updateAutoHeight (speed) {
   }
   // Find slides currently in view
   if (swiper.params.slidesPerView !== 'auto' && swiper.params.slidesPerView > 1) {
-    for (i = 0; i < Math.ceil(swiper.params.slidesPerView); i += 1) {
-      const index = swiper.activeIndex + i;
-      if (index > swiper.slides.length) break;
-      activeSlides.push(swiper.slides.eq(index)[0]);
+    if (swiper.params.centeredSlides) activeSlides.push(...swiper.visibleSlides);
+    else {
+      for (i = 0; i < Math.ceil(swiper.params.slidesPerView); i += 1) {
+        const index = swiper.activeIndex + i;
+        if (index > swiper.slides.length) break;
+        activeSlides.push(swiper.slides.eq(index)[0]);
+      }
     }
   } else {
     activeSlides.push(swiper.slides.eq(swiper.activeIndex)[0]);
@@ -775,7 +778,7 @@ function updateSlidesProgress (translate = (this && this.translate) || 0) {
     const slideProgress = (
       (offsetCenter + (params.centeredSlides ? swiper.minTranslate() : 0)) - slide.swiperSlideOffset
     ) / (slide.swiperSlideSize + params.spaceBetween);
-    if (params.watchSlidesVisibility) {
+    if (params.watchSlidesVisibility || (params.centeredSlides && params.autoHeight)) {
       const slideBefore = -(offsetCenter - slide.swiperSlideOffset);
       const slideAfter = slideBefore + swiper.slidesSizesGrid[i];
       const isVisible = (slideBefore >= 0 && slideBefore < swiper.size - 1)
@@ -819,7 +822,7 @@ function updateProgress (translate) {
     isEnd,
   });
 
-  if (params.watchSlidesProgress || params.watchSlidesVisibility) swiper.updateSlidesProgress(translate);
+  if (params.watchSlidesProgress || params.watchSlidesVisibility || (params.centeredSlides && params.autoHeight)) swiper.updateSlidesProgress(translate);
 
   if (isBeginning && !wasBeginning) {
     swiper.emit('reachBeginning toEdge');
@@ -2725,7 +2728,7 @@ function getBreakpoint (breakpoints) {
   let breakpoint = false;
 
   const points = Object.keys(breakpoints).map((point) => {
-    if (typeof point === 'string' && point.startsWith('@')) {
+    if (typeof point === 'string' && point.indexOf('@') === 0) {
       const minRatio = parseFloat(point.substr(1));
       const value = window.innerHeight * minRatio;
       return { value, point };
@@ -5670,7 +5673,7 @@ const Zoom = {
     const { gesture, image } = zoom;
 
     if (!gesture.$slideEl) {
-      gesture.$slideEl = swiper.clickedSlide ? $(swiper.clickedSlide) : swiper.slides.eq(swiper.activeIndex);
+      gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
       gesture.$imageEl = gesture.$slideEl.find('img, svg, canvas');
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
     }
@@ -5756,7 +5759,7 @@ const Zoom = {
     const { gesture } = zoom;
 
     if (!gesture.$slideEl) {
-      gesture.$slideEl = swiper.clickedSlide ? $(swiper.clickedSlide) : swiper.slides.eq(swiper.activeIndex);
+      gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
       gesture.$imageEl = gesture.$slideEl.find('img, svg, canvas');
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
     }
@@ -6001,6 +6004,9 @@ const Lazy = {
           }
         }
         swiper.emit('lazyImageReady', $slideEl[0], $imageEl[0]);
+        if (swiper.params.autoHeight) {
+          swiper.updateAutoHeight();
+        }
       });
 
       swiper.emit('lazyImageLoad', $slideEl[0], $imageEl[0]);
@@ -7342,8 +7348,13 @@ const Coverflow = {
       // var rotateZ = 0
       let translateZ = -translate * Math.abs(offsetMultiplier);
 
-      let translateY = isHorizontal ? 0 : params.stretch * (offsetMultiplier);
-      let translateX = isHorizontal ? params.stretch * (offsetMultiplier) : 0;
+      let stretch = params.stretch;
+      // Allow percentage to make a relative stretch for responsive sliders
+      if (typeof stretch === 'string' && stretch.indexOf('%') !== -1) {
+        stretch = ((parseFloat(params.stretch) / 100) * slideSize);
+      }
+      let translateY = isHorizontal ? 0 : stretch * (offsetMultiplier);
+      let translateX = isHorizontal ? stretch * (offsetMultiplier) : 0;
 
       // Fix for ultra small values
       if (Math.abs(translateX) < 0.001) translateX = 0;
