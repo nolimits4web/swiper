@@ -1794,7 +1794,7 @@
     if (previousRealIndex !== realIndex) {
       swiper.emit('realIndexChange');
     }
-    if (swiper.initialized || swiper.runCallbacksOnInit) {
+    if (swiper.initialized || swiper.params.runCallbacksOnInit) {
       swiper.emit('slideChange');
     }
   }
