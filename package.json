@@ -66,7 +66,7 @@
     "gulp-open": "^3.0.1",
     "less": "^3.10.3",
     "postcss": "^7.0.18",
-    "rollup": "^1.21.4",
+    "rollup": "^2.0.0",
     "rollup-plugin-buble": "^0.19.8",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-replace": "^2.2.0",
