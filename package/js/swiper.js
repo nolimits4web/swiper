@@ -1,5 +1,5 @@
 /**
- * Swiper 5.3.6
+ * Swiper 5.3.7
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,14 +7,14 @@
  *
  * Released under the MIT License
  *
- * Released on: February 29, 2020
+ * Released on: April 10, 2020
  */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = global || self, global.Swiper = factory());
-}(this, function () { 'use strict';
+}(this, (function () { 'use strict';
 
   /**
    * SSR Window 1.0.1
@@ -1549,8 +1549,11 @@
     }
     // Find slides currently in view
     if (swiper.params.slidesPerView !== 'auto' && swiper.params.slidesPerView > 1) {
-      if (swiper.params.centeredSlides) { activeSlides.push.apply(activeSlides, swiper.visibleSlides); }
-      else {
+      if (swiper.params.centeredSlides) {
+        swiper.visibleSlides.each(function (index, slide) {
+          activeSlides.push(slide);
+        });
+      } else {
         for (i = 0; i < Math.ceil(swiper.params.slidesPerView); i += 1) {
           var index = swiper.activeIndex + i;
           if (index > swiper.slides.length) { break; }
@@ -1794,7 +1797,7 @@
     if (previousRealIndex !== realIndex) {
       swiper.emit('realIndexChange');
     }
-    if (swiper.initialized || swiper.runCallbacksOnInit) {
+    if (swiper.initialized || swiper.params.runCallbacksOnInit) {
       swiper.emit('slideChange');
     }
   }
@@ -2163,14 +2166,18 @@
     }
     if (params.cssMode) {
       var isH = swiper.isHorizontal();
+      var t = -translate;
+      if (rtl) {
+        t = wrapperEl.scrollWidth - wrapperEl.offsetWidth - t;
+      }
       if (speed === 0) {
-        wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = -translate;
+        wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = t;
       } else {
         // eslint-disable-next-line
         if (wrapperEl.scrollTo) {
-          wrapperEl.scrollTo(( obj = {}, obj[isH ? 'left' : 'top'] = -translate, obj.behavior = 'smooth', obj ));
+          wrapperEl.scrollTo(( obj = {}, obj[isH ? 'left' : 'top'] = t, obj.behavior = 'smooth', obj ));
         } else {
-          wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = -translate;
+          wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = t;
         }
       }
       return true;
@@ -3424,8 +3431,17 @@
   function onScroll () {
     var swiper = this;
     var wrapperEl = swiper.wrapperEl;
+    var rtlTranslate = swiper.rtlTranslate;
     swiper.previousTranslate = swiper.translate;
-    swiper.translate = swiper.isHorizontal() ? -wrapperEl.scrollLeft : -wrapperEl.scrollTop;
+    if (swiper.isHorizontal()) {
+      if (rtlTranslate) {
+        swiper.translate = ((wrapperEl.scrollWidth - wrapperEl.offsetWidth) - wrapperEl.scrollLeft);
+      } else {
+        swiper.translate = -wrapperEl.scrollLeft;
+      }
+    } else {
+      swiper.translate = -wrapperEl.scrollTop;
+    }
     // eslint-disable-next-line
     if (swiper.translate === -0) { swiper.translate = 0; }
 
@@ -3440,7 +3456,7 @@
       newProgress = (swiper.translate - swiper.minTranslate()) / (translatesDiff);
     }
     if (newProgress !== swiper.progress) {
-      swiper.updateProgress(swiper.translate);
+      swiper.updateProgress(rtlTranslate ? -swiper.translate : swiper.translate);
     }
 
     swiper.emit('setTranslate', swiper.translate, false);
@@ -6400,7 +6416,9 @@
           return;
         }
       }
-      gesture.$imageEl.transition(0);
+      if (gesture.$imageEl) {
+        gesture.$imageEl.transition(0);
+      }
       swiper.zoom.isScaling = true;
     },
     onGestureChange: function onGestureChange(e) {
@@ -6602,8 +6620,12 @@
       var zoom = swiper.zoom;
       var gesture = zoom.gesture;
       if (gesture.$slideEl && swiper.previousIndex !== swiper.activeIndex) {
-        gesture.$imageEl.transform('translate3d(0,0,0) scale(1)');
-        gesture.$imageWrapEl.transform('translate3d(0,0,0)');
+        if (gesture.$imageEl) {
+          gesture.$imageEl.transform('translate3d(0,0,0) scale(1)');
+        }
+        if (gesture.$imageWrapEl) {
+          gesture.$imageWrapEl.transform('translate3d(0,0,0)');
+        }
 
         zoom.scale = 1;
         zoom.currentScale = 1;
@@ -6635,7 +6657,11 @@
       var image = zoom.image;
 
       if (!gesture.$slideEl) {
-        gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
+        if (swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual) {
+          gesture.$slideEl = swiper.$wrapperEl.children(("." + (swiper.params.slideActiveClass)));
+        } else {
+          gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
+        }
         gesture.$imageEl = gesture.$slideEl.find('img, svg, canvas, picture, .swiper-zoom-target');
         gesture.$imageWrapEl = gesture.$imageEl.parent(("." + (params.containerClass)));
       }
@@ -6721,7 +6747,11 @@
       var gesture = zoom.gesture;
 
       if (!gesture.$slideEl) {
-        gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
+        if (swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual) {
+          gesture.$slideEl = swiper.$wrapperEl.children(("." + (swiper.params.slideActiveClass)));
+        } else {
+          gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
+        }
         gesture.$imageEl = gesture.$slideEl.find('img, svg, canvas, picture, .swiper-zoom-target');
         gesture.$imageWrapEl = gesture.$imageEl.parent(("." + (params.containerClass)));
       }
@@ -8658,5 +8688,5 @@
 
   return Swiper;
 
-}));
+})));
 //# sourceMappingURL=swiper.js.map

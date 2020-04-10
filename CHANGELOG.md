@@ -1,5 +1,12 @@
 # Change Log
 
+## [Swiper 5.3.7](https://github.com/nolimits4web/swiper/compare/v5.3.6...v5.3.7) - Released on April 10, 2020
+  * Core
+    * Fixed `cssMode` behavior in RTL layout
+  * Zoom
+    * Fixed issue with not working double-tap to toggle with virtual slides
+  * Minor fixes
+
 ## [Swiper 5.3.6](https://github.com/nolimits4web/swiper/compare/v5.3.1...v5.3.6) - Released on February 29, 2020
   * Core
     * Fixed wrong auto height calculation with `centeredSlides` enabled
