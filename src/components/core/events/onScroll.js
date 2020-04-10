@@ -1,8 +1,16 @@
 export default function () {
   const swiper = this;
-  const { wrapperEl } = swiper;
+  const { wrapperEl, rtlTranslate } = swiper;
   swiper.previousTranslate = swiper.translate;
-  swiper.translate = swiper.isHorizontal() ? -wrapperEl.scrollLeft : -wrapperEl.scrollTop;
+  if (swiper.isHorizontal()) {
+    if (rtlTranslate) {
+      swiper.translate = ((wrapperEl.scrollWidth - wrapperEl.offsetWidth) - wrapperEl.scrollLeft);
+    } else {
+      swiper.translate = -wrapperEl.scrollLeft;
+    }
+  } else {
+    swiper.translate = -wrapperEl.scrollTop;
+  }
   // eslint-disable-next-line
   if (swiper.translate === -0) swiper.translate = 0;
 
@@ -17,7 +25,7 @@ export default function () {
     newProgress = (swiper.translate - swiper.minTranslate()) / (translatesDiff);
   }
   if (newProgress !== swiper.progress) {
-    swiper.updateProgress(swiper.translate);
+    swiper.updateProgress(rtlTranslate ? -swiper.translate : swiper.translate);
   }
 
   swiper.emit('setTranslate', swiper.translate, false);

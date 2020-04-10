@@ -66,17 +66,21 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   }
   if (params.cssMode) {
     const isH = swiper.isHorizontal();
+    let t = -translate;
+    if (rtl) {
+      t = wrapperEl.scrollWidth - wrapperEl.offsetWidth - t;
+    }
     if (speed === 0) {
-      wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = -translate;
+      wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = t;
     } else {
       // eslint-disable-next-line
       if (wrapperEl.scrollTo) {
         wrapperEl.scrollTo({
-          [isH ? 'left' : 'top']: -translate,
+          [isH ? 'left' : 'top']: t,
           behavior: 'smooth',
         });
       } else {
-        wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = -translate;
+        wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = t;
       }
     }
     return true;
