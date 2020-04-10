@@ -40,7 +40,9 @@ const Zoom = {
         return;
       }
     }
-    gesture.$imageEl.transition(0);
+    if (gesture.$imageEl) {
+      gesture.$imageEl.transition(0);
+    }
     swiper.zoom.isScaling = true;
   },
   onGestureChange(e) {
@@ -237,8 +239,12 @@ const Zoom = {
     const zoom = swiper.zoom;
     const { gesture } = zoom;
     if (gesture.$slideEl && swiper.previousIndex !== swiper.activeIndex) {
-      gesture.$imageEl.transform('translate3d(0,0,0) scale(1)');
-      gesture.$imageWrapEl.transform('translate3d(0,0,0)');
+      if (gesture.$imageEl) {
+        gesture.$imageEl.transform('translate3d(0,0,0) scale(1)');
+      }
+      if (gesture.$imageWrapEl) {
+        gesture.$imageWrapEl.transform('translate3d(0,0,0)');
+      }
 
       zoom.scale = 1;
       zoom.currentScale = 1;
