@@ -6461,7 +6461,7 @@ const a11y = {
         const $bulletEl = $(bulletEl);
         swiper.a11y.makeElFocusable($bulletEl);
         swiper.a11y.addElRole($bulletEl, 'button');
-        swiper.a11y.addElLabel($bulletEl, params.paginationBulletMessage.replace(/{{index}}/, $bulletEl.index() + 1));
+        swiper.a11y.addElLabel($bulletEl, params.paginationBulletMessage.replace(/\{\{index\}\}/, $bulletEl.index() + 1));
       });
     }
   },
@@ -7677,7 +7677,7 @@ const components = [
   Browser$1,
   Resize,
   Observer$1,
-  
+
 ];
 
 if (typeof Swiper.use === 'undefined') {
