@@ -15,11 +15,11 @@ const a11y = {
     return $el;
   },
   disableEl($el) {
-    $el.attr('aria-disabled', true);
+    $el.attr('disabled', 'disabled');
     return $el;
   },
   enableEl($el) {
-    $el.attr('aria-disabled', false);
+    $el.removeAttr('disabled');
     return $el;
   },
   onEnterKey(e) {
