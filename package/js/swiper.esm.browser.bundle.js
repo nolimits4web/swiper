@@ -1,5 +1,5 @@
 /**
- * Swiper 5.3.7
+ * Swiper 5.3.8
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: April 10, 2020
+ * Released on: April 24, 2020
  */
 
 /**
@@ -3152,13 +3152,14 @@ function onTouchEnd (event) {
         $wrapperEl.transitionEnd(() => {
           if (!swiper || swiper.destroyed || !data.allowMomentumBounce) return;
           swiper.emit('momentumBounce');
-
           swiper.setTransition(params.speed);
-          swiper.setTranslate(afterBouncePosition);
-          $wrapperEl.transitionEnd(() => {
-            if (!swiper || swiper.destroyed) return;
-            swiper.transitionEnd();
-          });
+          setTimeout(() => {
+            swiper.setTranslate(afterBouncePosition);
+            $wrapperEl.transitionEnd(() => {
+              if (!swiper || swiper.destroyed) return;
+              swiper.transitionEnd();
+            });
+          }, 0);
         });
       } else if (swiper.velocity) {
         swiper.updateProgress(newPosition);
@@ -7232,7 +7233,7 @@ const a11y = {
         const $bulletEl = $(bulletEl);
         swiper.a11y.makeElFocusable($bulletEl);
         swiper.a11y.addElRole($bulletEl, 'button');
-        swiper.a11y.addElLabel($bulletEl, params.paginationBulletMessage.replace(/{{index}}/, $bulletEl.index() + 1));
+        swiper.a11y.addElLabel($bulletEl, params.paginationBulletMessage.replace(/\{\{index\}\}/, $bulletEl.index() + 1));
       });
     }
   },
@@ -8313,9 +8314,12 @@ const Thumbs = {
       ? thumbsSwiper.slidesPerViewDynamic()
       : thumbsSwiper.params.slidesPerView;
 
-    if (swiper.realIndex !== thumbsSwiper.realIndex) {
+    const autoScrollOffset = swiper.params.thumbs.autoScrollOffset;
+    const useOffset = autoScrollOffset && !thumbsSwiper.params.loop;
+    if (swiper.realIndex !== thumbsSwiper.realIndex || useOffset) {
       let currentThumbsIndex = thumbsSwiper.activeIndex;
       let newThumbsIndex;
+      let direction;
       if (thumbsSwiper.params.loop) {
         if (thumbsSwiper.slides.eq(currentThumbsIndex).hasClass(thumbsSwiper.params.slideDuplicateClass)) {
           thumbsSwiper.loopFix();
@@ -8324,16 +8328,28 @@ const Thumbs = {
           currentThumbsIndex = thumbsSwiper.activeIndex;
         }
         // Find actual thumbs index to slide to
-        const prevThumbsIndex = thumbsSwiper.slides.eq(currentThumbsIndex).prevAll(`[data-swiper-slide-index="${swiper.realIndex}"]`).eq(0).index();
-        const nextThumbsIndex = thumbsSwiper.slides.eq(currentThumbsIndex).nextAll(`[data-swiper-slide-index="${swiper.realIndex}"]`).eq(0).index();
+        const prevThumbsIndex = thumbsSwiper.slides
+          .eq(currentThumbsIndex)
+          .prevAll(`[data-swiper-slide-index="${swiper.realIndex}"]`).eq(0)
+          .index();
+        const nextThumbsIndex = thumbsSwiper.slides
+          .eq(currentThumbsIndex)
+          .nextAll(`[data-swiper-slide-index="${swiper.realIndex}"]`).eq(0)
+          .index();
         if (typeof prevThumbsIndex === 'undefined') newThumbsIndex = nextThumbsIndex;
         else if (typeof nextThumbsIndex === 'undefined') newThumbsIndex = prevThumbsIndex;
         else if (nextThumbsIndex - currentThumbsIndex === currentThumbsIndex - prevThumbsIndex) newThumbsIndex = currentThumbsIndex;
         else if (nextThumbsIndex - currentThumbsIndex < currentThumbsIndex - prevThumbsIndex) newThumbsIndex = nextThumbsIndex;
         else newThumbsIndex = prevThumbsIndex;
+        direction = swiper.activeIndex > swiper.previousIndex ? 'next' : 'prev';
       } else {
         newThumbsIndex = swiper.realIndex;
+        direction = newThumbsIndex > swiper.previousIndex ? 'next' : 'prev';
       }
+      if (useOffset) {
+        newThumbsIndex += direction === 'next' ? autoScrollOffset : -1 * autoScrollOffset;
+      }
+
       if (thumbsSwiper.visibleSlidesIndexes && thumbsSwiper.visibleSlidesIndexes.indexOf(newThumbsIndex) < 0) {
         if (thumbsSwiper.params.centeredSlides) {
           if (newThumbsIndex > currentThumbsIndex) {
@@ -8378,8 +8394,9 @@ var Thumbs$1 = {
   name: 'thumbs',
   params: {
     thumbs: {
-      multipleActiveThumbs: true,
       swiper: null,
+      multipleActiveThumbs: true,
+      autoScrollOffset: 0,
       slideThumbActiveClass: 'swiper-slide-thumb-active',
       thumbsContainerClass: 'swiper-container-thumbs',
     },

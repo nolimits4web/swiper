@@ -1,5 +1,15 @@
 # Change Log
 
+## [Swiper 5.3.8](https://github.com/nolimits4web/swiper/compare/v5.3.7...v5.3.8) - Released on April 24, 2020
+  * Core
+    * Fix iOS bug with double bounce on free mode momentum bounce
+  * A11y
+    * Fixed focus ring on navigation buttons (#3544)
+    * Fixed RegExp issue in `paginationBulletMessage` (#3540, #3541)
+  * Thumbs
+    * Added `thumbs.autoScrollOffset` parameter that allows to set on what thumbs active slide from edge it should automaticall move scroll thumbs
+  * Minor fixes
+
 ## [Swiper 5.3.7](https://github.com/nolimits4web/swiper/compare/v5.3.6...v5.3.7) - Released on April 10, 2020
   * Core
     * Fixed `cssMode` behavior in RTL layout
