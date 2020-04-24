@@ -196,13 +196,14 @@ export default function (event) {
         $wrapperEl.transitionEnd(() => {
           if (!swiper || swiper.destroyed || !data.allowMomentumBounce) return;
           swiper.emit('momentumBounce');
-
           swiper.setTransition(params.speed);
-          swiper.setTranslate(afterBouncePosition);
-          $wrapperEl.transitionEnd(() => {
-            if (!swiper || swiper.destroyed) return;
-            swiper.transitionEnd();
-          });
+          setTimeout(() => {
+            swiper.setTranslate(afterBouncePosition);
+            $wrapperEl.transitionEnd(() => {
+              if (!swiper || swiper.destroyed) return;
+              swiper.transitionEnd();
+            });
+          }, 0);
         });
       } else if (swiper.velocity) {
         swiper.updateProgress(newPosition);
