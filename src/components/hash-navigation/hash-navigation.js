@@ -5,6 +5,7 @@ import Utils from '../../utils/utils';
 const HashNavigation = {
   onHashCange() {
     const swiper = this;
+    swiper.emit('hashChange');
     const newHash = document.location.hash.replace('#', '');
     const activeSlideHash = swiper.slides.eq(swiper.activeIndex).attr('data-hash');
     if (newHash !== activeSlideHash) {
