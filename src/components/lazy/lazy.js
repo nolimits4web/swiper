@@ -27,6 +27,7 @@ const Lazy = {
       const src = $imageEl.attr('data-src');
       const srcset = $imageEl.attr('data-srcset');
       const sizes = $imageEl.attr('data-sizes');
+      const picture = $($imageEl[0]).parent();
 
       swiper.loadImage($imageEl[0], (src || background), srcset, sizes, false, () => {
         if (typeof swiper === 'undefined' || swiper === null || !swiper || (swiper && !swiper.params) || swiper.destroyed) return;
@@ -41,6 +42,17 @@ const Lazy = {
           if (sizes) {
             $imageEl.attr('sizes', sizes);
             $imageEl.removeAttr('data-sizes');
+          }
+          if (picture && picture[0].tagName === 'PICTURE') {
+            const sources = Array.from(picture[0].querySelectorAll('source'));
+            sources.forEach(source => {
+              const $source = $(source);
+
+              if ($source.attr('data-srcset')) {
+                $source.attr('srcset', $source.attr('data-srcset'));
+                $source.removeAttr('data-srcset');
+              }
+            });
           }
           if (src) {
             $imageEl.attr('src', src);
@@ -90,6 +102,7 @@ const Lazy = {
       } else if (slides[index]) return true;
       return false;
     }
+
     function slideIndex(slideEl) {
       if (isVirtual) {
         return $(slideEl).attr('data-swiper-slide-index');
