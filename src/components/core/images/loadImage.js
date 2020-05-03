@@ -5,7 +5,8 @@ export default function (imageEl, src, srcset, sizes, checkForComplete, callback
   function onReady() {
     if (callback) callback();
   }
-  if (!imageEl.complete || !checkForComplete) {
+  const picture = $(imageEl).parent();
+  if (!imageEl.complete || !checkForComplete && (picture[0].tagName !== 'PICTURE')) {
     if (src) {
       image = new window.Image();
       image.onload = onReady;
