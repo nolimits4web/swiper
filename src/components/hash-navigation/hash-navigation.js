@@ -5,6 +5,7 @@ import Utils from '../../utils/utils';
 const HashNavigation = {
   onHashCange() {
     const swiper = this;
+    swiper.emit('hashChange');
     const newHash = document.location.hash.replace('#', '');
     const activeSlideHash = swiper.slides.eq(swiper.activeIndex).attr('data-hash');
     if (newHash !== activeSlideHash) {
@@ -18,10 +19,12 @@ const HashNavigation = {
     if (!swiper.hashNavigation.initialized || !swiper.params.hashNavigation.enabled) return;
     if (swiper.params.hashNavigation.replaceState && window.history && window.history.replaceState) {
       window.history.replaceState(null, null, (`#${swiper.slides.eq(swiper.activeIndex).attr('data-hash')}` || ''));
+      swiper.emit('hashSet');
     } else {
       const slide = swiper.slides.eq(swiper.activeIndex);
       const hash = slide.attr('data-hash') || slide.attr('data-history');
       document.location.hash = hash || '';
+      swiper.emit('hashSet');
     }
   },
   init() {
