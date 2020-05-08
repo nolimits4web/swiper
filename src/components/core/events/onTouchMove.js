@@ -102,10 +102,10 @@ export default function (event) {
     return;
   }
   swiper.allowClick = false;
-  if (!params.cssMode) {
+  if (!params.cssMode && e.cancelable) {
     e.preventDefault();
   }
-  if (params.touchMoveStopPropagation && !params.nested) {
+  if (params.touchMoveStopPropagation && !params.nested && e.cancelable) {
     e.stopPropagation();
   }
 
