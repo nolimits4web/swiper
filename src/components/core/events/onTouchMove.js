@@ -105,7 +105,7 @@ export default function (event) {
   if (!params.cssMode && e.cancelable) {
     e.preventDefault();
   }
-  if (params.touchMoveStopPropagation && !params.nested && e.cancelable) {
+  if (params.touchMoveStopPropagation && !params.nested) {
     e.stopPropagation();
   }
 
