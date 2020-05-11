@@ -27,7 +27,7 @@ const Lazy = {
       const src = $imageEl.attr('data-src');
       const srcset = $imageEl.attr('data-srcset');
       const sizes = $imageEl.attr('data-sizes');
-      const picture = $($imageEl[0]).parent();
+      const $pictureEl = $imageEl.parent('picture');
 
       swiper.loadImage($imageEl[0], (src || background), srcset, sizes, false, () => {
         if (typeof swiper === 'undefined' || swiper === null || !swiper || (swiper && !swiper.params) || swiper.destroyed) return;
@@ -43,10 +43,9 @@ const Lazy = {
             $imageEl.attr('sizes', sizes);
             $imageEl.removeAttr('data-sizes');
           }
-          if (picture && picture[0].tagName === 'PICTURE') {
-            const sources = Array.from(picture[0].querySelectorAll('source'));
-            sources.forEach(source => {
-              const $source = $(source);
+          if ($pictureEl.length) {
+            $pictureEl.children('source').each((sourceIndex, sourceEl) => {
+              const $source = $(sourceEl);
 
               if ($source.attr('data-srcset')) {
                 $source.attr('srcset', $source.attr('data-srcset'));
