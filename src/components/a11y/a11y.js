@@ -6,6 +6,10 @@ const a11y = {
     $el.attr('tabIndex', '0');
     return $el;
   },
+  makeElNotFocusable($el) {
+    $el.attr('tabIndex', '-1');
+    return $el;
+  },
   addElRole($el, role) {
     $el.attr('role', role);
     return $el;
@@ -67,15 +71,19 @@ const a11y = {
     if ($prevEl && $prevEl.length > 0) {
       if (swiper.isBeginning) {
         swiper.a11y.disableEl($prevEl);
+        swiper.a11y.makeElNotFocusable($prevEl);
       } else {
         swiper.a11y.enableEl($prevEl);
+        swiper.a11y.makeElFocusable($prevEl);
       }
     }
     if ($nextEl && $nextEl.length > 0) {
       if (swiper.isEnd) {
         swiper.a11y.disableEl($nextEl);
+        swiper.a11y.makeElNotFocusable($nextEl);
       } else {
         swiper.a11y.enableEl($nextEl);
+        swiper.a11y.makeElFocusable($nextEl);
       }
     }
   },
