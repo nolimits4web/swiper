@@ -1,5 +1,5 @@
 /**
- * Swiper 5.3.8
+ * Swiper 5.4.0
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,94 +7,151 @@
  *
  * Released under the MIT License
  *
- * Released on: April 24, 2020
+ * Released on: May 15, 2020
  */
 
 /**
- * SSR Window 1.0.1
+ * SSR Window 2.0.0
  * Better handling for window object in SSR environment
  * https://github.com/nolimits4web/ssr-window
  *
- * Copyright 2018, Vladimir Kharlampidi
+ * Copyright 2020, Vladimir Kharlampidi
  *
  * Licensed under MIT
  *
- * Released on: July 18, 2018
+ * Released on: May 12, 2020
  */
-var doc = (typeof document === 'undefined') ? {
-  body: {},
-  addEventListener: function addEventListener() {},
-  removeEventListener: function removeEventListener() {},
-  activeElement: {
-    blur: function blur() {},
-    nodeName: '',
-  },
-  querySelector: function querySelector() {
-    return null;
-  },
-  querySelectorAll: function querySelectorAll() {
-    return [];
-  },
-  getElementById: function getElementById() {
-    return null;
-  },
-  createEvent: function createEvent() {
-    return {
-      initEvent: function initEvent() {},
-    };
-  },
-  createElement: function createElement() {
-    return {
-      children: [],
-      childNodes: [],
-      style: {},
-      setAttribute: function setAttribute() {},
-      getElementsByTagName: function getElementsByTagName() {
-        return [];
-      },
-    };
-  },
-  location: { hash: '' },
-} : document; // eslint-disable-line
+/* eslint-disable no-param-reassign */
+function isObject(obj) {
+    return (obj !== null &&
+        typeof obj === 'object' &&
+        'constructor' in obj &&
+        obj.constructor === Object);
+}
+function extend(target, src) {
+    if (target === void 0) { target = {}; }
+    if (src === void 0) { src = {}; }
+    Object.keys(src).forEach(function (key) {
+        if (typeof target[key] === 'undefined')
+            target[key] = src[key];
+        else if (isObject(src[key]) &&
+            isObject(target[key]) &&
+            Object.keys(src[key]).length > 0) {
+            extend(target[key], src[key]);
+        }
+    });
+}
 
-var win = (typeof window === 'undefined') ? {
-  document: doc,
-  navigator: {
-    userAgent: '',
-  },
-  location: {},
-  history: {},
-  CustomEvent: function CustomEvent() {
-    return this;
-  },
-  addEventListener: function addEventListener() {},
-  removeEventListener: function removeEventListener() {},
-  getComputedStyle: function getComputedStyle() {
-    return {
-      getPropertyValue: function getPropertyValue() {
-        return '';
-      },
-    };
-  },
-  Image: function Image() {},
-  Date: function Date() {},
-  screen: {},
-  setTimeout: function setTimeout() {},
-  clearTimeout: function clearTimeout() {},
-} : window; // eslint-disable-line
+var doc = typeof document !== 'undefined' ? document : {};
+var ssrDocument = {
+    body: {},
+    addEventListener: function () { },
+    removeEventListener: function () { },
+    activeElement: {
+        blur: function () { },
+        nodeName: '',
+    },
+    querySelector: function () {
+        return null;
+    },
+    querySelectorAll: function () {
+        return [];
+    },
+    getElementById: function () {
+        return null;
+    },
+    createEvent: function () {
+        return {
+            initEvent: function () { },
+        };
+    },
+    createElement: function () {
+        return {
+            children: [],
+            childNodes: [],
+            style: {},
+            setAttribute: function () { },
+            getElementsByTagName: function () {
+                return [];
+            },
+        };
+    },
+    createElementNS: function () {
+        return {};
+    },
+    importNode: function () {
+        return null;
+    },
+    location: {
+        hash: '',
+        host: '',
+        hostname: '',
+        href: '',
+        origin: '',
+        pathname: '',
+        protocol: '',
+        search: '',
+    },
+};
+extend(doc, ssrDocument);
+
+var win = typeof window !== 'undefined' ? window : {};
+var ssrWindow = {
+    document: ssrDocument,
+    navigator: {
+        userAgent: '',
+    },
+    location: {
+        hash: '',
+        host: '',
+        hostname: '',
+        href: '',
+        origin: '',
+        pathname: '',
+        protocol: '',
+        search: '',
+    },
+    history: {
+        replaceState: function () { },
+        pushState: function () { },
+        go: function () { },
+        back: function () { },
+    },
+    CustomEvent: function CustomEvent() {
+        return this;
+    },
+    addEventListener: function () { },
+    removeEventListener: function () { },
+    getComputedStyle: function () {
+        return {
+            getPropertyValue: function () {
+                return '';
+            },
+        };
+    },
+    Image: function () { },
+    Date: function () { },
+    screen: {},
+    setTimeout: function () { },
+    clearTimeout: function () { },
+    matchMedia: function () {
+        return {};
+    },
+};
+extend(win, ssrWindow);
 
 /**
- * Dom7 2.1.3
+ * Dom7 2.1.5
  * Minimalistic JavaScript library for DOM manipulation, with a jQuery-compatible API
  * http://framework7.io/docs/dom.html
  *
- * Copyright 2019, Vladimir Kharlampidi
+ * Copyright 2020, Vladimir Kharlampidi
  * The iDangero.us
  * http://www.idangero.us/
  *
  * Licensed under MIT
  *
- * Released on: February 11, 2019
+ * Released on: May 15, 2020
  */
 
 class Dom7 {
@@ -939,11 +996,9 @@ const Utils = {
 
 const Support = (function Support() {
   return {
-    touch: (win.Modernizr && win.Modernizr.touch === true) || (function checkTouch() {
-      return !!((win.navigator.maxTouchPoints > 0) || ('ontouchstart' in win) || (win.DocumentTouch && doc instanceof win.DocumentTouch));
-    }()),
+    touch: !!(('ontouchstart' in win) || (win.DocumentTouch && doc instanceof win.DocumentTouch)),
 
-    pointerEvents: !!win.PointerEvent && ('maxTouchPoints' in win.navigator) && win.navigator.maxTouchPoints > 0,
+    pointerEvents: !!win.PointerEvent && ('maxTouchPoints' in win.navigator) && win.navigator.maxTouchPoints >= 0,
 
     observer: (function checkObserver() {
       return ('MutationObserver' in win || 'WebkitMutationObserver' in win);
@@ -2764,7 +2819,7 @@ function onTouchMove (event) {
     }
     return;
   }
-  if (data.isTouchEvent && e.type === 'mousemove') return;
+  if (data.isTouchEvent && e.type !== 'touchmove') return;
   const targetTouch = e.type === 'touchmove' && e.targetTouches && (e.targetTouches[0] || e.changedTouches[0]);
   const pageX = e.type === 'touchmove' ? targetTouch.pageX : e.pageX;
   const pageY = e.type === 'touchmove' ? targetTouch.pageY : e.pageY;
@@ -2852,7 +2907,7 @@ function onTouchMove (event) {
     return;
   }
   swiper.allowClick = false;
-  if (!params.cssMode) {
+  if (!params.cssMode && e.cancelable) {
     e.preventDefault();
   }
   if (params.touchMoveStopPropagation && !params.nested) {
@@ -3592,7 +3647,9 @@ function loadImage (imageEl, src, srcset, sizes, checkForComplete, callback) {
   function onReady() {
     if (callback) callback();
   }
-  if (!imageEl.complete || !checkForComplete) {
+  const isPicture = $(imageEl).parent('picture')[0];
+
+  if (!isPicture && (!imageEl.complete || !checkForComplete)) {
     if (src) {
       image = new win.Image();
       image.onload = onReady;
@@ -4963,7 +5020,7 @@ const Mousewheel = {
       // Else (this is the first time the wheel is moved):
       //     Animate the slider.
       if (prevEvent) {
-        if (newEvent.direction !== prevEvent.direction || newEvent.delta > prevEvent.delta) {
+        if (newEvent.direction !== prevEvent.direction || newEvent.delta > prevEvent.delta || newEvent.time > prevEvent.time + 150) {
           swiper.mousewheel.animateSlider(newEvent);
         }
       } else {
@@ -6290,7 +6347,7 @@ const Zoom = {
     const { gesture, image } = zoom;
     if (!gesture.$imageEl || gesture.$imageEl.length === 0) return;
     if (image.isTouched) return;
-    if (Device.android) e.preventDefault();
+    if (Device.android && e.cancelable) e.preventDefault();
     image.isTouched = true;
     image.touchesStart.x = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
     image.touchesStart.y = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
@@ -6351,7 +6408,9 @@ const Zoom = {
         return;
       }
     }
-    e.preventDefault();
+    if (e.cancelable) {
+      e.preventDefault();
+    }
     e.stopPropagation();
 
     image.isMoved = true;
@@ -6775,6 +6834,7 @@ const Lazy = {
       const src = $imageEl.attr('data-src');
       const srcset = $imageEl.attr('data-srcset');
       const sizes = $imageEl.attr('data-sizes');
+      const $pictureEl = $imageEl.parent('picture');
 
       swiper.loadImage($imageEl[0], (src || background), srcset, sizes, false, () => {
         if (typeof swiper === 'undefined' || swiper === null || !swiper || (swiper && !swiper.params) || swiper.destroyed) return;
@@ -6789,6 +6849,16 @@ const Lazy = {
           if (sizes) {
             $imageEl.attr('sizes', sizes);
             $imageEl.removeAttr('data-sizes');
+          }
+          if ($pictureEl.length) {
+            $pictureEl.children('source').each((sourceIndex, sourceEl) => {
+              const $source = $(sourceEl);
+
+              if ($source.attr('data-srcset')) {
+                $source.attr('srcset', $source.attr('data-srcset'));
+                $source.removeAttr('data-srcset');
+              }
+            });
           }
           if (src) {
             $imageEl.attr('src', src);
@@ -6838,6 +6908,7 @@ const Lazy = {
       } else if (slides[index]) return true;
       return false;
     }
+
     function slideIndex(slideEl) {
       if (isVirtual) {
         return $(slideEl).attr('data-swiper-slide-index');
@@ -7152,6 +7223,10 @@ const a11y = {
     $el.attr('tabIndex', '0');
     return $el;
   },
+  makeElNotFocusable($el) {
+    $el.attr('tabIndex', '-1');
+    return $el;
+  },
   addElRole($el, role) {
     $el.attr('role', role);
     return $el;
@@ -7213,15 +7288,19 @@ const a11y = {
     if ($prevEl && $prevEl.length > 0) {
       if (swiper.isBeginning) {
         swiper.a11y.disableEl($prevEl);
+        swiper.a11y.makeElNotFocusable($prevEl);
       } else {
         swiper.a11y.enableEl($prevEl);
+        swiper.a11y.makeElFocusable($prevEl);
       }
     }
     if ($nextEl && $nextEl.length > 0) {
       if (swiper.isEnd) {
         swiper.a11y.disableEl($nextEl);
+        swiper.a11y.makeElNotFocusable($nextEl);
       } else {
         swiper.a11y.enableEl($nextEl);
+        swiper.a11y.makeElFocusable($nextEl);
       }
     }
   },
@@ -7480,6 +7559,7 @@ var History$1 = {
 const HashNavigation = {
   onHashCange() {
     const swiper = this;
+    swiper.emit('hashChange');
     const newHash = doc.location.hash.replace('#', '');
     const activeSlideHash = swiper.slides.eq(swiper.activeIndex).attr('data-hash');
     if (newHash !== activeSlideHash) {
@@ -7493,10 +7573,12 @@ const HashNavigation = {
     if (!swiper.hashNavigation.initialized || !swiper.params.hashNavigation.enabled) return;
     if (swiper.params.hashNavigation.replaceState && win.history && win.history.replaceState) {
       win.history.replaceState(null, null, (`#${swiper.slides.eq(swiper.activeIndex).attr('data-hash')}` || ''));
+      swiper.emit('hashSet');
     } else {
       const slide = swiper.slides.eq(swiper.activeIndex);
       const hash = slide.attr('data-hash') || slide.attr('data-history');
       doc.location.hash = hash || '';
+      swiper.emit('hashSet');
     }
   },
   init() {

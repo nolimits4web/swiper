@@ -2,11 +2,9 @@ import { window, document } from 'ssr-window';
 
 const Support = (function Support() {
   return {
-    touch: (window.Modernizr && window.Modernizr.touch === true) || (function checkTouch() {
-      return !!((window.navigator.maxTouchPoints > 0) || ('ontouchstart' in window) || (window.DocumentTouch && document instanceof window.DocumentTouch));
-    }()),
+    touch: !!(('ontouchstart' in window) || (window.DocumentTouch && document instanceof window.DocumentTouch)),
 
-    pointerEvents: !!window.PointerEvent && ('maxTouchPoints' in window.navigator) && window.navigator.maxTouchPoints > 0,
+    pointerEvents: !!window.PointerEvent && ('maxTouchPoints' in window.navigator) && window.navigator.maxTouchPoints >= 0,
 
     observer: (function checkObserver() {
       return ('MutationObserver' in window || 'WebkitMutationObserver' in window);

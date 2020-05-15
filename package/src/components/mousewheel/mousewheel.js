@@ -171,7 +171,7 @@ const Mousewheel = {
       // Else (this is the first time the wheel is moved):
       //     Animate the slider.
       if (prevEvent) {
-        if (newEvent.direction !== prevEvent.direction || newEvent.delta > prevEvent.delta) {
+        if (newEvent.direction !== prevEvent.direction || newEvent.delta > prevEvent.delta || newEvent.time > prevEvent.time + 150) {
           swiper.mousewheel.animateSlider(newEvent);
         }
       } else {

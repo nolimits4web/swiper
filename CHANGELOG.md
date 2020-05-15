@@ -1,5 +1,15 @@
 # Change Log
 
+## [Swiper 5.4.0](https://github.com/nolimits4web/swiper/compare/v5.3.8...v5.4.0) - Released on May 15, 2020
+  * Hash Navigation
+    * Added `hashChange` and `hashSet` events (#3557)
+  * Lazy
+    * Added support for `<picture>` lazy loading (#3560)
+  * Mousewheel
+    * Potentially improved vertical scrolling issues on Windows/Linux
+  * Updated `ssr-window` and `dom7` dependencies to lates versions
+  * Minor fixes
+
 ## [Swiper 5.3.8](https://github.com/nolimits4web/swiper/compare/v5.3.7...v5.3.8) - Released on April 24, 2020
   * Core
     * Fix iOS bug with double bounce on free mode momentum bounce

@@ -1,5 +1,5 @@
 /**
- * Swiper 5.3.8
+ * Swiper 5.4.0
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: April 24, 2020
+ * Released on: May 15, 2020
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition as transition$1, on, off, trigger, transitionEnd as transitionEnd$1, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, filter, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -168,11 +168,9 @@ const Utils = {
 
 const Support = (function Support() {
   return {
-    touch: (window.Modernizr && window.Modernizr.touch === true) || (function checkTouch() {
-      return !!((window.navigator.maxTouchPoints > 0) || ('ontouchstart' in window) || (window.DocumentTouch && document$1 instanceof window.DocumentTouch));
-    }()),
+    touch: !!(('ontouchstart' in window) || (window.DocumentTouch && document$1 instanceof window.DocumentTouch)),
 
-    pointerEvents: !!window.PointerEvent && ('maxTouchPoints' in window.navigator) && window.navigator.maxTouchPoints > 0,
+    pointerEvents: !!window.PointerEvent && ('maxTouchPoints' in window.navigator) && window.navigator.maxTouchPoints >= 0,
 
     observer: (function checkObserver() {
       return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
@@ -1993,7 +1991,7 @@ function onTouchMove (event) {
     }
     return;
   }
-  if (data.isTouchEvent && e.type === 'mousemove') return;
+  if (data.isTouchEvent && e.type !== 'touchmove') return;
   const targetTouch = e.type === 'touchmove' && e.targetTouches && (e.targetTouches[0] || e.changedTouches[0]);
   const pageX = e.type === 'touchmove' ? targetTouch.pageX : e.pageX;
   const pageY = e.type === 'touchmove' ? targetTouch.pageY : e.pageY;
@@ -2081,7 +2079,7 @@ function onTouchMove (event) {
     return;
   }
   swiper.allowClick = false;
-  if (!params.cssMode) {
+  if (!params.cssMode && e.cancelable) {
     e.preventDefault();
   }
   if (params.touchMoveStopPropagation && !params.nested) {
@@ -2821,7 +2819,9 @@ function loadImage (imageEl, src, srcset, sizes, checkForComplete, callback) {
   function onReady() {
     if (callback) callback();
   }
-  if (!imageEl.complete || !checkForComplete) {
+  const isPicture = $(imageEl).parent('picture')[0];
+
+  if (!isPicture && (!imageEl.complete || !checkForComplete)) {
     if (src) {
       image = new window.Image();
       image.onload = onReady;
@@ -4192,7 +4192,7 @@ const Mousewheel = {
       // Else (this is the first time the wheel is moved):
       //     Animate the slider.
       if (prevEvent) {
-        if (newEvent.direction !== prevEvent.direction || newEvent.delta > prevEvent.delta) {
+        if (newEvent.direction !== prevEvent.direction || newEvent.delta > prevEvent.delta || newEvent.time > prevEvent.time + 150) {
           swiper.mousewheel.animateSlider(newEvent);
         }
       } else {
@@ -5519,7 +5519,7 @@ const Zoom = {
     const { gesture, image } = zoom;
     if (!gesture.$imageEl || gesture.$imageEl.length === 0) return;
     if (image.isTouched) return;
-    if (Device.android) e.preventDefault();
+    if (Device.android && e.cancelable) e.preventDefault();
     image.isTouched = true;
     image.touchesStart.x = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
     image.touchesStart.y = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
@@ -5580,7 +5580,9 @@ const Zoom = {
         return;
       }
     }
-    e.preventDefault();
+    if (e.cancelable) {
+      e.preventDefault();
+    }
     e.stopPropagation();
 
     image.isMoved = true;
@@ -6004,6 +6006,7 @@ const Lazy = {
       const src = $imageEl.attr('data-src');
       const srcset = $imageEl.attr('data-srcset');
       const sizes = $imageEl.attr('data-sizes');
+      const $pictureEl = $imageEl.parent('picture');
 
       swiper.loadImage($imageEl[0], (src || background), srcset, sizes, false, () => {
         if (typeof swiper === 'undefined' || swiper === null || !swiper || (swiper && !swiper.params) || swiper.destroyed) return;
@@ -6018,6 +6021,16 @@ const Lazy = {
           if (sizes) {
             $imageEl.attr('sizes', sizes);
             $imageEl.removeAttr('data-sizes');
+          }
+          if ($pictureEl.length) {
+            $pictureEl.children('source').each((sourceIndex, sourceEl) => {
+              const $source = $(sourceEl);
+
+              if ($source.attr('data-srcset')) {
+                $source.attr('srcset', $source.attr('data-srcset'));
+                $source.removeAttr('data-srcset');
+              }
+            });
           }
           if (src) {
             $imageEl.attr('src', src);
@@ -6067,6 +6080,7 @@ const Lazy = {
       } else if (slides[index]) return true;
       return false;
     }
+
     function slideIndex(slideEl) {
       if (isVirtual) {
         return $(slideEl).attr('data-swiper-slide-index');
@@ -6381,6 +6395,10 @@ const a11y = {
     $el.attr('tabIndex', '0');
     return $el;
   },
+  makeElNotFocusable($el) {
+    $el.attr('tabIndex', '-1');
+    return $el;
+  },
   addElRole($el, role) {
     $el.attr('role', role);
     return $el;
@@ -6442,15 +6460,19 @@ const a11y = {
     if ($prevEl && $prevEl.length > 0) {
       if (swiper.isBeginning) {
         swiper.a11y.disableEl($prevEl);
+        swiper.a11y.makeElNotFocusable($prevEl);
       } else {
         swiper.a11y.enableEl($prevEl);
+        swiper.a11y.makeElFocusable($prevEl);
       }
     }
     if ($nextEl && $nextEl.length > 0) {
       if (swiper.isEnd) {
         swiper.a11y.disableEl($nextEl);
+        swiper.a11y.makeElNotFocusable($nextEl);
       } else {
         swiper.a11y.enableEl($nextEl);
+        swiper.a11y.makeElFocusable($nextEl);
       }
     }
   },
@@ -6709,6 +6731,7 @@ var history = {
 const HashNavigation = {
   onHashCange() {
     const swiper = this;
+    swiper.emit('hashChange');
     const newHash = document$1.location.hash.replace('#', '');
     const activeSlideHash = swiper.slides.eq(swiper.activeIndex).attr('data-hash');
     if (newHash !== activeSlideHash) {
@@ -6722,10 +6745,12 @@ const HashNavigation = {
     if (!swiper.hashNavigation.initialized || !swiper.params.hashNavigation.enabled) return;
     if (swiper.params.hashNavigation.replaceState && window.history && window.history.replaceState) {
       window.history.replaceState(null, null, (`#${swiper.slides.eq(swiper.activeIndex).attr('data-hash')}` || ''));
+      swiper.emit('hashSet');
     } else {
       const slide = swiper.slides.eq(swiper.activeIndex);
       const hash = slide.attr('data-hash') || slide.attr('data-history');
       document$1.location.hash = hash || '';
+      swiper.emit('hashSet');
     }
   },
   init() {

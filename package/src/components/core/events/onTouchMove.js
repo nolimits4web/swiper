@@ -14,7 +14,7 @@ export default function (event) {
     }
     return;
   }
-  if (data.isTouchEvent && e.type === 'mousemove') return;
+  if (data.isTouchEvent && e.type !== 'touchmove') return;
   const targetTouch = e.type === 'touchmove' && e.targetTouches && (e.targetTouches[0] || e.changedTouches[0]);
   const pageX = e.type === 'touchmove' ? targetTouch.pageX : e.pageX;
   const pageY = e.type === 'touchmove' ? targetTouch.pageY : e.pageY;
@@ -102,7 +102,7 @@ export default function (event) {
     return;
   }
   swiper.allowClick = false;
-  if (!params.cssMode) {
+  if (!params.cssMode && e.cancelable) {
     e.preventDefault();
   }
   if (params.touchMoveStopPropagation && !params.nested) {
