@@ -1,5 +1,8 @@
 # Change Log
 
+## [Swiper 5.4.1](https://github.com/nolimits4web/swiper/compare/v5.4.0...v5.4.1) - Released on May 20th, 2020
+  * Fixed dependencies versions
+
 ## [Swiper 5.4.0](https://github.com/nolimits4web/swiper/compare/v5.3.8...v5.4.0) - Released on May 15th, 2020
   * Hash Navigation
     * Added `hashChange` and `hashSet` events (#3557)
@@ -17,7 +20,7 @@
     * Fixed focus ring on navigation buttons (#3544)
     * Fixed RegExp issue in `paginationBulletMessage` (#3540, #3541)
   * Thumbs
-    * Added `thumbs.autoScrollOffset` parameter that allows to set on what thumbs active slide from edge. 
+    * Added `thumbs.autoScrollOffset` parameter that allows to set on what thumbs active slide from edge.
 It should automaticall move scroll thumbs
   * Minor fixes
 
