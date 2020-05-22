@@ -1,4 +1,4 @@
-import Utils from '../../utils/utils';
+import { extend } from '../../utils/utils';
 
 const Fade = {
   setTranslate() {
@@ -53,7 +53,7 @@ export default {
   },
   create() {
     const swiper = this;
-    Utils.extend(swiper, {
+    extend(swiper, {
       fadeEffect: {
         setTranslate: Fade.setTranslate.bind(swiper),
         setTransition: Fade.setTransition.bind(swiper),
@@ -73,8 +73,8 @@ export default {
         spaceBetween: 0,
         virtualTranslate: true,
       };
-      Utils.extend(swiper.params, overwriteParams);
-      Utils.extend(swiper.originalParams, overwriteParams);
+      extend(swiper.params, overwriteParams);
+      extend(swiper.originalParams, overwriteParams);
     },
     setTranslate() {
       const swiper = this;

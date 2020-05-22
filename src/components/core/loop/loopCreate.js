@@ -1,8 +1,9 @@
-import { document } from 'ssr-window';
+import { getDocument } from 'ssr-window';
 import $ from '../../../utils/dom';
 
 export default function () {
   const swiper = this;
+  const document = getDocument();
   const { params, $wrapperEl } = swiper;
   // Remove duplicated slides
   $wrapperEl.children(`.${params.slideClass}.${params.slideDuplicateClass}`).remove();
@@ -13,7 +14,9 @@ export default function () {
     const blankSlidesNum = params.slidesPerGroup - (slides.length % params.slidesPerGroup);
     if (blankSlidesNum !== params.slidesPerGroup) {
       for (let i = 0; i < blankSlidesNum; i += 1) {
-        const blankNode = $(document.createElement('div')).addClass(`${params.slideClass} ${params.slideBlankClass}`);
+        const blankNode = $(document.createElement('div')).addClass(
+          `${params.slideClass} ${params.slideBlankClass}`,
+        );
         $wrapperEl.append(blankNode);
       }
       slides = $wrapperEl.children(`.${params.slideClass}`);
@@ -33,7 +36,8 @@ export default function () {
   slides.each((index, el) => {
     const slide = $(el);
     if (index < swiper.loopedSlides) appendSlides.push(el);
-    if (index < slides.length && index >= slides.length - swiper.loopedSlides) prependSlides.push(el);
+    if (index < slides.length && index >= slides.length - swiper.loopedSlides)
+      prependSlides.push(el);
     slide.attr('data-swiper-slide-index', index);
   });
   for (let i = 0; i < appendSlides.length; i += 1) {

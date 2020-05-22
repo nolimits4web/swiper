@@ -1,5 +1,10 @@
 /* eslint no-unused-vars: "off" */
-export default function (speed = this.params.speed, runCallbacks = true, internal, threshold = 0.5) {
+export default function (
+  speed = this.params.speed,
+  runCallbacks = true,
+  internal,
+  threshold = 0.5,
+) {
   const swiper = this;
   let index = swiper.activeIndex;
   const skip = Math.min(swiper.params.slidesPerGroupSkip, index);
@@ -12,7 +17,7 @@ export default function (speed = this.params.speed, runCallbacks = true, interna
     // is between the current index and the one after it.
     const currentSnap = swiper.snapGrid[snapIndex];
     const nextSnap = swiper.snapGrid[snapIndex + 1];
-    if ((translate - currentSnap) > (nextSnap - currentSnap) * threshold) {
+    if (translate - currentSnap > (nextSnap - currentSnap) * threshold) {
       index += swiper.params.slidesPerGroup;
     }
   } else {
@@ -20,7 +25,7 @@ export default function (speed = this.params.speed, runCallbacks = true, interna
     // is between the current index and the one before it.
     const prevSnap = swiper.snapGrid[snapIndex - 1];
     const currentSnap = swiper.snapGrid[snapIndex];
-    if ((translate - prevSnap) <= (currentSnap - prevSnap) * threshold) {
+    if (translate - prevSnap <= (currentSnap - prevSnap) * threshold) {
       index -= swiper.params.slidesPerGroup;
     }
   }

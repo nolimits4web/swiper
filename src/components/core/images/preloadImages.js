@@ -17,7 +17,7 @@ export default function () {
       imageEl.srcset || imageEl.getAttribute('srcset'),
       imageEl.sizes || imageEl.getAttribute('sizes'),
       true,
-      onReady
+      onReady,
     );
   }
 }

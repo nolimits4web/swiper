@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import Utils from '../../utils/utils';
+import { extend } from '../../utils/utils';
 
 const Flip = {
   setTranslate() {
@@ -30,21 +30,30 @@ const Flip = {
 
       if (swiper.params.flipEffect.slideShadows) {
         // Set shadows
-        let shadowBefore = swiper.isHorizontal() ? $slideEl.find('.swiper-slide-shadow-left') : $slideEl.find('.swiper-slide-shadow-top');
-        let shadowAfter = swiper.isHorizontal() ? $slideEl.find('.swiper-slide-shadow-right') : $slideEl.find('.swiper-slide-shadow-bottom');
+        let shadowBefore = swiper.isHorizontal()
+          ? $slideEl.find('.swiper-slide-shadow-left')
+          : $slideEl.find('.swiper-slide-shadow-top');
+        let shadowAfter = swiper.isHorizontal()
+          ? $slideEl.find('.swiper-slide-shadow-right')
+          : $slideEl.find('.swiper-slide-shadow-bottom');
         if (shadowBefore.length === 0) {
-          shadowBefore = $(`<div class="swiper-slide-shadow-${swiper.isHorizontal() ? 'left' : 'top'}"></div>`);
+          shadowBefore = $(
+            `<div class="swiper-slide-shadow-${swiper.isHorizontal() ? 'left' : 'top'}"></div>`,
+          );
           $slideEl.append(shadowBefore);
         }
         if (shadowAfter.length === 0) {
-          shadowAfter = $(`<div class="swiper-slide-shadow-${swiper.isHorizontal() ? 'right' : 'bottom'}"></div>`);
+          shadowAfter = $(
+            `<div class="swiper-slide-shadow-${swiper.isHorizontal() ? 'right' : 'bottom'}"></div>`,
+          );
           $slideEl.append(shadowAfter);
         }
         if (shadowBefore.length) shadowBefore[0].style.opacity = Math.max(-progress, 0);
         if (shadowAfter.length) shadowAfter[0].style.opacity = Math.max(progress, 0);
       }
-      $slideEl
-        .transform(`translate3d(${tx}px, ${ty}px, 0px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`);
+      $slideEl.transform(
+        `translate3d(${tx}px, ${ty}px, 0px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+      );
     }
   },
   setTransition(duration) {
@@ -52,7 +61,9 @@ const Flip = {
     const { slides, activeIndex, $wrapperEl } = swiper;
     slides
       .transition(duration)
-      .find('.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left')
+      .find(
+        '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
+      )
       .transition(duration);
     if (swiper.params.virtualTranslate && duration !== 0) {
       let eventTriggered = false;
@@ -82,7 +93,7 @@ export default {
   },
   create() {
     const swiper = this;
-    Utils.extend(swiper, {
+    extend(swiper, {
       flipEffect: {
         setTranslate: Flip.setTranslate.bind(swiper),
         setTransition: Flip.setTransition.bind(swiper),
@@ -103,8 +114,8 @@ export default {
         spaceBetween: 0,
         virtualTranslate: true,
       };
-      Utils.extend(swiper.params, overwriteParams);
-      Utils.extend(swiper.originalParams, overwriteParams);
+      extend(swiper.params, overwriteParams);
+      extend(swiper.originalParams, overwriteParams);
     },
     setTranslate() {
       const swiper = this;

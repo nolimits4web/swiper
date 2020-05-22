@@ -1,4 +1,4 @@
-import Utils from '../../../utils/utils';
+import { extend } from '../../../utils/utils';
 
 export default function () {
   const swiper = this;
@@ -23,7 +23,7 @@ export default function () {
   width = width - parseInt($el.css('padding-left'), 10) - parseInt($el.css('padding-right'), 10);
   height = height - parseInt($el.css('padding-top'), 10) - parseInt($el.css('padding-bottom'), 10);
 
-  Utils.extend(swiper, {
+  extend(swiper, {
     width,
     height,
     size: swiper.isHorizontal() ? width : height,

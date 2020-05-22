@@ -4,7 +4,7 @@ export default function () {
   swiper.previousTranslate = swiper.translate;
   if (swiper.isHorizontal()) {
     if (rtlTranslate) {
-      swiper.translate = ((wrapperEl.scrollWidth - wrapperEl.offsetWidth) - wrapperEl.scrollLeft);
+      swiper.translate = wrapperEl.scrollWidth - wrapperEl.offsetWidth - wrapperEl.scrollLeft;
     } else {
       swiper.translate = -wrapperEl.scrollLeft;
     }
@@ -22,7 +22,7 @@ export default function () {
   if (translatesDiff === 0) {
     newProgress = 0;
   } else {
-    newProgress = (swiper.translate - swiper.minTranslate()) / (translatesDiff);
+    newProgress = (swiper.translate - swiper.minTranslate()) / translatesDiff;
   }
   if (newProgress !== swiper.progress) {
     swiper.updateProgress(rtlTranslate ? -swiper.translate : swiper.translate);

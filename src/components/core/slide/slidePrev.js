@@ -1,9 +1,7 @@
 /* eslint no-unused-vars: "off" */
 export default function (speed = this.params.speed, runCallbacks = true, internal) {
   const swiper = this;
-  const {
-    params, animating, snapGrid, slidesGrid, rtlTranslate,
-  } = swiper;
+  const { params, animating, snapGrid, slidesGrid, rtlTranslate } = swiper;
 
   if (params.loop) {
     if (animating) return false;

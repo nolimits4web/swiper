@@ -1,3 +1,3 @@
 export default function () {
-  return (-this.snapGrid[0]);
+  return -this.snapGrid[0];
 }

@@ -1,11 +1,11 @@
-import { window } from 'ssr-window';
-import Utils from '../../utils/utils';
+import { getWindow } from 'ssr-window';
+import { extend } from '../../utils/utils';
 
 export default {
   name: 'resize',
   create() {
     const swiper = this;
-    Utils.extend(swiper, {
+    extend(swiper, {
       resize: {
         resizeHandler() {
           if (!swiper || swiper.destroyed || !swiper.initialized) return;
@@ -22,6 +22,7 @@ export default {
   on: {
     init() {
       const swiper = this;
+      const window = getWindow();
       // Emit resize
       window.addEventListener('resize', swiper.resize.resizeHandler);
 
@@ -30,6 +31,7 @@ export default {
     },
     destroy() {
       const swiper = this;
+      const window = getWindow();
       window.removeEventListener('resize', swiper.resize.resizeHandler);
       window.removeEventListener('orientationchange', swiper.resize.orientationChangeHandler);
     },

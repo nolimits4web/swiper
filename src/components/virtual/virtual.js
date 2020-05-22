@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import Utils from '../../utils/utils';
+import { extend } from '../../utils/utils';
 
 const Virtual = {
   update(force) {
@@ -34,7 +34,7 @@ const Virtual = {
     const to = Math.min((activeIndex || 0) + slidesAfter, slides.length - 1);
     const offset = (swiper.slidesGrid[from] || 0) - (swiper.slidesGrid[0] || 0);
 
-    Utils.extend(swiper.virtual, {
+    extend(swiper.virtual, {
       from,
       to,
       offset,
@@ -68,7 +68,7 @@ const Virtual = {
             slidesToRender.push(slides[i]);
           }
           return slidesToRender;
-        }()),
+        })(),
       });
       onRendered();
       return;
@@ -80,7 +80,9 @@ const Virtual = {
     } else {
       for (let i = previousFrom; i <= previousTo; i += 1) {
         if (i < from || i > to) {
-          swiper.$wrapperEl.find(`.${swiper.params.slideClass}[data-swiper-slide-index="${i}"]`).remove();
+          swiper.$wrapperEl
+            .find(`.${swiper.params.slideClass}[data-swiper-slide-index="${i}"]`)
+            .remove();
         }
       }
     }
@@ -97,9 +99,11 @@ const Virtual = {
     appendIndexes.forEach((index) => {
       swiper.$wrapperEl.append(renderSlide(slides[index], index));
     });
-    prependIndexes.sort((a, b) => b - a).forEach((index) => {
-      swiper.$wrapperEl.prepend(renderSlide(slides[index], index));
-    });
+    prependIndexes
+      .sort((a, b) => b - a)
+      .forEach((index) => {
+        swiper.$wrapperEl.prepend(renderSlide(slides[index], index));
+      });
     swiper.$wrapperEl.children('.swiper-slide').css(offsetProp, `${offset}px`);
     onRendered();
   },
@@ -111,7 +115,9 @@ const Virtual = {
     }
     const $slideEl = params.renderSlide
       ? $(params.renderSlide.call(swiper, slide, index))
-      : $(`<div class="${swiper.params.slideClass}" data-swiper-slide-index="${index}">${slide}</div>`);
+      : $(
+          `<div class="${swiper.params.slideClass}" data-swiper-slide-index="${index}">${slide}</div>`,
+        );
     if (!$slideEl.attr('data-swiper-slide-index')) $slideEl.attr('data-swiper-slide-index', index);
     if (params.cache) swiper.virtual.cache[index] = $slideEl;
     return $slideEl;
@@ -208,7 +214,7 @@ export default {
   },
   create() {
     const swiper = this;
-    Utils.extend(swiper, {
+    extend(swiper, {
       virtual: {
         update: Virtual.update.bind(swiper),
         appendSlide: Virtual.appendSlide.bind(swiper),
@@ -229,8 +235,8 @@ export default {
       const overwriteParams = {
         watchSlidesProgress: true,
       };
-      Utils.extend(swiper.params, overwriteParams);
-      Utils.extend(swiper.originalParams, overwriteParams);
+      extend(swiper.params, overwriteParams);
+      extend(swiper.originalParams, overwriteParams);
 
       if (!swiper.params.initialSlide) {
         swiper.virtual.update();

@@ -1,10 +1,6 @@
-import Device from '../../../utils/device';
-
 export default function () {
   const swiper = this;
-  const {
-    classNames, params, rtl, $el,
-  } = swiper;
+  const { classNames, params, rtl, $el, device } = swiper;
   const suffixes = [];
 
   suffixes.push('initialized');
@@ -25,10 +21,10 @@ export default function () {
       suffixes.push('multirow-column');
     }
   }
-  if (Device.android) {
+  if (device.android) {
     suffixes.push('android');
   }
-  if (Device.ios) {
+  if (device.ios) {
     suffixes.push('ios');
   }
 

@@ -1,9 +1,10 @@
-import { window } from 'ssr-window';
-import Utils from '../../utils/utils';
+import { getWindow } from 'ssr-window';
+import { extend } from '../../utils/utils';
 
 const History = {
   init() {
     const swiper = this;
+    const window = getWindow();
     if (!swiper.params.history) return;
     if (!window.history || !window.history.pushState) {
       swiper.params.history.enabled = false;
@@ -21,6 +22,7 @@ const History = {
   },
   destroy() {
     const swiper = this;
+    const window = getWindow();
     if (!swiper.params.history.replaceState) {
       window.removeEventListener('popstate', swiper.history.setHistoryPopState);
     }
@@ -31,7 +33,11 @@ const History = {
     swiper.history.scrollToSlide(swiper.params.speed, swiper.history.paths.value, false);
   },
   getPathValues() {
-    const pathArray = window.location.pathname.slice(1).split('/').filter((part) => part !== '');
+    const window = getWindow();
+    const pathArray = window.location.pathname
+      .slice(1)
+      .split('/')
+      .filter((part) => part !== '');
     const total = pathArray.length;
     const key = pathArray[total - 2];
     const value = pathArray[total - 1];
@@ -39,6 +45,7 @@ const History = {
   },
   setHistory(key, index) {
     const swiper = this;
+    const window = getWindow();
     if (!swiper.history.initialized || !swiper.params.history.enabled) return;
     const slide = swiper.slides.eq(index);
     let value = History.slugify(slide.attr('data-history'));
@@ -56,7 +63,8 @@ const History = {
     }
   },
   slugify(text) {
-    return text.toString()
+    return text
+      .toString()
       .replace(/\s+/g, '-')
       .replace(/[^\w-]+/g, '')
       .replace(/--+/g, '-')
@@ -91,7 +99,7 @@ export default {
   },
   create() {
     const swiper = this;
-    Utils.extend(swiper, {
+    extend(swiper, {
       history: {
         init: History.init.bind(swiper),
         setHistory: History.setHistory.bind(swiper),

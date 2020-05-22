@@ -1,5 +1,3 @@
-import Support from '../../../utils/support';
-
 export default function (index, slides) {
   const swiper = this;
   const { $wrapperEl, params, activeIndex } = swiper;
@@ -31,7 +29,8 @@ export default function (index, slides) {
     for (let i = 0; i < slides.length; i += 1) {
       if (slides[i]) $wrapperEl.append(slides[i]);
     }
-    newActiveIndex = activeIndexBuffer > index ? activeIndexBuffer + slides.length : activeIndexBuffer;
+    newActiveIndex =
+      activeIndexBuffer > index ? activeIndexBuffer + slides.length : activeIndexBuffer;
   } else {
     $wrapperEl.append(slides);
   }
@@ -43,7 +42,7 @@ export default function (index, slides) {
   if (params.loop) {
     swiper.loopCreate();
   }
-  if (!(params.observer && Support.observer)) {
+  if (!(params.observer && swiper.support.observer)) {
     swiper.update();
   }
   if (params.loop) {

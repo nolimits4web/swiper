@@ -1,6 +1,4 @@
-import { document } from 'ssr-window';
-import Device from '../../../utils/device';
-import Support from '../../../utils/support';
+import { getDocument } from 'ssr-window';
 
 import onTouchStart from './onTouchStart';
 import onTouchMove from './onTouchMove';
@@ -14,9 +12,8 @@ function dummyEventListener() {}
 
 function attachEvents() {
   const swiper = this;
-  const {
-    params, touchEvents, el, wrapperEl,
-  } = swiper;
+  const document = getDocument();
+  const { params, touchEvents, el, wrapperEl, device, support } = swiper;
 
   swiper.onTouchStart = onTouchStart.bind(swiper);
   swiper.onTouchMove = onTouchMove.bind(swiper);
@@ -30,15 +27,22 @@ function attachEvents() {
   const capture = !!params.nested;
 
   // Touch Events
-  if (!Support.touch && Support.pointerEvents) {
+  if (!support.touch && support.pointerEvents) {
     el.addEventListener(touchEvents.start, swiper.onTouchStart, false);
     document.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
     document.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
   } else {
-    if (Support.touch) {
-      const passiveListener = touchEvents.start === 'touchstart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
+    if (support.touch) {
+      const passiveListener =
+        touchEvents.start === 'touchstart' && support.passiveListener && params.passiveListeners
+          ? { passive: true, capture: false }
+          : false;
       el.addEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
-      el.addEventListener(touchEvents.move, swiper.onTouchMove, Support.passiveListener ? { passive: false, capture } : capture);
+      el.addEventListener(
+        touchEvents.move,
+        swiper.onTouchMove,
+        support.passiveListener ? { passive: false, capture } : capture,
+      );
       el.addEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
       if (touchEvents.cancel) {
         el.addEventListener(touchEvents.cancel, swiper.onTouchEnd, passiveListener);
@@ -48,7 +52,10 @@ function attachEvents() {
         dummyEventAttached = true;
       }
     }
-    if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
+    if (
+      (params.simulateTouch && !device.ios && !device.android) ||
+      (params.simulateTouch && !support.touch && device.ios)
+    ) {
       el.addEventListener('mousedown', swiper.onTouchStart, false);
       document.addEventListener('mousemove', swiper.onTouchMove, capture);
       document.addEventListener('mouseup', swiper.onTouchEnd, false);
@@ -64,7 +71,13 @@ function attachEvents() {
 
   // Resize handler
   if (params.updateOnWindowResize) {
-    swiper.on((Device.ios || Device.android ? 'resize orientationchange observerUpdate' : 'resize observerUpdate'), onResize, true);
+    swiper.on(
+      device.ios || device.android
+        ? 'resize orientationchange observerUpdate'
+        : 'resize observerUpdate',
+      onResize,
+      true,
+    );
   } else {
     swiper.on('observerUpdate', onResize, true);
   }
@@ -72,21 +85,23 @@ function attachEvents() {
 
 function detachEvents() {
   const swiper = this;
+  const document = getDocument();
 
-  const {
-    params, touchEvents, el, wrapperEl,
-  } = swiper;
+  const { params, touchEvents, el, wrapperEl, device, support } = swiper;
 
   const capture = !!params.nested;
 
   // Touch Events
-  if (!Support.touch && Support.pointerEvents) {
+  if (!support.touch && support.pointerEvents) {
     el.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
     document.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
     document.removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
   } else {
-    if (Support.touch) {
-      const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
+    if (support.touch) {
+      const passiveListener =
+        touchEvents.start === 'onTouchStart' && support.passiveListener && params.passiveListeners
+          ? { passive: true, capture: false }
+          : false;
       el.removeEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
       el.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
       el.removeEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
@@ -94,7 +109,10 @@ function detachEvents() {
         el.removeEventListener(touchEvents.cancel, swiper.onTouchEnd, passiveListener);
       }
     }
-    if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
+    if (
+      (params.simulateTouch && !device.ios && !device.android) ||
+      (params.simulateTouch && !support.touch && device.ios)
+    ) {
       el.removeEventListener('mousedown', swiper.onTouchStart, false);
       document.removeEventListener('mousemove', swiper.onTouchMove, capture);
       document.removeEventListener('mouseup', swiper.onTouchEnd, false);
@@ -110,7 +128,12 @@ function detachEvents() {
   }
 
   // Resize handler
-  swiper.off((Device.ios || Device.android ? 'resize orientationchange observerUpdate' : 'resize observerUpdate'), onResize);
+  swiper.off(
+    device.ios || device.android
+      ? 'resize orientationchange observerUpdate'
+      : 'resize observerUpdate',
+    onResize,
+  );
 }
 
 export default {

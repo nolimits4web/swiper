@@ -1,8 +1,6 @@
 export default function (translate, byController) {
   const swiper = this;
-  const {
-    rtlTranslate: rtl, params, $wrapperEl, wrapperEl, progress,
-  } = swiper;
+  const { rtlTranslate: rtl, params, $wrapperEl, wrapperEl, progress } = swiper;
   let x = 0;
   let y = 0;
   const z = 0;
@@ -32,7 +30,7 @@ export default function (translate, byController) {
   if (translatesDiff === 0) {
     newProgress = 0;
   } else {
-    newProgress = (translate - swiper.minTranslate()) / (translatesDiff);
+    newProgress = (translate - swiper.minTranslate()) / translatesDiff;
   }
   if (newProgress !== progress) {
     swiper.updateProgress(translate);

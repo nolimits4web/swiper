@@ -1,17 +1,25 @@
-import Utils from '../../../utils/utils';
+import { extend } from '../../../utils/utils';
 
 export default function (newActiveIndex) {
   const swiper = this;
   const translate = swiper.rtlTranslate ? swiper.translate : -swiper.translate;
   const {
-    slidesGrid, snapGrid, params, activeIndex: previousIndex, realIndex: previousRealIndex, snapIndex: previousSnapIndex,
+    slidesGrid,
+    snapGrid,
+    params,
+    activeIndex: previousIndex,
+    realIndex: previousRealIndex,
+    snapIndex: previousSnapIndex,
   } = swiper;
   let activeIndex = newActiveIndex;
   let snapIndex;
   if (typeof activeIndex === 'undefined') {
     for (let i = 0; i < slidesGrid.length; i += 1) {
       if (typeof slidesGrid[i + 1] !== 'undefined') {
-        if (translate >= slidesGrid[i] && translate < slidesGrid[i + 1] - ((slidesGrid[i + 1] - slidesGrid[i]) / 2)) {
+        if (
+          translate >= slidesGrid[i] &&
+          translate < slidesGrid[i + 1] - (slidesGrid[i + 1] - slidesGrid[i]) / 2
+        ) {
           activeIndex = i;
         } else if (translate >= slidesGrid[i] && translate < slidesGrid[i + 1]) {
           activeIndex = i + 1;
@@ -41,9 +49,12 @@ export default function (newActiveIndex) {
   }
 
   // Get real index
-  const realIndex = parseInt(swiper.slides.eq(activeIndex).attr('data-swiper-slide-index') || activeIndex, 10);
+  const realIndex = parseInt(
+    swiper.slides.eq(activeIndex).attr('data-swiper-slide-index') || activeIndex,
+    10,
+  );
 
-  Utils.extend(swiper, {
+  extend(swiper, {
     snapIndex,
     realIndex,
     previousIndex,

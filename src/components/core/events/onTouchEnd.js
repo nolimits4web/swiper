@@ -1,12 +1,10 @@
-import Utils from '../../../utils/utils';
+import { now, nextTick } from '../../../utils/utils';
 
 export default function (event) {
   const swiper = this;
   const data = swiper.touchEventsData;
 
-  const {
-    params, touches, rtlTranslate: rtl, $wrapperEl, slidesGrid, snapGrid,
-  } = swiper;
+  const { params, touches, rtlTranslate: rtl, $wrapperEl, slidesGrid, snapGrid } = swiper;
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
   if (data.allowTouchCallbacks) {
@@ -22,29 +20,40 @@ export default function (event) {
     return;
   }
   // Return Grab Cursor
-  if (params.grabCursor && data.isMoved && data.isTouched && (swiper.allowSlideNext === true || swiper.allowSlidePrev === true)) {
+  if (
+    params.grabCursor &&
+    data.isMoved &&
+    data.isTouched &&
+    (swiper.allowSlideNext === true || swiper.allowSlidePrev === true)
+  ) {
     swiper.setGrabCursor(false);
   }
 
   // Time diff
-  const touchEndTime = Utils.now();
+  const touchEndTime = now();
   const timeDiff = touchEndTime - data.touchStartTime;
 
   // Tap, doubleTap, Click
   if (swiper.allowClick) {
     swiper.updateClickedSlide(e);
     swiper.emit('tap click', e);
-    if (timeDiff < 300 && (touchEndTime - data.lastClickTime) < 300) {
+    if (timeDiff < 300 && touchEndTime - data.lastClickTime < 300) {
       swiper.emit('doubleTap doubleClick', e);
     }
   }
 
-  data.lastClickTime = Utils.now();
-  Utils.nextTick(() => {
+  data.lastClickTime = now();
+  nextTick(() => {
     if (!swiper.destroyed) swiper.allowClick = true;
   });
 
-  if (!data.isTouched || !data.isMoved || !swiper.swipeDirection || touches.diff === 0 || data.currentTranslate === data.startTranslate) {
+  if (
+    !data.isTouched ||
+    !data.isMoved ||
+    !swiper.swipeDirection ||
+    touches.diff === 0 ||
+    data.currentTranslate === data.startTranslate
+  ) {
     data.isTouched = false;
     data.isMoved = false;
     data.startMoving = false;
@@ -93,7 +102,7 @@ export default function (event) {
         }
         // this implies that the user stopped moving a finger then released.
         // There would be no events with distance zero, so the last event is stale.
-        if (time > 150 || (Utils.now() - lastMoveEvent.time) > 300) {
+        if (time > 150 || now() - lastMoveEvent.time > 300) {
           swiper.velocity = 0;
         }
       } else {
@@ -145,7 +154,11 @@ export default function (event) {
           }
         }
 
-        if (Math.abs(snapGrid[nextSlide] - newPosition) < Math.abs(snapGrid[nextSlide - 1] - newPosition) || swiper.swipeDirection === 'next') {
+        if (
+          Math.abs(snapGrid[nextSlide] - newPosition) <
+            Math.abs(snapGrid[nextSlide - 1] - newPosition) ||
+          swiper.swipeDirection === 'next'
+        ) {
           newPosition = snapGrid[nextSlide];
         } else {
           newPosition = snapGrid[nextSlide - 1];
@@ -239,8 +252,12 @@ export default function (event) {
   // Find current slide
   let stopIndex = 0;
   let groupSize = swiper.slidesSizesGrid[0];
-  for (let i = 0; i < slidesGrid.length; i += (i < params.slidesPerGroupSkip ? 1 : params.slidesPerGroup)) {
-    const increment = (i < params.slidesPerGroupSkip - 1 ? 1 : params.slidesPerGroup);
+  for (
+    let i = 0;
+    i < slidesGrid.length;
+    i += i < params.slidesPerGroupSkip ? 1 : params.slidesPerGroup
+  ) {
+    const increment = i < params.slidesPerGroupSkip - 1 ? 1 : params.slidesPerGroup;
     if (typeof slidesGrid[i + increment] !== 'undefined') {
       if (currentPos >= slidesGrid[i] && currentPos < slidesGrid[i + increment]) {
         stopIndex = i;
@@ -254,7 +271,7 @@ export default function (event) {
 
   // Find current slide size
   const ratio = (currentPos - slidesGrid[stopIndex]) / groupSize;
-  const increment = (stopIndex < params.slidesPerGroupSkip - 1 ? 1 : params.slidesPerGroup);
+  const increment = stopIndex < params.slidesPerGroupSkip - 1 ? 1 : params.slidesPerGroup;
 
   if (timeDiff > params.longSwipesMs) {
     // Long touches
@@ -267,7 +284,7 @@ export default function (event) {
       else swiper.slideTo(stopIndex);
     }
     if (swiper.swipeDirection === 'prev') {
-      if (ratio > (1 - params.longSwipesRatio)) swiper.slideTo(stopIndex + increment);
+      if (ratio > 1 - params.longSwipesRatio) swiper.slideTo(stopIndex + increment);
       else swiper.slideTo(stopIndex);
     }
   } else {
@@ -276,7 +293,9 @@ export default function (event) {
       swiper.slideTo(swiper.activeIndex);
       return;
     }
-    const isNavButtonTarget = swiper.navigation && (e.target === swiper.navigation.nextEl || e.target === swiper.navigation.prevEl);
+    const isNavButtonTarget =
+      swiper.navigation &&
+      (e.target === swiper.navigation.nextEl || e.target === swiper.navigation.prevEl);
     if (!isNavButtonTarget) {
       if (swiper.swipeDirection === 'next') {
         swiper.slideTo(stopIndex + increment);

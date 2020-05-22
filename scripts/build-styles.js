@@ -39,21 +39,27 @@ async function build(cb) {
 
   let lessContent = fs.readFileSync(path.resolve(__dirname, '../src/swiper.less'), 'utf8');
   lessContent = lessContent
-    .replace('//IMPORT_COMPONENTS', components.map((component) => `@import url('./components/${component}/${component}.less');`).join('\n'))
+    .replace(
+      '//IMPORT_COMPONENTS',
+      components
+        .map((component) => `@import url('./components/${component}/${component}.less');`)
+        .join('\n'),
+    )
     .replace('$themeColor', config.themeColor)
     .replace('$colors', colors.join(', '));
 
   let cssContent;
   try {
-    cssContent = await autoprefixer(
-      await less(lessContent, path.resolve(__dirname, '../src'))
-    );
+    cssContent = await autoprefixer(await less(lessContent, path.resolve(__dirname, '../src')));
   } catch (err) {
     console.log(err);
   }
 
   // Write file
-  fse.writeFileSync(`./${env === 'development' ? 'build' : 'package'}/css/swiper.css`, `${banner}\n${cssContent}`);
+  fse.writeFileSync(
+    `./${env === 'development' ? 'build' : 'package'}/css/swiper.css`,
+    `${banner}\n${cssContent}`,
+  );
 
   if (env === 'development') {
     if (cb) cb();

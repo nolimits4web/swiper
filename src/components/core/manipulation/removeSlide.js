@@ -1,5 +1,3 @@
-import Support from '../../../utils/support';
-
 export default function (slidesIndexes) {
   const swiper = this;
   const { params, $wrapperEl, activeIndex } = swiper;
@@ -31,7 +29,7 @@ export default function (slidesIndexes) {
     swiper.loopCreate();
   }
 
-  if (!(params.observer && Support.observer)) {
+  if (!(params.observer && swiper.support.observer)) {
     swiper.update();
   }
   if (params.loop) {

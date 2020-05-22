@@ -1,13 +1,12 @@
-import { window } from 'ssr-window';
-import Utils from '../../utils/utils';
-import Support from '../../utils/support';
+import { getWindow } from 'ssr-window';
+import { extend } from '../../utils/utils';
 
 const Observer = {
-  func: window.MutationObserver || window.WebkitMutationObserver,
   attach(target, options = {}) {
+    const window = getWindow();
     const swiper = this;
 
-    const ObserverFunc = Observer.func;
+    const ObserverFunc = window.MutationObserver || window.WebkitMutationObserver;
     const observer = new ObserverFunc((mutations) => {
       // The observerUpdate event should only be triggered
       // once despite the number of mutations.  Additional
@@ -37,7 +36,7 @@ const Observer = {
   },
   init() {
     const swiper = this;
-    if (!Support.observer || !swiper.params.observer) return;
+    if (!swiper.support.observer || !swiper.params.observer) return;
     if (swiper.params.observeParents) {
       const containerParents = swiper.$el.parents();
       for (let i = 0; i < containerParents.length; i += 1) {
@@ -45,7 +44,9 @@ const Observer = {
       }
     }
     // Observe container
-    swiper.observer.attach(swiper.$el[0], { childList: swiper.params.observeSlideChildren });
+    swiper.observer.attach(swiper.$el[0], {
+      childList: swiper.params.observeSlideChildren,
+    });
 
     // Observe wrapper
     swiper.observer.attach(swiper.$wrapperEl[0], { attributes: false });
@@ -68,7 +69,7 @@ export default {
   },
   create() {
     const swiper = this;
-    Utils.extend(swiper, {
+    extend(swiper, {
       observer: {
         init: Observer.init.bind(swiper),
         attach: Observer.attach.bind(swiper),

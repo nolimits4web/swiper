@@ -1,5 +1,6 @@
 /* eslint no-underscore-dangle: "off" */
-import Utils from '../../utils/utils';
+import { getDocument } from 'ssr-window';
+import { extend, nextTick } from '../../utils/utils';
 
 const Autoplay = {
   run() {
@@ -10,7 +11,7 @@ const Autoplay = {
       delay = $activeSlideEl.attr('data-swiper-autoplay') || swiper.params.autoplay.delay;
     }
     clearTimeout(swiper.autoplay.timeout);
-    swiper.autoplay.timeout = Utils.nextTick(() => {
+    swiper.autoplay.timeout = nextTick(() => {
       if (swiper.params.autoplay.reverseDirection) {
         if (swiper.params.loop) {
           swiper.loopFix();
@@ -93,7 +94,7 @@ export default {
   },
   create() {
     const swiper = this;
-    Utils.extend(swiper, {
+    extend(swiper, {
       autoplay: {
         running: false,
         paused: false,
@@ -102,6 +103,7 @@ export default {
         stop: Autoplay.stop.bind(swiper),
         pause: Autoplay.pause.bind(swiper),
         onVisibilityChange() {
+          const document = getDocument();
           if (document.visibilityState === 'hidden' && swiper.autoplay.running) {
             swiper.autoplay.pause();
           }
@@ -113,8 +115,14 @@ export default {
         onTransitionEnd(e) {
           if (!swiper || swiper.destroyed || !swiper.$wrapperEl) return;
           if (e.target !== this) return;
-          swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.autoplay.onTransitionEnd);
-          swiper.$wrapperEl[0].removeEventListener('webkitTransitionEnd', swiper.autoplay.onTransitionEnd);
+          swiper.$wrapperEl[0].removeEventListener(
+            'transitionend',
+            swiper.autoplay.onTransitionEnd,
+          );
+          swiper.$wrapperEl[0].removeEventListener(
+            'webkitTransitionEnd',
+            swiper.autoplay.onTransitionEnd,
+          );
           swiper.autoplay.paused = false;
           if (!swiper.autoplay.running) {
             swiper.autoplay.stop();
@@ -130,6 +138,7 @@ export default {
       const swiper = this;
       if (swiper.params.autoplay.enabled) {
         swiper.autoplay.start();
+        const document = getDocument();
         document.addEventListener('visibilitychange', swiper.autoplay.onVisibilityChange);
       }
     },
@@ -155,7 +164,11 @@ export default {
     },
     touchEnd() {
       const swiper = this;
-      if (swiper.params.cssMode && swiper.autoplay.paused && !swiper.params.autoplay.disableOnInteraction) {
+      if (
+        swiper.params.cssMode &&
+        swiper.autoplay.paused &&
+        !swiper.params.autoplay.disableOnInteraction
+      ) {
         swiper.autoplay.run();
       }
     },
@@ -164,6 +177,7 @@ export default {
       if (swiper.autoplay.running) {
         swiper.autoplay.stop();
       }
+      const document = getDocument();
       document.removeEventListener('visibilitychange', swiper.autoplay.onVisibilityChange);
     },
   },

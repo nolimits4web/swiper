@@ -1,10 +1,13 @@
-export default function (translate = 0, speed = this.params.speed, runCallbacks = true, translateBounds = true, internal) {
+export default function (
+  translate = 0,
+  speed = this.params.speed,
+  runCallbacks = true,
+  translateBounds = true,
+  internal,
+) {
   const swiper = this;
 
-  const {
-    params,
-    wrapperEl,
-  } = swiper;
+  const { params, wrapperEl } = swiper;
 
   if (swiper.animating && params.preventInteractionOnTransition) {
     return false;
@@ -58,8 +61,14 @@ export default function (translate = 0, speed = this.params.speed, runCallbacks 
         swiper.onTranslateToWrapperTransitionEnd = function transitionEnd(e) {
           if (!swiper || swiper.destroyed) return;
           if (e.target !== this) return;
-          swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.onTranslateToWrapperTransitionEnd);
-          swiper.$wrapperEl[0].removeEventListener('webkitTransitionEnd', swiper.onTranslateToWrapperTransitionEnd);
+          swiper.$wrapperEl[0].removeEventListener(
+            'transitionend',
+            swiper.onTranslateToWrapperTransitionEnd,
+          );
+          swiper.$wrapperEl[0].removeEventListener(
+            'webkitTransitionEnd',
+            swiper.onTranslateToWrapperTransitionEnd,
+          );
           swiper.onTranslateToWrapperTransitionEnd = null;
           delete swiper.onTranslateToWrapperTransitionEnd;
           if (runCallbacks) {
@@ -67,8 +76,14 @@ export default function (translate = 0, speed = this.params.speed, runCallbacks 
           }
         };
       }
-      swiper.$wrapperEl[0].addEventListener('transitionend', swiper.onTranslateToWrapperTransitionEnd);
-      swiper.$wrapperEl[0].addEventListener('webkitTransitionEnd', swiper.onTranslateToWrapperTransitionEnd);
+      swiper.$wrapperEl[0].addEventListener(
+        'transitionend',
+        swiper.onTranslateToWrapperTransitionEnd,
+      );
+      swiper.$wrapperEl[0].addEventListener(
+        'webkitTransitionEnd',
+        swiper.onTranslateToWrapperTransitionEnd,
+      );
     }
   }
 

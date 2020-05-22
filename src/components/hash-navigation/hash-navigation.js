@@ -1,24 +1,37 @@
-import { window, document } from 'ssr-window';
+import { getWindow, getDocument } from 'ssr-window';
 import $ from '../../utils/dom';
-import Utils from '../../utils/utils';
+import { extend } from '../../utils/utils';
 
 const HashNavigation = {
   onHashCange() {
     const swiper = this;
+    const document = getDocument();
     swiper.emit('hashChange');
     const newHash = document.location.hash.replace('#', '');
     const activeSlideHash = swiper.slides.eq(swiper.activeIndex).attr('data-hash');
     if (newHash !== activeSlideHash) {
-      const newIndex = swiper.$wrapperEl.children(`.${swiper.params.slideClass}[data-hash="${newHash}"]`).index();
+      const newIndex = swiper.$wrapperEl
+        .children(`.${swiper.params.slideClass}[data-hash="${newHash}"]`)
+        .index();
       if (typeof newIndex === 'undefined') return;
       swiper.slideTo(newIndex);
     }
   },
   setHash() {
     const swiper = this;
+    const window = getWindow();
+    const document = getDocument();
     if (!swiper.hashNavigation.initialized || !swiper.params.hashNavigation.enabled) return;
-    if (swiper.params.hashNavigation.replaceState && window.history && window.history.replaceState) {
-      window.history.replaceState(null, null, (`#${swiper.slides.eq(swiper.activeIndex).attr('data-hash')}` || ''));
+    if (
+      swiper.params.hashNavigation.replaceState &&
+      window.history &&
+      window.history.replaceState
+    ) {
+      window.history.replaceState(
+        null,
+        null,
+        `#${swiper.slides.eq(swiper.activeIndex).attr('data-hash')}` || '',
+      );
       swiper.emit('hashSet');
     } else {
       const slide = swiper.slides.eq(swiper.activeIndex);
@@ -29,7 +42,13 @@ const HashNavigation = {
   },
   init() {
     const swiper = this;
-    if (!swiper.params.hashNavigation.enabled || (swiper.params.history && swiper.params.history.enabled)) return;
+    const document = getDocument();
+    const window = getWindow();
+    if (
+      !swiper.params.hashNavigation.enabled ||
+      (swiper.params.history && swiper.params.history.enabled)
+    )
+      return;
     swiper.hashNavigation.initialized = true;
     const hash = document.location.hash.replace('#', '');
     if (hash) {
@@ -49,6 +68,7 @@ const HashNavigation = {
   },
   destroy() {
     const swiper = this;
+    const window = getWindow();
     if (swiper.params.hashNavigation.watchState) {
       $(window).off('hashchange', swiper.hashNavigation.onHashCange);
     }
@@ -65,7 +85,7 @@ export default {
   },
   create() {
     const swiper = this;
-    Utils.extend(swiper, {
+    extend(swiper, {
       hashNavigation: {
         initialized: false,
         init: HashNavigation.init.bind(swiper),

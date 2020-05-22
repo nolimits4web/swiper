@@ -12,7 +12,8 @@
     }
   }
   .swiper-slide-active {
-    &, & .swiper-slide-active {
+    &,
+    & .swiper-slide-active {
       pointer-events: auto;
     }
   }

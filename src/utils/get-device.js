@@ -1,7 +1,11 @@
-import { window } from 'ssr-window';
-import Support from './support';
+import { getWindow } from 'ssr-window';
+import { getSupport } from './get-support';
 
-const Device = (function Device() {
+let device;
+
+function calcDevice() {
+  const support = getSupport();
+  const window = getWindow();
   const platform = window.navigator.platform;
   const ua = window.navigator.userAgent;
 
@@ -38,15 +42,14 @@ const Device = (function Device() {
   let macos = platform === 'MacIntel';
 
   // iPadOs 13 fix
-  if (!ipad
-    && macos
-    && Support.touch
-    && (
-      (screenWidth === 1024 && screenHeight === 1366) // Pro 12.9
-      || (screenWidth === 834 && screenHeight === 1194) // Pro 11
-      || (screenWidth === 834 && screenHeight === 1112) // Pro 10.5
-      || (screenWidth === 768 && screenHeight === 1024) // other
-    )
+  if (
+    !ipad &&
+    macos &&
+    support.touch &&
+    ((screenWidth === 1024 && screenHeight === 1366) || // Pro 12.9
+    (screenWidth === 834 && screenHeight === 1194) || // Pro 11
+    (screenWidth === 834 && screenHeight === 1112) || // Pro 10.5
+      (screenWidth === 768 && screenHeight === 1024)) // other
   ) {
     ipad = ua.match(/(Version)\/([\d.]+)/);
     macos = false;
@@ -88,8 +91,12 @@ const Device = (function Device() {
   }
 
   // Webview
-  device.webView = !!((iphone || ipad || ipod) && (ua.match(/.*AppleWebKit(?!.*Safari)/i) || window.navigator.standalone))
-    || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+  device.webView =
+    !!(
+      (iphone || ipad || ipod) &&
+      (ua.match(/.*AppleWebKit(?!.*Safari)/i) || window.navigator.standalone)
+    ) ||
+    (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
   device.webview = device.webView;
   device.standalone = device.webView;
 
@@ -112,6 +119,13 @@ const Device = (function Device() {
 
   // Export object
   return device;
-}());
+}
 
-export default Device;
+function getDevice() {
+  if (!device) {
+    device = calcDevice();
+  }
+  return device;
+}
+
+export { getDevice };

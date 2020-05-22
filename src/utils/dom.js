@@ -38,7 +38,7 @@ import {
   remove,
   add,
   styles,
-} from 'dom7/dist/dom7.modular';
+} from 'dom7';
 
 const Methods = {
   addClass,

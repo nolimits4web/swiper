@@ -1,6 +1,7 @@
-import { window } from 'ssr-window';
+import { getWindow } from 'ssr-window';
 
 export default function (breakpoints) {
+  const window = getWindow();
   // Get breakpoint for window width
   if (!breakpoints) return undefined;
   let breakpoint = false;

@@ -18,7 +18,10 @@ const fsExtra = {
     }
     dir.split(path.sep).forEach((part, index) => {
       if (!part) return;
-      const partialPath = dir.split(path.sep).slice(0, index + 1).join(path.sep);
+      const partialPath = dir
+        .split(path.sep)
+        .slice(0, index + 1)
+        .join(path.sep);
       if (!fs.existsSync(partialPath)) {
         fs.mkdirSync(partialPath);
       }

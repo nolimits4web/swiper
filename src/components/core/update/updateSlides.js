@@ -1,13 +1,12 @@
-import { window } from 'ssr-window';
-import Utils from '../../../utils/utils';
+import { getWindow } from 'ssr-window';
+import { extend } from '../../../utils/utils';
 
 export default function () {
   const swiper = this;
+  const window = getWindow();
   const params = swiper.params;
 
-  const {
-    $wrapperEl, size: swiperSize, rtlTranslate: rtl, wrongRTL,
-  } = swiper;
+  const { $wrapperEl, size: swiperSize, rtlTranslate: rtl, wrongRTL } = swiper;
   const isVirtual = swiper.virtual && params.virtual.enabled;
   const previousSlidesLength = isVirtual ? swiper.virtual.slides.length : swiper.slides.length;
   const slides = $wrapperEl.children(`.${swiper.params.slideClass}`);
@@ -56,13 +55,20 @@ export default function () {
 
   let slidesNumberEvenToRows;
   if (params.slidesPerColumn > 1) {
-    if (Math.floor(slidesLength / params.slidesPerColumn) === slidesLength / swiper.params.slidesPerColumn) {
+    if (
+      Math.floor(slidesLength / params.slidesPerColumn) ===
+      slidesLength / swiper.params.slidesPerColumn
+    ) {
       slidesNumberEvenToRows = slidesLength;
     } else {
-      slidesNumberEvenToRows = Math.ceil(slidesLength / params.slidesPerColumn) * params.slidesPerColumn;
+      slidesNumberEvenToRows =
+        Math.ceil(slidesLength / params.slidesPerColumn) * params.slidesPerColumn;
     }
     if (params.slidesPerView !== 'auto' && params.slidesPerColumnFill === 'row') {
-      slidesNumberEvenToRows = Math.max(slidesNumberEvenToRows, params.slidesPerView * params.slidesPerColumn);
+      slidesNumberEvenToRows = Math.max(
+        slidesNumberEvenToRows,
+        params.slidesPerView * params.slidesPerColumn,
+      );
     }
   }
 
@@ -82,24 +88,30 @@ export default function () {
       if (params.slidesPerColumnFill === 'row' && params.slidesPerGroup > 1) {
         const groupIndex = Math.floor(i / (params.slidesPerGroup * params.slidesPerColumn));
         const slideIndexInGroup = i - params.slidesPerColumn * params.slidesPerGroup * groupIndex;
-        const columnsInGroup = groupIndex === 0
-          ? params.slidesPerGroup
-          : Math.min(Math.ceil((slidesLength - groupIndex * slidesPerColumn * params.slidesPerGroup) / slidesPerColumn), params.slidesPerGroup);
+        const columnsInGroup =
+          groupIndex === 0
+            ? params.slidesPerGroup
+            : Math.min(
+                Math.ceil(
+                  (slidesLength - groupIndex * slidesPerColumn * params.slidesPerGroup) /
+                    slidesPerColumn,
+                ),
+                params.slidesPerGroup,
+              );
         row = Math.floor(slideIndexInGroup / columnsInGroup);
-        column = (slideIndexInGroup - row * columnsInGroup) + groupIndex * params.slidesPerGroup;
+        column = slideIndexInGroup - row * columnsInGroup + groupIndex * params.slidesPerGroup;
 
-        newSlideOrderIndex = column + ((row * slidesNumberEvenToRows) / slidesPerColumn);
-        slide
-          .css({
-            '-webkit-box-ordinal-group': newSlideOrderIndex,
-            '-moz-box-ordinal-group': newSlideOrderIndex,
-            '-ms-flex-order': newSlideOrderIndex,
-            '-webkit-order': newSlideOrderIndex,
-            order: newSlideOrderIndex,
-          });
+        newSlideOrderIndex = column + (row * slidesNumberEvenToRows) / slidesPerColumn;
+        slide.css({
+          '-webkit-box-ordinal-group': newSlideOrderIndex,
+          '-moz-box-ordinal-group': newSlideOrderIndex,
+          '-ms-flex-order': newSlideOrderIndex,
+          '-webkit-order': newSlideOrderIndex,
+          order: newSlideOrderIndex,
+        });
       } else if (params.slidesPerColumnFill === 'column') {
         column = Math.floor(i / slidesPerColumn);
-        row = i - (column * slidesPerColumn);
+        row = i - column * slidesPerColumn;
         if (column > numFullColumns || (column === numFullColumns && row === slidesPerColumn - 1)) {
           row += 1;
           if (row >= slidesPerColumn) {
@@ -109,11 +121,11 @@ export default function () {
         }
       } else {
         row = Math.floor(i / slidesPerRow);
-        column = i - (row * slidesPerRow);
+        column = i - row * slidesPerRow;
       }
       slide.css(
         `margin-${swiper.isHorizontal() ? 'top' : 'left'}`,
-        (row !== 0 && params.spaceBetween) && (`${params.spaceBetween}px`)
+        row !== 0 && params.spaceBetween && `${params.spaceBetween}px`,
       );
     }
     if (slide.css('display') === 'none') continue; // eslint-disable-line
@@ -129,9 +141,7 @@ export default function () {
         slide[0].style.webkitTransform = 'none';
       }
       if (params.roundLengths) {
-        slideSize = swiper.isHorizontal()
-          ? slide.outerWidth(true)
-          : slide.outerHeight(true);
+        slideSize = swiper.isHorizontal() ? slide.outerWidth(true) : slide.outerHeight(true);
       } else {
         // eslint-disable-next-line
         if (swiper.isHorizontal()) {
@@ -168,7 +178,7 @@ export default function () {
       }
       if (params.roundLengths) slideSize = Math.floor(slideSize);
     } else {
-      slideSize = (swiperSize - ((params.slidesPerView - 1) * spaceBetween)) / params.slidesPerView;
+      slideSize = (swiperSize - (params.slidesPerView - 1) * spaceBetween) / params.slidesPerView;
       if (params.roundLengths) slideSize = Math.floor(slideSize);
 
       if (slides[i]) {
@@ -184,18 +194,23 @@ export default function () {
     }
     slidesSizesGrid.push(slideSize);
 
-
     if (params.centeredSlides) {
-      slidePosition = slidePosition + (slideSize / 2) + (prevSlideSize / 2) + spaceBetween;
-      if (prevSlideSize === 0 && i !== 0) slidePosition = slidePosition - (swiperSize / 2) - spaceBetween;
-      if (i === 0) slidePosition = slidePosition - (swiperSize / 2) - spaceBetween;
+      slidePosition = slidePosition + slideSize / 2 + prevSlideSize / 2 + spaceBetween;
+      if (prevSlideSize === 0 && i !== 0)
+        slidePosition = slidePosition - swiperSize / 2 - spaceBetween;
+      if (i === 0) slidePosition = slidePosition - swiperSize / 2 - spaceBetween;
       if (Math.abs(slidePosition) < 1 / 1000) slidePosition = 0;
       if (params.roundLengths) slidePosition = Math.floor(slidePosition);
-      if ((index) % params.slidesPerGroup === 0) snapGrid.push(slidePosition);
+      if (index % params.slidesPerGroup === 0) snapGrid.push(slidePosition);
       slidesGrid.push(slidePosition);
     } else {
       if (params.roundLengths) slidePosition = Math.floor(slidePosition);
-      if ((index - Math.min(swiper.params.slidesPerGroupSkip, index)) % swiper.params.slidesPerGroup === 0) snapGrid.push(slidePosition);
+      if (
+        (index - Math.min(swiper.params.slidesPerGroupSkip, index)) %
+          swiper.params.slidesPerGroup ===
+        0
+      )
+        snapGrid.push(slidePosition);
       slidesGrid.push(slidePosition);
       slidePosition = slidePosition + slideSize + spaceBetween;
     }
@@ -209,20 +224,32 @@ export default function () {
   swiper.virtualSize = Math.max(swiper.virtualSize, swiperSize) + offsetAfter;
   let newSlidesGrid;
 
-  if (
-    rtl && wrongRTL && (params.effect === 'slide' || params.effect === 'coverflow')) {
+  if (rtl && wrongRTL && (params.effect === 'slide' || params.effect === 'coverflow')) {
     $wrapperEl.css({ width: `${swiper.virtualSize + params.spaceBetween}px` });
   }
   if (params.setWrapperSize) {
-    if (swiper.isHorizontal()) $wrapperEl.css({ width: `${swiper.virtualSize + params.spaceBetween}px` });
-    else $wrapperEl.css({ height: `${swiper.virtualSize + params.spaceBetween}px` });
+    if (swiper.isHorizontal())
+      $wrapperEl.css({
+        width: `${swiper.virtualSize + params.spaceBetween}px`,
+      });
+    else
+      $wrapperEl.css({
+        height: `${swiper.virtualSize + params.spaceBetween}px`,
+      });
   }
 
   if (params.slidesPerColumn > 1) {
     swiper.virtualSize = (slideSize + params.spaceBetween) * slidesNumberEvenToRows;
-    swiper.virtualSize = Math.ceil(swiper.virtualSize / params.slidesPerColumn) - params.spaceBetween;
-    if (swiper.isHorizontal()) $wrapperEl.css({ width: `${swiper.virtualSize + params.spaceBetween}px` });
-    else $wrapperEl.css({ height: `${swiper.virtualSize + params.spaceBetween}px` });
+    swiper.virtualSize =
+      Math.ceil(swiper.virtualSize / params.slidesPerColumn) - params.spaceBetween;
+    if (swiper.isHorizontal())
+      $wrapperEl.css({
+        width: `${swiper.virtualSize + params.spaceBetween}px`,
+      });
+    else
+      $wrapperEl.css({
+        height: `${swiper.virtualSize + params.spaceBetween}px`,
+      });
     if (params.centeredSlides) {
       newSlidesGrid = [];
       for (let i = 0; i < snapGrid.length; i += 1) {
@@ -245,7 +272,10 @@ export default function () {
       }
     }
     snapGrid = newSlidesGrid;
-    if (Math.floor(swiper.virtualSize - swiperSize) - Math.floor(snapGrid[snapGrid.length - 1]) > 1) {
+    if (
+      Math.floor(swiper.virtualSize - swiperSize) - Math.floor(snapGrid[snapGrid.length - 1]) >
+      1
+    ) {
       snapGrid.push(swiper.virtualSize - swiperSize);
     }
   }
@@ -289,7 +319,7 @@ export default function () {
     }
   }
 
-  Utils.extend(swiper, {
+  extend(swiper, {
     slides,
     snapGrid,
     slidesGrid,

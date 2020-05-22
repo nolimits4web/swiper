@@ -23,7 +23,11 @@ export default function (e) {
     swiper.clickedIndex = undefined;
     return;
   }
-  if (params.slideToClickedSlide && swiper.clickedIndex !== undefined && swiper.clickedIndex !== swiper.activeIndex) {
+  if (
+    params.slideToClickedSlide &&
+    swiper.clickedIndex !== undefined &&
+    swiper.clickedIndex !== swiper.activeIndex
+  ) {
     swiper.slideToClickedSlide();
   }
 }

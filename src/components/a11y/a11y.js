@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import Utils from '../../utils/utils';
+import { extend } from '../../utils/utils';
 
 const a11y = {
   makeElFocusable($el) {
@@ -90,12 +90,20 @@ const a11y = {
   updatePagination() {
     const swiper = this;
     const params = swiper.params.a11y;
-    if (swiper.pagination && swiper.params.pagination.clickable && swiper.pagination.bullets && swiper.pagination.bullets.length) {
+    if (
+      swiper.pagination &&
+      swiper.params.pagination.clickable &&
+      swiper.pagination.bullets &&
+      swiper.pagination.bullets.length
+    ) {
       swiper.pagination.bullets.each((bulletIndex, bulletEl) => {
         const $bulletEl = $(bulletEl);
         swiper.a11y.makeElFocusable($bulletEl);
         swiper.a11y.addElRole($bulletEl, 'button');
-        swiper.a11y.addElLabel($bulletEl, params.paginationBulletMessage.replace(/\{\{index\}\}/, $bulletEl.index() + 1));
+        swiper.a11y.addElLabel(
+          $bulletEl,
+          params.paginationBulletMessage.replace(/\{\{index\}\}/, $bulletEl.index() + 1),
+        );
       });
     }
   },
@@ -128,13 +136,23 @@ const a11y = {
     }
 
     // Pagination
-    if (swiper.pagination && swiper.params.pagination.clickable && swiper.pagination.bullets && swiper.pagination.bullets.length) {
-      swiper.pagination.$el.on('keydown', `.${swiper.params.pagination.bulletClass}`, swiper.a11y.onEnterKey);
+    if (
+      swiper.pagination &&
+      swiper.params.pagination.clickable &&
+      swiper.pagination.bullets &&
+      swiper.pagination.bullets.length
+    ) {
+      swiper.pagination.$el.on(
+        'keydown',
+        `.${swiper.params.pagination.bulletClass}`,
+        swiper.a11y.onEnterKey,
+      );
     }
   },
   destroy() {
     const swiper = this;
-    if (swiper.a11y.liveRegion && swiper.a11y.liveRegion.length > 0) swiper.a11y.liveRegion.remove();
+    if (swiper.a11y.liveRegion && swiper.a11y.liveRegion.length > 0)
+      swiper.a11y.liveRegion.remove();
 
     let $nextEl;
     let $prevEl;
@@ -152,8 +170,17 @@ const a11y = {
     }
 
     // Pagination
-    if (swiper.pagination && swiper.params.pagination.clickable && swiper.pagination.bullets && swiper.pagination.bullets.length) {
-      swiper.pagination.$el.off('keydown', `.${swiper.params.pagination.bulletClass}`, swiper.a11y.onEnterKey);
+    if (
+      swiper.pagination &&
+      swiper.params.pagination.clickable &&
+      swiper.pagination.bullets &&
+      swiper.pagination.bullets.length
+    ) {
+      swiper.pagination.$el.off(
+        'keydown',
+        `.${swiper.params.pagination.bulletClass}`,
+        swiper.a11y.onEnterKey,
+      );
     }
   },
 };
@@ -172,9 +199,11 @@ export default {
   },
   create() {
     const swiper = this;
-    Utils.extend(swiper, {
+    extend(swiper, {
       a11y: {
-        liveRegion: $(`<span class="${swiper.params.a11y.notificationClass}" aria-live="assertive" aria-atomic="true"></span>`),
+        liveRegion: $(
+          `<span class="${swiper.params.a11y.notificationClass}" aria-live="assertive" aria-atomic="true"></span>`,
+        ),
       },
     });
     Object.keys(a11y).forEach((methodName) => {

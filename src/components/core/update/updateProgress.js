@@ -1,11 +1,11 @@
-import Utils from '../../../utils/utils';
+import { extend } from '../../../utils/utils';
 
 export default function (translate) {
   const swiper = this;
   if (typeof translate === 'undefined') {
     const multiplier = swiper.rtlTranslate ? -1 : 1;
     // eslint-disable-next-line
-    translate = (swiper && swiper.translate && (swiper.translate * multiplier)) || 0;
+    translate = (swiper && swiper.translate && swiper.translate * multiplier) || 0;
   }
   const params = swiper.params;
   const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
@@ -17,17 +17,22 @@ export default function (translate) {
     isBeginning = true;
     isEnd = true;
   } else {
-    progress = (translate - swiper.minTranslate()) / (translatesDiff);
+    progress = (translate - swiper.minTranslate()) / translatesDiff;
     isBeginning = progress <= 0;
     isEnd = progress >= 1;
   }
-  Utils.extend(swiper, {
+  extend(swiper, {
     progress,
     isBeginning,
     isEnd,
   });
 
-  if (params.watchSlidesProgress || params.watchSlidesVisibility || (params.centeredSlides && params.autoHeight)) swiper.updateSlidesProgress(translate);
+  if (
+    params.watchSlidesProgress ||
+    params.watchSlidesVisibility ||
+    (params.centeredSlides && params.autoHeight)
+  )
+    swiper.updateSlidesProgress(translate);
 
   if (isBeginning && !wasBeginning) {
     swiper.emit('reachBeginning toEdge');

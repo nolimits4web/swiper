@@ -4,7 +4,13 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   if (slideIndex < 0) slideIndex = 0;
 
   const {
-    params, snapGrid, slidesGrid, previousIndex, activeIndex, rtlTranslate: rtl, wrapperEl,
+    params,
+    snapGrid,
+    slidesGrid,
+    previousIndex,
+    activeIndex,
+    rtlTranslate: rtl,
+    wrapperEl,
   } = swiper;
   if (swiper.animating && params.preventInteractionOnTransition) {
     return false;
@@ -33,10 +39,18 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   }
   // Directions locks
   if (swiper.initialized && slideIndex !== activeIndex) {
-    if (!swiper.allowSlideNext && translate < swiper.translate && translate < swiper.minTranslate()) {
+    if (
+      !swiper.allowSlideNext &&
+      translate < swiper.translate &&
+      translate < swiper.minTranslate()
+    ) {
       return false;
     }
-    if (!swiper.allowSlidePrev && translate > swiper.translate && translate > swiper.maxTranslate()) {
+    if (
+      !swiper.allowSlidePrev &&
+      translate > swiper.translate &&
+      translate > swiper.maxTranslate()
+    ) {
       if ((activeIndex || 0) !== slideIndex) return false;
     }
   }
@@ -45,7 +59,6 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   if (slideIndex > activeIndex) direction = 'next';
   else if (slideIndex < activeIndex) direction = 'prev';
   else direction = 'reset';
-
 
   // Update Index
   if ((rtl && -translate === swiper.translate) || (!rtl && translate === swiper.translate)) {
@@ -107,15 +120,24 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
         swiper.onSlideToWrapperTransitionEnd = function transitionEnd(e) {
           if (!swiper || swiper.destroyed) return;
           if (e.target !== this) return;
-          swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
-          swiper.$wrapperEl[0].removeEventListener('webkitTransitionEnd', swiper.onSlideToWrapperTransitionEnd);
+          swiper.$wrapperEl[0].removeEventListener(
+            'transitionend',
+            swiper.onSlideToWrapperTransitionEnd,
+          );
+          swiper.$wrapperEl[0].removeEventListener(
+            'webkitTransitionEnd',
+            swiper.onSlideToWrapperTransitionEnd,
+          );
           swiper.onSlideToWrapperTransitionEnd = null;
           delete swiper.onSlideToWrapperTransitionEnd;
           swiper.transitionEnd(runCallbacks, direction);
         };
       }
       swiper.$wrapperEl[0].addEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
-      swiper.$wrapperEl[0].addEventListener('webkitTransitionEnd', swiper.onSlideToWrapperTransitionEnd);
+      swiper.$wrapperEl[0].addEventListener(
+        'webkitTransitionEnd',
+        swiper.onSlideToWrapperTransitionEnd,
+      );
     }
   }
 

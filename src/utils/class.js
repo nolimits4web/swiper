@@ -1,4 +1,4 @@
-import Utils from './utils';
+import { extend, now } from './utils';
 
 class SwiperClass {
   constructor(params = {}) {
@@ -48,7 +48,10 @@ class SwiperClass {
         self.eventsListeners[event] = [];
       } else if (self.eventsListeners[event] && self.eventsListeners[event].length) {
         self.eventsListeners[event].forEach((eventHandler, index) => {
-          if (eventHandler === handler || (eventHandler.f7proxy && eventHandler.f7proxy === handler)) {
+          if (
+            eventHandler === handler ||
+            (eventHandler.f7proxy && eventHandler.f7proxy === handler)
+          ) {
             self.eventsListeners[event].splice(index, 1);
           }
         });
@@ -94,7 +97,7 @@ class SwiperClass {
       const module = instance.modules[moduleName];
       // Extend params
       if (module.params) {
-        Utils.extend(instanceParams, module.params);
+        extend(instanceParams, module.params);
       }
     });
   }
@@ -139,7 +142,7 @@ class SwiperClass {
   static installModule(module, ...params) {
     const Class = this;
     if (!Class.prototype.modules) Class.prototype.modules = {};
-    const name = module.name || (`${Object.keys(Class.prototype.modules).length}_${Utils.now()}`);
+    const name = module.name || `${Object.keys(Class.prototype.modules).length}_${now()}`;
     Class.prototype.modules[name] = module;
     // Prototype
     if (module.proto) {

@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import Utils from '../../utils/utils';
+import { extend } from '../../utils/utils';
 
 const Lazy = {
   loadInSlide(index, loadInDuplicate = true) {
@@ -10,11 +10,19 @@ const Lazy = {
     const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
 
     const $slideEl = isVirtual
-      ? swiper.$wrapperEl.children(`.${swiper.params.slideClass}[data-swiper-slide-index="${index}"]`)
+      ? swiper.$wrapperEl.children(
+          `.${swiper.params.slideClass}[data-swiper-slide-index="${index}"]`,
+        )
       : swiper.slides.eq(index);
 
-    let $images = $slideEl.find(`.${params.elementClass}:not(.${params.loadedClass}):not(.${params.loadingClass})`);
-    if ($slideEl.hasClass(params.elementClass) && !$slideEl.hasClass(params.loadedClass) && !$slideEl.hasClass(params.loadingClass)) {
+    let $images = $slideEl.find(
+      `.${params.elementClass}:not(.${params.loadedClass}):not(.${params.loadingClass})`,
+    );
+    if (
+      $slideEl.hasClass(params.elementClass) &&
+      !$slideEl.hasClass(params.loadedClass) &&
+      !$slideEl.hasClass(params.loadingClass)
+    ) {
       $images = $images.add($slideEl[0]);
     }
     if ($images.length === 0) return;
@@ -29,8 +37,15 @@ const Lazy = {
       const sizes = $imageEl.attr('data-sizes');
       const $pictureEl = $imageEl.parent('picture');
 
-      swiper.loadImage($imageEl[0], (src || background), srcset, sizes, false, () => {
-        if (typeof swiper === 'undefined' || swiper === null || !swiper || (swiper && !swiper.params) || swiper.destroyed) return;
+      swiper.loadImage($imageEl[0], src || background, srcset, sizes, false, () => {
+        if (
+          typeof swiper === 'undefined' ||
+          swiper === null ||
+          !swiper ||
+          (swiper && !swiper.params) ||
+          swiper.destroyed
+        )
+          return;
         if (background) {
           $imageEl.css('background-image', `url("${background}")`);
           $imageEl.removeAttr('data-background');
@@ -64,10 +79,14 @@ const Lazy = {
         if (swiper.params.loop && loadInDuplicate) {
           const slideOriginalIndex = $slideEl.attr('data-swiper-slide-index');
           if ($slideEl.hasClass(swiper.params.slideDuplicateClass)) {
-            const originalSlide = swiper.$wrapperEl.children(`[data-swiper-slide-index="${slideOriginalIndex}"]:not(.${swiper.params.slideDuplicateClass})`);
+            const originalSlide = swiper.$wrapperEl.children(
+              `[data-swiper-slide-index="${slideOriginalIndex}"]:not(.${swiper.params.slideDuplicateClass})`,
+            );
             swiper.lazy.loadInSlide(originalSlide.index(), false);
           } else {
-            const duplicatedSlide = swiper.$wrapperEl.children(`.${swiper.params.slideDuplicateClass}[data-swiper-slide-index="${slideOriginalIndex}"]`);
+            const duplicatedSlide = swiper.$wrapperEl.children(
+              `.${swiper.params.slideDuplicateClass}[data-swiper-slide-index="${slideOriginalIndex}"]`,
+            );
             swiper.lazy.loadInSlide(duplicatedSlide.index(), false);
           }
         }
@@ -82,9 +101,7 @@ const Lazy = {
   },
   load() {
     const swiper = this;
-    const {
-      $wrapperEl, params: swiperParams, slides, activeIndex,
-    } = swiper;
+    const { $wrapperEl, params: swiperParams, slides, activeIndex } = swiper;
     const isVirtual = swiper.virtual && swiperParams.virtual.enabled;
     const params = swiperParams.lazy;
 
@@ -95,7 +112,10 @@ const Lazy = {
 
     function slideExist(index) {
       if (isVirtual) {
-        if ($wrapperEl.children(`.${swiperParams.slideClass}[data-swiper-slide-index="${index}"]`).length) {
+        if (
+          $wrapperEl.children(`.${swiperParams.slideClass}[data-swiper-slide-index="${index}"]`)
+            .length
+        ) {
           return true;
         }
       } else if (slides[index]) return true;
@@ -164,7 +184,7 @@ export default {
   },
   create() {
     const swiper = this;
-    Utils.extend(swiper, {
+    extend(swiper, {
       lazy: {
         initialImageLoaded: false,
         load: Lazy.load.bind(swiper),
@@ -206,7 +226,10 @@ export default {
     transitionStart() {
       const swiper = this;
       if (swiper.params.lazy.enabled) {
-        if (swiper.params.lazy.loadOnTransitionStart || (!swiper.params.lazy.loadOnTransitionStart && !swiper.lazy.initialImageLoaded)) {
+        if (
+          swiper.params.lazy.loadOnTransitionStart ||
+          (!swiper.params.lazy.loadOnTransitionStart && !swiper.lazy.initialImageLoaded)
+        ) {
           swiper.lazy.load();
         }
       }

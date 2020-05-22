@@ -1,6 +1,6 @@
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
 import Swiper from '../core/core-class';
-import Utils from '../../utils/utils';
+import { nextTick, extend } from '../../utils/utils';
 
 const Controller = {
   LinearSpline: function LinearSpline(x, y) {
@@ -12,7 +12,7 @@ const Controller = {
         minIndex = -1;
         maxIndex = array.length;
         while (maxIndex - minIndex > 1) {
-          guess = maxIndex + minIndex >> 1;
+          guess = (maxIndex + minIndex) >> 1;
           if (array[guess] <= val) {
             minIndex = guess;
           } else {
@@ -21,7 +21,7 @@ const Controller = {
         }
         return maxIndex;
       };
-    }());
+    })();
     this.x = x;
     this.y = y;
     this.lastIndex = x.length - 1;
@@ -40,7 +40,9 @@ const Controller = {
 
       // We have our indexes i1 & i3, so we can calculate already:
       // y2 := ((x2−x1) × (y3−y1)) ÷ (x3−x1) + y1
-      return (((x2 - this.x[i1]) * (this.y[i3] - this.y[i1])) / (this.x[i3] - this.x[i1])) + this.y[i1];
+      return (
+        ((x2 - this.x[i1]) * (this.y[i3] - this.y[i1])) / (this.x[i3] - this.x[i1]) + this.y[i1]
+      );
     };
     return this;
   },
@@ -72,8 +74,9 @@ const Controller = {
       }
 
       if (!controlledTranslate || swiper.params.controller.by === 'container') {
-        multiplier = (c.maxTranslate() - c.minTranslate()) / (swiper.maxTranslate() - swiper.minTranslate());
-        controlledTranslate = ((translate - swiper.minTranslate()) * multiplier) + c.minTranslate();
+        multiplier =
+          (c.maxTranslate() - c.minTranslate()) / (swiper.maxTranslate() - swiper.minTranslate());
+        controlledTranslate = (translate - swiper.minTranslate()) * multiplier + c.minTranslate();
       }
 
       if (swiper.params.controller.inverse) {
@@ -103,7 +106,7 @@ const Controller = {
       if (duration !== 0) {
         c.transitionStart();
         if (c.params.autoHeight) {
-          Utils.nextTick(() => {
+          nextTick(() => {
             c.updateAutoHeight();
           });
         }
@@ -138,7 +141,7 @@ export default {
   },
   create() {
     const swiper = this;
-    Utils.extend(swiper, {
+    extend(swiper, {
       controller: {
         control: swiper.params.controller.control,
         getInterpolateFunction: Controller.getInterpolateFunction.bind(swiper),

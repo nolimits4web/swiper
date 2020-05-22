@@ -1,7 +1,9 @@
 /* eslint no-param-reassign: "off" */
 import $ from '../../utils/dom';
-import Utils from '../../utils/utils';
-import Support from '../../utils/support';
+import { extend, now, deleteProps } from '../../utils/utils';
+import { getSupport } from '../../utils/get-support';
+import { getDevice } from '../../utils/get-device';
+import { getBrowser } from '../../utils/get-browser';
 
 import SwiperClass from '../../utils/class';
 
@@ -48,10 +50,16 @@ class Swiper extends SwiperClass {
     }
     if (!params) params = {};
 
-    params = Utils.extend({}, params);
+    params = extend({}, params);
     if (el && !params.el) params.el = el;
 
     super(params);
+
+    // Swiper Instance
+    const swiper = this;
+    swiper.support = getSupport();
+    swiper.device = getDevice();
+    swiper.browser = getBrowser();
 
     Object.keys(prototypes).forEach((prototypeGroup) => {
       Object.keys(prototypes[prototypeGroup]).forEach((protoMethod) => {
@@ -61,8 +69,6 @@ class Swiper extends SwiperClass {
       });
     });
 
-    // Swiper Instance
-    const swiper = this;
     if (typeof swiper.modules === 'undefined') {
       swiper.modules = {};
     }
@@ -77,8 +83,8 @@ class Swiper extends SwiperClass {
           params[moduleParamName] = { enabled: true };
         }
         if (
-          typeof params[moduleParamName] === 'object'
-          && !('enabled' in params[moduleParamName])
+          typeof params[moduleParamName] === 'object' &&
+          !('enabled' in params[moduleParamName])
         ) {
           params[moduleParamName].enabled = true;
         }
@@ -87,13 +93,13 @@ class Swiper extends SwiperClass {
     });
 
     // Extend defaults with modules params
-    const swiperParams = Utils.extend({}, defaults);
+    const swiperParams = extend({}, defaults);
     swiper.useModulesParams(swiperParams);
 
     // Extend defaults with passed params
-    swiper.params = Utils.extend({}, swiperParams, extendedDefaults, params);
-    swiper.originalParams = Utils.extend({}, swiper.params);
-    swiper.passedParams = Utils.extend({}, params);
+    swiper.params = extend({}, swiperParams, extendedDefaults, params);
+    swiper.originalParams = extend({}, swiper.params);
+    swiper.passedParams = extend({}, params);
 
     // Save Dom lib
     swiper.$ = $;
@@ -109,7 +115,7 @@ class Swiper extends SwiperClass {
     if ($el.length > 1) {
       const swipers = [];
       $el.each((index, containerEl) => {
-        const newParams = Utils.extend({}, params, { el: containerEl });
+        const newParams = extend({}, params, { el: containerEl });
         swipers.push(new Swiper(newParams));
       });
       return swipers;
@@ -128,7 +134,7 @@ class Swiper extends SwiperClass {
       $wrapperEl = $el.children(`.${swiper.params.wrapperClass}`);
     }
     // Extend Swiper
-    Utils.extend(swiper, {
+    extend(swiper, {
       $el,
       el,
       $wrapperEl,
@@ -151,8 +157,10 @@ class Swiper extends SwiperClass {
         return swiper.params.direction === 'vertical';
       },
       // RTL
-      rtl: (el.dir.toLowerCase() === 'rtl' || $el.css('direction') === 'rtl'),
-      rtlTranslate: swiper.params.direction === 'horizontal' && (el.dir.toLowerCase() === 'rtl' || $el.css('direction') === 'rtl'),
+      rtl: el.dir.toLowerCase() === 'rtl' || $el.css('direction') === 'rtl',
+      rtlTranslate:
+        swiper.params.direction === 'horizontal' &&
+        (el.dir.toLowerCase() === 'rtl' || $el.css('direction') === 'rtl'),
       wrongRTL: $wrapperEl.css('display') === '-webkit-box',
 
       // Indexes
@@ -178,7 +186,7 @@ class Swiper extends SwiperClass {
       touchEvents: (function touchEvents() {
         const touch = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
         let desktop = ['mousedown', 'mousemove', 'mouseup'];
-        if (Support.pointerEvents) {
+        if (swiper.support.pointerEvents) {
           desktop = ['pointerdown', 'pointermove', 'pointerup'];
         }
         swiper.touchEventsTouch = {
@@ -192,8 +200,10 @@ class Swiper extends SwiperClass {
           move: desktop[1],
           end: desktop[2],
         };
-        return Support.touch || !swiper.params.simulateTouch ? swiper.touchEventsTouch : swiper.touchEventsDesktop;
-      }()),
+        return swiper.support.touch || !swiper.params.simulateTouch
+          ? swiper.touchEventsTouch
+          : swiper.touchEventsDesktop;
+      })(),
       touchEventsData: {
         isTouched: undefined,
         isMoved: undefined,
@@ -206,7 +216,7 @@ class Swiper extends SwiperClass {
         // Form elements to match
         formElements: 'input, select, option, textarea, button, video, label',
         // Last click time
-        lastClickTime: Utils.now(),
+        lastClickTime: now(),
         clickTimeout: undefined,
         // Velocities
         velocities: [],
@@ -232,7 +242,6 @@ class Swiper extends SwiperClass {
       // Images
       imagesToLoad: [],
       imagesLoaded: 0,
-
     });
 
     // Install Modules
@@ -249,9 +258,7 @@ class Swiper extends SwiperClass {
 
   slidesPerViewDynamic() {
     const swiper = this;
-    const {
-      params, slides, slidesGrid, size: swiperSize, activeIndex,
-    } = swiper;
+    const { params, slides, slidesGrid, size: swiperSize, activeIndex } = swiper;
     let spv = 1;
     if (params.centeredSlides) {
       let slideSize = slides[activeIndex].swiperSlideSize;
@@ -295,7 +302,10 @@ class Swiper extends SwiperClass {
 
     function setTranslate() {
       const translateValue = swiper.rtlTranslate ? swiper.translate * -1 : swiper.translate;
-      const newTranslate = Math.min(Math.max(translateValue, swiper.maxTranslate()), swiper.minTranslate());
+      const newTranslate = Math.min(
+        Math.max(translateValue, swiper.maxTranslate()),
+        swiper.minTranslate(),
+      );
       swiper.setTranslate(newTranslate);
       swiper.updateActiveIndex();
       swiper.updateSlidesClasses();
@@ -307,7 +317,11 @@ class Swiper extends SwiperClass {
         swiper.updateAutoHeight();
       }
     } else {
-      if ((swiper.params.slidesPerView === 'auto' || swiper.params.slidesPerView > 1) && swiper.isEnd && !swiper.params.centeredSlides) {
+      if (
+        (swiper.params.slidesPerView === 'auto' || swiper.params.slidesPerView > 1) &&
+        swiper.isEnd &&
+        !swiper.params.centeredSlides
+      ) {
         translated = swiper.slideTo(swiper.slides.length - 1, 0, false, true);
       } else {
         translated = swiper.slideTo(swiper.activeIndex, 0, false, true);
@@ -329,7 +343,10 @@ class Swiper extends SwiperClass {
       // eslint-disable-next-line
       newDirection = currentDirection === 'horizontal' ? 'vertical' : 'horizontal';
     }
-    if ((newDirection === currentDirection) || (newDirection !== 'horizontal' && newDirection !== 'vertical')) {
+    if (
+      newDirection === currentDirection ||
+      (newDirection !== 'horizontal' && newDirection !== 'vertical')
+    ) {
       return swiper;
     }
 
@@ -393,7 +410,11 @@ class Swiper extends SwiperClass {
 
     // Slide To Initial Slide
     if (swiper.params.loop) {
-      swiper.slideTo(swiper.params.initialSlide + swiper.loopedSlides, 0, swiper.params.runCallbacksOnInit);
+      swiper.slideTo(
+        swiper.params.initialSlide + swiper.loopedSlides,
+        0,
+        swiper.params.runCallbacksOnInit,
+      );
     } else {
       swiper.slideTo(swiper.params.initialSlide, 0, swiper.params.runCallbacksOnInit);
     }
@@ -410,9 +431,7 @@ class Swiper extends SwiperClass {
 
   destroy(deleteInstance = true, cleanStyles = true) {
     const swiper = this;
-    const {
-      params, $el, $wrapperEl, slides,
-    } = swiper;
+    const { params, $el, $wrapperEl, slides } = swiper;
 
     if (typeof swiper.params === 'undefined' || swiper.destroyed) {
       return null;
@@ -438,12 +457,14 @@ class Swiper extends SwiperClass {
       $wrapperEl.removeAttr('style');
       if (slides && slides.length) {
         slides
-          .removeClass([
-            params.slideVisibleClass,
-            params.slideActiveClass,
-            params.slideNextClass,
-            params.slidePrevClass,
-          ].join(' '))
+          .removeClass(
+            [
+              params.slideVisibleClass,
+              params.slideActiveClass,
+              params.slideNextClass,
+              params.slidePrevClass,
+            ].join(' '),
+          )
           .removeAttr('style')
           .removeAttr('data-swiper-slide-index');
       }
@@ -459,7 +480,7 @@ class Swiper extends SwiperClass {
     if (deleteInstance !== false) {
       swiper.$el[0].swiper = null;
       swiper.$el.data('swiper', null);
-      Utils.deleteProps(swiper);
+      deleteProps(swiper);
     }
     swiper.destroyed = true;
 
@@ -467,7 +488,7 @@ class Swiper extends SwiperClass {
   }
 
   static extendDefaults(newDefaults) {
-    Utils.extend(extendedDefaults, newDefaults);
+    extend(extendedDefaults, newDefaults);
   }
 
   static get extendedDefaults() {

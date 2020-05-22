@@ -8,26 +8,26 @@
   $loops: ceil(str-length($svg) / $chunkSize);
 
   $map: (
-   "%": "%25",
-   "<": "%3C",
-   ">": "%3E",
-   " ": "%20",
-   "!": "%21",
-   "*": "%2A",
-   '"': "%22",
-   ";": "%3B",
-   ":": "%3A",
-   "@": "%40",
-   "&": "%26",
-   "=": "%3D",
-   "+": "%2B",
-   "$": "%24",
-   ",": "%2C",
-   "/": "%2F",
-   "?": "%3F",
-   "#": "%23",
-   "[": "%5B",
-   "]": "%5D"
+    '%': '%25',
+    '<': '%3C',
+    '>': '%3E',
+    ' ': '%20',
+    '!': '%21',
+    '*': '%2A',
+    '"': '%22',
+    ';': '%3B',
+    ':': '%3A',
+    '@': '%40',
+    '&': '%26',
+    '=': '%3D',
+    '+': '%2B',
+    '$': '%24',
+    ',': '%2C',
+    '/': '%2F',
+    '?': '%3F',
+    '#': '%23',
+    '[': '%5B',
+    ']': '%5D',
   );
 
   @for $i from 1 through $loops {
@@ -39,7 +39,7 @@
     $index: $index + $chunkSize;
   }
 
-  @return url("data:image/svg+xml;charset=utf-8,#{$encoded}");
+  @return url('data:image/svg+xml;charset=utf-8,#{$encoded}');
 }
 
 /// Replace `$search` with `$replace` in `$string`
@@ -53,7 +53,8 @@
   $index: str-index($string, $search);
 
   @if $index {
-    @return str-slice($string, 1, $index - 1) + $replace + swiper-str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    @return str-slice($string, 1, $index - 1) + $replace +
+      swiper-str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
   }
 
   @return $string;

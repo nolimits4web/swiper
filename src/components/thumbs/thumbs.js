@@ -1,4 +1,4 @@
-import Utils from '../../utils/utils';
+import { extend, isObject } from '../../utils/utils';
 import $ from '../../utils/dom';
 
 const Thumbs = {
@@ -8,20 +8,22 @@ const Thumbs = {
     const SwiperClass = swiper.constructor;
     if (thumbsParams.swiper instanceof SwiperClass) {
       swiper.thumbs.swiper = thumbsParams.swiper;
-      Utils.extend(swiper.thumbs.swiper.originalParams, {
+      extend(swiper.thumbs.swiper.originalParams, {
         watchSlidesProgress: true,
         slideToClickedSlide: false,
       });
-      Utils.extend(swiper.thumbs.swiper.params, {
+      extend(swiper.thumbs.swiper.params, {
         watchSlidesProgress: true,
         slideToClickedSlide: false,
       });
-    } else if (Utils.isObject(thumbsParams.swiper)) {
-      swiper.thumbs.swiper = new SwiperClass(Utils.extend({}, thumbsParams.swiper, {
-        watchSlidesVisibility: true,
-        watchSlidesProgress: true,
-        slideToClickedSlide: false,
-      }));
+    } else if (isObject(thumbsParams.swiper)) {
+      swiper.thumbs.swiper = new SwiperClass(
+        extend({}, thumbsParams.swiper, {
+          watchSlidesVisibility: true,
+          watchSlidesProgress: true,
+          slideToClickedSlide: false,
+        }),
+      );
       swiper.thumbs.swiperCreated = true;
     }
     swiper.thumbs.swiper.$el.addClass(swiper.params.thumbs.thumbsContainerClass);
@@ -33,7 +35,8 @@ const Thumbs = {
     if (!thumbsSwiper) return;
     const clickedIndex = thumbsSwiper.clickedIndex;
     const clickedSlide = thumbsSwiper.clickedSlide;
-    if (clickedSlide && $(clickedSlide).hasClass(swiper.params.thumbs.slideThumbActiveClass)) return;
+    if (clickedSlide && $(clickedSlide).hasClass(swiper.params.thumbs.slideThumbActiveClass))
+      return;
     if (typeof clickedIndex === 'undefined' || clickedIndex === null) return;
     let slideToIndex;
     if (thumbsSwiper.params.loop) {
@@ -49,8 +52,16 @@ const Thumbs = {
         swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
         currentIndex = swiper.activeIndex;
       }
-      const prevIndex = swiper.slides.eq(currentIndex).prevAll(`[data-swiper-slide-index="${slideToIndex}"]`).eq(0).index();
-      const nextIndex = swiper.slides.eq(currentIndex).nextAll(`[data-swiper-slide-index="${slideToIndex}"]`).eq(0).index();
+      const prevIndex = swiper.slides
+        .eq(currentIndex)
+        .prevAll(`[data-swiper-slide-index="${slideToIndex}"]`)
+        .eq(0)
+        .index();
+      const nextIndex = swiper.slides
+        .eq(currentIndex)
+        .nextAll(`[data-swiper-slide-index="${slideToIndex}"]`)
+        .eq(0)
+        .index();
       if (typeof prevIndex === 'undefined') slideToIndex = nextIndex;
       else if (typeof nextIndex === 'undefined') slideToIndex = prevIndex;
       else if (nextIndex - currentIndex < currentIndex - prevIndex) slideToIndex = nextIndex;
@@ -63,9 +74,10 @@ const Thumbs = {
     const thumbsSwiper = swiper.thumbs.swiper;
     if (!thumbsSwiper) return;
 
-    const slidesPerView = thumbsSwiper.params.slidesPerView === 'auto'
-      ? thumbsSwiper.slidesPerViewDynamic()
-      : thumbsSwiper.params.slidesPerView;
+    const slidesPerView =
+      thumbsSwiper.params.slidesPerView === 'auto'
+        ? thumbsSwiper.slidesPerViewDynamic()
+        : thumbsSwiper.params.slidesPerView;
 
     const autoScrollOffset = swiper.params.thumbs.autoScrollOffset;
     const useOffset = autoScrollOffset && !thumbsSwiper.params.loop;
@@ -74,7 +86,11 @@ const Thumbs = {
       let newThumbsIndex;
       let direction;
       if (thumbsSwiper.params.loop) {
-        if (thumbsSwiper.slides.eq(currentThumbsIndex).hasClass(thumbsSwiper.params.slideDuplicateClass)) {
+        if (
+          thumbsSwiper.slides
+            .eq(currentThumbsIndex)
+            .hasClass(thumbsSwiper.params.slideDuplicateClass)
+        ) {
           thumbsSwiper.loopFix();
           // eslint-disable-next-line
           thumbsSwiper._clientLeft = thumbsSwiper.$wrapperEl[0].clientLeft;
@@ -83,16 +99,20 @@ const Thumbs = {
         // Find actual thumbs index to slide to
         const prevThumbsIndex = thumbsSwiper.slides
           .eq(currentThumbsIndex)
-          .prevAll(`[data-swiper-slide-index="${swiper.realIndex}"]`).eq(0)
+          .prevAll(`[data-swiper-slide-index="${swiper.realIndex}"]`)
+          .eq(0)
           .index();
         const nextThumbsIndex = thumbsSwiper.slides
           .eq(currentThumbsIndex)
-          .nextAll(`[data-swiper-slide-index="${swiper.realIndex}"]`).eq(0)
+          .nextAll(`[data-swiper-slide-index="${swiper.realIndex}"]`)
+          .eq(0)
           .index();
         if (typeof prevThumbsIndex === 'undefined') newThumbsIndex = nextThumbsIndex;
         else if (typeof nextThumbsIndex === 'undefined') newThumbsIndex = prevThumbsIndex;
-        else if (nextThumbsIndex - currentThumbsIndex === currentThumbsIndex - prevThumbsIndex) newThumbsIndex = currentThumbsIndex;
-        else if (nextThumbsIndex - currentThumbsIndex < currentThumbsIndex - prevThumbsIndex) newThumbsIndex = nextThumbsIndex;
+        else if (nextThumbsIndex - currentThumbsIndex === currentThumbsIndex - prevThumbsIndex)
+          newThumbsIndex = currentThumbsIndex;
+        else if (nextThumbsIndex - currentThumbsIndex < currentThumbsIndex - prevThumbsIndex)
+          newThumbsIndex = nextThumbsIndex;
         else newThumbsIndex = prevThumbsIndex;
         direction = swiper.activeIndex > swiper.previousIndex ? 'next' : 'prev';
       } else {
@@ -103,7 +123,10 @@ const Thumbs = {
         newThumbsIndex += direction === 'next' ? autoScrollOffset : -1 * autoScrollOffset;
       }
 
-      if (thumbsSwiper.visibleSlidesIndexes && thumbsSwiper.visibleSlidesIndexes.indexOf(newThumbsIndex) < 0) {
+      if (
+        thumbsSwiper.visibleSlidesIndexes &&
+        thumbsSwiper.visibleSlidesIndexes.indexOf(newThumbsIndex) < 0
+      ) {
         if (thumbsSwiper.params.centeredSlides) {
           if (newThumbsIndex > currentThumbsIndex) {
             newThumbsIndex = newThumbsIndex - Math.floor(slidesPerView / 2) + 1;
@@ -132,9 +155,14 @@ const Thumbs = {
     thumbsToActivate = Math.floor(thumbsToActivate);
 
     thumbsSwiper.slides.removeClass(thumbActiveClass);
-    if (thumbsSwiper.params.loop || (thumbsSwiper.params.virtual && thumbsSwiper.params.virtual.enabled)) {
+    if (
+      thumbsSwiper.params.loop ||
+      (thumbsSwiper.params.virtual && thumbsSwiper.params.virtual.enabled)
+    ) {
       for (let i = 0; i < thumbsToActivate; i += 1) {
-        thumbsSwiper.$wrapperEl.children(`[data-swiper-slide-index="${swiper.realIndex + i}"]`).addClass(thumbActiveClass);
+        thumbsSwiper.$wrapperEl
+          .children(`[data-swiper-slide-index="${swiper.realIndex + i}"]`)
+          .addClass(thumbActiveClass);
       }
     } else {
       for (let i = 0; i < thumbsToActivate; i += 1) {
@@ -156,7 +184,7 @@ export default {
   },
   create() {
     const swiper = this;
-    Utils.extend(swiper, {
+    extend(swiper, {
       thumbs: {
         swiper: null,
         init: Thumbs.init.bind(swiper),

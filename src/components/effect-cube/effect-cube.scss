@@ -16,15 +16,22 @@
     transform-origin: 100% 0;
   }
   .swiper-slide-active {
-    &, & .swiper-slide-active {
+    &,
+    & .swiper-slide-active {
       pointer-events: auto;
     }
   }
-  .swiper-slide-active, .swiper-slide-next, .swiper-slide-prev, .swiper-slide-next + .swiper-slide {
+  .swiper-slide-active,
+  .swiper-slide-next,
+  .swiper-slide-prev,
+  .swiper-slide-next + .swiper-slide {
     pointer-events: auto;
     visibility: visible;
   }
-  .swiper-slide-shadow-top, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left, .swiper-slide-shadow-right {
+  .swiper-slide-shadow-top,
+  .swiper-slide-shadow-bottom,
+  .swiper-slide-shadow-left,
+  .swiper-slide-shadow-right {
     z-index: 0;
     backface-visibility: hidden;
   }
