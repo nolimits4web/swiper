@@ -23,3 +23,11 @@
   ```
 - Setup lintstaged + husky
 - LESS: remove font plugin
+- Lite version
+  - Remove:
+    - Loop
+    - Free mode
+    - Manipulation
+    - Autoheight
+    - Images
+    - Lazy loading
