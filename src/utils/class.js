@@ -7,6 +7,7 @@ class SwiperClass {
 
     // Events
     self.eventsListeners = {};
+    self.allEventsListeners = [];
 
     if (self.params && self.params.on) {
       Object.keys(self.params.on).forEach((eventName) => {
@@ -23,6 +24,26 @@ class SwiperClass {
       if (!self.eventsListeners[event]) self.eventsListeners[event] = [];
       self.eventsListeners[event][method](handler);
     });
+    return self;
+  }
+
+  onEvent(handler, priority) {
+    const self = this;
+    if (typeof handler !== 'function') return self;
+    const method = priority ? 'unshift' : 'push';
+    if (self.allEventsListeners.indexOf(handler) < 0) {
+      self.allEventsListeners[method](handler);
+    }
+    return self;
+  }
+
+  offEvent(handler) {
+    const self = this;
+    if (!self.allEventsListeners) return self;
+    const index = self.allEventsListeners.indexOf(handler);
+    if (index >= 0) {
+      self.allEventsListeners.splice(index, 1);
+    }
     return self;
   }
 
@@ -77,6 +98,11 @@ class SwiperClass {
     }
     const eventsArray = Array.isArray(events) ? events : events.split(' ');
     eventsArray.forEach((event) => {
+      if (self.allEventsListeners && self.allEventsListeners.length) {
+        self.allEventsListeners.forEach((allHandler) => {
+          allHandler.apply(context, [event, ...data]);
+        });
+      }
       if (self.eventsListeners && self.eventsListeners[event]) {
         const handlers = [];
         self.eventsListeners[event].forEach((eventHandler) => {
