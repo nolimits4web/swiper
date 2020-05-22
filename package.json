@@ -55,7 +55,7 @@
   ],
   "devDependencies": {
     "@rollup/plugin-buble": "^0.21.1",
-    "@rollup/plugin-node-resolve": "^7.1.1",
+    "@rollup/plugin-node-resolve": "^8.0.0",
     "@rollup/plugin-replace": "^2.3.1",
     "autoprefixer": "^9.7.6",
     "clean-css": "^4.2.3",
