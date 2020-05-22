@@ -22,7 +22,10 @@
   swiper.scss
   ```
 - Setup lintstaged + husky
-- LESS: remove font plugin
+- LESS/SCSS:
+  - remove font plugin
+  - copy components
+  - bundle Core into swiper.LESS/swiper.SCSS
 - Lite version
   - Remove:
     - Loop
