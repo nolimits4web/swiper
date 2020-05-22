@@ -6,8 +6,7 @@
       navigation.esm.js
       navigation.scss
       navigation.less
-  less/
-  scss/
+      package.json
   swiper.cjs.js
   swiper.cjs.bundle.js
   swiper.esm.js
