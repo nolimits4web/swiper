@@ -58,7 +58,7 @@ class Swiper extends SwiperClass {
     // Swiper Instance
     const swiper = this;
     swiper.support = getSupport();
-    swiper.device = getDevice();
+    swiper.device = getDevice(params.ssr);
     swiper.browser = getBrowser();
 
     Object.keys(prototypes).forEach((prototypeGroup) => {

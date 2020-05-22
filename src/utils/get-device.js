@@ -3,11 +3,12 @@ import { getSupport } from './get-support';
 
 let device;
 
-function calcDevice() {
+function calcDevice({ userAgent, platform } = {}) {
   const support = getSupport();
   const window = getWindow();
-  const platform = window.navigator.platform;
-  const ua = window.navigator.userAgent;
+  // eslint-disable-next-line
+  platform = platform || window.navigator.platform;
+  const ua = userAgent || window.navigator.userAgent;
 
   const device = {
     ios: false,
@@ -121,9 +122,9 @@ function calcDevice() {
   return device;
 }
 
-function getDevice() {
+function getDevice(ssr = {}) {
   if (!device) {
-    device = calcDevice();
+    device = calcDevice(ssr);
   }
   return device;
 }
