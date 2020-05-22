@@ -5,7 +5,7 @@ import { getSupport } from '../../utils/get-support';
 import { getDevice } from '../../utils/get-device';
 import { getBrowser } from '../../utils/get-browser';
 
-import SwiperClass from '../../utils/class';
+import Modular from '../../utils/modular-class';
 
 import update from './update/index';
 import translate from './translate/index';
@@ -39,7 +39,7 @@ const prototypes = {
 
 const extendedDefaults = {};
 
-class Swiper extends SwiperClass {
+class Swiper extends Modular {
   constructor(...args) {
     let el;
     let params;
@@ -94,7 +94,7 @@ class Swiper extends SwiperClass {
 
     // Extend defaults with modules params
     const swiperParams = extend({}, defaults);
-    swiper.useModulesParams(swiperParams);
+    swiper.useParams(swiperParams);
 
     // Extend defaults with passed params
     swiper.params = extend({}, swiperParams, extendedDefaults, params);
@@ -122,7 +122,6 @@ class Swiper extends SwiperClass {
     }
 
     el.swiper = swiper;
-    $el.data('swiper', swiper);
 
     // Find Wrapper
     let $wrapperEl;
@@ -479,7 +478,6 @@ class Swiper extends SwiperClass {
 
     if (deleteInstance !== false) {
       swiper.$el[0].swiper = null;
-      swiper.$el.data('swiper', null);
       deleteProps(swiper);
     }
     swiper.destroyed = true;

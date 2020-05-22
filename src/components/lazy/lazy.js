@@ -15,7 +15,7 @@ const Lazy = {
         )
       : swiper.slides.eq(index);
 
-    let $images = $slideEl.find(
+    const $images = $slideEl.find(
       `.${params.elementClass}:not(.${params.loadedClass}):not(.${params.loadingClass})`,
     );
     if (
@@ -23,7 +23,7 @@ const Lazy = {
       !$slideEl.hasClass(params.loadedClass) &&
       !$slideEl.hasClass(params.loadingClass)
     ) {
-      $images = $images.add($slideEl[0]);
+      $images.push($slideEl[0]);
     }
     if ($images.length === 0) return;
 

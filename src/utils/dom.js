@@ -6,7 +6,6 @@ import {
   toggleClass,
   attr,
   removeAttr,
-  data,
   transform,
   transition,
   on,
@@ -36,8 +35,6 @@ import {
   children,
   filter,
   remove,
-  add,
-  styles,
 } from 'dom7';
 
 const Methods = {
@@ -47,7 +44,6 @@ const Methods = {
   toggleClass,
   attr,
   removeAttr,
-  data,
   transform,
   transition,
   on,
@@ -77,8 +73,6 @@ const Methods = {
   children,
   filter,
   remove,
-  add,
-  styles,
 };
 
 Object.keys(Methods).forEach((methodName) => {
