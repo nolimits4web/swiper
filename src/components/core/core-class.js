@@ -114,7 +114,7 @@ class Swiper extends SwiperClass {
 
     if ($el.length > 1) {
       const swipers = [];
-      $el.each((index, containerEl) => {
+      $el.each((containerEl) => {
         const newParams = extend({}, params, { el: containerEl });
         swipers.push(new Swiper(newParams));
       });
@@ -356,7 +356,7 @@ class Swiper extends SwiperClass {
 
     swiper.params.direction = newDirection;
 
-    swiper.slides.each((slideIndex, slideEl) => {
+    swiper.slides.each((slideEl) => {
       if (newDirection === 'vertical') {
         slideEl.style.width = '';
       } else {
@@ -486,26 +486,11 @@ class Swiper extends SwiperClass {
 
     return null;
   }
-
-  static extendDefaults(newDefaults) {
-    extend(extendedDefaults, newDefaults);
-  }
-
-  static get extendedDefaults() {
-    return extendedDefaults;
-  }
-
-  static get defaults() {
-    return defaults;
-  }
-
-  static get Class() {
-    return SwiperClass;
-  }
-
-  static get $() {
-    return $;
-  }
 }
+Swiper.extendDefaults = function extendDefaults(newDefaults) {
+  extend(extendedDefaults, newDefaults);
+};
+Swiper.extendedDefaults = extendedDefaults;
+Swiper.defaults = defaults;
 
 export default Swiper;

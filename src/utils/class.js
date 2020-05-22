@@ -133,43 +133,21 @@ class SwiperClass {
     });
   }
 
-  static set components(components) {
-    const Class = this;
-    if (!Class.use) return;
-    Class.use(components);
-  }
-
-  static installModule(module, ...params) {
+  static installModule(module) {
     const Class = this;
     if (!Class.prototype.modules) Class.prototype.modules = {};
     const name = module.name || `${Object.keys(Class.prototype.modules).length}_${now()}`;
     Class.prototype.modules[name] = module;
-    // Prototype
-    if (module.proto) {
-      Object.keys(module.proto).forEach((key) => {
-        Class.prototype[key] = module.proto[key];
-      });
-    }
-    // Class
-    if (module.static) {
-      Object.keys(module.static).forEach((key) => {
-        Class[key] = module.static[key];
-      });
-    }
-    // Callback
-    if (module.install) {
-      module.install.apply(Class, params);
-    }
     return Class;
   }
 
-  static use(module, ...params) {
+  static use(module) {
     const Class = this;
     if (Array.isArray(module)) {
       module.forEach((m) => Class.installModule(m));
       return Class;
     }
-    return Class.installModule(module, ...params);
+    return Class.installModule(module);
   }
 }
 

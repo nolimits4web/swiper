@@ -33,7 +33,7 @@ export default function () {
 
   const prependSlides = [];
   const appendSlides = [];
-  slides.each((index, el) => {
+  slides.each((el, index) => {
     const slide = $(el);
     if (index < swiper.loopedSlides) appendSlides.push(el);
     if (index < slides.length && index >= slides.length - swiper.loopedSlides)

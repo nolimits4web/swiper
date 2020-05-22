@@ -55,10 +55,10 @@ const Parallax = {
       .children(
         '[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y], [data-swiper-parallax-opacity], [data-swiper-parallax-scale]',
       )
-      .each((index, el) => {
+      .each((el) => {
         swiper.parallax.setTransform(el, progress);
       });
-    slides.each((slideIndex, slideEl) => {
+    slides.each((slideEl, slideIndex) => {
       let slideProgress = slideEl.progress;
       if (swiper.params.slidesPerGroup > 1 && swiper.params.slidesPerView !== 'auto') {
         slideProgress += Math.ceil(slideIndex / 2) - progress * (snapGrid.length - 1);
@@ -68,7 +68,7 @@ const Parallax = {
         .find(
           '[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y], [data-swiper-parallax-opacity], [data-swiper-parallax-scale]',
         )
-        .each((index, el) => {
+        .each((el) => {
           swiper.parallax.setTransform(el, slideProgress);
         });
     });
@@ -80,7 +80,7 @@ const Parallax = {
       .find(
         '[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y], [data-swiper-parallax-opacity], [data-swiper-parallax-scale]',
       )
-      .each((index, parallaxEl) => {
+      .each((parallaxEl) => {
         const $parallaxEl = $(parallaxEl);
         let parallaxDuration =
           parseInt($parallaxEl.attr('data-swiper-parallax-duration'), 10) || duration;

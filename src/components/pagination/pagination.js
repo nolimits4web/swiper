@@ -72,7 +72,7 @@ const Pagination = {
         `${params.bulletActiveClass} ${params.bulletActiveClass}-next ${params.bulletActiveClass}-next-next ${params.bulletActiveClass}-prev ${params.bulletActiveClass}-prev-prev ${params.bulletActiveClass}-main`,
       );
       if ($el.length > 1) {
-        bullets.each((index, bullet) => {
+        bullets.each((bullet) => {
           const $bullet = $(bullet);
           const bulletIndex = $bullet.index();
           if (bulletIndex === current) {

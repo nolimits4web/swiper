@@ -23,3 +23,4 @@
   swiper.scss
   ```
 - Setup lintstaged + husky
+- LESS: remove font plugin

@@ -18,7 +18,7 @@ function es(components, cb) {
   rollup
     .rollup({
       input: './src/swiper.js',
-      external: ['dom7/dist/dom7.modular', 'ssr-window'],
+      external: ['dom7', 'ssr-window'],
       plugins: [
         replace({
           delimiters: ['', ''],
@@ -34,7 +34,7 @@ function es(components, cb) {
             .join(',\n  '),
           '//EXPORT': 'export default Swiper',
         }),
-        resolve({ mainFields: ['module', 'main', 'jsnext'] }),
+        resolve.default({ mainFields: ['module', 'main', 'jsnext'] }),
       ],
     })
     .then((bundle) =>
@@ -77,7 +77,7 @@ function es(components, cb) {
             .join(',\n  '),
           '//EXPORT': 'export default Swiper',
         }),
-        resolve({ mainFields: ['module', 'main', 'jsnext'] }),
+        resolve.default({ mainFields: ['module', 'main', 'jsnext'] }),
       ],
     })
     .then((bundle) =>
@@ -123,7 +123,7 @@ function es(components, cb) {
   rollup
     .rollup({
       input: './src/swiper.js',
-      external: ['dom7/dist/dom7.modular', 'ssr-window'],
+      external: ['dom7', 'ssr-window'],
       plugins: [
         replace({
           delimiters: ['', ''],
@@ -139,7 +139,7 @@ function es(components, cb) {
             .map((component) => component.capitalized)
             .join(', ')} }`,
         }),
-        resolve({ mainFields: ['module', 'main', 'jsnext'] }),
+        resolve.default({ mainFields: ['module', 'main', 'jsnext'] }),
       ],
     })
     .then((bundle) =>
@@ -182,7 +182,7 @@ function umd(components, cb) {
             .join(',\n  '),
           '//EXPORT': 'export default Swiper;',
         }),
-        resolve({ mainFields: ['module', 'main', 'jsnext'] }),
+        resolve.default({ mainFields: ['module', 'main', 'jsnext'] }),
         buble(),
       ],
     })
