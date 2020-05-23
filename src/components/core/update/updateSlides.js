@@ -145,11 +145,11 @@ export default function updateSlides() {
       } else {
         // eslint-disable-next-line
         if (swiper.isHorizontal()) {
-          const width = parseFloat(slideStyles.getPropertyValue('width'));
-          const paddingLeft = parseFloat(slideStyles.getPropertyValue('padding-left'));
-          const paddingRight = parseFloat(slideStyles.getPropertyValue('padding-right'));
-          const marginLeft = parseFloat(slideStyles.getPropertyValue('margin-left'));
-          const marginRight = parseFloat(slideStyles.getPropertyValue('margin-right'));
+          const width = parseFloat(slideStyles.getPropertyValue('width') || 0);
+          const paddingLeft = parseFloat(slideStyles.getPropertyValue('padding-left') || 0);
+          const paddingRight = parseFloat(slideStyles.getPropertyValue('padding-right') || 0);
+          const marginLeft = parseFloat(slideStyles.getPropertyValue('margin-left') || 0);
+          const marginRight = parseFloat(slideStyles.getPropertyValue('margin-right') || 0);
           const boxSizing = slideStyles.getPropertyValue('box-sizing');
           if (boxSizing && boxSizing === 'border-box') {
             slideSize = width + marginLeft + marginRight;
@@ -157,11 +157,11 @@ export default function updateSlides() {
             slideSize = width + paddingLeft + paddingRight + marginLeft + marginRight;
           }
         } else {
-          const height = parseFloat(slideStyles.getPropertyValue('height'));
-          const paddingTop = parseFloat(slideStyles.getPropertyValue('padding-top'));
-          const paddingBottom = parseFloat(slideStyles.getPropertyValue('padding-bottom'));
-          const marginTop = parseFloat(slideStyles.getPropertyValue('margin-top'));
-          const marginBottom = parseFloat(slideStyles.getPropertyValue('margin-bottom'));
+          const height = parseFloat(slideStyles.getPropertyValue('height') || 0);
+          const paddingTop = parseFloat(slideStyles.getPropertyValue('padding-top') || 0);
+          const paddingBottom = parseFloat(slideStyles.getPropertyValue('padding-bottom') || 0);
+          const marginTop = parseFloat(slideStyles.getPropertyValue('margin-top') || 0);
+          const marginBottom = parseFloat(slideStyles.getPropertyValue('margin-bottom') || 0);
           const boxSizing = slideStyles.getPropertyValue('box-sizing');
           if (boxSizing && boxSizing === 'border-box') {
             slideSize = height + marginTop + marginBottom;

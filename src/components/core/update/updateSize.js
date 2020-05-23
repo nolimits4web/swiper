@@ -20,8 +20,14 @@ export default function updateSize() {
   }
 
   // Subtract paddings
-  width = width - parseInt($el.css('padding-left'), 10) - parseInt($el.css('padding-right'), 10);
-  height = height - parseInt($el.css('padding-top'), 10) - parseInt($el.css('padding-bottom'), 10);
+  width =
+    width -
+    parseInt($el.css('padding-left') || 0, 10) -
+    parseInt($el.css('padding-right') || 0, 10);
+  height =
+    height -
+    parseInt($el.css('padding-top') || 0, 10) -
+    parseInt($el.css('padding-bottom') || 0, 10);
 
   extend(swiper, {
     width,
