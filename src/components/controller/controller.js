@@ -1,5 +1,4 @@
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
-import Swiper from '../core/core-class';
 import { nextTick, extend } from '../../utils/utils';
 
 const Controller = {
@@ -60,6 +59,7 @@ const Controller = {
     const controlled = swiper.controller.control;
     let multiplier;
     let controlledTranslate;
+    const Swiper = swiper.constructor;
     function setControlledTranslate(c) {
       // this will create an Interpolate function based on the snapGrids
       // x is the Grid of the scrolled scroller and y will be the controlled scroller
@@ -99,6 +99,7 @@ const Controller = {
   },
   setTransition(duration, byController) {
     const swiper = this;
+    const Swiper = swiper.constructor;
     const controlled = swiper.controller.control;
     let i;
     function setControlledTransition(c) {
