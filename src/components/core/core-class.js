@@ -484,11 +484,18 @@ class Swiper extends Modular {
 
     return null;
   }
+
+  static extendDefaults(newDefaults) {
+    extend(extendedDefaults, newDefaults);
+  }
+
+  static get extendedDefaults() {
+    return extendedDefaults;
+  }
+
+  static get defaults() {
+    return extendedDefaults;
+  }
 }
-Swiper.extendDefaults = function extendDefaults(newDefaults) {
-  extend(extendedDefaults, newDefaults);
-};
-Swiper.extendedDefaults = extendedDefaults;
-Swiper.defaults = defaults;
 
 export default Swiper;
