@@ -8,6 +8,9 @@ export default {
   updateOnWindowResize: true,
   //
   preventInteractionOnTransition: false,
+  // ssr
+  userAgent: null,
+  url: null,
 
   // To support iOS's swipe-to-go-back gesture (when being used in-app, with UIWebView).
   edgeSwipeDetection: false,

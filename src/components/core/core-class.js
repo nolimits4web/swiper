@@ -58,7 +58,7 @@ class Swiper extends Modular {
     // Swiper Instance
     const swiper = this;
     swiper.support = getSupport();
-    swiper.device = getDevice(params.ssr);
+    swiper.device = getDevice({ userAgent: params.userAgent });
     swiper.browser = getBrowser();
 
     Object.keys(prototypes).forEach((prototypeGroup) => {
