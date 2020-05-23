@@ -14,7 +14,8 @@
     "check-format": "npm run prettier -- --list-different",
     "lint": "eslint --ext .js,.ts,.tsx .",
     "validate": "npm-run-all --parallel check-format lint",
-    "test": "npm run lint && npm run build:dev"
+    "release": "npm run validate && node ./scripts/release",
+    "test": "npm run validate && npm run build:prod"
   },
   "repository": {
     "type": "git",
