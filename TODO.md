@@ -10,3 +10,4 @@
     - Autoheight
     - Images
     - Lazy loading
+- Emit events on classes (for React)
