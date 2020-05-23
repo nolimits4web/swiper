@@ -1,3 +1,15 @@
+.pagination-color-loop(@ruleset) when (length( @colors ) >= 1) {
+  @length: length(@colors);
+  .looper( 1 );
+  .looper( @index ) when ( @index <= @length ) and (length(extract( @colors, @index )) = 2) {
+    @paginationPair: extract(@colors, @index);
+    @paginationColorName: extract(@paginationPair, 1);
+    @paginationColorValue: extract(@paginationPair, 2);
+    @ruleset();
+    .looper( @index + 1 );
+  }
+}
+
 :root {
   /*
   --swiper-pagination-color: var(--swiper-theme-color);

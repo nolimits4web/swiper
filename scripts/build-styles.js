@@ -21,6 +21,7 @@ function base64Encode(file) {
 
 async function build(cb) {
   const env = process.env.NODE_ENV || 'development';
+  const outputDir = env === 'development' ? 'build' : 'package';
 
   const components = [];
   config.components.forEach((name) => {
@@ -56,15 +57,12 @@ async function build(cb) {
   }
 
   // Write file
-  fse.writeFileSync(
-    `./${env === 'development' ? 'build' : 'package'}/swiper.css`,
-    `${banner}\n${cssContent}`,
-  );
+  fse.writeFileSync(`./${outputDir}/swiper.bundle.css`, `${banner}\n${cssContent}`);
 
-  if (env === 'development') {
-    if (cb) cb();
-    return;
-  }
+  // if (env === 'development') {
+  //   if (cb) cb();
+  //   return;
+  // }
 
   // Copy less & scss
   const iconsFontBase64 = base64Encode('./src/icons/font/swiper-icons.woff');
@@ -72,17 +70,35 @@ async function build(cb) {
   glob('**/*.*', { cwd: path.resolve(__dirname, '../src') }, (err, files) => {
     files.forEach((file, index) => {
       if (file.indexOf('icons/') === 0) return;
+      if (file.indexOf('/core/') >= 0) return;
       if (file.indexOf('.js') >= 0) return;
+      if (file.indexOf('mixins.less') >= 0) return;
 
       let fileContent = fse.readFileSync(path.resolve(__dirname, '../src', file));
       if (file.indexOf('swiper.less') >= 0) {
+        const coreContent = fs.readFileSync(
+          path.resolve(__dirname, '../src/components/core/core.less'),
+          'utf-8',
+        );
         fileContent = fileContent
           .replace('swiperIconsFont()', `'${iconsFontBase64}'`)
           .replace('$themeColor', config.themeColor)
-          .replace('$colors', colors.join(', '));
+          .replace('$colors', colors.join(', '))
+          .replace('//IMPORT_COMPONENTS', '')
+          .replace(`@import url('./less/mixins.less');`, '')
+          .replace(`@import url('./components/core/core.less');`, coreContent);
+      }
+      if (file.indexOf('swiper.scss') >= 0) {
+        const coreContent = fs.readFileSync(
+          path.resolve(__dirname, '../src/components/core/core.scss'),
+          'utf-8',
+        );
+        fileContent = fileContent
+          .replace(`@import './components/core/core';`, coreContent)
+          .replace('//IMPORT_COMPONENTS', '');
       }
 
-      fse.writeFileSync(path.resolve(__dirname, '../package', file), fileContent);
+      fse.writeFileSync(path.resolve(__dirname, `../${outputDir}`, file), fileContent);
       if (index === files.length - 1) cb();
     });
   });
@@ -91,9 +107,8 @@ async function build(cb) {
   const minifiedContent = await cleanCSS(cssContent);
 
   // Write file
-  fse.writeFileSync('./package/swiper.min.css', `${banner}\n${minifiedContent}`);
+  fse.writeFileSync(`./${outputDir}/swiper.bundle.min.css`, `${banner}\n${minifiedContent}`);
 
   if (cb) cb();
 }
-build();
 module.exports = build;
