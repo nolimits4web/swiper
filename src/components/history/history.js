@@ -13,7 +13,7 @@ const History = {
     }
     const history = swiper.history;
     history.initialized = true;
-    history.paths = History.getPathValues();
+    history.paths = History.getPathValues(swiper.params.url);
     if (!history.paths.key && !history.paths.value) return;
     history.scrollToSlide(0, history.paths.value, swiper.params.runCallbacksOnInit);
     if (!swiper.params.history.replaceState) {
@@ -29,12 +29,18 @@ const History = {
   },
   setHistoryPopState() {
     const swiper = this;
-    swiper.history.paths = History.getPathValues();
+    swiper.history.paths = History.getPathValues(swiper.params.url);
     swiper.history.scrollToSlide(swiper.params.speed, swiper.history.paths.value, false);
   },
-  getPathValues() {
+  getPathValues(urlOverride) {
     const window = getWindow();
-    const pathArray = window.location.pathname
+    let location;
+    if (urlOverride) {
+      location = new URL(urlOverride);
+    } else {
+      location = window.location;
+    }
+    const pathArray = location.pathname
       .slice(1)
       .split('/')
       .filter((part) => part !== '');
@@ -47,9 +53,15 @@ const History = {
     const swiper = this;
     const window = getWindow();
     if (!swiper.history.initialized || !swiper.params.history.enabled) return;
+    let location;
+    if (swiper.params.url) {
+      location = new URL(swiper.params.url);
+    } else {
+      location = window.location;
+    }
     const slide = swiper.slides.eq(index);
     let value = History.slugify(slide.attr('data-history'));
-    if (!window.location.pathname.includes(key)) {
+    if (!location.pathname.includes(key)) {
       value = `${key}/${value}`;
     }
     const currentState = window.history.state;
