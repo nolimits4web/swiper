@@ -1,5 +1,4 @@
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
-import Swiper from '../core/core-class';
 import { nextTick, extend } from '../../utils/utils';
 var Controller = {
   LinearSpline: function LinearSpline(x, y) {
@@ -59,6 +58,7 @@ var Controller = {
     var controlled = swiper.controller.control;
     var multiplier;
     var controlledTranslate;
+    var Swiper = swiper.constructor;
 
     function setControlledTranslate(c) {
       // this will create an Interpolate function based on the snapGrids
@@ -101,6 +101,7 @@ var Controller = {
   },
   setTransition: function setTransition(duration, byController) {
     var swiper = this;
+    var Swiper = swiper.constructor;
     var controlled = swiper.controller.control;
     var i;
 

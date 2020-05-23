@@ -1,5 +1,5 @@
 /**
- * Swiper 6.0.0-alpha.1
+ * Swiper 6.0.0-alpha.2
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -35,6 +35,22 @@ export { default as EffectCube } from './esm/components/effect-cube/effect-cube'
 export { default as EffectFlip } from './esm/components/effect-flip/effect-flip';
 export { default as EffectCoverflow } from './esm/components/effect-coverflow/effect-coverflow';
 export { default as Thumbs } from './esm/components/thumbs/thumbs';
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
 function _inheritsLoose(subClass, superClass) {
   subClass.prototype = Object.create(superClass.prototype);
@@ -320,8 +336,8 @@ function updateSize() {
   } // Subtract paddings
 
 
-  width = width - parseInt($el.css('padding-left'), 10) - parseInt($el.css('padding-right'), 10);
-  height = height - parseInt($el.css('padding-top'), 10) - parseInt($el.css('padding-bottom'), 10);
+  width = width - parseInt($el.css('padding-left') || 0, 10) - parseInt($el.css('padding-right') || 0, 10);
+  height = height - parseInt($el.css('padding-top') || 0, 10) - parseInt($el.css('padding-bottom') || 0, 10);
   extend(swiper, {
     width: width,
     height: height,
@@ -475,11 +491,11 @@ function updateSlides() {
       } else {
         // eslint-disable-next-line
         if (swiper.isHorizontal()) {
-          var width = parseFloat(slideStyles.getPropertyValue('width'));
-          var paddingLeft = parseFloat(slideStyles.getPropertyValue('padding-left'));
-          var paddingRight = parseFloat(slideStyles.getPropertyValue('padding-right'));
-          var marginLeft = parseFloat(slideStyles.getPropertyValue('margin-left'));
-          var marginRight = parseFloat(slideStyles.getPropertyValue('margin-right'));
+          var width = parseFloat(slideStyles.getPropertyValue('width') || 0);
+          var paddingLeft = parseFloat(slideStyles.getPropertyValue('padding-left') || 0);
+          var paddingRight = parseFloat(slideStyles.getPropertyValue('padding-right') || 0);
+          var marginLeft = parseFloat(slideStyles.getPropertyValue('margin-left') || 0);
+          var marginRight = parseFloat(slideStyles.getPropertyValue('margin-right') || 0);
           var boxSizing = slideStyles.getPropertyValue('box-sizing');
 
           if (boxSizing && boxSizing === 'border-box') {
@@ -488,11 +504,11 @@ function updateSlides() {
             slideSize = width + paddingLeft + paddingRight + marginLeft + marginRight;
           }
         } else {
-          var height = parseFloat(slideStyles.getPropertyValue('height'));
-          var paddingTop = parseFloat(slideStyles.getPropertyValue('padding-top'));
-          var paddingBottom = parseFloat(slideStyles.getPropertyValue('padding-bottom'));
-          var marginTop = parseFloat(slideStyles.getPropertyValue('margin-top'));
-          var marginBottom = parseFloat(slideStyles.getPropertyValue('margin-bottom'));
+          var height = parseFloat(slideStyles.getPropertyValue('height') || 0);
+          var paddingTop = parseFloat(slideStyles.getPropertyValue('padding-top') || 0);
+          var paddingBottom = parseFloat(slideStyles.getPropertyValue('padding-bottom') || 0);
+          var marginTop = parseFloat(slideStyles.getPropertyValue('margin-top') || 0);
+          var marginBottom = parseFloat(slideStyles.getPropertyValue('margin-bottom') || 0);
 
           var _boxSizing = slideStyles.getPropertyValue('box-sizing');
 
@@ -3050,6 +3066,9 @@ var defaults = {
   updateOnWindowResize: true,
   //
   preventInteractionOnTransition: false,
+  // ssr
+  userAgent: null,
+  url: null,
   // To support iOS's swipe-to-go-back gesture (when being used in-app, with UIWebView).
   edgeSwipeDetection: false,
   edgeSwipeThreshold: 20,
@@ -3201,7 +3220,9 @@ var Swiper = /*#__PURE__*/function (_Modular) {
     var swiper = _assertThisInitialized(_this);
 
     swiper.support = getSupport();
-    swiper.device = getDevice(params.ssr);
+    swiper.device = getDevice({
+      userAgent: params.userAgent
+    });
     swiper.browser = getBrowser();
     Object.keys(prototypes).forEach(function (prototypeGroup) {
       Object.keys(prototypes[prototypeGroup]).forEach(function (protoMethod) {
@@ -3614,15 +3635,24 @@ var Swiper = /*#__PURE__*/function (_Modular) {
     return null;
   };
 
+  Swiper.extendDefaults = function extendDefaults(newDefaults) {
+    extend(extendedDefaults, newDefaults);
+  };
+
+  _createClass(Swiper, null, [{
+    key: "extendedDefaults",
+    get: function get() {
+      return extendedDefaults;
+    }
+  }, {
+    key: "defaults",
+    get: function get() {
+      return extendedDefaults;
+    }
+  }]);
+
   return Swiper;
 }(Modular);
-
-Swiper.extendDefaults = function extendDefaults(newDefaults) {
-  extend(extendedDefaults, newDefaults);
-};
-
-Swiper.extendedDefaults = extendedDefaults;
-Swiper.defaults = defaults;
 
 var Resize = {
   name: 'resize',

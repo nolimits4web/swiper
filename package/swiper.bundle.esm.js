@@ -1,5 +1,5 @@
 /**
- * Swiper 6.0.0-alpha.1
+ * Swiper 6.0.0-alpha.2
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -12,6 +12,22 @@
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, transform, transition as transition$1, on, off, trigger, transitionEnd as transitionEnd$1, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, filter, remove } from 'dom7';
 import { getWindow, getDocument } from 'ssr-window';
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
 function _inheritsLoose(subClass, superClass) {
   subClass.prototype = Object.create(superClass.prototype);
@@ -219,13 +235,11 @@ var device;
 
 function calcDevice(_temp) {
   var _ref = _temp === void 0 ? {} : _temp,
-      userAgent = _ref.userAgent,
-      platform = _ref.platform;
+      userAgent = _ref.userAgent;
 
   var support = getSupport();
-  var window = getWindow(); // eslint-disable-next-line
-
-  platform = platform || window.navigator.platform;
+  var window = getWindow();
+  var platform = window.navigator.platform;
   var ua = userAgent || window.navigator.userAgent;
   var device = {
     ios: false,
@@ -333,13 +347,13 @@ function calcDevice(_temp) {
   return device;
 }
 
-function getDevice(ssr) {
-  if (ssr === void 0) {
-    ssr = {};
+function getDevice(overrides) {
+  if (overrides === void 0) {
+    overrides = {};
   }
 
   if (!device) {
-    device = calcDevice(ssr);
+    device = calcDevice(overrides);
   }
 
   return device;
@@ -640,8 +654,8 @@ function updateSize() {
   } // Subtract paddings
 
 
-  width = width - parseInt($el.css('padding-left'), 10) - parseInt($el.css('padding-right'), 10);
-  height = height - parseInt($el.css('padding-top'), 10) - parseInt($el.css('padding-bottom'), 10);
+  width = width - parseInt($el.css('padding-left') || 0, 10) - parseInt($el.css('padding-right') || 0, 10);
+  height = height - parseInt($el.css('padding-top') || 0, 10) - parseInt($el.css('padding-bottom') || 0, 10);
   extend(swiper, {
     width: width,
     height: height,
@@ -795,11 +809,11 @@ function updateSlides() {
       } else {
         // eslint-disable-next-line
         if (swiper.isHorizontal()) {
-          var width = parseFloat(slideStyles.getPropertyValue('width'));
-          var paddingLeft = parseFloat(slideStyles.getPropertyValue('padding-left'));
-          var paddingRight = parseFloat(slideStyles.getPropertyValue('padding-right'));
-          var marginLeft = parseFloat(slideStyles.getPropertyValue('margin-left'));
-          var marginRight = parseFloat(slideStyles.getPropertyValue('margin-right'));
+          var width = parseFloat(slideStyles.getPropertyValue('width') || 0);
+          var paddingLeft = parseFloat(slideStyles.getPropertyValue('padding-left') || 0);
+          var paddingRight = parseFloat(slideStyles.getPropertyValue('padding-right') || 0);
+          var marginLeft = parseFloat(slideStyles.getPropertyValue('margin-left') || 0);
+          var marginRight = parseFloat(slideStyles.getPropertyValue('margin-right') || 0);
           var boxSizing = slideStyles.getPropertyValue('box-sizing');
 
           if (boxSizing && boxSizing === 'border-box') {
@@ -808,11 +822,11 @@ function updateSlides() {
             slideSize = width + paddingLeft + paddingRight + marginLeft + marginRight;
           }
         } else {
-          var height = parseFloat(slideStyles.getPropertyValue('height'));
-          var paddingTop = parseFloat(slideStyles.getPropertyValue('padding-top'));
-          var paddingBottom = parseFloat(slideStyles.getPropertyValue('padding-bottom'));
-          var marginTop = parseFloat(slideStyles.getPropertyValue('margin-top'));
-          var marginBottom = parseFloat(slideStyles.getPropertyValue('margin-bottom'));
+          var height = parseFloat(slideStyles.getPropertyValue('height') || 0);
+          var paddingTop = parseFloat(slideStyles.getPropertyValue('padding-top') || 0);
+          var paddingBottom = parseFloat(slideStyles.getPropertyValue('padding-bottom') || 0);
+          var marginTop = parseFloat(slideStyles.getPropertyValue('margin-top') || 0);
+          var marginBottom = parseFloat(slideStyles.getPropertyValue('margin-bottom') || 0);
 
           var _boxSizing = slideStyles.getPropertyValue('box-sizing');
 
@@ -3370,6 +3384,9 @@ var defaults = {
   updateOnWindowResize: true,
   //
   preventInteractionOnTransition: false,
+  // ssr
+  userAgent: null,
+  url: null,
   // To support iOS's swipe-to-go-back gesture (when being used in-app, with UIWebView).
   edgeSwipeDetection: false,
   edgeSwipeThreshold: 20,
@@ -3521,7 +3538,9 @@ var Swiper = /*#__PURE__*/function (_Modular) {
     var swiper = _assertThisInitialized(_this);
 
     swiper.support = getSupport();
-    swiper.device = getDevice(params.ssr);
+    swiper.device = getDevice({
+      userAgent: params.userAgent
+    });
     swiper.browser = getBrowser();
     Object.keys(prototypes).forEach(function (prototypeGroup) {
       Object.keys(prototypes[prototypeGroup]).forEach(function (protoMethod) {
@@ -3934,15 +3953,24 @@ var Swiper = /*#__PURE__*/function (_Modular) {
     return null;
   };
 
+  Swiper.extendDefaults = function extendDefaults(newDefaults) {
+    extend(extendedDefaults, newDefaults);
+  };
+
+  _createClass(Swiper, null, [{
+    key: "extendedDefaults",
+    get: function get() {
+      return extendedDefaults;
+    }
+  }, {
+    key: "defaults",
+    get: function get() {
+      return extendedDefaults;
+    }
+  }]);
+
   return Swiper;
 }(Modular);
-
-Swiper.extendDefaults = function extendDefaults(newDefaults) {
-  extend(extendedDefaults, newDefaults);
-};
-
-Swiper.extendedDefaults = extendedDefaults;
-Swiper.defaults = defaults;
 
 var Resize = {
   name: 'resize',
@@ -6828,6 +6856,7 @@ var Controller = {
     var controlled = swiper.controller.control;
     var multiplier;
     var controlledTranslate;
+    var Swiper = swiper.constructor;
 
     function setControlledTranslate(c) {
       // this will create an Interpolate function based on the snapGrids
@@ -6870,6 +6899,7 @@ var Controller = {
   },
   setTransition: function setTransition(duration, byController) {
     var swiper = this;
+    var Swiper = swiper.constructor;
     var controlled = swiper.controller.control;
     var i;
 
@@ -7207,7 +7237,7 @@ var History = {
 
     var history = swiper.history;
     history.initialized = true;
-    history.paths = History.getPathValues();
+    history.paths = History.getPathValues(swiper.params.url);
     if (!history.paths.key && !history.paths.value) return;
     history.scrollToSlide(0, history.paths.value, swiper.params.runCallbacksOnInit);
 
@@ -7225,12 +7255,20 @@ var History = {
   },
   setHistoryPopState: function setHistoryPopState() {
     var swiper = this;
-    swiper.history.paths = History.getPathValues();
+    swiper.history.paths = History.getPathValues(swiper.params.url);
     swiper.history.scrollToSlide(swiper.params.speed, swiper.history.paths.value, false);
   },
-  getPathValues: function getPathValues() {
+  getPathValues: function getPathValues(urlOverride) {
     var window = getWindow();
-    var pathArray = window.location.pathname.slice(1).split('/').filter(function (part) {
+    var location;
+
+    if (urlOverride) {
+      location = new URL(urlOverride);
+    } else {
+      location = window.location;
+    }
+
+    var pathArray = location.pathname.slice(1).split('/').filter(function (part) {
       return part !== '';
     });
     var total = pathArray.length;
@@ -7245,10 +7283,18 @@ var History = {
     var swiper = this;
     var window = getWindow();
     if (!swiper.history.initialized || !swiper.params.history.enabled) return;
+    var location;
+
+    if (swiper.params.url) {
+      location = new URL(swiper.params.url);
+    } else {
+      location = window.location;
+    }
+
     var slide = swiper.slides.eq(index);
     var value = History.slugify(slide.attr('data-history'));
 
-    if (!window.location.pathname.includes(key)) {
+    if (!location.pathname.includes(key)) {
       value = key + "/" + value;
     }
 

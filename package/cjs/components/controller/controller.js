@@ -3,11 +3,7 @@
 exports.__esModule = true;
 exports.default = void 0;
 
-var _coreClass = _interopRequireDefault(require("../core/core-class"));
-
 var _utils = require("../../utils/utils");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
 var Controller = {
@@ -68,6 +64,7 @@ var Controller = {
     var controlled = swiper.controller.control;
     var multiplier;
     var controlledTranslate;
+    var Swiper = swiper.constructor;
 
     function setControlledTranslate(c) {
       // this will create an Interpolate function based on the snapGrids
@@ -100,16 +97,17 @@ var Controller = {
 
     if (Array.isArray(controlled)) {
       for (var i = 0; i < controlled.length; i += 1) {
-        if (controlled[i] !== byController && controlled[i] instanceof _coreClass.default) {
+        if (controlled[i] !== byController && controlled[i] instanceof Swiper) {
           setControlledTranslate(controlled[i]);
         }
       }
-    } else if (controlled instanceof _coreClass.default && byController !== controlled) {
+    } else if (controlled instanceof Swiper && byController !== controlled) {
       setControlledTranslate(controlled);
     }
   },
   setTransition: function setTransition(duration, byController) {
     var swiper = this;
+    var Swiper = swiper.constructor;
     var controlled = swiper.controller.control;
     var i;
 
@@ -139,11 +137,11 @@ var Controller = {
 
     if (Array.isArray(controlled)) {
       for (i = 0; i < controlled.length; i += 1) {
-        if (controlled[i] !== byController && controlled[i] instanceof _coreClass.default) {
+        if (controlled[i] !== byController && controlled[i] instanceof Swiper) {
           setControlledTransition(controlled[i]);
         }
       }
-    } else if (controlled instanceof _coreClass.default && byController !== controlled) {
+    } else if (controlled instanceof Swiper && byController !== controlled) {
       setControlledTransition(controlled);
     }
   }

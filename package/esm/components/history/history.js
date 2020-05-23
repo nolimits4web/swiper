@@ -14,7 +14,7 @@ var History = {
 
     var history = swiper.history;
     history.initialized = true;
-    history.paths = History.getPathValues();
+    history.paths = History.getPathValues(swiper.params.url);
     if (!history.paths.key && !history.paths.value) return;
     history.scrollToSlide(0, history.paths.value, swiper.params.runCallbacksOnInit);
 
@@ -32,12 +32,20 @@ var History = {
   },
   setHistoryPopState: function setHistoryPopState() {
     var swiper = this;
-    swiper.history.paths = History.getPathValues();
+    swiper.history.paths = History.getPathValues(swiper.params.url);
     swiper.history.scrollToSlide(swiper.params.speed, swiper.history.paths.value, false);
   },
-  getPathValues: function getPathValues() {
+  getPathValues: function getPathValues(urlOverride) {
     var window = getWindow();
-    var pathArray = window.location.pathname.slice(1).split('/').filter(function (part) {
+    var location;
+
+    if (urlOverride) {
+      location = new URL(urlOverride);
+    } else {
+      location = window.location;
+    }
+
+    var pathArray = location.pathname.slice(1).split('/').filter(function (part) {
       return part !== '';
     });
     var total = pathArray.length;
@@ -52,10 +60,18 @@ var History = {
     var swiper = this;
     var window = getWindow();
     if (!swiper.history.initialized || !swiper.params.history.enabled) return;
+    var location;
+
+    if (swiper.params.url) {
+      location = new URL(swiper.params.url);
+    } else {
+      location = window.location;
+    }
+
     var slide = swiper.slides.eq(index);
     var value = History.slugify(slide.attr('data-history'));
 
-    if (!window.location.pathname.includes(key)) {
+    if (!location.pathname.includes(key)) {
       value = key + "/" + value;
     }
 

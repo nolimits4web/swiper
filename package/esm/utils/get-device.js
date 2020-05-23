@@ -4,13 +4,11 @@ var device;
 
 function calcDevice(_temp) {
   var _ref = _temp === void 0 ? {} : _temp,
-      userAgent = _ref.userAgent,
-      platform = _ref.platform;
+      userAgent = _ref.userAgent;
 
   var support = getSupport();
-  var window = getWindow(); // eslint-disable-next-line
-
-  platform = platform || window.navigator.platform;
+  var window = getWindow();
+  var platform = window.navigator.platform;
   var ua = userAgent || window.navigator.userAgent;
   var device = {
     ios: false,
@@ -118,13 +116,13 @@ function calcDevice(_temp) {
   return device;
 }
 
-function getDevice(ssr) {
-  if (ssr === void 0) {
-    ssr = {};
+function getDevice(overrides) {
+  if (overrides === void 0) {
+    overrides = {};
   }
 
   if (!device) {
-    device = calcDevice(ssr);
+    device = calcDevice(overrides);
   }
 
   return device;
