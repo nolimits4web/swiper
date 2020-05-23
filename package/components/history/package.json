@@ -1,0 +1,7 @@
+{
+  "name": "swiper/history",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/history/history.js",
+  "module": "../../esm/components/history/history.js"
+}

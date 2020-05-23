@@ -1,0 +1,7 @@
+{
+  "name": "swiper/effect-cube",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/effect-cube/effect-cube.js",
+  "module": "../../esm/components/effect-cube/effect-cube.js"
+}

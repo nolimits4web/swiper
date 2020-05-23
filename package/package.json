@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "5.4.1",
+  "version": "6.0.0-alpha.1",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "swiper.cjs.js",
   "jsnext:main": "swiper.esm.js",
@@ -43,7 +43,7 @@
     "node": ">= 4.7.0"
   },
   "dependencies": {
-    "dom7": "^2.1.5",
-    "ssr-window": "^2.0.0"
+    "dom7": "^3.0.0-alpha.4",
+    "ssr-window": "^3.0.0-alpha.4"
   }
 }

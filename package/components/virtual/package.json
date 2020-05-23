@@ -1,0 +1,7 @@
+{
+  "name": "swiper/virtual",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/virtual/virtual.js",
+  "module": "../../esm/components/virtual/virtual.js"
+}

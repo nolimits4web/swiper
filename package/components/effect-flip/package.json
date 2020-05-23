@@ -1,0 +1,7 @@
+{
+  "name": "swiper/effect-flip",
+  "private": true,
+  "sideEffects": false,
+  "main": "../../cjs/components/effect-flip/effect-flip.js",
+  "module": "../../esm/components/effect-flip/effect-flip.js"
+}
