@@ -1,7 +1,7 @@
 import { getWindow } from 'ssr-window';
 import { extend } from '../../../utils/utils';
 
-export default function () {
+export default function updateSlides() {
   const swiper = this;
   const window = getWindow();
   const params = swiper.params;

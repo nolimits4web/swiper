@@ -1,4 +1,4 @@
-export default function () {
+export default function onResize() {
   const swiper = this;
 
   const { params, el } = swiper;

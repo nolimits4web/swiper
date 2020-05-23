@@ -1,4 +1,4 @@
-export default function (runCallbacks = true, direction) {
+export default function transitionEnd(runCallbacks = true, direction) {
   const swiper = this;
   const { activeIndex, previousIndex, params } = swiper;
   swiper.animating = false;

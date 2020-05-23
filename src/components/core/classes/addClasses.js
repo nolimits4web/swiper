@@ -1,4 +1,4 @@
-export default function () {
+export default function addClasses() {
   const swiper = this;
   const { classNames, params, rtl, $el, device } = swiper;
   const suffixes = [];

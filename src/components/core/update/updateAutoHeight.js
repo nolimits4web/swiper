@@ -1,4 +1,4 @@
-export default function (speed) {
+export default function updateAutoHeight(speed) {
   const swiper = this;
   const activeSlides = [];
   let newHeight = 0;

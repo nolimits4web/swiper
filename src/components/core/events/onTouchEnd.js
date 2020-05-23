@@ -1,6 +1,6 @@
 import { now, nextTick } from '../../../utils/utils';
 
-export default function (event) {
+export default function onTouchEnd(event) {
   const swiper = this;
   const data = swiper.touchEventsData;
 

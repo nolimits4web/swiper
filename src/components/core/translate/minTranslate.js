@@ -1,3 +1,3 @@
-export default function () {
+export default function minTranslate() {
   return -this.snapGrid[0];
 }

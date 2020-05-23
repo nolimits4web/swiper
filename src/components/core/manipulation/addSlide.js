@@ -1,4 +1,4 @@
-export default function (index, slides) {
+export default function addSlide(index, slides) {
   const swiper = this;
   const { $wrapperEl, params, activeIndex } = swiper;
   let activeIndexBuffer = activeIndex;

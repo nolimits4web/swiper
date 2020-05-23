@@ -1,4 +1,4 @@
-export default function (
+export default function translateTo(
   translate = 0,
   speed = this.params.speed,
   runCallbacks = true,

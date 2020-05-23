@@ -1,6 +1,6 @@
 import $ from '../../../utils/dom';
 
-export default function (translate = (this && this.translate) || 0) {
+export default function updateSlidesProgress(translate = (this && this.translate) || 0) {
   const swiper = this;
   const params = swiper.params;
 

@@ -1,6 +1,6 @@
 import { extend } from '../../../utils/utils';
 
-export default function (newActiveIndex) {
+export default function updateActiveIndex(newActiveIndex) {
   const swiper = this;
   const translate = swiper.rtlTranslate ? swiper.translate : -swiper.translate;
   const {

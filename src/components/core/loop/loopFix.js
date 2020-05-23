@@ -1,4 +1,4 @@
-export default function () {
+export default function loopFix() {
   const swiper = this;
 
   swiper.emit('beforeLoopFix');

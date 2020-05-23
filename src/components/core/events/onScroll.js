@@ -1,4 +1,4 @@
-export default function () {
+export default function onScroll() {
   const swiper = this;
   const { wrapperEl, rtlTranslate } = swiper;
   swiper.previousTranslate = swiper.translate;

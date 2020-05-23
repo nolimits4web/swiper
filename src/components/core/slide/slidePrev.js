@@ -1,5 +1,5 @@
 /* eslint no-unused-vars: "off" */
-export default function (speed = this.params.speed, runCallbacks = true, internal) {
+export default function slidePrev(speed = this.params.speed, runCallbacks = true, internal) {
   const swiper = this;
   const { params, animating, snapGrid, slidesGrid, rtlTranslate } = swiper;
 

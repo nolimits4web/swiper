@@ -1,6 +1,6 @@
 import $ from '../../../utils/dom';
 
-export default function (e) {
+export default function updateClickedSlide(e) {
   const swiper = this;
   const params = swiper.params;
   const slide = $(e.target).closest(`.${params.slideClass}`)[0];

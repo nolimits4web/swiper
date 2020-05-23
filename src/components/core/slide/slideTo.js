@@ -1,4 +1,9 @@
-export default function (index = 0, speed = this.params.speed, runCallbacks = true, internal) {
+export default function slideTo(
+  index = 0,
+  speed = this.params.speed,
+  runCallbacks = true,
+  internal,
+) {
   const swiper = this;
   let slideIndex = index;
   if (slideIndex < 0) slideIndex = 0;

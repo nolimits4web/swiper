@@ -1,6 +1,6 @@
 import { extend } from '../../../utils/utils';
 
-export default function () {
+export default function updateSize() {
   const swiper = this;
   let width;
   let height;

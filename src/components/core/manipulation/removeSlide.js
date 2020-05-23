@@ -1,4 +1,4 @@
-export default function (slidesIndexes) {
+export default function removeSlide(slidesIndexes) {
   const swiper = this;
   const { params, $wrapperEl, activeIndex } = swiper;
 

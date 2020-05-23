@@ -1,4 +1,4 @@
-export default function (slides) {
+export default function appendSlide(slides) {
   const swiper = this;
   const { $wrapperEl, params } = swiper;
   if (params.loop) {

@@ -1,7 +1,7 @@
 import $ from '../../../utils/dom';
 import { nextTick } from '../../../utils/utils';
 
-export default function () {
+export default function slideToClickedSlide() {
   const swiper = this;
   const { params, $wrapperEl } = swiper;
 

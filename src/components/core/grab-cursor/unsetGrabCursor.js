@@ -1,4 +1,4 @@
-export default function () {
+export default function unsetGrabCursor() {
   const swiper = this;
   if (
     swiper.support.touch ||

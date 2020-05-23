@@ -1,7 +1,7 @@
 import { getDocument } from 'ssr-window';
 import $ from '../../../utils/dom';
 
-export default function () {
+export default function loopCreate() {
   const swiper = this;
   const document = getDocument();
   const { params, $wrapperEl } = swiper;

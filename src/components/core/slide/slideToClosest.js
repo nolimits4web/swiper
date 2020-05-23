@@ -1,5 +1,5 @@
 /* eslint no-unused-vars: "off" */
-export default function (
+export default function slideToClosest(
   speed = this.params.speed,
   runCallbacks = true,
   internal,

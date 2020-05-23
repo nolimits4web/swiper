@@ -1,6 +1,6 @@
 import { extend } from '../../../utils/utils';
 
-export default function (translate) {
+export default function updateProgress(translate) {
   const swiper = this;
   if (typeof translate === 'undefined') {
     const multiplier = swiper.rtlTranslate ? -1 : 1;

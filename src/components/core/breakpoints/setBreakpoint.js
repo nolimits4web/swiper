@@ -1,6 +1,6 @@
 import { extend } from '../../../utils/utils';
 
-export default function () {
+export default function setBreakpoint() {
   const swiper = this;
   const { activeIndex, initialized, loopedSlides = 0, params, $el } = swiper;
   const breakpoints = params.breakpoints;

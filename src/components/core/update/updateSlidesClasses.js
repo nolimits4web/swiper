@@ -1,4 +1,4 @@
-export default function () {
+export default function updateSlidesClasses() {
   const swiper = this;
 
   const { slides, params, $wrapperEl, activeIndex, realIndex } = swiper;

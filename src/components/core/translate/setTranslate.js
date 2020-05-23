@@ -1,4 +1,4 @@
-export default function (translate, byController) {
+export default function setTranslate(translate, byController) {
   const swiper = this;
   const { rtlTranslate: rtl, params, $wrapperEl, wrapperEl, progress } = swiper;
   let x = 0;

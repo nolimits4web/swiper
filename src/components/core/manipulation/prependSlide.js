@@ -1,4 +1,4 @@
-export default function (slides) {
+export default function prependSlide(slides) {
   const swiper = this;
   const { params, $wrapperEl, activeIndex } = swiper;
 

@@ -1,4 +1,4 @@
-export default function (duration, byController) {
+export default function setTransition(duration, byController) {
   const swiper = this;
 
   if (!swiper.params.cssMode) {

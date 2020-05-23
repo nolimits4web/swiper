@@ -1,4 +1,4 @@
-export default function () {
+export default function preloadImages() {
   const swiper = this;
   swiper.imagesToLoad = swiper.$el.find('img');
   function onReady() {

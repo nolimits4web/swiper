@@ -1,4 +1,4 @@
-export default function (e) {
+export default function onClick(e) {
   const swiper = this;
   if (!swiper.allowClick) {
     if (swiper.params.preventClicks) e.preventDefault();

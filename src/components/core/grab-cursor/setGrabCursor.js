@@ -1,4 +1,4 @@
-export default function (moving) {
+export default function setGrabCursor(moving) {
   const swiper = this;
   if (
     swiper.support.touch ||

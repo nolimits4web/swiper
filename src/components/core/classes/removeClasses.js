@@ -1,4 +1,4 @@
-export default function () {
+export default function removeClasses() {
   const swiper = this;
   const { $el, classNames } = swiper;
 

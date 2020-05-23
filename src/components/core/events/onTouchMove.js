@@ -2,7 +2,7 @@ import { getDocument } from 'ssr-window';
 import $ from '../../../utils/dom';
 import { extend, now } from '../../../utils/utils';
 
-export default function (event) {
+export default function onTouchMove(event) {
   const document = getDocument();
   const swiper = this;
   const data = swiper.touchEventsData;

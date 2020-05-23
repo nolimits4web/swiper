@@ -1,6 +1,6 @@
 import { getTranslate } from '../../../utils/utils';
 
-export default function (axis = this.isHorizontal() ? 'x' : 'y') {
+export default function getSwiperTranslate(axis = this.isHorizontal() ? 'x' : 'y') {
   const swiper = this;
 
   const { params, rtlTranslate: rtl, translate, $wrapperEl } = swiper;
