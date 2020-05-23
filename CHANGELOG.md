@@ -3,9 +3,10 @@
 ## Swiper 6.0.0 (WIP)
 
 - New package structure
-
   - New file names
   - ES5 compiled
+- new SSR params: `userAgent`, `url`
+- new `onAny(callback)` listener
 
 ## [Swiper 5.4.1](https://github.com/nolimits4web/swiper/compare/v5.4.0...v5.4.1) - Released on May 20th, 2020
 
