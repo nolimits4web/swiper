@@ -5,7 +5,7 @@ const fs = require('fs');
 const rollup = require('rollup');
 const buble = require('@rollup/plugin-buble');
 const replace = require('@rollup/plugin-replace');
-const resolve = require('@rollup/plugin-node-resolve');
+const resolve = require('@rollup/plugin-node-resolve').default;
 const Terser = require('terser');
 
 const config = require('./build-config.js');
