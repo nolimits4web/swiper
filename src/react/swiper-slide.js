@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 const SwiperSlide = ({ children } = {}) => {
   return <div className="swiper-slide">{children}</div>;
@@ -6,4 +6,4 @@ const SwiperSlide = ({ children } = {}) => {
 
 SwiperSlide.displayName = 'SwiperSlide';
 
-export default SwiperSlide;
+export { SwiperSlide };

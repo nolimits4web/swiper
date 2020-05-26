@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 const Swiper = () => {
   return <div className="swiper-container" />;
@@ -6,4 +6,4 @@ const Swiper = () => {
 
 Swiper.displayName = 'Swiper';
 
-export default Swiper;
+export { Swiper };
