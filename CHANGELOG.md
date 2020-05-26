@@ -1,4 +1,4 @@
-# Change Log
+# Changelog
 
 ## Swiper 6.0.0 (WIP)
 
