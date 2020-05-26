@@ -1,7 +1,0 @@
-{
-  "name": "swiper/thumbs",
-  "private": true,
-  "sideEffects": false,
-  "main": "../../cjs/components/thumbs/thumbs.js",
-  "module": "../../esm/components/thumbs/thumbs.js"
-}

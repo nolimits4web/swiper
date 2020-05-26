@@ -1,7 +1,0 @@
-{
-  "name": "swiper/a11y",
-  "private": true,
-  "sideEffects": false,
-  "main": "../../cjs/components/a11y/a11y.js",
-  "module": "../../esm/components/a11y/a11y.js"
-}

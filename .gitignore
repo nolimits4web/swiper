@@ -6,3 +6,11 @@ custom
 
 .versions
 .idea
+package/cjs
+package/components
+package/esm
+package/*.js
+package/*.css
+package/*.map
+package/*.less
+package/*.scss

@@ -1,7 +1,0 @@
-{
-  "name": "swiper/hash-navigation",
-  "private": true,
-  "sideEffects": false,
-  "main": "../../cjs/components/hash-navigation/hash-navigation.js",
-  "module": "../../esm/components/hash-navigation/hash-navigation.js"
-}

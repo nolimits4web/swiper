@@ -1,7 +1,0 @@
-{
-  "name": "swiper/keyboard",
-  "private": true,
-  "sideEffects": false,
-  "main": "../../cjs/components/keyboard/keyboard.js",
-  "module": "../../esm/components/keyboard/keyboard.js"
-}

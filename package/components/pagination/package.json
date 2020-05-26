@@ -1,7 +1,0 @@
-{
-  "name": "swiper/pagination",
-  "private": true,
-  "sideEffects": false,
-  "main": "../../cjs/components/pagination/pagination.js",
-  "module": "../../esm/components/pagination/pagination.js"
-}
