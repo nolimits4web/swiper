@@ -46,7 +46,7 @@ function buildBundle(components, format, browser, cb) {
         format,
         name: 'Swiper',
         strict: true,
-        sourcemap: format === 'umd',
+        sourcemap: env === 'production' && format === 'umd',
         sourcemapFile: `./${output}/${filename}.js.map`,
         banner,
         file: `./${output}/${filename}.js`,
@@ -80,6 +80,7 @@ function buildBundle(components, format, browser, cb) {
 }
 
 function build() {
+  const env = process.env.NODE_ENV || 'development';
   const components = [];
   config.components.forEach((name) => {
     // eslint-disable-next-line
@@ -100,11 +101,14 @@ function build() {
       components.push({ name, capitalized });
     }
   });
-
-  buildBundle(components, 'esm', false, () => {});
-  buildBundle(components, 'esm', true, () => {});
-  buildBundle(components, 'umd', true, () => {});
-  buildBundle(components, 'cjs', false, () => {});
+  if (env === 'development') {
+    buildBundle(components, 'umd', true, () => {});
+  } else {
+    buildBundle(components, 'esm', false, () => {});
+    buildBundle(components, 'esm', true, () => {});
+    buildBundle(components, 'umd', true, () => {});
+    buildBundle(components, 'cjs', false, () => {});
+  }
 }
 
 module.exports = build;

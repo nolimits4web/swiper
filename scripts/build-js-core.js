@@ -51,14 +51,16 @@ async function buildCore(components, format, cb) {
     format,
     name: 'Swiper',
     strict: true,
-    sourcemap: format === 'umd',
+    sourcemap: env === 'production' && format === 'umd',
     sourcemapFile: `./${outputDir}/${filename}.js.map`,
     banner,
     file: `./${outputDir}/${filename}.js`,
   });
 
   // Babel
-  await exec.promise(`MODULES=${format} npx babel src --out-dir ${outputDir}/${format}`);
+  await exec.promise(
+    `MODULES=${format} npx babel src --out-dir ${outputDir}/${format} --ignore "src/react/**/*.js", "src/*.react.js"`,
+  );
 
   // Remove unused dirs
   const dirsToRemove = ['components/core', 'less', 'modules'];

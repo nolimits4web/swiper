@@ -10,9 +10,13 @@ module.exports = {
     SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
     ecmaVersion: 2018,
     sourceType: 'module',
   },
+  plugins: ['react'],
   rules: {
     'prefer-object-spread': 'off',
     'prefer-destructuring': 'off',
@@ -23,5 +27,10 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'no-console': 'off',
     'no-restricted-globals': ['error', 'window', 'document'],
+    'react/jsx-filename-extension': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
+    'react/no-array-index-key': 'off',
+    'react/prop-types': 'off',
+    'react/jsx-props-no-spreading': 'off',
   },
 };

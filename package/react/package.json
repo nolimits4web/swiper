@@ -1,0 +1,8 @@
+{
+  "name": "swiper/react",
+  "private": true,
+  "main": "swiper.react.cjs.js",
+  "jsnext:main": "swiper.react.esm.js",
+  "module": "swiper.react.esm.js",
+  "sideEffects": false
+}

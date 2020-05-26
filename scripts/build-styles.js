@@ -59,10 +59,10 @@ async function build(cb) {
   // Write file
   fse.writeFileSync(`./${outputDir}/swiper.bundle.css`, `${banner}\n${cssContent}`);
 
-  // if (env === 'development') {
-  //   if (cb) cb();
-  //   return;
-  // }
+  if (env === 'development') {
+    if (cb) cb();
+    return;
+  }
 
   // Copy less & scss
   const iconsFontBase64 = base64Encode('./src/icons/font/swiper-icons.woff');
