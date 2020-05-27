@@ -4,8 +4,8 @@ class EventEmitter {
   constructor(parents = []) {
     const self = this;
     self.eventsParents = parents;
-    self.listeners = {};
-    self.anyListeners = [];
+    self.eventsListeners = {};
+    self.eventsAnyListeners = [];
   }
 
   on(events, handler, priority) {
@@ -13,8 +13,8 @@ class EventEmitter {
     if (typeof handler !== 'function') return self;
     const method = priority ? 'unshift' : 'push';
     events.split(' ').forEach((event) => {
-      if (!self.listeners[event]) self.listeners[event] = [];
-      self.listeners[event][method](handler);
+      if (!self.eventsListeners[event]) self.eventsListeners[event] = [];
+      self.eventsListeners[event][method](handler);
     });
     return self;
   }
@@ -37,35 +37,35 @@ class EventEmitter {
     const self = this;
     if (typeof handler !== 'function') return self;
     const method = priority ? 'unshift' : 'push';
-    if (self.anyListeners.indexOf(handler) < 0) {
-      self.anyListeners[method](handler);
+    if (self.eventsAnyListeners.indexOf(handler) < 0) {
+      self.eventsAnyListeners[method](handler);
     }
     return self;
   }
 
   offAny(handler) {
     const self = this;
-    if (!self.anyListeners) return self;
-    const index = self.anyListeners.indexOf(handler);
+    if (!self.eventsAnyListeners) return self;
+    const index = self.eventsAnyListeners.indexOf(handler);
     if (index >= 0) {
-      self.anyListeners.splice(index, 1);
+      self.eventsAnyListeners.splice(index, 1);
     }
     return self;
   }
 
   off(events, handler) {
     const self = this;
-    if (!self.listeners) return self;
+    if (!self.eventsListeners) return self;
     events.split(' ').forEach((event) => {
       if (typeof handler === 'undefined') {
-        self.listeners[event] = [];
-      } else if (self.listeners[event]) {
-        self.listeners[event].forEach((eventHandler, index) => {
+        self.eventsListeners[event] = [];
+      } else if (self.eventsListeners[event]) {
+        self.eventsListeners[event].forEach((eventHandler, index) => {
           if (
             eventHandler === handler ||
             (eventHandler.__emitterProxy && eventHandler.__emitterProxy === handler)
           ) {
-            self.listeners[event].splice(index, 1);
+            self.eventsListeners[event].splice(index, 1);
           }
         });
       }
@@ -75,7 +75,7 @@ class EventEmitter {
 
   emit(...args) {
     const self = this;
-    if (!self.listeners) return self;
+    if (!self.eventsListeners) return self;
     let events;
     let data;
     let context;
@@ -96,9 +96,9 @@ class EventEmitter {
     const parentEvents = eventsArray.filter((eventName) => eventName.indexOf('local::') < 0);
 
     localEvents.forEach((event) => {
-      if (self.listeners && self.listeners[event]) {
+      if (self.eventsListeners && self.eventsListeners[event]) {
         const handlers = [];
-        self.listeners[event].forEach((eventHandler) => {
+        self.eventsListeners[event].forEach((eventHandler) => {
           handlers.push(eventHandler);
         });
         handlers.forEach((eventHandler) => {

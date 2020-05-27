@@ -14,7 +14,7 @@ const banner = require('./banner.js');
 function buildBundle(components, format, browser, cb) {
   const env = process.env.NODE_ENV || 'development';
   const external = format === 'umd' || browser ? [] : ['dom7', 'ssr-window'];
-  let filename = 'swiper.bundle';
+  let filename = 'swiper-bundle';
   if (format !== 'umd') filename += `.${format}`;
   if (format === 'esm' && browser) filename += '.browser';
   const output = env === 'development' ? 'build' : 'package';

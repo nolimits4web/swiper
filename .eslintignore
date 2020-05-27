@@ -1,6 +1,7 @@
 demos
 build
 playground
+playground-react
 node_modules
 dist
 package

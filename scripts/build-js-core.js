@@ -59,7 +59,7 @@ async function buildCore(components, format, cb) {
 
   // Babel
   await exec.promise(
-    `MODULES=${format} npx babel src --out-dir ${outputDir}/${format} --ignore "src/react/**/*.js","src/*.react.js"`,
+    `MODULES=${format} npx babel src --out-dir ${outputDir}/${format} --ignore "src/react/**/*.js","src/*-react.js"`,
   );
 
   // Remove unused dirs

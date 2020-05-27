@@ -57,7 +57,7 @@ async function build(cb) {
   }
 
   // Write file
-  fse.writeFileSync(`./${outputDir}/swiper.bundle.css`, `${banner}\n${cssContent}`);
+  fse.writeFileSync(`./${outputDir}/swiper-bundle.css`, `${banner}\n${cssContent}`);
 
   if (env === 'development') {
     if (cb) cb();
@@ -107,7 +107,7 @@ async function build(cb) {
   const minifiedContent = await cleanCSS(cssContent);
 
   // Write file
-  fse.writeFileSync(`./${outputDir}/swiper.bundle.min.css`, `${banner}\n${minifiedContent}`);
+  fse.writeFileSync(`./${outputDir}/swiper-bundle.min.css`, `${banner}\n${minifiedContent}`);
 
   if (cb) cb();
 }
