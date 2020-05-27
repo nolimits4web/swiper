@@ -88,7 +88,7 @@ export default {
       stretch: 0,
       depth: 100,
       scale: 1,
-      modifier: 0,
+      modifier: 1,
       slideShadows: true,
     },
   },
