@@ -272,6 +272,14 @@ class Swiper {
     swiper.emit('_containerClasses', swiper.el.className);
   }
 
+  emitSlidesClasses() {
+    const swiper = this;
+    if (!swiper.params._emitClasses || !swiper.el) return;
+    swiper.slides.each((slideEl) => {
+      swiper.emit('_slideClass', slideEl, slideEl.className);
+    });
+  }
+
   slidesPerViewDynamic() {
     const swiper = this;
     const { params, slides, slidesGrid, size: swiperSize, activeIndex } = swiper;

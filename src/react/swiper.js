@@ -1,40 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
-// eslint-disable-next-line
-import SwiperCore from '../../core';
 import { getParams } from './get-params';
-
-function needsNavigation(params = {}) {
-  return params.navigation && !params.navigation.nextEl && !params.navigation.prevEl;
-}
-function needsPagination(params = {}) {
-  return params.pagination && !params.pagination.el && !params.pagination.el;
-}
-function needsScrollbar(params = {}) {
-  return params.scrollbar && !params.scrollbar.el && !params.scrollbar.el;
-}
-
-function initSwiper({ el, nextEl, prevEl, paginationEl, scrollbarEl }, swiperParams) {
-  if (needsNavigation(swiperParams) && nextEl && prevEl) {
-    if (swiperParams.navigation === true) {
-      swiperParams.navigation = {};
-    }
-    swiperParams.navigation.nextEl = nextEl;
-    swiperParams.navigation.prevEl = prevEl;
-  }
-  if (needsPagination(swiperParams) && paginationEl) {
-    if (swiperParams.pagination === true) {
-      swiperParams.pagination = {};
-    }
-    swiperParams.pagination.el = paginationEl;
-  }
-  if (needsScrollbar(swiperParams) && scrollbarEl) {
-    if (swiperParams.scrollbar === true) {
-      swiperParams.scrollbar = {};
-    }
-    swiperParams.scrollbar.el = scrollbarEl;
-  }
-  return new SwiperCore(el, swiperParams);
-}
+import { initSwiper } from './init-swiper';
+import { needsScrollbar, needsNavigation, needsPagination, uniqueClasses } from './utils';
 
 const Swiper = ({
   className,
@@ -45,6 +12,7 @@ const Swiper = ({
   ...rest
 } = {}) => {
   const [containerClasses, setContainerClasses] = useState('swiper-container');
+  const initializedRef = useRef(false);
   const swiperElRef = useRef(null);
   const swiperRef = useRef(null);
   const nextElRef = useRef(null);
@@ -54,6 +22,15 @@ const Swiper = ({
 
   const { params: swiperParams, rest: restProps } = getParams(rest, setContainerClasses);
 
+  // right after init
+  useEffect(() => {
+    if (!initializedRef.current && swiperRef.current) {
+      swiperRef.current.emitSlidesClasses();
+      initializedRef.current = true;
+    }
+  });
+
+  // init swiper
   useEffect(() => {
     if (!swiperElRef.current) return;
     swiperRef.current = initSwiper(
@@ -66,7 +43,7 @@ const Swiper = ({
       },
       swiperParams,
     );
-    
+
     if (onSwiper) onSwiper(swiperRef.current);
     // eslint-disable-next-line
     return () => {
@@ -76,25 +53,28 @@ const Swiper = ({
     };
   }, []);
 
+  // bypass swiper instance to slides
+  function renderSlides() {
+    return React.Children.map(children, (child) => {
+      return React.cloneElement(child, { swiper: swiperRef.current });
+    });
+  }
+
   return (
     <Tag
       ref={swiperElRef}
-      className={`${containerClasses}${className ? ` ${className}` : ''}`}
+      className={uniqueClasses(`${containerClasses}${className ? ` ${className}` : ''}`)}
       {...restProps}
     >
       {needsNavigation(swiperParams) && (
         <>
-          <div ref={prevElRef} className="swiper-button-prev"></div>
-          <div ref={nextElRef} className="swiper-button-next"></div>
+          <div ref={prevElRef} className="swiper-button-prev" />
+          <div ref={nextElRef} className="swiper-button-next" />
         </>
       )}
-      {needsScrollbar(swiperParams) && (
-        <div ref={scrollbarElRef} className="swiper-scrollbar"></div>
-      )}
-      {needsPagination(swiperParams) && (
-        <div ref={paginationElRef} className="swiper-pagination"></div>
-      )}
-      <WrapperTag className="swiper-wrapper">{children}</WrapperTag>
+      {needsScrollbar(swiperParams) && <div ref={scrollbarElRef} className="swiper-scrollbar" />}
+      {needsPagination(swiperParams) && <div ref={paginationElRef} className="swiper-pagination" />}
+      <WrapperTag className="swiper-wrapper">{renderSlides()}</WrapperTag>
     </Tag>
   );
 };

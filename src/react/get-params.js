@@ -1,3 +1,5 @@
+import { isObject, extend } from './utils';
+
 const allowedParams = [
   'init',
   'direction',
@@ -109,20 +111,29 @@ const allowedParams = [
   'virtual',
   'zoom',
 ];
+
 function getParams(obj = {}, setContainerClasses) {
   const params = {
     _emitClasses: true,
+    on: {
+      _containerClasses: setContainerClasses,
+    },
   };
   const rest = {};
   Object.keys(obj).forEach((key) => {
     if (allowedParams.indexOf(key) >= 0) {
-      params[key] = obj[key];
+      if (isObject(obj[key])) {
+        params[key] = {};
+        extend(params[key], obj[key]);
+      } else {
+        params[key] = obj[key];
+      }
+    } else if (key.search(/on[A-Z]/) === 0 && typeof obj[key] === 'function') {
+      params.on[`${key[2].toLowerCase()}${key.substr(3)}`] = obj[key];
     } else {
       rest[key] = obj[key];
     }
   });
-  if (!params.on) params.on = {};
-  params.on._containerClasses = setContainerClasses;
   return { params, rest };
 }
 

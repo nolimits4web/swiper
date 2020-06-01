@@ -91,4 +91,5 @@ export default function updateSlidesClasses() {
         .addClass(params.slideDuplicatePrevClass);
     }
   }
+  swiper.emitSlidesClasses();
 }

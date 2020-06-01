@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import SwiperCore, { Navigation, Pagination, Scrollbar } from '../build/core';
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from '../build/core';
 import { Swiper, SwiperSlide } from '../build/react';
 
-SwiperCore.use([Navigation, Pagination, Scrollbar]);
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
 const App = () => {
   const [showSwiper, setShowSwiper] = useState(true);
@@ -31,18 +31,25 @@ const App = () => {
         <Swiper
           className={showSwiperClass ? 'extra-class' : ''}
           id={showSwiperClass ? 'extra-id' : ''}
-          onSwiper={(swiper) => console.log(swiper)}
+          onSwiper={(swiper) => (window.swiper = swiper)}
           slidesPerView={2}
           spaceBetween={100}
           navigation
           scrollbar={{ draggable: true }}
           pagination={{ clickable: true }}
+          initialSlide={2}
+          onClick={() => console.log('tada!')}
         >
           <SwiperSlide>Slide 1</SwiperSlide>
           <SwiperSlide>Slide 2</SwiperSlide>
-          <SwiperSlide>Slide 3</SwiperSlide>
+          <SwiperSlide zoom={5} className={showSwiperClass ? 'extra-class' : ''}>
+            Slide 3
+          </SwiperSlide>
           <SwiperSlide>Slide 4</SwiperSlide>
           <SwiperSlide>Slide 5</SwiperSlide>
+          <SwiperSlide>Slide 6</SwiperSlide>
+          <SwiperSlide>Slide 7</SwiperSlide>
+          <SwiperSlide>Slide 8</SwiperSlide>
         </Swiper>
       ) : (
         <p>No swiper</p>
