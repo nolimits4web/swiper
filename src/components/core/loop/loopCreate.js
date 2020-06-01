@@ -35,9 +35,12 @@ export default function loopCreate() {
   const appendSlides = [];
   slides.each((el, index) => {
     const slide = $(el);
-    if (index < swiper.loopedSlides) appendSlides.push(el);
-    if (index < slides.length && index >= slides.length - swiper.loopedSlides)
+    if (index < swiper.loopedSlides) {
+      appendSlides.push(el);
+    }
+    if (index < slides.length && index >= slides.length - swiper.loopedSlides) {
       prependSlides.push(el);
+    }
     slide.attr('data-swiper-slide-index', index);
   });
   for (let i = 0; i < appendSlides.length; i += 1) {

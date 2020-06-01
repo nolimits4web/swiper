@@ -257,6 +257,8 @@ class Swiper {
     // Install Modules
     swiper.useModules();
 
+    swiper.emit('_swiper', swiper);
+
     // Init
     if (swiper.params.init) {
       swiper.init();
@@ -520,7 +522,7 @@ class Swiper {
   }
 
   static get defaults() {
-    return extendedDefaults;
+    return defaults;
   }
 
   static installModule(module) {

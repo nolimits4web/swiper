@@ -14,13 +14,18 @@ const SwiperSlide = ({
 
   function updateClasses(el, classNames) {
     if (el === slideElRef.current) {
-      console.log('updateClasses');
       setSlideClasses(classNames);
     }
   }
 
   useEffect(() => {
     if (!slideElRef.current || !swiper) return;
+    if (swiper.destroyed) {
+      if (slideClasses !== 'swiper-slide') {
+        setSlideClasses('swiper-slide');
+      }
+      return;
+    }
     swiper.on('_slideClass', updateClasses);
     // eslint-disable-next-line
     return () => {

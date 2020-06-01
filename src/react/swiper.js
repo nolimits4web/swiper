@@ -1,7 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
 import { getParams } from './get-params';
 import { initSwiper } from './init-swiper';
 import { needsScrollbar, needsNavigation, needsPagination, uniqueClasses } from './utils';
+import { renderLoop, calcLoopedSlides } from './loop';
 
 const Swiper = ({
   className,
@@ -20,7 +21,19 @@ const Swiper = ({
   const paginationElRef = useRef(null);
   const scrollbarElRef = useRef(null);
 
-  const { params: swiperParams, rest: restProps } = getParams(rest, setContainerClasses);
+  const { params: swiperParams, rest: restProps } = getParams(rest);
+
+  Object.assign(swiperParams.on, {
+    _containerClasses: setContainerClasses,
+    _swiper(swiper) {
+      if (swiperParams.loop) {
+        swiper.loopCreate = () => {};
+        swiper.loopDestroy = () => {};
+        swiper.loopedSlides = calcLoopedSlides(children, swiperParams);
+      }
+      swiperRef.current = swiper;
+    },
+  });
 
   // right after init
   useEffect(() => {
@@ -31,9 +44,9 @@ const Swiper = ({
   });
 
   // init swiper
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!swiperElRef.current) return;
-    swiperRef.current = initSwiper(
+    initSwiper(
       {
         el: swiperElRef.current,
         nextEl: nextElRef.current,
@@ -47,7 +60,7 @@ const Swiper = ({
     if (onSwiper) onSwiper(swiperRef.current);
     // eslint-disable-next-line
     return () => {
-      if (swiperRef.current) {
+      if (swiperRef.current && !swiperRef.current.destroyed) {
         swiperRef.current.destroy();
       }
     };
@@ -55,9 +68,12 @@ const Swiper = ({
 
   // bypass swiper instance to slides
   function renderSlides() {
-    return React.Children.map(children, (child) => {
-      return React.cloneElement(child, { swiper: swiperRef.current });
-    });
+    if (!swiperParams.loop || (swiperRef.current && swiperRef.current.destroyed)) {
+      return React.Children.map(children, (child) => {
+        return React.cloneElement(child, { swiper: swiperRef.current });
+      });
+    }
+    return renderLoop(swiperRef.current, swiperParams, children);
   }
 
   return (

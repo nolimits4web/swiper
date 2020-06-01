@@ -32,15 +32,18 @@ const App = () => {
           className={showSwiperClass ? 'extra-class' : ''}
           id={showSwiperClass ? 'extra-id' : ''}
           onSwiper={(swiper) => (window.swiper = swiper)}
-          slidesPerView={2}
+          slidesPerView={3}
           spaceBetween={100}
           navigation
-          scrollbar={{ draggable: true }}
+          loop
+          // scrollbar={{ draggable: true }}
           pagination={{ clickable: true }}
-          initialSlide={2}
+          // initialSlide={2}
           onClick={() => console.log('tada!')}
         >
-          <SwiperSlide>Slide 1</SwiperSlide>
+          <SwiperSlide className={showSwiperClass ? 'extra-class' : ''}>
+            Slide 1 {showSwiperClass ? 'extra-class' : ''}
+          </SwiperSlide>
           <SwiperSlide>Slide 2</SwiperSlide>
           <SwiperSlide zoom={5} className={showSwiperClass ? 'extra-class' : ''}>
             Slide 3
@@ -50,6 +53,7 @@ const App = () => {
           <SwiperSlide>Slide 6</SwiperSlide>
           <SwiperSlide>Slide 7</SwiperSlide>
           <SwiperSlide>Slide 8</SwiperSlide>
+          <SwiperSlide>Slide 9</SwiperSlide>
         </Swiper>
       ) : (
         <p>No swiper</p>

@@ -1,4 +1,7 @@
+// eslint-disable-next-line
+import Swiper from '../../core';
 import { isObject, extend } from './utils';
+import { calcLoopedSlides } from './loop';
 
 const allowedParams = [
   'init',
@@ -112,13 +115,14 @@ const allowedParams = [
   'zoom',
 ];
 
-function getParams(obj = {}, setContainerClasses) {
+function getParams(obj = {}) {
   const params = {
     _emitClasses: true,
-    on: {
-      _containerClasses: setContainerClasses,
-    },
+    on: {},
   };
+  extend(params, Swiper.defaults);
+  extend(params, Swiper.extendedDefaults);
+
   const rest = {};
   Object.keys(obj).forEach((key) => {
     if (allowedParams.indexOf(key) >= 0) {
@@ -134,6 +138,7 @@ function getParams(obj = {}, setContainerClasses) {
       rest[key] = obj[key];
     }
   });
+
   return { params, rest };
 }
 

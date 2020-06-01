@@ -117,9 +117,6 @@ export default {
   // Passive Listeners
   passiveListeners: true,
 
-  // Internal
-  _emitClasses: false,
-
   // NS
   containerModifierClass: 'swiper-container-', // NEW
   slideClass: 'swiper-slide',
@@ -136,4 +133,7 @@ export default {
 
   // Callbacks
   runCallbacksOnInit: true,
+
+  // Internals
+  _emitClasses: false,
 };
