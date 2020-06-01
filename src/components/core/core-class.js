@@ -5,7 +5,8 @@ import { getSupport } from '../../utils/get-support';
 import { getDevice } from '../../utils/get-device';
 import { getBrowser } from '../../utils/get-browser';
 
-import Modular from '../../utils/modular-class';
+import modular from './modular';
+import eventsEmitter from './events-emitter';
 
 import update from './update/index';
 import translate from './translate/index';
@@ -23,6 +24,8 @@ import checkOverflow from './check-overflow/index';
 import defaults from './defaults';
 
 const prototypes = {
+  modular,
+  eventsEmitter,
   update,
   translate,
   transition,
@@ -39,7 +42,7 @@ const prototypes = {
 
 const extendedDefaults = {};
 
-class Swiper extends Modular {
+class Swiper {
   constructor(...args) {
     let el;
     let params;
@@ -53,13 +56,14 @@ class Swiper extends Modular {
     params = extend({}, params);
     if (el && !params.el) params.el = el;
 
-    super(params);
-
     // Swiper Instance
     const swiper = this;
     swiper.support = getSupport();
     swiper.device = getDevice({ userAgent: params.userAgent });
     swiper.browser = getBrowser();
+
+    swiper.eventsListeners = {};
+    swiper.eventsAnyListeners = [];
 
     Object.keys(prototypes).forEach((prototypeGroup) => {
       Object.keys(prototypes[prototypeGroup]).forEach((protoMethod) => {
@@ -100,6 +104,13 @@ class Swiper extends Modular {
     swiper.params = extend({}, swiperParams, extendedDefaults, params);
     swiper.originalParams = extend({}, swiper.params);
     swiper.passedParams = extend({}, params);
+
+    // add event listeners
+    if (self.params && self.params.on) {
+      Object.keys(self.params.on).forEach((eventName) => {
+        self.on(eventName, self.params.on[eventName]);
+      });
+    }
 
     // Save Dom lib
     swiper.$ = $;
@@ -495,6 +506,21 @@ class Swiper extends Modular {
 
   static get defaults() {
     return extendedDefaults;
+  }
+
+  static installModule(module) {
+    if (!Swiper.prototype.modules) Swiper.prototype.modules = {};
+    const name = module.name || `${Object.keys(Swiper.prototype.modules).length}_${now()}`;
+    Swiper.prototype.modules[name] = module;
+  }
+
+  static use(module) {
+    if (Array.isArray(module)) {
+      module.forEach((m) => Swiper.installModule(m));
+      return Swiper;
+    }
+    Swiper.installModule(module);
+    return Swiper;
   }
 }
 

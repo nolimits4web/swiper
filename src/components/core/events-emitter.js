@@ -1,12 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-class EventEmitter {
-  constructor() {
-    const self = this;
-    self.eventsListeners = {};
-    self.eventsAnyListeners = [];
-  }
-
+export default {
   on(events, handler, priority) {
     const self = this;
     if (typeof handler !== 'function') return self;
@@ -16,7 +10,7 @@ class EventEmitter {
       self.eventsListeners[event][method](handler);
     });
     return self;
-  }
+  },
 
   once(events, handler, priority) {
     const self = this;
@@ -30,7 +24,7 @@ class EventEmitter {
     }
     onceHandler.__emitterProxy = handler;
     return self.on(events, onceHandler, priority);
-  }
+  },
 
   onAny(handler, priority) {
     const self = this;
@@ -40,7 +34,7 @@ class EventEmitter {
       self.eventsAnyListeners[method](handler);
     }
     return self;
-  }
+  },
 
   offAny(handler) {
     const self = this;
@@ -50,7 +44,7 @@ class EventEmitter {
       self.eventsAnyListeners.splice(index, 1);
     }
     return self;
-  }
+  },
 
   off(events, handler) {
     const self = this;
@@ -70,7 +64,7 @@ class EventEmitter {
       }
     });
     return self;
-  }
+  },
 
   emit(...args) {
     const self = this;
@@ -88,9 +82,8 @@ class EventEmitter {
       context = args[0].context || self;
     }
     const eventsArray = Array.isArray(events) ? events : events.split(' ');
-    const localEvents = eventsArray.map((eventName) => eventName.replace('local::', ''));
 
-    localEvents.forEach((event) => {
+    eventsArray.forEach((event) => {
       if (self.eventsListeners && self.eventsListeners[event]) {
         const handlers = [];
         self.eventsListeners[event].forEach((eventHandler) => {
@@ -102,7 +95,5 @@ class EventEmitter {
       }
     });
     return self;
-  }
-}
-
-export default EventEmitter;
+  },
+};

@@ -64,7 +64,7 @@ async function buildCore(components, format, cb) {
 
   // Remove unused dirs
   const dirsToRemove = ['components/core', 'less', 'modules'];
-  const filesToRemove = ['utils/event-emitter-class.js', 'utils/modular-class.js', 'swiper.js'];
+  const filesToRemove = ['swiper.js'];
   dirsToRemove.forEach((dir) => {
     fs.rmdirSync(`./${outputDir}/${format}/${dir}`, { recursive: true });
   });

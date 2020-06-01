@@ -1,27 +1,6 @@
-/* eslint-disable no-param-reassign */
-import { extend, now } from './utils';
-import EventEmitter from './event-emitter-class';
+import { extend } from '../../utils/utils';
 
-function installClassModule(Class, module) {
-  if (!Class.prototype.modules) Class.prototype.modules = {};
-  const name = module.name || `${Object.keys(Class.prototype.modules).length}_${now()}`;
-  Class.prototype.modules[name] = module;
-}
-
-class Modular extends EventEmitter {
-  constructor(params = {}) {
-    super();
-    const self = this;
-    self.params = params;
-
-    // Events
-    if (self.params && self.params.on) {
-      Object.keys(self.params.on).forEach((eventName) => {
-        self.on(eventName, self.params.on[eventName]);
-      });
-    }
-  }
-
+export default {
   useParams(instanceParams) {
     const instance = this;
     if (!instance.modules) return;
@@ -32,7 +11,7 @@ class Modular extends EventEmitter {
         extend(instanceParams, module.params);
       }
     });
-  }
+  },
 
   useModules(modulesParams = {}) {
     const instance = this;
@@ -63,17 +42,5 @@ class Modular extends EventEmitter {
         module.create.bind(instance)(moduleParams);
       }
     });
-  }
-
-  static use(module) {
-    const Class = this;
-    if (Array.isArray(module)) {
-      module.forEach((m) => installClassModule(Class, m));
-      return Class;
-    }
-    installClassModule(Class, module);
-    return Class;
-  }
-}
-
-export default Modular;
+  },
+};
