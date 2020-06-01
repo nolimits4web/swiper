@@ -109,8 +109,10 @@ const allowedParams = [
   'virtual',
   'zoom',
 ];
-function getParams(obj = {}) {
-  const params = {};
+function getParams(obj = {}, setContainerClasses) {
+  const params = {
+    _emitClasses: true,
+  };
   const rest = {};
   Object.keys(obj).forEach((key) => {
     if (allowedParams.indexOf(key) >= 0) {
@@ -119,6 +121,8 @@ function getParams(obj = {}) {
       rest[key] = obj[key];
     }
   });
+  if (!params.on) params.on = {};
+  params.on._containerClasses = setContainerClasses;
   return { params, rest };
 }
 

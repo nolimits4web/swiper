@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 // eslint-disable-next-line
 import SwiperCore from '../../core';
 import { getParams } from './get-params';
@@ -13,8 +13,7 @@ function needsScrollbar(params = {}) {
   return params.scrollbar && !params.scrollbar.el && !params.scrollbar.el;
 }
 
-function initSwiper({ el, nextEl, prevEl, paginationEl, scrollbarEl }, params) {
-  const { params: swiperParams } = getParams(params);
+function initSwiper({ el, nextEl, prevEl, paginationEl, scrollbarEl }, swiperParams) {
   if (needsNavigation(swiperParams) && nextEl && prevEl) {
     if (swiperParams.navigation === true) {
       swiperParams.navigation = {};
@@ -37,13 +36,23 @@ function initSwiper({ el, nextEl, prevEl, paginationEl, scrollbarEl }, params) {
   return new SwiperCore(el, swiperParams);
 }
 
-const Swiper = ({ className, children, onSwiper, ...rest } = {}) => {
+const Swiper = ({
+  className,
+  tag: Tag = 'div',
+  wrapperTag: WrapperTag = 'div',
+  children,
+  onSwiper,
+  ...rest
+} = {}) => {
+  const [containerClasses, setContainerClasses] = useState('swiper-container');
   const swiperElRef = useRef(null);
   const swiperRef = useRef(null);
   const nextElRef = useRef(null);
   const prevElRef = useRef(null);
   const paginationElRef = useRef(null);
   const scrollbarElRef = useRef(null);
+
+  const { params: swiperParams, rest: restProps } = getParams(rest, setContainerClasses);
 
   useEffect(() => {
     if (!swiperElRef.current) return;
@@ -55,8 +64,9 @@ const Swiper = ({ className, children, onSwiper, ...rest } = {}) => {
         paginationEl: paginationElRef.current,
         scrollbarEl: scrollbarElRef.current,
       },
-      rest,
+      swiperParams,
     );
+    
     if (onSwiper) onSwiper(swiperRef.current);
     // eslint-disable-next-line
     return () => {
@@ -66,12 +76,10 @@ const Swiper = ({ className, children, onSwiper, ...rest } = {}) => {
     };
   }, []);
 
-  const { params: swiperParams, rest: restProps } = getParams(rest);
-
   return (
-    <div
+    <Tag
       ref={swiperElRef}
-      className={`swiper-container${className ? ` ${className}` : ''}`}
+      className={`${containerClasses}${className ? ` ${className}` : ''}`}
       {...restProps}
     >
       {needsNavigation(swiperParams) && (
@@ -86,8 +94,8 @@ const Swiper = ({ className, children, onSwiper, ...rest } = {}) => {
       {needsPagination(swiperParams) && (
         <div ref={paginationElRef} className="swiper-pagination"></div>
       )}
-      <div className="swiper-wrapper">{children}</div>
-    </div>
+      <WrapperTag className="swiper-wrapper">{children}</WrapperTag>
+    </Tag>
   );
 };
 
