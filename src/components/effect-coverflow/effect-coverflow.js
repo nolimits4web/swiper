@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import { extend } from '../../utils/utils';
+import { bindModuleMethods } from '../../utils/utils';
 
 const Coverflow = {
   setTranslate() {
@@ -94,10 +94,9 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       coverflowEffect: {
-        setTranslate: Coverflow.setTranslate.bind(swiper),
-        setTransition: Coverflow.setTransition.bind(swiper),
+        ...Coverflow,
       },
     });
   },

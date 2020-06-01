@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import { extend } from '../../utils/utils';
+import { extend, bindModuleMethods } from '../../utils/utils';
 
 const Virtual = {
   update(force) {
@@ -214,14 +214,9 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       virtual: {
-        update: Virtual.update.bind(swiper),
-        appendSlide: Virtual.appendSlide.bind(swiper),
-        prependSlide: Virtual.prependSlide.bind(swiper),
-        removeSlide: Virtual.removeSlide.bind(swiper),
-        removeAllSlides: Virtual.removeAllSlides.bind(swiper),
-        renderSlide: Virtual.renderSlide.bind(swiper),
+        ...Virtual,
         slides: swiper.params.virtual.slides,
         cache: {},
       },

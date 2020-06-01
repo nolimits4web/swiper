@@ -1,6 +1,6 @@
 import { getWindow, getDocument } from 'ssr-window';
 import $ from '../../utils/dom';
-import { extend } from '../../utils/utils';
+import { bindModuleMethods } from '../../utils/utils';
 
 const HashNavigation = {
   onHashCange() {
@@ -85,13 +85,10 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       hashNavigation: {
         initialized: false,
-        init: HashNavigation.init.bind(swiper),
-        destroy: HashNavigation.destroy.bind(swiper),
-        setHash: HashNavigation.setHash.bind(swiper),
-        onHashCange: HashNavigation.onHashCange.bind(swiper),
+        ...HashNavigation,
       },
     });
   },

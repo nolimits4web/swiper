@@ -1,6 +1,6 @@
 import { getDocument } from 'ssr-window';
 import $ from '../../utils/dom';
-import { extend, nextTick } from '../../utils/utils';
+import { extend, nextTick, bindModuleMethods } from '../../utils/utils';
 
 const Scrollbar = {
   setTranslate() {
@@ -330,23 +330,12 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       scrollbar: {
-        init: Scrollbar.init.bind(swiper),
-        destroy: Scrollbar.destroy.bind(swiper),
-        updateSize: Scrollbar.updateSize.bind(swiper),
-        setTranslate: Scrollbar.setTranslate.bind(swiper),
-        setTransition: Scrollbar.setTransition.bind(swiper),
-        enableDraggable: Scrollbar.enableDraggable.bind(swiper),
-        disableDraggable: Scrollbar.disableDraggable.bind(swiper),
-        setDragPosition: Scrollbar.setDragPosition.bind(swiper),
-        getPointerPosition: Scrollbar.getPointerPosition.bind(swiper),
-        onDragStart: Scrollbar.onDragStart.bind(swiper),
-        onDragMove: Scrollbar.onDragMove.bind(swiper),
-        onDragEnd: Scrollbar.onDragEnd.bind(swiper),
         isTouched: false,
         timeout: null,
         dragTimeout: null,
+        ...Scrollbar,
       },
     });
   },

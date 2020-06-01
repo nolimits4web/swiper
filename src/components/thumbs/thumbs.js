@@ -1,4 +1,4 @@
-import { extend, isObject } from '../../utils/utils';
+import { extend, isObject, bindModuleMethods } from '../../utils/utils';
 import $ from '../../utils/dom';
 
 const Thumbs = {
@@ -184,12 +184,10 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       thumbs: {
         swiper: null,
-        init: Thumbs.init.bind(swiper),
-        update: Thumbs.update.bind(swiper),
-        onThumbClick: Thumbs.onThumbClick.bind(swiper),
+        ...Thumbs,
       },
     });
   },

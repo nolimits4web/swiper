@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import { extend } from '../../utils/utils';
+import { extend, bindModuleMethods } from '../../utils/utils';
 
 const Cube = {
   setTranslate() {
@@ -169,10 +169,9 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       cubeEffect: {
-        setTranslate: Cube.setTranslate.bind(swiper),
-        setTransition: Cube.setTransition.bind(swiper),
+        ...Cube,
       },
     });
   },

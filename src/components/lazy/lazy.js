@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import { extend } from '../../utils/utils';
+import { bindModuleMethods } from '../../utils/utils';
 
 const Lazy = {
   loadInSlide(index, loadInDuplicate = true) {
@@ -184,11 +184,10 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       lazy: {
         initialImageLoaded: false,
-        load: Lazy.load.bind(swiper),
-        loadInSlide: Lazy.loadInSlide.bind(swiper),
+        ...Lazy,
       },
     });
   },

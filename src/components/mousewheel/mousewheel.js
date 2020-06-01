@@ -1,6 +1,6 @@
 import { getWindow, getDocument } from 'ssr-window';
 import $ from '../../utils/dom';
-import { now, extend, nextTick } from '../../utils/utils';
+import { now, nextTick, bindModuleMethods } from '../../utils/utils';
 
 function isEventSupported() {
   const document = getDocument();
@@ -416,19 +416,20 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       mousewheel: {
         enabled: false,
-        enable: Mousewheel.enable.bind(swiper),
-        disable: Mousewheel.disable.bind(swiper),
-        handle: Mousewheel.handle.bind(swiper),
-        handleMouseEnter: Mousewheel.handleMouseEnter.bind(swiper),
-        handleMouseLeave: Mousewheel.handleMouseLeave.bind(swiper),
-        animateSlider: Mousewheel.animateSlider.bind(swiper),
-        releaseScroll: Mousewheel.releaseScroll.bind(swiper),
         lastScrollTime: now(),
         lastEventBeforeSnap: undefined,
         recentWheelEvents: [],
+
+        enable: Mousewheel.enable,
+        disable: Mousewheel.disable,
+        handle: Mousewheel.handle,
+        handleMouseEnter: Mousewheel.handleMouseEnter,
+        handleMouseLeave: Mousewheel.handleMouseLeave,
+        animateSlider: Mousewheel.animateSlider,
+        releaseScroll: Mousewheel.releaseScroll,
       },
     });
   },

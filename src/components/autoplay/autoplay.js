@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: "off" */
 import { getDocument } from 'ssr-window';
-import { extend, nextTick } from '../../utils/utils';
+import { nextTick, bindModuleMethods } from '../../utils/utils';
 
 const Autoplay = {
   run() {
@@ -78,6 +78,33 @@ const Autoplay = {
       swiper.$wrapperEl[0].addEventListener('webkitTransitionEnd', swiper.autoplay.onTransitionEnd);
     }
   },
+  onVisibilityChange() {
+    const swiper = this;
+    const document = getDocument();
+    if (document.visibilityState === 'hidden' && swiper.autoplay.running) {
+      swiper.autoplay.pause();
+    }
+    if (document.visibilityState === 'visible' && swiper.autoplay.paused) {
+      swiper.autoplay.run();
+      swiper.autoplay.paused = false;
+    }
+  },
+  onTransitionEnd(e) {
+    const swiper = this;
+    if (!swiper || swiper.destroyed || !swiper.$wrapperEl) return;
+    if (e.target !== this) return;
+    swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.autoplay.onTransitionEnd);
+    swiper.$wrapperEl[0].removeEventListener(
+      'webkitTransitionEnd',
+      swiper.autoplay.onTransitionEnd,
+    );
+    swiper.autoplay.paused = false;
+    if (!swiper.autoplay.running) {
+      swiper.autoplay.stop();
+    } else {
+      swiper.autoplay.run();
+    }
+  },
 };
 
 export default {
@@ -94,42 +121,11 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       autoplay: {
+        ...Autoplay,
         running: false,
         paused: false,
-        run: Autoplay.run.bind(swiper),
-        start: Autoplay.start.bind(swiper),
-        stop: Autoplay.stop.bind(swiper),
-        pause: Autoplay.pause.bind(swiper),
-        onVisibilityChange() {
-          const document = getDocument();
-          if (document.visibilityState === 'hidden' && swiper.autoplay.running) {
-            swiper.autoplay.pause();
-          }
-          if (document.visibilityState === 'visible' && swiper.autoplay.paused) {
-            swiper.autoplay.run();
-            swiper.autoplay.paused = false;
-          }
-        },
-        onTransitionEnd(e) {
-          if (!swiper || swiper.destroyed || !swiper.$wrapperEl) return;
-          if (e.target !== this) return;
-          swiper.$wrapperEl[0].removeEventListener(
-            'transitionend',
-            swiper.autoplay.onTransitionEnd,
-          );
-          swiper.$wrapperEl[0].removeEventListener(
-            'webkitTransitionEnd',
-            swiper.autoplay.onTransitionEnd,
-          );
-          swiper.autoplay.paused = false;
-          if (!swiper.autoplay.running) {
-            swiper.autoplay.stop();
-          } else {
-            swiper.autoplay.run();
-          }
-        },
       },
     });
   },

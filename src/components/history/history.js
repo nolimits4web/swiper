@@ -1,5 +1,5 @@
 import { getWindow } from 'ssr-window';
-import { extend } from '../../utils/utils';
+import { bindModuleMethods } from '../../utils/utils';
 
 const History = {
   init() {
@@ -111,13 +111,9 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       history: {
-        init: History.init.bind(swiper),
-        setHistory: History.setHistory.bind(swiper),
-        setHistoryPopState: History.setHistoryPopState.bind(swiper),
-        scrollToSlide: History.scrollToSlide.bind(swiper),
-        destroy: History.destroy.bind(swiper),
+        ...History,
       },
     });
   },

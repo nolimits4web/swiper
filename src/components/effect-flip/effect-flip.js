@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import { extend } from '../../utils/utils';
+import { extend, bindModuleMethods } from '../../utils/utils';
 
 const Flip = {
   setTranslate() {
@@ -93,10 +93,9 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       flipEffect: {
-        setTranslate: Flip.setTranslate.bind(swiper),
-        setTransition: Flip.setTransition.bind(swiper),
+        ...Flip,
       },
     });
   },

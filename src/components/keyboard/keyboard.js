@@ -1,6 +1,6 @@
 import { getWindow, getDocument } from 'ssr-window';
 import $ from '../../utils/dom';
-import { extend } from '../../utils/utils';
+import { bindModuleMethods } from '../../utils/utils';
 
 const Keyboard = {
   handle(event) {
@@ -111,12 +111,10 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       keyboard: {
         enabled: false,
-        enable: Keyboard.enable.bind(swiper),
-        disable: Keyboard.disable.bind(swiper),
-        handle: Keyboard.handle.bind(swiper),
+        ...Keyboard,
       },
     });
   },

@@ -9,8 +9,8 @@ function installClassModule(Class, module) {
 }
 
 class Modular extends EventEmitter {
-  constructor(params = {}, parents = []) {
-    super(parents);
+  constructor(params = {}) {
+    super();
     const self = this;
     self.params = params;
 

@@ -1,5 +1,5 @@
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
-import { nextTick, extend } from '../../utils/utils';
+import { nextTick, bindModuleMethods } from '../../utils/utils';
 
 const Controller = {
   LinearSpline: function LinearSpline(x, y) {
@@ -142,12 +142,10 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       controller: {
         control: swiper.params.controller.control,
-        getInterpolateFunction: Controller.getInterpolateFunction.bind(swiper),
-        setTranslate: Controller.setTranslate.bind(swiper),
-        setTransition: Controller.setTransition.bind(swiper),
+        ...Controller,
       },
     });
   },

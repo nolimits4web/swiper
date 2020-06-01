@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import { extend } from '../../utils/utils';
+import { extend, bindModuleMethods } from '../../utils/utils';
 
 const Pagination = {
   update() {
@@ -336,13 +336,10 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       pagination: {
-        init: Pagination.init.bind(swiper),
-        render: Pagination.render.bind(swiper),
-        update: Pagination.update.bind(swiper),
-        destroy: Pagination.destroy.bind(swiper),
         dynamicBulletIndex: 0,
+        ...Pagination,
       },
     });
   },

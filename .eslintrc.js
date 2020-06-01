@@ -18,6 +18,7 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
+    'no-param-reassign': 'off',
     'prefer-object-spread': 'off',
     'prefer-destructuring': 'off',
     'import/prefer-default-export': 'off',

@@ -1,7 +1,7 @@
 import $ from '../../utils/dom';
-import { extend } from '../../utils/utils';
+import { bindModuleMethods } from '../../utils/utils';
 
-const a11y = {
+const A11y = {
   makeElFocusable($el) {
     $el.attr('tabIndex', '0');
     return $el;
@@ -199,15 +199,13 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       a11y: {
+        ...A11y,
         liveRegion: $(
           `<span class="${swiper.params.a11y.notificationClass}" aria-live="assertive" aria-atomic="true"></span>`,
         ),
       },
-    });
-    Object.keys(a11y).forEach((methodName) => {
-      swiper.a11y[methodName] = a11y[methodName].bind(swiper);
     });
   },
   on: {

@@ -1,4 +1,4 @@
-import { extend } from '../../utils/utils';
+import { extend, bindModuleMethods } from '../../utils/utils';
 
 const Fade = {
   setTranslate() {
@@ -53,10 +53,9 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       fadeEffect: {
-        setTranslate: Fade.setTranslate.bind(swiper),
-        setTransition: Fade.setTransition.bind(swiper),
+        ...Fade,
       },
     });
   },

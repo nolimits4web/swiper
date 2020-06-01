@@ -1,5 +1,5 @@
 import { getWindow } from 'ssr-window';
-import { extend } from '../../utils/utils';
+import { bindModuleMethods } from '../../utils/utils';
 
 const Observer = {
   attach(target, options = {}) {
@@ -69,11 +69,9 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       observer: {
-        init: Observer.init.bind(swiper),
-        attach: Observer.attach.bind(swiper),
-        destroy: Observer.destroy.bind(swiper),
+        ...Observer,
         observers: [],
       },
     });

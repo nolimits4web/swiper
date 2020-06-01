@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import { extend } from '../../utils/utils';
+import { extend, bindModuleMethods } from '../../utils/utils';
 
 const Navigation = {
   update() {
@@ -116,13 +116,9 @@ export default {
   },
   create() {
     const swiper = this;
-    extend(swiper, {
+    bindModuleMethods(swiper, {
       navigation: {
-        init: Navigation.init.bind(swiper),
-        update: Navigation.update.bind(swiper),
-        destroy: Navigation.destroy.bind(swiper),
-        onNextClick: Navigation.onNextClick.bind(swiper),
-        onPrevClick: Navigation.onPrevClick.bind(swiper),
+        ...Navigation,
       },
     });
   },
