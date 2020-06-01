@@ -38,11 +38,13 @@ export default function setBreakpoint() {
       $el.removeClass(
         `${params.containerModifierClass}multirow ${params.containerModifierClass}multirow-column`,
       );
+      swiper.emitContainerClasses();
     } else if (!wasMultiRow && isMultiRow) {
       $el.addClass(`${params.containerModifierClass}multirow`);
       if (breakpointParams.slidesPerColumnFill === 'column') {
         $el.addClass(`${params.containerModifierClass}multirow-column`);
       }
+      swiper.emitContainerClasses();
     }
 
     const directionChanged =

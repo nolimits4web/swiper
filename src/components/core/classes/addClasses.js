@@ -37,4 +37,6 @@ export default function addClasses() {
   });
 
   $el.addClass(classNames.join(' '));
+
+  swiper.emitContainerClasses();
 }

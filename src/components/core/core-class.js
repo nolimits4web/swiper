@@ -106,9 +106,9 @@ class Swiper {
     swiper.passedParams = extend({}, params);
 
     // add event listeners
-    if (self.params && self.params.on) {
-      Object.keys(self.params.on).forEach((eventName) => {
-        self.on(eventName, self.params.on[eventName]);
+    if (swiper.params && swiper.params.on) {
+      Object.keys(swiper.params.on).forEach((eventName) => {
+        swiper.on(eventName, swiper.params.on[eventName]);
       });
     }
 
@@ -266,6 +266,12 @@ class Swiper {
     return swiper;
   }
 
+  emitContainerClasses() {
+    const swiper = this;
+    if (!swiper.params._emitClasses || !swiper.el) return;
+    swiper.emit('_containerClasses', swiper.el.className);
+  }
+
   slidesPerViewDynamic() {
     const swiper = this;
     const { params, slides, slidesGrid, size: swiperSize, activeIndex } = swiper;
@@ -363,6 +369,7 @@ class Swiper {
     swiper.$el
       .removeClass(`${swiper.params.containerModifierClass}${currentDirection}`)
       .addClass(`${swiper.params.containerModifierClass}${newDirection}`);
+    swiper.emitContainerClasses();
 
     swiper.params.direction = newDirection;
 
