@@ -15,10 +15,10 @@
     "prod": "npm run build:prod && npm run playground:prod && concurrently --kill-others \"npm run serve\" \"npm run watch:prod\" ",
     "dev:react": "npm run build:dev && concurrently --kill-others \"npm run webpack:react\" \"npm run watch:dev\"",
     "serve": "serve -l tcp://0.0.0.0:5000",
-    "prettier": "prettier \"**/*.+(js|json|scss|css|less)\"",
+    "prettier": "prettier \"**/*.+(js|json|scss|css|less|ts)\"",
     "format": "npm run prettier -- --write",
     "check-format": "npm run prettier -- --list-different",
-    "lint": "eslint --ext .js,.ts,.tsx .",
+    "lint": "eslint --ext .js .",
     "validate": "npm-run-all --parallel check-format lint",
     "release": "npm run validate && node ./scripts/release",
     "test": "npm run validate && npm run build:prod"
