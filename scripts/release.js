@@ -73,8 +73,18 @@ async function release() {
     JSON.stringify(childPkg, null, 2),
   );
 
+  const cleanPackage = [
+    'rm -rf **/*.js',
+    'rm -rf **/*.ts',
+    'rm -rf **/*.css',
+    'rm -rf **/*.map',
+    'rm -rf **/*.less',
+    'rm -rf **/*.scss',
+  ];
+
   await exec.promise('git pull');
   await exec.promise('npm i');
+  await exec.promise(`cd ./package && ${cleanPackage.join(' && ')}`);
   await exec.promise(`npm run build:prod`);
   await exec.promise('git add .');
   await exec.promise(`git commit -m "${pkg.version} release"`);
