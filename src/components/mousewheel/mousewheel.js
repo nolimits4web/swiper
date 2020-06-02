@@ -128,8 +128,8 @@ const Mousewheel = {
     }
 
     let target = swiper.$el;
-    if (swiper.params.mousewheel.eventsTarged !== 'container') {
-      target = $(swiper.params.mousewheel.eventsTarged);
+    if (swiper.params.mousewheel.eventsTarget !== 'container') {
+      target = $(swiper.params.mousewheel.eventsTarget);
     }
     if (!swiper.mouseEntered && !target[0].contains(e.target) && !params.releaseOnEdges)
       return true;
@@ -374,8 +374,8 @@ const Mousewheel = {
     if (!event) return false;
     if (swiper.mousewheel.enabled) return false;
     let target = swiper.$el;
-    if (swiper.params.mousewheel.eventsTarged !== 'container') {
-      target = $(swiper.params.mousewheel.eventsTarged);
+    if (swiper.params.mousewheel.eventsTarget !== 'container') {
+      target = $(swiper.params.mousewheel.eventsTarget);
     }
     target.on('mouseenter', swiper.mousewheel.handleMouseEnter);
     target.on('mouseleave', swiper.mousewheel.handleMouseLeave);
@@ -393,8 +393,8 @@ const Mousewheel = {
     if (!event) return false;
     if (!swiper.mousewheel.enabled) return false;
     let target = swiper.$el;
-    if (swiper.params.mousewheel.eventsTarged !== 'container') {
-      target = $(swiper.params.mousewheel.eventsTarged);
+    if (swiper.params.mousewheel.eventsTarget !== 'container') {
+      target = $(swiper.params.mousewheel.eventsTarget);
     }
     target.off(event, swiper.mousewheel.handle);
     swiper.mousewheel.enabled = false;
@@ -411,7 +411,7 @@ export default {
       invert: false,
       forceToAxis: false,
       sensitivity: 1,
-      eventsTarged: 'container',
+      eventsTarget: 'container',
     },
   },
   create() {
