@@ -1,5 +1,7 @@
 export interface CubeEffectMethods {}
 
+export interface CubeEffectEvents {}
+
 export interface CubeEffectOptions {
   /**
    * Enables slides shadows

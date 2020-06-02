@@ -1,5 +1,16 @@
 export interface HashNavigationMethods {}
 
+export interface HashNavigationEvents {
+  /**
+   * Event will be fired on window hash change
+   */
+  hashChange: () => void;
+  /**
+   * Event will be fired when swiper updates the hash
+   */
+  hashSet: () => void;
+}
+
 export interface HashNavigationOptions {
   /**
    * Set to true to enable also navigation through slides (when hashnav

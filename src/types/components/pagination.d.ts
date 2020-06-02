@@ -1,6 +1,8 @@
 import { Dom7Array } from 'dom7';
+import { CSSSelector } from '../shared';
+import Swiper from '../swiper-class';
 
-export interface PaginationMehods {
+export interface PaginationMethods {
   /**
    * HTMLElement of pagination container element
    */
@@ -22,6 +24,28 @@ export interface PaginationMehods {
    * Update pagination state (enabled/disabled/active)
    */
   update(): void;
+}
+
+export interface PaginationEvents {
+  /**
+   * Event will be fired after pagination rendered
+   */
+  paginationRender: (swiper: Swiper, paginationEl: HTMLElement) => void;
+
+  /**
+   * Event will be fired when pagination updated
+   */
+  paginationUpdate: (swiper: Swiper, paginationEl: HTMLElement) => void;
+
+  /**
+   * Event will be fired on pagination hide
+   */
+  paginationHide: () => void;
+
+  /**
+   * Event will be fired on pagination show
+   */
+  paginationShow: () => void;
 }
 
 export interface PaginationOptions {

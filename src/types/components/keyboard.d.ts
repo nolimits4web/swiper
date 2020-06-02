@@ -15,6 +15,8 @@ export interface KeyboardMethods {
   disable(): void;
 }
 
+export interface KeyboardEvents {}
+
 export interface KeyboardOptions {
   /**
    * Set to true to enable keyboard contro

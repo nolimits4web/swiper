@@ -1,5 +1,7 @@
 export interface FlipEffectMethods {}
 
+export interface FlipEffectEvents {}
+
 export interface FlipEffectOptions {
   /**
    * Enables slides shadows

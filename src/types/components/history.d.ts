@@ -1,5 +1,7 @@
 export interface HistoryMethods {}
 
+export interface HistoryEvents {}
+
 export interface HistoryOptions {
   /**
    * Works in addition to hashnav or history to replace current url state with the

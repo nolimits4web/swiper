@@ -11,6 +11,17 @@ export interface LazyMethods {
   loadInSlide(index: number): void;
 }
 
+export interface LazyEvents {
+  /**
+   * Event will be fired in the beginning of lazy loading of image
+   */
+  lazyImageLoad: (slideEl: HTMLElement, imageEl: HTMLElement) => void;
+  /**
+   * Event will be fired when lazy loading image will be loaded
+   */
+  lazyImageReady: (slideEl: HTMLElement, imageEl: HTMLElement) => void;
+}
+
 export interface LazyOptions {
   /** Set to "true" to enable lazy loading for the closest slides images (for previous and next slide images) */
   loadPrevNext?: boolean;

@@ -8,6 +8,7 @@ export default {
   updateOnWindowResize: true,
   //
   preventInteractionOnTransition: false,
+
   // ssr
   userAgent: null,
   url: null,

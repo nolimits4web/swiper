@@ -1,3 +1,5 @@
+import { CSSSelector } from '../shared';
+
 export interface MousewheelMethods {
   /**
    * Whether the mousewheel control is enabled
@@ -14,6 +16,8 @@ export interface MousewheelMethods {
    */
   disable(): void;
 }
+
+export interface MousewheelEvents {}
 
 export interface MousewheelOptions {
   /**
@@ -47,5 +51,5 @@ export interface MousewheelOptions {
    *
    * @default 'container'
    */
-  eventsTarget?: string | HTMLElement;
+  eventsTarget?: 'container' | 'wrapper' | CSSSelector | HTMLElement;
 }

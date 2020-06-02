@@ -49,6 +49,8 @@ export interface VirtualMethods {
   update(): void;
 }
 
+export interface VirtualEvents {}
+
 export interface VirtualData {
   /**
    * slides left/top offset in px

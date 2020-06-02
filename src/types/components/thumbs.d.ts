@@ -1,9 +1,13 @@
+import Swiper from '../swiper-class';
+
 export interface ThumbsMethods {
   /**
    * Swiper instance of thumbs swiper
    */
   swiper: Swiper;
 }
+
+export interface ThumbsEvents {}
 
 export interface ThumbsOptions {
   /**

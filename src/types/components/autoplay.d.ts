@@ -15,6 +15,21 @@ export interface AutoplayMethods {
   stop(): boolean;
 }
 
+export interface AutoplayEvents {
+  /**
+   * Event will be fired in when autoplay started
+   */
+  autoplayStart: () => void;
+  /**
+   * Event will be fired when autoplay stopped
+   */
+  autoplayStop: () => void;
+  /**
+   * Event will be fired when slide changed with autoplay
+   */
+  autoplay: () => void;
+}
+
 /**
  * Object with autoplay parameters or boolean true to enable with default settings.
  *

@@ -1,5 +1,7 @@
 export interface A11yMethods {}
 
+export interface A11yEvents {}
+
 export interface A11yOptions {
   /**
    * Enables A11y

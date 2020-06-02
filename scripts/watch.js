@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const buildJsCore = require('./build-js-core');
 const buildJsBundle = require('./build-js-bundle');
+const buildTypes = require('./build-types');
 const buildStyles = require('./build-styles');
 const buildReact = require('./build-react');
 
@@ -16,6 +17,9 @@ fs.watch(path.resolve(__dirname, '../src'), { recursive: true }, (eventType, fil
       buildStyles(() => {
         console.log('Building styles DONE');
       });
+    } else if (fileName.includes('.d.ts')) {
+      console.log('Building Types');
+      buildTypes();
     } else if (fileName.includes('react')) {
       console.log('Building React');
       buildReact();

@@ -1,3 +1,5 @@
+import { CSSSelector } from '../shared';
+
 export interface NavigationMethods {
   /**
    * HTMLElement of "next" navigation button
@@ -13,6 +15,17 @@ export interface NavigationMethods {
    * Update navigation buttons state (enabled/disabled)
    */
   update(): void;
+}
+
+export interface NavigationEvents {
+  /**
+   * Event will be fired on navigation hide
+   */
+  navigationHide: () => void;
+  /**
+   * Event will be fired on navigation show
+   */
+  navigationShow: () => void;
 }
 
 export interface NavigationOptions {

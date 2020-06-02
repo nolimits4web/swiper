@@ -1,5 +1,7 @@
 export interface CoverflowEffectMethods {}
 
+export interface CoverflowEffectEvents {}
+
 export interface CoverflowEffectOptions {
   /**
    * Enables slides shadows

@@ -1,3 +1,5 @@
+import { CSSSelector } from '../shared';
+
 export interface ScrollbarMethods {
   /**
    * HTMLElement of Scrollbar container element
@@ -13,6 +15,23 @@ export interface ScrollbarMethods {
    * Updates scrollbar track and handler sizes
    */
   updateSize(): void;
+}
+
+export interface ScrollbarEvents {
+  /**
+   * Event will be fired on draggable scrollbar drag start
+   */
+  scrollbarDragStart: (event: MouseEvent | TouchEvent | PointerEvent) => void;
+
+  /**
+   * Event will be fired on draggable scrollbar drag move
+   */
+  scrollbarDragMove: (event: MouseEvent | TouchEvent | PointerEvent) => void;
+
+  /**
+   * Event will be fired on draggable scrollbar drag start
+   */
+  scrollbarDragEnd: (event: MouseEvent | TouchEvent | PointerEvent) => void;
 }
 
 /**

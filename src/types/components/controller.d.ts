@@ -1,4 +1,8 @@
+import Swiper from '../swiper-class';
+
 export interface ControllerMethods {}
+
+export interface ControllerEvents {}
 
 export interface ControllerOptions {
   /**
