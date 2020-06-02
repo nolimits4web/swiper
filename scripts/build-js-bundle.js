@@ -35,11 +35,12 @@ function buildBundle(components, format, browser, cb) {
         '//INSTALL_COMPONENTS': components
           .map((component) => `${component.capitalized}`)
           .join(',\n  '),
-        '//EXPORT': 'export default Swiper',
+        '//EXPORT': 'export default Swiper; export { Swiper }',
       }),
       resolve({ mainFields: ['module', 'main', 'jsnext'] }),
       babel({ babelHelpers: 'bundled' }),
     ],
+    onwarn() {},
   })
     .then((bundle) =>
       bundle.write({

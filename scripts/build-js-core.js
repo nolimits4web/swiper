@@ -45,6 +45,7 @@ async function buildCore(components, format, cb) {
       resolve({ mainFields: ['module', 'main', 'jsnext'] }),
       babel({ babelHelpers: 'bundled' }),
     ],
+    onwarn() {},
   });
 
   await bundle.write({
