@@ -28,7 +28,9 @@
     "framework7",
     "carousel",
     "gallery",
-    "plugin"
+    "plugin",
+    "react",
+    "slideshow"
   ],
   "author": "Vladimir Kharlampidi",
   "license": "MIT",

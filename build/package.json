@@ -1,0 +1,9 @@
+{
+  "name": "swiper",
+  "private": true,
+  "main": "swiper.cjs.js",
+  "jsnext:main": "swiper.esm.js",
+  "module": "swiper.esm.js",
+  "typings": "swiper.d.ts",
+  "sideEffects": false
+}
