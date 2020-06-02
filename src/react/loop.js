@@ -13,8 +13,8 @@ function calcLoopedSlides(slides, swiperParams) {
   return loopedSlides;
 }
 
-function renderLoop(swiper, swiperParams, children) {
-  const slides = React.Children.map(children, (child, index) => {
+function renderLoop(swiper, slides, swiperParams) {
+  const modifiedSlides = slides.map((child, index) => {
     return React.cloneElement(child, { swiper, 'data-swiper-slide-index': index });
   });
 
@@ -27,30 +27,30 @@ function renderLoop(swiper, swiperParams, children) {
 
   if (swiperParams.loopFillGroupWithBlank) {
     const blankSlidesNum =
-      swiperParams.slidesPerGroup - (slides.length % swiperParams.slidesPerGroup);
+      swiperParams.slidesPerGroup - (modifiedSlides.length % swiperParams.slidesPerGroup);
     if (blankSlidesNum !== swiperParams.slidesPerGroup) {
       for (let i = 0; i < blankSlidesNum; i += 1) {
         const blankSlide = (
           <div className={`${swiperParams.slideClass} ${swiperParams.slideBlankClass}`} />
         );
-        slides.push(blankSlide);
+        modifiedSlides.push(blankSlide);
       }
     }
   }
 
   if (swiperParams.slidesPerView === 'auto' && !swiperParams.loopedSlides) {
-    swiperParams.loopedSlides = slides.length;
+    swiperParams.loopedSlides = modifiedSlides.length;
   }
 
-  const loopedSlides = calcLoopedSlides(slides, swiperParams);
+  const loopedSlides = calcLoopedSlides(modifiedSlides, swiperParams);
 
   const prependSlides = [];
   const appendSlides = [];
-  slides.forEach((child, index) => {
+  modifiedSlides.forEach((child, index) => {
     if (index < loopedSlides) {
       appendSlides.push(duplicateSlide(child, index, 'prepend'));
     }
-    if (index < slides.length && index >= slides.length - loopedSlides) {
+    if (index < modifiedSlides.length && index >= modifiedSlides.length - loopedSlides) {
       prependSlides.push(duplicateSlide(child, index, 'append'));
     }
   });
@@ -58,7 +58,7 @@ function renderLoop(swiper, swiperParams, children) {
     swiper.loopedSlides = loopedSlides;
   }
 
-  return [...prependSlides, ...slides, ...appendSlides];
+  return [...prependSlides, ...modifiedSlides, ...appendSlides];
 }
 
 export { calcLoopedSlides, renderLoop };

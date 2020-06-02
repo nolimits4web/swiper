@@ -70,7 +70,9 @@ const Virtual = {
           return slidesToRender;
         })(),
       });
-      onRendered();
+      if (swiper.params.virtual.renderExternalUpdate) {
+        onRendered();
+      }
       return;
     }
     const prependIndexes = [];
@@ -208,6 +210,7 @@ export default {
       cache: true,
       renderSlide: null,
       renderExternal: null,
+      renderExternalUpdate: true,
       addSlidesBefore: 0,
       addSlidesAfter: 0,
     },

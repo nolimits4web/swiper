@@ -3,6 +3,10 @@ import { getParams } from './get-params';
 import { initSwiper } from './init-swiper';
 import { needsScrollbar, needsNavigation, needsPagination, uniqueClasses } from './utils';
 import { renderLoop, calcLoopedSlides } from './loop';
+import { getChangedParams } from './get-changed-params';
+import { getSlidesFromChildren } from './get-slides-from-children';
+import { updateSwiper } from './update-swiper';
+import { renderVirtual, updateOnVirtualData } from './virtual';
 
 const Swiper = ({
   className,
@@ -13,35 +17,69 @@ const Swiper = ({
   ...rest
 } = {}) => {
   const [containerClasses, setContainerClasses] = useState('swiper-container');
+  const [virtualData, setVirtualData] = useState(null);
   const initializedRef = useRef(false);
   const swiperElRef = useRef(null);
   const swiperRef = useRef(null);
+  const oldPassedParamsRef = useRef(null);
+  const oldSlidesLength = useRef(null);
+
   const nextElRef = useRef(null);
   const prevElRef = useRef(null);
   const paginationElRef = useRef(null);
   const scrollbarElRef = useRef(null);
 
-  const { params: swiperParams, rest: restProps } = getParams(rest);
+  const { params: swiperParams, passedParams, rest: restProps } = getParams(rest);
+
+  const slides = getSlidesFromChildren(children);
+
+  const changedParams = getChangedParams(
+    passedParams,
+    oldPassedParamsRef.current,
+    slides.length,
+    oldSlidesLength.current,
+  );
+
+  oldPassedParamsRef.current = passedParams;
+  oldSlidesLength.current = slides.length;
 
   Object.assign(swiperParams.on, {
     _containerClasses: setContainerClasses,
     _swiper(swiper) {
+      swiper.loopCreate = () => {};
+      swiper.loopDestroy = () => {};
       if (swiperParams.loop) {
-        swiper.loopCreate = () => {};
-        swiper.loopDestroy = () => {};
-        swiper.loopedSlides = calcLoopedSlides(children, swiperParams);
+        swiper.loopedSlides = calcLoopedSlides(slides, swiperParams);
       }
       swiperRef.current = swiper;
+      if (swiper.virtual && swiper.params.virtual.enabled) {
+        swiper.virtual.slides = slides;
+        swiper.params.virtual.cache = false;
+        swiper.params.virtual.renderExternal = setVirtualData;
+        swiper.params.virtual.renderExternalUpdate = false;
+      }
     },
   });
 
-  // right after init
+  // set initialized flag
   useEffect(() => {
     if (!initializedRef.current && swiperRef.current) {
       swiperRef.current.emitSlidesClasses();
       initializedRef.current = true;
     }
   });
+
+  // watch for params change
+  useLayoutEffect(() => {
+    if (changedParams.length && swiperRef.current && !swiperRef.current.destroyed) {
+      updateSwiper(swiperRef.current, slides, passedParams, changedParams);
+    }
+  });
+
+  // update on virtual update
+  useLayoutEffect(() => {
+    updateOnVirtualData(swiperRef.current);
+  }, [virtualData]);
 
   // init swiper
   useLayoutEffect(() => {
@@ -68,12 +106,15 @@ const Swiper = ({
 
   // bypass swiper instance to slides
   function renderSlides() {
+    if (swiperParams.virtual) {
+      return renderVirtual(swiperRef.current, slides, virtualData);
+    }
     if (!swiperParams.loop || (swiperRef.current && swiperRef.current.destroyed)) {
-      return React.Children.map(children, (child) => {
+      return slides.map((child) => {
         return React.cloneElement(child, { swiper: swiperRef.current });
       });
     }
-    return renderLoop(swiperRef.current, swiperParams, children);
+    return renderLoop(swiperRef.current, slides, swiperParams);
   }
 
   return (
