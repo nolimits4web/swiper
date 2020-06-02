@@ -397,6 +397,21 @@ declare class Swiper implements Swiper {
    * Installs modules on Swiper in runtime.
    */
   static use(modules: SwiperComponent[]): void;
+
+  /**
+   * Swiper default options
+   */
+  static defaults: SwiperOptions;
+
+  /**
+   * Extend global Swiper defaults
+   */
+  static extendDefaults(options: SwiperOptions): void;
+
+  /**
+   * Object with global Swiper exntended options
+   */
+  static extendedDefaults: SwiperOptions;
 }
 
 export default Swiper;
