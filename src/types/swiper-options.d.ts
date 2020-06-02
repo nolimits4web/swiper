@@ -1,0 +1,40 @@
+import { A11yOptions } from './components/a11y';
+import { AutoplayOptions } from './components/autoplay';
+import { ControllerOptions } from './components/controller';
+import { CoverflowEffectOptions } from './components/effect-coverflow';
+import { CubeEffectOptions } from './components/effect-cube';
+import { FadeEffectOptions } from './components/effect-fade';
+import { FlipEffectOptions } from './components/effect-flip';
+import { HashNavigationOptions } from './components/hash-navigation';
+import { HistoryOptions } from './components/history';
+import { KeyboardOptions } from './components/keyboard';
+import { LazyOptions } from './components/lazy';
+import { MousewheelOptions } from './components/mousewheel';
+import { NavigationOptions } from './components/navigation';
+import { PaginaitonOptions } from './components/pagination';
+import { ScrollbarOptions } from './components/scrollbar';
+import { ThumbsOptions } from './components/thumbs';
+import { VirtualOptions } from './components/virtual';
+import { ZoomOptions } from './components/zoom';
+
+export interface SwiperOptions {
+  a11y?: A11yOptions;
+  autoplay?: AutoplayOptions;
+  controller?: ControllerOptions;
+  coverflowEffect?: CoverflowEffectOptions;
+  cubeEffect?: CubeEffectOptions;
+  fadeEffect?: FadeEffectOptions;
+  flipEffect?: FlipEffectOptions;
+  hashNavigation?: HashNavigationOptions;
+  history?: HistoryOptions;
+  keyboard?: KeyboardOptions;
+  lazy?: LazyOptions;
+  mousewheel?: MousewheelOptions;
+  navigation?: NavigationOptions;
+  pagination?: PaginaitonOptions;
+  parallax?: boolean;
+  scrollbar?: ScrollbarOptions;
+  thumbs?: ThumbsOptions;
+  virtual?: VirtualOptions;
+  zoom?: ZoomOptions;
+}
