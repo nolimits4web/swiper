@@ -13,6 +13,7 @@ custom
 package/cjs
 package/components
 package/esm
+package/types
 package/*.js
 package/*.ts
 package/*.css
