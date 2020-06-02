@@ -7,6 +7,8 @@ const paramsList = [
   '_speed',
   'cssMode',
   'updateOnWindowResize',
+  '_width',
+  '_height',
   'preventInteractionOnTransition',
   'userAgent',
   'url',

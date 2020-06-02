@@ -44,6 +44,16 @@ export interface SwiperOptions {
   initialSlide?: number;
 
   /**
+   * Force Swiper container width. Useful to be set in SSR and Test environments for correct Swiper initialization
+   */
+  width?: number;
+
+  /**
+   * Force Swiper container height. Useful to be set in SSR and Test environments for correct Swiper initialization
+   */
+  height?: number;
+
+  /**
    * Could be 'horizontal' or 'vertical' (for vertical slider).
    *
    * @default 'horizontal'

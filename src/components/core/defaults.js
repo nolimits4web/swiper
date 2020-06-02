@@ -6,6 +6,11 @@ export default {
   speed: 300,
   cssMode: false,
   updateOnWindowResize: true,
+
+  // Overrides
+  width: null,
+  height: null,
+
   //
   preventInteractionOnTransition: false,
 
