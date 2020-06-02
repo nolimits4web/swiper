@@ -1,4 +1,5 @@
 import { SwiperOptions } from './swiper-options';
+import Swiper from './swiper-class';
 
 import { A11yEvents } from './components/a11y';
 import { AutoplayEvents } from './components/autoplay';
@@ -20,7 +21,8 @@ import { ThumbsEvents } from './components/thumbs';
 import { VirtualEvents } from './components/virtual';
 import { ZoomEvents } from './components/zoom';
 
-interface SwiperEvents {
+export interface SwiperEvents {
+  // CORE_EVENTS_START
   /**
    * Fired right after Swiper initialization.
    * @note Note that with swiper.on('init') syntax it will
@@ -48,162 +50,163 @@ interface SwiperEvents {
    *   }
    * });
    */
-  init?: () => any;
+  init: (this: Swiper) => any;
 
   /**
    * Event will be fired right before Swiper destroyed
    */
-  beforeDestroy: () => void;
+  beforeDestroy: (this: Swiper) => void;
 
   /**
    * Event will be fired when currently active slide is changed
    */
-  slideChange: () => void;
+  slideChange: (this: Swiper) => void;
 
   /**
    * Event will be fired in the beginning of animation to other slide (next or previous).
    */
-  slideChangeTransitionStart: () => void;
+  slideChangeTransitionStart: (this: Swiper) => void;
 
   /**
    * Event will be fired after animation to other slide (next or previous).
    */
-  slideChangeTransitionEnd: () => void;
+  slideChangeTransitionEnd: (this: Swiper) => void;
 
   /**
    * Same as "slideChangeTransitionStart" but for "forward" direction only
    */
-  slideNextTransitionStart: () => void;
+  slideNextTransitionStart: (this: Swiper) => void;
 
   /**
    * Same as "slideChangeTransitionEnd" but for "forward" direction only
    */
-  slideNextTransitionEnd: () => void;
+  slideNextTransitionEnd: (this: Swiper) => void;
 
   /**
    * Same as "slideChangeTransitionStart" but for "backward" direction only
    */
-  slidePrevTransitionStart: () => void;
+  slidePrevTransitionStart: (this: Swiper) => void;
 
   /**
    * Same as "slideChangeTransitionEnd" but for "backward" direction only
    */
-  slidePrevTransitionEnd: () => void;
+  slidePrevTransitionEnd: (this: Swiper) => void;
 
   /**
    * Event will be fired in the beginning of transition.
    */
-  transitionStart: () => void;
+  transitionStart: (this: Swiper) => void;
 
   /**
    * Event will be fired after transition.
    */
-  transitionEnd: () => void;
+  transitionEnd: (this: Swiper) => void;
 
   /**
    * Event will be fired when user touch Swiper. Receives 'touchstart' event as an arguments.
    */
-  touchStart: (event: MouseEvent | TouchEvent | PointerEvent) => void;
+  touchStart: (this: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
    * Event will be fired when user touch and move finger over Swiper. Receives 'touchmove' event as an arguments.
    */
-  touchMove(): (event: MouseEvent | TouchEvent | PointerEvent) => void;
+  touchMove: (this: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
    * Event will be fired when user touch and move finger over Swiper in direction opposite to direction parameter. Receives 'touchmove' event as an arguments.
    */
-  touchMoveOpposite: (event: MouseEvent | TouchEvent | PointerEvent) => void;
+  touchMoveOpposite: (this: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
    * Event will be fired when user touch and move finger over Swiper and move it. Receives 'touchmove' event as an arguments.
    */
-  sliderMove: (event: MouseEvent | TouchEvent | PointerEvent) => void;
+  sliderMove: (this: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
    * Event will be fired when user release Swiper. Receives 'touchend' event as an arguments.
    */
-  touchEnd: (event: MouseEvent | TouchEvent | PointerEvent) => void;
+  touchEnd: (this: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
    * Event will be fired when user click/tap on Swiper. Receives 'touchend' event as an arguments.
    */
-  click: (event: MouseEvent | TouchEvent | PointerEvent) => void;
+  click: (this: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
    * Event will be fired when user click/tap on Swiper. Receives 'touchend' event as an arguments.
    */
-  tap: (event: MouseEvent | TouchEvent | PointerEvent) => void;
+  tap: (this: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
    * Event will be fired when user double tap on Swiper's container. Receives 'touchend' event as an arguments
    */
-  doubleTap: (event: MouseEvent | TouchEvent | PointerEvent) => void;
+  doubleTap: (this: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
    * Event will be fired right after all inner images are loaded. updateOnImagesReady should be also enabled
    */
-  imagesReady: () => void;
+  imagesReady: (this: Swiper) => void;
 
   /**
    * Event will be fired when Swiper progress is changed, as an arguments it receives progress that is always from 0 to 1
    */
-  progress: (progress: number) => void;
+  progress: (this: Swiper, progress: number) => void;
 
   /**
    * Event will be fired when Swiper reach its beginning (initial position)
    */
-  reachBeginning: () => void;
+  reachBeginning: (this: Swiper) => void;
 
   /**
    * Event will be fired when Swiper reach last slide
    */
-  reachEnd: () => void;
+  reachEnd: (this: Swiper) => void;
 
   /**
    * Event will be fired when Swiper goes to beginning or end position
    */
-  toEdge: () => void;
+  toEdge: (this: Swiper) => void;
 
   /**
    * Event will be fired when Swiper goes from beginning or end position
    */
-  fromEdge: () => void;
+  fromEdge: (this: Swiper) => void;
 
   /**
    * Event will be fired when swiper's wrapper change its position. Receives current translate value as an arguments
    */
-  setTranslate: (translate: number) => void;
+  setTranslate: (this: Swiper, translate: number) => void;
 
   /**
    * Event will be fired everytime when swiper starts animation. Receives current transition duration (in ms) as an arguments
    */
-  setTransition: (transition: number) => void;
+  setTransition: (this: Swiper, transition: number) => void;
 
   /**
    * Event will be fired on window resize right before swiper's onresize manipulation
    */
-  resize: () => void;
+  resize: (this: Swiper) => void;
 
   /**
    * Event will be fired if observer is enabled and it detects DOM mutations
    */
-  observerUpdate: () => void;
+  observerUpdate: (this: Swiper) => void;
 
   /**
    * Event will be fired right before "loop fix"
    */
-  beforeLoopFix: () => void;
+  beforeLoopFix: (this: Swiper) => void;
 
   /**
    * Event will be fired after "loop fix"
    */
-  loopFix: () => void;
+  loopFix: (this: Swiper) => void;
 
   /**
    * Event will be fired on breakpoint change
    */
-  breakpoint: (breakpointParams: SwiperOptions) => void;
+  breakpoint: (this: Swiper, breakpointParams: SwiperOptions) => void;
+  // CORE_EVENTS_END
 }
 
 interface SwiperEvents extends A11yEvents {}

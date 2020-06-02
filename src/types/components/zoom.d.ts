@@ -1,3 +1,5 @@
+import Swiper from '../swiper-class';
+
 export interface ZoomMethods {
   /**
    * Whether the zoom module is enabled
@@ -39,7 +41,7 @@ export interface ZoomEvents {
   /**
    * Event will be fired on zoom change
    */
-  zoomChange: (value: number, imageEl: HTMLElement, slideEl: HTMLElement) => void;
+  zoomChange: (value: number, imageEl: HTMLElement, slideEl: HTMLElement, this: Swiper) => void;
 }
 
 export interface ZoomOptions {

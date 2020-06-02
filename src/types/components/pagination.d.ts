@@ -30,29 +30,29 @@ export interface PaginationEvents {
   /**
    * Event will be fired after pagination rendered
    */
-  paginationRender: (swiper: Swiper, paginationEl: HTMLElement) => void;
+  paginationRender: (swiper: Swiper, paginationEl: HTMLElement, this: Swiper) => void;
 
   /**
    * Event will be fired when pagination updated
    */
-  paginationUpdate: (swiper: Swiper, paginationEl: HTMLElement) => void;
+  paginationUpdate: (swiper: Swiper, paginationEl: HTMLElement, this: Swiper) => void;
 
   /**
    * Event will be fired on pagination hide
    */
-  paginationHide: () => void;
+  paginationHide: (this: Swiper) => void;
 
   /**
    * Event will be fired on pagination show
    */
-  paginationShow: () => void;
+  paginationShow: (this: Swiper) => void;
 }
 
 export interface PaginationOptions {
   /**
    * String with CSS selector or HTML element of the container with pagination
    */
-  el: CSSSelector | HTMLElement;
+  el?: CSSSelector | HTMLElement;
 
   /**
    * String with type of pagination. Can be "bullets", "fraction", "progressbar" or "custom"

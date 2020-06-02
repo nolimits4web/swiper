@@ -1,3 +1,5 @@
+import Swiper from '../swiper-class';
+
 export interface LazyMethods {
   /**
    * Load/update lazy images based on current slider state (position)
@@ -15,11 +17,11 @@ export interface LazyEvents {
   /**
    * Event will be fired in the beginning of lazy loading of image
    */
-  lazyImageLoad: (slideEl: HTMLElement, imageEl: HTMLElement) => void;
+  lazyImageLoad: (this: Swiper, slideEl: HTMLElement, imageEl: HTMLElement) => void;
   /**
    * Event will be fired when lazy loading image will be loaded
    */
-  lazyImageReady: (slideEl: HTMLElement, imageEl: HTMLElement) => void;
+  lazyImageReady: (this: Swiper, slideEl: HTMLElement, imageEl: HTMLElement) => void;
 }
 
 export interface LazyOptions {

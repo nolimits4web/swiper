@@ -1,3 +1,5 @@
+import Swiper from '../swiper-class';
+
 export interface AutoplayMethods {
   /**
    * Whether autoplay enabled and running
@@ -19,15 +21,15 @@ export interface AutoplayEvents {
   /**
    * Event will be fired in when autoplay started
    */
-  autoplayStart: () => void;
+  autoplayStart: (this: Swiper) => void;
   /**
    * Event will be fired when autoplay stopped
    */
-  autoplayStop: () => void;
+  autoplayStop: (this: Swiper) => void;
   /**
    * Event will be fired when slide changed with autoplay
    */
-  autoplay: () => void;
+  autoplay: (this: Swiper) => void;
 }
 
 /**

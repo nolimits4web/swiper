@@ -1,4 +1,5 @@
 import { CSSSelector } from '../shared';
+import Swiper from '../swiper-class';
 
 export interface ScrollbarMethods {
   /**
@@ -21,17 +22,17 @@ export interface ScrollbarEvents {
   /**
    * Event will be fired on draggable scrollbar drag start
    */
-  scrollbarDragStart: (event: MouseEvent | TouchEvent | PointerEvent) => void;
+  scrollbarDragStart: (event: MouseEvent | TouchEvent | PointerEvent, this: Swiper) => void;
 
   /**
    * Event will be fired on draggable scrollbar drag move
    */
-  scrollbarDragMove: (event: MouseEvent | TouchEvent | PointerEvent) => void;
+  scrollbarDragMove: (event: MouseEvent | TouchEvent | PointerEvent, this: Swiper) => void;
 
   /**
    * Event will be fired on draggable scrollbar drag start
    */
-  scrollbarDragEnd: (event: MouseEvent | TouchEvent | PointerEvent) => void;
+  scrollbarDragEnd: (event: MouseEvent | TouchEvent | PointerEvent, this: Swiper) => void;
 }
 
 /**
@@ -49,7 +50,7 @@ export interface ScrollbarOptions {
   /**
    * String with CSS selector or HTML element of the container with scrollbar.
    */
-  el: CSSSelector | HTMLElement;
+  el?: CSSSelector | HTMLElement;
 
   /**
    * Hide scrollbar automatically after user interaction

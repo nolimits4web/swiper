@@ -1,14 +1,16 @@
+import Swiper from '../swiper-class';
+
 export interface HashNavigationMethods {}
 
 export interface HashNavigationEvents {
   /**
    * Event will be fired on window hash change
    */
-  hashChange: () => void;
+  hashChange: (this: Swiper) => void;
   /**
    * Event will be fired when swiper updates the hash
    */
-  hashSet: () => void;
+  hashSet: (this: Swiper) => void;
 }
 
 export interface HashNavigationOptions {

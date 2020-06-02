@@ -1,4 +1,5 @@
 import { CSSSelector } from '../shared';
+import Swiper from '../swiper-class';
 
 export interface NavigationMethods {
   /**
@@ -21,11 +22,11 @@ export interface NavigationEvents {
   /**
    * Event will be fired on navigation hide
    */
-  navigationHide: () => void;
+  navigationHide: (this: Swiper) => void;
   /**
    * Event will be fired on navigation show
    */
-  navigationShow: () => void;
+  navigationShow: (this: Swiper) => void;
 }
 
 export interface NavigationOptions {
