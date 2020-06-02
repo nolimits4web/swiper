@@ -271,14 +271,26 @@ class Swiper {
   emitContainerClasses() {
     const swiper = this;
     if (!swiper.params._emitClasses || !swiper.el) return;
-    swiper.emit('_containerClasses', swiper.el.className);
+    const classes = swiper.el.className.split(' ').filter((className) => {
+      return (
+        className.indexOf('swiper-container') === 0 ||
+        className.indexOf(swiper.params.containerModifierClass) === 0
+      );
+    });
+    swiper.emit('_containerClasses', classes.join(' '));
   }
 
   emitSlidesClasses() {
     const swiper = this;
     if (!swiper.params._emitClasses || !swiper.el) return;
     swiper.slides.each((slideEl) => {
-      swiper.emit('_slideClass', slideEl, slideEl.className);
+      const classes = slideEl.className.split(' ').filter((className) => {
+        return (
+          className.indexOf('swiper-slide') === 0 ||
+          className.indexOf(swiper.params.slideClass) === 0
+        );
+      });
+      swiper.emit('_slideClass', slideEl, classes.join(' '));
     });
   }
 
