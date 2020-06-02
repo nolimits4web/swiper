@@ -4,6 +4,7 @@ build/**/*.*
 !build/core/package.json
 !build/bundle/package.json
 !build/react/package.json
+!build/package.json
 custom
 *.log
 
@@ -13,6 +14,7 @@ package/cjs
 package/components
 package/esm
 package/*.js
+package/*.ts
 package/*.css
 package/*.map
 package/*.less
