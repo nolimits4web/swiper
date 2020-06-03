@@ -78,11 +78,17 @@ async function release() {
 
   const cleanPackage = [
     'rm -rf **/*.js',
+    'rm -rf *.js',
     'rm -rf **/*.ts',
+    'rm -rf *.ts',
     'rm -rf **/*.css',
+    'rm -rf *.css',
     'rm -rf **/*.map',
+    'rm -rf *.map',
     'rm -rf **/*.less',
+    'rm -rf *.less',
     'rm -rf **/*.scss',
+    'rm -rf *.scss',
   ];
 
   await exec.promise('git pull');
