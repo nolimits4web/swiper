@@ -6,7 +6,7 @@ SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
 const App = () => {
   return (
-    <div id="app">
+    <main>
       <Swiper
         onSwiper={(swiper) => (window.swiper = swiper)}
         slidesPerView={3}
@@ -26,7 +26,7 @@ const App = () => {
         <SwiperSlide>Slide 9</SwiperSlide>
         <SwiperSlide>Slide 10</SwiperSlide>
       </Swiper>
-    </div>
+    </main>
   );
 };
 
