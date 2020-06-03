@@ -1,5 +1,5 @@
 /**
- * Swiper 5.4.1
+ * Swiper 5.4.2
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: May 20, 2020
+ * Released on: June 3, 2020
  */
 
 (function (global, factory) {
@@ -2882,7 +2882,7 @@
       var startX = touches.currentX;
       var startY = touches.currentY;
 
-      // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
+      // Do NOT start if iOS edge swipe is detected. Otherwise iOS app cannot swipe-to-go-back anymore
 
       var edgeSwipeDetection = params.edgeSwipeDetection || params.iOSEdgeSwipeDetection;
       var edgeSwipeThreshold = params.edgeSwipeThreshold || params.iOSEdgeSwipeThreshold;
@@ -3876,7 +3876,7 @@
       //
       preventInteractionOnTransition: false,
 
-      // To support iOS's swipe-to-go-back gesture (when being used in-app, with UIWebView).
+      // To support iOS's swipe-to-go-back gesture (when being used in-app).
       edgeSwipeDetection: false,
       edgeSwipeThreshold: 20,
 
@@ -5149,9 +5149,9 @@
 
         if (params.forceToAxis) {
           if (swiper.isHorizontal()) {
-            if (Math.abs(data.pixelX) > Math.abs(data.pixelY)) { delta = data.pixelX * rtlFactor; }
+            if (Math.abs(data.pixelX) > Math.abs(data.pixelY)) { delta = -data.pixelX * rtlFactor; }
             else { return true; }
-          } else if (Math.abs(data.pixelY) > Math.abs(data.pixelX)) { delta = data.pixelY; }
+          } else if (Math.abs(data.pixelY) > Math.abs(data.pixelX)) { delta = -data.pixelY; }
           else { return true; }
         } else {
           delta = Math.abs(data.pixelX) > Math.abs(data.pixelY) ? -data.pixelX * rtlFactor : -data.pixelY;
@@ -5819,7 +5819,6 @@
           swiper.params.uniqueNavElements
           && typeof params.el === 'string'
           && $el.length > 1
-          && swiper.$el.find(params.el).length === 1
         ) {
           $el = swiper.$el.find(params.el);
         }
@@ -8451,14 +8450,17 @@
           var translateY = isHorizontal ? 0 : stretch * (offsetMultiplier);
           var translateX = isHorizontal ? stretch * (offsetMultiplier) : 0;
 
+          var scale = 1 - (1 - params.scale) * Math.abs(offsetMultiplier);
+
           // Fix for ultra small values
           if (Math.abs(translateX) < 0.001) { translateX = 0; }
           if (Math.abs(translateY) < 0.001) { translateY = 0; }
           if (Math.abs(translateZ) < 0.001) { translateZ = 0; }
           if (Math.abs(rotateY) < 0.001) { rotateY = 0; }
           if (Math.abs(rotateX) < 0.001) { rotateX = 0; }
+          if (Math.abs(scale) < 0.001) { scale = 0; }
 
-          var slideTransform = "translate3d(" + translateX + "px," + translateY + "px," + translateZ + "px)  rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg)";
+          var slideTransform = "translate3d(" + translateX + "px," + translateY + "px," + translateZ + "px)  rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) scale(" + scale + ")";
 
           $slideEl.transform(slideTransform);
           $slideEl[0].style.zIndex = -Math.abs(Math.round(offsetMultiplier)) + 1;
@@ -8501,6 +8503,7 @@
           rotate: 50,
           stretch: 0,
           depth: 100,
+          scale: 1,
           modifier: 1,
           slideShadows: true,
         },
