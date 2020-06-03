@@ -173,3 +173,7 @@ export default () => {
   return <Swiper {...swiperParams}></Swiper>;
 };
 ```
+
+## Found Issue?
+
+If you have found any issues or bugs with it, [open issue in Swiper repository](https://github.com/nolimits4web/swiper/issues/new)
