@@ -1,12 +1,13 @@
-import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { getParams } from './get-params';
 import { initSwiper } from './init-swiper';
 import { needsScrollbar, needsNavigation, needsPagination, uniqueClasses } from './utils';
 import { renderLoop, calcLoopedSlides } from './loop';
 import { getChangedParams } from './get-changed-params';
-import { getSlidesFromChildren } from './get-slides-from-children';
+import { getChildren } from './get-children';
 import { updateSwiper } from './update-swiper';
 import { renderVirtual, updateOnVirtualData } from './virtual';
+import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect';
 
 const Swiper = ({
   className,
@@ -31,7 +32,7 @@ const Swiper = ({
 
   const { params: swiperParams, passedParams, rest: restProps } = getParams(rest);
 
-  const slides = getSlidesFromChildren(children);
+  const { slides, slots } = getChildren(children);
 
   const changedParams = getChangedParams(
     passedParams,
@@ -70,19 +71,19 @@ const Swiper = ({
   });
 
   // watch for params change
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (changedParams.length && swiperRef.current && !swiperRef.current.destroyed) {
       updateSwiper(swiperRef.current, slides, passedParams, changedParams);
     }
   });
 
   // update on virtual update
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     updateOnVirtualData(swiperRef.current);
   }, [virtualData]);
 
   // init swiper
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!swiperElRef.current) return;
     initSwiper(
       {
@@ -123,6 +124,7 @@ const Swiper = ({
       className={uniqueClasses(`${containerClasses}${className ? ` ${className}` : ''}`)}
       {...restProps}
     >
+      {slots['container-start']}
       {needsNavigation(swiperParams) && (
         <>
           <div ref={prevElRef} className="swiper-button-prev" />
@@ -131,7 +133,12 @@ const Swiper = ({
       )}
       {needsScrollbar(swiperParams) && <div ref={scrollbarElRef} className="swiper-scrollbar" />}
       {needsPagination(swiperParams) && <div ref={paginationElRef} className="swiper-pagination" />}
-      <WrapperTag className="swiper-wrapper">{renderSlides()}</WrapperTag>
+      <WrapperTag className="swiper-wrapper">
+        {slots['wrapper-start']}
+        {renderSlides()}
+        {slots['wrapper-end']}
+      </WrapperTag>
+      {slots['container-end']}
     </Tag>
   );
 };
