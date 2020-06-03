@@ -226,8 +226,7 @@ export default {
     });
   },
   on: {
-    beforeInit() {
-      const swiper = this;
+    beforeInit(swiper) {
       if (!swiper.params.virtual.enabled) return;
       swiper.classNames.push(`${swiper.params.containerModifierClass}virtual`);
       const overwriteParams = {
@@ -240,8 +239,7 @@ export default {
         swiper.virtual.update();
       }
     },
-    setTranslate() {
-      const swiper = this;
+    setTranslate(swiper) {
       if (!swiper.params.virtual.enabled) return;
       swiper.virtual.update();
     },

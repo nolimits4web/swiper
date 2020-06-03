@@ -17,11 +17,11 @@ export interface LazyEvents {
   /**
    * Event will be fired in the beginning of lazy loading of image
    */
-  lazyImageLoad: (this: Swiper, slideEl: HTMLElement, imageEl: HTMLElement) => void;
+  lazyImageLoad: (swiper: Swiper, slideEl: HTMLElement, imageEl: HTMLElement) => void;
   /**
    * Event will be fired when lazy loading image will be loaded
    */
-  lazyImageReady: (this: Swiper, slideEl: HTMLElement, imageEl: HTMLElement) => void;
+  lazyImageReady: (swiper: Swiper, slideEl: HTMLElement, imageEl: HTMLElement) => void;
 }
 
 export interface LazyOptions {

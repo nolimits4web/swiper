@@ -119,14 +119,12 @@ export default {
     });
   },
   on: {
-    init() {
-      const swiper = this;
+    init(swiper) {
       if (swiper.params.keyboard.enabled) {
         swiper.keyboard.enable();
       }
     },
-    destroy() {
-      const swiper = this;
+    destroy(swiper) {
       if (swiper.keyboard.enabled) {
         swiper.keyboard.disable();
       }

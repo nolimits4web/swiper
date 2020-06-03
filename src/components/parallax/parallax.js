@@ -106,24 +106,20 @@ export default {
     });
   },
   on: {
-    beforeInit() {
-      const swiper = this;
+    beforeInit(swiper) {
       if (!swiper.params.parallax.enabled) return;
       swiper.params.watchSlidesProgress = true;
       swiper.originalParams.watchSlidesProgress = true;
     },
-    init() {
-      const swiper = this;
+    init(swiper) {
       if (!swiper.params.parallax.enabled) return;
       swiper.parallax.setTranslate();
     },
-    setTranslate() {
-      const swiper = this;
+    setTranslate(swiper) {
       if (!swiper.params.parallax.enabled) return;
       swiper.parallax.setTranslate();
     },
-    setTransition(duration) {
-      const swiper = this;
+    setTransition(swiper, duration) {
       if (!swiper.params.parallax.enabled) return;
       swiper.parallax.setTransition(duration);
     },

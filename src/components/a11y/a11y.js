@@ -209,29 +209,24 @@ export default {
     });
   },
   on: {
-    init() {
-      const swiper = this;
+    init(swiper) {
       if (!swiper.params.a11y.enabled) return;
       swiper.a11y.init();
       swiper.a11y.updateNavigation();
     },
-    toEdge() {
-      const swiper = this;
+    toEdge(swiper) {
       if (!swiper.params.a11y.enabled) return;
       swiper.a11y.updateNavigation();
     },
-    fromEdge() {
-      const swiper = this;
+    fromEdge(swiper) {
       if (!swiper.params.a11y.enabled) return;
       swiper.a11y.updateNavigation();
     },
-    paginationUpdate() {
-      const swiper = this;
+    paginationUpdate(swiper) {
       if (!swiper.params.a11y.enabled) return;
       swiper.a11y.updatePagination();
     },
-    destroy() {
-      const swiper = this;
+    destroy(swiper) {
       if (!swiper.params.a11y.enabled) return;
       swiper.a11y.destroy();
     },

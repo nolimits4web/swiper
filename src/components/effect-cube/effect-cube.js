@@ -176,8 +176,7 @@ export default {
     });
   },
   on: {
-    beforeInit() {
-      const swiper = this;
+    beforeInit(swiper) {
       if (swiper.params.effect !== 'cube') return;
       swiper.classNames.push(`${swiper.params.containerModifierClass}cube`);
       swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
@@ -194,13 +193,11 @@ export default {
       extend(swiper.params, overwriteParams);
       extend(swiper.originalParams, overwriteParams);
     },
-    setTranslate() {
-      const swiper = this;
+    setTranslate(swiper) {
       if (swiper.params.effect !== 'cube') return;
       swiper.cubeEffect.setTranslate();
     },
-    setTransition(duration) {
-      const swiper = this;
+    setTransition(swiper, duration) {
       if (swiper.params.effect !== 'cube') return;
       swiper.cubeEffect.setTransition(duration);
     },

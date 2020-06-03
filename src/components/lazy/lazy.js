@@ -192,38 +192,32 @@ export default {
     });
   },
   on: {
-    beforeInit() {
-      const swiper = this;
+    beforeInit(swiper) {
       if (swiper.params.lazy.enabled && swiper.params.preloadImages) {
         swiper.params.preloadImages = false;
       }
     },
-    init() {
-      const swiper = this;
+    init(swiper) {
       if (swiper.params.lazy.enabled && !swiper.params.loop && swiper.params.initialSlide === 0) {
         swiper.lazy.load();
       }
     },
-    scroll() {
-      const swiper = this;
+    scroll(swiper) {
       if (swiper.params.freeMode && !swiper.params.freeModeSticky) {
         swiper.lazy.load();
       }
     },
-    resize() {
-      const swiper = this;
+    resize(swiper) {
       if (swiper.params.lazy.enabled) {
         swiper.lazy.load();
       }
     },
-    scrollbarDragMove() {
-      const swiper = this;
+    scrollbarDragMove(swiper) {
       if (swiper.params.lazy.enabled) {
         swiper.lazy.load();
       }
     },
-    transitionStart() {
-      const swiper = this;
+    transitionStart(swiper) {
       if (swiper.params.lazy.enabled) {
         if (
           swiper.params.lazy.loadOnTransitionStart ||
@@ -233,14 +227,12 @@ export default {
         }
       }
     },
-    transitionEnd() {
-      const swiper = this;
+    transitionEnd(swiper) {
       if (swiper.params.lazy.enabled && !swiper.params.lazy.loadOnTransitionStart) {
         swiper.lazy.load();
       }
     },
-    slideChange() {
-      const swiper = this;
+    slideChange(swiper) {
       if (swiper.params.lazy.enabled && swiper.params.cssMode) {
         swiper.lazy.load();
       }

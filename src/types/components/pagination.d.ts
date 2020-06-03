@@ -30,22 +30,22 @@ export interface PaginationEvents {
   /**
    * Event will be fired after pagination rendered
    */
-  paginationRender: (swiper: Swiper, paginationEl: HTMLElement, this: Swiper) => void;
+  paginationRender: (swiper: Swiper, paginationEl: HTMLElement) => void;
 
   /**
    * Event will be fired when pagination updated
    */
-  paginationUpdate: (swiper: Swiper, paginationEl: HTMLElement, this: Swiper) => void;
+  paginationUpdate: (swiper: Swiper, paginationEl: HTMLElement) => void;
 
   /**
    * Event will be fired on pagination hide
    */
-  paginationHide: (this: Swiper) => void;
+  paginationHide: (swiper: Swiper) => void;
 
   /**
    * Event will be fired on pagination show
    */
-  paginationShow: (this: Swiper) => void;
+  paginationShow: (swiper: Swiper) => void;
 }
 
 export interface PaginationOptions {

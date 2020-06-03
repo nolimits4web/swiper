@@ -22,17 +22,17 @@ export interface ScrollbarEvents {
   /**
    * Event will be fired on draggable scrollbar drag start
    */
-  scrollbarDragStart: (event: MouseEvent | TouchEvent | PointerEvent, this: Swiper) => void;
+  scrollbarDragStart: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
    * Event will be fired on draggable scrollbar drag move
    */
-  scrollbarDragMove: (event: MouseEvent | TouchEvent | PointerEvent, this: Swiper) => void;
+  scrollbarDragMove: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
    * Event will be fired on draggable scrollbar drag start
    */
-  scrollbarDragEnd: (event: MouseEvent | TouchEvent | PointerEvent, this: Swiper) => void;
+  scrollbarDragEnd: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 }
 
 /**

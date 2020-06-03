@@ -123,25 +123,20 @@ export default {
     });
   },
   on: {
-    init() {
-      const swiper = this;
+    init(swiper) {
       swiper.navigation.init();
       swiper.navigation.update();
     },
-    toEdge() {
-      const swiper = this;
+    toEdge(swiper) {
       swiper.navigation.update();
     },
-    fromEdge() {
-      const swiper = this;
+    fromEdge(swiper) {
       swiper.navigation.update();
     },
-    destroy() {
-      const swiper = this;
+    destroy(swiper) {
       swiper.navigation.destroy();
     },
-    click(e) {
-      const swiper = this;
+    click(swiper, e) {
       const { $nextEl, $prevEl } = swiper.navigation;
       if (
         swiper.params.navigation.hideOnClick &&
@@ -155,9 +150,9 @@ export default {
           isHidden = $prevEl.hasClass(swiper.params.navigation.hiddenClass);
         }
         if (isHidden === true) {
-          swiper.emit('navigationShow', swiper);
+          swiper.emit('navigationShow');
         } else {
-          swiper.emit('navigationHide', swiper);
+          swiper.emit('navigationHide');
         }
         if ($nextEl) {
           $nextEl.toggleClass(swiper.params.navigation.hiddenClass);

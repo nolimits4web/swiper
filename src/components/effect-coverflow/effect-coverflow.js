@@ -105,8 +105,7 @@ export default {
     });
   },
   on: {
-    beforeInit() {
-      const swiper = this;
+    beforeInit(swiper) {
       if (swiper.params.effect !== 'coverflow') return;
 
       swiper.classNames.push(`${swiper.params.containerModifierClass}coverflow`);
@@ -115,13 +114,11 @@ export default {
       swiper.params.watchSlidesProgress = true;
       swiper.originalParams.watchSlidesProgress = true;
     },
-    setTranslate() {
-      const swiper = this;
+    setTranslate(swiper) {
       if (swiper.params.effect !== 'coverflow') return;
       swiper.coverflowEffect.setTranslate();
     },
-    setTransition(duration) {
-      const swiper = this;
+    setTransition(swiper, duration) {
       if (swiper.params.effect !== 'coverflow') return;
       swiper.coverflowEffect.setTransition(duration);
     },

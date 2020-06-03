@@ -150,37 +150,32 @@ export default {
     });
   },
   on: {
-    update() {
-      const swiper = this;
+    update(swiper) {
       if (!swiper.controller.control) return;
       if (swiper.controller.spline) {
         swiper.controller.spline = undefined;
         delete swiper.controller.spline;
       }
     },
-    resize() {
-      const swiper = this;
+    resize(swiper) {
       if (!swiper.controller.control) return;
       if (swiper.controller.spline) {
         swiper.controller.spline = undefined;
         delete swiper.controller.spline;
       }
     },
-    observerUpdate() {
-      const swiper = this;
+    observerUpdate(swiper) {
       if (!swiper.controller.control) return;
       if (swiper.controller.spline) {
         swiper.controller.spline = undefined;
         delete swiper.controller.spline;
       }
     },
-    setTranslate(translate, byController) {
-      const swiper = this;
+    setTranslate(swiper, translate, byController) {
       if (!swiper.controller.control) return;
       swiper.controller.setTranslate(translate, byController);
     },
-    setTransition(duration, byController) {
-      const swiper = this;
+    setTransition(swiper, duration, byController) {
       if (!swiper.controller.control) return;
       swiper.controller.setTransition(duration, byController);
     },

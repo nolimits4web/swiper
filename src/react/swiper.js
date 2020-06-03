@@ -45,7 +45,9 @@ const Swiper = ({
   oldSlidesLength.current = slides.length;
 
   Object.assign(swiperParams.on, {
-    _containerClasses: setContainerClasses,
+    _containerClasses(swiper, classes) {
+      setContainerClasses(classes);
+    },
     _swiper(swiper) {
       swiper.loopCreate = () => {};
       swiper.loopDestroy = () => {};

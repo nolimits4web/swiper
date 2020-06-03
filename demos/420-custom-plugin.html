@@ -89,56 +89,56 @@
         debugger: false,
       },
       on: {
-        init: function () {
-          if (!this.params.debugger) return;
+        init: function (swiper) {
+          if (!swiper.params.debugger) return;
           console.log('init');
         },
-        click: function (e) {
-          if (!this.params.debugger) return;
+        click: function (swiper, e) {
+          if (!swiper.params.debugger) return;
           console.log('click');
         },
-        tap: function (e) {
-          if (!this.params.debugger) return;
+        tap: function (swiper, e) {
+          if (!swiper.params.debugger) return;
           console.log('tap');
         },
-        doubleTap: function (e) {
-          if (!this.params.debugger) return;
+        doubleTap: function (swiper, e) {
+          if (!swiper.params.debugger) return;
           console.log('doubleTap');
         },
-        sliderMove: function (e) {
-          if (!this.params.debugger) return;
+        sliderMove: function (swiper, e) {
+          if (!swiper.params.debugger) return;
           console.log('sliderMove');
         },
-        slideChange: function () {
-          if (!this.params.debugger) return;
+        slideChange: function (swiper) {
+          if (!swiper.params.debugger) return;
           console.log('slideChange', this.previousIndex, '->', this.activeIndex);
         },
-        slideChangeTransitionStart: function () {
-          if (!this.params.debugger) return;
+        slideChangeTransitionStart: function (swiper) {
+          if (!swiper.params.debugger) return;
           console.log('slideChangeTransitionStart');
         },
-        slideChangeTransitionEnd: function () {
-          if (!this.params.debugger) return;
+        slideChangeTransitionEnd: function (swiper) {
+          if (!swiper.params.debugger) return;
           console.log('slideChangeTransitionEnd');
         },
-        transitionStart: function () {
-          if (!this.params.debugger) return;
+        transitionStart: function (swiper) {
+          if (!swiper.params.debugger) return;
           console.log('transitionStart');
         },
-        transitionEnd: function () {
-          if (!this.params.debugger) return;
+        transitionEnd: function (swiper) {
+          if (!swiper.params.debugger) return;
           console.log('transitionEnd');
         },
-        fromEdge: function () {
-          if (!this.params.debugger) return;
+        fromEdge: function (swiper) {
+          if (!swiper.params.debugger) return;
           console.log('fromEdge');
         },
-        reachBeginning: function () {
-          if (!this.params.debugger) return;
+        reachBeginning: function (swiper) {
+          if (!swiper.params.debugger) return;
           console.log('reachBeginning');
         },
-        reachEnd: function () {
-          if (!this.params.debugger) return;
+        reachEnd: function (swiper) {
+          if (!swiper.params.debugger) return;
           console.log('reachEnd');
         },
       },

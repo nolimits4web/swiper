@@ -22,11 +22,11 @@ export interface NavigationEvents {
   /**
    * Event will be fired on navigation hide
    */
-  navigationHide: (this: Swiper) => void;
+  navigationHide: (swiper: Swiper) => void;
   /**
    * Event will be fired on navigation show
    */
-  navigationShow: (this: Swiper) => void;
+  navigationShow: (swiper: Swiper) => void;
 }
 
 export interface NavigationOptions {

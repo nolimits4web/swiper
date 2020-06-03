@@ -118,26 +118,22 @@ export default {
     });
   },
   on: {
-    init() {
-      const swiper = this;
+    init(swiper) {
       if (swiper.params.history.enabled) {
         swiper.history.init();
       }
     },
-    destroy() {
-      const swiper = this;
+    destroy(swiper) {
       if (swiper.params.history.enabled) {
         swiper.history.destroy();
       }
     },
-    transitionEnd() {
-      const swiper = this;
+    transitionEnd(swiper) {
       if (swiper.history.initialized) {
         swiper.history.setHistory(swiper.params.history.key, swiper.activeIndex);
       }
     },
-    slideChange() {
-      const swiper = this;
+    slideChange(swiper) {
       if (swiper.history.initialized && swiper.params.cssMode) {
         swiper.history.setHistory(swiper.params.history.key, swiper.activeIndex);
       }

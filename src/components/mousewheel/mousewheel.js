@@ -434,15 +434,13 @@ export default {
     });
   },
   on: {
-    init() {
-      const swiper = this;
+    init(swiper) {
       if (!swiper.params.mousewheel.enabled && swiper.params.cssMode) {
         swiper.mousewheel.disable();
       }
       if (swiper.params.mousewheel.enabled) swiper.mousewheel.enable();
     },
-    destroy() {
-      const swiper = this;
+    destroy(swiper) {
       if (swiper.params.cssMode) {
         swiper.mousewheel.enable();
       }

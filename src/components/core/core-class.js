@@ -257,7 +257,7 @@ class Swiper {
     // Install Modules
     swiper.useModules();
 
-    swiper.emit('_swiper', swiper);
+    swiper.emit('_swiper');
 
     // Init
     if (swiper.params.init) {

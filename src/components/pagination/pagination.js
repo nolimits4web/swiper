@@ -177,9 +177,9 @@ const Pagination = {
     }
     if (params.type === 'custom' && params.renderCustom) {
       $el.html(params.renderCustom(swiper, current + 1, total));
-      swiper.emit('paginationRender', swiper, $el[0]);
+      swiper.emit('paginationRender', $el[0]);
     } else {
-      swiper.emit('paginationUpdate', swiper, $el[0]);
+      swiper.emit('paginationUpdate', $el[0]);
     }
     $el[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](
       params.lockClass,
@@ -344,46 +344,39 @@ export default {
     });
   },
   on: {
-    init() {
-      const swiper = this;
+    init(swiper) {
       swiper.pagination.init();
       swiper.pagination.render();
       swiper.pagination.update();
     },
-    activeIndexChange() {
-      const swiper = this;
+    activeIndexChange(swiper) {
       if (swiper.params.loop) {
         swiper.pagination.update();
       } else if (typeof swiper.snapIndex === 'undefined') {
         swiper.pagination.update();
       }
     },
-    snapIndexChange() {
-      const swiper = this;
+    snapIndexChange(swiper) {
       if (!swiper.params.loop) {
         swiper.pagination.update();
       }
     },
-    slidesLengthChange() {
-      const swiper = this;
+    slidesLengthChange(swiper) {
       if (swiper.params.loop) {
         swiper.pagination.render();
         swiper.pagination.update();
       }
     },
-    snapGridLengthChange() {
-      const swiper = this;
+    snapGridLengthChange(swiper) {
       if (!swiper.params.loop) {
         swiper.pagination.render();
         swiper.pagination.update();
       }
     },
-    destroy() {
-      const swiper = this;
+    destroy(swiper) {
       swiper.pagination.destroy();
     },
-    click(e) {
-      const swiper = this;
+    click(swiper, e) {
       if (
         swiper.params.pagination.el &&
         swiper.params.pagination.hideOnClick &&
@@ -392,9 +385,9 @@ export default {
       ) {
         const isHidden = swiper.pagination.$el.hasClass(swiper.params.pagination.hiddenClass);
         if (isHidden === true) {
-          swiper.emit('paginationShow', swiper);
+          swiper.emit('paginationShow');
         } else {
-          swiper.emit('paginationHide', swiper);
+          swiper.emit('paginationHide');
         }
         swiper.pagination.$el.toggleClass(swiper.params.pagination.hiddenClass);
       }

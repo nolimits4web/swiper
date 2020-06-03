@@ -6,11 +6,11 @@ export interface HashNavigationEvents {
   /**
    * Event will be fired on window hash change
    */
-  hashChange: (this: Swiper) => void;
+  hashChange: (swiper: Swiper) => void;
   /**
    * Event will be fired when swiper updates the hash
    */
-  hashSet: (this: Swiper) => void;
+  hashSet: (swiper: Swiper) => void;
 }
 
 export interface HashNavigationOptions {

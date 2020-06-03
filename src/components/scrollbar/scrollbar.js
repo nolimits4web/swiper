@@ -340,34 +340,27 @@ export default {
     });
   },
   on: {
-    init() {
-      const swiper = this;
+    init(swiper) {
       swiper.scrollbar.init();
       swiper.scrollbar.updateSize();
       swiper.scrollbar.setTranslate();
     },
-    update() {
-      const swiper = this;
+    update(swiper) {
       swiper.scrollbar.updateSize();
     },
-    resize() {
-      const swiper = this;
+    resize(swiper) {
       swiper.scrollbar.updateSize();
     },
-    observerUpdate() {
-      const swiper = this;
+    observerUpdate(swiper) {
       swiper.scrollbar.updateSize();
     },
-    setTranslate() {
-      const swiper = this;
+    setTranslate(swiper) {
       swiper.scrollbar.setTranslate();
     },
-    setTransition(duration) {
-      const swiper = this;
+    setTransition(swiper, duration) {
       swiper.scrollbar.setTransition(duration);
     },
-    destroy() {
-      const swiper = this;
+    destroy(swiper) {
       swiper.scrollbar.destroy();
     },
   },

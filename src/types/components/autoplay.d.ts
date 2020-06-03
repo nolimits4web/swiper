@@ -21,15 +21,15 @@ export interface AutoplayEvents {
   /**
    * Event will be fired in when autoplay started
    */
-  autoplayStart: (this: Swiper) => void;
+  autoplayStart: (swiper: Swiper) => void;
   /**
    * Event will be fired when autoplay stopped
    */
-  autoplayStop: (this: Swiper) => void;
+  autoplayStop: (swiper: Swiper) => void;
   /**
    * Event will be fired when slide changed with autoplay
    */
-  autoplay: (this: Swiper) => void;
+  autoplay: (swiper: Swiper) => void;
 }
 
 /**

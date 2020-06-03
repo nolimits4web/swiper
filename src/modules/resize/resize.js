@@ -20,8 +20,7 @@ export default {
     });
   },
   on: {
-    init() {
-      const swiper = this;
+    init(swiper) {
       const window = getWindow();
       // Emit resize
       window.addEventListener('resize', swiper.resize.resizeHandler);
@@ -29,8 +28,7 @@ export default {
       // Emit orientationchange
       window.addEventListener('orientationchange', swiper.resize.orientationChangeHandler);
     },
-    destroy() {
-      const swiper = this;
+    destroy(swiper) {
       const window = getWindow();
       window.removeEventListener('resize', swiper.resize.resizeHandler);
       window.removeEventListener('orientationchange', swiper.resize.orientationChangeHandler);

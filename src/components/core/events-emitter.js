@@ -81,6 +81,7 @@ export default {
       data = args[0].data;
       context = args[0].context || self;
     }
+    data.unshift(context);
     const eventsArray = Array.isArray(events) ? events : events.split(' ');
 
     eventsArray.forEach((event) => {

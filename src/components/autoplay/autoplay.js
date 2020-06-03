@@ -130,16 +130,14 @@ export default {
     });
   },
   on: {
-    init() {
-      const swiper = this;
+    init(swiper) {
       if (swiper.params.autoplay.enabled) {
         swiper.autoplay.start();
         const document = getDocument();
         document.addEventListener('visibilitychange', swiper.autoplay.onVisibilityChange);
       }
     },
-    beforeTransitionStart(speed, internal) {
-      const swiper = this;
+    beforeTransitionStart(swiper, speed, internal) {
       if (swiper.autoplay.running) {
         if (internal || !swiper.params.autoplay.disableOnInteraction) {
           swiper.autoplay.pause(speed);
@@ -148,8 +146,7 @@ export default {
         }
       }
     },
-    sliderFirstMove() {
-      const swiper = this;
+    sliderFirstMove(swiper) {
       if (swiper.autoplay.running) {
         if (swiper.params.autoplay.disableOnInteraction) {
           swiper.autoplay.stop();
@@ -158,8 +155,7 @@ export default {
         }
       }
     },
-    touchEnd() {
-      const swiper = this;
+    touchEnd(swiper) {
       if (
         swiper.params.cssMode &&
         swiper.autoplay.paused &&
@@ -168,8 +164,7 @@ export default {
         swiper.autoplay.run();
       }
     },
-    destroy() {
-      const swiper = this;
+    destroy(swiper) {
       if (swiper.autoplay.running) {
         swiper.autoplay.stop();
       }

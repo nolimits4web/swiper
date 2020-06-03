@@ -603,40 +603,33 @@ export default {
     });
   },
   on: {
-    init() {
-      const swiper = this;
+    init(swiper) {
       if (swiper.params.zoom.enabled) {
         swiper.zoom.enable();
       }
     },
-    destroy() {
-      const swiper = this;
+    destroy(swiper) {
       swiper.zoom.disable();
     },
-    touchStart(e) {
-      const swiper = this;
+    touchStart(swiper, e) {
       if (!swiper.zoom.enabled) return;
       swiper.zoom.onTouchStart(e);
     },
-    touchEnd(e) {
-      const swiper = this;
+    touchEnd(swiper, e) {
       if (!swiper.zoom.enabled) return;
       swiper.zoom.onTouchEnd(e);
     },
-    doubleTap(e) {
-      const swiper = this;
+    doubleTap(swiper, e) {
       if (swiper.params.zoom.enabled && swiper.zoom.enabled && swiper.params.zoom.toggle) {
         swiper.zoom.toggle(e);
       }
     },
-    transitionEnd() {
-      const swiper = this;
+    transitionEnd(swiper) {
       if (swiper.zoom.enabled && swiper.params.zoom.enabled) {
         swiper.zoom.onTransitionEnd();
       }
     },
-    slideChange() {
-      const swiper = this;
+    slideChange(swiper) {
       if (swiper.zoom.enabled && swiper.params.zoom.enabled && swiper.params.cssMode) {
         swiper.zoom.onTransitionEnd();
       }

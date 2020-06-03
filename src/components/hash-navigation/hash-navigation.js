@@ -93,26 +93,22 @@ export default {
     });
   },
   on: {
-    init() {
-      const swiper = this;
+    init(swiper) {
       if (swiper.params.hashNavigation.enabled) {
         swiper.hashNavigation.init();
       }
     },
-    destroy() {
-      const swiper = this;
+    destroy(swiper) {
       if (swiper.params.hashNavigation.enabled) {
         swiper.hashNavigation.destroy();
       }
     },
-    transitionEnd() {
-      const swiper = this;
+    transitionEnd(swiper) {
       if (swiper.hashNavigation.initialized) {
         swiper.hashNavigation.setHash();
       }
     },
-    slideChange() {
-      const swiper = this;
+    slideChange(swiper) {
       if (swiper.hashNavigation.initialized && swiper.params.cssMode) {
         swiper.hashNavigation.setHash();
       }

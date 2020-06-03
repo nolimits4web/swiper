@@ -192,41 +192,34 @@ export default {
     });
   },
   on: {
-    beforeInit() {
-      const swiper = this;
+    beforeInit(swiper) {
       const { thumbs } = swiper.params;
       if (!thumbs || !thumbs.swiper) return;
       swiper.thumbs.init();
       swiper.thumbs.update(true);
     },
-    slideChange() {
-      const swiper = this;
+    slideChange(swiper) {
       if (!swiper.thumbs.swiper) return;
       swiper.thumbs.update();
     },
-    update() {
-      const swiper = this;
+    update(swiper) {
       if (!swiper.thumbs.swiper) return;
       swiper.thumbs.update();
     },
-    resize() {
-      const swiper = this;
+    resize(swiper) {
       if (!swiper.thumbs.swiper) return;
       swiper.thumbs.update();
     },
-    observerUpdate() {
-      const swiper = this;
+    observerUpdate(swiper) {
       if (!swiper.thumbs.swiper) return;
       swiper.thumbs.update();
     },
-    setTransition(duration) {
-      const swiper = this;
+    setTransition(swiper, duration) {
       const thumbsSwiper = swiper.thumbs.swiper;
       if (!thumbsSwiper) return;
       thumbsSwiper.setTransition(duration);
     },
-    beforeDestroy() {
-      const swiper = this;
+    beforeDestroy(swiper) {
       const thumbsSwiper = swiper.thumbs.swiper;
       if (!thumbsSwiper) return;
       if (swiper.thumbs.swiperCreated && thumbsSwiper) {

@@ -41,7 +41,7 @@ export interface ZoomEvents {
   /**
    * Event will be fired on zoom change
    */
-  zoomChange: (value: number, imageEl: HTMLElement, slideEl: HTMLElement, this: Swiper) => void;
+  zoomChange: (swiper: Swiper, value: number, imageEl: HTMLElement, slideEl: HTMLElement) => void;
 }
 
 export interface ZoomOptions {

@@ -77,12 +77,10 @@ export default {
     });
   },
   on: {
-    init() {
-      const swiper = this;
+    init(swiper) {
       swiper.observer.init();
     },
-    destroy() {
-      const swiper = this;
+    destroy(swiper) {
       swiper.observer.destroy();
     },
   },
