@@ -34,14 +34,17 @@ const Coverflow = {
       let translateY = isHorizontal ? 0 : stretch * (offsetMultiplier);
       let translateX = isHorizontal ? stretch * (offsetMultiplier) : 0;
 
+      let scale = 1 - (1 - params.scale) * Math.abs(offsetMultiplier);
+
       // Fix for ultra small values
       if (Math.abs(translateX) < 0.001) translateX = 0;
       if (Math.abs(translateY) < 0.001) translateY = 0;
       if (Math.abs(translateZ) < 0.001) translateZ = 0;
       if (Math.abs(rotateY) < 0.001) rotateY = 0;
       if (Math.abs(rotateX) < 0.001) rotateX = 0;
+      if (Math.abs(scale) < 0.001) scale = 0;
 
-      const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
 
       $slideEl.transform(slideTransform);
       $slideEl[0].style.zIndex = -Math.abs(Math.round(offsetMultiplier)) + 1;
@@ -84,6 +87,7 @@ export default {
       rotate: 50,
       stretch: 0,
       depth: 100,
+      scale: 1,
       modifier: 1,
       slideShadows: true,
     },
