@@ -63,8 +63,11 @@ async function release() {
       ],
     },
   ]);
+  // Set version
   pkg.version = options.version;
   childPkg.version = options.version;
+
+  // Copy dependencies
   childPkg.dependencies = pkg.dependencies;
 
   fs.writeFileSync(path.resolve(__dirname, '../package.json'), JSON.stringify(pkg, null, 2));
