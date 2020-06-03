@@ -145,8 +145,8 @@ Virtual Slides rendering here is fully handled by React and not required anythin
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 export default () => {
-  // Create array with 1000 slides const slides =
-  Array.from({ length: 1000 }).map((el, index) => `Slide ${index + 1}`);
+  // Create array with 1000 slides
+  const slides = Array.from({ length: 1000 }).map((el, index) => `Slide ${index + 1}`);
 
   return (
     <Swiper spaceBetween="{50}" slidesPerView="{3}" virtual>
