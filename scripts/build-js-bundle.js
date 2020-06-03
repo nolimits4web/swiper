@@ -35,7 +35,8 @@ function buildBundle(components, format, browser, cb) {
         '//INSTALL_COMPONENTS': components
           .map((component) => `${component.capitalized}`)
           .join(',\n  '),
-        '//EXPORT': 'export default Swiper; export { Swiper }',
+        '//EXPORT':
+          format === 'umd' ? 'export default Swiper;' : 'export default Swiper; export { Swiper }',
       }),
       resolve({ mainFields: ['module', 'main', 'jsnext'] }),
       babel({ babelHelpers: 'bundled' }),
