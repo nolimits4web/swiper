@@ -42,7 +42,7 @@ export default function onTouchStart(event) {
   const startX = touches.currentX;
   const startY = touches.currentY;
 
-  // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
+  // Do NOT start if iOS edge swipe is detected. Otherwise iOS app cannot swipe-to-go-back anymore
 
   const edgeSwipeDetection = params.edgeSwipeDetection || params.iOSEdgeSwipeDetection;
   const edgeSwipeThreshold = params.edgeSwipeThreshold || params.iOSEdgeSwipeThreshold;
