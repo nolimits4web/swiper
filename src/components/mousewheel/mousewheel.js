@@ -135,9 +135,9 @@ const Mousewheel = {
 
     if (params.forceToAxis) {
       if (swiper.isHorizontal()) {
-        if (Math.abs(data.pixelX) > Math.abs(data.pixelY)) delta = data.pixelX * rtlFactor;
+        if (Math.abs(data.pixelX) > Math.abs(data.pixelY)) delta = -data.pixelX * rtlFactor;
         else return true;
-      } else if (Math.abs(data.pixelY) > Math.abs(data.pixelX)) delta = data.pixelY;
+      } else if (Math.abs(data.pixelY) > Math.abs(data.pixelX)) delta = -data.pixelY;
       else return true;
     } else {
       delta = Math.abs(data.pixelX) > Math.abs(data.pixelY) ? -data.pixelX * rtlFactor : -data.pixelY;
