@@ -74,6 +74,7 @@ export interface SwiperOptions {
    * Useful only if you initialize Swiper when it is hidden and in SSR and Test environments for correct Swiper initialization
    *
    * @note Setting this parameter will make Swiper not responsive
+   * @default null
    */
   width?: number;
 
@@ -82,6 +83,7 @@ export interface SwiperOptions {
    * Useful only if you initialize Swiper when it is hidden and in SSR and Test environments for correct Swiper initialization
    *
    * @note Setting this parameter will make Swiper not responsive
+   * @default null
    */
   height?: number;
 
