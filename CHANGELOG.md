@@ -7,6 +7,8 @@
   - ES5 compiled
 - new SSR params: `userAgent`, `url`
 - new `onAny(callback)` listener
+- official Swiper React components
+- official TypeScript definitions
 
 ## [Swiper 5.4.1](https://github.com/nolimits4web/swiper/compare/v5.4.0...v5.4.1) - Released on May 20th, 2020
 
