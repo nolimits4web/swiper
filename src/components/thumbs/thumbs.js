@@ -5,6 +5,8 @@ const Thumbs = {
   init() {
     const swiper = this;
     const { thumbs: thumbsParams } = swiper.params;
+    if (swiper.thumbs.initialized) return false;
+    swiper.thumbs.initialized = true;
     const SwiperClass = swiper.constructor;
     if (thumbsParams.swiper instanceof SwiperClass) {
       swiper.thumbs.swiper = thumbsParams.swiper;
@@ -28,6 +30,7 @@ const Thumbs = {
     }
     swiper.thumbs.swiper.$el.addClass(swiper.params.thumbs.thumbsContainerClass);
     swiper.thumbs.swiper.on('tap', swiper.thumbs.onThumbClick);
+    return true;
   },
   onThumbClick() {
     const swiper = this;
@@ -187,6 +190,7 @@ export default {
     bindModuleMethods(swiper, {
       thumbs: {
         swiper: null,
+        initialized: false,
         ...Thumbs,
       },
     });

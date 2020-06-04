@@ -94,7 +94,7 @@ const paramsList = [
   // modules
   'a11y',
   'auoplay',
-  'controller',
+  '_controller',
   'coverflowEffect',
   'cubeEffect',
   'fadeEffect',
@@ -108,7 +108,7 @@ const paramsList = [
   'pagination',
   'parallax',
   'scrollbar',
-  'thumbs',
+  '_thumbs',
   'virtual',
   'zoom',
 ];
