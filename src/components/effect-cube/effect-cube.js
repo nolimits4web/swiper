@@ -135,7 +135,7 @@ const Cube = {
         );
       }
     }
-    const zFactor = browser.isSafari || browser.isUiWebView ? -swiperSize / 2 : 0;
+    const zFactor = browser.isSafari || browser.isWebView ? -swiperSize / 2 : 0;
     $wrapperEl.transform(
       `translate3d(0px,0,${zFactor}px) rotateX(${
         swiper.isHorizontal() ? 0 : wrapperRotate
