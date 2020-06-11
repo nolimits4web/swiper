@@ -96,15 +96,15 @@
 			transition: .3s;
 		}
 
-		.menu-button:hover .bar:nth-of-type(1) {
+		.menu-button.hover .bar:nth-of-type(1) {
 			-webkit-transform: translateY(1.5px) rotate(-4.5deg);
 			-ms-transform: translateY(1.5px) rotate(-4.5deg);
 			transform: translateY(1.5px) rotate(-4.5deg);
 		}
-		.menu-button:hover .bar:nth-of-type(2) {
+		.menu-button.hover .bar:nth-of-type(2) {
 			opacity: .9;
 		}
-		.menu-button:hover .bar:nth-of-type(3) {
+		.menu-button.hover .bar:nth-of-type(3) {
 			-webkit-transform: translateY(-1.5px) rotate(4.5deg);
 			-ms-transform: translateY(-1.5px) rotate(4.5deg);
 			transform: translateY(-1.5px) rotate(4.5deg);
@@ -123,18 +123,21 @@
 			-ms-transform: translateY(-15px) rotate(45deg);
 			transform: translateY(-15px) rotate(45deg);
 		}
-		.cross:hover .bar:nth-of-type(1) {
+		.cross.hover .bar:nth-of-type(1) {
 			-webkit-transform: translateY(13.5px) rotate(-40.5deg);
 			-ms-transform: translateY(13.5px) rotate(-40.5deg);
 			transform: translateY(13.5px) rotate(-40.5deg);
+            background-color: green
 		}
-		.cross:hover .bar:nth-of-type(2) {
+		.cross.hover .bar:nth-of-type(2) {
 			opacity: .1;
+            background-color: green
 		}
-		.cross:hover .bar:nth-of-type(3) {
+		.cross.hover .bar:nth-of-type(3) {
 			-webkit-transform: translateY(-13.5px) rotate(40.5deg);
 			-ms-transform: translateY(-13.5px) rotate(40.5deg);
 			transform: translateY(-13.5px) rotate(40.5deg);
+            background-color: green
 		}
 	</style>
 </head>
@@ -159,7 +162,15 @@
 
 	<!-- Initialize Swiper -->
 	<script>
-    var menuButton = document.querySelector('.menu-button');
+      var menuButton = document.querySelector('.menu-button');
+      var toggleHover = function (e)  {
+        if ( e.type === "mouseover" )
+          e.target.classList.add('hover')
+        else
+          e.target.classList.remove('hover')
+      }
+      menuButton.addEventListener('mouseover', toggleHover, true )
+      menuButton.addEventListener('mouseout', toggleHover, true )
     var openMenu = function () {
       swiper.slidePrev();
     };
@@ -173,10 +184,11 @@
           var slider = this;
           if (slider.activeIndex === 0) {
             menuButton.classList.add('cross');
+            menuButton.classList.remove('hover');
             // required because of slideToClickedSlide
             menuButton.removeEventListener('click', openMenu, true);
           } else {
-            menuButton.classList.remove('cross');
+            menuButton.classList.remove('cross', 'hover');
           }
         }
         , slideChangeTransitionEnd: function () {
