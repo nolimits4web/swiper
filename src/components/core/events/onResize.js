@@ -24,6 +24,7 @@ export default function onResize() {
   if (
     (params.slidesPerView === 'auto' || params.slidesPerView > 1) &&
     swiper.isEnd &&
+    !swiper.isBeginning &&
     !swiper.params.centeredSlides
   ) {
     swiper.slideTo(swiper.slides.length - 1, 0, false, true);
