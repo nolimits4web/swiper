@@ -8,7 +8,7 @@ const Browser = (function Browser() {
   return {
     isEdge: !!window.navigator.userAgent.match(/Edge/g),
     isSafari: isSafari(),
-    isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent),
+    isWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent),
   };
 }());
 

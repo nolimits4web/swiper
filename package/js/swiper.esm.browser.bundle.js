@@ -1,5 +1,5 @@
 /**
- * Swiper 5.4.2
+ * Swiper 5.4.3
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: June 3, 2020
+ * Released on: June 13, 2020
  */
 
 /**
@@ -3326,7 +3326,7 @@ function onResize () {
   swiper.updateSlides();
 
   swiper.updateSlidesClasses();
-  if ((params.slidesPerView === 'auto' || params.slidesPerView > 1) && swiper.isEnd && !swiper.params.centeredSlides) {
+  if ((params.slidesPerView === 'auto' || params.slidesPerView > 1) && swiper.isEnd && !swiper.isBeginning && !swiper.params.centeredSlides) {
     swiper.slideTo(swiper.slides.length - 1, 0, false, true);
   } else {
     swiper.slideTo(swiper.activeIndex, 0, false, true);
@@ -4358,7 +4358,7 @@ const Browser = (function Browser() {
   return {
     isEdge: !!win.navigator.userAgent.match(/Edge/g),
     isSafari: isSafari(),
-    isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(win.navigator.userAgent),
+    isWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(win.navigator.userAgent),
   };
 }());
 
@@ -8024,7 +8024,7 @@ const Cube = {
         $cubeShadowEl.transform(`scale3d(${scale1}, 1, ${scale2}) translate3d(0px, ${(swiperHeight / 2) + offset}px, ${-swiperHeight / 2 / scale2}px) rotateX(-90deg)`);
       }
     }
-    const zFactor = (Browser.isSafari || Browser.isUiWebView) ? (-swiperSize / 2) : 0;
+    const zFactor = (Browser.isSafari || Browser.isWebView) ? (-swiperSize / 2) : 0;
     $wrapperEl
       .transform(`translate3d(0px,0,${zFactor}px) rotateX(${swiper.isHorizontal() ? 0 : wrapperRotate}deg) rotateY(${swiper.isHorizontal() ? -wrapperRotate : 0}deg)`);
   },

@@ -21,7 +21,7 @@ export default function () {
   swiper.updateSlides();
 
   swiper.updateSlidesClasses();
-  if ((params.slidesPerView === 'auto' || params.slidesPerView > 1) && swiper.isEnd && !swiper.params.centeredSlides) {
+  if ((params.slidesPerView === 'auto' || params.slidesPerView > 1) && swiper.isEnd && !swiper.isBeginning && !swiper.params.centeredSlides) {
     swiper.slideTo(swiper.slides.length - 1, 0, false, true);
   } else {
     swiper.slideTo(swiper.activeIndex, 0, false, true);
