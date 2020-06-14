@@ -180,7 +180,7 @@ mySwiper.slideNext();
       <td>
         <p>Distance between slides in px.</p>
         <p class="important-note">If you use "margin" css property to the elements which go into Swiper in which
-          you pass "spaceBetween" into, <b>navigation</b> might not work property.</p>
+          you pass "spaceBetween" into, <b>navigation</b> might not work properly.</p>
       </td>
     </tr>
     <tr>
