@@ -19,7 +19,7 @@ function checkOverflow() {
 
   if (wasLocked && wasLocked !== swiper.isLocked) {
     swiper.isEnd = false;
-    if(swiper.navigation) swiper.navigation.update();
+    if (swiper.navigation) swiper.navigation.update();
   }
 }
 
