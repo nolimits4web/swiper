@@ -30,4 +30,10 @@ export interface KeyboardOptions {
    * @default true
    */
   onlyInViewport?: boolean;
+  /**
+   * When enabled it will enable keyboard navigation by Page Up and Page Down keys
+   *
+   * @default true
+   */
+  pageUpDown?: boolean;
 }
