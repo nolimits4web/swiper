@@ -1,5 +1,5 @@
 /**
- * Swiper 5.4.4
+ * Swiper 5.4.5
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -4001,6 +4001,7 @@ var Keyboard$1 = {
     keyboard: {
       enabled: false,
       onlyInViewport: true,
+      pageUpDown: true,
     },
   },
   create() {
@@ -4008,7 +4009,6 @@ var Keyboard$1 = {
     Utils.extend(swiper, {
       keyboard: {
         enabled: false,
-        pageUpDown: true,
         enable: Keyboard.enable.bind(swiper),
         disable: Keyboard.disable.bind(swiper),
         handle: Keyboard.handle.bind(swiper),

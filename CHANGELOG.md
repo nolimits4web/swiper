@@ -1,6 +1,6 @@
 # Change Log
 
-## [Swiper 5.4.4](https://github.com/nolimits4web/swiper/compare/v5.4.3...v5.4.4) - Released on June 16th, 2020
+## [Swiper 5.4.5](https://github.com/nolimits4web/swiper/compare/v5.4.3...v5.4.5) - Released on June 16th, 2020
   * Core
     * Fixed issue when checkOverflow method could throw error if Navigation module wasn't installed (#3621)
   * Keyboard

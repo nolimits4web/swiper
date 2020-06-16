@@ -94,6 +94,7 @@ export default {
     keyboard: {
       enabled: false,
       onlyInViewport: true,
+      pageUpDown: true,
     },
   },
   create() {
@@ -101,7 +102,6 @@ export default {
     Utils.extend(swiper, {
       keyboard: {
         enabled: false,
-        pageUpDown: true,
         enable: Keyboard.enable.bind(swiper),
         disable: Keyboard.disable.bind(swiper),
         handle: Keyboard.handle.bind(swiper),

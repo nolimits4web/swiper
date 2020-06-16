@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "5.4.4",
+  "version": "5.4.5",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "js/swiper.js",
   "jsnext:main": "js/swiper.esm.bundle.js",
