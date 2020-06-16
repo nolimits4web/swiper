@@ -1,5 +1,11 @@
 # Change Log
 
+## [Swiper 5.4.4](https://github.com/nolimits4web/swiper/compare/v5.4.3...v5.4.4) - Released on June 16th, 2020
+  * Core
+    * Fixed issue when checkOverflow method could throw error if Navigation module wasn't installed (#3621)
+  * Keyboard
+    * New parameter `pageUpDown` to enable/disable pageUp and pageDown keys (enabled by default)
+
 ## [Swiper 5.4.3](https://github.com/nolimits4web/swiper/compare/v5.4.2...v5.4.3) - Released on June 13th, 2020
   * Core
     * Removed `UIWebView` text from code

@@ -1,5 +1,5 @@
 /**
- * Swiper 5.4.3
+ * Swiper 5.4.4
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: June 13, 2020
+ * Released on: June 16, 2020
  */
 
 (function (global, factory) {
@@ -3859,7 +3859,7 @@
 
       if (wasLocked && wasLocked !== swiper.isLocked) {
         swiper.isEnd = false;
-        swiper.navigation.update();
+        if (swiper.navigation) { swiper.navigation.update(); }
       }
     }
 
@@ -4910,11 +4910,18 @@
         var e = event;
         if (e.originalEvent) { e = e.originalEvent; } // jquery fix
         var kc = e.keyCode || e.charCode;
+        var pageUpDown = swiper.params.keyboard.pageUpDown;
+        var isPageUp = pageUpDown && kc === 33;
+        var isPageDown = pageUpDown && kc === 34;
+        var isArrowLeft = kc === 37;
+        var isArrowRight = kc === 39;
+        var isArrowUp = kc === 38;
+        var isArrowDown = kc === 40;
         // Directions locks
-        if (!swiper.allowSlideNext && ((swiper.isHorizontal() && kc === 39) || (swiper.isVertical() && kc === 40) || kc === 34)) {
+        if (!swiper.allowSlideNext && ((swiper.isHorizontal() && isArrowRight) || (swiper.isVertical() && isArrowDown) || isPageDown)) {
           return false;
         }
-        if (!swiper.allowSlidePrev && ((swiper.isHorizontal() && kc === 37) || (swiper.isVertical() && kc === 38) || kc === 33)) {
+        if (!swiper.allowSlidePrev && ((swiper.isHorizontal() && isArrowLeft) || (swiper.isVertical() && isArrowUp) || isPageUp)) {
           return false;
         }
         if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) {
@@ -4923,7 +4930,7 @@
         if (doc.activeElement && doc.activeElement.nodeName && (doc.activeElement.nodeName.toLowerCase() === 'input' || doc.activeElement.nodeName.toLowerCase() === 'textarea')) {
           return undefined;
         }
-        if (swiper.params.keyboard.onlyInViewport && (kc === 33 || kc === 34 || kc === 37 || kc === 39 || kc === 38 || kc === 40)) {
+        if (swiper.params.keyboard.onlyInViewport && (isPageUp || isPageDown || isArrowLeft || isArrowRight || isArrowUp || isArrowDown)) {
           var inView = false;
           // Check that swiper should be inside of visible area of window
           if (swiper.$el.parents(("." + (swiper.params.slideClass))).length > 0 && swiper.$el.parents(("." + (swiper.params.slideActiveClass))).length === 0) {
@@ -4950,19 +4957,19 @@
           if (!inView) { return undefined; }
         }
         if (swiper.isHorizontal()) {
-          if (kc === 33 || kc === 34 || kc === 37 || kc === 39) {
+          if (isPageUp || isPageDown || isArrowLeft || isArrowRight) {
             if (e.preventDefault) { e.preventDefault(); }
             else { e.returnValue = false; }
           }
-          if (((kc === 34 || kc === 39) && !rtl) || ((kc === 33 || kc === 37) && rtl)) { swiper.slideNext(); }
-          if (((kc === 33 || kc === 37) && !rtl) || ((kc === 34 || kc === 39) && rtl)) { swiper.slidePrev(); }
+          if (((isPageDown || isArrowRight) && !rtl) || ((isPageUp || isArrowLeft) && rtl)) { swiper.slideNext(); }
+          if (((isPageUp || isArrowLeft) && !rtl) || ((isPageDown || isArrowRight) && rtl)) { swiper.slidePrev(); }
         } else {
-          if (kc === 33 || kc === 34 || kc === 38 || kc === 40) {
+          if (isPageUp || isPageDown || isArrowUp || isArrowDown) {
             if (e.preventDefault) { e.preventDefault(); }
             else { e.returnValue = false; }
           }
-          if (kc === 34 || kc === 40) { swiper.slideNext(); }
-          if (kc === 33 || kc === 38) { swiper.slidePrev(); }
+          if (isPageDown || isArrowDown) { swiper.slideNext(); }
+          if (isPageUp || isArrowUp) { swiper.slidePrev(); }
         }
         swiper.emit('keyPress', kc);
         return undefined;
@@ -4994,6 +5001,7 @@
         Utils.extend(swiper, {
           keyboard: {
             enabled: false,
+            pageUpDown: true,
             enable: Keyboard.enable.bind(swiper),
             disable: Keyboard.disable.bind(swiper),
             handle: Keyboard.handle.bind(swiper),
