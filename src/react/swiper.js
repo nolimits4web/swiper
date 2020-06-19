@@ -23,7 +23,7 @@ const Swiper = ({
   const swiperElRef = useRef(null);
   const swiperRef = useRef(null);
   const oldPassedParamsRef = useRef(null);
-  const oldSlidesLength = useRef(null);
+  const oldSlides = useRef(null);
 
   const nextElRef = useRef(null);
   const prevElRef = useRef(null);
@@ -37,12 +37,12 @@ const Swiper = ({
   const changedParams = getChangedParams(
     passedParams,
     oldPassedParamsRef.current,
-    slides.length,
-    oldSlidesLength.current,
+    slides,
+    oldSlides.current,
   );
 
   oldPassedParamsRef.current = passedParams;
-  oldSlidesLength.current = slides.length;
+  oldSlides.current = slides;
 
   Object.assign(swiperParams.on, {
     _containerClasses(swiper, classes) {
