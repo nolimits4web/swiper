@@ -1,21 +1,17 @@
-[![Join the chat at https://gitter.im/nolimits4web/Swiper](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nolimits4web/Swiper)
 [![Build Status](https://travis-ci.org/nolimits4web/swiper.svg?branch=master)](https://travis-ci.org/nolimits4web/swiper)
-[![devDependency Status](https://david-dm.org/nolimits4web/swiper/dev-status.svg)](https://david-dm.org/nolimits4web/swiper#info=devDependencies)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/swiper/badge?style=rounded)](https://www.jsdelivr.com/package/npm/swiper)
 
-Swiper
-==========
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/nolimits4web/Swiper.svg)](https://greenkeeper.io/)
+# Swiper
 
 Swiper - is the free and most modern mobile touch slider with hardware accelerated transitions and amazing native behavior. It is intended to be used in mobile websites, mobile web apps, and mobile native/hybrid apps.
 
 Swiper is not compatible with all platforms, it is a modern touch slider which is focused only on modern apps/platforms to bring the best experience and simplicity.
 
 # Getting Started
-  * [Getting Started Guide](https://swiperjs.com/get-started/)
-  * [API](https://swiperjs.com/api/)
-  * [Demos](https://swiperjs.com/demos/)
+
+- [Getting Started Guide](https://swiperjs.com/get-started/)
+- [API](https://swiperjs.com/api/)
+- [Demos](https://swiperjs.com/demos/)
 
 # Dist / Build
 
@@ -38,6 +34,7 @@ $ npm install
 ```
 
 And build development version of Swiper:
+
 ```
 $ npm run build:dev
 ```
@@ -54,28 +51,36 @@ Production version will available in `package/` folder.
 
 # Contributing
 
-All changes should be committed to `src/` files only. Before you open an issue please review the [contributing](https://github.com/nolimits4web/Swiper/blob/master/CONTRIBUTING.md) guideline.
+All changes should be committed to `src/` files only. Before you open an issue please review the [contributing](https://github.com/nolimits4web/swiper/blob/master/CONTRIBUTING.md) guideline.
 
-Swiper 4.x
-==========
+# Swiper 5.x
 
-If you are still using Swiper 4.x.x, you may find it in [Swiper4 Branch](https://github.com/nolimits4web/Swiper/tree/Swiper4)
-* [Download Latest Swiper 4.5.3](https://github.com/nolimits4web/Swiper/archive/v4.5.3.zip)
-* [Source Files](https://github.com/nolimits4web/Swiper/tree/Swiper4/src)
-* [API](https://github.com/nolimits4web/Swiper/blob/Swiper4/API.md)
+If you are still using Swiper 5.x.x, you may find it in [Swiper5 Branch](https://github.com/nolimits4web/swiper/tree/Swiper5)
 
-Swiper 3.x
-==========
+- [Download Latest Swiper 5.4.5](https://github.com/nolimits4web/swiper/archive/v5.4.5.zip)
+- [Source Files](https://github.com/nolimits4web/swiper/tree/Swiper5/src)
+- [API](https://github.com/nolimits4web/swiper/blob/Swiper5/API.md)
 
-If you are still using Swiper 3.x.x, you may find it in [Swiper3 Branch](https://github.com/nolimits4web/Swiper/tree/Swiper3)
-* [Download Latest Swiper 3.4.2](https://github.com/nolimits4web/Swiper/archive/v3.4.2.zip)
-* [Source Files](https://github.com/nolimits4web/Swiper/tree/Swiper3/src)
-* [API](https://github.com/nolimits4web/Swiper/blob/Swiper3/API.md)
+# Swiper 4.x
 
-Swiper 2.x
-==========
+If you are still using Swiper 4.x.x, you may find it in [Swiper4 Branch](https://github.com/nolimits4web/swiper/tree/Swiper4)
 
-If you are still using Swiper 2.x.x or you need old browsers support, you may find it in [Swiper2 Branch](https://github.com/nolimits4web/Swiper/tree/Swiper2)
-* [Download Latest Swiper 2.7.6](https://github.com/nolimits4web/Swiper/archive/v2.7.6.zip)
-* [Source Files](https://github.com/nolimits4web/Swiper/tree/Swiper2/src)
-* [API](https://github.com/nolimits4web/Swiper/blob/Swiper2/API.md)
+- [Download Latest Swiper 4.5.3](https://github.com/nolimits4web/swiper/archive/v4.5.3.zip)
+- [Source Files](https://github.com/nolimits4web/swiper/tree/Swiper4/src)
+- [API](https://github.com/nolimits4web/swiper/blob/Swiper4/API.md)
+
+# Swiper 3.x
+
+If you are still using Swiper 3.x.x, you may find it in [Swiper3 Branch](https://github.com/nolimits4web/swiper/tree/Swiper3)
+
+- [Download Latest Swiper 3.4.2](https://github.com/nolimits4web/swiper/archive/v3.4.2.zip)
+- [Source Files](https://github.com/nolimits4web/swiper/tree/Swiper3/src)
+- [API](https://github.com/nolimits4web/swiper/blob/Swiper3/API.md)
+
+# Swiper 2.x
+
+If you are still using Swiper 2.x.x or you need old browsers support, you may find it in [Swiper2 Branch](https://github.com/nolimits4web/swiper/tree/Swiper2)
+
+- [Download Latest Swiper 2.7.6](https://github.com/nolimits4web/swiper/archive/v2.7.6.zip)
+- [Source Files](https://github.com/nolimits4web/swiper/tree/Swiper2/src)
+- [API](https://github.com/nolimits4web/swiper/blob/Swiper2/API.md)
