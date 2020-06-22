@@ -108,7 +108,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "dom7": "^3.0.0-alpha.4",
+    "dom7": "^3.0.0-alpha.5",
     "ssr-window": "^3.0.0-alpha.4"
   }
 }
