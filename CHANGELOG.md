@@ -36,6 +36,7 @@
 - Added new `onAny(callback)` listener to listen for any swiper event
 - All events now emit `swiper` instance as a first argument (BREAKING)
 - Added official TypeScript definitions
+- Updated to use next generation `dom7` and `ssr-window` libraries
 - All new Swiper React components:
 
   ```jsx
@@ -51,8 +52,6 @@
       >
         <SwiperSlide>Slide 1</SwiperSlide>
         <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
         ...
       </Swiper>
     );
