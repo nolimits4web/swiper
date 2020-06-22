@@ -2,25 +2,75 @@
 
 ## Swiper 6.0.0 (WIP)
 
-- New package structure
-  - New file names
-  - ES5 compiled
-- new SSR params: `userAgent`, `url`
-- new `onAny(callback)` listener
-- official Swiper React components
-- official TypeScript definitions
-- all events now emit swiper instances as first argument
+- New NPM package structure
+
+  - All scripts transpiled to ES5
+  - New and renamed files (BREAKING):
+    - `swiper.less` - core Swiper LESS
+    - `swiper.scss` - core Swiper SCSS
+    - `swiper-bundle.css` - Swiper bundle CSS
+    - `swiper-bundle.js` - Swiper bundle JavaScript in UMD format
+    - `swiper-bundle.cjs.js` - Swiper bundle JavaScript in CommonJS format
+    - `swiper-bundle.esm.js` - Swiper bundle JavaScript in ESM format
+    - `swiper.cjs.js` - Swiper core JavaScript in CommonJS format
+    - `swiper.esm.js` - Swiper core JavaScript in ESM format
+  - Following imports are now available
+    - `import Swiper from 'swiper'` - imports core version
+    - `import Swiper from 'swiper/bundle'` - imports bundle version
+    - `import Swiper from 'swiper/core'` - imports core version
+  - Components can be imported from core version using named imports, or using direct import:
+
+    ```js
+    import { Navigation } from 'swiper';
+    // or
+    import Navigation from 'swiper/components/navigation';
+
+    // and styles (Less or SCSS only)
+    import 'swiper/components/navigation/navigation.less';
+    ```
+
+- Full server-side rendering support (SSR) with new parameters:
+  - `userAgent` - device user agent, required for some initial detection
+  - `url` - required to correctly detect and set initial slide if Hash Navigation or History modules are used
+- Full support for Node.js DOM libraries like JSDOM and Domino
+- Added new `onAny(callback)` listener to listen for any swiper event
+- All events now emit `swiper` instance as a first argument (BREAKING)
+- Added official TypeScript definitions
+- All new Swiper React components:
+
+  ```jsx
+  import { Swiper, SwiperSlide } from 'swiper/react';
+
+  export default () => {
+    return (
+      <Swiper
+        spaceBetween={50}
+        slidesPerView={3}
+        onSwiper={(swiper) => console.log(swiper)}
+        onSlideChange={() => console.log('slide change')}
+      >
+        <SwiperSlide>Slide 1</SwiperSlide>
+        <SwiperSlide>Slide 2</SwiperSlide>
+        <SwiperSlide>Slide 3</SwiperSlide>
+        <SwiperSlide>Slide 4</SwiperSlide>
+        ...
+      </Swiper>
+    );
+  };
+  ```
 
 ## [Swiper 5.4.5](https://github.com/nolimits4web/swiper/compare/v5.4.3...v5.4.5) - Released on June 16th, 2020
-  * Core
-    * Fixed issue when checkOverflow method could throw error if Navigation module wasn't installed (#3621)
-  * Keyboard
-    * New parameter `pageUpDown` to enable/disable pageUp and pageDown keys (enabled by default)
+
+- Core
+  - Fixed issue when checkOverflow method could throw error if Navigation module wasn't installed (#3621)
+- Keyboard
+  - New parameter `pageUpDown` to enable/disable pageUp and pageDown keys (enabled by default)
 
 ## [Swiper 5.4.3](https://github.com/nolimits4web/swiper/compare/v5.4.2...v5.4.3) - Released on June 13th, 2020
-  * Core
-    * Removed `UIWebView` text from code
-    * Fixed resize handler calling `slideTo` to last slide when it shouldn't
+
+- Core
+  - Removed `UIWebView` text from code
+  - Fixed resize handler calling `slideTo` to last slide when it shouldn't
 
 ## [Swiper 5.4.2](https://github.com/nolimits4web/swiper/compare/v5.4.1...v5.4.2) - Released on June 3rd, 2020
 
