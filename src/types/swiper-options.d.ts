@@ -577,7 +577,7 @@ export interface SwiperOptions {
    */
   userAgent?: string;
   /**
-   * Request url. Required for active slide detection when rendered on server-side and enabled history
+   * Required for active slide detection when rendered on server-side and enabled history
    *
    * @default null
    */

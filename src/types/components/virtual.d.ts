@@ -108,7 +108,7 @@ export interface VirtualOptions {
    */
   renderExternal?: (data: VirtualData) => any;
   /**
-   *
+   * When enabled (by default) it will update Swiper layout right after renderExternal called. Useful to disable and update swiper manually when used with render libraries that renders asynchronously
    *
    * @default true
    */

@@ -30,7 +30,7 @@ export interface ScrollbarEvents {
   scrollbarDragMove: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired on draggable scrollbar drag start
+   * Event will be fired on draggable scrollbar drag end
    */
   scrollbarDragEnd: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 }
