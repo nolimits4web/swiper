@@ -92,7 +92,7 @@ const Autoplay = {
   onTransitionEnd(e) {
     const swiper = this;
     if (!swiper || swiper.destroyed || !swiper.$wrapperEl) return;
-    if (e.target !== this) return;
+    if (e.target !== swiper.$wrapperEl[0]) return;
     swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.autoplay.onTransitionEnd);
     swiper.$wrapperEl[0].removeEventListener(
       'webkitTransitionEnd',
