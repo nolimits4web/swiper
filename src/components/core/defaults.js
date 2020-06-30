@@ -111,6 +111,7 @@ export default {
   loopAdditionalSlides: 0,
   loopedSlides: null,
   loopFillGroupWithBlank: false,
+  loopForceSlide: false,
 
   // Swiping/no swiping
   allowSlidePrev: true,

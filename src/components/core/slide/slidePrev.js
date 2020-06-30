@@ -4,7 +4,7 @@ export default function slidePrev(speed = this.params.speed, runCallbacks = true
   const { params, animating, snapGrid, slidesGrid, rtlTranslate } = swiper;
 
   if (params.loop) {
-    if (animating) return false;
+    if (animating && !params.loopForceSlide) return false;
     swiper.loopFix();
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
