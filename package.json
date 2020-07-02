@@ -13,7 +13,7 @@
     "webpack:react": "cross-env NODE_ENV=development webpack-dev-server --config ./scripts/webpack-react.config.js",
     "dev": "npm run build:dev && npm run playground:dev && concurrently --kill-others \"npm run serve\" \"npm run watch:dev\" ",
     "prod": "npm run build:prod && npm run playground:prod && concurrently --kill-others \"npm run serve\" \"npm run watch:prod\" ",
-    "dev:react": "npm run build:dev && concurrently --kill-others \"npm run webpack:react\" \"npm run watch:dev\"",
+    "react:dev": "npm run build:dev && concurrently --kill-others \"npm run webpack:react\" \"npm run watch:dev\"",
     "serve": "serve -l tcp://0.0.0.0:5000",
     "prettier": "prettier \"**/*.+(js|json|scss|css|less|ts)\"",
     "format": "npm run prettier -- --write",
