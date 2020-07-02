@@ -5,7 +5,7 @@
 - New NPM package structure
 
   - All scripts transpiled to ES5
-  - New and renamed files (BREAKING):
+  - New and renamed files (**BREAKING CHANGE**):
     - `swiper.less` - core Swiper LESS
     - `swiper.scss` - core Swiper SCSS
     - `swiper-bundle.css` - Swiper bundle CSS
@@ -34,7 +34,7 @@
   - `url` - required to correctly detect and set initial slide if Hash Navigation or History modules are used
 - Full support for Node.js DOM libraries like JSDOM and Domino
 - Added new `onAny(callback)` listener to listen for any swiper event
-- All events now emit `swiper` instance as a first argument (BREAKING)
+- All events now emit `swiper` instance as a first argument (**BREAKING CHANGE**)
 - Added official TypeScript definitions
 - Updated to use next generation `dom7` and `ssr-window` libraries
 - All new Swiper React components:
