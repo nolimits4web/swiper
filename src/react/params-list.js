@@ -70,6 +70,7 @@ const paramsList = [
   '_loopAdditionalSlides',
   '_loopedSlides',
   '_loopFillGroupWithBlank',
+  'loopPreventsSlide',
   '_allowSlidePrev',
   '_allowSlideNext',
   '_swipeHandler',
