@@ -1,6 +1,6 @@
 # Changelog
 
-## Swiper 6.0.0 (WIP)
+## [Swiper 6.0.0](https://github.com/nolimits4web/swiper/compare/v5.4.5...v6.0.0) - Released on July 3rd, 2020
 
 - New NPM package structure
 
@@ -32,6 +32,7 @@
 - Full server-side rendering support (SSR) with new parameters:
   - `userAgent` - device user agent, required for some initial detection
   - `url` - required to correctly detect and set initial slide if Hash Navigation or History modules are used
+- New `loopPreventsSlide` boolean parameter (by default enabled), that prevents slidePrev/Next transitions while transition is in progress
 - Full support for Node.js DOM libraries like JSDOM and Domino
 - Added new `onAny(callback)` listener to listen for any swiper event
 - All events now emit `swiper` instance as a first argument (**BREAKING CHANGE**)
