@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import { getTranslate, bindModuleMethods } from '../../utils/utils';
+import { bindModuleMethods, getTranslate } from '../../utils/utils';
 
 const Zoom = {
   // Calc Scale From Multi-touches
@@ -49,7 +49,7 @@ const Zoom = {
     const support = swiper.support;
     const params = swiper.params.zoom;
     const zoom = swiper.zoom;
-    const { gesture } = zoom;
+    const gesture = zoom.gesture;
     if (!support.gestures) {
       if (e.type !== 'touchmove' || (e.type === 'touchmove' && e.targetTouches.length < 2)) {
         return;
@@ -57,7 +57,11 @@ const Zoom = {
       zoom.fakeGestureMoved = true;
       gesture.scaleMove = Zoom.getDistanceBetweenTouches(e);
     }
-    if (!gesture.$imageEl || gesture.$imageEl.length === 0) return;
+
+    if (!gesture.$imageEl || gesture.$imageEl.length === 0) {
+      if (e.type === 'gesturechange') zoom.onGestureStart(e);
+      return;
+    }
     if (support.gestures) {
       zoom.scale = e.scale * zoom.currentScale;
     } else {
@@ -401,6 +405,25 @@ const Zoom = {
     gesture.$slideEl.removeClass(`${params.zoomedSlideClass}`);
     gesture.$slideEl = undefined;
   },
+
+  toggleGestures(method) {
+    const swiper = this;
+    const zoom = swiper.zoom;
+    const { slideSelector: selector, passiveListener: passive } = zoom;
+    swiper.$wrapperEl[method]('gesturestart', selector, zoom.onGestureStart, passive);
+    swiper.$wrapperEl[method]('gesturechange', selector, zoom.onGestureChange, passive);
+    swiper.$wrapperEl[method]('gestureend', selector, zoom.onGestureEnd, passive);
+  },
+  enableGestures() {
+    if (this.zoom.gesturesEnabled) return;
+    this.zoom.gesturesEnabled = true;
+    this.zoom.toggleGestures('on');
+  },
+  disableGestures() {
+    if (!this.zoom.gesturesEnabled) return;
+    this.zoom.gesturesEnabled = false;
+    this.zoom.toggleGestures('off');
+  },
   // Attach/Detach Events
   enable() {
     const swiper = this;
@@ -421,11 +444,13 @@ const Zoom = {
 
     const slideSelector = `.${swiper.params.slideClass}`;
 
+    swiper.zoom.passiveListener = passiveListener;
+    swiper.zoom.slideSelector = slideSelector;
+
     // Scale image
     if (support.gestures) {
-      swiper.$wrapperEl.on('gesturestart', slideSelector, zoom.onGestureStart, passiveListener);
-      swiper.$wrapperEl.on('gesturechange', slideSelector, zoom.onGestureChange, passiveListener);
-      swiper.$wrapperEl.on('gestureend', slideSelector, zoom.onGestureEnd, passiveListener);
+      swiper.$wrapperEl.on(swiper.touchEvents.start, swiper.zoom.enableGestures, passiveListener);
+      swiper.$wrapperEl.on(swiper.touchEvents.end, swiper.zoom.disableGestures, passiveListener);
     } else if (swiper.touchEvents.start === 'touchstart') {
       swiper.$wrapperEl.on(
         swiper.touchEvents.start,
@@ -485,9 +510,8 @@ const Zoom = {
 
     // Scale image
     if (support.gestures) {
-      swiper.$wrapperEl.off('gesturestart', slideSelector, zoom.onGestureStart, passiveListener);
-      swiper.$wrapperEl.off('gesturechange', slideSelector, zoom.onGestureChange, passiveListener);
-      swiper.$wrapperEl.off('gestureend', slideSelector, zoom.onGestureEnd, passiveListener);
+      swiper.$wrapperEl.off(swiper.touchEvents.start, swiper.zoom.enableGestures, passiveListener);
+      swiper.$wrapperEl.off(swiper.touchEvents.end, swiper.zoom.disableGestures, passiveListener);
     } else if (swiper.touchEvents.start === 'touchstart') {
       swiper.$wrapperEl.off(
         swiper.touchEvents.start,
