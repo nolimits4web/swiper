@@ -4,7 +4,7 @@ export default function slidePrev(speed = this.params.speed, runCallbacks = true
   const { params, animating, snapGrid, slidesGrid, rtlTranslate } = swiper;
 
   if (params.loop) {
-    if (animating) return false;
+    if (animating && params.loopPreventsSlide) return false;
     swiper.loopFix();
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
@@ -16,7 +16,6 @@ export default function slidePrev(speed = this.params.speed, runCallbacks = true
   }
   const normalizedTranslate = normalize(translate);
   const normalizedSnapGrid = snapGrid.map((val) => normalize(val));
-  const normalizedSlidesGrid = slidesGrid.map((val) => normalize(val));
 
   const currentSnap = snapGrid[normalizedSnapGrid.indexOf(normalizedTranslate)];
   let prevSnap = snapGrid[normalizedSnapGrid.indexOf(normalizedTranslate) - 1];
