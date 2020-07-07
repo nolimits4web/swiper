@@ -1,5 +1,16 @@
 # Changelog
 
+## [Swiper 6.0.1](https://github.com/nolimits4web/swiper/compare/v6.0.0...v6.0.1) - Released on July 7th, 2020
+
+- Core
+
+  - SCSS:Fixed issue with missing `$colors` var in Navigation and Pagination
+
+- React
+
+  - Fixed Swiper instance argument typings in event handler props
+  - Added event handler props definitions for modules events
+
 ## [Swiper 6.0.0](https://github.com/nolimits4web/swiper/compare/v5.4.5...v6.0.0) - Released on July 3rd, 2020
 
 - New NPM package structure
