@@ -1,8 +1,4 @@
-$themeColor: #007aff !default;
-$colors: (
-  'white': #ffffff,
-  'black': #000000,
-) !default;
+@import 'swiper-vars.scss';
 
 @font-face {
   font-family: 'swiper-icons';
