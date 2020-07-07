@@ -24,6 +24,7 @@ interface Swiper extends SwiperOptions {
   onSwiper?: (swiper: SwiperClass) => void;
 
   // CORE_EVENTS
+  // MODULES_EVENTS
 }
 
 interface SwiperSlide {
