@@ -2,14 +2,18 @@ import { isObject, extend } from './utils';
 
 function updateSwiper(swiper, slides, passedParams, changedParams) {
   const updateParams = changedParams.filter((key) => key !== 'children' && key !== 'direction');
+  const { params: currentParams, pagination, navigation, scrollbar, virtual, thumbs } = swiper;
   let needThumbsInit;
   let needControllerInit;
+  let needPaginationInit;
+  let needScrollbarInit;
+  let needNavigationInit;
   if (
     changedParams.includes('thumbs') &&
     passedParams.thumbs &&
     passedParams.thumbs.swiper &&
-    swiper.params.thumbs &&
-    !swiper.params.thumbs.swiper
+    currentParams.thumbs &&
+    !currentParams.thumbs.swiper
   ) {
     needThumbsInit = true;
   }
@@ -17,32 +21,83 @@ function updateSwiper(swiper, slides, passedParams, changedParams) {
     changedParams.includes('controller') &&
     passedParams.controller &&
     passedParams.controller.control &&
-    swiper.params.controller &&
-    !swiper.params.controller.control
+    currentParams.controller &&
+    !currentParams.controller.control
   ) {
     needControllerInit = true;
   }
+  if (
+    changedParams.includes('pagination') &&
+    passedParams.pagination &&
+    passedParams.pagination.el &&
+    currentParams.pagination &&
+    pagination &&
+    !pagination.el
+  ) {
+    needPaginationInit = true;
+  }
+
+  if (
+    changedParams.includes('scrollbar') &&
+    passedParams.scrollbar &&
+    passedParams.scrollbar.el &&
+    currentParams.scrollbar &&
+    scrollbar &&
+    !scrollbar.el
+  ) {
+    needScrollbarInit = true;
+  }
+
+  if (
+    changedParams.includes('navigation') &&
+    passedParams.navigation &&
+    passedParams.navigation.prevEl &&
+    passedParams.navigation.nextEl &&
+    currentParams.navigation &&
+    navigation &&
+    !navigation.prevEl &&
+    !navigation.nextEl
+  ) {
+    needNavigationInit = true;
+  }
 
   updateParams.forEach((key) => {
-    if (isObject(swiper.params[key]) && isObject(passedParams[key])) {
-      extend(swiper.params[key], passedParams[key]);
+    if (isObject(currentParams[key]) && isObject(passedParams[key])) {
+      extend(currentParams[key], passedParams[key]);
     } else {
-      swiper.params[key] = passedParams[key];
+      currentParams[key] = passedParams[key];
     }
   });
 
-  if (changedParams.includes('children') && swiper.virtual && swiper.params.virtual.enabled) {
-    swiper.virtual.slides = slides;
-    swiper.virtual.update(true);
+  if (changedParams.includes('children') && virtual && currentParams.virtual.enabled) {
+    virtual.slides = slides;
+    virtual.update(true);
   }
 
   if (needThumbsInit) {
-    const initialized = swiper.thumbs.init();
-    if (initialized) swiper.thumbs.update(true);
+    const initialized = thumbs.init();
+    if (initialized) thumbs.update(true);
   }
 
   if (needControllerInit) {
-    swiper.controller.control = swiper.params.controller.control;
+    swiper.controller.control = currentParams.controller.control;
+  }
+
+  if (needPaginationInit) {
+    pagination.init();
+    pagination.render();
+    pagination.update();
+  }
+
+  if (needScrollbarInit) {
+    scrollbar.init();
+    scrollbar.updateSize();
+    scrollbar.setTranslate();
+  }
+
+  if (needNavigationInit) {
+    navigation.init();
+    navigation.update();
   }
 
   if (changedParams.includes('allowSlideNext')) {
