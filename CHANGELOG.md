@@ -1,5 +1,9 @@
 # Changelog
 
+## [Swiper 6.0.3](https://github.com/nolimits4web/swiper/compare/v6.0.2...v6.0.3) - Released on July 14th, 2020
+
+- Dom7 updated to latest with correct `__proto__` setters/getters
+
 ## [Swiper 6.0.2](https://github.com/nolimits4web/swiper/compare/v6.0.1...v6.0.2) - Released on July 9th, 2020
 
 - React
