@@ -43,7 +43,11 @@ interface SwiperSlide {
   zoom?: boolean;
 }
 
-interface Swiper extends Omit<React.HTMLAttributes<HTMLElement>, 'onProgress' | 'onClick' | 'onTouchEnd' | 'onTouchMove' | 'onTouchStart' | 'onTransitionEnd'> {}
+interface Swiper
+  extends Omit<
+    React.HTMLAttributes<HTMLElement>,
+    'onProgress' | 'onClick' | 'onTouchEnd' | 'onTouchMove' | 'onTouchStart' | 'onTransitionEnd'
+  > {}
 interface SwiperSlide extends React.HTMLAttributes<HTMLElement> {}
 
 declare const Swiper: React.FunctionComponent<Swiper>;
