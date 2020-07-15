@@ -1,5 +1,9 @@
 # Changelog
 
+## [Swiper 6.0.4](https://github.com/nolimits4web/swiper/compare/v6.0.3...v6.0.4) - Released on July 15th, 2020
+
+- Fixed TS definitions for Swiper React component (#3692)
+
 ## [Swiper 6.0.3](https://github.com/nolimits4web/swiper/compare/v6.0.2...v6.0.3) - Released on July 14th, 2020
 
 - Dom7 updated to latest with correct `__proto__` setters/getters
