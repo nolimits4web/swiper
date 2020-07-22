@@ -41,7 +41,7 @@ export default () => {
 };
 ```
 
-By default Swiper React uses core version of Swiper (without any additional components). If you want to use Navitation, Pagination and other, you have to install them first:
+By default Swiper React uses core version of Swiper (without any additional components). If you want to use Navigation, Pagination and other, you have to install them first:
 
 ```jsx
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
