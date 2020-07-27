@@ -89,6 +89,14 @@ async function build(cb) {
           .replace(`@import url('./less/mixins.less');`, '')
           .replace(`@import url('./components/core/core.less');`, coreContent);
       }
+      if (file.indexOf('swiper-vars.less') >= 0) {
+        fileContent = fileContent
+          .replace('$themeColor', config.themeColor)
+          .replace('$colors', colors.join(', '));
+      }
+      if (file.indexOf('navigation.less') >= 0 || file.indexOf('pagination.less') >= 0) {
+        fileContent = ["@import url('../../swiper-vars.less');", fileContent].join('\n\n');
+      }
       if (file.indexOf('swiper.scss') >= 0) {
         const coreContent = fs.readFileSync(
           path.resolve(__dirname, '../src/components/core/core.scss'),
