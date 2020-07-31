@@ -17,15 +17,8 @@ async function buildCore(components, format, cb) {
 
   const bundle = await rollup({
     input: './src/swiper.js',
-    external(id) {
-      if (id.includes('-class')) return false;
-      if (id.includes('/components/') && !id.includes('/components/core')) return true;
-      const externals = ['dom', 'get-browser', 'get-device', 'get-support', 'utils', 'ssr-window'];
-      let isExternal = false;
-      externals.forEach((ext) => {
-        if (id.includes(ext)) isExternal = true;
-      });
-      return isExternal;
+    external() {
+      return true;
     },
     plugins: [
       replace({
@@ -60,11 +53,11 @@ async function buildCore(components, format, cb) {
 
   // Babel
   await exec.promise(
-    `MODULES=${format} npx babel src --out-dir ${outputDir}/${format} --ignore "src/react/**/*.js","src/*-react.js"`,
+    `MODULES=${format} npx babel src --out-dir ${outputDir}/${format} --ignore "src/react/**/*.js","src/*-react.js","src/swiper-react.js"`,
   );
 
   // Remove unused dirs
-  const dirsToRemove = ['components/core', 'less', 'modules'];
+  const dirsToRemove = ['less'];
   const filesToRemove = ['swiper.js'];
   dirsToRemove.forEach((dir) => {
     fs.rmdirSync(`./${outputDir}/${format}/${dir}`, { recursive: true });

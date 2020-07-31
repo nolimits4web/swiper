@@ -19,7 +19,7 @@ async function buildReact(format, cb) {
   // Fix import paths
   let fileContent = fs.readFileSync(`./${outputDir}/swiper-react.${format}.js`, 'utf-8');
   fileContent = fileContent
-    .replace(/require\(".\/react\//g, `require("./${format}/react//`)
+    .replace(/require\(".\/react\//g, `require("./${format}/react/`)
     .replace(/from '.\/react\//g, `from './${format}/react/`);
   fileContent = `${bannerReact}\n${fileContent}`;
   fs.writeFileSync(`./${outputDir}/swiper-react.${format}.js`, fileContent);
