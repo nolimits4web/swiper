@@ -317,6 +317,23 @@ const Mousewheel = {
   animateSlider(newEvent) {
     const swiper = this;
     const window = getWindow();
+
+    if (
+      this.params.mousewheel.thresholdDelta &&
+      newEvent.delta < this.params.mousewheel.thresholdDelta
+    ) {
+      // Prevent if delta of wheel scroll delta is below configured threshold
+      return false;
+    }
+
+    if (
+      this.params.mousewheel.thresholdTime &&
+      now() - swiper.mousewheel.lastScrollTime < this.params.mousewheel.thresholdTime
+    ) {
+      // Prevent if time between scrolls is below configured threshold
+      return false;
+    }
+
     // If the movement is NOT big enough and
     // if the last time the user scrolled was too close to the current one (avoid continuously triggering the slider):
     //   Don't go any further (avoid insignificant scroll movement).
@@ -412,6 +429,8 @@ export default {
       forceToAxis: false,
       sensitivity: 1,
       eventsTarget: 'container',
+      thresholdDelta: null,
+      thresholdTime: null,
     },
   },
   create() {
