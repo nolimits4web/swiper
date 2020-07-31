@@ -52,4 +52,18 @@ export interface MousewheelOptions {
    * @default 'container'
    */
   eventsTarget?: 'container' | 'wrapper' | CSSSelector | HTMLElement;
+
+  /**
+   * Minimum mousewheel scroll delta to trigger swiper slide change
+   *
+   * @default null
+   */
+  thresholdDelta?: number;
+
+  /**
+   * Minimum mousewheel scroll time delta (in ms) to trigger swiper slide change
+   *
+   * @default null
+   */
+  thresholdTime?: number;
 }
