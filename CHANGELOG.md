@@ -1,5 +1,9 @@
 # Changelog
 
+## [Swiper 6.1.1](https://github.com/nolimits4web/swiper/compare/v6.1.0...v6.1.1) - Released on July 31th, 2020
+
+- Fixed ESM/CJS import paths
+
 ## [Swiper 6.1.0](https://github.com/nolimits4web/swiper/compare/v6.0.4...v6.1.0) - Released on July 31th, 2020
 
 - Core
