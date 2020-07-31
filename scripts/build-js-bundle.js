@@ -55,6 +55,14 @@ function buildBundle(components, format, browser, cb) {
       }),
     )
     .then((bundle) => {
+      if (!browser && (format === 'cjs' || format === 'esm') && env === 'production') {
+        // Fix imports
+        const modularContent = fs
+          .readFileSync(`./${output}/${filename}.js`, 'utf-8')
+          .replace(/require\('\.\//g, `require('./${format}/`)
+          .replace(/from '\.\//g, `from './${format}/`);
+        fs.writeFileSync(`./${output}/${filename}.js`, modularContent);
+      }
       if (env === 'development' || !browser) {
         if (cb) cb();
         return;
