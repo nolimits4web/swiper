@@ -5,12 +5,12 @@ import { paramsList } from './params-list';
 
 function getParams(obj = {}) {
   const params = {
-    _emitClasses: true,
     on: {},
   };
   const passedParams = {};
   extend(params, Swiper.defaults);
   extend(params, Swiper.extendedDefaults);
+  params._emitClasses = true;
 
   const rest = {};
   const allowedParams = paramsList.map((key) => key.replace(/_/, ''));

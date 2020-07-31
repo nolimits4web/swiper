@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, forwardRef } from 'react';
+import React, { useRef, useLayoutEffect, useState, forwardRef } from 'react';
 import { uniqueClasses } from './utils';
 
 const SwiperSlide = forwardRef(
@@ -12,7 +12,7 @@ const SwiperSlide = forwardRef(
       }
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       if (externalRef) {
         externalRef.current = slideElRef.current;
       }
@@ -31,6 +31,27 @@ const SwiperSlide = forwardRef(
       };
     });
 
+    let slideData;
+    if (typeof children === 'function') {
+      slideData = {
+        isActive:
+          slideClasses.indexOf('swiper-slide-active') >= 0 ||
+          slideClasses.indexOf('swiper-slide-duplicate-active') >= 0,
+        isVisible: slideClasses.indexOf('swiper-slide-visible') >= 0,
+        isDuplicate: slideClasses.indexOf('swiper-slide-duplicate') >= 0,
+        isPrev:
+          slideClasses.indexOf('swiper-slide-prev') >= 0 ||
+          slideClasses.indexOf('swiper-slide-duplicate-prev') >= 0,
+        isNext:
+          slideClasses.indexOf('swiper-slide-next') >= 0 ||
+          slideClasses.indexOf('swiper-slide-duplicate next') >= 0,
+      };
+    }
+
+    const renderChildren = () => {
+      return typeof children === 'function' ? children(slideData) : children;
+    };
+
     return (
       <Tag
         ref={slideElRef}
@@ -42,10 +63,10 @@ const SwiperSlide = forwardRef(
             className="swiper-zoom-container"
             data-swiper-zoom={typeof zoom === 'number' ? zoom : undefined}
           >
-            {children}
+            {renderChildren()}
           </div>
         ) : (
-          children
+          renderChildren()
         )}
       </Tag>
     );
