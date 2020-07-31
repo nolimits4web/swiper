@@ -5,6 +5,9 @@ import { getSupport } from '../../utils/get-support';
 import { getDevice } from '../../utils/get-device';
 import { getBrowser } from '../../utils/get-browser';
 
+import Resize from '../../modules/resize/resize';
+import Observer from '../../modules/observer/observer';
+
 import modular from './modular';
 import eventsEmitter from './events-emitter';
 
@@ -552,5 +555,7 @@ class Swiper {
     return Swiper;
   }
 }
+
+Swiper.use([Resize, Observer]);
 
 export default Swiper;
