@@ -1,5 +1,25 @@
 # Changelog
 
+## [Swiper 6.1.0](https://github.com/nolimits4web/swiper/compare/v6.0.4...v6.1.0) - Released on July 31th, 2020
+
+- Core
+  - Mousewheel
+    - New mousewheel parameters `thresholdDelta` and `thresholdTime` (#3720)
+  - Fixed issue with Navigation and Pagination `.less` files (#3724)
+  - Fixed issue with setting proper `sideEffects` causing some bundlers to not include imported styles (#3708)
+- React
+  - Now `SwiperSlide` accepts render function with `isActive`, `isVisible`, `isPrev`, `isNext`, `isDuplicate` props:
+    ```jsx
+    <Swiper>
+      <SwiperSlide>
+        {({ isActive }) => <div>Current slide is {isActive ? 'active' : 'not active'}</div>}
+      </SwiperSlide>
+      <SwiperSlide>...</SwiperSlide>
+      ...
+    </Swiper>
+    ```
+- Minor fixes
+
 ## [Swiper 6.0.4](https://github.com/nolimits4web/swiper/compare/v6.0.3...v6.0.4) - Released on July 15th, 2020
 
 - Fixed TS definitions for Swiper React component (#3692)
