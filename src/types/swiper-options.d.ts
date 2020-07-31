@@ -601,10 +601,10 @@ export interface SwiperOptions {
   keyboard?: KeyboardOptions | boolean;
   lazy?: LazyOptions | boolean;
   mousewheel?: MousewheelOptions | boolean;
-  navigation?: NavigationOptions;
-  pagination?: PaginationOptions;
+  navigation?: NavigationOptions | boolean;
+  pagination?: PaginationOptions | boolean;
   parallax?: boolean;
-  scrollbar?: ScrollbarOptions;
+  scrollbar?: ScrollbarOptions | boolean;
   thumbs?: ThumbsOptions;
   virtual?: VirtualOptions | boolean;
   zoom?: ZoomOptions | boolean;
