@@ -319,16 +319,16 @@ const Mousewheel = {
     const window = getWindow();
 
     if (
-      this.params.mousewheel.preventSwipeThresholdDelta &&
-      newEvent.delta < this.params.mousewheel.preventSwipeThresholdDelta
+      this.params.mousewheel.thresholdDelta &&
+      newEvent.delta < this.params.mousewheel.thresholdDelta
     ) {
       // Prevent if delta of wheel scroll delta is below configured threshold
       return false;
     }
 
     if (
-      this.params.mousewheel.preventSwipeThresholdTime &&
-      now() - swiper.mousewheel.lastScrollTime < this.params.mousewheel.preventSwipeThresholdTime
+      this.params.mousewheel.thresholdTime &&
+      now() - swiper.mousewheel.lastScrollTime < this.params.mousewheel.thresholdTime
     ) {
       // Prevent if time between scrolls is below configured threshold
       return false;
@@ -429,8 +429,8 @@ export default {
       forceToAxis: false,
       sensitivity: 1,
       eventsTarget: 'container',
-      preventSwipeThresholdDelta: null,
-      preventSwipeThresholdTime: null,
+      thresholdDelta: null,
+      thresholdTime: null,
     },
   },
   create() {
