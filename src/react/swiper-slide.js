@@ -1,5 +1,6 @@
-import React, { useRef, useLayoutEffect, useState, forwardRef } from 'react';
+import React, { useRef, useState, forwardRef } from 'react';
 import { uniqueClasses } from './utils';
+import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect';
 
 const SwiperSlide = forwardRef(
   ({ tag: Tag = 'div', children, className = '', swiper, zoom, ...rest } = {}, externalRef) => {
@@ -12,7 +13,7 @@ const SwiperSlide = forwardRef(
       }
     }
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
       if (externalRef) {
         externalRef.current = slideElRef.current;
       }
