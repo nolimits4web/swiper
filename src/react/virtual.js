@@ -14,7 +14,7 @@ function renderVirtual(swiper, slides, virtualData) {
   if (!virtualData) return null;
   const style = swiper.isHorizontal()
     ? {
-        left: `${virtualData.offset}px`,
+        [swiper.rtlTranslate ? 'right' : 'left']: `${virtualData.offset}px`,
       }
     : {
         top: `${virtualData.offset}px`,
