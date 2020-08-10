@@ -66,6 +66,6 @@ export default function updateActiveIndex(newActiveIndex) {
     swiper.emit('realIndexChange');
   }
   if (swiper.initialized || swiper.params.runCallbacksOnInit) {
-    swiper.emit('slideChange');
+    swiper.emit('slideChange', this);
   }
 }
