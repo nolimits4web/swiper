@@ -1,5 +1,11 @@
 # Changelog
 
+## [Swiper 6.1.2](https://github.com/nolimits4web/swiper/compare/v6.1.1...v6.1.2) - Released on August 17th, 2020
+
+- React
+  - Fixed issue generating `useLayoutEffect` warning in Next.js
+  - Fixed issue with Virtual List in RTL mode
+
 ## [Swiper 6.1.1](https://github.com/nolimits4web/swiper/compare/v6.1.0...v6.1.1) - Released on July 31th, 2020
 
 - Fixed ESM/CJS import paths
