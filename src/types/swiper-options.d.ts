@@ -120,7 +120,7 @@ export interface SwiperOptions {
   uniqueNavElements?: boolean;
 
   /**
-   * Tranisition effect. Could be "slide", "fade", "cube", "coverflow" or "flip"
+   * Transition effect. Could be "slide", "fade", "cube", "coverflow" or "flip"
    *
    * @default 'slide'
    */
