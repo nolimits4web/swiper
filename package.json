@@ -1,6 +1,6 @@
 {
-  "name": "swiper-src",
-  "version": "5.4.5",
+  "name": "@nuts/swiper",
+  "version": "5.4.6-alpha.4",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development gulp build",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nolimits4web/Swiper.git"
+    "url": "https://github.com/nuts/Swiper.git"
   },
   "keywords": [
     "swiper",
@@ -35,7 +35,7 @@
   "author": "Vladimir Kharlampidi",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nolimits4web/Swiper/issues"
+    "url": "https://github.com/nuts/Swiper/issues"
   },
   "homepage": "http://swiperjs.com",
   "funding": {

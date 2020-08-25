@@ -1,5 +1,5 @@
 /**
- * Swiper 5.4.5
+ * Swiper 5.4.6-alpha.4
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * http://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: June 16, 2020
+ * Released on: August 24, 2020
  */
 
 (function (global, factory) {

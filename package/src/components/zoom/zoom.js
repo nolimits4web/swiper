@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-properties */
 import $ from '../../utils/dom';
 import Utils from '../../utils/utils';
 import Device from '../../utils/device';
@@ -11,7 +12,7 @@ const Zoom = {
     const y1 = e.targetTouches[0].pageY;
     const x2 = e.targetTouches[1].pageX;
     const y2 = e.targetTouches[1].pageY;
-    const distance = Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2));
+    const distance = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
     return distance;
   },
   // Events
@@ -64,10 +65,10 @@ const Zoom = {
       zoom.scale = (gesture.scaleMove / gesture.scaleStart) * zoom.currentScale;
     }
     if (zoom.scale > gesture.maxRatio) {
-      zoom.scale = (gesture.maxRatio - 1) + (((zoom.scale - gesture.maxRatio) + 1) ** 0.5);
+      zoom.scale = (gesture.maxRatio - 1) + Math.pow(((zoom.scale - gesture.maxRatio) + 1), 0.5);
     }
     if (zoom.scale < params.minRatio) {
-      zoom.scale = (params.minRatio + 1) - (((params.minRatio - zoom.scale) + 1) ** 0.5);
+      zoom.scale = (params.minRatio + 1) - Math.pow(((params.minRatio - zoom.scale) + 1), 0.5);
     }
     gesture.$imageEl.transform(`translate3d(0,0,0) scale(${zoom.scale})`);
   },
@@ -170,17 +171,17 @@ const Zoom = {
     image.currentY = (image.touchesCurrent.y - image.touchesStart.y) + image.startY;
 
     if (image.currentX < image.minX) {
-      image.currentX = (image.minX + 1) - (((image.minX - image.currentX) + 1) ** 0.8);
+      image.currentX = (image.minX + 1) - Math.pow(((image.minX - image.currentX) + 1), 0.8);
     }
     if (image.currentX > image.maxX) {
-      image.currentX = (image.maxX - 1) + (((image.currentX - image.maxX) + 1) ** 0.8);
+      image.currentX = (image.maxX - 1) + Math.pow(((image.currentX - image.maxX) + 1), 0.8);
     }
 
     if (image.currentY < image.minY) {
-      image.currentY = (image.minY + 1) - (((image.minY - image.currentY) + 1) ** 0.8);
+      image.currentY = (image.minY + 1) - Math.pow(((image.minY - image.currentY) + 1), 0.8);
     }
     if (image.currentY > image.maxY) {
-      image.currentY = (image.maxY - 1) + (((image.currentY - image.maxY) + 1) ** 0.8);
+      image.currentY = (image.maxY - 1) + Math.pow(((image.currentY - image.maxY) + 1), 0.8);
     }
 
     // Velocity
