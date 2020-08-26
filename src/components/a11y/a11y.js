@@ -105,7 +105,6 @@ const A11y = {
             $bulletEl,
             params.paginationBulletMessage.replace(/\{\{index\}\}/, $bulletEl.index() + 1),
           );
-        } else {
         }
       });
     }
