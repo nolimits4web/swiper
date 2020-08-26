@@ -529,7 +529,7 @@ export interface SwiperOptions {
    */
   loopFillGroupWithBlank?: boolean;
   /**
-   * When enabled it prevents Swiper slide prev/next transitions when transitions is already in progress (has efect when `loop` enabled)
+   * When enabled it prevents Swiper slide prev/next transitions when transitions is already in progress (has effect when `loop` enabled)
    *
    * @default true
    */
