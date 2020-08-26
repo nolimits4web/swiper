@@ -96,8 +96,8 @@ const A11y = {
       swiper.pagination.bullets &&
       swiper.pagination.bullets.length
     ) {
-      swiper.pagination.bullets.each(function (bulletEl) {
-        var $bulletEl = $(bulletEl);
+      swiper.pagination.bullets.each((bulletEl) => {
+        const $bulletEl = $(bulletEl);
         swiper.a11y.makeElFocusable($bulletEl);
         if (!swiper.params.pagination.renderBullet) {
           swiper.a11y.addElRole($bulletEl, 'button');
