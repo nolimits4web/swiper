@@ -1,13 +1,11 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>Swiper Playground</title>
-  <link rel="stylesheet" href="../build/swiper-bundle.css">
+  <link rel="stylesheet" href="../playground/css/index.css">
   <meta name="viewport" content="width=device-width">
 </head>
-
 <body>
   <div class="swiper-container">
     <div class="swiper-scrollbar"></div>
@@ -27,56 +25,6 @@
     </div>
     <div class="swiper-pagination"></div>
   </div>
-  <style>
-    body,
-    html {
-      padding: 0;
-      margin: 0;
-      position: relative;
-      height: 100%;
-    }
-
-    .swiper-container {
-      width: 100%;
-      height: 300px;
-      margin: 50px auto;
-    }
-
-    .swiper-slide {
-      background: #f1f1f1;
-      color: #000;
-      text-align: center;
-      line-height: 300px;
-    }
-  </style>
   <script src="../build/swiper-bundle.js"></script>
-  <script>
-    var swiper = new Swiper({
-      el: '.swiper-container',
-      initialSlide: 2,
-      spaceBetween: 50,
-      slidesPerView: 2,
-      centeredSlides: true,
-      slideToClickedSlide: true,
-      grabCursor: true,
-      scrollbar: {
-        el: '.swiper-scrollbar',
-      },
-      mousewheel: {
-        enabled: true,
-      },
-      keyboard: {
-        enabled: true,
-      },
-      pagination: {
-        el: '.swiper-pagination',
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    });
-  </script>
 </body>
-
 </html>
