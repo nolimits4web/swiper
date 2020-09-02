@@ -68,14 +68,6 @@ class Swiper {
     swiper.eventsListeners = {};
     swiper.eventsAnyListeners = [];
 
-    Object.keys(prototypes).forEach((prototypeGroup) => {
-      Object.keys(prototypes[prototypeGroup]).forEach((protoMethod) => {
-        if (!Swiper.prototype[protoMethod]) {
-          Swiper.prototype[protoMethod] = prototypes[prototypeGroup][protoMethod];
-        }
-      });
-    });
-
     if (typeof swiper.modules === 'undefined') {
       swiper.modules = {};
     }
@@ -555,6 +547,12 @@ class Swiper {
     return Swiper;
   }
 }
+
+Object.keys(prototypes).forEach((prototypeGroup) => {
+  Object.keys(prototypes[prototypeGroup]).forEach((protoMethod) => {
+    Swiper.prototype[protoMethod] = prototypes[prototypeGroup][protoMethod];
+  });
+});
 
 Swiper.use([Resize, Observer]);
 
