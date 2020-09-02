@@ -23,6 +23,7 @@ const Swiper = forwardRef(
   ) => {
     const [containerClasses, setContainerClasses] = useState('swiper-container');
     const [virtualData, setVirtualData] = useState(null);
+    const [breakpointChanged, setBreakpointChanged] = useState(false);
     const initializedRef = useRef(false);
     const swiperElRef = useRef(null);
     const swiperRef = useRef(null);
@@ -48,6 +49,10 @@ const Swiper = forwardRef(
     oldPassedParamsRef.current = passedParams;
     oldSlides.current = slides;
 
+    const onBeforeBreakpoint = () => {
+      setBreakpointChanged(!breakpointChanged);
+    };
+
     Object.assign(swiperParams.on, {
       _containerClasses(swiper, classes) {
         setContainerClasses(classes);
@@ -66,6 +71,15 @@ const Swiper = forwardRef(
           swiper.params.virtual.renderExternalUpdate = false;
         }
       },
+    });
+
+    if (swiperRef.current) {
+      swiperRef.current.on('_beforeBreakpoint', onBeforeBreakpoint);
+    }
+    useEffect(() => {
+      return () => {
+        if (swiperRef.current) swiperRef.current.off('_beforeBreakpoint', onBeforeBreakpoint);
+      };
     });
 
     // set initialized flag

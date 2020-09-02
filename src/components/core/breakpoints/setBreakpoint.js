@@ -66,6 +66,8 @@ export default function setBreakpoint() {
 
     swiper.currentBreakpoint = breakpoint;
 
+    swiper.emit('_beforeBreakpoint', breakpointParams);
+
     if (needsReLoop && initialized) {
       swiper.loopDestroy();
       swiper.loopCreate();

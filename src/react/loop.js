@@ -1,9 +1,18 @@
 import React from 'react';
+// eslint-disable-next-line
+import Swiper from '../../core';
 
 function calcLoopedSlides(slides, swiperParams) {
-  let loopedSlides = Math.ceil(
-    parseFloat(swiperParams.loopedSlides || swiperParams.slidesPerView, 10),
-  );
+  let slidesPerViewParams = swiperParams.slidesPerView;
+  if (swiperParams.breakpoints) {
+    const breakpoint = Swiper.prototype.getBreakpoint(swiperParams.breakpoints);
+    const breakpointOnlyParams =
+      breakpoint in swiperParams.breakpoints ? swiperParams.breakpoints[breakpoint] : undefined;
+    if (breakpointOnlyParams && breakpointOnlyParams.slidesPerView) {
+      slidesPerViewParams = breakpointOnlyParams.slidesPerView;
+    }
+  }
+  let loopedSlides = Math.ceil(parseFloat(swiperParams.loopedSlides || slidesPerViewParams, 10));
 
   loopedSlides += swiperParams.loopAdditionalSlides;
 
