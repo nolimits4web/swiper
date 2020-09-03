@@ -1,5 +1,13 @@
 # Changelog
 
+## [Swiper 6.1.3](https://github.com/nolimits4web/swiper/compare/v6.1.2...v6.1.3) - Released on September 3rd, 2020
+
+- Core
+  - Pagination
+    - Now it won't set a11y attributes on customly rendered bullets
+- React
+  - Fixed issue with loop mode and breakpoints not being recalucate slides
+
 ## [Swiper 6.1.2](https://github.com/nolimits4web/swiper/compare/v6.1.1...v6.1.2) - Released on August 17th, 2020
 
 - React
