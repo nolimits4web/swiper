@@ -85,6 +85,11 @@ export default {
     const eventsArray = Array.isArray(events) ? events : events.split(' ');
 
     eventsArray.forEach((event) => {
+      if (self.eventsAnyListeners && self.eventsAnyListeners.length) {
+        self.eventsAnyListeners.forEach((eventHandler) => {
+          eventHandler.apply(context, [event, ...data]);
+        });
+      }
       if (self.eventsListeners && self.eventsListeners[event]) {
         const handlers = [];
         self.eventsListeners[event].forEach((eventHandler) => {

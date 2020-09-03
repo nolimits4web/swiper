@@ -5,6 +5,7 @@ const buildJsBundle = require('./build-js-bundle');
 const buildTypes = require('./build-types');
 const buildStyles = require('./build-styles');
 const buildReact = require('./build-react');
+const buildVue = require('./build-vue');
 
 console.log('Watching file changes ...');
 
@@ -23,6 +24,9 @@ fs.watch(path.resolve(__dirname, '../src'), { recursive: true }, (eventType, fil
     } else if (fileName.includes('react')) {
       console.log('Building React');
       buildReact();
+    } else if (fileName.includes('vue')) {
+      console.log('Building Vue');
+      buildVue();
     } else if (fileName.includes('.js')) {
       console.log('Building JS');
       buildJsCore();

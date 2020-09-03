@@ -1,0 +1,31 @@
+function updateOnVirtualData(swiper) {
+  if (!swiper || swiper.destroyed) return;
+  swiper.updateSlides();
+  swiper.updateProgress();
+  swiper.updateSlidesClasses();
+  if (swiper.lazy && swiper.params.lazy.enabled) {
+    swiper.lazy.load();
+  }
+}
+
+function renderVirtual(swiperRef, slides, virtualData) {
+  if (!virtualData) return null;
+  const style = swiperRef.value.isHorizontal()
+    ? {
+        [swiperRef.value.rtlTranslate ? 'right' : 'left']: `${virtualData.offset}px`,
+      }
+    : {
+        top: `${virtualData.offset}px`,
+      };
+  return slides
+    .filter((slide, index) => index >= virtualData.from && index <= virtualData.to)
+    .map((slide) => {
+      if (!slide.props) slide.props = {};
+      if (!slide.props.style) slide.props.style = {};
+      slide.props.swiperRef = swiperRef;
+      slide.props.style = style;
+      return slide;
+    });
+}
+
+export { renderVirtual, updateOnVirtualData };

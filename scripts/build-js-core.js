@@ -52,8 +52,16 @@ async function buildCore(components, format, cb) {
   });
 
   // Babel
+  const ignore = [
+    '"src/react/**/*.js"',
+    '"src/*-react.js"',
+    '"src/swiper-react.js"',
+    '"src/vue/**/*.js"',
+    '"src/*-vue.js"',
+    '"src/swiper-vue.js"',
+  ];
   await exec.promise(
-    `MODULES=${format} npx babel src --out-dir ${outputDir}/${format} --ignore "src/react/**/*.js","src/*-react.js","src/swiper-react.js"`,
+    `MODULES=${format} npx babel src --out-dir ${outputDir}/${format} --ignore ${ignore.join(',')}`,
   );
 
   // Remove unused dirs

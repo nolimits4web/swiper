@@ -106,6 +106,9 @@ class Swiper {
         swiper.on(eventName, swiper.params.on[eventName]);
       });
     }
+    if (swiper.params && swiper.params.onAny) {
+      swiper.onAny(swiper.params.onAny);
+    }
 
     // Save Dom lib
     swiper.$ = $;
