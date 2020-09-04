@@ -1,5 +1,29 @@
 # Changelog
 
+## [Swiper 6.2.0](https://github.com/nolimits4web/swiper/compare/v6.1.3...v6.2.0) - Released on September 4rd, 2020
+
+- All new Swiper Vue.js (v3) components:
+
+  ```html
+  <template>
+    <swiper :space-between="50" :slides-per-view="3">
+      <swiper-slide>Slide 1</swiper-slide>
+      <swiper-slide>Slide 2</swiper-slide>
+      ...
+    </swiper>
+  </template>
+  <script>
+    import { Swiper, SwiperSlide } from 'swiper/vue';
+
+    export default {
+      components: {
+        Swiper,
+        SwiperSlide,
+      },
+    };
+  </script>
+  ```
+
 ## [Swiper 6.1.3](https://github.com/nolimits4web/swiper/compare/v6.1.2...v6.1.3) - Released on September 3rd, 2020
 
 - Core
