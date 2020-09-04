@@ -15,6 +15,7 @@ function getParams(obj = {}) {
   const rest = {};
   const allowedParams = paramsList.map((key) => key.replace(/_/, ''));
   Object.keys(obj).forEach((key) => {
+    if (typeof obj[key] === 'undefined') return;
     if (allowedParams.indexOf(key) >= 0) {
       if (isObject(obj[key])) {
         params[key] = {};

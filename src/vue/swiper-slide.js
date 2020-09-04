@@ -9,11 +9,10 @@ const SwiperSlide = {
       default: 'div',
     },
     swiperRef: Object,
-    zoom: Boolean,
+    zoom: { type: Boolean, default: undefined },
   },
   setup(props, { slots }) {
     const { tag: Tag, class: className = '', swiperRef, zoom } = props;
-
     const slideElRef = ref(null);
     const slideClasses = ref('swiper-slide');
 
@@ -38,6 +37,19 @@ const SwiperSlide = {
       swiperRef.value.off('_slideClass', updateClasses);
     });
 
+    const slideData = () => ({
+      isActive:
+        slideClasses.value.indexOf('swiper-slide-active') >= 0 ||
+        slideClasses.value.indexOf('swiper-slide-duplicate-active') >= 0,
+      isVisible: slideClasses.value.indexOf('swiper-slide-visible') >= 0,
+      isDuplicate: slideClasses.value.indexOf('swiper-slide-duplicate') >= 0,
+      isPrev:
+        slideClasses.value.indexOf('swiper-slide-prev') >= 0 ||
+        slideClasses.value.indexOf('swiper-slide-duplicate-prev') >= 0,
+      isNext:
+        slideClasses.value.indexOf('swiper-slide-next') >= 0 ||
+        slideClasses.value.indexOf('swiper-slide-duplicate next') >= 0,
+    });
     return () =>
       h(
         Tag,
@@ -52,9 +64,9 @@ const SwiperSlide = {
                 class: 'swiper-zoom-container',
                 'data-swiper-zoom': typeof zoom === 'number' ? zoom : undefined,
               },
-              slots.default(),
+              slots.default(slideData()),
             )
-          : slots.default(),
+          : slots.default(slideData()),
       );
   },
 };

@@ -1,4 +1,4 @@
-function getChildren(originalSlots = {}) {
+function getChildren(originalSlots = {}, slidesRef, oldSlidesRef) {
   const slides = [];
 
   const slots = {
@@ -18,6 +18,8 @@ function getChildren(originalSlots = {}) {
       }
     });
   });
+  oldSlidesRef.value = slidesRef.value;
+  slidesRef.value = slides;
 
   return { slides, slots };
 }

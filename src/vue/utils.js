@@ -13,18 +13,18 @@ function extend(target, src) {
   });
 }
 
-function needsNavigation(params = {}) {
+function needsNavigation(props = {}) {
   return (
-    params.navigation &&
-    typeof params.navigation.nextEl === 'undefined' &&
-    typeof params.navigation.prevEl === 'undefined'
+    props.navigation &&
+    typeof props.navigation.nextEl === 'undefined' &&
+    typeof props.navigation.prevEl === 'undefined'
   );
 }
-function needsPagination(params = {}) {
-  return params.pagination && typeof params.pagination.el === 'undefined';
+function needsPagination(props = {}) {
+  return props.pagination && typeof props.pagination.el === 'undefined';
 }
-function needsScrollbar(params = {}) {
-  return params.scrollbar && typeof params.scrollbar.el === 'undefined';
+function needsScrollbar(props = {}) {
+  return props.scrollbar && typeof props.scrollbar.el === 'undefined';
 }
 function uniqueClasses(classNames = '') {
   const classes = classNames
