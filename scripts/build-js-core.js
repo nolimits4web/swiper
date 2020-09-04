@@ -59,6 +59,9 @@ async function buildCore(components, format, cb) {
     '"src/vue/**/*.js"',
     '"src/*-vue.js"',
     '"src/swiper-vue.js"',
+    '"src/svelte/**/*.js"',
+    '"src/*-svelte.js"',
+    '"src/swiper-svelte.js"',
   ];
   await exec.promise(
     `MODULES=${format} npx babel src --out-dir ${outputDir}/${format} --ignore ${ignore.join(',')}`,

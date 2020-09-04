@@ -6,6 +6,7 @@ const buildTypes = require('./build-types');
 const buildStyles = require('./build-styles');
 const buildReact = require('./build-react');
 const buildVue = require('./build-vue');
+const buildSvelte = require('./build-svelte');
 
 console.log('Watching file changes ...');
 
@@ -27,6 +28,9 @@ fs.watch(path.resolve(__dirname, '../src'), { recursive: true }, (eventType, fil
     } else if (fileName.includes('vue')) {
       console.log('Building Vue');
       buildVue();
+    } else if (fileName.includes('svelte')) {
+      console.log('Building Svelte');
+      buildSvelte();
     } else if (fileName.includes('.js')) {
       console.log('Building JS');
       buildJsCore();
