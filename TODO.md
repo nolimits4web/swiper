@@ -1,9 +1,3 @@
-- Setup lintstaged + husky
-- Lite version
-  - Remove:
-    - Loop
-    - Free mode
-    - Manipulation
-    - Autoheight
-    - Images
-    - Lazy loading
+- Vue v3
+  - Check slots with options component
+  - Check v-slot on slides with data
