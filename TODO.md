@@ -1,3 +1,3 @@
 - Vue v3
-  - Check slots with options component
+  - Check slots (is it a function) with options component
   - Check v-slot on slides with data
