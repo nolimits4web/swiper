@@ -23,7 +23,7 @@ const SwiperSlide = {
     }
 
     onUpdated(() => {
-      if (!slideElRef.value || !swiperRef.value) return;
+      if (!slideElRef.value || !swiperRef || !swiperRef.value) return;
       if (swiperRef.value.destroyed) {
         if (slideClasses.value !== 'swiper-slide') {
           slideClasses.value = 'swiper-slide';
@@ -33,7 +33,7 @@ const SwiperSlide = {
       swiperRef.value.on('_slideClass', updateClasses);
     });
     onBeforeUpdate(() => {
-      if (!swiperRef.value) return;
+      if (!swiperRef || !swiperRef.value) return;
       swiperRef.value.off('_slideClass', updateClasses);
     });
 
