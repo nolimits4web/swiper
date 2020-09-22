@@ -48,6 +48,9 @@
 .swiper-slide-invisible-blank {
   visibility: hidden;
 }
+.swiper-slide-active {
+    z-index: 999999;
+}
 /* Auto Height */
 .swiper-container-autoheight {
   &,
