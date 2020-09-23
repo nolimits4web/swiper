@@ -1,4 +1,4 @@
-import { h, ref, onUpdated, onBeforeUpdate } from 'vue';
+import { h, ref, onUpdated, onBeforeUpdate, computed } from 'vue';
 import { uniqueClasses } from './utils';
 
 const SwiperSlide = {
@@ -12,7 +12,7 @@ const SwiperSlide = {
     zoom: { type: Boolean, default: undefined },
   },
   setup(props, { slots }) {
-    const { tag: Tag, class: className = '', swiperRef, zoom } = props;
+    const { tag: Tag, swiperRef, zoom } = props;
     const slideElRef = ref(null);
     const slideClasses = ref('swiper-slide');
 
@@ -37,7 +37,8 @@ const SwiperSlide = {
       swiperRef.value.off('_slideClass', updateClasses);
     });
 
-    const slideData = () => ({
+    const slideData = computed(() => ({
+      virtualKey: props.virtualKey,
       isActive:
         slideClasses.value.indexOf('swiper-slide-active') >= 0 ||
         slideClasses.value.indexOf('swiper-slide-duplicate-active') >= 0,
@@ -49,12 +50,12 @@ const SwiperSlide = {
       isNext:
         slideClasses.value.indexOf('swiper-slide-next') >= 0 ||
         slideClasses.value.indexOf('swiper-slide-duplicate next') >= 0,
-    });
-    return () =>
-      h(
+    }));
+    return () => {
+      return h(
         Tag,
         {
-          class: uniqueClasses(`${slideClasses.value}${className ? ` ${className}` : ''}`),
+          class: uniqueClasses(`${slideClasses.value}`),
           ref: slideElRef,
         },
         zoom
@@ -64,10 +65,11 @@ const SwiperSlide = {
                 class: 'swiper-zoom-container',
                 'data-swiper-zoom': typeof zoom === 'number' ? zoom : undefined,
               },
-              slots.default(slideData()),
+              slots.default && slots.default(slideData.value),
             )
-          : slots.default(slideData()),
+          : slots.default && slots.default(slideData.value),
       );
+    };
   },
 };
 
