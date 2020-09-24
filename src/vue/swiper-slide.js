@@ -1,4 +1,4 @@
-import { h, ref, onUpdated, onBeforeUpdate } from 'vue';
+import { h, ref, onMounted, onUpdated, onBeforeUpdate, computed, onBeforeUnmount } from 'vue';
 import { uniqueClasses } from './utils';
 
 const SwiperSlide = {
@@ -10,9 +10,14 @@ const SwiperSlide = {
     },
     swiperRef: Object,
     zoom: { type: Boolean, default: undefined },
+    virtualIndex: {
+      type: [String, Number],
+      default: undefined,
+    },
   },
   setup(props, { slots }) {
-    const { tag: Tag, class: className = '', swiperRef, zoom } = props;
+    let eventAttached = false;
+    const { swiperRef } = props;
     const slideElRef = ref(null);
     const slideClasses = ref('swiper-slide');
 
@@ -22,22 +27,33 @@ const SwiperSlide = {
       }
     }
 
+    onMounted(() => {
+      if (!swiperRef.value) return;
+      swiperRef.value.on('_slideClass', updateClasses);
+      eventAttached = true;
+    });
+
+    onBeforeUpdate(() => {
+      if (eventAttached || !swiperRef || !swiperRef.value) return;
+      swiperRef.value.on('_slideClass', updateClasses);
+      eventAttached = true;
+    });
+
     onUpdated(() => {
-      if (!slideElRef.value || !swiperRef.value) return;
+      if (!slideElRef.value || !swiperRef || !swiperRef.value) return;
       if (swiperRef.value.destroyed) {
         if (slideClasses.value !== 'swiper-slide') {
           slideClasses.value = 'swiper-slide';
         }
-        return;
       }
-      swiperRef.value.on('_slideClass', updateClasses);
     });
-    onBeforeUpdate(() => {
-      if (!swiperRef.value) return;
+
+    onBeforeUnmount(() => {
+      if (!swiperRef || !swiperRef.value) return;
       swiperRef.value.off('_slideClass', updateClasses);
     });
 
-    const slideData = () => ({
+    const slideData = computed(() => ({
       isActive:
         slideClasses.value.indexOf('swiper-slide-active') >= 0 ||
         slideClasses.value.indexOf('swiper-slide-duplicate-active') >= 0,
@@ -49,25 +65,27 @@ const SwiperSlide = {
       isNext:
         slideClasses.value.indexOf('swiper-slide-next') >= 0 ||
         slideClasses.value.indexOf('swiper-slide-duplicate next') >= 0,
-    });
-    return () =>
-      h(
-        Tag,
+    }));
+    return () => {
+      return h(
+        props.tag,
         {
-          class: uniqueClasses(`${slideClasses.value}${className ? ` ${className}` : ''}`),
+          class: uniqueClasses(`${slideClasses.value}`),
           ref: slideElRef,
+          'data-swiper-slide-index': props.virtualIndex,
         },
-        zoom
+        props.zoom
           ? h(
               'div',
               {
                 class: 'swiper-zoom-container',
-                'data-swiper-zoom': typeof zoom === 'number' ? zoom : undefined,
+                'data-swiper-zoom': typeof props.zoom === 'number' ? props.zoom : undefined,
               },
-              slots.default(slideData()),
+              slots.default && slots.default(slideData.value),
             )
-          : slots.default(slideData()),
+          : slots.default && slots.default(slideData.value),
       );
+    };
   },
 };
 

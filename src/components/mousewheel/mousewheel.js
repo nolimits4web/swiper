@@ -246,7 +246,7 @@ const Mousewheel = {
           // 3. does the earliest event have an (absolute value) delta that's
           //    at least P (P=1?) larger than the most recent event's delta?
           // 4. does the latest event have a delta that's smaller than Q (Q=6?) pixels?
-          // If 1-4 are "yes" then we're near the end of a momuntum scroll deceleration.
+          // If 1-4 are "yes" then we're near the end of a momentum scroll deceleration.
           // Snap immediately and ignore remaining wheel events in this scroll.
           // See comment above for "remaining wheel events in this scroll" determination.
           // If 1-4 aren't satisfied, then wait to snap until 500ms after the last event.
