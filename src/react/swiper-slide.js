@@ -3,7 +3,10 @@ import { uniqueClasses } from './utils';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect';
 
 const SwiperSlide = forwardRef(
-  ({ tag: Tag = 'div', children, className = '', swiper, zoom, ...rest } = {}, externalRef) => {
+  (
+    { tag: Tag = 'div', children, className = '', swiper, zoom, virtualIndex, ...rest } = {},
+    externalRef,
+  ) => {
     const slideElRef = useRef(null);
     const [slideClasses, setSlideClasses] = useState('swiper-slide');
 
@@ -57,6 +60,7 @@ const SwiperSlide = forwardRef(
       <Tag
         ref={slideElRef}
         className={uniqueClasses(`${slideClasses}${className ? ` ${className}` : ''}`)}
+        data-swiper-slide-index={virtualIndex}
         {...rest}
       >
         {zoom ? (
