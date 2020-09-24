@@ -222,7 +222,6 @@ const Swiper = {
     // init swiper
     onMounted(() => {
       if (!swiperElRef.value) return;
-
       initSwiper(
         {
           el: swiperElRef.value,
