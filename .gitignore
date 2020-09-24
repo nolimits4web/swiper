@@ -4,6 +4,7 @@ build/**/*.*
 !build/core/package.json
 !build/bundle/package.json
 !build/react/package.json
+!build/svelte/package.json
 !build/package.json
 custom
 *.log
@@ -20,3 +21,4 @@ package/*.css
 package/*.map
 package/*.less
 package/*.scss
+package/*.svelte

@@ -1,6 +1,7 @@
 <div
   bind:this={slideEl}
   class={uniqueClasses(`${slideClasses}${className ? ` ${className}` : ''}`)}
+  data-swiper-slide-index={virtualIndex}
   {...$$restProps}
 >
   {#if zoom}
@@ -19,6 +20,7 @@
   import { uniqueClasses } from './utils';
 
   export let zoom = undefined;
+  export let virtualIndex = undefined;
 
   let className = undefined;
   export { className as class };
@@ -27,11 +29,24 @@
   let slideClasses = 'swiper-slide';
 
   let swiper = null;
+  let eventAttached = false;
 
   const updateClasses = (_, el, classNames) => {
     if (el === slideEl) {
       slideClasses = classNames;
     }
+  }
+
+  const attachEvent = () => {
+    if (!swiper || eventAttached) return;
+    swiper.on('_slideClass', updateClasses);
+    eventAttached = true;
+  }
+
+  const detachEvent = () => {
+    if (!swiper) return;
+    swiper.off('_slideClass', updateClasses);
+    eventAttached = false;
   }
 
   $: slideData = {
@@ -48,24 +63,33 @@
       slideClasses.indexOf('swiper-slide-duplicate next') >= 0,
   };
 
+  onMount(() => {
+    if (typeof virtualIndex === 'undefined') return;
+    slideEl.onSwiper = (_swiper) => {
+      swiper = _swiper;
+      attachEvent();
+    };
+    attachEvent();
+  })
+
   afterUpdate(() => {
-    if (!slideEl) return;
-    tick().then(() => {
-      swiper = slideEl.parentElement.parentElement.swiper;
-      if (!swiper) return;
-      if (swiper.destroyed) {
-        if (slideClasses !== 'swiper-slide') {
-          slideClasses = 'swiper-slide';
-        }
-        return;
+    if (!slideEl || !swiper) return;
+    if (swiper.destroyed) {
+      if (slideClasses !== 'swiper-slide') {
+        slideClasses = 'swiper-slide';
       }
-      swiper.on('_slideClass', updateClasses);
-    })
+      return;
+    }
+    attachEvent();
   });
 
   beforeUpdate(() => {
-    if (!swiper) return;
-    swiper.off('_slideClass', updateClasses);
+    attachEvent();
   });
+
+  onDestroy(() => {
+    if (!swiper) return;
+    detachEvent();
+  })
 
 </script>

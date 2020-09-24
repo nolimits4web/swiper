@@ -71,7 +71,9 @@ function updateSwiper(swiper, passedParams, changedParams) {
 
   if (needThumbsInit) {
     const initialized = thumbs.init();
-    if (initialized) thumbs.update(true);
+    if (initialized) {
+      thumbs.update(true);
+    }
   }
 
   if (needControllerInit) {
