@@ -146,9 +146,9 @@ const A11y = {
 
     // Wrapper
     const $wrapperEl = swiper.$wrapperEl;
-    const randomWrapperId = `swiper-wrapper-${swiper.a11y.getRandomNumber(16)}`;
+    const wrapperId = $wrapperEl.attr('id') || `swiper-wrapper-${swiper.a11y.getRandomNumber(16)}`;
     let live;
-    swiper.a11y.addElId($wrapperEl, randomWrapperId);
+    swiper.a11y.addElId($wrapperEl, wrapperId);
 
     if (swiper.params.autoplay && swiper.params.autoplay.enabled) {
       live = 'off';
@@ -184,7 +184,7 @@ const A11y = {
         $nextEl.on('keydown', swiper.a11y.onEnterKey);
       }
       swiper.a11y.addElLabel($nextEl, params.nextSlideMessage);
-      swiper.a11y.addElControls($nextEl, randomWrapperId);
+      swiper.a11y.addElControls($nextEl, wrapperId);
     }
     if ($prevEl) {
       swiper.a11y.makeElFocusable($prevEl);
@@ -193,7 +193,7 @@ const A11y = {
         $prevEl.on('keydown', swiper.a11y.onEnterKey);
       }
       swiper.a11y.addElLabel($prevEl, params.prevSlideMessage);
-      swiper.a11y.addElControls($prevEl, randomWrapperId);
+      swiper.a11y.addElControls($prevEl, wrapperId);
     }
 
     // Pagination
