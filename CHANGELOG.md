@@ -1,5 +1,12 @@
 # Changelog
 
+## [Swiper 6.3.1](https://github.com/nolimits4web/swiper/compare/v6.3.0...v6.3.1) - Released on September 25th, 2020
+
+- Core
+
+  - A11y
+    - Init module after all other modules initialized
+
 ## [Swiper 6.3.0](https://github.com/nolimits4web/swiper/compare/v6.2.0...v6.3.0) - Released on September 25th, 2020
 
 - Core

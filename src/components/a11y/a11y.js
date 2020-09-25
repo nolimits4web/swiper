@@ -177,7 +177,7 @@ const A11y = {
       $prevEl = swiper.navigation.$prevEl;
     }
 
-    if ($nextEl) {
+    if ($nextEl && $nextEl.length) {
       swiper.a11y.makeElFocusable($nextEl);
       if ($nextEl[0].tagName !== 'BUTTON') {
         swiper.a11y.addElRole($nextEl, 'button');
@@ -186,7 +186,7 @@ const A11y = {
       swiper.a11y.addElLabel($nextEl, params.nextSlideMessage);
       swiper.a11y.addElControls($nextEl, wrapperId);
     }
-    if ($prevEl) {
+    if ($prevEl && $prevEl.length) {
       swiper.a11y.makeElFocusable($prevEl);
       if ($prevEl[0].tagName !== 'BUTTON') {
         swiper.a11y.addElRole($prevEl, 'button');
@@ -273,7 +273,7 @@ export default {
     });
   },
   on: {
-    init(swiper) {
+    afterInit(swiper) {
       if (!swiper.params.a11y.enabled) return;
       swiper.a11y.init();
       swiper.a11y.updateNavigation();

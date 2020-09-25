@@ -464,6 +464,7 @@ class Swiper {
 
     // Emit
     swiper.emit('init');
+    swiper.emit('afterInit');
   }
 
   destroy(deleteInstance = true, cleanStyles = true) {
