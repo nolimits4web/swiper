@@ -18,8 +18,6 @@
   let className = undefined;
   export { className as class };
 
-  export let thumbs = undefined;
-
   let containerClasses = 'swiper-container';
   let breakpointChanged = false;
   let swiperInstance = null;
@@ -58,7 +56,7 @@
   };
 
   const calcParams = () => {
-    paramsData = getParams({ ...$$restProps, thumbs });
+    paramsData = getParams($$restProps);
     swiperParams = paramsData.params;
     passedParams = paramsData.passedParams;
     restProps = paramsData.rest;
