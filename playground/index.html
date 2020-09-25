@@ -9,10 +9,10 @@
 </head>
 
 <body>
-  <div class="swiper-container">
+  <section class="swiper-container">
     <div class="swiper-scrollbar"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
+    <button class="swiper-button-prev"></button>
+    <button class="swiper-button-next"></button>
     <div class="swiper-wrapper">
       <div class="swiper-slide">Slide 1</div>
       <div class="swiper-slide">Slide 2</div>
@@ -26,7 +26,7 @@
       <div class="swiper-slide">Slide 10</div>
     </div>
     <div class="swiper-pagination"></div>
-  </div>
+  </section>
   <style>
     body,
     html {
@@ -74,6 +74,11 @@
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
+      },
+      a11y: {
+        containerMessage: 'Example content',
+        containerRoleDescriptionMessage: 'carousel',
+        itemRoleDescriptionMessage: 'slide',
       },
     });
   </script>
