@@ -1,5 +1,34 @@
 # Changelog
 
+## [Swiper 6.3.0](https://github.com/nolimits4web/swiper/compare/v6.2.0...v6.3.0) - Released on September 25th, 2020
+
+- Core
+
+  - A11y
+    - Added new parameters `containerMessage`, `containerRoleDescriptionMessage` and `itemRoleDescriptionMessage` (#3834 thanks to @jenemde)
+
+- React
+
+  - Now `SwiperSlide` component requires unique `virtualIndex` to be set so Swiper can know which slide is rendered exactly
+
+- Vue
+
+  - Fixed issue when `SwiperSlide` was not rendered if used with `v-for`
+  - Now `SwiperSlide` component requires unique `virtualIndex` to be set so Swiper can know which slide is rendered exactly
+
+- All new Swiper Svelte components:
+
+  ```html
+  <Swiper spaceBetween="{50}" slidesPerView="{3}">
+    <SwiperSlide>Slide 1</SwiperSlide>
+    <SwiperSlide>Slide 2</SwiperSlide>
+    ...
+  </Swiper>
+  <script>
+    import { Swiper, SwiperSlide } from 'swiper/svelte';
+  </script>
+  ```
+
 ## [Swiper 6.2.0](https://github.com/nolimits4web/swiper/compare/v6.1.3...v6.2.0) - Released on September 4rd, 2020
 
 - All new Swiper Vue.js (v3) components:
