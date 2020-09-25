@@ -1,29 +1,12 @@
-<div
-  bind:this={swiperEl}
-  class={uniqueClasses(`${containerClasses}${className ? ` ${className}` : ''}`)}
-  {...restProps}
->
-  <slot name="content-start" />
-  {#if needsNavigation(swiperParams)}
-    <div bind:this={prevEl} class="swiper-button-prev" />
-    <div bind:this={nextEl} class="swiper-button-next" />
-  {/if}
-  {#if needsScrollbar(swiperParams)}
-    <div bind:this={scrollbarEl} class="swiper-scrollbar" />
-  {/if}
-  {#if needsPagination(swiperParams)}
-    <div bind:this={paginationEl} class="swiper-pagination" />
-  {/if}
-  <div class="swiper-wrapper">
-    <slot name="wrapper-start" />
-    <slot virtualData={virtualData} />
-    <slot name="wrapper-end" />
-  </div>
-  <slot name="content-end" />
-</div>
-
 <script>
-  import { onMount, onDestroy, afterUpdate, createEventDispatcher, tick, beforeUpdate } from 'svelte';
+  import {
+    onMount,
+    onDestroy,
+    afterUpdate,
+    createEventDispatcher,
+    tick,
+    beforeUpdate,
+  } from 'svelte';
   import { getParams } from './get-params';
   import { initSwiper } from './init-swiper';
   import { needsScrollbar, needsNavigation, needsPagination, uniqueClasses } from './utils';
@@ -52,7 +35,7 @@
   let nextEl = null;
   let scrollbarEl = null;
   let paginationEl = null;
-  let virtualData = {slides: []};
+  let virtualData = { slides: [] };
 
   export function swiper() {
     return swiperInstance;
@@ -71,15 +54,15 @@
       if (swiperInstance.lazy && swiperInstance.params.lazy.enabled) {
         swiperInstance.lazy.load();
       }
-    })
-  }
+    });
+  };
 
   const calcParams = () => {
-    paramsData = getParams({...$$restProps, thumbs});
+    paramsData = getParams({ ...$$restProps, thumbs });
     swiperParams = paramsData.params;
     passedParams = paramsData.passedParams;
     restProps = paramsData.rest;
-  }
+  };
 
   calcParams();
   oldPassedParams = passedParams;
@@ -124,20 +107,17 @@
       },
       swiperParams,
     );
-    if (swiperParams.virtual) return
+    if (swiperParams.virtual) return;
     swiperInstance.slides.each((el) => {
       if (el.onSwiper) el.onSwiper(swiperInstance);
-    })
+    });
   });
 
   afterUpdate(() => {
     if (!swiperInstance) return;
     calcParams();
 
-    const changedParams = getChangedParams(
-      passedParams,
-      oldPassedParams,
-    );
+    const changedParams = getChangedParams(passedParams, oldPassedParams);
     if (
       (changedParams.length || breakpointChanged) &&
       swiperInstance &&
@@ -154,5 +134,27 @@
       swiperInstance.destroy();
     }
   });
-
 </script>
+
+<div
+  bind:this={swiperEl}
+  class={uniqueClasses(`${containerClasses}${className ? ` ${className}` : ''}`)}
+  {...restProps}>
+  <slot name="content-start" />
+  {#if needsNavigation(swiperParams)}
+    <div bind:this={prevEl} class="swiper-button-prev" />
+    <div bind:this={nextEl} class="swiper-button-next" />
+  {/if}
+  {#if needsScrollbar(swiperParams)}
+    <div bind:this={scrollbarEl} class="swiper-scrollbar" />
+  {/if}
+  {#if needsPagination(swiperParams)}
+    <div bind:this={paginationEl} class="swiper-pagination" />
+  {/if}
+  <div class="swiper-wrapper">
+    <slot name="wrapper-start" />
+    <slot {virtualData} />
+    <slot name="wrapper-end" />
+  </div>
+  <slot name="content-end" />
+</div>

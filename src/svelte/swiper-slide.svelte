@@ -1,20 +1,3 @@
-<div
-  bind:this={slideEl}
-  class={uniqueClasses(`${slideClasses}${className ? ` ${className}` : ''}`)}
-  data-swiper-slide-index={virtualIndex}
-  {...$$restProps}
->
-  {#if zoom}
-    <div
-      class="swiper-zoom-container"
-      data-swiper-zoom={typeof zoom === 'number' ? zoom : undefined}
-    >
-      <slot data={slideData} />
-    </div>
-  {:else}
-    <slot data={slideData} />
-  {/if}
-</div>
 <script>
   import { onMount, onDestroy, beforeUpdate, afterUpdate, tick } from 'svelte';
   import { uniqueClasses } from './utils';
@@ -35,19 +18,19 @@
     if (el === slideEl) {
       slideClasses = classNames;
     }
-  }
+  };
 
   const attachEvent = () => {
     if (!swiper || eventAttached) return;
     swiper.on('_slideClass', updateClasses);
     eventAttached = true;
-  }
+  };
 
   const detachEvent = () => {
     if (!swiper) return;
     swiper.off('_slideClass', updateClasses);
     eventAttached = false;
-  }
+  };
 
   $: slideData = {
     isActive:
@@ -70,7 +53,7 @@
       attachEvent();
     };
     attachEvent();
-  })
+  });
 
   afterUpdate(() => {
     if (!slideEl || !swiper) return;
@@ -90,6 +73,21 @@
   onDestroy(() => {
     if (!swiper) return;
     detachEvent();
-  })
-
+  });
 </script>
+
+<div
+  bind:this={slideEl}
+  class={uniqueClasses(`${slideClasses}${className ? ` ${className}` : ''}`)}
+  data-swiper-slide-index={virtualIndex}
+  {...$$restProps}>
+  {#if zoom}
+    <div
+      class="swiper-zoom-container"
+      data-swiper-zoom={typeof zoom === 'number' ? zoom : undefined}>
+      <slot data={slideData} />
+    </div>
+  {:else}
+    <slot data={slideData} />
+  {/if}
+</div>

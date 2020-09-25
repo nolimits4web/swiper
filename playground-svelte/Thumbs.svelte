@@ -1,28 +1,3 @@
-<main>
-  <Swiper
-    thumbs={{ swiper: thumbsSwiper }}
-    slidesPerView={1}
-    spaceBetween={50}
-    navigation
-  >
-    {#each slides as slide, index (index)}
-      <SwiperSlide>Slide {slide + 1}</SwiperSlide>
-    {/each}
-  </Swiper>
-  <Swiper
-    on:swiper={setThumbsSwiper}
-    slidesPerView={5}
-    spaceBetween={10}
-    navigation
-    watchSlidesVisibility
-    watchSlidesProgress
-  >
-    {#each slides as slide, index (index)}
-      <SwiperSlide>Slide {slide + 1}</SwiperSlide>
-    {/each}
-  </Swiper>
-
-</main>
 <script>
   import SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Thumbs } from '../build/core';
   import { Swiper, SwiperSlide } from '../build/svelte';
@@ -37,6 +12,25 @@
     const [swiper] = e.detail;
     setTimeout(() => {
       thumbsSwiper = swiper;
-    })
-  }
+    });
+  };
 </script>
+
+<main>
+  <Swiper thumbs={{ swiper: thumbsSwiper }} slidesPerView={1} spaceBetween={50} navigation>
+    {#each slides as slide, index (index)}
+      <SwiperSlide>Slide {slide + 1}</SwiperSlide>
+    {/each}
+  </Swiper>
+  <Swiper
+    on:swiper={setThumbsSwiper}
+    slidesPerView={5}
+    spaceBetween={10}
+    navigation
+    watchSlidesVisibility
+    watchSlidesProgress>
+    {#each slides as slide, index (index)}
+      <SwiperSlide>Slide {slide + 1}</SwiperSlide>
+    {/each}
+  </Swiper>
+</main>

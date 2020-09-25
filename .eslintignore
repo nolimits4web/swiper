@@ -1,8 +1,6 @@
 demos
 build
 playground
-playground-react
-playground-vue
 node_modules
 dist
 package
