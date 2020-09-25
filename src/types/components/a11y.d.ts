@@ -51,4 +51,25 @@ export interface A11yOptions {
    * @default 'swiper-notification'
    */
   notificationClass?: string;
+
+  /**
+   * Message for screen readers for outer swiper container
+   *
+   * @default null
+   */
+  containerMessage?: string;
+
+  /**
+   * Message for screen readers describing the role of outer swiper container
+   *
+   * @default null
+   */
+  containerRoleDescriptionMessage?: string;
+
+  /**
+   * Message for screen readers describing the role of slide element
+   *
+   * @default null
+   */
+  itemRoleDescriptionMessage?: string;
 }
