@@ -1,5 +1,10 @@
 # Changelog
 
+## [Swiper 6.3.2](https://github.com/nolimits4web/swiper/compare/v6.3.1...v6.3.2) - Released on September 28th, 2020
+
+- Svelte
+  - Fixed issue with throwing error when using breakpoints
+
 ## [Swiper 6.3.1](https://github.com/nolimits4web/swiper/compare/v6.3.0...v6.3.1) - Released on September 25th, 2020
 
 - Core
