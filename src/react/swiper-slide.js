@@ -9,18 +9,18 @@ const SwiperSlide = forwardRef(
   ) => {
     const slideElRef = useRef(null);
     const [slideClasses, setSlideClasses] = useState('swiper-slide');
-
     function updateClasses(swiper, el, classNames) {
       if (el === slideElRef.current) {
         setSlideClasses(classNames);
       }
     }
-
     useIsomorphicLayoutEffect(() => {
       if (externalRef) {
         externalRef.current = slideElRef.current;
       }
-      if (!slideElRef.current || !swiper) return;
+      if (!slideElRef.current || !swiper) {
+        return;
+      }
       if (swiper.destroyed) {
         if (slideClasses !== 'swiper-slide') {
           setSlideClasses('swiper-slide');
@@ -34,6 +34,11 @@ const SwiperSlide = forwardRef(
         swiper.off('_slideClass', updateClasses);
       };
     });
+    useIsomorphicLayoutEffect(() => {
+      if (swiper && slideElRef.current) {
+        setSlideClasses(swiper.getSlideClasses(slideElRef.current));
+      }
+    }, [swiper]);
 
     let slideData;
     if (typeof children === 'function') {

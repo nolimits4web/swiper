@@ -278,17 +278,25 @@ class Swiper {
     swiper.emit('_containerClasses', classes.join(' '));
   }
 
-  emitSlidesClasses() {
+  getSlideClasses(slideEl) {
     const swiper = this;
-    if (!swiper.params._emitClasses || !swiper.el) return;
-    swiper.slides.each((slideEl) => {
-      const classes = slideEl.className.split(' ').filter((className) => {
+    return slideEl.className
+      .split(' ')
+      .filter((className) => {
         return (
           className.indexOf('swiper-slide') === 0 ||
           className.indexOf(swiper.params.slideClass) === 0
         );
-      });
-      swiper.emit('_slideClass', slideEl, classes.join(' '));
+      })
+      .join(' ');
+  }
+
+  emitSlidesClasses() {
+    const swiper = this;
+    if (!swiper.params._emitClasses || !swiper.el) return;
+    swiper.slides.each((slideEl) => {
+      const classNames = swiper.getSlideClasses(slideEl);
+      swiper.emit('_slideClass', slideEl, classNames);
     });
   }
 
