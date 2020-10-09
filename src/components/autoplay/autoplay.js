@@ -12,34 +12,43 @@ const Autoplay = {
     }
     clearTimeout(swiper.autoplay.timeout);
     swiper.autoplay.timeout = nextTick(() => {
+      let autoplayResult;
       if (swiper.params.autoplay.reverseDirection) {
         if (swiper.params.loop) {
           swiper.loopFix();
-          swiper.slidePrev(swiper.params.speed, true, true);
+          autoplayResult = swiper.slidePrev(swiper.params.speed, true, true);
           swiper.emit('autoplay');
         } else if (!swiper.isBeginning) {
-          swiper.slidePrev(swiper.params.speed, true, true);
+          autoplayResult = swiper.slidePrev(swiper.params.speed, true, true);
           swiper.emit('autoplay');
         } else if (!swiper.params.autoplay.stopOnLastSlide) {
-          swiper.slideTo(swiper.slides.length - 1, swiper.params.speed, true, true);
+          autoplayResult = swiper.slideTo(
+            swiper.slides.length - 1,
+            swiper.params.speed,
+            true,
+            true,
+          );
           swiper.emit('autoplay');
         } else {
           swiper.autoplay.stop();
         }
       } else if (swiper.params.loop) {
         swiper.loopFix();
-        swiper.slideNext(swiper.params.speed, true, true);
+        autoplayResult = swiper.slideNext(swiper.params.speed, true, true);
         swiper.emit('autoplay');
       } else if (!swiper.isEnd) {
-        swiper.slideNext(swiper.params.speed, true, true);
+        autoplayResult = swiper.slideNext(swiper.params.speed, true, true);
         swiper.emit('autoplay');
       } else if (!swiper.params.autoplay.stopOnLastSlide) {
-        swiper.slideTo(0, swiper.params.speed, true, true);
+        autoplayResult = swiper.slideTo(0, swiper.params.speed, true, true);
         swiper.emit('autoplay');
       } else {
         swiper.autoplay.stop();
       }
       if (swiper.params.cssMode && swiper.autoplay.running) swiper.autoplay.run();
+      else if (autoplayResult === false) {
+        swiper.autoplay.run();
+      }
     }, delay);
   },
   start() {
