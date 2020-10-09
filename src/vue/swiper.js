@@ -27,6 +27,7 @@ const Swiper = {
     speed: { type: Number, default: undefined },
     cssMode: { type: Boolean, default: undefined },
     updateOnWindowResize: { type: Boolean, default: undefined },
+    nested: { type: Boolean, default: undefined },
     width: { type: Number, default: undefined },
     height: { type: Number, default: undefined },
     preventInteractionOnTransition: { type: Boolean, default: undefined },
