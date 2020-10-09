@@ -154,7 +154,14 @@ export default function updateSlides() {
           if (boxSizing && boxSizing === 'border-box') {
             slideSize = width + marginLeft + marginRight;
           } else {
-            slideSize = width + paddingLeft + paddingRight + marginLeft + marginRight;
+            const { clientWidth, offsetWidth } = slide[0];
+            slideSize =
+              width +
+              paddingLeft +
+              paddingRight +
+              marginLeft +
+              marginRight +
+              (offsetWidth - clientWidth);
           }
         } else {
           const height = parseFloat(slideStyles.getPropertyValue('height') || 0);
@@ -166,7 +173,14 @@ export default function updateSlides() {
           if (boxSizing && boxSizing === 'border-box') {
             slideSize = height + marginTop + marginBottom;
           } else {
-            slideSize = height + paddingTop + paddingBottom + marginTop + marginBottom;
+            const { clientHeight, offsetHeight } = slide[0];
+            slideSize =
+              height +
+              paddingTop +
+              paddingBottom +
+              marginTop +
+              marginBottom +
+              (offsetHeight - clientHeight);
           }
         }
       }
