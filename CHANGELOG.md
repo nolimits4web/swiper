@@ -1,5 +1,15 @@
 # Changelog
 
+## [Swiper 6.3.3](https://github.com/nolimits4web/swiper/compare/v6.3.2...v6.3.3) - Released on October 9th, 2020
+
+- Core
+  - Fixed issue with wrong slides calculation when slides have inner scrollbars
+- Autoplay
+  - Now it will continue autoplay if it reaches the end and new slides will be added later
+- React
+  - Fixed issue when slide render function data was set only after interraction
+- Minor fixes
+
 ## [Swiper 6.3.2](https://github.com/nolimits4web/swiper/compare/v6.3.1...v6.3.2) - Released on September 28th, 2020
 
 - Svelte
