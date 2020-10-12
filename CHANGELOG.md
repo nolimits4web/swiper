@@ -7,7 +7,7 @@
 - Autoplay
   - Now it will continue autoplay if it reaches the end and new slides will be added later
 - React
-  - Fixed issue when slide render function data was set only after interraction
+  - Fixed issue when slide render function data was set only after interaction
 - Minor fixes
 
 ## [Swiper 6.3.2](https://github.com/nolimits4web/swiper/compare/v6.3.1...v6.3.2) - Released on September 28th, 2020
@@ -81,7 +81,7 @@
   - Pagination
     - Now it won't set a11y attributes on customly rendered bullets
 - React
-  - Fixed issue with loop mode and breakpoints not being recalucate slides
+  - Fixed issue with loop mode and breakpoints not being recalculate slides
 
 ## [Swiper 6.1.2](https://github.com/nolimits4web/swiper/compare/v6.1.1...v6.1.2) - Released on August 17th, 2020
 
