@@ -24,15 +24,16 @@ export default function onTouchStart(event) {
   if (!data.isTouchEvent && 'which' in e && e.which === 3) return;
   if (!data.isTouchEvent && 'button' in e && e.button > 0) return;
   if (data.isTouched && data.isMoved) return;
-  if (
-    params.noSwiping &&
-    $targetEl.closest(
-      params.noSwipingSelector ? params.noSwipingSelector : `.${params.noSwipingClass}`,
-    )[0]
-  ) {
-    swiper.allowClick = true;
-    return;
+  const swipingClassHasValue = !!params.noSwipingClass && params.noSwipingClass !== '';
+  const hasShadowRoot = event && event.target && event.target.shadowRoot;
+  // additional check for shadow root component where closest is not always found
+  const shadowRootWithSwipingClass = swipingClassHasValue &&hasShadowRoot && event && event.path.findIndex(item => item.classList && item.classList.contains(params.noSwipingClass)) > -1;
+
+  if (params.noSwiping && ($targetEl.closest(params.noSwipingSelector ? params.noSwipingSelector : "." + params.noSwipingClass)[0] || shadowRootWithSwipingClass)) {
+      swiper.allowClick = true;
+      return;
   }
+
   if (params.swipeHandler) {
     if (!$targetEl.closest(params.swipeHandler)[0]) return;
   }
