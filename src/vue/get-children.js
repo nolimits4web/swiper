@@ -9,6 +9,9 @@ function getChildren(originalSlots = {}, slidesRef, oldSlidesRef) {
   };
 
   const getSlidesFromElements = (els, slotName) => {
+    if (!Array.isArray(els)) {
+      return;
+    }
     els.forEach((vnode) => {
       const isFragment = typeof vnode.type === 'symbol';
       if (slotName === 'default') slotName = 'container-end';

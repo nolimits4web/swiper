@@ -220,8 +220,8 @@ const Swiper = {
     const swiperElRef = ref(null);
     const swiperRef = ref(null);
     const oldPassedParamsRef = ref(null);
-    const slidesRef = ref([]);
-    const oldSlidesRef = ref([]);
+    const slidesRef = { value: [] };
+    const oldSlidesRef = { value: [] };
 
     const nextElRef = ref(null);
     const prevElRef = ref(null);
