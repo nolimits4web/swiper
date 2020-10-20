@@ -31,7 +31,7 @@ export default function onTouchStart(event) {
     $targetEl = $(event.path[0]);
   }
 
-  if (params.noSwiping && ($targetEl.closest(params.noSwipingSelector ? params.noSwipingSelector : "." + params.noSwipingClass)[0] || shadowRootWithSwipingClass)) {
+  if (params.noSwiping && ($targetEl.closest(params.noSwipingSelector ? params.noSwipingSelector : "." + params.noSwipingClass)[0])) {
       swiper.allowClick = true;
       return;
   }
