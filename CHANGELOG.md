@@ -1,5 +1,10 @@
 # Changelog
 
+## [Swiper 6.3.4](https://github.com/nolimits4web/swiper/compare/v6.3.3...v6.3.4) - Released on October 20th, 2020
+
+- Vue
+  - Fixed issue with `Maximum recursive updates`
+
 ## [Swiper 6.3.3](https://github.com/nolimits4web/swiper/compare/v6.3.2...v6.3.3) - Released on October 9th, 2020
 
 - Core
