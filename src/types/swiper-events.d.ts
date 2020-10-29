@@ -206,6 +206,33 @@ export interface SwiperEvents {
    * Event will be fired on breakpoint change
    */
   breakpoint: (swiper: Swiper, breakpointParams: SwiperOptions) => void;
+
+  _beforeBreakpoint: (breakpointParams: SwiperOptions) => void;
+  _containerClasses: (classNames: string) => void;
+  _slideClass: (el: HTMLElement, classNames: string) => void;
+  _swiper: () => void;
+  activeIndexChange: () => void;
+  snapIndexChange: () => void;
+  realIndexChange: () => void;
+  afterInit: () => void;
+  beforeInit: () => void;
+  beforeResize: () => void;
+  beforeSlideChangeStart: () => void;
+  beforeTransitionStart: (speed: number, internal: any) => void; // what is internal?
+  changeDirection: () => void;
+  doubleClick: (event: MouseEvent | TouchEvent | PointerEvent) => void;
+  destroy: () => void;
+  keyPress: (keyCode: string) => void;
+  momentumBounce: () => void;
+  orientationchange: () => void;
+  scroll: (event: WheelEvent) => void;
+  slideResetTransitionStart: () => void;
+  slideResetTransitionEnd: () => void;
+  sliderFirstMove: (event: TouchEvent) => void;
+  slidesLengthChange: () => void;
+  slidesGridLengthChange: () => void;
+  snapGridLengthChange: () => void;
+  update: () => void;
   // CORE_EVENTS_END
 }
 
