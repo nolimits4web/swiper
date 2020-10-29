@@ -6,3 +6,4 @@ dist
 package
 src/swiper.js
 src/angular
+playground-angular

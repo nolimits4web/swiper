@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'swiper-swiper-slide',
+  selector: 'swiper-slide',
   templateUrl: './swiper-slide.component.html',
 })
 export class SwiperSlideComponent implements OnInit {

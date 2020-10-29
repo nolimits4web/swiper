@@ -18,6 +18,7 @@
     "react:dev": "npm run build:dev && concurrently --kill-others \"npm run webpack:react\" \"npm run watch:dev\"",
     "vue:dev": "npm run build:dev && concurrently --kill-others \"npm run webpack:vue\" \"npm run watch:dev\"",
     "svelte:dev": "npm run build:dev && concurrently --kill-others \"npm run webpack:svelte\" \"npm run watch:dev\"",
+    "angular:dev": "ng serve demo",
     "serve": "serve -l tcp://0.0.0.0:5000",
     "prettier": "prettier \"**/*.+(js|json|scss|css|less|ts|svelte|jsx)\"",
     "format": "npm run prettier -- --write",
@@ -25,7 +26,8 @@
     "lint": "eslint --ext .js,.svelte,.jsx .",
     "validate": "npm-run-all --parallel check-format lint",
     "release": "npm run validate && node ./scripts/release",
-    "test": "npm run validate && npm run build:prod"
+    "test": "npm run validate && npm run build:prod",
+    "e2e": "ng e2e"
   },
   "repository": {
     "type": "git",

@@ -88,29 +88,29 @@
           "skipTests": true
         }
       },
-      "root": "demo/angular",
-      "sourceRoot": "demo/angular/src",
+      "root": "playground-angular",
+      "sourceRoot": "playground-angular",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/demo",
-            "index": "demo/angular/src/index.html",
-            "main": "demo/angular/src/main.ts",
-            "polyfills": "demo/angular/src/polyfills.ts",
-            "tsConfig": "demo/angular/tsconfig.app.json",
+            "index": "playground-angular/src/index.html",
+            "main": "playground-angular/src/main.ts",
+            "polyfills": "playground-angular/src/polyfills.ts",
+            "tsConfig": "playground-angular/tsconfig.app.json",
             "aot": true,
-            "assets": ["demo/angular/src/favicon.ico", "demo/angular/src/assets"],
-            "styles": ["demo/angular/src/styles.scss"],
+            "assets": ["playground-angular/src/favicon.ico", "playground-angular/src/assets"],
+            "styles": ["playground-angular/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "demo/angular/src/environments/environment.ts",
-                  "with": "demo/angular/src/environments/environment.prod.ts"
+                  "replace": "playground-angular/src/environments/environment.ts",
+                  "with": "playground-angular/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -156,19 +156,19 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "demo/angular/src/test.ts",
-            "polyfills": "demo/angular/src/polyfills.ts",
-            "tsConfig": "demo/angular/tsconfig.spec.json",
-            "karmaConfig": "demo/angular/karma.conf.js",
-            "assets": ["demo/angular/src/favicon.ico", "demo/angular/src/assets"],
-            "styles": ["demo/angular/src/styles.scss"],
+            "main": "playground-angular/src/test.ts",
+            "polyfills": "playground-angular/src/polyfills.ts",
+            "tsConfig": "playground-angular/tsconfig.spec.json",
+            "karmaConfig": "playground-angular/karma.conf.js",
+            "assets": ["playground-angular/src/favicon.ico", "playground-angular/src/assets"],
+            "styles": ["playground-angular/src/styles.scss"],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["demo/angular/tsconfig.app.json"],
+            "tsConfig": ["playground-angular/tsconfig.app.json"],
             "exclude": ["**/node_modules/**"]
           }
         }

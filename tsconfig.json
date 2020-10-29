@@ -13,10 +13,8 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
-      "skeleton-elements": ["package"],
-      "skeleton-elements/*": ["package/*"],
-      "swiper": ["dist/swiper/swiper", "dist/swiper"],
-      "angular": ["dist/angular/angular", "dist/angular"]
+      "swiper": ["package"],
+      "swiper/*": ["package/*"]
     }
   }
 }
