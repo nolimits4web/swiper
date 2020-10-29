@@ -608,4 +608,5 @@ export interface SwiperOptions {
   thumbs?: ThumbsOptions;
   virtual?: VirtualOptions | boolean;
   zoom?: ZoomOptions | boolean;
+  _emitClasses?: boolean;
 }

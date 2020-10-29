@@ -1,9 +1,50 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  NgZone,
+  OnInit,
+  Output,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import Swiper, { SwiperOptions } from 'build/core';
+import { A11yOptions } from 'build/types/components/a11y';
+import { AutoplayOptions } from 'build/types/components/autoplay';
+import { ControllerOptions } from 'build/types/components/controller';
+import { CoverflowEffectOptions } from 'build/types/components/effect-coverflow';
+import { CubeEffectOptions } from 'build/types/components/effect-cube';
+import { FadeEffectOptions } from 'build/types/components/effect-fade';
+import { FlipEffectOptions } from 'build/types/components/effect-flip';
+import { HashNavigationOptions } from 'build/types/components/hash-navigation';
+import { HistoryOptions } from 'build/types/components/history';
+import { KeyboardOptions } from 'build/types/components/keyboard';
+import { LazyOptions } from 'build/types/components/lazy';
+import { MousewheelOptions } from 'build/types/components/mousewheel';
+import { NavigationOptions } from 'build/types/components/navigation';
+import { PaginationOptions } from 'build/types/components/pagination';
+import { ScrollbarOptions } from 'build/types/components/scrollbar';
+import { ThumbsOptions } from 'build/types/components/thumbs';
+import { VirtualOptions } from 'build/types/components/virtual';
+import { ZoomOptions } from 'build/types/components/zoom';
 import { SwiperEvents } from 'build/types/swiper-events';
+import { getParams } from '../get-params';
 import { uniqueClasses } from '../utils';
 @Component({
-  selector: 'swiper',
+  selector: 'swiper, [swiper]',
   templateUrl: './swiper.component.html',
+  host: {
+    class: 'swiper-container',
+  },
+  encapsulation: ViewEncapsulation.None,
+  styles: [
+    `
+      swiper {
+        display: block;
+      }
+    `,
+  ],
 })
 export class SwiperComponent implements OnInit {
   @Input() init: Boolean;
@@ -97,26 +138,26 @@ export class SwiperComponent implements OnInit {
   @Input() slidePrevClass: String;
   @Input() slideDuplicatePrevClass: String;
   @Input() wrapperClass: String;
-  @Input() runCallbacksOnInit: Boolean;
-  @Input() a11y: [Boolean, Object];
-  @Input() autoplay: [Boolean, Object];
-  @Input() controller: Object;
-  @Input() coverflowEffect: Object;
-  @Input() cubeEffect: Object;
-  @Input() fadeEffect: Object;
-  @Input() flipEffect: Object;
-  @Input() hashNavigation: [Boolean, Object];
-  @Input() history: [Boolean, Object];
-  @Input() keyboard: [Boolean, Object];
-  @Input() lazy: [Boolean, Object];
-  @Input() mousewheel: [Boolean, Object];
-  @Input() navigation: [Boolean, Object];
-  @Input() pagination: [Boolean, Object];
-  @Input() parallax: [Boolean, Object];
-  @Input() scrollbar: [Boolean, Object];
-  @Input() thumbs: Object;
-  @Input() virtual: [Boolean, Object];
-  @Input() zoom: [Boolean, Object];
+  @Input() runCallbacksOnInit: boolean;
+  @Input() a11y: A11yOptions;
+  @Input() autoplay: AutoplayOptions | boolean;
+  @Input() controller: ControllerOptions;
+  @Input() coverflowEffect: CoverflowEffectOptions;
+  @Input() cubeEffect: CubeEffectOptions;
+  @Input() fadeEffect: FadeEffectOptions;
+  @Input() flipEffect: FlipEffectOptions;
+  @Input() hashNavigation: HashNavigationOptions | boolean;
+  @Input() history: HistoryOptions | boolean;
+  @Input() keyboard: KeyboardOptions | boolean;
+  @Input() lazy: LazyOptions | boolean;
+  @Input() mousewheel: MousewheelOptions | boolean;
+  @Input() navigation: NavigationOptions | boolean;
+  @Input() pagination: PaginationOptions | boolean;
+  @Input() parallax: boolean;
+  @Input() scrollbar: ScrollbarOptions | boolean;
+  @Input() thumbs: ThumbsOptions;
+  @Input() virtual: VirtualOptions | boolean;
+  @Input() zoom: ZoomOptions | boolean;
   // prettier-ignore
   @Output('_beforeBreakpoint') s__beforeBreakpoint: EventEmitter<SwiperEvents['_beforeBreakpoint']> = new EventEmitter<any>();
   // prettier-ignore
@@ -269,19 +310,91 @@ export class SwiperComponent implements OnInit {
   @Output('zoomChange') s_zoomChange: EventEmitter<SwiperEvents['zoomChange']> = new EventEmitter<any>();
   // prettier-ignore
   @Output('swiper') s_swiper: EventEmitter<any> = new EventEmitter<any>();
-  constructor() {}
+
+  @ViewChild('prevElRef', { static: false }) prevElRef?: ElementRef;
+  @ViewChild('nextElRef', { static: false }) nextElRef?: ElementRef;
+  @ViewChild('scrollbarElRef', { static: false }) scrollbarElRef?: ElementRef;
+  @ViewChild('paginationElRef', { static: false }) paginationElRef?: ElementRef;
+  swiperRef: Swiper;
+  constructor(private zone: NgZone, private elementRef: ElementRef) {}
   ngOnInit(): void {}
 
-  get needsNavigation() {
-    return true;
-  }
   get needsScrollbar() {
-    return true;
+    return (
+      typeof this.scrollbar !== 'undefined' &&
+      ((typeof this.scrollbar === 'boolean' && this.scrollbar !== false) ||
+        (typeof this.scrollbar !== 'boolean' && typeof this.scrollbar.el === 'undefined'))
+    );
+  }
+  get needsNavigation() {
+    return (
+      typeof this.navigation !== 'undefined' &&
+      ((typeof this.navigation === 'boolean' && this.navigation !== false) ||
+        (typeof this.navigation !== 'boolean' &&
+          typeof this.navigation.nextEl === 'undefined' &&
+          typeof this.navigation.prevEl === 'undefined'))
+    );
   }
   get needsPagination() {
-    return true;
+    return (
+      typeof this.pagination !== 'undefined' &&
+      ((typeof this.pagination === 'boolean' && this.pagination !== false) ||
+        (typeof this.pagination !== 'boolean' && typeof this.pagination.el === 'undefined'))
+    );
   }
+  ngAfterViewInit() {
+    const { params: swiperParams, passedParams } = getParams(this);
+    swiperParams.onAny = (event, ...args) => {
+      const emitter = this[`s_${event}`] as EventEmitter<any>;
+      emitter.emit(...args);
+    };
+    this.swiperRef = this.initSwiper(
+      {
+        el: this.elementRef.nativeElement,
+        nextEl: this.nextElRef.nativeElement,
+        prevEl: this.prevElRef.nativeElement,
+        paginationEl: this.paginationElRef.nativeElement,
+        scrollbarEl: this.scrollbarElRef.nativeElement,
+      },
+      swiperParams,
+    );
+    this.s_swiper.emit(this.swiperRef);
+  }
+
+  initSwiper({ el, nextEl, prevEl, paginationEl, scrollbarEl }, swiperParams: SwiperOptions) {
+    if (this.needsNavigation && nextEl && prevEl) {
+      if (swiperParams.navigation === true) {
+        swiperParams.navigation = {};
+      }
+      if (swiperParams.navigation !== false) {
+        swiperParams.navigation.nextEl = nextEl;
+        swiperParams.navigation.prevEl = prevEl;
+      }
+    }
+    if (this.needsPagination && paginationEl) {
+      if (swiperParams.pagination === true) {
+        swiperParams.pagination = {};
+      }
+      if (swiperParams.pagination !== false) {
+        swiperParams.pagination.el = paginationEl;
+      }
+    }
+    if (this.needsScrollbar && scrollbarEl) {
+      if (swiperParams.scrollbar === true) {
+        swiperParams.scrollbar = {};
+      }
+      if (swiperParams.scrollbar !== false) {
+        swiperParams.scrollbar.el = scrollbarEl;
+      }
+    }
+    return new Swiper(el, swiperParams);
+  }
+
+  ngOnDestroy() {
+    this.swiperRef.destroy();
+  }
+
   uniqueClasses(str) {
-    this.uniqueClasses(str);
+    uniqueClasses(str);
   }
 }

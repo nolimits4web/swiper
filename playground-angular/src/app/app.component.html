@@ -1,3 +1,46 @@
-<swiper>
-  <swiper-slide></swiper-slide>
-</swiper>
+<main>
+  <swiper
+    [navigation]="true"
+    (swiper)="test('swiper')"
+    (slideChange)="test('slideChange')"
+    (touchStart)="test('touchStart')"
+    [slidesPerView]="3"
+    [spaceBetween]="50"
+    [scrollbar]="{ draggable: true }"
+    [pagination]="{ clickable: true }"
+  >
+    <swiper-slide>Slide 1</swiper-slide>
+    <swiper-slide>Slide 2</swiper-slide>
+    <swiper-slide>Slide 3</swiper-slide>
+    <swiper-slide>Slide 4</swiper-slide>
+    <swiper-slide>Slide 5</swiper-slide>
+    <swiper-slide>Slide 6</swiper-slide>
+    <swiper-slide>Slide 7</swiper-slide>
+    <swiper-slide>Slide 8</swiper-slide>
+    <swiper-slide>Slide 9</swiper-slide>
+    <swiper-slide>Slide 10</swiper-slide>
+  </swiper>
+
+  <div
+    swiper
+    [navigation]="true"
+    (swiper)="test('swiper')"
+    (slideChange)="test('slideChange')"
+    (touchStart)="test('touchStart')"
+    [slidesPerView]="3"
+    [spaceBetween]="50"
+    [scrollbar]="{ draggable: true }"
+    [pagination]="{ clickable: true }"
+  >
+    <section swiper-slide>Slide 1</section>
+    <section swiper-slide>Slide 2</section>
+    <section swiper-slide>Slide 3</section>
+    <section swiper-slide>Slide 4</section>
+    <section swiper-slide>Slide 5</section>
+    <section swiper-slide>Slide 6</section>
+    <section swiper-slide>Slide 7</section>
+    <section swiper-slide>Slide 8</section>
+    <section swiper-slide>Slide 8</section>
+    <section swiper-slide>Slide 10</section>
+  </div>
+</main>
