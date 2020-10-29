@@ -1,0 +1,22 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "es2020",
+    "lib": ["es2018", "dom"],
+    "paths": {
+      "skeleton-elements": ["package"],
+      "skeleton-elements/*": ["package/*"],
+      "swiper": ["dist/swiper/swiper", "dist/swiper"],
+      "angular": ["dist/angular/angular", "dist/angular"]
+    }
+  }
+}

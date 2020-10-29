@@ -5,3 +5,4 @@ node_modules
 dist
 package
 src/swiper.js
+src/angular
