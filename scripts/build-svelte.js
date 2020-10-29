@@ -10,10 +10,10 @@ async function buildSvelte(format, cb) {
   const outputDir = env === 'development' ? 'build' : 'package';
   // Babel
   await exec.promise(
-    `MODULES=${format} npx babel --config-file ./babel.config.svelte.js src/svelte --out-dir ${outputDir}/${format}/svelte`,
+    `cross-env MODULES=${format} npx babel --config-file ./babel.config.svelte.js src/svelte --out-dir ${outputDir}/${format}/svelte`,
   );
   await exec.promise(
-    `MODULES=${format} npx babel --config-file ./babel.config.svelte.js src/swiper-svelte.js --out-file ${outputDir}/swiper-svelte.${format}.js`,
+    `cross-env MODULES=${format} npx babel --config-file ./babel.config.svelte.js src/swiper-svelte.js --out-file ${outputDir}/swiper-svelte.${format}.js`,
   );
 
   // Fix import paths

@@ -64,7 +64,9 @@ async function buildCore(components, format, cb) {
     '"src/swiper-svelte.js"',
   ];
   await exec.promise(
-    `MODULES=${format} npx babel src --out-dir ${outputDir}/${format} --ignore ${ignore.join(',')}`,
+    `cross-env MODULES=${format} npx babel src --out-dir ${outputDir}/${format} --ignore ${ignore.join(
+      ',',
+    )}`,
   );
 
   // Remove unused dirs
