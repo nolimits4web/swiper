@@ -1,5 +1,13 @@
 # Changelog
 
+## [Swiper 6.3.5](https://github.com/nolimits4web/swiper/compare/v6.3.4...v6.3.5) - Released on October 30th, 2020
+
+- Build
+  - Fixed builds on Windows
+- Core
+  - Fixed no swiping class in shadow component (#3868)
+  - Typecheck for `slideTo`'s `index` parameter
+
 ## [Swiper 6.3.4](https://github.com/nolimits4web/swiper/compare/v6.3.3...v6.3.4) - Released on October 20th, 2020
 
 - Vue
