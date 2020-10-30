@@ -9,10 +9,10 @@ async function buildVue(format, cb) {
   const outputDir = env === 'development' ? 'build' : 'package';
   // Babel
   await exec.promise(
-    `MODULES=${format} npx babel --config-file ./babel.config.vue.js src/vue --out-dir ${outputDir}/${format}/vue`,
+    `cross-env MODULES=${format} npx babel --config-file ./babel.config.vue.js src/vue --out-dir ${outputDir}/${format}/vue`,
   );
   await exec.promise(
-    `MODULES=${format} npx babel --config-file ./babel.config.vue.js src/swiper-vue.js --out-file ${outputDir}/swiper-vue.${format}.js`,
+    `cross-env MODULES=${format} npx babel --config-file ./babel.config.vue.js src/swiper-vue.js --out-file ${outputDir}/swiper-vue.${format}.js`,
   );
 
   // Fix import paths

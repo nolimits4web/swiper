@@ -10,10 +10,10 @@ async function buildReact(format, cb) {
 
   // Babel
   await exec.promise(
-    `MODULES=${format} npx babel --config-file ./babel.config.react.js src/react --out-dir ${outputDir}/${format}/react`,
+    `cross-env MODULES=${format} npx babel --config-file ./babel.config.react.js src/react --out-dir ${outputDir}/${format}/react`,
   );
   await exec.promise(
-    `MODULES=${format} npx babel --config-file ./babel.config.react.js src/swiper-react.js --out-file ${outputDir}/swiper-react.${format}.js`,
+    `cross-env MODULES=${format} npx babel --config-file ./babel.config.react.js src/swiper-react.js --out-file ${outputDir}/swiper-react.${format}.js`,
   );
 
   // Fix import paths
