@@ -1,13 +1,17 @@
 <main>
+  <button (click)="togglePagination()">Toggle pagination</button>
+  <button (click)="toggleNavigation()">Toggle navigation</button>
+  <button (click)="toggleScrollbar()">Toggle scrollbar</button>
   <swiper
-    [navigation]="true"
-    (swiper)="test('swiper')"
-    (slideChange)="test('slideChange')"
-    (touchStart)="test('touchStart')"
-    [slidesPerView]="3"
+    #swiperRef
+    [navigation]="navigation"
+    (swiper)="log('swiper')"
+    (slideChange)="log('slideChange')"
+    (touchStart)="log('touchStart')"
+    [slidesPerView]="slidesPerView"
     [spaceBetween]="50"
-    [scrollbar]="{ draggable: true }"
-    [pagination]="{ clickable: true }"
+    [scrollbar]="scrollbar"
+    [pagination]="pagination"
   >
     <swiper-slide>Slide 1</swiper-slide>
     <swiper-slide>Slide 2</swiper-slide>
@@ -21,12 +25,12 @@
     <swiper-slide>Slide 10</swiper-slide>
   </swiper>
 
-  <div
+  <!-- <div
     swiper
     [navigation]="true"
-    (swiper)="test('swiper')"
-    (slideChange)="test('slideChange')"
-    (touchStart)="test('touchStart')"
+    (swiper)="log('swiper')"
+    (slideChange)="log('slideChange')"
+    (touchStart)="log('touchStart')"
     [slidesPerView]="3"
     [spaceBetween]="50"
     [scrollbar]="{ draggable: true }"
@@ -42,5 +46,5 @@
     <section swiper-slide>Slide 8</section>
     <section swiper-slide>Slide 8</section>
     <section swiper-slide>Slide 10</section>
-  </div>
+  </div> -->
 </main>

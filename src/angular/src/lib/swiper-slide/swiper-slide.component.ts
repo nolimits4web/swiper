@@ -20,6 +20,6 @@ export class SwiperSlideComponent implements OnInit {
   constructor(@Host() private parent: SwiperComponent) {}
 
   ngOnInit(): void {
-    console.log('p', this.parent);
+    // console.log('p', this.parent);
   }
 }

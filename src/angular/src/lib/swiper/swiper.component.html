@@ -1,10 +1,10 @@
 <ng-content select="[slot=container-start]"></ng-content>
-<ng-container *ngIf="needsNavigation">
+<ng-container *ngIf="navigation">
   <div class="swiper-button-prev" #prevElRef></div>
   <div class="swiper-button-next" #nextElRef></div>
 </ng-container>
-<div *ngIf="needsScrollbar" class="swiper-scrollbar" #scrollbarElRef></div>
-<div *ngIf="needsPagination" class="swiper-pagination" #paginationElRef></div>
+<div *ngIf="scrollbar" class="swiper-scrollbar" #scrollbarElRef></div>
+<div *ngIf="pagination" class="swiper-pagination" #paginationElRef></div>
 <div class="swiper-wrapper">
   <ng-content select="[slot=wrapper-start]"></ng-content>
   <ng-content select="swiper-slide, [swiper-slide]"></ng-content>

@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -6,6 +8,7 @@ import {
   NgZone,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -30,13 +33,21 @@ import { VirtualOptions } from 'build/types/components/virtual';
 import { ZoomOptions } from 'build/types/components/zoom';
 import { SwiperEvents } from 'build/types/swiper-events';
 import { getParams } from '../get-params';
-import { uniqueClasses } from '../utils';
+import {
+  extend,
+  isObject,
+  uniqueClasses,
+  coerceBooleanProperty,
+  setProperty,
+  ignoreNgOnChanges,
+} from '../utils';
 @Component({
   selector: 'swiper, [swiper]',
   templateUrl: './swiper.component.html',
   host: {
     class: 'swiper-container',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
@@ -47,85 +58,85 @@ import { uniqueClasses } from '../utils';
   ],
 })
 export class SwiperComponent implements OnInit {
-  @Input() init: Boolean;
-  @Input() direction: String;
+  @Input() init: boolean = true;
+  @Input() direction: 'horizontal' | 'vertical';
   @Input() touchEventsTarget: String;
   @Input() initialSlide: Number;
   @Input() speed: Number;
-  @Input() cssMode: Boolean;
-  @Input() updateOnWindowResize: Boolean;
-  @Input() nested: Boolean;
+  @Input() cssMode: boolean;
+  @Input() updateOnWindowResize: boolean;
+  @Input() nested: boolean;
   @Input() width: Number;
   @Input() height: Number;
-  @Input() preventInteractionOnTransition: Boolean;
+  @Input() preventInteractionOnTransition: boolean;
   @Input() userAgent: String;
   @Input() url: String;
-  @Input() edgeSwipeDetection: Boolean;
+  @Input() edgeSwipeDetection: boolean;
   @Input() edgeSwipeThreshold: Number;
-  @Input() freeMode: Boolean;
-  @Input() freeModeMomentum: Boolean;
+  @Input() freeMode: boolean;
+  @Input() freeModeMomentum: boolean;
   @Input() freeModeMomentumRatio: Number;
-  @Input() freeModeMomentumBounce: Boolean;
+  @Input() freeModeMomentumBounce: boolean;
   @Input() freeModeMomentumBounceRatio: Number;
   @Input() freeModeMomentumVelocityRatio: Number;
-  @Input() freeModeSticky: Boolean;
+  @Input() freeModeSticky: boolean;
   @Input() freeModeMinimumVelocity: Number;
-  @Input() autoHeight: Boolean;
-  @Input() setWrapperSize: Boolean;
-  @Input() virtualTranslate: Boolean;
+  @Input() autoHeight: boolean;
+  @Input() setWrapperSize: boolean;
+  @Input() virtualTranslate: boolean;
   @Input() effect: String;
   @Input() breakpoints: Object;
   @Input() spaceBetween: Number;
-  @Input() slidesPerView: [Number, String];
+  @Input() slidesPerView: number | 'auto';
   @Input() slidesPerColumn: Number;
   @Input() slidesPerColumnFill: String;
   @Input() slidesPerGroup: Number;
   @Input() slidesPerGroupSkip: Number;
-  @Input() centeredSlides: Boolean;
-  @Input() centeredSlidesBounds: Boolean;
+  @Input() centeredSlides: boolean;
+  @Input() centeredSlidesBounds: boolean;
   @Input() slidesOffsetBefore: Number;
   @Input() slidesOffsetAfter: Number;
-  @Input() normalizeSlideIndex: Boolean;
-  @Input() centerInsufficientSlides: Boolean;
-  @Input() watchOverflow: Boolean;
-  @Input() roundLengths: Boolean;
+  @Input() normalizeSlideIndex: boolean;
+  @Input() centerInsufficientSlides: boolean;
+  @Input() watchOverflow: boolean;
+  @Input() roundLengths: boolean;
   @Input() touchRatio: Number;
   @Input() touchAngle: Number;
-  @Input() simulateTouch: Boolean;
-  @Input() shortSwipes: Boolean;
-  @Input() longSwipes: Boolean;
+  @Input() simulateTouch: boolean;
+  @Input() shortSwipes: boolean;
+  @Input() longSwipes: boolean;
   @Input() longSwipesRatio: Number;
   @Input() longSwipesMs: Number;
-  @Input() followFinger: Boolean;
-  @Input() allowTouchMove: Boolean;
+  @Input() followFinger: boolean;
+  @Input() allowTouchMove: boolean;
   @Input() threshold: Number;
-  @Input() touchMoveStopPropagation: Boolean;
-  @Input() touchStartPreventDefault: Boolean;
-  @Input() touchStartForcePreventDefault: Boolean;
-  @Input() touchReleaseOnEdges: Boolean;
-  @Input() uniqueNavElements: Boolean;
-  @Input() resistance: Boolean;
+  @Input() touchMoveStopPropagation: boolean;
+  @Input() touchStartPreventDefault: boolean;
+  @Input() touchStartForcePreventDefault: boolean;
+  @Input() touchReleaseOnEdges: boolean;
+  @Input() uniqueNavElements: boolean;
+  @Input() resistance: boolean;
   @Input() resistanceRatio: Number;
-  @Input() watchSlidesProgress: Boolean;
-  @Input() watchSlidesVisibility: Boolean;
-  @Input() grabCursor: Boolean;
-  @Input() preventClicks: Boolean;
-  @Input() preventClicksPropagation: Boolean;
-  @Input() slideToClickedSlide: Boolean;
-  @Input() preloadImages: Boolean;
-  @Input() updateOnImagesReady: Boolean;
-  @Input() loop: Boolean;
+  @Input() watchSlidesProgress: boolean;
+  @Input() watchSlidesVisibility: boolean;
+  @Input() grabCursor: boolean;
+  @Input() preventClicks: boolean;
+  @Input() preventClicksPropagation: boolean;
+  @Input() slideToClickedSlide: boolean;
+  @Input() preloadImages: boolean;
+  @Input() updateOnImagesReady: boolean;
+  @Input() loop: boolean;
   @Input() loopAdditionalSlides: Number;
   @Input() loopedSlides: Number;
-  @Input() loopFillGroupWithBlank: Boolean;
-  @Input() loopPreventsSlide: Boolean;
-  @Input() allowSlidePrev: Boolean;
-  @Input() allowSlideNext: Boolean;
-  @Input() swipeHandler: Boolean;
-  @Input() noSwiping: Boolean;
+  @Input() loopFillGroupWithBlank: boolean;
+  @Input() loopPreventsSlide: boolean;
+  @Input() allowSlidePrev: boolean;
+  @Input() allowSlideNext: boolean;
+  @Input() swipeHandler: boolean;
+  @Input() noSwiping: boolean;
   @Input() noSwipingClass: String;
   @Input() noSwipingSelector: String;
-  @Input() passiveListeners: Boolean;
+  @Input() passiveListeners: boolean;
   @Input() containerModifierClass: String;
   @Input() slideClass: String;
   @Input() slideBlankClass: String;
@@ -151,10 +162,40 @@ export class SwiperComponent implements OnInit {
   @Input() keyboard: KeyboardOptions | boolean;
   @Input() lazy: LazyOptions | boolean;
   @Input() mousewheel: MousewheelOptions | boolean;
-  @Input() navigation: NavigationOptions | boolean;
-  @Input() pagination: PaginationOptions | boolean;
+  @Input()
+  set navigation(val) {
+    this._navigation = setProperty(val, {
+      nextEl: null,
+      prevEl: null,
+    });
+  }
+  get navigation() {
+    return this._navigation;
+  }
+  private _navigation: NavigationOptions | false;
+
+  @Input()
+  set pagination(val) {
+    this._pagination = setProperty(val, {
+      el: null,
+    });
+  }
+  get pagination() {
+    return this._pagination;
+  }
+  private _pagination: PaginationOptions | false;
   @Input() parallax: boolean;
-  @Input() scrollbar: ScrollbarOptions | boolean;
+
+  @Input()
+  set scrollbar(val) {
+    this._scrollbar = setProperty(val, {
+      el: null,
+    });
+  }
+  get scrollbar() {
+    return this._scrollbar;
+  }
+  private _scrollbar: ScrollbarOptions | false;
   @Input() thumbs: ThumbsOptions;
   @Input() virtual: VirtualOptions | boolean;
   @Input() zoom: ZoomOptions | boolean;
@@ -311,83 +352,170 @@ export class SwiperComponent implements OnInit {
   // prettier-ignore
   @Output('swiper') s_swiper: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('prevElRef', { static: false }) prevElRef?: ElementRef;
-  @ViewChild('nextElRef', { static: false }) nextElRef?: ElementRef;
-  @ViewChild('scrollbarElRef', { static: false }) scrollbarElRef?: ElementRef;
-  @ViewChild('paginationElRef', { static: false }) paginationElRef?: ElementRef;
+  @ViewChild('prevElRef', { static: false })
+  set prevElRef(el: ElementRef) {
+    if (this.navigation !== false) {
+      this.navigation.prevEl = el.nativeElement;
+    }
+    this.updateInitSwiper({ navigation: true });
+  }
+  @ViewChild('nextElRef', { static: false })
+  set nextElRef(el: ElementRef) {
+    if (this.navigation !== false) {
+      this.navigation.nextEl = el.nativeElement;
+    }
+    this.updateInitSwiper({ navigation: true });
+  }
+  @ViewChild('scrollbarElRef', { static: false })
+  set scrollbarElRef(el: ElementRef) {
+    if (this.scrollbar !== false) {
+      this.scrollbar.el = el.nativeElement;
+    }
+    this.updateInitSwiper({ scrollbar: true });
+  }
+  @ViewChild('paginationElRef', { static: false })
+  set paginationElRef(el: ElementRef) {
+    if (this.pagination !== false) {
+      this.pagination.el = el.nativeElement;
+    }
+    this.updateInitSwiper({ pagination: true });
+  }
   swiperRef: Swiper;
-  constructor(private zone: NgZone, private elementRef: ElementRef) {}
+  constructor(
+    private zone: NgZone,
+    private elementRef: ElementRef,
+    private _changeDetectorRef: ChangeDetectorRef,
+  ) {}
   ngOnInit(): void {}
 
-  get needsScrollbar() {
-    return (
-      typeof this.scrollbar !== 'undefined' &&
-      ((typeof this.scrollbar === 'boolean' && this.scrollbar !== false) ||
-        (typeof this.scrollbar !== 'boolean' && typeof this.scrollbar.el === 'undefined'))
-    );
-  }
-  get needsNavigation() {
-    return (
-      typeof this.navigation !== 'undefined' &&
-      ((typeof this.navigation === 'boolean' && this.navigation !== false) ||
-        (typeof this.navigation !== 'boolean' &&
-          typeof this.navigation.nextEl === 'undefined' &&
-          typeof this.navigation.prevEl === 'undefined'))
-    );
-  }
-  get needsPagination() {
-    return (
-      typeof this.pagination !== 'undefined' &&
-      ((typeof this.pagination === 'boolean' && this.pagination !== false) ||
-        (typeof this.pagination !== 'boolean' && typeof this.pagination.el === 'undefined'))
-    );
-  }
   ngAfterViewInit() {
+    if (this.init !== false) {
+      this.initSwiper();
+    }
+  }
+
+  initSwiper() {
     const { params: swiperParams, passedParams } = getParams(this);
     swiperParams.onAny = (event, ...args) => {
       const emitter = this[`s_${event}`] as EventEmitter<any>;
-      emitter.emit(...args);
+      if (emitter) {
+        emitter.emit(...args);
+      }
     };
-    this.swiperRef = this.initSwiper(
-      {
-        el: this.elementRef.nativeElement,
-        nextEl: this.nextElRef.nativeElement,
-        prevEl: this.prevElRef.nativeElement,
-        paginationEl: this.paginationElRef.nativeElement,
-        scrollbarEl: this.scrollbarElRef.nativeElement,
-      },
-      swiperParams,
-    );
+    this.swiperRef = new Swiper(this.elementRef.nativeElement, swiperParams);
     this.s_swiper.emit(this.swiperRef);
   }
 
-  initSwiper({ el, nextEl, prevEl, paginationEl, scrollbarEl }, swiperParams: SwiperOptions) {
-    if (this.needsNavigation && nextEl && prevEl) {
-      if (swiperParams.navigation === true) {
-        swiperParams.navigation = {};
-      }
-      if (swiperParams.navigation !== false) {
-        swiperParams.navigation.nextEl = nextEl;
-        swiperParams.navigation.prevEl = prevEl;
+  ngOnChanges(changedParams: SimpleChanges) {
+    this.updateSwiper(changedParams);
+  }
+
+  updateInitSwiper(changedParams) {
+    if (!(changedParams && this.swiperRef && !this.swiperRef.destroyed)) {
+      return;
+    }
+    const {
+      params: currentParams,
+      pagination,
+      navigation,
+      scrollbar,
+      virtual,
+      thumbs,
+    } = this.swiperRef;
+
+    if (changedParams.pagination) {
+      if (this.pagination && this.pagination.el && pagination && !pagination.el) {
+        this.updateParameter('pagination', this.pagination);
+        pagination.init();
+        pagination.render();
+        pagination.update();
+      } else {
+        pagination.destroy();
+        pagination.el = null;
       }
     }
-    if (this.needsPagination && paginationEl) {
-      if (swiperParams.pagination === true) {
-        swiperParams.pagination = {};
-      }
-      if (swiperParams.pagination !== false) {
-        swiperParams.pagination.el = paginationEl;
-      }
-    }
-    if (this.needsScrollbar && scrollbarEl) {
-      if (swiperParams.scrollbar === true) {
-        swiperParams.scrollbar = {};
-      }
-      if (swiperParams.scrollbar !== false) {
-        swiperParams.scrollbar.el = scrollbarEl;
+
+    if (changedParams.scrollbar) {
+      if (this.scrollbar && this.scrollbar.el && scrollbar && !scrollbar.el) {
+        scrollbar.init();
+        scrollbar.updateSize();
+        scrollbar.setTranslate();
+      } else {
+        scrollbar.destroy();
+        scrollbar.el = null;
       }
     }
-    return new Swiper(el, swiperParams);
+
+    if (changedParams.navigation) {
+      if (
+        this.navigation &&
+        this.navigation.prevEl &&
+        this.navigation.nextEl &&
+        navigation &&
+        !navigation.prevEl &&
+        !navigation.nextEl
+      ) {
+        navigation.init();
+        navigation.update();
+      } else {
+        navigation.destroy();
+        navigation.nextEl = null;
+        navigation.prevEl = null;
+      }
+    }
+    if (changedParams.thumbs && this.thumbs && this.thumbs.swiper) {
+      const initialized = thumbs.init();
+      if (initialized) thumbs.update(true);
+    }
+
+    if (changedParams.controller && this.controller && this.controller.control) {
+      this.swiperRef.controller.control = this.controller.control;
+    }
+
+    this.swiperRef.update();
+  }
+
+  updateSwiper(changedParams: SimpleChanges) {
+    if (!(changedParams && this.swiperRef && !this.swiperRef.destroyed)) {
+      return;
+    }
+    for (const key in changedParams) {
+      if (ignoreNgOnChanges.indexOf(key) >= 0) {
+        continue;
+      }
+      this.updateParameter(key, changedParams[key].currentValue);
+    }
+
+    // if (changedParams.children && virtual && currentParams.virtual.enabled) {
+    //   virtual.slides = slides;
+    //   virtual.update(true);
+    // }
+
+    if (changedParams.allowSlideNext) {
+      this.swiperRef.allowSlideNext = this.allowSlideNext;
+    }
+    if (changedParams.allowSlidePrev) {
+      this.swiperRef.allowSlidePrev = this.allowSlidePrev;
+    }
+    if (changedParams.direction) {
+      this.swiperRef.changeDirection(this.direction, false);
+    }
+    this.swiperRef.update();
+  }
+
+  updateParameter(key, value) {
+    if (!(this.swiperRef && !this.swiperRef.destroyed)) {
+      return;
+    }
+    const _key = key.replace(/^_/, '');
+    if (Object.keys(this.swiperRef.modules).indexOf(_key) >= 0) {
+      extend(value, this.swiperRef.modules[_key].params[_key]);
+    }
+    if (isObject(this.swiperRef.params[_key]) && isObject(value)) {
+      extend(this.swiperRef.params[_key], value);
+    } else {
+      this.swiperRef.params[_key] = value;
+    }
   }
 
   ngOnDestroy() {

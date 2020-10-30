@@ -1,15 +1,14 @@
-<div #swiperElRef [ngClass]="uniqueClasses('TODO')">
-  <ng-content select="container-start"></ng-content>
-  <ng-container *ngIf="needsNavigation">
-    <div class="swiper-button-prev" #prevElRef></div>
-    <div class="swiper-button-next" #nextElRef></div>
-  </ng-container>
-  <div *ngIf="needsScrollbar" class="swiper-scrollbar" #scrollbarElRef></div>
-  <div *ngIf="needsPagination" class="swiper-pagination" #paginationElRef></div>
-  <div class="swiper-wrapper">
-    <ng-content select="wrapper-start"></ng-content>
-    <ng-content select="wrapper-end"></ng-content>
-  </div>
-  <ng-content select="container-end"></ng-content>
+<ng-content select="[slot=container-start]"></ng-content>
+<ng-container *ngIf="needsNavigation">
+  <div class="swiper-button-prev" #prevElRef></div>
+  <div class="swiper-button-next" #nextElRef></div>
+</ng-container>
+<div *ngIf="needsScrollbar" class="swiper-scrollbar" #scrollbarElRef></div>
+<div *ngIf="needsPagination" class="swiper-pagination" #paginationElRef></div>
+<div class="swiper-wrapper">
+  <ng-content select="[slot=wrapper-start]"></ng-content>
+  <ng-content select="swiper-slide, [swiper-slide]"></ng-content>
+  <ng-content select="[slot=wrapper-end]"></ng-content>
 </div>
+<ng-content select="[slow=container-end]"></ng-content>
 <ng-content></ng-content>

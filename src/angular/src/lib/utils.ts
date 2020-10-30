@@ -1,32 +1,24 @@
-function isObject(o) {
+export function isObject(o) {
   return typeof o === 'object' && o !== null && o.constructor && o.constructor === Object;
 }
 
-function extend(target, src) {
+export function extend(target, src) {
   Object.keys(src).forEach((key) => {
-    if (typeof target[key] === 'undefined') target[key] = src[key];
-    else if (isObject(src[key]) && isObject(target[key]) && Object.keys(src[key]).length > 0) {
+    if (typeof target[key] === 'undefined') {
+      target[key] = src[key];
+      return;
+    }
+    if (target[key] && !src[key]) {
+      return;
+    }
+    if (isObject(src[key]) && isObject(target[key]) && Object.keys(src[key]).length > 0) {
       extend(target[key], src[key]);
     } else {
       target[key] = src[key];
     }
   });
 }
-
-function needsNavigation(props: any = {}) {
-  return (
-    props.navigation &&
-    typeof props.navigation.nextEl === 'undefined' &&
-    typeof props.navigation.prevEl === 'undefined'
-  );
-}
-function needsPagination(props: any = {}) {
-  return props.pagination && typeof props.pagination.el === 'undefined';
-}
-function needsScrollbar(props: any = {}) {
-  return props.scrollbar && typeof props.scrollbar.el === 'undefined';
-}
-function uniqueClasses(classNames = '') {
+export function uniqueClasses(classNames = '') {
   const classes = classNames
     .split(' ')
     .map((c) => c.trim())
@@ -38,4 +30,19 @@ function uniqueClasses(classNames = '') {
   return unique.join(' ');
 }
 
-export { isObject, extend, needsNavigation, needsPagination, needsScrollbar, uniqueClasses };
+export function coerceBooleanProperty(value: any): boolean {
+  return value != null && `${value}` !== 'false';
+}
+
+export const ignoreNgOnChanges = ['pagination', 'navigation', 'scrollbar'];
+
+export function setProperty(val, obj) {
+  if (isObject(val)) {
+    return val;
+  }
+  const newValue = coerceBooleanProperty(val);
+  if (newValue === true) {
+    return obj;
+  }
+  return newValue;
+}

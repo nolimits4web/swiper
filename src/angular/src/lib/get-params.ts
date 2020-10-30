@@ -4,7 +4,8 @@ import { paramsList } from './params-list';
 import { SwiperOptions } from 'build/swiper';
 import Swiper from 'build/core';
 
-function getParams(obj = {}) {
+export const allowedParams = paramsList.map((key) => key.replace(/_/, ''));
+export function getParams(obj = {}) {
   const params: SwiperOptions = {
     on: {},
   };
@@ -14,27 +15,23 @@ function getParams(obj = {}) {
   params._emitClasses = true;
 
   const rest = {};
-  const allowedParams = paramsList.map((key) => key.replace(/_/, ''));
   Object.keys(obj).forEach((key) => {
-    if (typeof obj[key] === 'undefined') return;
-    if (allowedParams.indexOf(key) >= 0) {
-      if (isObject(obj[key])) {
-        params[key] = {};
-        passedParams[key] = {};
-        extend(params[key], obj[key]);
-        extend(passedParams[key], obj[key]);
+    const _key = key.replace(/^_/, '');
+    if (typeof obj[_key] === 'undefined') return;
+    if (allowedParams.indexOf(_key) >= 0) {
+      if (isObject(obj[_key])) {
+        params[_key] = {};
+        passedParams[_key] = {};
+        extend(params[_key], obj[_key]);
+        extend(passedParams[_key], obj[_key]);
       } else {
-        params[key] = obj[key];
-        passedParams[key] = obj[key];
+        params[_key] = obj[_key];
+        passedParams[_key] = obj[_key];
       }
-    } else if (key.search(/on[A-Z]/) === 0 && typeof obj[key] === 'function') {
-      params.on[`${key[2].toLowerCase()}${key.substr(3)}`] = obj[key];
     } else {
-      rest[key] = obj[key];
+      rest[_key] = obj[_key];
     }
   });
 
   return { params, passedParams, rest };
 }
-
-export { getParams };

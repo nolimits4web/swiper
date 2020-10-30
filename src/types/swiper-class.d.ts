@@ -245,8 +245,9 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    * Changes slider direction from horizontal to vertical and back.
    *
    * @param direction New direction. If not specified, then will automatically changed to opposite direction
+   * @param needUpdate default true
    */
-  changeDirection(direction?: 'horizontal' | 'vertical'): void;
+  changeDirection(direction?: 'horizontal' | 'vertical', needUpdate?: boolean): void;
 
   /**
    * Detach all events listeners
@@ -364,6 +365,8 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    */
   offAny(handler: (eventName: string, ...args: any[]) => void): void;
 
+  destroyed: boolean;
+  modules: Array<any>; //TODO: add typing
   a11y: A11yMethods;
   autoplay: AutoplayMethods;
   controller: ControllerMethods;
