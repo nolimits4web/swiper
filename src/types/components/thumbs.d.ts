@@ -15,7 +15,7 @@ export interface ThumbsOptions {
    *
    * @default null
    */
-  swiper?: Swiper;
+  swiper?: Swiper | null;
   /**
    * Additional class that will be added to activated thumbs swiper slide
    *

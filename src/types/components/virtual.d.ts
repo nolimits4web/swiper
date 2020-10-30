@@ -100,13 +100,13 @@ export interface VirtualOptions {
    *
    * @default null
    */
-  renderSlide?: (slide: any, index: any) => any;
+  renderSlide?: (slide: any, index: any) => any | null;
   /**
    * Function for external rendering (e.g. using some other library to handle DOM manipulations and state like React.js or Vue.js). As an argument it accepts data object with the following properties:
    *
    * @default null
    */
-  renderExternal?: (data: VirtualData) => any;
+  renderExternal?: (data: VirtualData) => any | null;
   /**
    * When enabled (by default) it will update Swiper layout right after renderExternal called. Useful to disable and update swiper manually when used with render libraries that renders asynchronously
    *
