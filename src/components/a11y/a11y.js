@@ -71,7 +71,10 @@ const A11y = {
         swiper.a11y.notify(params.prevSlideMessage);
       }
     }
-    if (swiper.pagination && $targetEl.is(`.${swiper.params.pagination.bulletClass}`)) {
+    if (
+      swiper.pagination &&
+      $targetEl.is(`.${swiper.params.pagination.bulletClass.replace(/ /g, '.')}`)
+    ) {
       $targetEl[0].click();
     }
   },
@@ -205,7 +208,7 @@ const A11y = {
     ) {
       swiper.pagination.$el.on(
         'keydown',
-        `.${swiper.params.pagination.bulletClass}`,
+        `.${swiper.params.pagination.bulletClass.replace(/ /g, '.')}`,
         swiper.a11y.onEnterKey,
       );
     }
@@ -239,7 +242,7 @@ const A11y = {
     ) {
       swiper.pagination.$el.off(
         'keydown',
-        `.${swiper.params.pagination.bulletClass}`,
+        `.${swiper.params.pagination.bulletClass.replace(/ /g, '.')}`,
         swiper.a11y.onEnterKey,
       );
     }
