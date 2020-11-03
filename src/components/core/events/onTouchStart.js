@@ -15,7 +15,7 @@ export default function onTouchStart(event) {
   }
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
-  const $targetEl = $(e.target);
+  let $targetEl = $(e.target);
 
   if (params.touchEventsTarget === 'wrapper') {
     if (!$targetEl.closest(swiper.wrapperEl).length) return;
@@ -31,9 +31,14 @@ export default function onTouchStart(event) {
     $targetEl = $(event.path[0]);
   }
 
-  if (params.noSwiping && ($targetEl.closest(params.noSwipingSelector ? params.noSwipingSelector : "." + params.noSwipingClass)[0])) {
-      swiper.allowClick = true;
-      return;
+  if (
+    params.noSwiping &&
+    $targetEl.closest(
+      params.noSwipingSelector ? params.noSwipingSelector : `.${params.noSwipingClass}`,
+    )[0]
+  ) {
+    swiper.allowClick = true;
+    return;
   }
 
   if (params.swipeHandler) {
