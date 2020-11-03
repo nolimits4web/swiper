@@ -1,5 +1,4 @@
-import { Component, Host, OnInit, ViewEncapsulation } from '@angular/core';
-import { SwiperComponent } from '../swiper/swiper.component';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'swiper-slide, [swiper-slide]',
@@ -16,10 +15,7 @@ import { SwiperComponent } from '../swiper/swiper.component';
     `,
   ],
 })
-export class SwiperSlideComponent implements OnInit {
-  constructor(@Host() private parent: SwiperComponent) {}
-
-  ngOnInit(): void {
-    // console.log('p', this.parent);
-  }
+export class SwiperSlideComponent {
+  @Input() virtualIndex: number;
+  constructor() {}
 }

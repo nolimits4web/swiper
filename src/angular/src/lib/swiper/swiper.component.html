@@ -7,7 +7,17 @@
 <div *ngIf="pagination" class="swiper-pagination" #paginationElRef></div>
 <div class="swiper-wrapper">
   <ng-content select="[slot=wrapper-start]"></ng-content>
-  <ng-content select="swiper-slide, [swiper-slide]"></ng-content>
+  <ng-container [ngSwitch]="virtual">
+    <ng-content
+      select="swiper-slide, [swiper-slide]"
+      *ngSwitchCase="undefined || false"
+    ></ng-content>
+    <ng-container *ngSwitchDefault>
+      <div *ngFor="let slide of swiperSlides">
+        <ng-container [ngTemplateOutlet]="slide.content"></ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
   <ng-content select="[slot=wrapper-end]"></ng-content>
 </div>
 <ng-content select="[slow=container-end]"></ng-content>

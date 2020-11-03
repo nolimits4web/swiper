@@ -2,6 +2,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ContentChild,
+  ContentChildren,
   ElementRef,
   EventEmitter,
   Input,
@@ -9,7 +11,9 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  TemplateRef,
   ViewChild,
+  ViewChildren,
   ViewEncapsulation,
 } from '@angular/core';
 import Swiper, { SwiperOptions } from 'build/core';
@@ -33,6 +37,7 @@ import { VirtualOptions } from 'build/types/components/virtual';
 import { ZoomOptions } from 'build/types/components/zoom';
 import { SwiperEvents } from 'build/types/swiper-events';
 import { getParams } from '../get-params';
+import { SwiperSlideComponent } from '../swiper-slide/swiper-slide.component';
 import {
   extend,
   isObject,
@@ -196,8 +201,16 @@ export class SwiperComponent implements OnInit {
     return this._scrollbar;
   }
   private _scrollbar: ScrollbarOptions | false;
+
+  @Input()
+  set virtual(val) {
+    this._virtual = setProperty(val);
+  }
+  get virtual() {
+    return this._virtual;
+  }
+  private _virtual: VirtualOptions | false;
   @Input() thumbs: ThumbsOptions;
-  @Input() virtual: VirtualOptions | boolean;
   @Input() zoom: ZoomOptions | boolean;
   // prettier-ignore
   @Output('_beforeBreakpoint') s__beforeBreakpoint: EventEmitter<SwiperEvents['_beforeBreakpoint']> = new EventEmitter<any>();
@@ -380,6 +393,7 @@ export class SwiperComponent implements OnInit {
     }
     this.updateInitSwiper({ pagination: true });
   }
+  @ContentChildren(SwiperSlideComponent) swiperSlides;
   swiperRef: Swiper;
   constructor(
     private zone: NgZone,
@@ -392,6 +406,7 @@ export class SwiperComponent implements OnInit {
     if (this.init !== false) {
       this.initSwiper();
     }
+    console.log(this.swiperSlides.last);
   }
 
   initSwiper() {
@@ -402,6 +417,28 @@ export class SwiperComponent implements OnInit {
         emitter.emit(...args);
       }
     };
+
+    Object.assign(swiperParams.on, {
+      // _containerClasses(swiper, classes) {
+      //   containerClasses.value = classes;
+      // },
+      _swiper(swiper) {
+        swiper.loopCreate = () => {};
+        swiper.loopDestroy = () => {};
+        // if (swiperParams.loop) {
+        //   swiper.loopedSlides = calcLoopedSlides(slidesRef.value, swiperParams);
+        // }
+        if (swiper.virtual && swiper.params.virtual.enabled) {
+          // swiper.virtual.slides = slidesRef.value;
+          swiper.params.virtual.cache = false;
+          swiper.params.virtual.renderExternal = (data) => {
+            console.log(data);
+            // virtualData.value = data;
+          };
+          swiper.params.virtual.renderExternalUpdate = false;
+        }
+      },
+    });
     this.swiperRef = new Swiper(this.elementRef.nativeElement, swiperParams);
     this.s_swiper.emit(this.swiperRef);
   }

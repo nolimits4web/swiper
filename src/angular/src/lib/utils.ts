@@ -34,9 +34,9 @@ export function coerceBooleanProperty(value: any): boolean {
   return value != null && `${value}` !== 'false';
 }
 
-export const ignoreNgOnChanges = ['pagination', 'navigation', 'scrollbar'];
+export const ignoreNgOnChanges = ['pagination', 'navigation', 'scrollbar', 'virtual'];
 
-export function setProperty(val, obj) {
+export function setProperty(val, obj = {}) {
   if (isObject(val)) {
     return val;
   }
