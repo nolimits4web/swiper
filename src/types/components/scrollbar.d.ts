@@ -16,6 +16,18 @@ export interface ScrollbarMethods {
    * Updates scrollbar track and handler sizes
    */
   updateSize(): void;
+
+  setTranslate(): void;
+
+  /**
+   * Initialize scrollbar
+   */
+  init(): void;
+
+  /**
+   * Destroy scrollbar
+   */
+  destroy(): void;
 }
 
 export interface ScrollbarEvents {
