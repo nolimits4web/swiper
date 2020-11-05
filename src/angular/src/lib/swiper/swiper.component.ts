@@ -500,6 +500,7 @@ export class SwiperComponent implements OnInit {
 
     if (changedParams.scrollbar) {
       if (this.scrollbar && this.scrollbar.el && scrollbar && !scrollbar.el) {
+        this.updateParameter('scrollbar', this.scrollbar);
         scrollbar.init();
         scrollbar.updateSize();
         scrollbar.setTranslate();
@@ -518,15 +519,17 @@ export class SwiperComponent implements OnInit {
         !navigation.prevEl &&
         !navigation.nextEl
       ) {
+        this.updateParameter('navigation', this.navigation);
         navigation.init();
         navigation.update();
-      } else {
+      } else if (navigation.prevEl && navigation.nextEl) {
         navigation.destroy();
         navigation.nextEl = null;
         navigation.prevEl = null;
       }
     }
     if (changedParams.thumbs && this.thumbs && this.thumbs.swiper) {
+      this.updateParameter('thumbs', this.thumbs);
       const initialized = thumbs.init();
       if (initialized) thumbs.update(true);
     }
