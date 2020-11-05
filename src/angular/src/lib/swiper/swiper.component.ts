@@ -404,7 +404,7 @@ export class SwiperComponent implements OnInit {
     if (this.virtual) {
       return this._activeSlides;
     }
-    return of(this.slides.toArray());
+    return of(this.slides?.toArray());
   }
   constructor(
     private zone: NgZone,
@@ -450,22 +450,22 @@ export class SwiperComponent implements OnInit {
           };
           swiper.params.virtual.renderExternalUpdate = false;
         }
+        this._changeDetectorRef.detectChanges();
       },
     });
     new Swiper(this.elementRef.nativeElement, swiperParams);
   }
 
   style: any = null;
-  private _previusVirtualSlide: VirtualData;
+  private _prevVirtualSlide: VirtualData;
   private updateVirtualSlides(virtualData: VirtualData) {
     if (
       !this.swiperRef ||
-      (this._previusVirtualSlide &&
-        this._previusVirtualSlide.from === virtualData.from &&
-        this._previusVirtualSlide.to === virtualData.to &&
-        this._previusVirtualSlide.offset === virtualData.offset)
+      (this._prevVirtualSlide &&
+        this._prevVirtualSlide.from === virtualData.from &&
+        this._prevVirtualSlide.to === virtualData.to &&
+        this._prevVirtualSlide.offset === virtualData.offset)
     ) {
-      console.log('same');
       return;
     }
     this.style = this.swiperRef.isHorizontal()
@@ -475,10 +475,17 @@ export class SwiperComponent implements OnInit {
       : {
           top: `${virtualData.offset}px`,
         };
-    console.log('update');
-    this._previusVirtualSlide = virtualData;
+    this._prevVirtualSlide = virtualData;
     this._activeSlides.next(virtualData.slides);
+    this._changeDetectorRef.detectChanges();
+    this.swiperRef.updateSlides();
+    this.swiperRef.updateProgress();
+    this.swiperRef.updateSlidesClasses();
+    if (this.swiperRef.lazy && this.swiperRef.params.lazy['enabled']) {
+      this.swiperRef.lazy.load();
+    }
     this.swiperRef.virtual.update(true);
+    return;
   }
 
   ngOnChanges(changedParams: SimpleChanges) {
