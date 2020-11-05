@@ -37,7 +37,7 @@ import { ThumbsOptions } from 'build/types/components/thumbs';
 import { VirtualData, VirtualOptions } from 'build/types/components/virtual';
 import { ZoomOptions } from 'build/types/components/zoom';
 import { SwiperEvents } from 'build/types/swiper-events';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { getParams } from '../get-params';
 import { SwiperSlideComponent } from '../swiper-slide/swiper-slide.component';
 import {
@@ -399,7 +399,13 @@ export class SwiperComponent implements OnInit {
     SwiperSlideComponent
   >;
   swiperRef: Swiper;
-  readonly activeSlides = new Subject<SwiperSlideComponent[]>();
+  readonly _activeSlides = new Subject<SwiperSlideComponent[]>();
+  get activeSlides() {
+    if (this.virtual) {
+      return this._activeSlides;
+    }
+    return of(this.slides.toArray());
+  }
   constructor(
     private zone: NgZone,
     private elementRef: ElementRef,
@@ -423,15 +429,13 @@ export class SwiperComponent implements OnInit {
       }
     };
 
-    if (!this.virtual) {
-      this.activeSlides.next(this.slides.toArray());
-    }
-
     Object.assign(swiperParams.on, {
       // _containerClasses(swiper, classes) {
       //   containerClasses.value = classes;
       // },
       _swiper: (swiper) => {
+        this.swiperRef = swiper;
+        this.s_swiper.emit(this.swiperRef);
         swiper.loopCreate = () => {};
         swiper.loopDestroy = () => {};
         // if (swiperParams.loop) {
@@ -448,24 +452,33 @@ export class SwiperComponent implements OnInit {
         }
       },
     });
-    this.swiperRef = new Swiper(this.elementRef.nativeElement, swiperParams);
-    this.s_swiper.emit(this.swiperRef);
+    new Swiper(this.elementRef.nativeElement, swiperParams);
   }
 
+  style: any = null;
   private _previusVirtualSlide: VirtualData;
-  private updateVirtualSlides(data: VirtualData) {
+  private updateVirtualSlides(virtualData: VirtualData) {
     if (
-      this._previusVirtualSlide &&
-      this._previusVirtualSlide.from === data.from &&
-      this._previusVirtualSlide.to === data.to &&
-      this._previusVirtualSlide.offset !== data.offset
+      !this.swiperRef ||
+      (this._previusVirtualSlide &&
+        this._previusVirtualSlide.from === virtualData.from &&
+        this._previusVirtualSlide.to === virtualData.to &&
+        this._previusVirtualSlide.offset === virtualData.offset)
     ) {
       console.log('same');
       return;
     }
+    this.style = this.swiperRef.isHorizontal()
+      ? {
+          [this.swiperRef.rtlTranslate ? 'right' : 'left']: `${virtualData.offset}px`,
+        }
+      : {
+          top: `${virtualData.offset}px`,
+        };
     console.log('update');
-    this._previusVirtualSlide = data;
-    this.activeSlides.next(data.slides);
+    this._previusVirtualSlide = virtualData;
+    this._activeSlides.next(virtualData.slides);
+    this.swiperRef.virtual.update(true);
   }
 
   ngOnChanges(changedParams: SimpleChanges) {

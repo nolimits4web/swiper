@@ -1,7 +1,16 @@
 <main>
-  <button (click)="togglePagination()">Toggle pagination</button>
-  <button (click)="toggleNavigation()">Toggle navigation</button>
-  <button (click)="toggleScrollbar()">Toggle scrollbar</button>
+  <swiper
+    #swiperVirtualRef
+    slidesPerView="1"
+    [spaceBetween]="50"
+    scrollbar
+    pagination
+    virtual
+    navigation
+  >
+    <swiper-slide *ngFor="let slide of slides; index as i">{{ slide }}</swiper-slide>
+  </swiper>
+
   <swiper
     #swiperRef
     [navigation]="navigation"
@@ -15,27 +24,7 @@
   >
     <swiper-slide *ngFor="let slide of slides; index as i">{{ slide }}</swiper-slide>
   </swiper>
-
-  <!-- <div
-    swiper
-    [navigation]="true"
-    (swiper)="log('swiper')"
-    (slideChange)="log('slideChange')"
-    (touchStart)="log('touchStart')"
-    [slidesPerView]="3"
-    [spaceBetween]="50"
-    [scrollbar]="{ draggable: true }"
-    [pagination]="{ clickable: true }"
-  >
-    <section swiper-slide>Slide 1</section>
-    <section swiper-slide>Slide 2</section>
-    <section swiper-slide>Slide 3</section>
-    <section swiper-slide>Slide 4</section>
-    <section swiper-slide>Slide 5</section>
-    <section swiper-slide>Slide 6</section>
-    <section swiper-slide>Slide 7</section>
-    <section swiper-slide>Slide 8</section>
-    <section swiper-slide>Slide 8</section>
-    <section swiper-slide>Slide 10</section>
-  </div> -->
+  <button (click)="togglePagination()">Toggle pagination</button>
+  <button (click)="toggleNavigation()">Toggle navigation</button>
+  <button (click)="toggleScrollbar()">Toggle scrollbar</button>
 </main>

@@ -46,7 +46,7 @@ export interface VirtualMethods {
   /**
    * Update virutal slides state
    */
-  update(): void;
+  update(force: boolean): void;
 }
 
 export interface VirtualEvents {}
