@@ -18,12 +18,12 @@ export interface NavigationMethods {
   update(): void;
 
   /**
-   * Initialize paginatiion
+   * Initialize navigation
    */
   init(): void;
 
   /**
-   * Destroy paginatiion
+   * Destroy navigation
    */
   destroy(): void;
 }

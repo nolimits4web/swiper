@@ -17,6 +17,9 @@ export interface ScrollbarMethods {
    */
   updateSize(): void;
 
+  /**
+   * Updates scrollbar translate
+   */
   setTranslate(): void;
 
   /**

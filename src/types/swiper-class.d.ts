@@ -245,7 +245,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    * Changes slider direction from horizontal to vertical and back.
    *
    * @param direction New direction. If not specified, then will automatically changed to opposite direction
-   * @param needUpdate default true
+   * @param needUpdate Will call swiper.update(). Default true
    */
   changeDirection(direction?: 'horizontal' | 'vertical', needUpdate?: boolean): void;
 

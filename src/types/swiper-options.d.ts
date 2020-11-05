@@ -608,6 +608,9 @@ export interface SwiperOptions {
   thumbs?: ThumbsOptions;
   virtual?: VirtualOptions | boolean;
   zoom?: ZoomOptions | boolean;
+  /**
+   * !INTERNAL When enabled will emit "_containerClasses" and "_slideClasses" events
+   */
   _emitClasses?: boolean;
   /**
    * Add event listener that will be fired on all events
