@@ -26,10 +26,13 @@ export interface PaginationMethods {
   update(): void;
 
   /**
-   * Initialize paginatiion
+   * Initialize pagination
    */
   init(): void;
 
+  /**
+   * Destroy pagination
+   */
   destroy(): void;
 }
 

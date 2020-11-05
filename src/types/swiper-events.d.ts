@@ -207,32 +207,102 @@ export interface SwiperEvents {
    */
   breakpoint: (swiper: Swiper, breakpointParams: SwiperOptions) => void;
 
-  _beforeBreakpoint: (breakpointParams: SwiperOptions) => void;
-  _containerClasses: (classNames: string) => void;
-  _slideClass: (el: HTMLElement, classNames: string) => void;
-  _swiper: () => void;
-  activeIndexChange: () => void;
-  snapIndexChange: () => void;
-  realIndexChange: () => void;
-  afterInit: () => void;
-  beforeInit: () => void;
-  beforeResize: () => void;
-  beforeSlideChangeStart: () => void;
-  beforeTransitionStart: (speed: number, internal: any) => void; // what is internal?
-  changeDirection: () => void;
-  doubleClick: (event: MouseEvent | TouchEvent | PointerEvent) => void;
-  destroy: () => void;
-  keyPress: (keyCode: string) => void;
-  momentumBounce: () => void;
-  orientationchange: () => void;
-  scroll: (event: WheelEvent) => void;
-  slideResetTransitionStart: () => void;
-  slideResetTransitionEnd: () => void;
-  sliderFirstMove: (event: TouchEvent) => void;
-  slidesLengthChange: () => void;
-  slidesGridLengthChange: () => void;
-  snapGridLengthChange: () => void;
-  update: () => void;
+  /**
+   * !INTERNAL: Event will fired right before breakpoint change
+   */
+  _beforeBreakpoint: (swiper: Swiper, breakpointParams: SwiperOptions) => void;
+  /**
+   * !INTERNAL: Event will fired after setting CSS classes on swiper container element
+   */
+  _containerClasses: (swiper: Swiper, classNames: string) => void;
+  /**
+   * INTERNAL: Event will fired after setting CSS classes on swiper slide element
+   */
+  _slideClass: (swiper: Swiper, el: HTMLElement, classNames: string) => void;
+  /**
+   * INTERNAL: Event will fired as soon as swiper instance available (before init)
+   */
+  _swiper: (swiper: Swiper) => void;
+  /**
+   * Event will fired on active index change
+   */
+  activeIndexChange: (swiper: Swiper) => void;
+  /**
+   * Event will fired on snap index change
+   */
+  snapIndexChange: (swiper: Swiper) => void;
+  /**
+   * Event will fired on real index change
+   */
+  realIndexChange: (swiper: Swiper) => void;
+  /**
+   * Event will fired right after initialization
+   */
+  afterInit: (swiper: Swiper) => void;
+  /**
+   * Event will fired right before initialization
+   */
+  beforeInit: (swiper: Swiper) => void;
+  /**
+   * Event will fired before resize handler
+   */
+  beforeResize: (swiper: Swiper) => void;
+  /**
+   * Event will fired before slide change transition start
+   */
+  beforeSlideChangeStart: (swiper: Swiper) => void;
+  /**
+   * Event will fired before transition start
+   */
+  beforeTransitionStart: (swiper: Swiper, speed: number, internal: any) => void; // what is internal?
+  /**
+   * Event will fired on direction change
+   */
+  changeDirection: (swiper: Swiper) => void;
+  /**
+   * Event will be fired when user double click/tap on Swiper
+   */
+  doubleClick: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
+  /**
+   * Event will be fired on swiper destroy
+   */
+  destroy: (swiper: Swiper) => void;
+  /**
+   * Event will be fired on momentum bounce
+   */
+  momentumBounce: (swiper: Swiper) => void;
+  /**
+   * Event will be fired on orientation change (e.g. landscape -> portrait)
+   */
+  orientationchange: (swiper: Swiper) => void;
+  /**
+   * Event will be fired in the beginning of animation of resetting slide to current one
+   */
+  slideResetTransitionStart: (swiper: Swiper) => void;
+  /**
+   * Event will be fired in the end of animation of resetting slide to current one
+   */
+  slideResetTransitionEnd: (swiper: Swiper) => void;
+  /**
+   * Event will be fired with with first touch/drag move
+   */
+  sliderFirstMove: (swiper: Swiper, event: TouchEvent) => void;
+  /**
+   * Event will be fired when number of slides has changed
+   */
+  slidesLengthChange: (swiper: Swiper) => void;
+  /**
+   * Event will be fired when slides grid has changed
+   */
+  slidesGridLengthChange: (swiper: Swiper) => void;
+  /**
+   * Event will be fired when snap grid has changed
+   */
+  snapGridLengthChange: (swiper: Swiper) => void;
+  /**
+   * Event will be fired after swiper.update() call
+   */
+  update: (swiper: Swiper) => void;
   // CORE_EVENTS_END
 }
 
