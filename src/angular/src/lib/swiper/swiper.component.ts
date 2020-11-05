@@ -10,6 +10,7 @@ import {
   NgZone,
   OnInit,
   Output,
+  QueryList,
   SimpleChanges,
   TemplateRef,
   ViewChild,
@@ -33,9 +34,10 @@ import { NavigationOptions } from 'build/types/components/navigation';
 import { PaginationOptions } from 'build/types/components/pagination';
 import { ScrollbarOptions } from 'build/types/components/scrollbar';
 import { ThumbsOptions } from 'build/types/components/thumbs';
-import { VirtualOptions } from 'build/types/components/virtual';
+import { VirtualData, VirtualOptions } from 'build/types/components/virtual';
 import { ZoomOptions } from 'build/types/components/zoom';
 import { SwiperEvents } from 'build/types/swiper-events';
+import { Observable, Subject } from 'rxjs';
 import { getParams } from '../get-params';
 import { SwiperSlideComponent } from '../swiper-slide/swiper-slide.component';
 import {
@@ -393,8 +395,11 @@ export class SwiperComponent implements OnInit {
     }
     this.updateInitSwiper({ pagination: true });
   }
-  @ContentChildren(SwiperSlideComponent) swiperSlides;
+  @ContentChildren(SwiperSlideComponent, { descendants: true }) slides: QueryList<
+    SwiperSlideComponent
+  >;
   swiperRef: Swiper;
+  readonly activeSlides = new Subject<SwiperSlideComponent[]>();
   constructor(
     private zone: NgZone,
     private elementRef: ElementRef,
@@ -405,8 +410,8 @@ export class SwiperComponent implements OnInit {
   ngAfterViewInit() {
     if (this.init !== false) {
       this.initSwiper();
+      this._changeDetectorRef.detectChanges();
     }
-    console.log(this.swiperSlides.last);
   }
 
   initSwiper() {
@@ -418,21 +423,25 @@ export class SwiperComponent implements OnInit {
       }
     };
 
+    if (!this.virtual) {
+      this.activeSlides.next(this.slides.toArray());
+    }
+
     Object.assign(swiperParams.on, {
       // _containerClasses(swiper, classes) {
       //   containerClasses.value = classes;
       // },
-      _swiper(swiper) {
+      _swiper: (swiper) => {
         swiper.loopCreate = () => {};
         swiper.loopDestroy = () => {};
         // if (swiperParams.loop) {
         //   swiper.loopedSlides = calcLoopedSlides(slidesRef.value, swiperParams);
         // }
         if (swiper.virtual && swiper.params.virtual.enabled) {
-          // swiper.virtual.slides = slidesRef.value;
+          swiper.virtual.slides = this.slides.toArray();
           swiper.params.virtual.cache = false;
           swiper.params.virtual.renderExternal = (data) => {
-            console.log(data);
+            this.updateVirtualSlides(data);
             // virtualData.value = data;
           };
           swiper.params.virtual.renderExternalUpdate = false;
@@ -443,8 +452,25 @@ export class SwiperComponent implements OnInit {
     this.s_swiper.emit(this.swiperRef);
   }
 
+  private _previusVirtualSlide: VirtualData;
+  private updateVirtualSlides(data: VirtualData) {
+    if (
+      this._previusVirtualSlide &&
+      this._previusVirtualSlide.from === data.from &&
+      this._previusVirtualSlide.to === data.to &&
+      this._previusVirtualSlide.offset !== data.offset
+    ) {
+      console.log('same');
+      return;
+    }
+    console.log('update');
+    this._previusVirtualSlide = data;
+    this.activeSlides.next(data.slides);
+  }
+
   ngOnChanges(changedParams: SimpleChanges) {
     this.updateSwiper(changedParams);
+    this._changeDetectorRef.detectChanges();
   }
 
   updateInitSwiper(changedParams) {

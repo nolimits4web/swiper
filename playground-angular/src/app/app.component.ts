@@ -40,9 +40,9 @@ export class AppComponent {
     }
   }
 
-  slides = Array.from({ length: 1000 }).map((el, index) => `Slide ${index + 1}`);
+  slides = Array.from({ length: 50 }).map((el, index) => `Slide ${index + 1}`);
 
   log(string) {
-    console.log(string);
+    // console.log(string);
   }
 }

@@ -12,11 +12,8 @@
     [spaceBetween]="50"
     [scrollbar]="scrollbar"
     [pagination]="pagination"
-    virtual
   >
-    <swiper-slide *ngFor="let slide of slides; index as i" [virtualIndex]="i">{{
-      slide
-    }}</swiper-slide>
+    <swiper-slide *ngFor="let slide of slides; index as i">{{ slide }}</swiper-slide>
   </swiper>
 
   <!-- <div
