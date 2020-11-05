@@ -299,7 +299,7 @@ const Pagination = {
     $el.removeClass(params.modifierClass + params.type);
     if (swiper.pagination.bullets) swiper.pagination.bullets.removeClass(params.bulletActiveClass);
     if (params.clickable) {
-      $el.off('click', `.${params.bulletClass.replace(/ /g, '.')}}`);
+      $el.off('click', `.${params.bulletClass.replace(/ /g, '.')}`);
     }
   },
 };
