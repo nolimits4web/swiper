@@ -281,6 +281,7 @@ const Pagination = {
         let index = $(this).index() * swiper.params.slidesPerGroup;
         if (swiper.params.loop) index += swiper.loopedSlides;
         swiper.slideTo(index);
+        swiper.allowTouchMove = true;
       });
     }
 
