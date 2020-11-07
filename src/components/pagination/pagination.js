@@ -276,7 +276,7 @@ const Pagination = {
       $el.on('mouseout', `.${params.bulletClass}`, () => {
         swiper.allowTouchMove = true;
       });
-      $el.on('click', `.${params.bulletClass}`, function onClick(e) {
+      $el.on('click', `.${params.bulletClass.replace(/ /g, '.')}}`, function onClick(e) {
         e.preventDefault();
         let index = $(this).index() * swiper.params.slidesPerGroup;
         if (swiper.params.loop) index += swiper.loopedSlides;
