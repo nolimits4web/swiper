@@ -10,7 +10,7 @@ export default function updateSize() {
   } else {
     width = $el[0].clientWidth;
   }
-  if (typeof swiper.params.height !== 'undefined' && swiper.params.width !== null) {
+  if (typeof swiper.params.height !== 'undefined' && swiper.params.height !== null) {
     height = swiper.params.height;
   } else {
     height = $el[0].clientHeight;
