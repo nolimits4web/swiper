@@ -270,7 +270,7 @@ const Pagination = {
     }
 
     if (params.clickable) {
-      $el.on('click', `.${params.bulletClass.replace(/ /g, '.')}}`, function onClick(e) {
+      $el.on('click', `.${params.bulletClass.replace(/ /g, '.')}`, function onClick(e) {
         e.preventDefault();
         let index = $(this).index() * swiper.params.slidesPerGroup;
         if (swiper.params.loop) index += swiper.loopedSlides;
@@ -299,7 +299,7 @@ const Pagination = {
     $el.removeClass(params.modifierClass + params.type);
     if (swiper.pagination.bullets) swiper.pagination.bullets.removeClass(params.bulletActiveClass);
     if (params.clickable) {
-      $el.off('click', `.${params.bulletClass.replace(/ /g, '.')}}`);
+      $el.off('click', `.${params.bulletClass.replace(/ /g, '.')}`);
     }
   },
 };

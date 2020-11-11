@@ -56,7 +56,7 @@
     "node": ">= 4.7.0"
   },
   "dependencies": {
-    "dom7": "^3.0.0-alpha.7",
+    "dom7": "^3.0.0-alpha.10",
     "ssr-window": "^3.0.0-alpha.4"
   }
 }

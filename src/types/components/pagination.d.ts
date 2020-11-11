@@ -24,6 +24,16 @@ export interface PaginationMethods {
    * Update pagination state (enabled/disabled/active)
    */
   update(): void;
+
+  /**
+   * Initialize pagination
+   */
+  init(): void;
+
+  /**
+   * Destroy pagination
+   */
+  destroy(): void;
 }
 
 export interface PaginationEvents {

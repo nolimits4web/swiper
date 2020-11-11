@@ -16,6 +16,16 @@ export interface NavigationMethods {
    * Update navigation buttons state (enabled/disabled)
    */
   update(): void;
+
+  /**
+   * Initialize navigation
+   */
+  init(): void;
+
+  /**
+   * Destroy navigation
+   */
+  destroy(): void;
 }
 
 export interface NavigationEvents {
