@@ -126,6 +126,7 @@ const Mousewheel = {
     if (swiper.params.cssMode) {
       e.preventDefault();
     }
+    if (swiper.params.nested) e.stopPropagation();
 
     let target = swiper.$el;
     if (swiper.params.mousewheel.eventsTarget !== 'container') {
