@@ -120,13 +120,13 @@ const Mousewheel = {
   },
   handle(event) {
     let e = event;
+    let disableParentSwiper = true;
     const swiper = this;
     const params = swiper.params.mousewheel;
 
     if (swiper.params.cssMode) {
       e.preventDefault();
     }
-    if (swiper.params.nested) e.stopPropagation();
 
     let target = swiper.$el;
     if (swiper.params.mousewheel.eventsTarget !== 'container') {
@@ -155,6 +155,25 @@ const Mousewheel = {
     if (delta === 0) return true;
 
     if (params.invert) delta = -delta;
+
+    // Get the scroll positions
+    let positions = swiper.getTranslate() + delta * params.sensitivity;
+
+    if (positions >= swiper.minTranslate()) positions = swiper.minTranslate();
+    if (positions <= swiper.maxTranslate()) positions = swiper.maxTranslate();
+
+    // When loop is true:
+    //     the disableParentSwiper will be true.
+    // When loop is false:
+    //     if the scroll positions is not on edge,
+    //     then the disableParentSwiper will be true.
+    //     if the scroll on edge positions,
+    //     then the disableParentSwiper will be false.
+    disableParentSwiper = swiper.params.loop
+      ? true
+      : !(positions === swiper.minTranslate() || positions === swiper.maxTranslate());
+
+    if (disableParentSwiper && swiper.params.nested) e.stopPropagation();
 
     if (!swiper.params.freeMode) {
       // Register the new event in a variable which stores the relevant data
