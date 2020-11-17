@@ -273,6 +273,7 @@ const Pagination = {
       $el.on('click', `.${params.bulletClass.replace(/ /g, '.')}`, function onClick(e) {
         e.preventDefault();
         let index = $(this).index() * swiper.params.slidesPerGroup;
+        swiper.swipeDirection = undefined;
         if (swiper.params.loop) index += swiper.loopedSlides;
         swiper.slideTo(index);
       });

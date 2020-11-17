@@ -303,6 +303,7 @@ const Mousewheel = {
             swiper.mousewheel.lastEventBeforeSnap = newEvent;
             recentWheelEvents.splice(0);
             swiper.mousewheel.timeout = nextTick(() => {
+              swiper.swipeDirection = undefined;
               swiper.slideToClosest(swiper.params.speed, true, undefined, snapToThreshold);
             }, 0); // no delay; move on next tick
           }
@@ -312,6 +313,7 @@ const Mousewheel = {
             // for 500ms.
             swiper.mousewheel.timeout = nextTick(() => {
               const snapToThreshold = 0.5;
+              swiper.swipeDirection = undefined;
               swiper.mousewheel.lastEventBeforeSnap = newEvent;
               recentWheelEvents.splice(0);
               swiper.slideToClosest(swiper.params.speed, true, undefined, snapToThreshold);

@@ -35,12 +35,14 @@ const Navigation = {
     const swiper = this;
     e.preventDefault();
     if (swiper.isBeginning && !swiper.params.loop) return;
+    swiper.swipeDirection = undefined;
     swiper.slidePrev();
   },
   onNextClick(e) {
     const swiper = this;
     e.preventDefault();
     if (swiper.isEnd && !swiper.params.loop) return;
+    swiper.swipeDirection = undefined;
     swiper.slideNext();
   },
   init() {
