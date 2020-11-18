@@ -1,3 +1,4 @@
+import { getWindow } from 'ssr-window';
 import $ from '../../utils/dom';
 import { bindModuleMethods } from '../../utils/utils';
 
@@ -165,6 +166,38 @@ const Lazy = {
       }
     }
   },
+  checkInViewOnLoad() {
+    const window = getWindow();
+    const swiper = this;
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const swiperOffset = swiper.$el.offset();
+    const { rtlTranslate: rtl } = swiper;
+
+    let inView = false;
+
+    window.onscroll = swiper.lazy.checkInViewOnLoad;
+    if (rtl) swiperOffset.left -= swiper.$el[0].scrollLeft;
+    const swiperCoord = [
+      [swiperOffset.left, swiperOffset.top],
+      [swiperOffset.left + swiper.width, swiperOffset.top],
+      [swiperOffset.left, swiperOffset.top + swiper.height],
+      [swiperOffset.left + swiper.width, swiperOffset.top + swiper.height],
+    ];
+    for (let i = 0; i < swiperCoord.length; i += 1) {
+      const point = swiperCoord[i];
+      if (point[0] >= 0 && point[0] <= windowWidth && point[1] >= 0 && point[1] <= windowHeight) {
+        if (point[0] === 0 && point[1] === 0) continue; // eslint-disable-line
+        inView = true;
+      }
+    }
+
+    if (inView) {
+      swiper.lazy.load();
+      // Set to empty after load once
+      swiper.lazy.checkInViewOnLoad = () => {};
+    }
+  },
 };
 
 export default {
@@ -199,7 +232,7 @@ export default {
     },
     init(swiper) {
       if (swiper.params.lazy.enabled && !swiper.params.loop && swiper.params.initialSlide === 0) {
-        swiper.lazy.load();
+        swiper.lazy.checkInViewOnLoad();
       }
     },
     scroll(swiper) {
