@@ -1,0 +1,8 @@
+{
+  "name": "swiper/vue",
+  "private": true,
+  "main": "../swiper-vue.cjs.js",
+  "jsnext:main": "../swiper-vue.esm.js",
+  "module": "../swiper-vue.esm.js",
+  "sideEffects": false
+}
