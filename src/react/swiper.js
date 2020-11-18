@@ -124,7 +124,7 @@ const Swiper = forwardRef(
       // eslint-disable-next-line
       return () => {
         if (swiperRef.current && !swiperRef.current.destroyed) {
-          swiperRef.current.destroy();
+          swiperRef.current.destroy(true, false);
         }
       };
     }, []);

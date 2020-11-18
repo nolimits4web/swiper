@@ -316,7 +316,7 @@ const Swiper = {
     });
     onBeforeUnmount(() => {
       if (swiperRef.value && !swiperRef.value.destroyed) {
-        swiperRef.value.destroy();
+        swiperRef.value.destroy(true, false);
       }
     });
 
