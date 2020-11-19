@@ -5,10 +5,10 @@
 </ng-container>
 <div *ngIf="scrollbar" class="swiper-scrollbar" #scrollbarElRef></div>
 <div *ngIf="pagination" class="swiper-pagination" #paginationElRef></div>
-<div class="swiper-wrapper">
+<div class="swiper-wrapper" [ngClass]="wrapperClass">
   <ng-content select="[slot=wrapper-start]"></ng-content>
   <div
-    class="swiper-slide"
+    [ngClass]="slideClass"
     *ngFor="let slide of activeSlides | async; index as i"
     [attr.data-swiper-slide-index]="slide.virtualIndex || (currentVirtualData?.from || 0) + i"
     [style]="style"

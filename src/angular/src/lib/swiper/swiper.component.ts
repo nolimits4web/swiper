@@ -145,7 +145,7 @@ export class SwiperComponent implements OnInit {
   @Input() noSwipingSelector: String;
   @Input() passiveListeners: boolean;
   @Input() containerModifierClass: String;
-  @Input() slideClass: String;
+  @Input() slideClass: String = 'swiper-slide';
   @Input() slideBlankClass: String;
   @Input() slideActiveClass: String;
   @Input() slideDuplicateActiveClass: String;
@@ -155,7 +155,7 @@ export class SwiperComponent implements OnInit {
   @Input() slideDuplicateNextClass: String;
   @Input() slidePrevClass: String;
   @Input() slideDuplicatePrevClass: String;
-  @Input() wrapperClass: String;
+  @Input() wrapperClass: String = 'swiper-wrapper';
   @Input() runCallbacksOnInit: boolean;
   @Input() a11y: A11yOptions;
   @Input() autoplay: AutoplayOptions | boolean;
