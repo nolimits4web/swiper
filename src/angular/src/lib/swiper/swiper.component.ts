@@ -457,14 +457,14 @@ export class SwiperComponent implements OnInit {
   }
 
   style: any = null;
-  private _prevVirtualSlide: VirtualData;
+  currentVirtualData: VirtualData;
   private updateVirtualSlides(virtualData: VirtualData) {
     if (
       !this.swiperRef ||
-      (this._prevVirtualSlide &&
-        this._prevVirtualSlide.from === virtualData.from &&
-        this._prevVirtualSlide.to === virtualData.to &&
-        this._prevVirtualSlide.offset === virtualData.offset)
+      (this.currentVirtualData &&
+        this.currentVirtualData.from === virtualData.from &&
+        this.currentVirtualData.to === virtualData.to &&
+        this.currentVirtualData.offset === virtualData.offset)
     ) {
       return;
     }
@@ -475,12 +475,14 @@ export class SwiperComponent implements OnInit {
       : {
           top: `${virtualData.offset}px`,
         };
-    this._prevVirtualSlide = virtualData;
+    this.currentVirtualData = virtualData;
     this._activeSlides.next(virtualData.slides);
     this._changeDetectorRef.detectChanges();
     this.swiperRef.updateSlides();
     this.swiperRef.updateProgress();
+    // setTimeout(() => {
     this.swiperRef.updateSlidesClasses();
+    // }, 1500);
     if (this.swiperRef.lazy && this.swiperRef.params.lazy['enabled']) {
       this.swiperRef.lazy.load();
     }
