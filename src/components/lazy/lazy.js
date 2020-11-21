@@ -173,10 +173,16 @@ const Lazy = {
     const windowHeight = window.innerHeight;
     const swiperOffset = swiper.$el.offset();
     const { rtlTranslate: rtl } = swiper;
-
+    const scrollElement = [window];
     let inView = false;
 
-    window.onscroll = swiper.lazy.checkInViewOnLoad;
+    if (swiper.params.lazy.scrollingElement) {
+      scrollElement.push($(swiper.params.lazy.scrollingElement)[0]);
+    }
+    scrollElement.forEach((element) => {
+      element.onscroll = swiper.lazy.checkInViewOnLoad;
+    });
+
     if (rtl) swiperOffset.left -= swiper.$el[0].scrollLeft;
     const swiperCoord = [
       [swiperOffset.left, swiperOffset.top],
@@ -204,10 +210,12 @@ export default {
   name: 'lazy',
   params: {
     lazy: {
+      checkInView: false,
       enabled: false,
       loadPrevNext: false,
       loadPrevNextAmount: 1,
       loadOnTransitionStart: false,
+      scrollingElement: '',
 
       elementClass: 'swiper-lazy',
       loadingClass: 'swiper-lazy-loading',
@@ -232,7 +240,11 @@ export default {
     },
     init(swiper) {
       if (swiper.params.lazy.enabled && !swiper.params.loop && swiper.params.initialSlide === 0) {
-        swiper.lazy.checkInViewOnLoad();
+        if (swiper.params.lazy.checkInView) {
+          swiper.lazy.checkInViewOnLoad();
+        } else {
+          swiper.lazy.load();
+        }
       }
     },
     scroll(swiper) {
