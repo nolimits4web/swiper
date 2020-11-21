@@ -254,7 +254,7 @@
   - Fixed focus ring on navigation buttons (#3544)
   - Fixed RegExp issue in `paginationBulletMessage` (#3540, #3541)
 - Thumbs \* Added `thumbs.autoScrollOffset` parameter that allows to set on what thumbs active slide from edge.
-  It should automaticall move scroll thumbs
+  It should automatically move scroll thumbs
 - Minor fixes
 
 ## [Swiper 5.3.7](https://github.com/nolimits4web/swiper/compare/v5.3.6...v5.3.7) - Released on April 10th, 2020
