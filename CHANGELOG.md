@@ -591,7 +591,7 @@
 
 - Fixed issue with not working `noSwiping` parameter
 - Parallax now considers `slidesPerGroup` parameter
-- Zoom: imporved gestures handling
+- Zoom: improved gestures handling
 - Pagination: fixed issues with wrong positioned dynamic-bullets when there are not enough slides
 - Fixed issues with some effects being broken with enabled `breakpoints`
 - Minor fixes
