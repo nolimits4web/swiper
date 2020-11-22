@@ -314,7 +314,7 @@
 - Core
   - New `centeredSlidesBounds` parameter that when enabled will keep first and last slides at bounds
   - Fixed issue when `freeMode` could break position on resize (#2708, #3303)
-  - Fixed transitin duration issue with `freeModeSticky` (#3302)
+  - Fixed transition duration issue with `freeModeSticky` (#3302)
   - Fixed issue with wrong row/column if not full groups (#3294)
   - Fixed issue when `watchOverflow` and `slidesOffsetBefore`/`slidesOffsetAfter` couldn't work together (#3291)
 - Mousewheel
