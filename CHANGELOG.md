@@ -229,7 +229,7 @@
 - Coverflow Effect
   - Added support for `scale` parameter (#3598)
 - Pagination
-  - Fixed detection of `uniqueNaVElements` (#3590)
+  - Fixed detection of `uniqueNavElements` (#3590)
 
 ## [Swiper 5.4.1](https://github.com/nolimits4web/swiper/compare/v5.4.0...v5.4.1) - Released on May 20th, 2020
 
