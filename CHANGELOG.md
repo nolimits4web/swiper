@@ -818,7 +818,7 @@
   - Fixed issue with wrong buttons labels
   - Added support for pagination bullets
   - New accessibility parameter for pagination label `paginationBulletMessage: 'Go to slide {{index}}'`
-- Controler
+- Controller
   - New parameter `controlBy` which can be 'slide' (by default) or 'container'. Defines a way how to control another slider: slide by slide or depending on all slides/container (like before)
   - Now controllers in `controlBy: 'slide'` (default) mode will respect grid of each other
 - Pagination
