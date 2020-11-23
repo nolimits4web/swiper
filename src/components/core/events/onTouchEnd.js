@@ -3,6 +3,7 @@ import { now, nextTick } from '../../../utils/utils';
 export default function onTouchEnd(event) {
   const swiper = this;
   const data = swiper.touchEventsData;
+  const delay = 200;
 
   const { params, touches, rtlTranslate: rtl, $wrapperEl, slidesGrid, snapGrid } = swiper;
   let e = event;
@@ -44,6 +45,11 @@ export default function onTouchEnd(event) {
 
   data.lastClickTime = now();
   nextTick(() => {
+    if (swiper.params.autoHeight) {
+      nextTick(() => {
+        swiper.updateAutoHeight();
+      }, delay);
+    }
     if (!swiper.destroyed) swiper.allowClick = true;
   });
 
