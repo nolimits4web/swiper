@@ -818,7 +818,7 @@
   - Fixed issue with wrong buttons labels
   - Added support for pagination bullets
   - New accessibility parameter for pagination label `paginationBulletMessage: 'Go to slide {{index}}'`
-- Controler
+- Controller
   - New parameter `controlBy` which can be 'slide' (by default) or 'container'. Defines a way how to control another slider: slide by slide or depending on all slides/container (like before)
   - Now controllers in `controlBy: 'slide'` (default) mode will respect grid of each other
 - Pagination
@@ -828,7 +828,7 @@
 - Correct calculation for slides size when use CSS padding on `.swiper-container`
 - Fixed issue with not working onResize handler when swipes are locked
 - Fixed issue with "jumping" effect when you disable `onlyExternal` during touchmove
-- Fixed issue when slider goes to previos slide from last slide after window resize
+- Fixed issue when slider goes to previous slide from last slide after window resize
 - Added new `swiper.jquery.umd.js` version for the environment where both Swiper and jQuery included as modules
 - Minor fixes
 
