@@ -18,6 +18,7 @@ function buildBundle(components, format, browser, cb) {
   if (format !== 'umd') filename += `.${format}`;
   if (format === 'esm' && browser) filename += '.browser';
   const output = env === 'development' ? 'build' : 'package';
+  const needSourceMap = env === 'production' && (format === 'umd' || (format === 'esm' && browser));
 
   rollup({
     input: './src/swiper.js',
@@ -48,7 +49,7 @@ function buildBundle(components, format, browser, cb) {
         format,
         name: 'Swiper',
         strict: true,
-        sourcemap: env === 'production' && format === 'umd',
+        sourcemap: needSourceMap,
         sourcemapFile: `./${output}/${filename}.js.map`,
         banner,
         file: `./${output}/${filename}.js`,
@@ -70,8 +71,8 @@ function buildBundle(components, format, browser, cb) {
       const result = bundle.output[0];
       const minified = Terser.minify(result.code, {
         sourceMap: {
-          content: env === 'development' ? result.map : undefined,
-          filename: env === 'development' ? undefined : `${filename}.min.js`,
+          content: needSourceMap ? result.map : undefined,
+          filename: needSourceMap ? `${filename}.min.js` : undefined,
           url: `${filename}.min.js.map`,
         },
         output: {
