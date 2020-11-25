@@ -1,3 +1,4 @@
+import { getWindow } from 'ssr-window';
 import $ from '../../utils/dom';
 import { bindModuleMethods } from '../../utils/utils';
 
@@ -165,16 +166,61 @@ const Lazy = {
       }
     }
   },
+  checkInViewOnLoad() {
+    const window = getWindow();
+    const swiper = this;
+    if (!swiper || swiper.destroyed) return;
+    const $scrollElement = swiper.params.lazy.scrollingElement
+      ? $(swiper.params.lazy.scrollingElement)
+      : $(window);
+    const isWindow = $scrollElement[0] === window;
+    const scrollElementWidth = isWindow ? window.innerWidth : $scrollElement[0].offsetWidth;
+    const scrollElementHeight = isWindow ? window.innerHeight : $scrollElement[0].offsetHeight;
+    const swiperOffset = swiper.$el.offset();
+    const { rtlTranslate: rtl } = swiper;
+
+    let inView = false;
+
+    if (rtl) swiperOffset.left -= swiper.$el[0].scrollLeft;
+    const swiperCoord = [
+      [swiperOffset.left, swiperOffset.top],
+      [swiperOffset.left + swiper.width, swiperOffset.top],
+      [swiperOffset.left, swiperOffset.top + swiper.height],
+      [swiperOffset.left + swiper.width, swiperOffset.top + swiper.height],
+    ];
+    for (let i = 0; i < swiperCoord.length; i += 1) {
+      const point = swiperCoord[i];
+      if (
+        point[0] >= 0 &&
+        point[0] <= scrollElementWidth &&
+        point[1] >= 0 &&
+        point[1] <= scrollElementHeight
+      ) {
+        if (point[0] === 0 && point[1] === 0) continue; // eslint-disable-line
+        inView = true;
+      }
+    }
+
+    if (inView) {
+      swiper.lazy.load();
+      $scrollElement.off('scroll', swiper.lazy.checkInViewOnLoad);
+    } else if (!swiper.lazy.scrollHandlerAttached) {
+      swiper.lazy.scrollHandlerAttached = true;
+      $scrollElement.on('scroll', swiper.lazy.checkInViewOnLoad);
+    }
+  },
 };
 
 export default {
   name: 'lazy',
   params: {
     lazy: {
+      checkInView: false,
       enabled: false,
       loadPrevNext: false,
       loadPrevNextAmount: 1,
       loadOnTransitionStart: false,
+      scrollingElement: '',
 
       elementClass: 'swiper-lazy',
       loadingClass: 'swiper-lazy-loading',
@@ -199,7 +245,11 @@ export default {
     },
     init(swiper) {
       if (swiper.params.lazy.enabled && !swiper.params.loop && swiper.params.initialSlide === 0) {
-        swiper.lazy.load();
+        if (swiper.params.lazy.checkInView) {
+          swiper.lazy.checkInViewOnLoad();
+        } else {
+          swiper.lazy.load();
+        }
       }
     },
     scroll(swiper) {

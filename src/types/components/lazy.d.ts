@@ -1,3 +1,5 @@
+import { Dom7Array } from 'dom7';
+import { CSSSelector } from '../shared';
 import Swiper from '../swiper-class';
 
 export interface LazyMethods {
@@ -25,6 +27,10 @@ export interface LazyEvents {
 }
 
 export interface LazyOptions {
+  /** Enables to check is the Swiper in view before lazy loading images on initial slides */
+  checkInView?: boolean;
+  /** Element to check scrolling on for "checkInView". Defaults to window */
+  scrollingElement?: CSSSelector | null | Dom7Array | HTMLElement;
   /** Set to "true" to enable lazy loading for the closest slides images (for previous and next slide images) */
   loadPrevNext?: boolean;
   /** Amount of next/prev slides to preload lazy images in. Can't be less than slidesPerView */
