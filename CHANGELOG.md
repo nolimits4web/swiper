@@ -822,7 +822,7 @@
   - New parameter `controlBy` which can be 'slide' (by default) or 'container'. Defines a way how to control another slider: slide by slide or depending on all slides/container (like before)
   - Now controllers in `controlBy: 'slide'` (default) mode will respect grid of each other
 - Pagination
-  - New `paginationElement` parameter defines which HTML tag will be use to represent single pagination bullet. By default it is `span`
+  - New `paginationElement` parameter defines which HTML tag will be used to represent single pagination bullet. By default it is `span`
 - New `roundLengths` parameter (by default is `false`) to round values of slides width and height to prevent blurry texts on usual resolution screens
 - New `slidesOffsetBefore: 0` and `slidesOffsetAfter: 0` (in px) parameters to add additional slide offset within a container
 - Correct calculation for slides size when use CSS padding on `.swiper-container`
