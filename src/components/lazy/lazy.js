@@ -169,19 +169,17 @@ const Lazy = {
   checkInViewOnLoad() {
     const window = getWindow();
     const swiper = this;
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
+    if (!swiper || swiper.destroyed) return;
+    const $scrollElement = swiper.params.lazy.scrollingElement
+      ? $(swiper.params.lazy.scrollingElement)
+      : $(window);
+    const isWindow = $scrollElement[0] === window;
+    const scrollElementWidth = isWindow ? window.innerWidth : $scrollElement[0].offsetWidth;
+    const scrollElementHeight = isWindow ? window.innerHeight : $scrollElement[0].offsetHeight;
     const swiperOffset = swiper.$el.offset();
     const { rtlTranslate: rtl } = swiper;
-    const scrollElement = [window];
-    let inView = false;
 
-    if (swiper.params.lazy.scrollingElement) {
-      scrollElement.push($(swiper.params.lazy.scrollingElement)[0]);
-    }
-    scrollElement.forEach((element) => {
-      element.onscroll = swiper.lazy.checkInViewOnLoad;
-    });
+    let inView = false;
 
     if (rtl) swiperOffset.left -= swiper.$el[0].scrollLeft;
     const swiperCoord = [
@@ -192,7 +190,12 @@ const Lazy = {
     ];
     for (let i = 0; i < swiperCoord.length; i += 1) {
       const point = swiperCoord[i];
-      if (point[0] >= 0 && point[0] <= windowWidth && point[1] >= 0 && point[1] <= windowHeight) {
+      if (
+        point[0] >= 0 &&
+        point[0] <= scrollElementWidth &&
+        point[1] >= 0 &&
+        point[1] <= scrollElementHeight
+      ) {
         if (point[0] === 0 && point[1] === 0) continue; // eslint-disable-line
         inView = true;
       }
@@ -200,8 +203,10 @@ const Lazy = {
 
     if (inView) {
       swiper.lazy.load();
-      // Set to empty after load once
-      swiper.lazy.checkInViewOnLoad = () => {};
+      $scrollElement.off('scroll', swiper.lazy.checkInViewOnLoad);
+    } else if (!swiper.lazy.scrollHandlerAttached) {
+      swiper.lazy.scrollHandlerAttached = true;
+      $scrollElement.on('scroll', swiper.lazy.checkInViewOnLoad);
     }
   },
 };
