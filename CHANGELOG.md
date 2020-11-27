@@ -744,7 +744,7 @@
 ## Swiper 3.2.5 - Released on November 21st, 2015
 
 - New "Auto Height" mode when container/wrapper adapts to the height of currently active slide. Can be enabled with `autoHeight: true` parameter
-- Fixed issue with break points in FireFox
+- Fixed issue with breakpoints in Firefox
 - Fixed issue with wrong slides position when using effects
 - Fixed issue with none-updated scroll bar after using `setWrapperTranslate`
 - Minor fixes
