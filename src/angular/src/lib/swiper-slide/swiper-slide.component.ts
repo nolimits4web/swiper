@@ -1,4 +1,13 @@
-import { Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  Directive,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { SwiperSlideContentDirective } from './swiper-slide-template.directive';
 
 @Component({
   selector: 'swiper-slide',
@@ -6,7 +15,7 @@ import { Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '
 })
 export class SwiperSlideComponent {
   @ViewChild(TemplateRef, { static: true }) content: TemplateRef<any>;
-  @ContentChild(TemplateRef, { read: TemplateRef }) template: TemplateRef<any>;
+  @ContentChild(SwiperSlideContentDirective, { read: TemplateRef }) template: TemplateRef<any>;
   @Input() virtualIndex: number;
   get classNames() {
     return this._classNames;

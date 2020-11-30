@@ -22,15 +22,17 @@
     [pagination]="pagination"
   >
     <swiper-slide>
-      <ng-template let-active="isActive"> test 1 {{ active ? 'active' : 'nope' }}</ng-template>
+      <ng-template swiper-slide-content let-active="isActive">
+        test 1 {{ active ? 'active' : 'nope' }}</ng-template
+      >
     </swiper-slide>
     <swiper-slide>
-      <ng-template let-active="isActive" let-next="isNext">
+      <ng-template swiper-slide-content let-active="isActive" let-next="isNext">
         test 2 {{ active ? 'active' : 'nope' }} {{ next }}</ng-template
       >
     </swiper-slide>
     <swiper-slide>
-      <ng-template let-active="isActive" let-data="slideData">
+      <ng-template swiper-slide-content let-active="isActive" let-data="slideData">
         test 3 {{ active ? 'active' : 'nope' }} {{ data.isNext }}</ng-template
       >
     </swiper-slide>
