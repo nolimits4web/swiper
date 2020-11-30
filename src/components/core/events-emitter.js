@@ -91,11 +91,7 @@ export default {
         });
       }
       if (self.eventsListeners && self.eventsListeners[event]) {
-        const handlers = [];
         self.eventsListeners[event].forEach((eventHandler) => {
-          handlers.push(eventHandler);
-        });
-        handlers.forEach((eventHandler) => {
           eventHandler.apply(context, data);
         });
       }
