@@ -25,33 +25,25 @@ export class SwiperSlideComponent {
       return;
     }
     this._classNames = val;
-    this.isActive =
+    this.slideData.isActive =
       this.classNames.indexOf('swiper-slide-active') >= 0 ||
       this.classNames.indexOf('swiper-slide-duplicate-active') >= 0;
-    this.isVisible = this.classNames.indexOf('swiper-slide-visible') >= 0;
-    this.isDuplicate = this.classNames.indexOf('swiper-slide-duplicate') >= 0;
-    this.isPrev =
+    this.slideData.isVisible = this.classNames.indexOf('swiper-slide-visible') >= 0;
+    this.slideData.isDuplicate = this.classNames.indexOf('swiper-slide-duplicate') >= 0;
+    this.slideData.isPrev =
       this.classNames.indexOf('swiper-slide-prev') >= 0 ||
       this.classNames.indexOf('swiper-slide-duplicate-prev') >= 0;
-    this.isNext =
+    this.slideData.isNext =
       this.classNames.indexOf('swiper-slide-next') >= 0 ||
       this.classNames.indexOf('swiper-slide-duplicate next') >= 0;
   }
-  isActive: boolean;
-  isPrev: boolean;
-  isNext: boolean;
-  isVisible: boolean;
-  isDuplicate: boolean;
-
-  get slideData() {
-    return {
-      isActive: this.isActive,
-      isPrev: this.isPrev,
-      isNext: this.isNext,
-      isVisible: this.isVisible,
-      isDuplicate: this.isDuplicate,
-    };
-  }
+  slideData = {
+    isActive: false,
+    isPrev: false,
+    isNext: false,
+    isVisible: false,
+    isDuplicate: false,
+  };
 
   private _classNames: string = 'swiper-slide'; // TODO: get from parent settings
   constructor() {}

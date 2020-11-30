@@ -16,11 +16,6 @@
     <ng-template
       [ngTemplateOutlet]="slide.template ? slide.template : slide.content"
       [ngTemplateOutletContext]="{
-        isActive: slide.isActive,
-        isPrev: slide.isPrev,
-        isNext: slide.isNext,
-        isVisible: slide.isVisible,
-        isDuplicate: slide.isDuplicate,
         slideData: slide.slideData
       }"
     >
