@@ -37,7 +37,7 @@ import { ThumbsOptions } from 'build/types/components/thumbs';
 import { VirtualData, VirtualOptions } from 'build/types/components/virtual';
 import { ZoomOptions } from 'build/types/components/zoom';
 import { SwiperEvents } from 'build/types/swiper-events';
-import { Observable, of, Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { getParams } from '../get-params';
 import { SwiperSlideComponent } from '../swiper-slide/swiper-slide.component';
 import {
@@ -52,7 +52,7 @@ import {
   selector: 'swiper, [swiper]',
   templateUrl: './swiper.component.html',
   host: {
-    class: 'swiper-container',
+    class: 'swiper-container', // TODO: this.containerClasses
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -369,31 +369,19 @@ export class SwiperComponent implements OnInit {
 
   @ViewChild('prevElRef', { static: false })
   set prevElRef(el: ElementRef) {
-    if (this.navigation !== false) {
-      this.navigation.prevEl = el.nativeElement;
-    }
-    this.updateInitSwiper({ navigation: true });
+    this._setElement(el, this.navigation, 'navigation', 'prevEl');
   }
   @ViewChild('nextElRef', { static: false })
   set nextElRef(el: ElementRef) {
-    if (this.navigation !== false) {
-      this.navigation.nextEl = el.nativeElement;
-    }
-    this.updateInitSwiper({ navigation: true });
+    this._setElement(el, this.navigation, 'navigation', 'nextEl');
   }
   @ViewChild('scrollbarElRef', { static: false })
   set scrollbarElRef(el: ElementRef) {
-    if (this.scrollbar !== false) {
-      this.scrollbar.el = el.nativeElement;
-    }
-    this.updateInitSwiper({ scrollbar: true });
+    this._setElement(el, this.scrollbar, 'scrollbar');
   }
   @ViewChild('paginationElRef', { static: false })
   set paginationElRef(el: ElementRef) {
-    if (this.pagination !== false) {
-      this.pagination.el = el.nativeElement;
-    }
-    this.updateInitSwiper({ pagination: true });
+    this._setElement(el, this.pagination, 'pagination');
   }
   @ContentChildren(SwiperSlideComponent, { descendants: true }) slides: QueryList<
     SwiperSlideComponent
@@ -411,15 +399,31 @@ export class SwiperComponent implements OnInit {
     private elementRef: ElementRef,
     private _changeDetectorRef: ChangeDetectorRef,
   ) {}
+
+  private _setElement(el: ElementRef, ref: any, update: string, key = 'el') {
+    if (!el && !ref) {
+      return;
+    }
+    if (ref) {
+      if (ref[key] === el.nativeElement) {
+        return;
+      }
+      ref[key] = el.nativeElement;
+    }
+    const updateObj = {};
+    updateObj[update] = true;
+    this.updateInitSwiper(updateObj);
+  }
   ngOnInit(): void {}
 
   ngAfterViewInit() {
-    if (this.init !== false) {
+    if (this.init) {
       this.initSwiper();
       this._changeDetectorRef.detectChanges();
     }
   }
 
+  containerClasses: string;
   initSwiper() {
     const { params: swiperParams, passedParams } = getParams(this);
     swiperParams.onAny = (event, ...args) => {
@@ -430,9 +434,9 @@ export class SwiperComponent implements OnInit {
     };
 
     Object.assign(swiperParams.on, {
-      // _containerClasses(swiper, classes) {
-      //   containerClasses.value = classes;
-      // },
+      _containerClasses(swiper, classes) {
+        this.containerClasses = classes;
+      },
       _swiper: (swiper) => {
         this.swiperRef = swiper;
         this.s_swiper.emit(this.swiperRef);
@@ -446,10 +450,23 @@ export class SwiperComponent implements OnInit {
           swiper.params.virtual.cache = false;
           swiper.params.virtual.renderExternal = (data) => {
             this.updateVirtualSlides(data);
-            // virtualData.value = data;
           };
           swiper.params.virtual.renderExternalUpdate = false;
         }
+        this._changeDetectorRef.detectChanges();
+      },
+      _slideClass: (_, el: HTMLElement, classNames) => {
+        const slideIndex = Number(el.dataset.swiperSlideIndex);
+        if (this.virtual) {
+          const virtualSlide = this.slides.find((item) => {
+            return item.virtualIndex && item.virtualIndex === slideIndex;
+          });
+          if (virtualSlide) {
+            virtualSlide.classNames = classNames;
+            return;
+          }
+        }
+        this.slides.toArray()[slideIndex].classNames = classNames;
         this._changeDetectorRef.detectChanges();
       },
     });
@@ -480,9 +497,7 @@ export class SwiperComponent implements OnInit {
     this._changeDetectorRef.detectChanges();
     this.swiperRef.updateSlides();
     this.swiperRef.updateProgress();
-    // setTimeout(() => {
     this.swiperRef.updateSlidesClasses();
-    // }, 1500);
     if (this.swiperRef.lazy && this.swiperRef.params.lazy['enabled']) {
       this.swiperRef.lazy.load();
     }
@@ -608,9 +623,5 @@ export class SwiperComponent implements OnInit {
 
   ngOnDestroy() {
     this.swiperRef.destroy();
-  }
-
-  uniqueClasses(str) {
-    uniqueClasses(str);
   }
 }

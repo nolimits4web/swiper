@@ -3,12 +3,12 @@
     #swiperVirtualRef
     [slidesPerView]="3"
     [spaceBetween]="50"
-    scrollbar
-    pagination
+    [pagination]="{ type: 'fraction' }"
     virtual
+    [centeredSlides]="true"
     navigation
   >
-    <swiper-slide *ngFor="let slide of slides; index as i">{{ slide }}</swiper-slide>
+    <swiper-slide *ngFor="let slide of virtualSlides; index as i">{{ slide }}</swiper-slide>
   </swiper>
 
   <swiper
@@ -16,12 +16,24 @@
     [navigation]="navigation"
     (swiper)="log('swiper')"
     (slideChange)="log('slideChange')"
-    (touchStart)="log('touchStart')"
     [slidesPerView]="slidesPerView"
     [spaceBetween]="50"
     [scrollbar]="scrollbar"
     [pagination]="pagination"
   >
+    <swiper-slide>
+      <ng-template let-active="isActive"> test 1 {{ active ? 'active' : 'nope' }}</ng-template>
+    </swiper-slide>
+    <swiper-slide>
+      <ng-template let-active="isActive" let-next="isNext">
+        test 2 {{ active ? 'active' : 'nope' }} {{ next }}</ng-template
+      >
+    </swiper-slide>
+    <swiper-slide>
+      <ng-template let-active="isActive" let-data="slideData">
+        test 3 {{ active ? 'active' : 'nope' }} {{ data.isNext }}</ng-template
+      >
+    </swiper-slide>
     <swiper-slide *ngFor="let slide of slides; index as i">{{ slide }}</swiper-slide>
   </swiper>
   <button (click)="togglePagination()">Toggle pagination</button>

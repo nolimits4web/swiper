@@ -15,7 +15,7 @@ export class AppComponent {
     SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Virtual]);
   }
 
-  slidesPerView: number = 2;
+  slidesPerView: number = 4;
   pagination: any = false;
 
   togglePagination() {
@@ -41,6 +41,7 @@ export class AppComponent {
   }
 
   slides = Array.from({ length: 50 }).map((el, index) => `Slide ${index + 1}`);
+  virtualSlides = Array.from({ length: 600 }).map((el, index) => `Slide ${index + 1}`);
 
   log(string) {
     // console.log(string);
