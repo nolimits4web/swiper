@@ -743,8 +743,8 @@
 
 ## Swiper 3.2.5 - Released on November 21st, 2015
 
-- New "Auto Height" mode when container/wrapper adopts to the height of currently active slide. Can be enabled with `autoHeight: true` parameter
-- Fixed issue with break points in FireFox
+- New "Auto Height" mode when container/wrapper adapts to the height of currently active slide. Can be enabled with `autoHeight: true` parameter
+- Fixed issue with breakpoints in Firefox
 - Fixed issue with wrong slides position when using effects
 - Fixed issue with none-updated scroll bar after using `setWrapperTranslate`
 - Minor fixes
@@ -864,7 +864,7 @@
 
 ## Swiper 3.0.5 - Released on March 21st, 2015
 
-- New Keyboard accessibility module to provide foucsable navigation buttons and basic ARIA for screen readers with new parameters:
+- New Keyboard accessibility module to provide focusable navigation buttons and basic ARIA for screen readers with new parameters:
   - `a11y: false` - enable accessibility
   - `prevSlideMessage: 'Previous slide'` - message for screen readers for previous button
   - `nextSlideMessage: 'Next slide'` - message for screen readers for next button
@@ -895,8 +895,8 @@
 - `updateOnImages` ready split into 2 parameters:
   - `preloadImages` (by default is true) - to preload all images on swiper init
   - `updateOnImages` (by default is true) - update swiper when all images loaded
-- Fixed issues with touchmove on fouces form elements
-- New `onObserverUpdate` callback function to be called after updates by ovserver
+- Fixed issues with touchmove on focused form elements
+- New `onObserverUpdate` callback function to be called after updates by observer
 - Fixed issue with not working inputs with keyboard control for jQuery version
 - New `paginationBulletRender` parameter that accepts function which allow custom pagination elements layout
 - Hash Navigation will run callback dpending on `runCallbacksOnInit` parameter

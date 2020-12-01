@@ -88,7 +88,7 @@ export interface SwiperOptions {
   height?: number | null;
 
   /**
-   * Set to true and slider wrapper will adopt its height to the height of the currently active slide
+   * Set to true and slider wrapper will adapt its height to the height of the currently active slide
    *
    * @default false
    */
