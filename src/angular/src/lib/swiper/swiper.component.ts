@@ -2,19 +2,16 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChild,
   ContentChildren,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
-  NgZone,
   OnInit,
   Output,
   QueryList,
   SimpleChanges,
-  TemplateRef,
   ViewChild,
-  ViewChildren,
   ViewEncapsulation,
 } from '@angular/core';
 import Swiper, { SwiperOptions } from 'build/core';
@@ -37,23 +34,13 @@ import { ThumbsOptions } from 'build/types/components/thumbs';
 import { VirtualData, VirtualOptions } from 'build/types/components/virtual';
 import { ZoomOptions } from 'build/types/components/zoom';
 import { SwiperEvents } from 'build/types/swiper-events';
-import { of, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { getParams } from '../get-params';
-import { SwiperSlideComponent } from '../swiper-slide/swiper-slide.component';
-import {
-  extend,
-  isObject,
-  uniqueClasses,
-  coerceBooleanProperty,
-  setProperty,
-  ignoreNgOnChanges,
-} from '../utils';
+import { SwiperSlideDirective } from '../swiper-slide/swiper-slide.directive';
+import { extend, isObject, setProperty, ignoreNgOnChanges } from '../utils';
 @Component({
   selector: 'swiper, [swiper]',
   templateUrl: './swiper.component.html',
-  host: {
-    class: 'swiper-container', // TODO: this.containerClasses
-  },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -67,63 +54,63 @@ import {
 export class SwiperComponent implements OnInit {
   @Input() init: boolean = true;
   @Input() direction: 'horizontal' | 'vertical';
-  @Input() touchEventsTarget: String;
-  @Input() initialSlide: Number;
-  @Input() speed: Number;
+  @Input() touchEventsTarget: string;
+  @Input() initialSlide: number;
+  @Input() speed: number;
   @Input() cssMode: boolean;
   @Input() updateOnWindowResize: boolean;
   @Input() nested: boolean;
-  @Input() width: Number;
-  @Input() height: Number;
+  @Input() width: number;
+  @Input() height: number;
   @Input() preventInteractionOnTransition: boolean;
-  @Input() userAgent: String;
-  @Input() url: String;
+  @Input() userAgent: string;
+  @Input() url: string;
   @Input() edgeSwipeDetection: boolean;
-  @Input() edgeSwipeThreshold: Number;
+  @Input() edgeSwipeThreshold: number;
   @Input() freeMode: boolean;
   @Input() freeModeMomentum: boolean;
-  @Input() freeModeMomentumRatio: Number;
+  @Input() freeModeMomentumRatio: number;
   @Input() freeModeMomentumBounce: boolean;
-  @Input() freeModeMomentumBounceRatio: Number;
-  @Input() freeModeMomentumVelocityRatio: Number;
+  @Input() freeModeMomentumBounceRatio: number;
+  @Input() freeModeMomentumVelocityRatio: number;
   @Input() freeModeSticky: boolean;
-  @Input() freeModeMinimumVelocity: Number;
+  @Input() freeModeMinimumVelocity: number;
   @Input() autoHeight: boolean;
   @Input() setWrapperSize: boolean;
   @Input() virtualTranslate: boolean;
-  @Input() effect: String;
+  @Input() effect: string;
   @Input() breakpoints: Object;
-  @Input() spaceBetween: Number;
+  @Input() spaceBetween: number;
   @Input() slidesPerView: number | 'auto';
-  @Input() slidesPerColumn: Number;
-  @Input() slidesPerColumnFill: String;
-  @Input() slidesPerGroup: Number;
-  @Input() slidesPerGroupSkip: Number;
+  @Input() slidesPerColumn: number;
+  @Input() slidesPerColumnFill: string;
+  @Input() slidesPerGroup: number;
+  @Input() slidesPerGroupSkip: number;
   @Input() centeredSlides: boolean;
   @Input() centeredSlidesBounds: boolean;
-  @Input() slidesOffsetBefore: Number;
-  @Input() slidesOffsetAfter: Number;
+  @Input() slidesOffsetBefore: number;
+  @Input() slidesOffsetAfter: number;
   @Input() normalizeSlideIndex: boolean;
   @Input() centerInsufficientSlides: boolean;
   @Input() watchOverflow: boolean;
   @Input() roundLengths: boolean;
-  @Input() touchRatio: Number;
-  @Input() touchAngle: Number;
+  @Input() touchRatio: number;
+  @Input() touchAngle: number;
   @Input() simulateTouch: boolean;
   @Input() shortSwipes: boolean;
   @Input() longSwipes: boolean;
-  @Input() longSwipesRatio: Number;
-  @Input() longSwipesMs: Number;
+  @Input() longSwipesRatio: number;
+  @Input() longSwipesMs: number;
   @Input() followFinger: boolean;
   @Input() allowTouchMove: boolean;
-  @Input() threshold: Number;
+  @Input() threshold: number;
   @Input() touchMoveStopPropagation: boolean;
   @Input() touchStartPreventDefault: boolean;
   @Input() touchStartForcePreventDefault: boolean;
   @Input() touchReleaseOnEdges: boolean;
   @Input() uniqueNavElements: boolean;
   @Input() resistance: boolean;
-  @Input() resistanceRatio: Number;
+  @Input() resistanceRatio: number;
   @Input() watchSlidesProgress: boolean;
   @Input() watchSlidesVisibility: boolean;
   @Input() grabCursor: boolean;
@@ -133,29 +120,29 @@ export class SwiperComponent implements OnInit {
   @Input() preloadImages: boolean;
   @Input() updateOnImagesReady: boolean;
   @Input() loop: boolean;
-  @Input() loopAdditionalSlides: Number;
-  @Input() loopedSlides: Number;
+  @Input() loopAdditionalSlides: number;
+  @Input() loopedSlides: number;
   @Input() loopFillGroupWithBlank: boolean;
   @Input() loopPreventsSlide: boolean;
   @Input() allowSlidePrev: boolean;
   @Input() allowSlideNext: boolean;
   @Input() swipeHandler: boolean;
   @Input() noSwiping: boolean;
-  @Input() noSwipingClass: String;
-  @Input() noSwipingSelector: String;
+  @Input() noSwipingClass: string;
+  @Input() noSwipingSelector: string;
   @Input() passiveListeners: boolean;
-  @Input() containerModifierClass: String;
-  @Input() slideClass: String = 'swiper-slide';
-  @Input() slideBlankClass: String;
-  @Input() slideActiveClass: String;
-  @Input() slideDuplicateActiveClass: String;
-  @Input() slideVisibleClass: String;
-  @Input() slideDuplicateClass: String;
-  @Input() slideNextClass: String;
-  @Input() slideDuplicateNextClass: String;
-  @Input() slidePrevClass: String;
-  @Input() slideDuplicatePrevClass: String;
-  @Input() wrapperClass: String = 'swiper-wrapper';
+  @Input() containerModifierClass: string;
+  @Input() slideClass: string = 'swiper-slide';
+  @Input() slideBlankClass: string;
+  @Input() slideActiveClass: string;
+  @Input() slideDuplicateActiveClass: string;
+  @Input() slideVisibleClass: string;
+  @Input() slideDuplicateClass: string;
+  @Input() slideNextClass: string;
+  @Input() slideDuplicateNextClass: string;
+  @Input() slidePrevClass: string;
+  @Input() slideDuplicatePrevClass: string;
+  @Input() wrapperClass: string = 'swiper-wrapper';
   @Input() runCallbacksOnInit: boolean;
   @Input() a11y: A11yOptions;
   @Input() autoplay: AutoplayOptions | boolean;
@@ -383,22 +370,38 @@ export class SwiperComponent implements OnInit {
   set paginationElRef(el: ElementRef) {
     this._setElement(el, this.pagination, 'pagination');
   }
-  @ContentChildren(SwiperSlideComponent, { descendants: true }) slides: QueryList<
-    SwiperSlideComponent
-  >;
+  @ContentChildren(SwiperSlideDirective, { descendants: true })
+  set slidesEl(val: QueryList<SwiperSlideDirective>) {
+    this.slides = val.map((slide: SwiperSlideDirective, index: number) => {
+      slide.slideIndex = index;
+      slide.classNames = this.slideClass;
+      return slide;
+    });
+    if (this.loop && !this.loopedSlides) {
+      this.loopedSlides = this.calcLoopedSlides();
+    }
+    if (!this.virtual) {
+      this.prependSlides = of(this.slides.slice(this.slides.length - this.loopedSlides));
+      this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
+    }
+  }
+  private slides: SwiperSlideDirective[];
+
+  prependSlides: Observable<SwiperSlideDirective[]>;
+  appendSlides: Observable<SwiperSlideDirective[]>;
+
   swiperRef: Swiper;
-  readonly _activeSlides = new Subject<SwiperSlideComponent[]>();
+  readonly _activeSlides = new Subject<SwiperSlideDirective[]>();
+
   get activeSlides() {
     if (this.virtual) {
       return this._activeSlides;
     }
-    return of(this.slides?.toArray());
+    return of(this.slides);
   }
-  constructor(
-    private zone: NgZone,
-    private elementRef: ElementRef,
-    private _changeDetectorRef: ChangeDetectorRef,
-  ) {}
+
+  @HostBinding('class') containerClasses = 'swiper-container';
+  constructor(private elementRef: ElementRef, private _changeDetectorRef: ChangeDetectorRef) {}
 
   private _setElement(el: ElementRef, ref: any, update: string, key = 'el') {
     if (!el && !ref) {
@@ -414,7 +417,10 @@ export class SwiperComponent implements OnInit {
     updateObj[update] = true;
     this.updateInitSwiper(updateObj);
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const { params } = getParams(this);
+    Object.assign(this, params);
+  }
 
   ngAfterViewInit() {
     if (this.init) {
@@ -423,9 +429,9 @@ export class SwiperComponent implements OnInit {
     }
   }
 
-  containerClasses: string;
   initSwiper() {
     const { params: swiperParams, passedParams } = getParams(this);
+    Object.assign(this, swiperParams);
     swiperParams.onAny = (event, ...args) => {
       const emitter = this[`s_${event}`] as EventEmitter<any>;
       if (emitter) {
@@ -442,11 +448,11 @@ export class SwiperComponent implements OnInit {
         this.s_swiper.emit(this.swiperRef);
         swiper.loopCreate = () => {};
         swiper.loopDestroy = () => {};
-        // if (swiperParams.loop) {
-        //   swiper.loopedSlides = calcLoopedSlides(slidesRef.value, swiperParams);
-        // }
+        if (swiperParams.loop) {
+          swiper.loopedSlides = this.loopedSlides;
+        }
         if (swiper.virtual && swiper.params.virtual.enabled) {
-          swiper.virtual.slides = this.slides.toArray();
+          swiper.virtual.slides = this.slides;
           swiper.params.virtual.cache = false;
           swiper.params.virtual.renderExternal = (data) => {
             this.updateVirtualSlides(data);
@@ -456,7 +462,7 @@ export class SwiperComponent implements OnInit {
         this._changeDetectorRef.detectChanges();
       },
       _slideClass: (_, el: HTMLElement, classNames) => {
-        const slideIndex = Number(el.dataset.swiperSlideIndex);
+        const slideIndex = parseInt(el.dataset.swiperSlideIndex);
         if (this.virtual) {
           const virtualSlide = this.slides.find((item) => {
             return item.virtualIndex && item.virtualIndex === slideIndex;
@@ -466,7 +472,7 @@ export class SwiperComponent implements OnInit {
             return;
           }
         }
-        this.slides.toArray()[slideIndex].classNames = classNames;
+        this.slides[slideIndex].classNames = classNames;
         this._changeDetectorRef.detectChanges();
       },
     });
@@ -604,6 +610,29 @@ export class SwiperComponent implements OnInit {
       this.swiperRef.changeDirection(this.direction, false);
     }
     this.swiperRef.update();
+  }
+
+  calcLoopedSlides() {
+    let slidesPerViewParams = this.slidesPerView;
+    if (this.breakpoints) {
+      const breakpoint = Swiper.prototype.getBreakpoint(this.breakpoints);
+      const breakpointOnlyParams =
+        breakpoint in this.breakpoints ? this.breakpoints[breakpoint] : undefined;
+      if (breakpointOnlyParams && breakpointOnlyParams.slidesPerView) {
+        slidesPerViewParams = breakpointOnlyParams.slidesPerView;
+      }
+    }
+    if (slidesPerViewParams === 'auto') {
+      return this.slides.length;
+    }
+    let loopedSlides = this.loopedSlides || slidesPerViewParams;
+
+    loopedSlides += this.loopAdditionalSlides;
+
+    if (loopedSlides > this.slides.length) {
+      loopedSlides = this.slides.length;
+    }
+    return loopedSlides;
   }
 
   updateParameter(key, value) {

@@ -368,6 +368,9 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   offAny(handler: (eventName: string, ...args: any[]) => void): void;
 
   isHorizontal(): boolean;
+
+  getBreakpoint(breakpoints): string;
+
   destroyed: boolean;
   modules: Array<any>; //TODO: add typing
   a11y: A11yMethods;

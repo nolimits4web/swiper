@@ -40,7 +40,7 @@ export class AppComponent {
     }
   }
 
-  slides = Array.from({ length: 50 }).map((el, index) => `Slide ${index + 1}`);
+  slides = Array.from({ length: 5 }).map((el, index) => `Slide ${index + 1}`);
   virtualSlides = Array.from({ length: 600 }).map((el, index) => `Slide ${index + 1}`);
 
   log(string) {
