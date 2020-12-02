@@ -198,9 +198,7 @@ export default function updateSlides() {
       if (slides[i]) {
         if (swiper.isHorizontal()) {
           if (!slides[i].style.width) slides[i].style.width = `${slideSize}px`;
-        } else {
-          if (!slides[i].style.height) slides[i].style.height = `${slideSize}px`;
-        }
+        } else if (!slides[i].style.height) slides[i].style.height = `${slideSize}px`;
       }
     }
     if (slides[i]) {
