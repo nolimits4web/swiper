@@ -113,7 +113,8 @@ const Thumbs = {
         if (typeof prevThumbsIndex === 'undefined') newThumbsIndex = nextThumbsIndex;
         else if (typeof nextThumbsIndex === 'undefined') newThumbsIndex = prevThumbsIndex;
         else if (nextThumbsIndex - currentThumbsIndex === currentThumbsIndex - prevThumbsIndex)
-          newThumbsIndex = currentThumbsIndex;
+          newThumbsIndex =
+            thumbsSwiper.params.slidesPerGroup > 1 ? currentThumbsIndex - 1 : currentThumbsIndex;
         else if (nextThumbsIndex - currentThumbsIndex < currentThumbsIndex - prevThumbsIndex)
           newThumbsIndex = nextThumbsIndex;
         else newThumbsIndex = prevThumbsIndex;
@@ -136,8 +137,6 @@ const Thumbs = {
           } else {
             newThumbsIndex = newThumbsIndex + Math.floor(slidesPerView / 2) - 1;
           }
-        } else if (newThumbsIndex > currentThumbsIndex) {
-          newThumbsIndex = newThumbsIndex - slidesPerView + 1;
         }
         thumbsSwiper.slideTo(newThumbsIndex, initial ? 0 : undefined);
       }
