@@ -56,7 +56,7 @@ export default function onTouchStart(event) {
   const edgeSwipeThreshold = params.edgeSwipeThreshold || params.iOSEdgeSwipeThreshold;
   if (
     edgeSwipeDetection &&
-    (startX <= edgeSwipeThreshold || startX >= window.screen.width - edgeSwipeThreshold)
+    (startX <= edgeSwipeThreshold || startX >= window.innerWidth - edgeSwipeThreshold)
   ) {
     return;
   }
@@ -89,7 +89,10 @@ export default function onTouchStart(event) {
 
     const shouldPreventDefault =
       preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault;
-    if (params.touchStartForcePreventDefault || shouldPreventDefault) {
+    if (
+      (params.touchStartForcePreventDefault || shouldPreventDefault) &&
+      !$targetEl[0].isContentEditable
+    ) {
       e.preventDefault();
     }
   }

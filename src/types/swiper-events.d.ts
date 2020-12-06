@@ -284,7 +284,7 @@ export interface SwiperEvents {
    */
   slideResetTransitionEnd: (swiper: Swiper) => void;
   /**
-   * Event will be fired with with first touch/drag move
+   * Event will be fired with first touch/drag move
    */
   sliderFirstMove: (swiper: Swiper, event: TouchEvent) => void;
   /**

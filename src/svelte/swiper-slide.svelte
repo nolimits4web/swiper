@@ -43,7 +43,7 @@
       slideClasses.indexOf('swiper-slide-duplicate-prev') >= 0,
     isNext:
       slideClasses.indexOf('swiper-slide-next') >= 0 ||
-      slideClasses.indexOf('swiper-slide-duplicate next') >= 0,
+      slideClasses.indexOf('swiper-slide-duplicate-next') >= 0,
   };
 
   onMount(() => {

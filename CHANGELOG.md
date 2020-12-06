@@ -229,7 +229,7 @@
 - Coverflow Effect
   - Added support for `scale` parameter (#3598)
 - Pagination
-  - Fixed detectction of `uniqueNaVElements` (#3590)
+  - Fixed detection of `uniqueNavElements` (#3590)
 
 ## [Swiper 5.4.1](https://github.com/nolimits4web/swiper/compare/v5.4.0...v5.4.1) - Released on May 20th, 2020
 
@@ -253,8 +253,8 @@
 - A11y
   - Fixed focus ring on navigation buttons (#3544)
   - Fixed RegExp issue in `paginationBulletMessage` (#3540, #3541)
-- Thumbs \* Added `thumbs.autoScrollOffset` parameter that allows to set on what thumbs active slide from edge.
-  It should automaticall move scroll thumbs
+- Thumbs
+  - Added `thumbs.autoScrollOffset` parameter that allows to set on what thumbs active slide from edge. It should automatically move scroll thumbs
 - Minor fixes
 
 ## [Swiper 5.3.7](https://github.com/nolimits4web/swiper/compare/v5.3.6...v5.3.7) - Released on April 10th, 2020
@@ -314,7 +314,7 @@
 - Core
   - New `centeredSlidesBounds` parameter that when enabled will keep first and last slides at bounds
   - Fixed issue when `freeMode` could break position on resize (#2708, #3303)
-  - Fixed transitin duration issue with `freeModeSticky` (#3302)
+  - Fixed transition duration issue with `freeModeSticky` (#3302)
   - Fixed issue with wrong row/column if not full groups (#3294)
   - Fixed issue when `watchOverflow` and `slidesOffsetBefore`/`slidesOffsetAfter` couldn't work together (#3291)
 - Mousewheel
@@ -512,7 +512,7 @@
 - Autoplay
   - Fixed issue that can cause memory leak
 - Dom7 update to latest
-  \*Imporved internal events proxies logic for better memory management
+  - Improved internal events proxies logic for better memory management
 - Minor fixes
 
 ## [Swiper 4.2.2](https://github.com/nolimits4web/swiper/compare/v4.2.0...v4.2.2) - Released on April 1st, 2018
@@ -591,7 +591,7 @@
 
 - Fixed issue with not working `noSwiping` parameter
 - Parallax now considers `slidesPerGroup` parameter
-- Zoom: imporved gestures handling
+- Zoom: improved gestures handling
 - Pagination: fixed issues with wrong positioned dynamic-bullets when there are not enough slides
 - Fixed issues with some effects being broken with enabled `breakpoints`
 - Minor fixes
@@ -629,7 +629,7 @@
   - `swiper.modular.js` - modular version for using Swiper with required components only
 - New `scripts/build-config.js` for creating custom Swiper build with required components and custom color theme
 - jQuery version of Swiper has been removed
-- Imporved compatibility with server-side rendering
+- Improved compatibility with server-side rendering
 - Hundreds of improvements and fixes
 
 ## Swiper 4.0.0-beta.4 - Released on September 20th, 2017
@@ -743,8 +743,8 @@
 
 ## Swiper 3.2.5 - Released on November 21st, 2015
 
-- New "Auto Height" mode when container/wrapper adopts to the height of currently active slide. Can be enabled with `autoHeight: true` parameter
-- Fixed issue with break points in FireFox
+- New "Auto Height" mode when container/wrapper adapts to the height of currently active slide. Can be enabled with `autoHeight: true` parameter
+- Fixed issue with breakpoints in Firefox
 - Fixed issue with wrong slides position when using effects
 - Fixed issue with none-updated scroll bar after using `setWrapperTranslate`
 - Minor fixes
@@ -800,7 +800,7 @@
 ## Swiper 3.1.2 - Released on August 22nd, 2015
 
 - Fixed issues with loop and mousewheel when swiper stopped on last slide
-- Imporved mouse wheel behavior in latest Chrome
+- Improved mouse wheel behavior in latest Chrome
 - Fixed issue with `slidesPerView: 'auto'` and enabled `loop:true` mode to set `loopedSlides` to the amount of slides by default (if not specified)
 - New `mousewheelSensitivity: 1` parameter allows to tweak mouse wheel sensitivity
 - Fixed issue with updating swiper when swiping is locked (with `allowSwipeToNext`/`allowSwipeToPrev`)
@@ -818,17 +818,17 @@
   - Fixed issue with wrong buttons labels
   - Added support for pagination bullets
   - New accessibility parameter for pagination label `paginationBulletMessage: 'Go to slide {{index}}'`
-- Controler
+- Controller
   - New parameter `controlBy` which can be 'slide' (by default) or 'container'. Defines a way how to control another slider: slide by slide or depending on all slides/container (like before)
   - Now controllers in `controlBy: 'slide'` (default) mode will respect grid of each other
 - Pagination
-  - New `paginationElement` parameter defines which HTML tag will be use to represent single pagination bullet. By default it is `span`
+  - New `paginationElement` parameter defines which HTML tag will be used to represent single pagination bullet. By default it is `span`
 - New `roundLengths` parameter (by default is `false`) to round values of slides width and height to prevent blurry texts on usual resolution screens
 - New `slidesOffsetBefore: 0` and `slidesOffsetAfter: 0` (in px) parameters to add additional slide offset within a container
 - Correct calculation for slides size when use CSS padding on `.swiper-container`
 - Fixed issue with not working onResize handler when swipes are locked
 - Fixed issue with "jumping" effect when you disable `onlyExternal` during touchmove
-- Fixed issue when slider goes to previos slide from last slide after window resize
+- Fixed issue when slider goes to previous slide from last slide after window resize
 - Added new `swiper.jquery.umd.js` version for the environment where both Swiper and jQuery included as modules
 - Minor fixes
 
@@ -864,7 +864,7 @@
 
 ## Swiper 3.0.5 - Released on March 21st, 2015
 
-- New Keyboard accessibility module to provide foucsable navigation buttons and basic ARIA for screen readers with new parameters:
+- New Keyboard accessibility module to provide focusable navigation buttons and basic ARIA for screen readers with new parameters:
   - `a11y: false` - enable accessibility
   - `prevSlideMessage: 'Previous slide'` - message for screen readers for previous button
   - `nextSlideMessage: 'Next slide'` - message for screen readers for next button
@@ -895,8 +895,8 @@
 - `updateOnImages` ready split into 2 parameters:
   - `preloadImages` (by default is true) - to preload all images on swiper init
   - `updateOnImages` (by default is true) - update swiper when all images loaded
-- Fixed issues with touchmove on fouces form elements
-- New `onObserverUpdate` callback function to be called after updates by ovserver
+- Fixed issues with touchmove on focused form elements
+- New `onObserverUpdate` callback function to be called after updates by observer
 - Fixed issue with not working inputs with keyboard control for jQuery version
 - New `paginationBulletRender` parameter that accepts function which allow custom pagination elements layout
 - Hash Navigation will run callback dpending on `runCallbacksOnInit` parameter

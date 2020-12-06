@@ -151,8 +151,8 @@
     "typescript": "~4.0.2"
   },
   "dependencies": {
-    "dom7": "^3.0.0-alpha.7",
-    "ssr-window": "^3.0.0-alpha.4",
+    "dom7": "^3.0.0",
+    "ssr-window": "^3.0.0",
     "tslib": "^2.0.0"
   }
 }
