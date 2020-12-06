@@ -378,7 +378,7 @@ export class SwiperComponent implements OnInit {
       return slide;
     });
     if (this.loop && !this.loopedSlides) {
-      this.loopedSlides = this.calcLoopedSlides();
+      this.calcLoopedSlides();
     }
     if (!this.virtual) {
       this.prependSlides = of(this.slides.slice(this.slides.length - this.loopedSlides));
@@ -595,11 +595,6 @@ export class SwiperComponent implements OnInit {
       this.updateParameter(key, changedParams[key].currentValue);
     }
 
-    // if (changedParams.children && virtual && currentParams.virtual.enabled) {
-    //   virtual.slides = slides;
-    //   virtual.update(true);
-    // }
-
     if (changedParams.allowSlideNext) {
       this.swiperRef.allowSlideNext = this.allowSlideNext;
     }
@@ -609,10 +604,20 @@ export class SwiperComponent implements OnInit {
     if (changedParams.direction) {
       this.swiperRef.changeDirection(this.direction, false);
     }
+    if (changedParams.breakpoints) {
+      if (this.loop && !this.loopedSlides) {
+        this.calcLoopedSlides();
+      }
+      this.swiperRef.currentBreakpoint = null;
+      this.swiperRef.setBreakpoint();
+    }
     this.swiperRef.update();
   }
 
   calcLoopedSlides() {
+    if (!this.loop) {
+      return;
+    }
     let slidesPerViewParams = this.slidesPerView;
     if (this.breakpoints) {
       const breakpoint = Swiper.prototype.getBreakpoint(this.breakpoints);
@@ -623,6 +628,7 @@ export class SwiperComponent implements OnInit {
       }
     }
     if (slidesPerViewParams === 'auto') {
+      this.loopedSlides = this.slides.length;
       return this.slides.length;
     }
     let loopedSlides = this.loopedSlides || slidesPerViewParams;
@@ -632,6 +638,7 @@ export class SwiperComponent implements OnInit {
     if (loopedSlides > this.slides.length) {
       loopedSlides = this.slides.length;
     }
+    this.loopedSlides = loopedSlides;
     return loopedSlides;
   }
 

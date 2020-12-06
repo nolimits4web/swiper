@@ -39,11 +39,26 @@ export class AppComponent {
       this.scrollbar = false;
     }
   }
+  breakpoints = {
+    640: { slidesPerView: 2, spaceBetween: 20 },
+    768: { slidesPerView: 4, spaceBetween: 40 },
+    1024: { slidesPerView: 4, spaceBetween: 50 },
+  };
 
   slides = Array.from({ length: 5 }).map((el, index) => `Slide ${index + 1}`);
   virtualSlides = Array.from({ length: 600 }).map((el, index) => `Slide ${index + 1}`);
 
   log(string) {
     // console.log(string);
+  }
+
+  breakPointsToggle: boolean;
+  breakpointChange() {
+    this.breakPointsToggle = !this.breakPointsToggle;
+    this.breakpoints = {
+      640: { slidesPerView: 2, spaceBetween: 20 },
+      768: { slidesPerView: 4, spaceBetween: 40 },
+      1024: { slidesPerView: this.breakPointsToggle ? 7 : 5, spaceBetween: 50 },
+    };
   }
 }

@@ -371,6 +371,10 @@ interface Swiper extends SwiperClass<SwiperEvents> {
 
   getBreakpoint(breakpoints): string;
 
+  setBreakpoint(): void;
+
+  currentBreakpoint: any;
+
   destroyed: boolean;
   modules: Array<any>; //TODO: add typing
   a11y: A11yMethods;

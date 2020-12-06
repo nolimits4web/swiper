@@ -21,6 +21,7 @@
     (slideChange)="log('slideChange')"
     [slidesPerView]="3"
     [spaceBetween]="50"
+    [breakpoints]="breakpoints"
     [scrollbar]="scrollbar"
     [loop]="true"
     [pagination]="{ type: 'fraction' }"
@@ -37,4 +38,5 @@
   <button (click)="togglePagination()">Toggle pagination</button>
   <button (click)="toggleNavigation()">Toggle navigation</button>
   <button (click)="toggleScrollbar()">Toggle scrollbar</button>
+  <button (click)="breakpointChange()">Breakpoint change</button>
 </main>
