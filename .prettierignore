@@ -3,3 +3,4 @@ build
 node_modules
 dist
 package
+.nova
