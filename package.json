@@ -4,7 +4,7 @@
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development node scripts/build",
-    "build:prod": "cross-env NODE_ENV=production node scripts/build",
+    "build:prod": "cross-env NODE_ENV=production node scripts/build && npm run build:angular",
     "build:angular": "ng build swiper --prod",
     "build-icons-font": "python ./scripts/icon-font/generate.py",
     "playground:dev": "cross-env NODE_ENV=development node scripts/playground",
