@@ -1,8 +1,8 @@
 // eslint-disable-next-line
 import { isObject, extend } from './utils';
 import { paramsList } from './params-list';
-import { SwiperOptions } from 'swiper/swiper';
-import Swiper from 'swiper/core';
+import { SwiperOptions } from '../../../types/swiper-options';
+import Swiper from '../../../core';
 
 export const allowedParams = paramsList.map((key) => key.replace(/_/, ''));
 export function getParams(obj = {}) {
