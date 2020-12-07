@@ -14,30 +14,30 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import Swiper from '../../../../core';
-import { A11yOptions } from '../../../../types/components/a11y';
-import { AutoplayOptions } from '../../../../types/components/autoplay';
-import { ControllerOptions } from '../../../../types/components/controller';
-import { CoverflowEffectOptions } from '../../../../types/components/effect-coverflow';
-import { CubeEffectOptions } from '../../../../types/components/effect-cube';
-import { FadeEffectOptions } from '../../../../types/components/effect-fade';
-import { FlipEffectOptions } from '../../../../types/components/effect-flip';
-import { HashNavigationOptions } from '../../../../types/components/hash-navigation';
-import { HistoryOptions } from '../../../../types/components/history';
-import { KeyboardOptions } from '../../../../types/components/keyboard';
-import { LazyOptions } from '../../../../types/components/lazy';
-import { MousewheelOptions } from '../../../../types/components/mousewheel';
-import { NavigationOptions } from '../../../../types/components/navigation';
-import { PaginationOptions } from '../../../../types/components/pagination';
-import { ScrollbarOptions } from '../../../../types/components/scrollbar';
-import { ThumbsOptions } from '../../../../types/components/thumbs';
-import { VirtualData, VirtualOptions } from '../../../../types/components/virtual';
-import { ZoomOptions } from '../../../../types/components/zoom';
-import { SwiperEvents } from '../../../../types/swiper-events';
+import Swiper from '../../core';
+import { A11yOptions } from '../../types/components/a11y';
+import { AutoplayOptions } from '../../types/components/autoplay';
+import { ControllerOptions } from '../../types/components/controller';
+import { CoverflowEffectOptions } from '../../types/components/effect-coverflow';
+import { CubeEffectOptions } from '../../types/components/effect-cube';
+import { FadeEffectOptions } from '../../types/components/effect-fade';
+import { FlipEffectOptions } from '../../types/components/effect-flip';
+import { HashNavigationOptions } from '../../types/components/hash-navigation';
+import { HistoryOptions } from '../../types/components/history';
+import { KeyboardOptions } from '../../types/components/keyboard';
+import { LazyOptions } from '../../types/components/lazy';
+import { MousewheelOptions } from '../../types/components/mousewheel';
+import { NavigationOptions } from '../../types/components/navigation';
+import { PaginationOptions } from '../../types/components/pagination';
+import { ScrollbarOptions } from '../../types/components/scrollbar';
+import { ThumbsOptions } from '../../types/components/thumbs';
+import { VirtualData, VirtualOptions } from '../../types/components/virtual';
+import { ZoomOptions } from '../../types/components/zoom';
+import { SwiperEvents } from '../../types/swiper-events';
 import { Observable, of, Subject } from 'rxjs';
-import { getParams } from '../get-params';
-import { SwiperSlideDirective } from '../swiper-slide/swiper-slide.directive';
-import { extend, isObject, setProperty, ignoreNgOnChanges } from '../utils';
+import { getParams } from './utils/get-params';
+import { SwiperSlideDirective } from './swiper-slide.directive';
+import { extend, isObject, setProperty, ignoreNgOnChanges } from './utils/utils';
 @Component({
   selector: 'swiper, [swiper]',
   templateUrl: './swiper.component.html',
