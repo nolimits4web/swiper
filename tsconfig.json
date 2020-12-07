@@ -13,8 +13,8 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
-      "swiper": ["build"],
-      "swiper/*": ["build/*"]
+      "swiper": ["src"],
+      "swiper/*": ["src/*"]
     }
   }
 }
