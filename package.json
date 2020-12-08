@@ -18,6 +18,7 @@
     "react:dev": "npm run build:dev && concurrently --kill-others \"npm run webpack:react\" \"npm run watch:dev\"",
     "vue:dev": "npm run build:dev && concurrently --kill-others \"npm run webpack:vue\" \"npm run watch:dev\"",
     "svelte:dev": "npm run build:dev && concurrently --kill-others \"npm run webpack:svelte\" \"npm run watch:dev\"",
+    "angular:dev": "ng serve demo",
     "serve": "serve -l tcp://0.0.0.0:5000",
     "prettier": "prettier \"**/*.+(js|json|scss|css|less|ts|svelte|jsx)\"",
     "format": "npm run prettier -- --write",
@@ -25,7 +26,8 @@
     "lint": "eslint --ext .js,.svelte,.jsx .",
     "validate": "npm-run-all --parallel check-format lint",
     "release": "npm run validate && node ./scripts/release",
-    "test": "npm run validate && npm run build:prod"
+    "test": "npm run validate && npm run build:prod",
+    "e2e": "ng e2e"
   },
   "repository": {
     "type": "git",
@@ -69,6 +71,7 @@
     "Samsung >= 5"
   ],
   "devDependencies": {
+    "@angular-devkit/build-angular": "~0.1100.3",
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
@@ -116,10 +119,40 @@
     "vue-loader": "^16.0.0-beta.5",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
+    "@angular/animations": "~11.0.3",
+    "@angular/common": "~11.0.3",
+    "@angular/compiler": "~11.0.3",
+    "@angular/core": "~11.0.3",
+    "@angular/forms": "~11.0.3",
+    "ng-packagr": "^11.0.3",
+    "@angular/platform-browser": "~11.0.3",
+    "@angular/platform-browser-dynamic": "~11.0.3",
+    "@angular/router": "~11.0.3",
+    "rxjs": "~6.6.0",
+    "tslib": "^2.0.0",
+    "zone.js": "~0.10.2",
+    "webpack-dev-server": "^3.11.0",
+    "@angular/cli": "~11.0.3",
+    "@angular/compiler-cli": "~11.0.3",
+    "@types/node": "^12.11.1",
+    "@types/jasmine": "~3.6.0",
+    "@types/jasminewd2": "~2.0.3",
+    "codelyzer": "^6.0.0",
+    "jasmine-core": "~3.6.0",
+    "jasmine-spec-reporter": "~5.0.0",
+    "karma": "~5.1.1",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage-istanbul-reporter": "~3.0.2",
+    "karma-jasmine": "~4.0.0",
+    "karma-jasmine-html-reporter": "^1.5.0",
+    "protractor": "~7.0.0",
+    "ts-node": "~8.3.0",
+    "tslint": "~6.1.0",
+    "typescript": "~4.0.2"
   },
   "dependencies": {
     "dom7": "^3.0.0",
-    "ssr-window": "^3.0.0"
+    "ssr-window": "^3.0.0",
+    "tslib": "^2.0.0"
   }
 }

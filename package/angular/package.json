@@ -1,0 +1,19 @@
+{
+  "name": "angular",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^10.1.6",
+    "@angular/core": "^10.1.6"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "main": "bundles/angular.umd.js",
+  "module": "fesm2015/angular.js",
+  "es2015": "fesm2015/angular.js",
+  "esm2015": "esm2015/angular.js",
+  "fesm2015": "fesm2015/angular.js",
+  "typings": "angular.d.ts",
+  "metadata": "angular.metadata.json",
+  "sideEffects": false
+}

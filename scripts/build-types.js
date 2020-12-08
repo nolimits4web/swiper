@@ -30,6 +30,9 @@ async function build(cb) {
         let modulesEvents = '';
         glob('src/types/components/*.d.ts', (err, eventsFiles) => {
           eventsFiles.forEach((eventsFile) => {
+            if (eventsFile.indexOf('public-api') > -1) {
+              return;
+            }
             let eventsContent = fs
               .readFileSync(eventsFile, 'utf-8')
               .split('Events {')[1]

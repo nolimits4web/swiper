@@ -71,10 +71,10 @@ async function build(cb) {
     files.forEach((file, index) => {
       if (file.indexOf('icons/') === 0) return;
       if (file.indexOf('/core/') >= 0) return;
+      if (file.indexOf('angular/src') >= 0) return;
       if (file.indexOf('.js') >= 0) return;
       if (file.indexOf('.ts') >= 0) return;
       if (file.indexOf('mixins.less') >= 0) return;
-
       let fileContent = fse.readFileSync(path.resolve(__dirname, '../src', file));
       if (file.indexOf('swiper.less') >= 0) {
         const coreContent = fs.readFileSync(
