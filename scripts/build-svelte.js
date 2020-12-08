@@ -41,13 +41,6 @@ async function buildSvelte(format, cb) {
   swiperSlide = swiperSlideResult.js.code;
   fs.writeFileSync(`./${outputDir}/${format}/svelte/swiper-slide.js`, swiperSlide);
 
-  try {
-    fs.unlinkSync(`./${outputDir}/svelte/swiper-slide.svelte`);
-    fs.unlinkSync(`./${outputDir}/svelte/swiper.svelte`);
-  } catch (err) {
-    // no files
-  }
-
   if (cb) cb();
 }
 
