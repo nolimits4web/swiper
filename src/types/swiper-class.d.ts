@@ -145,6 +145,8 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    */
   allowTouchMove: boolean;
 
+  rtlTranslate: boolean;
+
   /**
    * Run transition to next slide.
    *
@@ -364,6 +366,14 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    * Remove event listener that will be fired on all events
    */
   offAny(handler: (eventName: string, ...args: any[]) => void): void;
+
+  isHorizontal(): boolean;
+
+  getBreakpoint(breakpoints): string;
+
+  setBreakpoint(): void;
+
+  currentBreakpoint: any;
 
   destroyed: boolean;
   modules: Array<any>; //TODO: add typing

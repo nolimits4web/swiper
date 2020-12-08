@@ -1,0 +1,7 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../package/angular",
+  "lib": {
+    "entryFile": "../swiper-angular.ts"
+  }
+}

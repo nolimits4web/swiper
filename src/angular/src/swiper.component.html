@@ -1,0 +1,55 @@
+<ng-content select="[slot=container-start]"></ng-content>
+<ng-container *ngIf="navigation">
+  <div class="swiper-button-prev" #prevElRef></div>
+  <div class="swiper-button-next" #nextElRef></div>
+</ng-container>
+<div *ngIf="scrollbar" class="swiper-scrollbar" #scrollbarElRef></div>
+<div *ngIf="pagination" class="swiper-pagination" #paginationElRef></div>
+<div [ngClass]="wrapperClass">
+  <ng-content select="[slot=wrapper-start]"></ng-content>
+  <ng-template
+    *ngTemplateOutlet="
+      slidesTemplate;
+      context: {
+        loopSlides: prependSlides,
+        key: 'prepend'
+      }
+    "
+  ></ng-template>
+  <ng-template
+    *ngTemplateOutlet="
+      slidesTemplate;
+      context: {
+        loopSlides: activeSlides,
+        key: ''
+      }
+    "
+  ></ng-template>
+  <ng-template
+    *ngTemplateOutlet="
+      slidesTemplate;
+      context: {
+        loopSlides: appendSlides,
+        key: 'append'
+      }
+    "
+  ></ng-template>
+  <ng-content select="[slot=wrapper-end]"></ng-content>
+</div>
+<ng-content select="[slow=container-end]"></ng-content>
+
+<ng-template #slidesTemplate let-loopSlides="loopSlides" let-slideKey="key">
+  <div
+    *ngFor="let slide of loopSlides | async"
+    [ngClass]="slide.classNames + ' ' + (slideKey !== '' ? slideDuplicateClass : '')"
+    [attr.data-swiper-slide-index]="slide.virtualIndex ? slide.virtualIndex : slide.slideIndex"
+    [style]="style"
+  >
+    <ng-template
+      [ngTemplateOutlet]="slide.template"
+      [ngTemplateOutletContext]="{
+        $implicit: slide.slideData
+      }"
+    ></ng-template>
+  </div>
+</ng-template>
