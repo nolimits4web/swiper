@@ -111,7 +111,7 @@
     "style-loader": "^1.2.1",
     "svelte": "^3.24.1",
     "svelte-loader": "^2.13.6",
-    "terser": "^4.7.0",
+    "terser": "^5.5.1",
     "vue": "^3.0.1",
     "vue-loader": "^16.0.0-beta.5",
     "webpack": "^4.43.0",
