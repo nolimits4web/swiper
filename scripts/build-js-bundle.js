@@ -55,7 +55,7 @@ function buildBundle(components, format, browser, cb) {
         file: `./${output}/${filename}.js`,
       }),
     )
-    .then((bundle) => {
+    .then(async (bundle) => {
       if (!browser && (format === 'cjs' || format === 'esm') && env === 'production') {
         // Fix imports
         const modularContent = fs
@@ -69,7 +69,7 @@ function buildBundle(components, format, browser, cb) {
         return;
       }
       const result = bundle.output[0];
-      const minified = Terser.minify(result.code, {
+      const { code, map } = await Terser.minify(result.code, {
         sourceMap: {
           content: needSourceMap ? result.map : undefined,
           filename: needSourceMap ? `${filename}.min.js` : undefined,
@@ -78,10 +78,12 @@ function buildBundle(components, format, browser, cb) {
         output: {
           preamble: banner,
         },
+      }).catch((err) => {
+        console.error(`Terser failed on file ${filename}: ${err.toString()}`);
       });
 
-      fs.writeFileSync(`./${output}/${filename}.min.js`, minified.code);
-      fs.writeFileSync(`./${output}/${filename}.min.js.map`, minified.map);
+      fs.writeFileSync(`./${output}/${filename}.min.js`, code);
+      fs.writeFileSync(`./${output}/${filename}.min.js.map`, map);
       if (cb) cb();
     })
     .catch((err) => {
