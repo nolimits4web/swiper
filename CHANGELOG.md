@@ -1,5 +1,21 @@
 # Changelog
 
+## [Swiper 6.4.0](https://github.com/nolimits4web/swiper/compare/v6.3.5...v6.4.0) - Released on December 8th, 2020
+
+- All new Swiper Angular components (kudos to @vltansky) 🎉
+- React
+  - Now Swiper won't cleanup styles on destroy
+- Svelte
+  - Now svelte package contains source `.svelte` components
+  - Now Swiper won't cleanup styles on destroy
+- Vue
+  - Now Swiper won't cleanup styles on destroy
+- Lazy
+  - Now it has options to check is Swiper also is in view before loading the images (thanks to @ygj6)
+- Build
+  - Fixed sourcemap missing original sources
+- Lots of minor fixes
+
 ## [Swiper 6.3.5](https://github.com/nolimits4web/swiper/compare/v6.3.4...v6.3.5) - Released on October 30th, 2020
 
 - Build
