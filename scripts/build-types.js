@@ -33,7 +33,6 @@ async function build(cb) {
             if (eventsFile.indexOf('public-api') > -1) {
               return;
             }
-            console.log(eventsFile);
             let eventsContent = fs
               .readFileSync(eventsFile, 'utf-8')
               .split('Events {')[1]
