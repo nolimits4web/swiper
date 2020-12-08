@@ -9,6 +9,7 @@
   "proseWrap": "preserve",
   "quoteProps": "as-needed",
   "requirePragma": false,
+  "endOfLine": "auto",
   "semi": true,
   "singleQuote": true,
   "tabWidth": 2,
