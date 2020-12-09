@@ -36,7 +36,7 @@ import {
   VirtualOptions,
   ZoomOptions,
   SwiperEvents,
-} from 'swiper/types';
+} from 'swiper/swiper-types';
 import { Observable, of, Subject } from 'rxjs';
 import { getParams } from './utils/get-params';
 import { SwiperSlideDirective } from './swiper-slide.directive';
