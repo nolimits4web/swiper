@@ -24,6 +24,7 @@
     [breakpoints]="breakpoints"
     [scrollbar]="scrollbar"
     [loop]="true"
+    [(index)]="indexNumber"
     [pagination]="{ type: 'fraction' }"
   >
     <ng-template swiperSlide>Best slide ever 1</ng-template>
@@ -39,4 +40,9 @@
   <button (click)="toggleNavigation()">Toggle navigation</button>
   <button (click)="toggleScrollbar()">Toggle scrollbar</button>
   <button (click)="breakpointChange()">Breakpoint change</button>
+
+  <button (click)="indexNumber = 0">0</button>
+  <button (click)="indexNumber = 3">3</button>
+  <button (click)="indexNumber = 5">5</button>
+  <button (click)="indexNumber = 6">6</button>
 </main>

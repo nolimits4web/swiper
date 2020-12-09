@@ -7,6 +7,7 @@ import {
   EventEmitter,
   HostBinding,
   Input,
+  NgZone,
   OnInit,
   Output,
   QueryList,
@@ -189,6 +190,13 @@ export class SwiperComponent implements OnInit {
     return this._virtual;
   }
   private _virtual: SwiperOptions['virtual'];
+
+  @Input()
+  set index(index: number) {
+    if (index) {
+      this.setIndex(index);
+    }
+  }
   // prettier-ignore
   @Output('_beforeBreakpoint') s__beforeBreakpoint: EventEmitter<SwiperEvents['_beforeBreakpoint']> = new EventEmitter<any>();
   // prettier-ignore
@@ -342,6 +350,8 @@ export class SwiperComponent implements OnInit {
   // prettier-ignore
   @Output('swiper') s_swiper: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output() indexChange = new EventEmitter<number>();
+
   @ViewChild('prevElRef', { static: false })
   set prevElRef(el: ElementRef) {
     this._setElement(el, this.navigation, 'navigation', 'prevEl');
@@ -389,7 +399,11 @@ export class SwiperComponent implements OnInit {
   }
 
   @HostBinding('class') containerClasses = 'swiper-container';
-  constructor(private elementRef: ElementRef, private _changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    private zone: NgZone,
+    private elementRef: ElementRef,
+    private _changeDetectorRef: ChangeDetectorRef,
+  ) {}
 
   private _setElement(el: ElementRef, ref: any, update: string, key = 'el') {
     if (!el && !ref) {
@@ -428,6 +442,11 @@ export class SwiperComponent implements OnInit {
     };
 
     Object.assign(swiperParams.on, {
+      slideChange() {
+        if (this.swiperRef) {
+          this.indexChange.emit(this.swiperRef.realIndex);
+        }
+      },
       _containerClasses(swiper, classes) {
         this.containerClasses = classes;
       },
@@ -644,6 +663,20 @@ export class SwiperComponent implements OnInit {
     } else {
       this.swiperRef.params[_key] = value;
     }
+  }
+
+  setIndex(index: number, speed?: number, silent?: boolean): void {
+    if (!this.swiperRef) {
+      this.initialSlide = index;
+      return;
+    }
+    this.zone.runOutsideAngular(() => {
+      if (this.loop) {
+        this.swiperRef.slideToLoop(index, speed, !silent);
+      } else {
+        this.swiperRef.slideTo(index, speed, !silent);
+      }
+    });
   }
 
   ngOnDestroy() {
