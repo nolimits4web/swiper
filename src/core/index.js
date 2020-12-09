@@ -1,3 +1,3 @@
 // eslint-disable-next-line
-export { default, SwiperOptions } from '../../build/core';
+export { default } from '../../build/core';
 // needed here for Angular

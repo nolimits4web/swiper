@@ -14,12 +14,18 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import Swiper, { SwiperOptions } from 'swiper/core';
+import Swiper from 'swiper/core';
 import { Observable, of, Subject } from 'rxjs';
 import { getParams } from './utils/get-params';
 import { SwiperSlideDirective } from './swiper-slide.directive';
 import { extend, isObject, setProperty, ignoreNgOnChanges } from './utils/utils';
-import { SwiperEvents, NavigationOptions, PaginationOptions, ScrollbarOptions } from 'swiper/types';
+import {
+  SwiperOptions,
+  SwiperEvents,
+  NavigationOptions,
+  PaginationOptions,
+  ScrollbarOptions,
+} from 'swiper/types';
 @Component({
   selector: 'swiper, [swiper]',
   templateUrl: './swiper.component.html',
