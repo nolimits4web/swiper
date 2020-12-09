@@ -193,9 +193,7 @@ export class SwiperComponent implements OnInit {
 
   @Input()
   set index(index: number) {
-    if (index) {
-      this.setIndex(index);
-    }
+    this.setIndex(index);
   }
   // prettier-ignore
   @Output('_beforeBreakpoint') s__beforeBreakpoint: EventEmitter<SwiperEvents['_beforeBreakpoint']> = new EventEmitter<any>();
@@ -442,10 +440,8 @@ export class SwiperComponent implements OnInit {
     };
 
     Object.assign(swiperParams.on, {
-      slideChange() {
-        if (this.swiperRef) {
-          this.indexChange.emit(this.swiperRef.realIndex);
-        }
+      slideChange: () => {
+        this.indexChange.emit(this.swiperRef.realIndex);
       },
       _containerClasses(swiper, classes) {
         this.containerClasses = classes;
@@ -668,6 +664,9 @@ export class SwiperComponent implements OnInit {
   setIndex(index: number, speed?: number, silent?: boolean): void {
     if (!this.swiperRef) {
       this.initialSlide = index;
+      return;
+    }
+    if (index === this.swiperRef.realIndex) {
       return;
     }
     this.zone.runOutsideAngular(() => {
