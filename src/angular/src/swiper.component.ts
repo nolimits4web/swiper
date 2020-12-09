@@ -189,6 +189,12 @@ export class SwiperComponent implements OnInit {
     return this._virtual;
   }
   private _virtual: SwiperOptions['virtual'];
+
+  @Input()
+  set config(val: SwiperOptions) {
+    const { params } = getParams(val);
+    Object.assign(this, params);
+  }
   // prettier-ignore
   @Output('_beforeBreakpoint') s__beforeBreakpoint: EventEmitter<SwiperEvents['_beforeBreakpoint']> = new EventEmitter<any>();
   // prettier-ignore
