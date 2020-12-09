@@ -15,7 +15,7 @@ export default function updateSlides() {
   const slidesGrid = [];
   const slidesSizesGrid = [];
 
-  function slidesForMargin(slideIndex) {
+  function slidesForMargin(slideEl, slideIndex) {
     if (!params.cssMode) return true;
     if (slideIndex === slides.length - 1) {
       return false;
