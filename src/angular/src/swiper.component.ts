@@ -192,6 +192,7 @@ export class SwiperComponent implements OnInit {
 
   @Input()
   set config(val: SwiperOptions) {
+    this.updateSwiper(val);
     const { params } = getParams(val);
     Object.assign(this, params);
   }
@@ -579,7 +580,10 @@ export class SwiperComponent implements OnInit {
     this.swiperRef.update();
   }
 
-  updateSwiper(changedParams: SimpleChanges) {
+  updateSwiper(changedParams: SimpleChanges | any) {
+    if (changedParams.config) {
+      return;
+    }
     if (!(changedParams && this.swiperRef && !this.swiperRef.destroyed)) {
       return;
     }
@@ -587,7 +591,8 @@ export class SwiperComponent implements OnInit {
       if (ignoreNgOnChanges.indexOf(key) >= 0) {
         continue;
       }
-      this.updateParameter(key, changedParams[key].currentValue);
+      const newValue = changedParams[key]?.currentValue ?? changedParams[key];
+      this.updateParameter(key, newValue);
     }
 
     if (changedParams.allowSlideNext) {

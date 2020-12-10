@@ -35,7 +35,7 @@
       >
     </ng-container>
   </swiper>
-  <swiper [config]="{ slidesPerView: 3 }">
+  <swiper [config]="exampleConfig">
     <ng-template swiperSlide>Best slide ever 2</ng-template>
     <ng-template swiperSlide>Best slide ever 2</ng-template>
     <ng-template swiperSlide>Best slide ever 2</ng-template>
@@ -46,4 +46,7 @@
   <button (click)="toggleNavigation()">Toggle navigation</button>
   <button (click)="toggleScrollbar()">Toggle scrollbar</button>
   <button (click)="breakpointChange()">Breakpoint change</button>
+  <button (click)="exampleConfig = { slidesPerView: 2 }">changeConfig</button>
+
+  {{ exampleConfig | json }}
 </main>
