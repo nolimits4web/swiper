@@ -1,0 +1,6 @@
+{
+  "name": "swiper/types",
+  "private": true,
+  "main": "./public-api.d.ts",
+  "sideEffects": false
+}

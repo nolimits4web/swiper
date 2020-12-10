@@ -15,32 +15,17 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import Swiper from 'swiper/core';
-import {
-  A11yOptions,
-  AutoplayOptions,
-  ControllerOptions,
-  CoverflowEffectOptions,
-  CubeEffectOptions,
-  FadeEffectOptions,
-  FlipEffectOptions,
-  HashNavigationOptions,
-  HistoryOptions,
-  KeyboardOptions,
-  LazyOptions,
-  MousewheelOptions,
-  NavigationOptions,
-  PaginationOptions,
-  ScrollbarOptions,
-  ThumbsOptions,
-  VirtualData,
-  VirtualOptions,
-  ZoomOptions,
-  SwiperEvents,
-} from 'swiper/types';
 import { Observable, of, Subject } from 'rxjs';
 import { getParams } from './utils/get-params';
 import { SwiperSlideDirective } from './swiper-slide.directive';
 import { extend, isObject, setProperty, ignoreNgOnChanges } from './utils/utils';
+import {
+  SwiperOptions,
+  SwiperEvents,
+  NavigationOptions,
+  PaginationOptions,
+  ScrollbarOptions,
+} from 'swiper/types';
 @Component({
   selector: 'swiper, [swiper]',
   templateUrl: './swiper.component.html',
@@ -55,110 +40,113 @@ import { extend, isObject, setProperty, ignoreNgOnChanges } from './utils/utils'
   ],
 })
 export class SwiperComponent implements OnInit {
-  @Input() init: boolean = true;
-  @Input() direction: 'horizontal' | 'vertical';
-  @Input() touchEventsTarget: string;
-  @Input() initialSlide: number;
-  @Input() speed: number;
-  @Input() cssMode: boolean;
-  @Input() updateOnWindowResize: boolean;
-  @Input() nested: boolean;
-  @Input() width: number;
-  @Input() height: number;
-  @Input() preventInteractionOnTransition: boolean;
-  @Input() userAgent: string;
-  @Input() url: string;
+  @Input() init: SwiperOptions['init'] = true;
+  @Input() direction: SwiperOptions['direction'];
+  @Input() touchEventsTarget: SwiperOptions['touchEventsTarget'];
+  @Input() initialSlide: SwiperOptions['initialSlide'];
+  @Input() speed: SwiperOptions['speed'];
+  @Input() cssMode: SwiperOptions['cssMode'];
+  @Input() updateOnWindowResize: SwiperOptions['updateOnWindowResize'];
+  @Input() nested: SwiperOptions['nested'];
+  @Input() width: SwiperOptions['width'];
+  @Input() height: SwiperOptions['height'];
+  @Input() preventInteractionOnTransition: SwiperOptions['preventInteractionOnTransition'];
+  @Input() userAgent: SwiperOptions['userAgent'];
+  @Input() url: SwiperOptions['url'];
   @Input() edgeSwipeDetection: boolean;
   @Input() edgeSwipeThreshold: number;
-  @Input() freeMode: boolean;
-  @Input() freeModeMomentum: boolean;
-  @Input() freeModeMomentumRatio: number;
-  @Input() freeModeMomentumBounce: boolean;
-  @Input() freeModeMomentumBounceRatio: number;
-  @Input() freeModeMomentumVelocityRatio: number;
-  @Input() freeModeSticky: boolean;
-  @Input() freeModeMinimumVelocity: number;
-  @Input() autoHeight: boolean;
-  @Input() setWrapperSize: boolean;
-  @Input() virtualTranslate: boolean;
-  @Input() effect: string;
-  @Input() breakpoints: Object;
-  @Input() spaceBetween: number;
-  @Input() slidesPerView: number | 'auto';
-  @Input() slidesPerColumn: number;
-  @Input() slidesPerColumnFill: string;
-  @Input() slidesPerGroup: number;
-  @Input() slidesPerGroupSkip: number;
-  @Input() centeredSlides: boolean;
-  @Input() centeredSlidesBounds: boolean;
-  @Input() slidesOffsetBefore: number;
-  @Input() slidesOffsetAfter: number;
-  @Input() normalizeSlideIndex: boolean;
-  @Input() centerInsufficientSlides: boolean;
-  @Input() watchOverflow: boolean;
-  @Input() roundLengths: boolean;
-  @Input() touchRatio: number;
-  @Input() touchAngle: number;
-  @Input() simulateTouch: boolean;
-  @Input() shortSwipes: boolean;
-  @Input() longSwipes: boolean;
-  @Input() longSwipesRatio: number;
-  @Input() longSwipesMs: number;
-  @Input() followFinger: boolean;
-  @Input() allowTouchMove: boolean;
-  @Input() threshold: number;
-  @Input() touchMoveStopPropagation: boolean;
-  @Input() touchStartPreventDefault: boolean;
-  @Input() touchStartForcePreventDefault: boolean;
-  @Input() touchReleaseOnEdges: boolean;
-  @Input() uniqueNavElements: boolean;
-  @Input() resistance: boolean;
-  @Input() resistanceRatio: number;
-  @Input() watchSlidesProgress: boolean;
-  @Input() watchSlidesVisibility: boolean;
-  @Input() grabCursor: boolean;
-  @Input() preventClicks: boolean;
-  @Input() preventClicksPropagation: boolean;
-  @Input() slideToClickedSlide: boolean;
-  @Input() preloadImages: boolean;
-  @Input() updateOnImagesReady: boolean;
-  @Input() loop: boolean;
-  @Input() loopAdditionalSlides: number;
-  @Input() loopedSlides: number;
-  @Input() loopFillGroupWithBlank: boolean;
-  @Input() loopPreventsSlide: boolean;
-  @Input() allowSlidePrev: boolean;
-  @Input() allowSlideNext: boolean;
-  @Input() swipeHandler: boolean;
-  @Input() noSwiping: boolean;
-  @Input() noSwipingClass: string;
-  @Input() noSwipingSelector: string;
-  @Input() passiveListeners: boolean;
-  @Input() containerModifierClass: string;
-  @Input() slideClass: string = 'swiper-slide';
-  @Input() slideBlankClass: string;
-  @Input() slideActiveClass: string;
-  @Input() slideDuplicateActiveClass: string;
-  @Input() slideVisibleClass: string;
-  @Input() slideDuplicateClass: string;
-  @Input() slideNextClass: string;
-  @Input() slideDuplicateNextClass: string;
-  @Input() slidePrevClass: string;
-  @Input() slideDuplicatePrevClass: string;
-  @Input() wrapperClass: string = 'swiper-wrapper';
-  @Input() runCallbacksOnInit: boolean;
-  @Input() a11y: A11yOptions;
-  @Input() autoplay: AutoplayOptions | boolean;
-  @Input() controller: ControllerOptions;
-  @Input() coverflowEffect: CoverflowEffectOptions;
-  @Input() cubeEffect: CubeEffectOptions;
-  @Input() fadeEffect: FadeEffectOptions;
-  @Input() flipEffect: FlipEffectOptions;
-  @Input() hashNavigation: HashNavigationOptions | boolean;
-  @Input() history: HistoryOptions | boolean;
-  @Input() keyboard: KeyboardOptions | boolean;
-  @Input() lazy: LazyOptions | boolean;
-  @Input() mousewheel: MousewheelOptions | boolean;
+  @Input() freeMode: SwiperOptions['freeMode'];
+  @Input() freeModeMomentum: SwiperOptions['freeModeMomentum'];
+  @Input() freeModeMomentumRatio: SwiperOptions['freeModeMomentumRatio'];
+  @Input() freeModeMomentumBounce: SwiperOptions['freeModeMomentumBounce'];
+  @Input() freeModeMomentumBounceRatio: SwiperOptions['freeModeMomentumBounceRatio'];
+  @Input() freeModeMomentumVelocityRatio: SwiperOptions['freeModeMomentumVelocityRatio'];
+  @Input() freeModeSticky: SwiperOptions['freeModeSticky'];
+  @Input() freeModeMinimumVelocity: SwiperOptions['freeModeMinimumVelocity'];
+  @Input() autoHeight: SwiperOptions['autoHeight'];
+  @Input() setWrapperSize: SwiperOptions['setWrapperSize'];
+  @Input() virtualTranslate: SwiperOptions['virtualTranslate'];
+  @Input() effect: SwiperOptions['effect'];
+  @Input() breakpoints: SwiperOptions['breakpoints'];
+  @Input() spaceBetween: SwiperOptions['spaceBetween'];
+  @Input() slidesPerView: SwiperOptions['slidesPerView'];
+  @Input() slidesPerColumn: SwiperOptions['slidesPerColumn'];
+  @Input() slidesPerColumnFill: SwiperOptions['slidesPerColumnFill'];
+  @Input() slidesPerGroup: SwiperOptions['slidesPerGroup'];
+  @Input() slidesPerGroupSkip: SwiperOptions['slidesPerGroupSkip'];
+  @Input() centeredSlides: SwiperOptions['centeredSlides'];
+  @Input() centeredSlidesBounds: SwiperOptions['centeredSlidesBounds'];
+  @Input() slidesOffsetBefore: SwiperOptions['slidesOffsetBefore'];
+  @Input() slidesOffsetAfter: SwiperOptions['slidesOffsetAfter'];
+  @Input() normalizeSlideIndex: SwiperOptions['normalizeSlideIndex'];
+  @Input() centerInsufficientSlides: SwiperOptions['centerInsufficientSlides'];
+  @Input() watchOverflow: SwiperOptions['watchOverflow'];
+  @Input() roundLengths: SwiperOptions['roundLengths'];
+  @Input() touchRatio: SwiperOptions['touchRatio'];
+  @Input() touchAngle: SwiperOptions['touchAngle'];
+  @Input() simulateTouch: SwiperOptions['simulateTouch'];
+  @Input() shortSwipes: SwiperOptions['shortSwipes'];
+  @Input() longSwipes: SwiperOptions['longSwipes'];
+  @Input() longSwipesRatio: SwiperOptions['longSwipesRatio'];
+  @Input() longSwipesMs: SwiperOptions['longSwipesMs'];
+  @Input() followFinger: SwiperOptions['followFinger'];
+  @Input() allowTouchMove: SwiperOptions['allowTouchMove'];
+  @Input() threshold: SwiperOptions['threshold'];
+  @Input() touchMoveStopPropagation: SwiperOptions['touchMoveStopPropagation'];
+  @Input() touchStartPreventDefault: SwiperOptions['touchStartPreventDefault'];
+  @Input() touchStartForcePreventDefault: SwiperOptions['touchStartForcePreventDefault'];
+  @Input() touchReleaseOnEdges: SwiperOptions['touchReleaseOnEdges'];
+  @Input() uniqueNavElements: SwiperOptions['uniqueNavElements'];
+  @Input() resistance: SwiperOptions['resistance'];
+  @Input() resistanceRatio: SwiperOptions['resistanceRatio'];
+  @Input() watchSlidesProgress: SwiperOptions['watchSlidesProgress'];
+  @Input() watchSlidesVisibility: SwiperOptions['watchSlidesVisibility'];
+  @Input() grabCursor: SwiperOptions['grabCursor'];
+  @Input() preventClicks: SwiperOptions['preventClicks'];
+  @Input() preventClicksPropagation: SwiperOptions['preventClicksPropagation'];
+  @Input() slideToClickedSlide: SwiperOptions['slideToClickedSlide'];
+  @Input() preloadImages: SwiperOptions['preloadImages'];
+  @Input() updateOnImagesReady: SwiperOptions['updateOnImagesReady'];
+  @Input() loop: SwiperOptions['loop'];
+  @Input() loopAdditionalSlides: SwiperOptions['loopAdditionalSlides'];
+  @Input() loopedSlides: SwiperOptions['loopedSlides'];
+  @Input() loopFillGroupWithBlank: SwiperOptions['loopFillGroupWithBlank'];
+  @Input() loopPreventsSlide: SwiperOptions['loopPreventsSlide'];
+  @Input() allowSlidePrev: SwiperOptions['allowSlidePrev'];
+  @Input() allowSlideNext: SwiperOptions['allowSlideNext'];
+  @Input() swipeHandler: SwiperOptions['swipeHandler'];
+  @Input() noSwiping: SwiperOptions['noSwiping'];
+  @Input() noSwipingClass: SwiperOptions['noSwipingClass'];
+  @Input() noSwipingSelector: SwiperOptions['noSwipingSelector'];
+  @Input() passiveListeners: SwiperOptions['passiveListeners'];
+  @Input() containerModifierClass: SwiperOptions['containerModifierClass'];
+  @Input() slideClass: SwiperOptions['slideClass'] = 'swiper-slide';
+  @Input() slideBlankClass: SwiperOptions['slideBlankClass'];
+  @Input() slideActiveClass: SwiperOptions['slideActiveClass'];
+  @Input() slideDuplicateActiveClass: SwiperOptions['slideDuplicateActiveClass'];
+  @Input() slideVisibleClass: SwiperOptions['slideVisibleClass'];
+  @Input() slideDuplicateClass: SwiperOptions['slideDuplicateClass'];
+  @Input() slideNextClass: SwiperOptions['slideNextClass'];
+  @Input() slideDuplicateNextClass: SwiperOptions['slideDuplicateNextClass'];
+  @Input() slidePrevClass: SwiperOptions['slidePrevClass'];
+  @Input() slideDuplicatePrevClass: SwiperOptions['slideDuplicatePrevClass'];
+  @Input() wrapperClass: SwiperOptions['wrapperClass'] = 'swiper-wrapper';
+  @Input() runCallbacksOnInit: SwiperOptions['runCallbacksOnInit'];
+  @Input() a11y: SwiperOptions['a11y'];
+  @Input() autoplay: SwiperOptions['autoplay'];
+  @Input() controller: SwiperOptions['controller'];
+  @Input() coverflowEffect: SwiperOptions['coverflowEffect'];
+  @Input() cubeEffect: SwiperOptions['cubeEffect'];
+  @Input() fadeEffect: SwiperOptions['fadeEffect'];
+  @Input() flipEffect: SwiperOptions['flipEffect'];
+  @Input() hashNavigation: SwiperOptions['hashNavigation'];
+  @Input() history: SwiperOptions['history'];
+  @Input() keyboard: SwiperOptions['keyboard'];
+  @Input() lazy: SwiperOptions['lazy'];
+  @Input() mousewheel: SwiperOptions['mousewheel'];
+  @Input() parallax: SwiperOptions['parallax'];
+  @Input() thumbs: SwiperOptions['thumbs'];
+  @Input() zoom: SwiperOptions['zoom'];
   @Input()
   set navigation(val) {
     this._navigation = setProperty(val, {
@@ -169,7 +157,7 @@ export class SwiperComponent implements OnInit {
   get navigation() {
     return this._navigation;
   }
-  private _navigation: NavigationOptions | false;
+  private _navigation: NavigationOptions;
 
   @Input()
   set pagination(val) {
@@ -180,8 +168,7 @@ export class SwiperComponent implements OnInit {
   get pagination() {
     return this._pagination;
   }
-  private _pagination: PaginationOptions | false;
-  @Input() parallax: boolean;
+  private _pagination: PaginationOptions;
 
   @Input()
   set scrollbar(val) {
@@ -192,7 +179,7 @@ export class SwiperComponent implements OnInit {
   get scrollbar() {
     return this._scrollbar;
   }
-  private _scrollbar: ScrollbarOptions | false;
+  private _scrollbar: ScrollbarOptions;
 
   @Input()
   set virtual(val) {
@@ -201,9 +188,7 @@ export class SwiperComponent implements OnInit {
   get virtual() {
     return this._virtual;
   }
-  private _virtual: VirtualOptions | false;
-  @Input() thumbs: ThumbsOptions;
-  @Input() zoom: ZoomOptions | boolean;
+  private _virtual: SwiperOptions['virtual'];
   // prettier-ignore
   @Output('_beforeBreakpoint') s__beforeBreakpoint: EventEmitter<SwiperEvents['_beforeBreakpoint']> = new EventEmitter<any>();
   // prettier-ignore
@@ -483,8 +468,9 @@ export class SwiperComponent implements OnInit {
   }
 
   style: any = null;
-  currentVirtualData: VirtualData;
-  private updateVirtualSlides(virtualData: VirtualData) {
+  currentVirtualData: any; // TODO: type virtualData;
+  private updateVirtualSlides(virtualData: any) {
+    // TODO: type virtualData
     if (
       !this.swiperRef ||
       (this.currentVirtualData &&
