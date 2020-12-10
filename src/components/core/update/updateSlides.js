@@ -34,7 +34,7 @@ export default function updateSlides() {
   }
 
   const previousSnapGridLength = swiper.snapGrid.length;
-  const previousSlidesGridLength = swiper.snapGrid.length;
+  const previousSlidesGridLength = swiper.slidesGrid.length;
 
   let spaceBetween = params.spaceBetween;
   let slidePosition = -offsetBefore;
