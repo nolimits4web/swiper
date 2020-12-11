@@ -43,20 +43,34 @@ The result is available in `build/` folder.
 ### Running demos:
 
 **Core:**
+
 folder: `./playground/`
+
 `$ npm run dev`
 
 **React:**
+
 folder: `./playground-react/`
+
 `$ npm run react:dev`
 
 **Vue:**
+
 folder: `./playground-vue/`
+
 `$ npm run vue:dev`
 
 **Svelte:**
+
 folder: `./playground-svelte/`
-`npm run svelte:dev`
+
+`$ npm run svelte:dev`
+
+**Angular:**
+
+folder: `./playground-angular/`
+
+`$ npm run angular:dev` or `$ ng serve`
 
 ### Production Build
 
