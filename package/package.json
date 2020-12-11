@@ -18,7 +18,7 @@
     "swiper-bundle.esm.js"
   ],
   "scripts": {
-    "postinstall": "node postinstall.js"
+    "postinstall": "echo \"\u001b[35m\u001b[1mLove Swiper? Support Vladimir's work by donating or pledging on patreon:\u001b[22m\u001b[39m \" && echo \"> \u001b[32mhttps://patreon.com/vladimirkharlampidi\u001b[0m\""
   },
   "repository": {
     "type": "git",
