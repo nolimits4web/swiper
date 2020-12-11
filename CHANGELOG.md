@@ -1,5 +1,9 @@
 # Changelog
 
+## [Swiper 6.4.1](https://github.com/nolimits4web/swiper/compare/v6.4.0...v6.4.1) - Released on December 9th, 2020
+
+- Fixed types errors introduced in `6.4.0`
+
 ## [Swiper 6.4.0](https://github.com/nolimits4web/swiper/compare/v6.3.5...v6.4.0) - Released on December 8th, 2020
 
 - All new Swiper Angular components (kudos to @vltansky) 🎉

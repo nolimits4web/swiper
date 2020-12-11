@@ -210,19 +210,19 @@ export interface SwiperEvents {
   /**
    * !INTERNAL: Event will fired right before breakpoint change
    */
-  _beforeBreakpoint: (swiper: Swiper, breakpointParams: SwiperOptions) => void;
+  _beforeBreakpoint?: (swiper: Swiper, breakpointParams: SwiperOptions) => void;
   /**
    * !INTERNAL: Event will fired after setting CSS classes on swiper container element
    */
-  _containerClasses: (swiper: Swiper, classNames: string) => void;
+  _containerClasses?: (swiper: Swiper, classNames: string) => void;
   /**
    * INTERNAL: Event will fired after setting CSS classes on swiper slide element
    */
-  _slideClass: (swiper: Swiper, el: HTMLElement, classNames: string) => void;
+  _slideClass?: (swiper: Swiper, el: HTMLElement, classNames: string) => void;
   /**
    * INTERNAL: Event will fired as soon as swiper instance available (before init)
    */
-  _swiper: (swiper: Swiper) => void;
+  _swiper?: (swiper: Swiper) => void;
   /**
    * Event will fired on active index change
    */

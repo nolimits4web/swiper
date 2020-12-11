@@ -369,7 +369,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
 
   isHorizontal(): boolean;
 
-  getBreakpoint(breakpoints): string;
+  getBreakpoint(breakpoints: SwiperOptions['breakpoints']): string;
 
   setBreakpoint(): void;
 
