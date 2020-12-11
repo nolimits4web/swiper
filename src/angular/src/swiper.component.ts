@@ -25,8 +25,8 @@ import {
   NavigationOptions,
   PaginationOptions,
   ScrollbarOptions,
+  VirtualOptions,
 } from 'swiper/types';
-import { VirtualOptions } from 'build/types';
 @Component({
   selector: 'swiper, [swiper]',
   templateUrl: './swiper.component.html',
@@ -189,7 +189,7 @@ export class SwiperComponent implements OnInit {
   get virtual() {
     return this._virtual;
   }
-  private _virtual: SwiperOptions['virtual'];
+  private _virtual: VirtualOptions | boolean;
 
   @Input()
   set config(val: SwiperOptions) {
