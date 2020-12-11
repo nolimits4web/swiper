@@ -189,6 +189,13 @@ export class SwiperComponent implements OnInit {
     return this._virtual;
   }
   private _virtual: SwiperOptions['virtual'];
+
+  @Input()
+  set config(val: SwiperOptions) {
+    this.updateSwiper(val);
+    const { params } = getParams(val);
+    Object.assign(this, params);
+  }
   // prettier-ignore
   @Output('_beforeBreakpoint') s__beforeBreakpoint: EventEmitter<SwiperEvents['_beforeBreakpoint']> = new EventEmitter<any>();
   // prettier-ignore
@@ -573,7 +580,10 @@ export class SwiperComponent implements OnInit {
     this.swiperRef.update();
   }
 
-  updateSwiper(changedParams: SimpleChanges) {
+  updateSwiper(changedParams: SimpleChanges | any) {
+    if (changedParams.config) {
+      return;
+    }
     if (!(changedParams && this.swiperRef && !this.swiperRef.destroyed)) {
       return;
     }
@@ -581,7 +591,8 @@ export class SwiperComponent implements OnInit {
       if (ignoreNgOnChanges.indexOf(key) >= 0) {
         continue;
       }
-      this.updateParameter(key, changedParams[key].currentValue);
+      const newValue = changedParams[key]?.currentValue ?? changedParams[key];
+      this.updateParameter(key, newValue);
     }
 
     if (changedParams.allowSlideNext) {
