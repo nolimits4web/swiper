@@ -14,6 +14,7 @@ custom
 package/cjs
 package/components
 package/esm
+!package/postinstall.js
 package/types
 package/**/*.js
 package/**/*.map
