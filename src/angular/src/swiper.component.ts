@@ -27,6 +27,7 @@ import {
   PaginationOptions,
   ScrollbarOptions,
 } from 'swiper/types';
+import { VirtualOptions } from 'build/types';
 @Component({
   selector: 'swiper, [swiper]',
   templateUrl: './swiper.component.html',
@@ -158,7 +159,7 @@ export class SwiperComponent implements OnInit {
   get navigation() {
     return this._navigation;
   }
-  private _navigation: NavigationOptions;
+  private _navigation: NavigationOptions | boolean;
 
   @Input()
   set pagination(val) {
@@ -169,7 +170,7 @@ export class SwiperComponent implements OnInit {
   get pagination() {
     return this._pagination;
   }
-  private _pagination: PaginationOptions;
+  private _pagination: PaginationOptions | boolean;
 
   @Input()
   set scrollbar(val) {
@@ -180,7 +181,7 @@ export class SwiperComponent implements OnInit {
   get scrollbar() {
     return this._scrollbar;
   }
-  private _scrollbar: ScrollbarOptions;
+  private _scrollbar: ScrollbarOptions | boolean;
 
   @Input()
   set virtual(val) {
@@ -194,6 +195,12 @@ export class SwiperComponent implements OnInit {
   @Input()
   set index(index: number) {
     this.setIndex(index);
+  }
+  @Input()
+  set config(val: SwiperOptions) {
+    this.updateSwiper(val);
+    const { params } = getParams(val);
+    Object.assign(this, params);
   }
   // prettier-ignore
   @Output('_beforeBreakpoint') s__beforeBreakpoint: EventEmitter<SwiperEvents['_beforeBreakpoint']> = new EventEmitter<any>();
@@ -534,7 +541,13 @@ export class SwiperComponent implements OnInit {
     } = this.swiperRef;
 
     if (changedParams.pagination) {
-      if (this.pagination && this.pagination.el && pagination && !pagination.el) {
+      if (
+        this.pagination &&
+        typeof this.pagination !== 'boolean' &&
+        this.pagination.el &&
+        pagination &&
+        !pagination.el
+      ) {
         this.updateParameter('pagination', this.pagination);
         pagination.init();
         pagination.render();
@@ -546,7 +559,13 @@ export class SwiperComponent implements OnInit {
     }
 
     if (changedParams.scrollbar) {
-      if (this.scrollbar && this.scrollbar.el && scrollbar && !scrollbar.el) {
+      if (
+        this.scrollbar &&
+        typeof this.scrollbar !== 'boolean' &&
+        this.scrollbar.el &&
+        scrollbar &&
+        !scrollbar.el
+      ) {
         this.updateParameter('scrollbar', this.scrollbar);
         scrollbar.init();
         scrollbar.updateSize();
@@ -560,6 +579,7 @@ export class SwiperComponent implements OnInit {
     if (changedParams.navigation) {
       if (
         this.navigation &&
+        typeof this.navigation !== 'boolean' &&
         this.navigation.prevEl &&
         this.navigation.nextEl &&
         navigation &&
@@ -588,7 +608,10 @@ export class SwiperComponent implements OnInit {
     this.swiperRef.update();
   }
 
-  updateSwiper(changedParams: SimpleChanges) {
+  updateSwiper(changedParams: SimpleChanges | any) {
+    if (changedParams.config) {
+      return;
+    }
     if (!(changedParams && this.swiperRef && !this.swiperRef.destroyed)) {
       return;
     }
@@ -596,7 +619,8 @@ export class SwiperComponent implements OnInit {
       if (ignoreNgOnChanges.indexOf(key) >= 0) {
         continue;
       }
-      this.updateParameter(key, changedParams[key].currentValue);
+      const newValue = changedParams[key]?.currentValue ?? changedParams[key];
+      this.updateParameter(key, newValue);
     }
 
     if (changedParams.allowSlideNext) {
