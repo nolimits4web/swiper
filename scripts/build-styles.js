@@ -8,7 +8,7 @@ const fse = require('./utils/fs-extra.js');
 const less = require('./utils/less.js');
 const autoprefixer = require('./utils/autoprefixer.js');
 const cleanCSS = require('./utils/clean-css.js');
-const banner = require('./banner.js');
+const banner = require('./banner')();
 
 const config = require('./build-config.js');
 

@@ -109,6 +109,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-svelte3": "^2.7.3",
     "exec-sh": "^0.3.4",
+    "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
     "html-webpack-plugin": "^4.5.0",
     "husky": "^4.3.5",

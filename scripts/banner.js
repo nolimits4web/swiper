@@ -8,9 +8,10 @@ const date = {
   year: new Date().getFullYear(),
 };
 
-module.exports = `${`
+module.exports = (name = null) =>
+  `${`
 /**
- * Swiper ${pkg.version}
+ * Swiper ${name ? `${name} ` : ''}${pkg.version}
  * ${pkg.description}
  * ${pkg.homepage}
  *

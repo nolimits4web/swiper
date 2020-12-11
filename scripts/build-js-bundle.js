@@ -9,7 +9,7 @@ const { default: resolve } = require('@rollup/plugin-node-resolve');
 const Terser = require('terser');
 
 const config = require('./build-config.js');
-const banner = require('./banner.js');
+const banner = require('./banner')();
 
 function buildBundle(components, format, browser, cb) {
   const env = process.env.NODE_ENV || 'development';
