@@ -8,7 +8,7 @@ const replace = require('@rollup/plugin-replace');
 const { default: resolve } = require('@rollup/plugin-node-resolve');
 
 const config = require('./build-config.js');
-const banner = require('./banner.js');
+const banner = require('./banner')();
 
 async function buildCore(components, format, cb) {
   const env = process.env.NODE_ENV || 'development';

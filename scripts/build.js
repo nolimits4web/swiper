@@ -7,15 +7,21 @@ const buildSvelte = require('./build-svelte');
 const buildStyles = require('./build-styles');
 const buildAngular = require('./build-angular');
 
-const build = () => {
-  buildJsBundle();
-  buildJsCore();
-  buildTypes();
-  buildReact();
-  buildVue();
-  buildSvelte();
-  buildStyles();
-  buildAngular();
-};
-
-build();
+const formats = ['esm', 'cjs'];
+(async () => {
+  const env = process.env.NODE_ENV || 'development';
+  const outputDir = env === 'development' ? 'build' : 'package';
+  return Promise.all([
+    buildJsBundle(),
+    buildJsCore(),
+    buildTypes(),
+    Promise.all(formats.map((format) => buildReact(format, outputDir))),
+    Promise.all(formats.map((format) => buildVue(format, outputDir))),
+    Promise.all(formats.map((format) => buildSvelte(format, outputDir))),
+    buildStyles(),
+    buildAngular(),
+  ]).catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+})();
