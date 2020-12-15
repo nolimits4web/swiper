@@ -14,7 +14,6 @@ custom
 package/cjs
 package/components
 package/esm
-!package/postinstall.js
 package/types
 package/**/*.js
 package/**/*.map
@@ -28,3 +27,4 @@ package/*.map
 package/*.less
 package/*.scss
 package/*.svelte
+!package/postinstall.js
