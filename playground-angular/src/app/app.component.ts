@@ -15,6 +15,7 @@ export class AppComponent {
     SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Virtual]);
   }
 
+  indexNumber = 1;
   exampleConfig = { slidesPerView: 3 };
   slidesPerView: number = 4;
   pagination: any = false;
