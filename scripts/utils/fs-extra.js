@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 
 const fsExtra = {
@@ -12,29 +12,18 @@ const fsExtra = {
     return fs.readdirSync(dir);
   },
   mkdirSync(dir) {
-    if (fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-      return;
-    }
-    dir.split(path.sep).forEach((part, index) => {
-      if (!part) return;
-      const partialPath = dir
-        .split(path.sep)
-        .slice(0, index + 1)
-        .join(path.sep);
-      if (!fs.existsSync(partialPath)) {
-        fs.mkdirSync(partialPath);
-      }
-    });
+    return fs.mkdirSync(dir);
   },
   readFileSync(file) {
     return fs.readFileSync(file, 'utf8');
   },
   writeFileSync(file, content) {
-    if (!fs.existsSync(path.dirname(file))) {
-      fsExtra.mkdirSync(path.dirname(file));
-    }
+    fs.ensureDirSync(path.dirname(file));
     return fs.writeFileSync(file, content);
+  },
+  async writeFile(file, content) {
+    await fs.ensureDir(path.dirname(file));
+    return fs.writeFile(file, content);
   },
 };
 

@@ -18,7 +18,7 @@ const formats = ['esm', 'cjs'];
     Promise.all(formats.map((format) => buildReact(format, outputDir))),
     Promise.all(formats.map((format) => buildVue(format, outputDir))),
     Promise.all(formats.map((format) => buildSvelte(format, outputDir))),
-    buildStyles(),
+    buildStyles(outputDir),
     buildAngular(),
   ]).catch((err) => {
     console.error(err);

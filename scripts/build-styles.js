@@ -1,44 +1,68 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 /* eslint no-console: "off" */
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
-const glob = require('glob');
-const fse = require('./utils/fs-extra.js');
-const less = require('./utils/less.js');
-const autoprefixer = require('./utils/autoprefixer.js');
-const cleanCSS = require('./utils/clean-css.js');
+const globby = require('globby');
+const chalk = require('chalk');
+const less = require('./utils/less');
+const autoprefixer = require('./utils/autoprefixer');
+const minifyCSS = require('./utils/clean-css');
 const banner = require('./banner')();
+const config = require('./build-config');
 
-const config = require('./build-config.js');
-
-function base64Encode(file) {
+const base64Encode = async (file) => {
   // read binary data
-  const bitmap = fs.readFileSync(file);
+  const bitmap = await fs.readFile(file);
   // convert binary data to base64 encoded string
   return Buffer.from(bitmap).toString('base64');
-}
+};
 
-async function build(cb) {
+const readSwiperFile = async (filePath, iconsFontBase64, colors) => {
+  const fileContent = await fs.readFile(filePath, 'utf-8');
+  if (filePath.includes('swiper.less')) {
+    const coreContent = fs.readFileSync(
+      path.resolve(__dirname, '../src/components/core/core.less'),
+      'utf-8',
+    );
+    return fileContent
+      .replace('swiperIconsFont()', `'${iconsFontBase64}'`)
+      .replace('$themeColor', config.themeColor)
+      .replace('$colors', colors.join(', '))
+      .replace('//IMPORT_COMPONENTS', '')
+      .replace(`@import url('./less/mixins.less');`, '')
+      .replace(`@import url('./components/core/core.less');`, coreContent);
+  }
+  if (filePath.includes('swiper-vars.less')) {
+    return fileContent
+      .replace('$themeColor', config.themeColor)
+      .replace('$colors', colors.join(', '));
+  }
+  if (filePath.includes('navigation.less') || filePath.includes('pagination.less')) {
+    return ["@import url('../../swiper-vars.less');", fileContent].join('\n\n');
+  }
+  if (filePath.includes('swiper.scss')) {
+    const coreContent = await fs.readFile(
+      path.resolve(__dirname, '../src/components/core/core.scss'),
+      'utf-8',
+    );
+    return fileContent
+      .replace(`@import './components/core/core';`, coreContent)
+      .replace('//IMPORT_COMPONENTS', '');
+  }
+  return fileContent;
+};
+
+module.exports = async (outputDir) => {
   const env = process.env.NODE_ENV || 'development';
-  const outputDir = env === 'development' ? 'build' : 'package';
 
-  const components = [];
-  config.components.forEach((name) => {
+  const components = config.components.filter((name) => {
     const lessFilePath = `./src/components/${name}/${name}.less`;
-
-    if (fs.existsSync(lessFilePath)) {
-      components.push(name);
-    }
+    return fs.existsSync(lessFilePath);
   });
+  const colors = Object.keys(config.colors).map((key) => `${key} ${config.colors[key]}`);
 
-  const colors = [];
-
-  Object.keys(config.colors).forEach((key) => {
-    colors.push(`${key} ${config.colors[key]}`);
-  });
-
-  let lessContent = fs.readFileSync(path.resolve(__dirname, '../src/swiper.less'), 'utf8');
+  let lessContent = await fs.readFile(path.resolve(__dirname, '../src/swiper.less'), 'utf8');
   lessContent = lessContent
     .replace(
       '//IMPORT_COMPONENTS',
@@ -49,75 +73,69 @@ async function build(cb) {
     .replace('$themeColor', config.themeColor)
     .replace('$colors', colors.join(', '));
 
-  let cssContent;
-  try {
-    cssContent = await autoprefixer(await less(lessContent, path.resolve(__dirname, '../src')));
-  } catch (err) {
-    console.log(err);
-  }
+  const cssContent = await autoprefixer(
+    await less(lessContent, path.resolve(__dirname, '../src')),
+  ).catch((err) => {
+    throw err;
+  });
 
   // Write file
-  fse.writeFileSync(`./${outputDir}/swiper-bundle.css`, `${banner}\n${cssContent}`);
+  await fs.ensureDir(`./${outputDir}`);
+  await fs.writeFile(`./${outputDir}/swiper-bundle.css`, `${banner}\n${cssContent}`);
 
   if (env === 'development') {
-    if (cb) cb();
     return;
   }
 
+  const minifiedContent = await minifyCSS(cssContent);
+  await fs.writeFile(`./${outputDir}/swiper-bundle.min.css`, `${banner}\n${minifiedContent}`);
+
   // Copy less & scss
-  const iconsFontBase64 = base64Encode('./src/icons/font/swiper-icons.woff');
+  const iconsFontBase64 = await base64Encode('./src/icons/font/swiper-icons.woff');
 
-  glob('**/*.*', { cwd: path.resolve(__dirname, '../src') }, (err, files) => {
-    files.forEach((file, index) => {
-      if (file.indexOf('icons/') === 0) return;
-      if (file.indexOf('/core/') >= 0) return;
-      if (file.indexOf('angular/src') >= 0) return;
-      if (file.indexOf('.js') >= 0) return;
-      if (file.indexOf('.ts') >= 0) return;
-      if (file.indexOf('mixins.less') >= 0) return;
-      let fileContent = fse.readFileSync(path.resolve(__dirname, '../src', file));
-      if (file.indexOf('swiper.less') >= 0) {
-        const coreContent = fs.readFileSync(
-          path.resolve(__dirname, '../src/components/core/core.less'),
-          'utf-8',
-        );
-        fileContent = fileContent
-          .replace('swiperIconsFont()', `'${iconsFontBase64}'`)
-          .replace('$themeColor', config.themeColor)
-          .replace('$colors', colors.join(', '))
-          .replace('//IMPORT_COMPONENTS', '')
-          .replace(`@import url('./less/mixins.less');`, '')
-          .replace(`@import url('./components/core/core.less');`, coreContent);
-      }
-      if (file.indexOf('swiper-vars.less') >= 0) {
-        fileContent = fileContent
-          .replace('$themeColor', config.themeColor)
-          .replace('$colors', colors.join(', '));
-      }
-      if (file.indexOf('navigation.less') >= 0 || file.indexOf('pagination.less') >= 0) {
-        fileContent = ["@import url('../../swiper-vars.less');", fileContent].join('\n\n');
-      }
-      if (file.indexOf('swiper.scss') >= 0) {
-        const coreContent = fs.readFileSync(
-          path.resolve(__dirname, '../src/components/core/core.scss'),
-          'utf-8',
-        );
-        fileContent = fileContent
-          .replace(`@import './components/core/core';`, coreContent)
-          .replace('//IMPORT_COMPONENTS', '');
-      }
+  const files = await globby(
+    [
+      '**/**.scss',
+      '**/**.less',
+      '!**/mixins.less',
+      '!**/icons/**',
+      '!**/angular/**',
+      '!**/core/**',
+    ],
+    {
+      cwd: path.resolve(__dirname, '../src'),
+    },
+  );
+  await Promise.all(
+    files.map(async (file) => {
+      const distFilePath = path.resolve(__dirname, `../${outputDir}`, file);
+      const srcFilePath = path.resolve(__dirname, '../src', file);
+      const distFileContent = await readSwiperFile(srcFilePath, iconsFontBase64, colors);
+      await fs.ensureDir(path.dirname(distFilePath));
+      await fs.writeFile(distFilePath, distFileContent);
+    }),
+  );
 
-      fse.writeFileSync(path.resolve(__dirname, `../${outputDir}`, file), fileContent);
-      if (index === files.length - 1) cb();
-    });
+  const componentsLessFiles = await globby(['**/**.less'], {
+    cwd: path.resolve(__dirname, '../package/components'),
+    absolute: true,
   });
+  await Promise.all(
+    componentsLessFiles.map(async (filePath) => {
+      const fileContent = await fs.readFile(filePath, 'utf-8');
 
-  // Minified
-  const minifiedContent = await cleanCSS(cssContent);
+      const content = fileContent.replace('@themeColor', config.themeColor);
+      const lessContent = await less(content, path.dirname(filePath)).catch((err) => {
+        throw new Error(`${filePath}: ${err}`);
+      });
+      const resultCSS = await autoprefixer(lessContent);
+      const resultFilePath = filePath.replace(/\.less$/, '');
+      const minifiedCSS = await minifyCSS(resultCSS);
 
-  // Write file
-  fse.writeFileSync(`./${outputDir}/swiper-bundle.min.css`, `${banner}\n${minifiedContent}`);
-
-  if (cb) cb();
-}
-module.exports = build;
+      // not sure if needed. Possibly can produce a bug cause of the same naming
+      // await fs.writeFile(`${resultFilePath}.css`, resultCSS);
+      await fs.writeFile(`${resultFilePath}.min.css`, minifiedCSS);
+    }),
+  );
+  console.log(chalk.green('Styles build completed!'));
+};
