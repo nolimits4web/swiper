@@ -38,4 +38,15 @@ module.exports = async (format, outputDir) => {
   });
   swiperSlide = swiperSlideResult.js.code;
   await fs.writeFile(`./${outputDir}/${format}/svelte/swiper-slide.js`, swiperSlide);
+  await fs.copyFile('./src/svelte/swiper.svelte', `./${outputDir}/${format}/svelte/swiper.svelte`);
+  await fs.copyFile(
+    './src/svelte/swiper-slide.svelte',
+    `./${outputDir}/${format}/svelte/swiper-slide.svelte`,
+  );
+  try {
+    await fs.remove(`./${outputDir}/svelte/swiper-slide.svelte`);
+    await fs.remove(`./${outputDir}/svelte/swiper.svelte`);
+  } catch (err) {
+    // no files
+  }
 };
