@@ -1,6 +1,6 @@
 # Changelog
 
-## [Swiper 6.4.2](https://github.com/nolimits4web/swiper/compare/v6.4.1...v6.4.2) - Released on December 18th, 2020
+## [Swiper 6.4.3](https://github.com/nolimits4web/swiper/compare/v6.4.1...v6.4.3) - Released on December 18th, 2020
 
 - Fixed issue with `postinstall` script
 - Now `.css` files are also available for all components
