@@ -7,3 +7,4 @@ package
 src/swiper.js
 src/angular
 playground-angular
+postinstall.js

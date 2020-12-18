@@ -1,6 +1,6 @@
 {
   "name": "swiper-src",
-  "version": "6.4.4",
+  "version": "6.4.5",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development node scripts/build",

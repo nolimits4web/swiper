@@ -77,8 +77,7 @@ async function release() {
   );
 
   const cleanPackage = [
-    'rm -rf **/*.js',
-    'rm -rf *.js',
+    "find **/*.js -type f -not -name 'postinstall.js' -print0 | xargs -0  -I {} rm -v {}",
     'rm -rf **/*.ts',
     'rm -rf *.ts',
     'rm -rf **/*.css',
