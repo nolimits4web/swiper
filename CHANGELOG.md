@@ -1,6 +1,6 @@
 # Changelog
 
-## [Swiper 6.4.5](https://github.com/nolimits4web/swiper/compare/v6.4.4...v6.4.4) - Released on December 18th, 2020
+## [Swiper 6.4.5](https://github.com/nolimits4web/swiper/compare/v6.4.4...v6.4.5) - Released on December 18th, 2020
 
 - Fixed issue with `postinstall` script
 
