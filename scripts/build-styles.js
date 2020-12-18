@@ -53,22 +53,16 @@ const readSwiperFile = async (filePath, iconsFontBase64, colors) => {
   return fileContent;
 };
 
-module.exports = async (outputDir) => {
-  const env = process.env.NODE_ENV || 'development';
-
-  const components = config.components.filter((name) => {
-    const lessFilePath = `./src/components/${name}/${name}.less`;
-    return fs.existsSync(lessFilePath);
-  });
-  const colors = Object.keys(config.colors).map((key) => `${key} ${config.colors[key]}`);
-
+const buildCSS = async ({ isBundle, colors, components, minified, outputDir }) => {
   let lessContent = await fs.readFile(path.resolve(__dirname, '../src/swiper.less'), 'utf8');
   lessContent = lessContent
     .replace(
       '//IMPORT_COMPONENTS',
-      components
-        .map((component) => `@import url('./components/${component}/${component}.less');`)
-        .join('\n'),
+      !isBundle
+        ? ''
+        : components
+            .map((component) => `@import url('./components/${component}/${component}.less');`)
+            .join('\n'),
     )
     .replace('$themeColor', config.themeColor)
     .replace('$colors', colors.join(', '));
@@ -79,16 +73,35 @@ module.exports = async (outputDir) => {
     throw err;
   });
 
+  const fileName = isBundle ? 'swiper-bundle' : 'swiper';
+
   // Write file
   await fs.ensureDir(`./${outputDir}`);
-  await fs.writeFile(`./${outputDir}/swiper-bundle.css`, `${banner}\n${cssContent}`);
+  if (isBundle) {
+    await fs.writeFile(`./${outputDir}/${fileName}.css`, `${banner}\n${cssContent}`);
+  }
+
+  if (minified || !isBundle) {
+    const minifiedContent = await minifyCSS(cssContent);
+    await fs.writeFile(`./${outputDir}/${fileName}.min.css`, `${banner}\n${minifiedContent}`);
+  }
+};
+
+module.exports = async (outputDir) => {
+  const env = process.env.NODE_ENV || 'development';
+
+  const components = config.components.filter((name) => {
+    const lessFilePath = `./src/components/${name}/${name}.less`;
+    return fs.existsSync(lessFilePath);
+  });
+  const colors = Object.keys(config.colors).map((key) => `${key} ${config.colors[key]}`);
+
+  buildCSS({ isBundle: true, colors, components, minified: env !== 'development', outputDir });
+  buildCSS({ isBundle: false, colors, components, minified: env !== 'development', outputDir });
 
   if (env === 'development') {
     return;
   }
-
-  const minifiedContent = await minifyCSS(cssContent);
-  await fs.writeFile(`./${outputDir}/swiper-bundle.min.css`, `${banner}\n${minifiedContent}`);
 
   // Copy less & scss
   const iconsFontBase64 = await base64Encode('./src/icons/font/swiper-icons.woff');
