@@ -15,6 +15,7 @@ package/cjs
 package/components
 package/esm
 package/types
+!package/types/package.json
 package/**/*.js
 package/**/*.map
 package/**/*.metadata.json
