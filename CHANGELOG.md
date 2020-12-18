@@ -1,5 +1,17 @@
 # Changelog
 
+## [Swiper 6.4.2](https://github.com/nolimits4web/swiper/compare/v6.4.1...v6.4.2) - Released on December 18th, 2020
+
+- Fixed issue with `postinstall` script
+- Now `.css` files are also available for all components
+- Svelte
+  - Fixed issue with wrong location of `.svelte` files in package
+- Angular
+  - Types fixes
+  - Added `[config]` support to pass all Swiper params as single object (https://github.com/nolimits4web/swiper/commit/f7d21c5f49860fdca62a31ccb62b01a790fd0df3)
+  - Added `(index)` active slide binding (https://github.com/nolimits4web/swiper/commit/86670bd7c1b95268919147662383804e664011a7)
+- Minor fixes
+
 ## [Swiper 6.4.1](https://github.com/nolimits4web/swiper/compare/v6.4.0...v6.4.1) - Released on December 9th, 2020
 
 - Fixed types errors introduced in `6.4.0`
