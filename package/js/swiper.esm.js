@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: June 16, 2020
+ * Released on: December 20, 2020
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition as transition$1, on, off, trigger, transitionEnd as transitionEnd$1, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, filter, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -1377,7 +1377,7 @@ function slideNext (speed = this.params.speed, runCallbacks = true, internal) {
   const { params, animating } = swiper;
   const increment = swiper.activeIndex < params.slidesPerGroupSkip ? 1 : params.slidesPerGroup;
   if (params.loop) {
-    if (animating) return false;
+    if (animating && params.loopPreventsSlide) return false;
     swiper.loopFix();
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
@@ -1393,7 +1393,7 @@ function slidePrev (speed = this.params.speed, runCallbacks = true, internal) {
   } = swiper;
 
   if (params.loop) {
-    if (animating) return false;
+    if (animating && params.loopPreventsSlide) return false;
     swiper.loopFix();
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
@@ -3003,6 +3003,7 @@ var defaults = {
   loopAdditionalSlides: 0,
   loopedSlides: null,
   loopFillGroupWithBlank: false,
+  loopPreventsSlide: true,
 
   // Swiping/no swiping
   allowSlidePrev: true,

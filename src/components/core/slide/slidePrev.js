@@ -6,7 +6,7 @@ export default function (speed = this.params.speed, runCallbacks = true, interna
   } = swiper;
 
   if (params.loop) {
-    if (animating) return false;
+    if (animating && params.loopPreventsSlide) return false;
     swiper.loopFix();
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;

@@ -102,6 +102,7 @@ export default {
   loopAdditionalSlides: 0,
   loopedSlides: null,
   loopFillGroupWithBlank: false,
+  loopPreventsSlide: true,
 
   // Swiping/no swiping
   allowSlidePrev: true,

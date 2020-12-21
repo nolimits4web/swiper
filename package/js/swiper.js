@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: June 16, 2020
+ * Released on: December 20, 2020
  */
 
 (function (global, factory) {
@@ -2298,7 +2298,7 @@
       var animating = swiper.animating;
       var increment = swiper.activeIndex < params.slidesPerGroupSkip ? 1 : params.slidesPerGroup;
       if (params.loop) {
-        if (animating) { return false; }
+        if (animating && params.loopPreventsSlide) { return false; }
         swiper.loopFix();
         // eslint-disable-next-line
         swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
@@ -2319,7 +2319,7 @@
       var rtlTranslate = swiper.rtlTranslate;
 
       if (params.loop) {
-        if (animating) { return false; }
+        if (animating && params.loopPreventsSlide) { return false; }
         swiper.loopFix();
         // eslint-disable-next-line
         swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
@@ -3969,6 +3969,7 @@
       loopAdditionalSlides: 0,
       loopedSlides: null,
       loopFillGroupWithBlank: false,
+      loopPreventsSlide: true,
 
       // Swiping/no swiping
       allowSlidePrev: true,

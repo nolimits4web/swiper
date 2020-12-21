@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: June 16, 2020
+ * Released on: December 20, 2020
  */
 
 /**
@@ -2205,7 +2205,7 @@ function slideNext (speed = this.params.speed, runCallbacks = true, internal) {
   const { params, animating } = swiper;
   const increment = swiper.activeIndex < params.slidesPerGroupSkip ? 1 : params.slidesPerGroup;
   if (params.loop) {
-    if (animating) return false;
+    if (animating && params.loopPreventsSlide) return false;
     swiper.loopFix();
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
@@ -2221,7 +2221,7 @@ function slidePrev (speed = this.params.speed, runCallbacks = true, internal) {
   } = swiper;
 
   if (params.loop) {
-    if (animating) return false;
+    if (animating && params.loopPreventsSlide) return false;
     swiper.loopFix();
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
@@ -3831,6 +3831,7 @@ var defaults = {
   loopAdditionalSlides: 0,
   loopedSlides: null,
   loopFillGroupWithBlank: false,
+  loopPreventsSlide: true,
 
   // Swiping/no swiping
   allowSlidePrev: true,
