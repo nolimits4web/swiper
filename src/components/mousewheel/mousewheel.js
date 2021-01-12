@@ -408,7 +408,7 @@ const Mousewheel = {
       swiper.wrapperEl.removeEventListener(event, swiper.mousewheel.handle);
       return true;
     }
-    if (!event) return false;
+    if (!event || swiper.isLocked) return false;
     if (swiper.mousewheel.enabled) return false;
     let target = swiper.$el;
     if (swiper.params.mousewheel.eventsTarget !== 'container') {
