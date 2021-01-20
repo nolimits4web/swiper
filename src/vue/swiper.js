@@ -1,7 +1,7 @@
 import { h, ref, onMounted, onUpdated, onBeforeUnmount, watch } from 'vue';
 import { getParams } from './get-params';
 import { initSwiper } from './init-swiper';
-import { needsScrollbar, needsNavigation, needsPagination, uniqueClasses } from './utils';
+import { needsScrollbar, needsNavigation, needsPagination, uniqueClasses, extend } from './utils';
 import { renderLoop, calcLoopedSlides } from './loop';
 import { getChangedParams } from './get-changed-params';
 import { getChildren } from './get-children';
@@ -257,11 +257,15 @@ const Swiper = {
         swiperRef.value = swiper;
         if (swiper.virtual && swiper.params.virtual.enabled) {
           swiper.virtual.slides = slidesRef.value;
-          swiper.params.virtual.cache = false;
-          swiper.params.virtual.renderExternal = (data) => {
-            virtualData.value = data;
+          const extendWith = {
+            cache: false,
+            renderExternal: (data) => {
+              virtualData.value = data;
+            },
+            renderExternalUpdate: false,
           };
-          swiper.params.virtual.renderExternalUpdate = false;
+          extend(swiper.params.virtual, extendWith);
+          extend(swiper.originalParams.virtual, extendWith);
         }
       },
     });

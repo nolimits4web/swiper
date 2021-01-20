@@ -9,7 +9,7 @@
   } from 'svelte';
   import { getParams } from './get-params';
   import { initSwiper } from './init-swiper';
-  import { needsScrollbar, needsNavigation, needsPagination, uniqueClasses } from './utils';
+  import { needsScrollbar, needsNavigation, needsPagination, uniqueClasses, extend } from './utils';
   import { getChangedParams } from './get-changed-params';
   import { updateSwiper } from './update-swiper';
 
@@ -80,14 +80,18 @@
     _swiper(_swiper) {
       swiperInstance = _swiper;
       if (_swiper.virtual && _swiper.params.virtual.enabled) {
-        _swiper.params.virtual.cache = false;
-        _swiper.params.virtual.renderExternalUpdate = false;
-        _swiper.params.virtual.renderExternal = (data) => {
-          setVirtualData(data);
-          if (swiperParams.virtual && swiperParams.virtual.renderExternal) {
-            swiperParams.virtual.renderExternal(data);
-          }
+        const extendWith = {
+          cache: false,
+          renderExternal: (data) => {
+            setVirtualData(data);
+            if (swiperParams.virtual && swiperParams.virtual.renderExternal) {
+              swiperParams.virtual.renderExternal(data);
+            }
+          },
+          renderExternalUpdate: false,
         };
+        extend(_swiper.params.virtual, extendWith);
+        extend(_swiper.originalParams.virtual, extendWith);
       }
       dispatch('swiper', [_swiper]);
     },

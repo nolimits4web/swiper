@@ -463,11 +463,15 @@ export class SwiperComponent implements OnInit {
         }
         if (swiper.virtual && swiper.params.virtual.enabled) {
           swiper.virtual.slides = this.slides;
-          swiper.params.virtual.cache = false;
-          swiper.params.virtual.renderExternal = (data) => {
-            this.updateVirtualSlides(data);
+          const extendWith = {
+            cache: false,
+            renderExternal: (data) => {
+              this.updateVirtualSlides(data);
+            },
+            renderExternalUpdate: false,
           };
-          swiper.params.virtual.renderExternalUpdate = false;
+          extend(swiper.params.virtual, extendWith);
+          extend(swiper.originalParams.virtual, extendWith);
         }
         this._changeDetectorRef.detectChanges();
       },
