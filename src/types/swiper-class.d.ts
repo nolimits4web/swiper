@@ -262,6 +262,11 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   attachEvents(): void;
 
   /**
+   * Initialize slider
+   */
+  init(): void;
+
+  /**
    * Destroy slider instance and detach all events listeners
    *
    * @param deleteInstance Set it to false (by default it is true) to not to delete Swiper instance
