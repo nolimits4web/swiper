@@ -307,12 +307,12 @@ export interface SwiperOptions {
   touchMoveStopPropagation?: boolean;
 
   /**
-   * Enable to release Swiper events for swipe-to-go-back work in app
+   * Enable to release Swiper events for swipe-back work in app. If set to `'prevent'` then it will prevent system swipe-back navigation instead
    */
   edgeSwipeDetection?: boolean | string;
 
   /**
-   * Area (in px) from left edge of the screen to release touch events for swipe-to-go-back in app
+   * Area (in px) from left edge of the screen to release touch events for swipe-back in app
    */
   edgeSwipeThreshold?: number;
 
