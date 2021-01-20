@@ -1,5 +1,16 @@
 # Changelog
 
+## [Swiper 6.4.6](https://github.com/nolimits4web/swiper/compare/v6.4.5...v6.4.6) - Released on January 20th, 2020
+
+- Core
+  - `edgeSwipeDetection` parameter now can receive string `'prevent'` to prevent system swipe-back navigation
+  - Fixed issue when with decimal `slidesPerView` last slide never received "active" class/state
+  - Cube
+    - Fixed shadow rendering issues in Chrome
+- React/Svelte/Vue/Angular
+  - Fixed rendering issue when virtual slides used with breakpoints
+- Minor fixes
+
 ## [Swiper 6.4.5](https://github.com/nolimits4web/swiper/compare/v6.4.4...v6.4.5) - Released on December 18th, 2020
 
 - Fixed issue with `postinstall` script
