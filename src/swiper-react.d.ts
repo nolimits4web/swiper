@@ -53,7 +53,15 @@ interface SwiperSlide {
 interface Swiper
   extends Omit<
     React.HTMLAttributes<HTMLElement>,
-    'onProgress' | 'onClick' | 'onTouchEnd' | 'onTouchMove' | 'onTouchStart' | 'onTransitionEnd'
+    | 'onProgress'
+    | 'onClick'
+    | 'onTouchEnd'
+    | 'onTouchMove'
+    | 'onTouchStart'
+    | 'onTransitionEnd'
+    | 'onKeyPress'
+    | 'onDoubleClick'
+    | 'onScroll'
   > {}
 interface SwiperSlide extends React.HTMLAttributes<HTMLElement> {}
 
