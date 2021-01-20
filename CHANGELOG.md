@@ -1,6 +1,6 @@
 # Changelog
 
-## [Swiper 6.4.6](https://github.com/nolimits4web/swiper/compare/v6.4.5...v6.4.6) - Released on January 20th, 2020
+## [Swiper 6.4.6](https://github.com/nolimits4web/swiper/compare/v6.4.5...v6.4.6) - Released on January 20th, 2021
 
 - Core
   - `edgeSwipeDetection` parameter now can receive string `'prevent'` to prevent system swipe-back navigation
