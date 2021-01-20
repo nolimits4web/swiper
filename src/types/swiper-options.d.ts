@@ -307,14 +307,14 @@ export interface SwiperOptions {
   touchMoveStopPropagation?: boolean;
 
   /**
-   * Enable to release Swiper events for swipe-to-go-back work in iOS UIWebView
+   * Enable to release Swiper events for swipe-to-go-back work in app
    */
-  iOSEdgeSwipeDetection?: boolean;
+  edgeSwipeDetection?: boolean | string;
 
   /**
-   * Area (in px) from left edge of the screen to release touch events for swipe-to-go-back in iOS UIWebView
+   * Area (in px) from left edge of the screen to release touch events for swipe-to-go-back in app
    */
-  iOSEdgeSwipeThreshold?: number;
+  edgeSwipeThreshold?: number;
 
   /**
    * Enable to release touch events on slider edge position (beginning, end) to allow for further page scrolling

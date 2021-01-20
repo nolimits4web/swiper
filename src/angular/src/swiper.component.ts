@@ -55,7 +55,7 @@ export class SwiperComponent implements OnInit {
   @Input() preventInteractionOnTransition: SwiperOptions['preventInteractionOnTransition'];
   @Input() userAgent: SwiperOptions['userAgent'];
   @Input() url: SwiperOptions['url'];
-  @Input() edgeSwipeDetection: boolean;
+  @Input() edgeSwipeDetection: boolean | string;
   @Input() edgeSwipeThreshold: number;
   @Input() freeMode: SwiperOptions['freeMode'];
   @Input() freeModeMomentum: SwiperOptions['freeModeMomentum'];

@@ -58,7 +58,11 @@ export default function onTouchStart(event) {
     edgeSwipeDetection &&
     (startX <= edgeSwipeThreshold || startX >= window.innerWidth - edgeSwipeThreshold)
   ) {
-    return;
+    if (edgeSwipeDetection === 'prevent') {
+      event.preventDefault();
+    } else {
+      return;
+    }
   }
 
   extend(data, {

@@ -33,7 +33,7 @@ const Swiper = {
     preventInteractionOnTransition: { type: Boolean, default: undefined },
     userAgent: { type: String, default: undefined },
     url: { type: String, default: undefined },
-    edgeSwipeDetection: { type: Boolean, default: undefined },
+    edgeSwipeDetection: { type: [Boolean, String], default: undefined },
     edgeSwipeThreshold: { type: Number, default: undefined },
     freeMode: { type: Boolean, default: undefined },
     freeModeMomentum: { type: Boolean, default: undefined },
