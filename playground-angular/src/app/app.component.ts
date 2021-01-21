@@ -9,6 +9,8 @@ import SwiperCore, {
   Zoom,
 } from '../../../build/core';
 
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Virtual, Zoom]);
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,10 +19,9 @@ import SwiperCore, {
 export class AppComponent {
   @ViewChild('swiperRef', { static: false }) swiperRef?: SwiperComponent;
 
+  show: boolean;
   constructor(private cd: ChangeDetectorRef) {}
-  ngOnInit() {
-    SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Virtual, Zoom]);
-  }
+  ngOnInit() {}
 
   indexNumber = 1;
   exampleConfig = { slidesPerView: 3 };
