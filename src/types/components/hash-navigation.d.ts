@@ -15,7 +15,7 @@ export interface HashNavigationEvents {
 
 export interface HashNavigationOptions {
   /**
-   * Set to true to enable also navigation through slides (when hashnav
+   * Set to `true` to enable also navigation through slides (when hashnav
    * is enabled) by browser history or by setting directly hash on document location
    *
    * @default false

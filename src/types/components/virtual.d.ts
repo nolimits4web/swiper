@@ -96,13 +96,13 @@ export interface VirtualOptions {
    */
   addSlidesAfter?: number;
   /**
-   * Function to render slide. As an argument it accepts current slide item for slides array and index number of the current slide. Function must return an outter HTML of the swiper slide.
+   * Function to render slide. As an argument it accepts current slide item for `slides` array and index number of the current slide. Function must return an outter HTML of the swiper slide.
    *
    * @default null
    */
   renderSlide?: (slide: any, index: any) => any | null;
   /**
-   * Function for external rendering (e.g. using some other library to handle DOM manipulations and state like React.js or Vue.js). As an argument it accepts data object with the following properties:
+   * Function for external rendering (e.g. using some other library to handle DOM manipulations and state like React.js or Vue.js):
    *
    * @default null
    */

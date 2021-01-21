@@ -26,7 +26,7 @@ export interface KeyboardEvents {
 
 export interface KeyboardOptions {
   /**
-   * Set to true to enable keyboard contro
+   * Set to `true` to enable keyboard contro
    *
    * @default false
    */

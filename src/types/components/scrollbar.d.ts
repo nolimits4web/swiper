@@ -66,8 +66,10 @@ export interface ScrollbarEvents {
 export interface ScrollbarOptions {
   /**
    * String with CSS selector or HTML element of the container with scrollbar.
+   *
+   * @default null
    */
-  el?: CSSSelector | HTMLElement;
+  el?: CSSSelector | HTMLElement | null;
 
   /**
    * Hide scrollbar automatically after user interaction
@@ -77,14 +79,14 @@ export interface ScrollbarOptions {
   hide?: boolean;
 
   /**
-   * Set to true to enable make scrollbar draggable that allows you to control slider position
+   * Set to `true` to enable make scrollbar draggable that allows you to control slider position
    *
    * @default true
    */
   draggable?: boolean;
 
   /**
-   * Set to true to snap slider position to slides when you release scrollbar
+   * Set to `true` to snap slider position to slides when you release scrollbar
    *
    * @default false
    */

@@ -23,7 +23,7 @@ import { SwiperEvents } from './swiper-events';
 export interface SwiperOptions {
   /**
    * Whether Swiper should be initialised automatically when you create an instance.
-   * If disabled, then you need to init it manually by calling mySwiper.init()
+   * If disabled, then you need to init it manually by calling `mySwiper.init()`
    *
    * @default true
    */
@@ -44,7 +44,7 @@ export interface SwiperOptions {
   initialSlide?: number;
 
   /**
-   * Could be 'horizontal' or 'vertical' (for vertical slider).
+   * Can be `'horizontal'` or `'vertical'` (for vertical slider).
    *
    * @default 'horizontal'
    */
@@ -60,12 +60,16 @@ export interface SwiperOptions {
   /**
    * Enabled this option and plugin will set width/height on swiper wrapper equal to total size of all slides.
    * Mostly should be used as compatibility fallback option for browser that don't support flexbox layout well
+   *
+   * @default false
    */
   setWrapperSize?: boolean;
 
   /**
    * Enabled this option and swiper will be operated as usual except it will not move, real translate values on wrapper will not be set.
    * Useful when you may need to create custom slide transition
+   *
+   * @default false
    */
   virtualTranslate?: boolean;
 
@@ -74,6 +78,7 @@ export interface SwiperOptions {
    * Useful only if you initialize Swiper when it is hidden and in SSR and Test environments for correct Swiper initialization
    *
    * @default null
+   *
    * @note Setting this parameter will make Swiper not responsive
    */
   width?: number | null;
@@ -83,19 +88,20 @@ export interface SwiperOptions {
    * Useful only if you initialize Swiper when it is hidden and in SSR and Test environments for correct Swiper initialization
    *
    * @default null
+   *
    * @note Setting this parameter will make Swiper not responsive
    */
   height?: number | null;
 
   /**
-   * Set to true and slider wrapper will adapt its height to the height of the currently active slide
+   * Set to `true` and slider wrapper will adapt its height to the height of the currently active slide
    *
    * @default false
    */
   autoHeight?: boolean;
 
   /**
-   * Set to true to round values of slides width and height to prevent blurry texts on usual
+   * Set to `true` to round values of slides width and height to prevent blurry texts on usual
    * resolution screens (if you have such)
    *
    * @default false
@@ -103,7 +109,7 @@ export interface SwiperOptions {
   roundLengths?: boolean;
 
   /**
-   * Set to true on  Swiper for correct touch events interception. Use only on
+   * Set to `true` on  Swiper for correct touch events interception. Use only on
    * swipers that use same direction as the parent one
    *
    * @default false
@@ -111,7 +117,7 @@ export interface SwiperOptions {
   nested?: boolean;
 
   /**
-   * If enabled (by default) and navigation elements' parameters passed as a string (like ".pagination")
+   * If enabled (by default) and navigation elements' parameters passed as a string (like `".pagination"`)
    * then Swiper will look for such elements through child elements first.
    * Applies for pagination, prev/next buttons and scrollbar elements
    *
@@ -120,7 +126,7 @@ export interface SwiperOptions {
   uniqueNavElements?: boolean;
 
   /**
-   * Transition effect. Could be "slide", "fade", "cube", "coverflow" or "flip"
+   * Transition effect. Can be "slide", "fade", "cube", "coverflow" or "flip"
    *
    * @default 'slide'
    */
@@ -143,17 +149,60 @@ export interface SwiperOptions {
   watchOverflow?: boolean;
 
   /**
-   * Register event handlers.
+   * userAgent string. Required for browser/device detection when rendered on server-side
+   *
+   * @default null
+   */
+  userAgent?: string | null;
+
+  /**
+   * Required for active slide detection when rendered on server-side and enabled history
+   *
+   * @default null
+   */
+  url?: string | null;
+
+  /**
+   * Register event handlers
    */
   on?: {
     [event in keyof SwiperEvents]?: SwiperEvents[event];
   };
 
-  // CSS Scroll Snap
+  /**
+   * Add event listener that will be fired on all events
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *    onAny(eventName, ...args) {
+   *      console.log('Event: ', eventName);
+   *      console.log('Event data: ', args);
+   *    }
+   *  });
+   * ```
+   */
+  onAny?(handler: (eventName: string, ...args: any[]) => void): void;
 
   /**
    * When enabled it will use modern CSS Scroll Snap API.
    * It doesn't support all of Swiper's features, but potentially should bring a much better performance in simple configurations.
+   *
+   * This is what is not supported when it is enabled:
+   *
+   * - All effects (Fade, Coverflow, Flip, Cube)
+   * - Zoom
+   * - Virtual Slides
+   * - `speed` parameter will have no effect
+   * - All transition start/end related events (use `slideChange` instead)
+   * - `slidesPerGroup` has limited support
+   * - `centeredSlides` is not supported
+   * - Changing slides with anything except touch/swipe and mousewheel will happen without transition in browsers without `scrollTo.behaviour = 'smooth'` support (e.g. in desktop and iOS Safari)
+   * - `simulateTouch` doesn't have effect and "dragging" with mouse doesn't work
+   * - `resistance` doesn't have any effect
+   * - `allowSlidePrev/Next`
+   * - `swipeHandler`
+   * - `freeMode` and all relevant features
    *
    * @default false
    */
@@ -163,29 +212,42 @@ export interface SwiperOptions {
 
   /**
    * Distance between slides in px.
+   *
+   * @default 0
+   *
+   * @note If you use "margin" css property to the elements which go into Swiper in which you pass "spaceBetween" into, navigation might not work property.
    */
   spaceBetween?: number;
 
   /**
    * Number of slides per view (slides visible at the same time on slider's container).
-   * If you use it with "auto" value and along with loop: true then you need to specify loopedSlides parameter with amount of slides to loop (duplicate)
-   * slidesPerView: 'auto' is currently not compatible with multirow mode, when slidesPerColumn > 1
+   * @note If you use it with "auto" value and along with `loop: true` then you need to specify `loopedSlides` parameter with amount of slides to loop (duplicate)
+   * @note `slidesPerView: 'auto'` is currently not compatible with multirow mode, when `slidesPerColumn` > 1
+   *
+   * @default 1
    */
   slidesPerView?: number | 'auto';
 
   /**
    * Number of slides per column, for multirow layout
-   * slidesPerColumn > 1 is currently not compatible with loop mode (loop: true)
+   *
+   * @note `slidesPerColumn` > 1 is currently not compatible with loop mode (`loop: true`)
+   *
+   * @default 1
    */
   slidesPerColumn?: number;
 
   /**
-   * Could be 'column' or 'row'. Defines how slides should fill rows, by column or by row
+   * Can be 'column' or 'row'. Defines how slides should fill rows, by column or by row
+   *
+   * @default 'column'
    */
   slidesPerColumnFill?: 'row' | 'column';
 
   /**
    * Set numbers of slides to define and enable group sliding. Useful to use with slidesPerView > 1
+   *
+   * @default 1
    */
   slidesPerGroup?: number;
 
@@ -198,13 +260,15 @@ export interface SwiperOptions {
   slidesPerGroupSkip?: number;
 
   /**
-   * If true, then active slide will be centered, not always on the left side.
+   * If `true`, then active slide will be centered, not always on the left side.
+   *
+   * @default false
    */
   centeredSlides?: boolean;
 
   /**
-   * If true, then active slide will be centered without adding gaps at the beginning and end of slider.
-   * Required centeredSlides: true. Not intended to be used with loop or pagination
+   * If `true`, then active slide will be centered without adding gaps at the beginning and end of slider.
+   * Required `centeredSlides: true`. Not intended to be used with `loop` or `pagination`
    *
    * @default false
    */
@@ -212,130 +276,180 @@ export interface SwiperOptions {
 
   /**
    * Add (in px) additional slide offset in the beginning of the container (before all slides)
+   *
+   * @default 0
    */
   slidesOffsetBefore?: number;
 
   /**
    * Add (in px) additional slide offset in the end of the container (after all slides)
+   *
+   * @default 0
    */
   slidesOffsetAfter?: number;
 
   /**
    * Normalize slide index.
+   *
+   * @default true
    */
   normalizeSlideIndex?: boolean;
 
   /**
-   * When enabled it center slides if the amount of slides less than `slidesPerView`. Not intended to be used loop mode and slidesPerColumn
+   * When enabled it center slides if the amount of slides less than `slidesPerView`. Not intended to be used `loop` mode and `slidesPerColumn`
+   *
+   * @default false
    */
   centerInsufficientSlides?: boolean;
 
-  // Grab Cursor
+  /**
+   * This option may a little improve desktop usability. If `true`, user will see the "grab" cursor when hover on Swiper
+   *
+   * @default false
+   */
   grabCursor?: boolean;
 
-  // Touches
-
   /**
-   * Target element to listen touch events on. Can be 'container' (to listen for touch events on swiper-container) or 'wrapper'
+   * Target element to listen touch events on. Can be `'container'` (to listen for touch events on swiper-container) or `'wrapper'`
    * (to listen for touch events on swiper-wrapper)
+   *
+   * @default 'wrapper'
    */
   touchEventsTarget?: 'container' | 'wrapper';
 
   /**
    * Touch ratio
+   *
+   * @default 1
    */
   touchRatio?: number;
 
   /**
    * Allowable angle (in degrees) to trigger touch move
+   *
+   * @default 45
    */
   touchAngle?: number;
 
   /**
-   * If true, Swiper will accept mouse events like touch events (click and drag to change slides)
+   * If `true`, Swiper will accept mouse events like touch events (click and drag to change slides)
+   *
+   * @default true
    */
   simulateTouch?: boolean;
 
   /**
-   * Set to false if you want to disable short swipes
+   * Set to `false` if you want to disable short swipes
+   *
+   * @default true
    */
   shortSwipes?: boolean;
 
   /**
-   * Set to false if you want to disable long swipes
+   * Set to `false` if you want to disable long swipes
+   *
+   * @default true
    */
   longSwipes?: boolean;
 
   /**
    * Ratio to trigger swipe to next/previous slide during long swipes
+   *
+   * @default 0.5
    */
   longSwipesRatio?: number;
 
   /**
    * Minimal duration (in ms) to trigger swipe to next/previous slide during long swipes
+   *
+   * @default 300
    */
   longSwipesMs?: number;
 
   /**
    * If disabled, then slider will be animated only when you release it, it will not move while you hold your finger on it
+   *
+   * @default true
    */
   followFinger?: boolean;
 
   /**
-   * If false, then the only way to switch the slide is use of external API functions like slidePrev or slideNext
+   * If `false`, then the only way to switch the slide is use of external API functions like slidePrev or slideNext
+   *
+   * @default true
    */
   allowTouchMove?: boolean;
 
   /**
    * Threshold value in px. If "touch distance" will be lower than this value then swiper will not move
+   *
+   * @default 0
    */
   threshold?: number;
 
   /**
    * If disabled, `touchstart` (`mousedown`) event won't be prevented
+   *
+   * @default true
    */
   touchStartPreventDefault?: boolean;
 
   /**
    * Force to always prevent default for `touchstart` (`mousedown`) event
+   *
+   * @default false
    */
   touchStartForcePreventDefault?: boolean;
 
   /**
    * If enabled, then propagation of "touchmove" will be stopped
+   *
+   * @default false
    */
   touchMoveStopPropagation?: boolean;
 
   /**
    * Enable to release Swiper events for swipe-back work in app. If set to `'prevent'` then it will prevent system swipe-back navigation instead
+   *
+   * @default false
    */
   edgeSwipeDetection?: boolean | string;
 
   /**
    * Area (in px) from left edge of the screen to release touch events for swipe-back in app
+   *
+   * @default 20
    */
   edgeSwipeThreshold?: number;
 
   /**
    * Enable to release touch events on slider edge position (beginning, end) to allow for further page scrolling
+   *
+   * @default false
    */
   touchReleaseOnEdges?: boolean;
 
   /**
    * Passive event listeners will be used by default where possible to improve scrolling performance on mobile devices.
    * But if you need to use `e.preventDefault` and you have conflict with it, then you should disable this parameter
+   *
+   * @default true
    */
   passiveListeners?: boolean;
 
   // Touch Resistance
 
   /**
-   * Set to false if you want to disable resistant bounds
+   * Set to `false` if you want to disable resistant bounds
+   *
+   * @default true
    */
   resistance?: boolean;
 
   /**
    * This option allows you to control resistance ratio
+   *
+   * @default 0.85
    */
   resistanceRatio?: number;
 
@@ -348,36 +462,36 @@ export interface SwiperOptions {
   preventInteractionOnTransition?: boolean;
 
   /**
-   * Set to false to disable swiping to previous slide direction (to left or top)
+   * Set to `false` to disable swiping to previous slide direction (to left or top)
    *
    * @default true
    */
   allowSlidePrev?: boolean;
 
   /**
-   * Set to false to disable swiping to next slide direction (to right or bottom)
+   * Set to `false` to disable swiping to next slide direction (to right or bottom)
    *
    * @default true
    */
   allowSlideNext?: boolean;
 
   /**
-   * Enable/disable swiping on elements matched to class specified in noSwipingClass
+   * Enable/disable swiping on elements matched to class specified in `noSwipingClass`
    *
    * @default true
    */
   noSwiping?: boolean;
 
   /**
-   * Specify noSwiping's' element css class
+   * Specify `noSwiping`'s element css class
    *
    * @default 'swiper-no-swiping'
    */
   noSwipingClass?: string;
 
   /**
-   * Can be used instead of noSwipingClass to specify elements to disable swiping on.
-   * For example 'input' will disable swiping on all inputs
+   * Can be used instead of `noSwipingClass` to specify elements to disable swiping on.
+   * For example `'input'` will disable swiping on all inputs
    *
    * @default
    */
@@ -392,21 +506,21 @@ export interface SwiperOptions {
 
   // Clicks
   /**
-   * Set to true to prevent accidental unwanted clicks on links during swiping
+   * Set to `true` to prevent accidental unwanted clicks on links during swiping
    *
    * @default true
    */
   preventClicks?: boolean;
 
   /**
-   * Set to true to stop clicks event propagation on links during swiping
+   * Set to `true` to stop clicks event propagation on links during swiping
    *
    * @default true
    */
   preventClicksPropagation?: boolean;
 
   /**
-   * Set to true and click on any slide will produce transition to this slide
+   * Set to `true` and click on any slide will produce transition to this slide
    *
    * @default false
    */
@@ -443,7 +557,7 @@ export interface SwiperOptions {
   freeModeMomentumVelocityRatio?: number;
 
   /**
-   * Set to false if you want to disable momentum bounce in free mode
+   * Set to `false` if you want to disable momentum bounce in free mode
    *
    * @default true
    */
@@ -479,7 +593,7 @@ export interface SwiperOptions {
   watchSlidesProgress?: boolean;
 
   /**
-   * watchSlidesProgress should be enabled. Enable this option and slides that are in viewport will have additional visible class
+   * `watchSlidesProgress` should be enabled. Enable this option and slides that are in viewport will have additional visible class
    *
    * @default false
    */
@@ -494,17 +608,24 @@ export interface SwiperOptions {
   preloadImages?: boolean;
 
   /**
-   * When enabled Swiper will be reinitialized after all inner images (<img> tags) are loaded. Required preloadImages: true
+   * When enabled Swiper will be reinitialized after all inner images (<img> tags) are loaded. Required `preloadImages: true`
    *
    * @default true
    */
   updateOnImagesReady?: boolean;
 
-  // Loop
   /**
-   * Enables continuous loop mode
+   * Set to `true` to enable continuous loop mode
+   *
+   * Because of nature of how the loop mode works, it will add duplicated slides. Such duplicated slides will have additional classes:
+   * - `swiper-slide-duplicate` - represents duplicated slide
+   * - `swiper-slide-duplicate-active` - represents slide duplicated to the currently active slide
+   * - `swiper-slide-duplicate-next` - represents slide duplicated to the slide next to active
+   * - `swiper-slide-duplicate-prev` - represents slide duplicated to the slide previous to active
    *
    * @default false
+   *
+   * @note If you use it along with `slidesPerView: 'auto'` then you need to specify `loopedSlides` parameter with amount of slides to loop (duplicate)
    */
   loop?: boolean;
 
@@ -516,14 +637,14 @@ export interface SwiperOptions {
   loopAdditionalSlides?: number;
 
   /**
-   * If you use slidesPerView:'auto' with loop mode you should tell to Swiper how many slides it should loop (duplicate) using this parameter
+   * If you use `slidesPerView:'auto'` with loop mode you should tell to Swiper how many slides it should loop (duplicate) using this parameter
    *
    * @default null
    */
   loopedSlides?: number | null;
 
   /**
-   * Enable and loop mode will fill groups with insufficient number of slides with blank slides. Good to be used with slidesPerGroup parameter
+   * Enable and loop mode will fill groups with insufficient number of slides with blank slides. Good to be used with `slidesPerGroup` parameter
    *
    * @default false
    */
@@ -535,7 +656,59 @@ export interface SwiperOptions {
    */
   loopPreventsSlide?: boolean;
 
-  // Breakpoints
+  /**
+   * Allows to set different parameter for different responsive breakpoints (screen sizes). Not all parameters can be changed in breakpoints, only those which are not required different layout and logic, like `slidesPerView`, `slidesPerGroup`, `spaceBetween`, `slidesPerColumn`. Such parameters like `loop` and `effect` won't work
+   *
+   * @example
+   * ```js
+   * var swiper = new Swiper('.swiper-container', {
+   *   // Default parameters
+   *   slidesPerView: 1,
+   *   spaceBetween: 10,
+   *   // Responsive breakpoints
+   *   breakpoints: {
+   *     // when window width is >= 320px
+   *     320: {
+   *       slidesPerView: 2,
+   *       spaceBetween: 20
+   *     },
+   *     // when window width is >= 480px
+   *     480: {
+   *       slidesPerView: 3,
+   *       spaceBetween: 30
+   *     },
+   *     // when window width is >= 640px
+   *     640: {
+   *       slidesPerView: 4,
+   *       spaceBetween: 40
+   *     }
+   *   }
+   * })
+   * ```
+   *
+   * @example
+   * ```js
+   * var swiper = new Swiper('.swiper-container', {
+   *   slidesPerView: 1,
+   *   spaceBetween: 10,
+   *   // using "ratio" endpoints
+   *   breakpoints: {
+   *     '@0.75': {
+   *       slidesPerView: 2,
+   *       spaceBetween: 20,
+   *     },
+   *     '@1.00': {
+   *       slidesPerView: 3,
+   *       spaceBetween: 40,
+   *     },
+   *     '@1.50': {
+   *       slidesPerView: 4,
+   *       spaceBetween: 50,
+   *     },
+   *   }
+   * });
+   * ```
+   */
   breakpoints?: {
     [width: number]: SwiperOptions;
     [ratio: string]: SwiperOptions;
@@ -543,77 +716,385 @@ export interface SwiperOptions {
 
   // Observer
   /**
-   * Set to true to enable Mutation Observer on Swiper and its elements. In this case Swiper will be updated (reinitialized) each time if you change its style (like hide/show) or modify its child elements (like adding/removing slides)
+   * Set to `true` to enable Mutation Observer on Swiper and its elements. In this case Swiper will be updated (reinitialized) each time if you change its style (like hide/show) or modify its child elements (like adding/removing slides)
    *
    * @default false
    */
   observer?: boolean;
   /**
-   * Set to true if you also need to watch Mutations for Swiper slide children elements
+   * Set to `true` if you also need to watch Mutations for Swiper slide children elements
    *
    * @default false
    */
   observeSlideChildren?: boolean;
   /**
-   * Set to true if you also need to watch Mutations for Swiper parent elements
+   * Set to `true` if you also need to watch Mutations for Swiper parent elements
    *
    * @default false
    */
   observeParents?: boolean;
 
   // Namespace
+  /**
+   * The beginning of the modifier CSS class that can be added to swiper container depending on different parameters
+   *
+   * @default 'swiper-container-'
+   */
   containerModifierClass?: string;
+
+  /**
+   * CSS class name of slide
+   *
+   * @default 'swiper-slide'
+   */
   slideClass?: string;
-  slideBlankClass?: string;
+
+  /**
+   * CSS class name of currently active slide
+   *
+   * @default 'swiper-slide-active'
+   */
   slideActiveClass?: string;
+
+  /**
+   * CSS class name of duplicated slide which represents the currently active slide
+   *
+   * @default 'swiper-slide-duplicate-active'
+   */
   slideDuplicateActiveClass?: string;
+
+  /**
+   * CSS class name of currently visible slide
+   *
+   * @default 'swiper-slide-visible'
+   */
   slideVisibleClass?: string;
+
+  /**
+   * CSS class name of slide duplicated by loop mode
+   *
+   * @default 'swiper-slide-duplicate'
+   */
   slideDuplicateClass?: string;
+
+  /**
+   * CSS class name of slide which is right after currently active slide
+   *
+   * @default 'swiper-slide-next'
+   */
   slideNextClass?: string;
+
+  /**
+   * CSS class name of duplicated slide which represents the slide next to active slide
+   *
+   * @default 'swiper-slide-duplicate-next'
+   */
   slideDuplicateNextClass?: string;
+
+  /**
+   * CSS class name of slide which is right before currently active slide
+   *
+   * @default 'swiper-slide-prev'
+   */
   slidePrevClass?: string;
+
+  /**
+   * CSS class name of duplicated slide which represents the slide previous to active slide
+   *
+   * @default 'swiper-slide-duplicate-prev'
+   */
   slideDuplicatePrevClass?: string;
+
+  /**
+   * CSS class name of blank slide append to fill groups in loop mode when `loopFillGroupWithBlank` is also enabled
+   *
+   * @default 'swiper-slide-invisible-blank'
+   */
+  slideBlankClass?: string;
+
+  /**
+   * CSS class name of slides' wrapper
+   *
+   * @default 'swiper-wrapper'
+   */
   wrapperClass?: string;
 
-  // ssr
   /**
-   * userAgent string. Required for browser/device detection when rendered on server-side
+   * Object with a11y parameters or boolean `true` to enable with default settings.
    *
-   * @default null
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   a11y: {
+   *     prevSlideMessage: 'Previous slide',
+   *     nextSlideMessage: 'Next slide',
+   *   },
+   * });
+   * ```
    */
-  userAgent?: string | null;
-  /**
-   * Required for active slide detection when rendered on server-side and enabled history
-   *
-   * @default null
-   */
-  url?: string | null;
-
   a11y?: A11yOptions;
+
+  /**
+   * Object with autoplay parameters or boolean `true` to enable with default settings
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *  autoplay: {
+   *    delay: 5000,
+   *  },
+   *});
+   * ```
+   */
   autoplay?: AutoplayOptions | boolean;
+
+  /**
+   * Object with controller parameters or boolean `true` to enable with default settings
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   controller: {
+   *     inverse: true,
+   *   },
+   * });
+   * ```
+   */
   controller?: ControllerOptions;
+
+  /**
+   * Object with Coverflow-effect parameters.
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   coverflowEffect: {
+   *     rotate: 30,
+   *     slideShadows: false,
+   *   },
+   * });
+   * ```
+   */
   coverflowEffect?: CoverflowEffectOptions;
+
+  /**
+   * Object with Cube-effect parameters
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   cubeEffect: {
+   *     slideShadows: false,
+   *   },
+   * });
+   * ```
+   */
   cubeEffect?: CubeEffectOptions;
+
+  /**
+   * Object with Fade-effect parameters
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   effect: 'fade',
+   *   fadeEffect: {
+   *     crossFade: true
+   *   },
+   * });
+   * ```
+   */
   fadeEffect?: FadeEffectOptions;
+
+  /**
+   * Object with Flip-effect parameters
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   flipEffect: {
+   *     slideShadows: false,
+   *   },
+   * });
+   * ```
+   */
   flipEffect?: FlipEffectOptions;
+
+  /**
+   * Enables hash url navigation to for slides.
+   * Object with hash navigation parameters or boolean `true` to enable with default settings
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   hashNavigation: {
+   *     replaceState: true,
+   *   },
+   * });
+   * ```
+   */
   hashNavigation?: HashNavigationOptions | boolean;
+
+  /**
+   * Enables history push state where every slide will have its own url. In this parameter you have to specify main slides url like `"slides"` and specify every slide url using `data-history` attribute.
+   *
+   * Object with history navigation parameters or boolean `true` to enable with default settings
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   history: {
+   *     replaceState: true,
+   *   },
+   * });
+   * ```
+   *
+   * @example
+   * ```html
+   * <!-- will produce "slides/slide1" url in browser history -->
+   * <div class="swiper-slide" data-history="slide1"></div>
+   * ```
+   */
   history?: HistoryOptions | boolean;
+
+  /**
+   * Enables navigation through slides using keyboard. Object with keyboard parameters or boolean `true` to enable with default settings
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   keyboard: {
+   *     enabled: true,
+   *     onlyInViewport: false,
+   *   },
+   * });
+   * ```
+   */
   keyboard?: KeyboardOptions | boolean;
+
+  /**
+   * Enables images lazy loading. Object with lazy loading parameters or boolean `true` to enable with default settings
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   lazy: {
+   *     loadPrevNext: true,
+   *   },
+   * });
+   * ```
+   */
   lazy?: LazyOptions | boolean;
+
+  /**
+   * Enables navigation through slides using mouse wheel. Object with mousewheel parameters or boolean `true` to enable with default settings
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   mousewheel: {
+   *     invert: true,
+   *   },
+   * });
+   * ```
+   */
   mousewheel?: MousewheelOptions | boolean;
+
+  /**
+   * Object with navigation parameters
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   navigation: {
+   *     nextEl: '.swiper-button-next',
+   *     prevEl: '.swiper-button-prev',
+   *   },
+   * });
+   * ```
+   */
   navigation?: NavigationOptions | boolean;
+
+  /**
+   * Object with navigation parameters
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   pagination: {
+   *     el: '.swiper-pagination',
+   *     type: 'bullets',
+   *   },
+   * });
+   * ```
+   */
   pagination?: PaginationOptions | boolean;
+
+  /**
+   * Enable, if you want to use "parallaxed" elements inside of slider
+   */
   parallax?: boolean;
+
+  /**
+   * Object with scrollbar parameters
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   scrollbar: {
+   *     el: '.swiper-scrollbar',
+   *     draggable: true,
+   *   },
+   * });
+   * ```
+   */
   scrollbar?: ScrollbarOptions | boolean;
+
+  /**
+   * Object with thumbs component parameters
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   ...
+   *   thumbs: {
+   *     swiper: thumbsSwiper
+   *   }
+   * });
+   * ```
+   */
   thumbs?: ThumbsOptions;
+
+  /**
+   * Enables virtual slides functionality. Object with virtual slides parameters or boolean `true` to enable with default settings.
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   virtual: {
+   *     slides: ['Slide 1', 'Slide 2', 'Slide 3', 'Slide 4', 'Slide 5'],
+   *   },
+   * });
+   * ```
+   */
   virtual?: VirtualOptions | boolean;
+
+  /**
+   * Enables zooming functionality. Object with zoom parameters or boolean `true` to enable with default settings
+   *
+   * @example
+   * ```js
+   * var mySwiper = new Swiper('.swiper-container', {
+   *   zoom: {
+   *     maxRatio: 5,
+   *   },
+   * });
+   * ```
+   */
   zoom?: ZoomOptions | boolean;
+
   /**
    * !INTERNAL When enabled will emit "_containerClasses" and "_slideClasses" events
    */
   _emitClasses?: boolean;
-  /**
-   * Add event listener that will be fired on all events
-   */
-  onAny?(handler: (eventName: string, ...args: any[]) => void): void;
 }
