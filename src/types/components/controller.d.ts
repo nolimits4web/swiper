@@ -18,14 +18,14 @@ export interface ControllerOptions {
   control?: Swiper;
 
   /**
-   * Set to true and controlling will be in inverse direction
+   * Set to `true` and controlling will be in inverse direction
    *
    * @default false
    */
   inverse?: boolean;
 
   /**
-   * Can be 'slide' or 'container'. Defines a way how to control another slider: slide by slide
+   * Defines a way how to control another slider: slide by slide
    * (with respect to other slider's grid) or depending on all slides/container
    * (depending on total slider percentage).
    *

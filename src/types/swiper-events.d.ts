@@ -25,10 +25,11 @@ export interface SwiperEvents {
   // CORE_EVENTS_START
   /**
    * Fired right after Swiper initialization.
-   * @note Note that with swiper.on('init') syntax it will
-   * work only in case you set init: false parameter.
+   * @note Note that with `swiper.on('init')` syntax it will
+   * work only in case you set `init: false` parameter.
    *
    * @example
+   * ```js
    * var swiper = new Swiper('.swiper-container', {
    *   init: false,
    *   // other parameters
@@ -38,8 +39,10 @@ export interface SwiperEvents {
    * });
    * // init Swiper
    * swiper.init();
+   * ```
    *
    * @example
+   * ```js
    * // Otherwise use it as the parameter:
    * var swiper = new Swiper('.swiper-container', {
    *   // other parameters
@@ -49,6 +52,7 @@ export interface SwiperEvents {
    *     },
    *   }
    * });
+   * ```
    */
   init: (swiper: Swiper) => any;
 

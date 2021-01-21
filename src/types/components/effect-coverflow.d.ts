@@ -28,7 +28,7 @@ export interface CoverflowEffectOptions {
    */
   depth?: number;
   /**
-   * Effect multipler
+   * Effect multiplier
    *
    * @default 1
    */

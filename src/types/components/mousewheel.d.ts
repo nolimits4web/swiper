@@ -27,21 +27,21 @@ export interface MousewheelEvents {
 
 export interface MousewheelOptions {
   /**
-   * Set to true to force mousewheel swipes to axis. So in horizontal mode mousewheel will work only with horizontal mousewheel scrolling, and only with vertical scrolling in vertical mode.
+   * Set to `true` to force mousewheel swipes to axis. So in horizontal mode mousewheel will work only with horizontal mousewheel scrolling, and only with vertical scrolling in vertical mode.
 
    *
    * @default false
    */
   forceToAxis?: boolean;
   /**
-   * Set to true and swiper will release mousewheel event and allow page scrolling when swiper is on edge positions (in the beginning or in the end)
+   * Set to `true` and swiper will release mousewheel event and allow page scrolling when swiper is on edge positions (in the beginning or in the end)
 
    *
    * @default false
    */
   releaseOnEdges?: boolean;
   /**
-   * Set to true to invert sliding direction
+   * Set to `true` to invert sliding direction
    *
    * @default false
    */
