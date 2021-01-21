@@ -8,9 +8,9 @@
     [centeredSlides]="true"
     navigation
   >
-    <ng-container *ngFor="let slide of virtualSlides; index as i">
-      <ng-template swiperSlide>Slide {{ slide }}</ng-template>
-    </ng-container>
+    <ng-template swiperSlide *ngFor="let slide of virtualSlides; index as i"
+      >Slide {{ slide }}</ng-template
+    >
     <ng-template swiperSlide>Slide</ng-template>
     <ng-template swiperSlide>Slide</ng-template>
   </swiper>
@@ -30,11 +30,9 @@
     <ng-template swiperSlide>Best slide ever 1</ng-template>
     <ng-template swiperSlide>Best slide ever 2</ng-template>
     <ng-template swiperSlide>Best slide ever 3</ng-template>
-    <ng-container *ngFor="let slide of slides; index as i">
-      <ng-template swiperSlide let-data>
-        {{ slide }} / active: {{ data.isActive }} / next: {{ data.isNext }}</ng-template
-      >
-    </ng-container>
+    <ng-template swiperSlide let-data *ngFor="let slide of slides; index as i">
+      {{ slide }} / active: {{ data.isActive }} / next: {{ data.isNext }}</ng-template
+    >
     <div slot="container-end" class="swiper-pagination pagination-test"></div>
   </swiper>
   <swiper [config]="exampleConfig">
