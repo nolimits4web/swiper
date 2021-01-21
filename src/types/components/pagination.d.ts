@@ -133,12 +133,14 @@ export interface PaginationOptions {
    * how it should be rendered.
    *
    * @example
+   * ```js
    * var swiper = new Swiper('.swiper-container', {
    *   //...
    *   renderCustom: function (swiper, current, total) {
    *     return current + ' of ' + total;
    *   }
    * });
+   * ```
    */
   renderCustom?: (swiper: Swiper, current: number, total: number) => void;
 

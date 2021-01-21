@@ -73,8 +73,8 @@ export interface SwiperOptions {
    * Swiper width (in px). Parameter allows to force Swiper width.
    * Useful only if you initialize Swiper when it is hidden and in SSR and Test environments for correct Swiper initialization
    *
-   * @note Setting this parameter will make Swiper not responsive
    * @default null
+   * @note Setting this parameter will make Swiper not responsive
    */
   width?: number | null;
 
@@ -82,8 +82,8 @@ export interface SwiperOptions {
    * Swiper height (in px). Parameter allows to force Swiper height.
    * Useful only if you initialize Swiper when it is hidden and in SSR and Test environments for correct Swiper initialization
    *
-   * @note Setting this parameter will make Swiper not responsive
    * @default null
+   * @note Setting this parameter will make Swiper not responsive
    */
   height?: number | null;
 

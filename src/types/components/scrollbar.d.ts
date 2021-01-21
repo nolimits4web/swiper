@@ -54,12 +54,14 @@ export interface ScrollbarEvents {
  * Object with scrollbar parameters.
  *
  * @example
+ * ```js
  * var mySwiper = new Swiper('.swiper-container', {
  *   scrollbar: {
  *     el: '.swiper-scrollbar',
  *     draggable: true,
  *   },
  * });
+ * ```
  */
 export interface ScrollbarOptions {
   /**

@@ -280,12 +280,15 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    * HTMLElement or HTML string with new slide or
    * array with such slides, for example:
    *
-   * @example appendSlide('<div class="swiper-slide">Slide 10"</div>')
    * @example
+   * ```js
+   * appendSlide('<div class="swiper-slide">Slide 10"</div>')
+   *
    * appendSlide([
    *  '<div class="swiper-slide">Slide 10"</div>',
    *  '<div class="swiper-slide">Slide 11"</div>'
    * ]);
+   * ```
    */
   appendSlide(slides: HTMLElement | string | string[] | HTMLElement[]): void;
 
@@ -293,31 +296,42 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    * Add new slides to the beginning. slides could be
    * HTMLElement or HTML string with new slide or array with such slides, for example:
    *
-   * @example prependSlide('<div class="swiper-slide">Slide 0"</div>')
-   * @example prependSlide([
+   * @example
+   * ```js
+   * prependSlide('<div class="swiper-slide">Slide 0"</div>')
+   *
+   * prependSlide([
    *  '<div class="swiper-slide">Slide 1"</div>',
    *  '<div class="swiper-slide">Slide 2"</div>'
    * ]);
+   * ```
    */
   prependSlide(slides: HTMLElement | string | string[] | HTMLElement[]): void;
 
   /**
    * Add new slides to the required index. slides could be HTMLElement or HTML string with new slide or array with such slides, for example:
    *
-   * @example addSlide(1, '<div class="swiper-slide">Slide 10"</div>')
-   * @example addSlide(1, [
+   * @example
+   * ```js
+   * addSlide(1, '<div class="swiper-slide">Slide 10"</div>')
+   *
+   * addSlide(1, [
    *  '<div class="swiper-slide">Slide 10"</div>',
    *  '<div class="swiper-slide">Slide 11"</div>'
    * ]);
+   * ```
    */
   addSlide(index: number, slides: HTMLElement | string | string[] | HTMLElement[]): void;
 
   /**
    * Remove selected slides. slideIndex could be a number with slide index to remove or array with indexes.
    *
-   * @example removeSlide(0); // remove first slide
-   * @example removeSlide([0, 1]); // remove first and second slides
-   * @example removeAllSlides();    // Remove all slides
+   * @example
+   * ```js
+   * removeSlide(0); // remove first slide
+   * removeSlide([0, 1]); // remove first and second slides
+   * removeAllSlides();    // Remove all slides
+   * ```
    */
   removeSlide(slideIndex: number | number[]): void;
 

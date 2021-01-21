@@ -36,11 +36,13 @@ export interface AutoplayEvents {
  * Object with autoplay parameters or boolean true to enable with default settings.
  *
  * @example
+ * ```js
  * var mySwiper = new Swiper('.swiper-container', {
  *   autoplay: {
  *     delay: 5000,
  *   },
  * });
+ * ```
  */
 export interface AutoplayOptions {
   /**
@@ -50,8 +52,10 @@ export interface AutoplayOptions {
    * data-swiper-autoplay (in ms) attribute on slide.
    *
    * @example
+   * ```html
    * <!-- hold this slide for 2 seconds -->
    * <div class="swiper-slide" data-swiper-autoplay="2000">
+   * ```
    *
    * @default 3000
    */
