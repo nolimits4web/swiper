@@ -151,37 +151,56 @@ export class SwiperComponent implements OnInit {
   @Input() zoom: SwiperOptions['zoom'];
   @Input()
   set navigation(val) {
+    const currentNext = typeof this._navigation !== 'boolean' ? this._navigation?.nextEl : null;
+    const currentPrev = typeof this._navigation !== 'boolean' ? this._navigation?.prevEl : null;
     this._navigation = setProperty(val, {
-      nextEl: null,
-      prevEl: null,
+      nextEl: currentNext || null,
+      prevEl: currentPrev || null,
     });
+    if (
+      typeof this._navigation !== 'boolean' &&
+      (typeof this._navigation?.nextEl === 'string' || typeof this._navigation?.prevEl === 'string')
+    ) {
+      this.showNavigation = false;
+    }
   }
   get navigation() {
     return this._navigation;
   }
   private _navigation: NavigationOptions | boolean;
+  showNavigation: boolean = true;
 
   @Input()
   set pagination(val) {
+    const current = typeof this._pagination !== 'boolean' ? this._pagination?.el : null;
     this._pagination = setProperty(val, {
-      el: null,
+      el: current || null,
     });
+    if (typeof this._pagination !== 'boolean' && typeof this._pagination?.el === 'string') {
+      this.showPagination = false;
+    }
   }
   get pagination() {
     return this._pagination;
   }
   private _pagination: PaginationOptions | boolean;
+  showPagination: boolean = true;
 
   @Input()
   set scrollbar(val) {
+    const current = typeof this._scrollbar !== 'boolean' ? this._scrollbar?.el : null;
     this._scrollbar = setProperty(val, {
-      el: null,
+      el: current || null,
     });
+    if (typeof this._scrollbar !== 'boolean' && typeof this._scrollbar?.el === 'string') {
+      this.showScrollbar = false;
+    }
   }
   get scrollbar() {
     return this._scrollbar;
   }
   private _scrollbar: ScrollbarOptions | boolean;
+  showScrollbar: boolean = true;
 
   @Input()
   set virtual(val) {
@@ -411,10 +430,10 @@ export class SwiperComponent implements OnInit {
   ) {}
 
   private _setElement(el: ElementRef, ref: any, update: string, key = 'el') {
-    if (!el && !ref) {
+    if (!el || !ref) {
       return;
     }
-    if (ref) {
+    if (ref && el.nativeElement) {
       if (ref[key] === el.nativeElement) {
         return;
       }
