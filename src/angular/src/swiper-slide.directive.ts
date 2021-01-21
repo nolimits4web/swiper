@@ -1,6 +1,6 @@
-import { Directive, Input, Optional, TemplateRef } from '@angular/core';
+import { Directive, Input, TemplateRef } from '@angular/core';
 @Directive({
-  selector: '[swiperSlide]',
+  selector: 'ng-template[swiperSlide]',
 })
 export class SwiperSlideDirective {
   @Input() virtualIndex: number;
