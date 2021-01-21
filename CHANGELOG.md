@@ -1,5 +1,14 @@
 # Changelog
 
+## [Swiper 6.4.7](https://github.com/nolimits4web/swiper/compare/v6.4.6...v6.4.7) - Released on January 21th, 2021
+
+- Types
+  - Added full docs comments for all Swiper parameters
+- Angular
+  - Proper support for zoom functionality with required extra "zoom" element. Can be enabled with `zoom` prop on slides, e.g. `<ng-template swiperSlide [zoom]="true">`
+  - Fixed issue with SSR
+  - Fixed issue with not working custom `pagination.el`
+
 ## [Swiper 6.4.6](https://github.com/nolimits4web/swiper/compare/v6.4.5...v6.4.6) - Released on January 20th, 2021
 
 - Core
