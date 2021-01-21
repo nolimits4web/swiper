@@ -1,6 +1,15 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { SwiperComponent } from 'src/angular/src/public-api';
-import SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Virtual } from '../../../build/core';
+import SwiperCore, {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Virtual,
+  Zoom,
+} from '../../../build/core';
+
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Virtual, Zoom]);
 
 @Component({
   selector: 'app-root',
@@ -10,10 +19,9 @@ import SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Virtual } from '..
 export class AppComponent {
   @ViewChild('swiperRef', { static: false }) swiperRef?: SwiperComponent;
 
+  show: boolean;
   constructor(private cd: ChangeDetectorRef) {}
-  ngOnInit() {
-    SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Virtual]);
-  }
+  ngOnInit() {}
 
   indexNumber = 1;
   exampleConfig = { slidesPerView: 3 };

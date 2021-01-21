@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/nolimits4web/swiper.svg?branch=master)](https://travis-ci.org/nolimits4web/swiper)
+![Test](https://github.com/nolimits4web/swiper/workflows/Test/badge.svg)
 
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/swiper/badge?style=rounded)](https://www.jsdelivr.com/package/npm/swiper)
 

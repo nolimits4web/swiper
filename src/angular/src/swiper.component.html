@@ -1,10 +1,10 @@
 <ng-content select="[slot=container-start]"></ng-content>
-<ng-container *ngIf="navigation">
+<ng-container *ngIf="navigation && showNavigation">
   <div class="swiper-button-prev" #prevElRef></div>
   <div class="swiper-button-next" #nextElRef></div>
 </ng-container>
-<div *ngIf="scrollbar" class="swiper-scrollbar" #scrollbarElRef></div>
-<div *ngIf="pagination" class="swiper-pagination" #paginationElRef></div>
+<div *ngIf="scrollbar && showScrollbar" class="swiper-scrollbar" #scrollbarElRef></div>
+<div *ngIf="pagination && showPagination" class="swiper-pagination" #paginationElRef></div>
 <div [ngClass]="wrapperClass">
   <ng-content select="[slot=wrapper-start]"></ng-content>
   <ng-template
@@ -44,12 +44,23 @@
     [ngClass]="slide.classNames + ' ' + (slideKey !== '' ? slideDuplicateClass : '')"
     [attr.data-swiper-slide-index]="slide.virtualIndex ? slide.virtualIndex : slide.slideIndex"
     [style]="style"
+    [ngSwitch]="slide.zoom"
   >
-    <ng-template
-      [ngTemplateOutlet]="slide.template"
-      [ngTemplateOutletContext]="{
-        $implicit: slide.slideData
-      }"
-    ></ng-template>
+    <div *ngSwitchCase="true" class="swiper-zoom-container">
+      <ng-template
+        [ngTemplateOutlet]="slide.template"
+        [ngTemplateOutletContext]="{
+          $implicit: slide.slideData
+        }"
+      ></ng-template>
+    </div>
+    <ng-container *ngSwitchDefault>
+      <ng-template
+        [ngTemplateOutlet]="slide.template"
+        [ngTemplateOutletContext]="{
+          $implicit: slide.slideData
+        }"
+      ></ng-template>
+    </ng-container>
   </div>
 </ng-template>

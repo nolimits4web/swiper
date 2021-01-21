@@ -1,9 +1,18 @@
 import { Directive, Input, TemplateRef } from '@angular/core';
+import { coerceBooleanProperty } from './utils/utils';
 @Directive({
   selector: 'ng-template[swiperSlide]',
 })
 export class SwiperSlideDirective {
   @Input() virtualIndex: number;
+  @Input()
+  set zoom(val: boolean) {
+    this._zoom = coerceBooleanProperty(val);
+  }
+  get zoom() {
+    return this._zoom;
+  }
+  private _zoom: boolean;
   slideIndex: number;
   get classNames() {
     return this._classNames;
