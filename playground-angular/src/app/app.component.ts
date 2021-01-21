@@ -1,6 +1,13 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { SwiperComponent } from 'src/angular/src/public-api';
-import SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Virtual } from '../../../build/core';
+import SwiperCore, {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Virtual,
+  Zoom,
+} from '../../../build/core';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +19,7 @@ export class AppComponent {
 
   constructor(private cd: ChangeDetectorRef) {}
   ngOnInit() {
-    SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Virtual]);
+    SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Virtual, Zoom]);
   }
 
   indexNumber = 1;

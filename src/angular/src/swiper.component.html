@@ -44,12 +44,23 @@
     [ngClass]="slide.classNames + ' ' + (slideKey !== '' ? slideDuplicateClass : '')"
     [attr.data-swiper-slide-index]="slide.virtualIndex ? slide.virtualIndex : slide.slideIndex"
     [style]="style"
+    [ngSwitch]="slide.zoom"
   >
-    <ng-template
-      [ngTemplateOutlet]="slide.template"
-      [ngTemplateOutletContext]="{
-        $implicit: slide.slideData
-      }"
-    ></ng-template>
+    <div *ngSwitchCase="true" class="swiper-zoom-container">
+      <ng-template
+        [ngTemplateOutlet]="slide.template"
+        [ngTemplateOutletContext]="{
+          $implicit: slide.slideData
+        }"
+      ></ng-template>
+    </div>
+    <ng-container *ngSwitchDefault>
+      <ng-template
+        [ngTemplateOutlet]="slide.template"
+        [ngTemplateOutletContext]="{
+          $implicit: slide.slideData
+        }"
+      ></ng-template>
+    </ng-container>
   </div>
 </ng-template>

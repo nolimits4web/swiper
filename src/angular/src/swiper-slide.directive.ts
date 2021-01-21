@@ -4,6 +4,7 @@ import { Directive, Input, Optional, TemplateRef } from '@angular/core';
 })
 export class SwiperSlideDirective {
   @Input() virtualIndex: number;
+  @Input() zoom: boolean;
   slideIndex: number;
   get classNames() {
     return this._classNames;

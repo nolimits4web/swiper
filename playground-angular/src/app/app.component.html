@@ -14,6 +14,17 @@
     <ng-template swiperSlide>Slide</ng-template>
     <ng-template swiperSlide>Slide</ng-template>
   </swiper>
+  <swiper [zoom]="true">
+    <ng-template swiperSlide [zoom]="true">
+      <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+    </ng-template>
+    <ng-template swiperSlide>
+      <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+    </ng-template>
+    <ng-template swiperSlide [zoom]="true">
+      <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+    </ng-template>
+  </swiper>
   <swiper
     #swiperRef
     [navigation]="navigation"
