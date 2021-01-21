@@ -6,7 +6,7 @@ import { SwiperModule } from 'src/angular/src/public-api';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, SwiperModule],
+  imports: [BrowserModule.withServerTransition({ appId: 'serverApp' }), SwiperModule],
   providers: [],
   bootstrap: [AppComponent],
 })
