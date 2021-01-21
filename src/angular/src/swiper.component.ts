@@ -476,7 +476,7 @@ export class SwiperComponent implements OnInit {
         this._changeDetectorRef.detectChanges();
       },
       _slideClass: (_, el: HTMLElement, classNames) => {
-        const slideIndex = parseInt(el.dataset.swiperSlideIndex);
+        const slideIndex = parseInt(el.getAttribute('data-swiper-slide-index'));
         if (this.virtual) {
           const virtualSlide = this.slides.find((item) => {
             return item.virtualIndex && item.virtualIndex === slideIndex;
@@ -707,6 +707,6 @@ export class SwiperComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.swiperRef.destroy();
+    this.swiperRef?.destroy();
   }
 }
