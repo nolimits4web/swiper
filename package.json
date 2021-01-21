@@ -22,7 +22,7 @@
     "angular:dev:ssr": "ng run demo:serve-ssr",
     "angular:serve:ssr": "node dist/demo/server/main.js",
     "angular:build:ssr": "ng build --prod && ng run demo:server:production",
-    "prerender": "ng run demo:prerender",
+    "angular:prerender": "ng run demo:prerender",
     "serve": "serve -l tcp://0.0.0.0:5000",
     "prettier": "prettier \"**/*.+(js|json|scss|css|less|ts|svelte|jsx)\"",
     "format": "npm run prettier -- --write",
