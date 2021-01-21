@@ -387,6 +387,11 @@ export class SwiperComponent implements OnInit {
       this.prependSlides = of(this.slides.slice(this.slides.length - this.loopedSlides));
       this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
     }
+    if (this.swiperRef) {
+      this.swiperRef?.destroy();
+      this.initSwiper();
+    }
+    this._changeDetectorRef.markForCheck();
   }
   private slides: SwiperSlideDirective[];
 
