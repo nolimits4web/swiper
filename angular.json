@@ -87,7 +87,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/demo",
+            "outputPath": "dist/demo/browser",
             "index": "playground-angular/src/index.html",
             "main": "playground-angular/src/main.ts",
             "polyfills": "playground-angular/src/polyfills.ts",
@@ -159,8 +159,56 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["playground-angular/tsconfig.app.json"],
+            "tsConfig": [
+              "playground-angular/tsconfig.app.json",
+              "playground-angular/tsconfig.server.json"
+            ],
             "exclude": ["**/node_modules/**"]
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/demo/server",
+            "main": "playground-angular/server.ts",
+            "tsConfig": "playground-angular/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "playground-angular/src/environments/environment.ts",
+                  "with": "playground-angular/src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "demo:build",
+            "serverTarget": "demo:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "demo:build:production",
+              "serverTarget": "demo:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "demo:build:production",
+            "serverTarget": "demo:server:production",
+            "routes": ["/"]
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }

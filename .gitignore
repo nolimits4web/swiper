@@ -29,3 +29,4 @@ package/*.less
 package/*.scss
 package/*.svelte
 !package/postinstall.js
+dist/demo
