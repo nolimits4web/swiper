@@ -1,8 +1,12 @@
 <main>
+
   <swiper>
     <ng-template swiperSlide>Test</ng-template>
     <ng-template swiperSlide>Test</ng-template>
   </swiper>
+
+  show: {{ show ? 'true' : '...' }}
+
   <swiper
     #swiperVirtualRef
     [slidesPerView]="3"
@@ -12,11 +16,22 @@
     [centeredSlides]="true"
     navigation
   >
-    <ng-container *ngFor="let slide of virtualSlides; index as i">
-      <ng-template swiperSlide>Slide {{ slide }}</ng-template>
-    </ng-container>
+    <ng-template swiperSlide *ngFor="let slide of virtualSlides; index as i"
+      >Slide {{ slide }}</ng-template
+    >
     <ng-template swiperSlide>Slide</ng-template>
     <ng-template swiperSlide>Slide</ng-template>
+  </swiper>
+  <swiper [zoom]="true">
+    <ng-template swiperSlide [zoom]="true">
+      <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+    </ng-template>
+    <ng-template swiperSlide>
+      <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+    </ng-template>
+    <ng-template swiperSlide [zoom]="true">
+      <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+    </ng-template>
   </swiper>
   <swiper
     #swiperRef
@@ -29,16 +44,17 @@
     [scrollbar]="scrollbar"
     [loop]="true"
     [(index)]="indexNumber"
-    [pagination]="{ type: 'fraction' }"
+    [pagination]="{ el: '.swiper-pagination.pagination-test' }"
   >
-    <ng-template swiperSlide>Best slide ever 1</ng-template>
-    <ng-template swiperSlide>Best slide ever 2</ng-template>
-    <ng-template swiperSlide>Best slide ever 3</ng-template>
-    <ng-container *ngFor="let slide of slides; index as i">
-      <ng-template swiperSlide let-data>
-        {{ slide }} / active: {{ data.isActive }} / next: {{ data.isNext }}</ng-template
-      >
+    <ng-container *ngIf="show">
+      <ng-template swiperSlide>Best slide ever 1</ng-template>
+      <ng-template swiperSlide>Best slide ever 2</ng-template>
     </ng-container>
+    <ng-template swiperSlide>Best slide ever 3</ng-template>
+    <ng-template swiperSlide let-data *ngFor="let slide of slides; index as i">
+      {{ slide }} / active: {{ data.isActive }} / next: {{ data.isNext }}</ng-template
+    >
+    <div slot="container-end" class="swiper-pagination pagination-test"></div>
   </swiper>
   <swiper [config]="exampleConfig">
     <ng-template swiperSlide>Best slide ever 2</ng-template>
@@ -59,5 +75,6 @@
   {{ indexNumber }}
   <button (click)="exampleConfig = { slidesPerView: 2 }">changeConfig</button>
 
+  <button (click)="show = !show">Toggle show</button>
   {{ exampleConfig | json }}
 </main>
