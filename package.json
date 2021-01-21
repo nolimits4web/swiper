@@ -92,6 +92,7 @@
     "@babel/preset-env": "^7.12.7",
     "@babel/preset-react": "^7.12.7",
     "@nguniversal/builders": "^11.1.0",
+    "@nguniversal/express-engine": "^11.1.0",
     "@rollup/plugin-babel": "^5.2.2",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-replace": "^2.3.4",
@@ -117,6 +118,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-svelte3": "^2.7.3",
     "exec-sh": "^0.3.4",
+    "express": "^4.17.1",
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
     "globby": "^11.0.1",
@@ -161,9 +163,7 @@
     "zone.js": "~0.10.2"
   },
   "dependencies": {
-    "@nguniversal/express-engine": "^11.1.0",
     "dom7": "^3.0.0",
-    "express": "^4.15.2",
     "ssr-window": "^3.0.0",
     "tslib": "^2.0.0"
   }
