@@ -28,7 +28,8 @@
     spaceBetween={10}
     navigation
     watchSlidesVisibility
-    watchSlidesProgress>
+    watchSlidesProgress
+  >
     {#each slides as slide, index (index)}
       <SwiperSlide>Slide {slide + 1}</SwiperSlide>
     {/each}

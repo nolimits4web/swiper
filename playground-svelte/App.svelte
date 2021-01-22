@@ -12,7 +12,8 @@
     spaceBetween={50}
     navigation
     scrollbar={{ draggable: true }}
-    pagination={{ clickable: true }}>
+    pagination={{ clickable: true }}
+  >
     <SwiperSlide>Slide 1</SwiperSlide>
     <SwiperSlide>Slide 2</SwiperSlide>
     <SwiperSlide>Slide 3</SwiperSlide>

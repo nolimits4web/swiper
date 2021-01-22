@@ -141,7 +141,8 @@
 <div
   bind:this={swiperEl}
   class={uniqueClasses(`${containerClasses}${className ? ` ${className}` : ''}`)}
-  {...restProps}>
+  {...restProps}
+>
   <slot name="content-start" />
   {#if needsNavigation(swiperParams)}
     <div bind:this={prevEl} class="swiper-button-prev" />
