@@ -1,11 +1,14 @@
 export default function addClasses() {
   const swiper = this;
-  const { classNames, params, rtl, $el, device } = swiper;
+  const { classNames, params, rtl, $el, device, support } = swiper;
   const suffixes = [];
 
   suffixes.push('initialized');
   suffixes.push(params.direction);
 
+  if (support.pointerEvents && !support.touch) {
+    suffixes.push('pointer-events');
+  }
   if (params.freeMode) {
     suffixes.push('free-mode');
   }
