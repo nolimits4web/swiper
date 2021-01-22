@@ -1,5 +1,12 @@
 # Changelog
 
+## [Swiper 6.4.8](https://github.com/nolimits4web/swiper/compare/v6.4.7...v6.4.6) - Released on January 22th, 2021
+
+- Core
+  - Improved default behavior on Windows touch screen devices
+- Types
+  - Some docs comments fixes
+
 ## [Swiper 6.4.7](https://github.com/nolimits4web/swiper/compare/v6.4.6...v6.4.7) - Released on January 21th, 2021
 
 - Types
