@@ -6,7 +6,7 @@ export default function addClasses() {
   suffixes.push('initialized');
   suffixes.push(params.direction);
 
-  if (support.pointerEvents) {
+  if (support.pointerEvents && !support.touch) {
     suffixes.push('pointer-events');
   }
   if (params.freeMode) {
