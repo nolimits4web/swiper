@@ -80,11 +80,13 @@
   bind:this={slideEl}
   class={uniqueClasses(`${slideClasses}${className ? ` ${className}` : ''}`)}
   data-swiper-slide-index={virtualIndex}
-  {...$$restProps}>
+  {...$$restProps}
+>
   {#if zoom}
     <div
       class="swiper-zoom-container"
-      data-swiper-zoom={typeof zoom === 'number' ? zoom : undefined}>
+      data-swiper-zoom={typeof zoom === 'number' ? zoom : undefined}
+    >
       <slot data={slideData} />
     </div>
   {:else}

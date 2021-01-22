@@ -16,7 +16,8 @@
     scrollbar={{ draggable: true }}
     pagination={{ clickable: true }}
     virtual={{ slides: virtualSlides }}
-    let:virtualData={{ slides, offset, from }}>
+    let:virtualData={{ slides, offset, from }}
+  >
     {#each slides as slide, index (from + index)}
       <SwiperSlide virtualIndex={from + index} style={`left: ${offset}px`}>{slide}</SwiperSlide>
     {/each}
