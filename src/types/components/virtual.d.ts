@@ -15,7 +15,7 @@ export interface VirtualMethods {
   to: number;
 
   /**
-   * Array with slide items passed by virtual.slides parameter
+   * Array with slide items passed by `virtual.slides` parameter
    */
   slides: any[];
 
@@ -24,17 +24,17 @@ export interface VirtualMethods {
    */
 
   /**
-   * Append slide. slides can be a single slide item or array with such slides.
+   * Append slide. `slides` can be a single slide item or array with such slides.
    */
   appendSlide(slide: HTMLElement | string | HTMLElement[] | string[]): void;
 
   /**
-   * Prepend slide. slides can be a single slide item or array with such slides.
+   * Prepend slide. `slides` can be a single slide item or array with such slides.
    */
   prependSlide(slide: HTMLElement | string | HTMLElement[] | string[]): void;
 
   /**
-   * Remove specific slide or slides. slideIndexes can be a number with slide index to remove or array with indexes.
+   * Remove specific slide or slides. `slideIndexes` can be a number with slide index to remove or array with indexes.
    */
   removeSlide(slideIndexes: number[]): void;
 
@@ -102,7 +102,12 @@ export interface VirtualOptions {
    */
   renderSlide?: (slide: any, index: any) => any | null;
   /**
-   * Function for external rendering (e.g. using some other library to handle DOM manipulations and state like React.js or Vue.js):
+   * Function for external rendering (e.g. using some other library to handle DOM manipulations and state like React.js or Vue.js). As an argument it accepts `data` object with the following properties:
+   *
+   * - `offset` - slides left/top offset in px
+   * - `from` - index of first slide required to be rendered
+   * - `to` - index of last slide required to be rendered
+   * - `slides` - array with slide items to be rendered
    *
    * @default null
    */

@@ -43,17 +43,27 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   params: SwiperOptions;
 
   /**
-   * Dom7 element with slider container HTML element. To get vanilla HTMLElement use mySwiper.el
+   * Dom7 element with slider container HTML element. To get vanilla HTMLElement use `swiper.el`
    */
   $el: Dom7Array;
 
   /**
-   * Dom7 element with slider wrapper HTML element. To get vanilla HTMLElement use mySwiper.wrapperEl
+   * Slider container HTML element
+   */
+  el: HTMLElement;
+
+  /**
+   * Dom7 element with slider wrapper HTML element. To get vanilla HTMLElement use `swiper.wrapperEl`
    */
   $wrapperEl: Dom7Array;
 
   /**
-   * Dom7 array-like collection of slides HTML elements. To get specific slide HTMLElement use mySwiper.slides[1]
+   * Wrapper HTML element
+   */
+  wrapperEl: HTMLElement;
+
+  /**
+   * Dom7 array-like collection of slides HTML elements. To get specific slide HTMLElement use `swiper.slides[1]`
    */
   slides: Dom7Array;
 
@@ -95,22 +105,28 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   previousIndex: number;
 
   /**
-   * true if slider on most "left"/"top" position
+   * `true` if slider on most "left"/"top" position
    */
   isBeginning: boolean;
 
   /**
-   * true if slider on most "right"/"bottom" position
+   * `true` if slider on most "right"/"bottom" position
    */
   isEnd: boolean;
 
   /**
-   * true if swiper is in transition
+   * `true` if swiper is in transition
    */
   animating: boolean;
 
   /**
    * Object with the following touch event properties:
+   *
+   * - `swiper.touches.startX`
+   * - `swiper.touches.startY`
+   * - `swiper.touches.currentX`
+   * - `swiper.touches.currentY`
+   * - `swiper.touches.diff`
    */
   touches: {
     startX: number;
@@ -131,17 +147,17 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   clickedSlide: HTMLElement;
 
   /**
-   * Disable / enable ability to slide to the next slides by assigning false/true to this property
+   * Disable / enable ability to slide to the next slides by assigning `false` / `true` to this property
    */
   allowSlideNext: boolean;
 
   /**
-   * Disable / enable ability to slide to the previous slides by assigning false/true to this property
+   * Disable / enable ability to slide to the previous slides by assigning `false` / `true` to this property
    */
   allowSlidePrev: boolean;
 
   /**
-   * Disable / enable ability move slider by grabbing it with mouse or by touching it with finger (on touch screens) by assigning false/true to this property
+   * Disable / enable ability move slider by grabbing it with mouse or by touching it with finger (on touch screens) by assigning `false` / `true` to this property
    */
   allowTouchMove: boolean;
 

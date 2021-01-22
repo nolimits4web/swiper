@@ -11,7 +11,7 @@ export interface PaginationMethods {
   /**
    * Dom7 array-like collection of pagination bullets
    * HTML elements. To get specific slide HTMLElement
-   * use `mySwiper.pagination.bullets[1]`.
+   * use `swiper.pagination.bullets[1]`.
    */
   bullets: Dom7Array[];
 

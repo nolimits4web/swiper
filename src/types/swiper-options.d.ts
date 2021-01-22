@@ -23,7 +23,7 @@ import { SwiperEvents } from './swiper-events';
 export interface SwiperOptions {
   /**
    * Whether Swiper should be initialised automatically when you create an instance.
-   * If disabled, then you need to init it manually by calling `mySwiper.init()`
+   * If disabled, then you need to init it manually by calling `swiper.init()`
    *
    * @default true
    */
@@ -133,7 +133,7 @@ export interface SwiperOptions {
   effect?: 'slide' | 'fade' | 'cube' | 'coverflow' | 'flip';
 
   /**
-   * Fire [Transition/SlideChange][Start/End] events on swiper initialization.
+   * Fire Transition/SlideChange/Start/End events on swiper initialization.
    * Such events will be fired on initialization in case of your initialSlide is not 0, or you use loop mode
    *
    * @default true
@@ -252,8 +252,9 @@ export interface SwiperOptions {
   slidesPerGroup?: number;
 
   /**
-   * The parameter works in the following way: If slidesPerGroupSkip equals 0 (default), no slides are excluded from grouping, and the resulting behaviour is the same as without this change.
-   * If slidesPerGroupSkip is equal or greater than 1 the first X slides are treated as single groups, whereas all following slides are grouped by the slidesPerGroup value.
+   * The parameter works in the following way: If `slidesPerGroupSkip` equals `0` (default), no slides are excluded from grouping, and the resulting behaviour is the same as without this change.
+   *
+   * If `slidesPerGroupSkip` is equal or greater than `1` the first X slides are treated as single groups, whereas all following slides are grouped by the `slidesPerGroup` value.
    *
    * @default 0
    */
