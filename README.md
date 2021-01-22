@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/nolimits4web/swiper.svg?branch=master)](https://travis-ci.org/nolimits4web/swiper)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/swiper/badge?style=rounded)](https://www.jsdelivr.com/package/npm/swiper)
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
 
 # Swiper
 
@@ -52,6 +53,18 @@ Production version will available in `package/` folder.
 # Contributing
 
 All changes should be committed to `src/` files only. Before you open an issue please review the [contributing](https://github.com/nolimits4web/swiper/blob/master/CONTRIBUTING.md) guideline.
+
+### Contribute Online with a single click
+
+You can use Gitpod (A online IDE which is free for Open Source) for contributing. With a single click it will launch a workspace and automatically:
+
+- clone the swiper repo.
+- install the dependencies.
+- run `npm run dev`
+
+So that you can start straight away.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/nolimits4web/swiper)
 
 # Swiper 5.x
 

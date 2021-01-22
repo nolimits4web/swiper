@@ -1,0 +1,15 @@
+image:
+  file: .gitpod.Dockerfile
+tasks:
+  - command: gp await-port 5000 && sleep 5 && gp preview $(gp url 5000)/demos/
+  - init: npm install
+    command: npm run dev
+ports:
+  - port: 5000
+    onOpen: ignore
+  - port: 35729
+    onOpen: ignore
+
+vscode:
+  extensions:
+    - esbenp.prettier-vscode@5.7.2:uyRGbFR3U94Ki5fjjZ7aoQ==
