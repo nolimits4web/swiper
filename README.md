@@ -1,6 +1,8 @@
-![Test](https://github.com/nolimits4web/swiper/workflows/Test/badge.svg)
+![Test](https://github.com/nolimits4web/swiper/workflows/Test/badge.svg) [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/swiper/badge?style=rounded)](https://www.jsdelivr.com/package/npm/swiper)
 
-[![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/swiper/badge?style=rounded)](https://www.jsdelivr.com/package/npm/swiper)
+<a href="https://opencollective.com/swiper/" target="_blank">
+  <img src="https://opencollective.com/swiper/donate/button@2x.png?color=blue" width=300 />
+</a>
 
 # Swiper
 

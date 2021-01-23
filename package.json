@@ -59,10 +59,16 @@
     "url": "https://github.com/nolimits4web/swiper/issues"
   },
   "homepage": "https://swiperjs.com",
-  "funding": {
-    "type": "patreon",
-    "url": "https://www.patreon.com/vladimirkharlampidi"
-  },
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/vladimirkharlampidi"
+    },
+    {
+      "type": "open_collective",
+      "url": "http://opencollective.com/swiper"
+    }
+  ],
   "engines": {
     "node": ">= 4.7.0"
   },
