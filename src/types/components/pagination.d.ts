@@ -136,7 +136,7 @@ export interface PaginationOptions {
    *
    * @example
    * ```js
-   * var swiper = new Swiper('.swiper-container', {
+   * const mySwiper = new Swiper('.swiper-container', {
    *   //...
    *   renderBullet: function (index, className) {
    *     return '<span class="' + className + '">' + (index + 1) + '</span>';
@@ -153,7 +153,7 @@ export interface PaginationOptions {
    *
    * @example
    * ```js
-   * var swiper = new Swiper('.swiper-container', {
+   * const mySwiper = new Swiper('.swiper-container', {
    *   //...
    *   renderFraction: function (currentClass, totalClass) {
    *       return '<span class="' + currentClass + '"></span>' +
@@ -172,7 +172,7 @@ export interface PaginationOptions {
    *
    * @example
    * ```js
-   * var swiper = new Swiper('.swiper-container', {
+   * const mySwiper = new Swiper('.swiper-container', {
    *   //...
    *   renderProgressbar: function (progressbarFillClass) {
    *       return '<span class="' + progressbarFillClass + '"></span>';
@@ -190,7 +190,7 @@ export interface PaginationOptions {
    *
    * @example
    * ```js
-   * var swiper = new Swiper('.swiper-container', {
+   * const mySwiper = new Swiper('.swiper-container', {
    *   //...
    *   renderCustom: function (swiper, current, total) {
    *     return current + ' of ' + total;
