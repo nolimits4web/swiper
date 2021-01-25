@@ -461,11 +461,13 @@ export class SwiperComponent implements OnInit {
       this.prependSlides = of(this.slides.slice(this.slides.length - this.loopedSlides));
       this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
     }
-    if (this.swiperRef) {
-      this.swiperRef?.destroy();
-      this.initSwiper();
-    }
+    this._changeDetectorRef.detectChanges();
+    this.swiperRef?.update();
   };
+
+  get isSwiperActive() {
+    return this.swiperRef && !this.swiperRef.destroyed;
+  }
 
   initSwiper() {
     const { params: swiperParams, passedParams } = getParams(this);
@@ -506,18 +508,26 @@ export class SwiperComponent implements OnInit {
         }
         this._changeDetectorRef.detectChanges();
       },
-      _slideClass: (_, el: HTMLElement, classNames) => {
-        const slideIndex = parseInt(el.getAttribute('data-swiper-slide-index'));
-        if (this.virtual) {
-          const virtualSlide = this.slides.find((item) => {
-            return item.virtualIndex && item.virtualIndex === slideIndex;
-          });
-          if (virtualSlide) {
-            virtualSlide.classNames = classNames;
-            return;
+      _slideClasses: (_, updated) => {
+        updated.forEach(({ slideEl, classNames }, index) => {
+          const slideIndex = parseInt(slideEl.getAttribute('data-swiper-slide-index')) || index;
+          if (this.virtual) {
+            const virtualSlide = this.slides.find((item) => {
+              return item.virtualIndex && item.virtualIndex === slideIndex;
+            });
+            if (virtualSlide) {
+              virtualSlide.classNames = classNames;
+              return;
+            }
           }
-        }
-        this.slides[slideIndex].classNames = classNames;
+
+          if (this.slides[slideIndex]) {
+            // TODO: this.loop
+            this.slides[slideIndex].classNames = classNames;
+          } else {
+            // loop
+          }
+        });
         this._changeDetectorRef.detectChanges();
       },
     });
@@ -721,11 +731,11 @@ export class SwiperComponent implements OnInit {
   }
 
   setIndex(index: number, speed?: number, silent?: boolean): void {
-    if (!this.swiperRef) {
+    if (!this.isSwiperActive) {
       this.initialSlide = index;
       return;
     }
-    if (index === this.swiperRef.realIndex) {
+    if (index === this.swiperRef.activeIndex) {
       return;
     }
     this.zone.runOutsideAngular(() => {
