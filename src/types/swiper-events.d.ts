@@ -223,6 +223,14 @@ export interface SwiperEvents {
    * INTERNAL: Event will fired after setting CSS classes on swiper slide element
    */
   _slideClass?: (swiper: Swiper, el: HTMLElement, classNames: string) => void;
+
+  /**
+   * INTERNAL: Event will fired after setting CSS classes on all swiper slides
+   */
+  _slideClasses?: (
+    swiper: Swiper,
+    slides: { el: HTMLElement; classNames: string; index: number }[],
+  ) => void;
   /**
    * INTERNAL: Event will fired as soon as swiper instance available (before init)
    */

@@ -50,6 +50,7 @@
     >
     <div slot="container-end" class="swiper-pagination pagination-test"></div>
   </swiper>
+  <button (click)="slides.push('test')">Add slide</button>
   <swiper [config]="exampleConfig">
     <ng-template swiperSlide>Best slide ever 2</ng-template>
     <ng-template swiperSlide>Best slide ever 2</ng-template>
