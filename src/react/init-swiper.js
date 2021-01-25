@@ -22,7 +22,7 @@ function mountSwiper({ el, nextEl, prevEl, paginationEl, scrollbarEl, swiperRef 
     swiper.params.scrollbar.el = scrollbarEl;
     swiper.originalParams.scrollbar.el = scrollbarEl;
   }
-  swiperRef.current.init(el);
+  swiper.init(el);
 }
 
 export { initSwiper, mountSwiper };
