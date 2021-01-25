@@ -1,7 +1,7 @@
 import { h } from 'vue';
 
 function updateOnVirtualData(swiper) {
-  if (!swiper || swiper.destroyed) return;
+  if (!swiper || swiper.destroyed || !swiper.params.virtual) return;
   swiper.updateSlides();
   swiper.updateProgress();
   swiper.updateSlidesClasses();

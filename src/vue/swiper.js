@@ -1,6 +1,6 @@
 import { h, ref, onMounted, onUpdated, onBeforeUnmount, watch } from 'vue';
 import { getParams } from './get-params';
-import { initSwiper } from './init-swiper';
+import { initSwiper, mountSwiper } from './init-swiper';
 import { needsScrollbar, needsNavigation, needsPagination, uniqueClasses, extend } from './utils';
 import { renderLoop, calcLoopedSlides } from './loop';
 import { getChangedParams } from './get-changed-params';
@@ -243,32 +243,33 @@ const Swiper = {
     swiperParams.onAny = (event, ...args) => {
       emit(event, ...args);
     };
+
     Object.assign(swiperParams.on, {
       _beforeBreakpoint: onBeforeBreakpoint,
       _containerClasses(swiper, classes) {
         containerClasses.value = classes;
       },
-      _swiper(swiper) {
-        swiper.loopCreate = () => {};
-        swiper.loopDestroy = () => {};
-        if (swiperParams.loop) {
-          swiper.loopedSlides = calcLoopedSlides(slidesRef.value, swiperParams);
-        }
-        swiperRef.value = swiper;
-        if (swiper.virtual && swiper.params.virtual.enabled) {
-          swiper.virtual.slides = slidesRef.value;
-          const extendWith = {
-            cache: false,
-            renderExternal: (data) => {
-              virtualData.value = data;
-            },
-            renderExternalUpdate: false,
-          };
-          extend(swiper.params.virtual, extendWith);
-          extend(swiper.originalParams.virtual, extendWith);
-        }
-      },
     });
+
+    // init Swiper
+    swiperRef.value = initSwiper(swiperParams);
+    swiperRef.value.loopCreate = () => {};
+    swiperRef.value.loopDestroy = () => {};
+    if (swiperParams.loop) {
+      swiperRef.value.loopedSlides = calcLoopedSlides(slidesRef.value, swiperParams);
+    }
+    if (swiperRef.value.virtual && swiperRef.value.params.virtual.enabled) {
+      swiperRef.value.virtual.slides = slidesRef.value;
+      const extendWith = {
+        cache: false,
+        renderExternal: (data) => {
+          virtualData.value = data;
+        },
+        renderExternalUpdate: false,
+      };
+      extend(swiperRef.value.params.virtual, extendWith);
+      extend(swiperRef.value.originalParams.virtual, extendWith);
+    }
 
     onUpdated(() => {
       // set initialized flag
@@ -302,16 +303,17 @@ const Swiper = {
       updateOnVirtualData(swiperRef.value);
     });
 
-    // init swiper
+    // mount swiper
     onMounted(() => {
       if (!swiperElRef.value) return;
-      initSwiper(
+      mountSwiper(
         {
           el: swiperElRef.value,
           nextEl: nextElRef.value,
           prevEl: prevElRef.value,
           paginationEl: paginationElRef.value,
           scrollbarEl: scrollbarElRef.value,
+          swiper: swiperRef.value,
         },
         swiperParams,
       );
