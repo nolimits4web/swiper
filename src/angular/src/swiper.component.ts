@@ -409,6 +409,10 @@ export class SwiperComponent implements OnInit {
     return of(this.slides);
   }
 
+  get zoomContainerClass() {
+    return typeof this.zoom !== 'boolean' ? this.zoom.containerClass : 'swiper-zoom-container';
+  }
+
   @HostBinding('class') containerClasses = 'swiper-container';
   constructor(
     private zone: NgZone,
@@ -506,28 +510,6 @@ export class SwiperComponent implements OnInit {
           extend(swiper.params.virtual, extendWith);
           extend(swiper.originalParams.virtual, extendWith);
         }
-        this._changeDetectorRef.detectChanges();
-      },
-      _slideClasses: (_, updated) => {
-        updated.forEach(({ slideEl, classNames }, index) => {
-          const slideIndex = parseInt(slideEl.getAttribute('data-swiper-slide-index')) || index;
-          if (this.virtual) {
-            const virtualSlide = this.slides.find((item) => {
-              return item.virtualIndex && item.virtualIndex === slideIndex;
-            });
-            if (virtualSlide) {
-              virtualSlide.classNames = classNames;
-              return;
-            }
-          }
-
-          if (this.slides[slideIndex]) {
-            // TODO: this.loop
-            this.slides[slideIndex].classNames = classNames;
-          } else {
-            // loop
-          }
-        });
         this._changeDetectorRef.detectChanges();
       },
     });

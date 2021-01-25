@@ -41,12 +41,12 @@
 <ng-template #slidesTemplate let-loopSlides="loopSlides" let-slideKey="key">
   <div
     *ngFor="let slide of loopSlides | async"
-    [ngClass]="slide.classNames + ' ' + (slideKey !== '' ? slideDuplicateClass : '')"
+    [ngClass]="slideClass + ' ' + (slideKey !== '' ? slideDuplicateClass : '')"
     [attr.data-swiper-slide-index]="slide.virtualIndex ? slide.virtualIndex : slide.slideIndex"
     [style]="style"
     [ngSwitch]="slide.zoom"
   >
-    <div *ngSwitchCase="true" class="swiper-zoom-container">
+    <div *ngSwitchCase="true" [ngClass]="zoomContainerClass">
       <ng-template
         [ngTemplateOutlet]="slide.template"
         [ngTemplateOutletContext]="{
