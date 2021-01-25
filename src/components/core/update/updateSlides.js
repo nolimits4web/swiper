@@ -286,9 +286,10 @@ export default function updateSlides() {
       }
     }
     snapGrid = newSlidesGrid;
+
     if (
-      Math.floor(swiper.virtualSize - swiperSize) - Math.floor(snapGrid[snapGrid.length - 1]) >
-      1
+      !swiper.params.freeMode &&
+      Math.floor(swiper.virtualSize - swiperSize) - Math.floor(snapGrid[snapGrid.length - 1]) > 1
     ) {
       snapGrid.push(swiper.virtualSize - swiperSize);
     }
