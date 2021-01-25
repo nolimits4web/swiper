@@ -209,6 +209,7 @@ const Scrollbar = {
       support.passiveListener && params.passiveListeners
         ? { passive: true, capture: false }
         : false;
+    if (!target) return;
     if (!support.touch) {
       target.addEventListener(
         touchEventsDesktop.start,
@@ -246,6 +247,7 @@ const Scrollbar = {
       support.passiveListener && params.passiveListeners
         ? { passive: true, capture: false }
         : false;
+    if (!target) return;
     if (!support.touch) {
       target.removeEventListener(
         touchEventsDesktop.start,
