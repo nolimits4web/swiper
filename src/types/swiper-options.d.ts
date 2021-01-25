@@ -1095,7 +1095,7 @@ export interface SwiperOptions {
   zoom?: ZoomOptions | boolean;
 
   /**
-   * !INTERNAL When enabled will emit "_containerClasses" and "_slideClasses" events
+   * !INTERNAL When enabled will emit "_containerClasses" and "_slideClass" events
    */
   _emitClasses?: boolean;
 }
