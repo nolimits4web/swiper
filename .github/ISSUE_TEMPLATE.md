@@ -22,7 +22,6 @@ EXPLAIN WHAT IS TO BE EXPECTED, HERE.
 ### Actual Behavior
 EXPLAIN WHAT IS ACTUALLY HAPPENING, HERE.
 
-P.S. Remember, an issue is not the place to ask questions. You can use [Stack Overflow](http://stackoverflow.com/questions/tagged/swiper)
-for that.
+P.S. Remember, an issue is not the place to ask questions.
 
 Before you open an issue, please check if a similar issue already exists or has been closed before.
