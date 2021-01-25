@@ -37,7 +37,7 @@ export interface AutoplayEvents {
  *
  * @example
  * ```js
- * var mySwiper = new Swiper('.swiper-container', {
+ * const swiper = new Swiper('.swiper-container', {
  *   autoplay: {
  *     delay: 5000,
  *   },
