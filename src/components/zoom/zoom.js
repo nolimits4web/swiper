@@ -1,3 +1,4 @@
+import { getWindow } from 'ssr-window';
 import $ from '../../utils/dom';
 import { bindModuleMethods, getTranslate } from '../../utils/utils';
 
@@ -290,6 +291,7 @@ const Zoom = {
   },
   in(e) {
     const swiper = this;
+    const window = getWindow();
 
     const zoom = swiper.zoom;
     const params = swiper.params.zoom;
@@ -340,8 +342,8 @@ const Zoom = {
     if (e) {
       slideWidth = gesture.$slideEl[0].offsetWidth;
       slideHeight = gesture.$slideEl[0].offsetHeight;
-      offsetX = gesture.$slideEl.offset().left;
-      offsetY = gesture.$slideEl.offset().top;
+      offsetX = gesture.$slideEl.offset().left + window.scrollX;
+      offsetY = gesture.$slideEl.offset().top + window.scrollY;
       diffX = offsetX + slideWidth / 2 - touchX;
       diffY = offsetY + slideHeight / 2 - touchY;
 
