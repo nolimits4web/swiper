@@ -409,6 +409,10 @@ export class SwiperComponent implements OnInit {
     return of(this.slides);
   }
 
+  get zoomContainerClass() {
+    return typeof this.zoom !== 'boolean' ? this.zoom.containerClass : 'swiper-zoom-container';
+  }
+
   @HostBinding('class') containerClasses = 'swiper-container';
   constructor(
     private zone: NgZone,

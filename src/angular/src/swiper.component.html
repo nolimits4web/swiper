@@ -46,7 +46,7 @@
     [style]="style"
     [ngSwitch]="slide.zoom"
   >
-    <div *ngSwitchCase="true" class="swiper-zoom-container">
+    <div *ngSwitchCase="true" [ngClass]="zoomContainerClass">
       <ng-template
         [ngTemplateOutlet]="slide.template"
         [ngTemplateOutletContext]="{
