@@ -30,7 +30,7 @@ export interface SwiperEvents {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   init: false,
    *   // other parameters
    * });
@@ -44,7 +44,7 @@ export interface SwiperEvents {
    * @example
    * ```js
    * // Otherwise use it as the parameter:
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   // other parameters
    *   on: {
    *     init: function () {

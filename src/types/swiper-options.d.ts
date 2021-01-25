@@ -174,7 +174,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *    onAny(eventName, ...args) {
    *      console.log('Event: ', eventName);
    *      console.log('Event data: ', args);
@@ -662,7 +662,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   // Default parameters
    *   slidesPerView: 1,
    *   spaceBetween: 10,
@@ -689,7 +689,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   slidesPerView: 1,
    *   spaceBetween: 10,
    *   // using "ratio" endpoints
@@ -825,7 +825,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   a11y: {
    *     prevSlideMessage: 'Previous slide',
    *     nextSlideMessage: 'Next slide',
@@ -840,7 +840,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *  autoplay: {
    *    delay: 5000,
    *  },
@@ -854,7 +854,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   controller: {
    *     inverse: true,
    *   },
@@ -868,7 +868,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   coverflowEffect: {
    *     rotate: 30,
    *     slideShadows: false,
@@ -883,7 +883,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   cubeEffect: {
    *     slideShadows: false,
    *   },
@@ -897,7 +897,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   effect: 'fade',
    *   fadeEffect: {
    *     crossFade: true
@@ -912,7 +912,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   flipEffect: {
    *     slideShadows: false,
    *   },
@@ -927,7 +927,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   hashNavigation: {
    *     replaceState: true,
    *   },
@@ -943,7 +943,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   history: {
    *     replaceState: true,
    *   },
@@ -963,7 +963,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   keyboard: {
    *     enabled: true,
    *     onlyInViewport: false,
@@ -978,7 +978,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   lazy: {
    *     loadPrevNext: true,
    *   },
@@ -992,7 +992,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   mousewheel: {
    *     invert: true,
    *   },
@@ -1006,7 +1006,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   navigation: {
    *     nextEl: '.swiper-button-next',
    *     prevEl: '.swiper-button-prev',
@@ -1021,7 +1021,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   pagination: {
    *     el: '.swiper-pagination',
    *     type: 'bullets',
@@ -1041,7 +1041,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   scrollbar: {
    *     el: '.swiper-scrollbar',
    *     draggable: true,
@@ -1056,7 +1056,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   ...
    *   thumbs: {
    *     swiper: thumbsSwiper
@@ -1071,7 +1071,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   virtual: {
    *     slides: ['Slide 1', 'Slide 2', 'Slide 3', 'Slide 4', 'Slide 5'],
    *   },
@@ -1085,7 +1085,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * const mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   zoom: {
    *     maxRatio: 5,
    *   },
