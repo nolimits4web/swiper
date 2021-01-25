@@ -163,7 +163,6 @@
   },
   "dependencies": {
     "dom7": "^3.0.0",
-    "ssr-window": "^3.0.0",
-    "tslib": "^2.1.0"
+    "ssr-window": "^3.0.0"
   }
 }
