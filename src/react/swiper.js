@@ -123,7 +123,7 @@ const Swiper = forwardRef(
           prevEl: prevElRef.current,
           paginationEl: paginationElRef.current,
           scrollbarEl: scrollbarElRef.current,
-          swiperRef,
+          swiper: swiperRef.current,
         },
         swiperParams,
       );

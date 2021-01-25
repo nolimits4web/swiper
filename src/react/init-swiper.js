@@ -6,8 +6,7 @@ function initSwiper(swiperParams) {
   return new Swiper(swiperParams);
 }
 
-function mountSwiper({ el, nextEl, prevEl, paginationEl, scrollbarEl, swiperRef }, swiperParams) {
-  const swiper = swiperRef.current;
+function mountSwiper({ el, nextEl, prevEl, paginationEl, scrollbarEl, swiper }, swiperParams) {
   if (needsNavigation(swiperParams) && nextEl && prevEl) {
     swiper.params.navigation.nextEl = nextEl;
     swiper.originalParams.navigation.nextEl = nextEl;
