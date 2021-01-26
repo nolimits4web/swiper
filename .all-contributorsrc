@@ -15,7 +15,12 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/999588?v=4",
       "profile": "https://github.com/nolimits4web",
       "contributions": [
-        "code"
+        "code",
+        "maintenance",
+        "infra",
+        "question",
+        "doc",
+        "ideas",
       ]
     },
     {
