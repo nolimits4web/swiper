@@ -1,9 +1,7 @@
 ![Test](https://github.com/nolimits4web/swiper/workflows/Test/badge.svg) [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/swiper/badge?style=rounded)](https://www.jsdelivr.com/package/npm/swiper)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-172-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-173-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <a href="https://opencollective.com/swiper/" target="_blank">
@@ -143,7 +141,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/nolimits4web"><img src="https://avatars.githubusercontent.com/u/999588?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vladimir Kharlampidi</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=nolimits4web" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/nolimits4web"><img src="https://avatars.githubusercontent.com/u/999588?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vladimir Kharlampidi</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=nolimits4web" title="Code">💻</a> <a href="#maintenance-nolimits4web" title="Maintenance">🚧</a> <a href="#infra-nolimits4web" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#question-nolimits4web" title="Answering Questions">💬</a> <a href="https://github.com/nolimits4web/swiper/commits?author=nolimits4web" title="Documentation">📖</a> <a href="#ideas-nolimits4web" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/vltansky"><img src="https://avatars.githubusercontent.com/u/5851280?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vlad Tansky</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=vltansky" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/DAnn2012"><img src="https://avatars.githubusercontent.com/u/1197819?v=4?s=100" width="100px;" alt=""/><br /><sub><b>DAnn2012</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=DAnn2012" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/stephanebachelier"><img src="https://avatars.githubusercontent.com/u/172615?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Stéphane Bachelier</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=stephanebachelier" title="Code">💻</a></td>
@@ -179,7 +177,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://girliemac.com/"><img src="https://avatars.githubusercontent.com/u/107763?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tomomi ❤ Imura</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=girliemac" title="Code">💻</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/jenemde"><img src="https://avatars.githubusercontent.com/u/53625399?v=4?s=100" width="100px;" alt=""/><br /><sub><b>jenemde</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=jenemde" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/jenemde"><img src="https://avatars.githubusercontent.com/u/53625399?v=4?s=100" width="100px;" alt=""/><br /><sub><b>jenemde</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=jenemde" title="Code">💻</a> <a href="#a11y-jenemde" title="Accessibility">️️️️♿️</a></td>
     <td align="center"><a href="http://www.navyxie.com/"><img src="https://avatars.githubusercontent.com/u/1982716?v=4?s=100" width="100px;" alt=""/><br /><sub><b>navy</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=navyxie" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/1sergiogarciap"><img src="https://avatars.githubusercontent.com/u/64509552?v=4?s=100" width="100px;" alt=""/><br /><sub><b>1sergiogarciap</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=1sergiogarciap" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/azaslavsky"><img src="https://avatars.githubusercontent.com/u/3709945?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alex Zaslavsky</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=azaslavsky" title="Code">💻</a></td>
@@ -363,6 +361,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/yukulele"><img src="https://avatars.githubusercontent.com/u/347244?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Clément P</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=yukulele" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/aPalenov"><img src="https://avatars.githubusercontent.com/u/20544542?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Андрей</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=aPalenov" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/beomy"><img src="https://avatars.githubusercontent.com/u/6986479?v=4?s=100" width="100px;" alt=""/><br /><sub><b>이효범</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=beomy" title="Code">💻</a></td>
+    <td align="center"><a href="https://wolstenhol.me/"><img src="https://avatars.githubusercontent.com/u/6339853?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Phil Wolstenholme</b></sub></a><br /><a href="#a11y-philwolstenholme" title="Accessibility">️️️️♿️</a></td>
   </tr>
 </table>
 

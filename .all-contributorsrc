@@ -15,7 +15,12 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/999588?v=4",
       "profile": "https://github.com/nolimits4web",
       "contributions": [
-        "code"
+        "code",
+        "maintenance",
+        "infra",
+        "question",
+        "doc",
+        "ideas"
       ]
     },
     {
@@ -267,7 +272,8 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/53625399?v=4",
       "profile": "https://github.com/jenemde",
       "contributions": [
-        "code"
+        "code",
+        "a11y"
       ]
     },
     {
@@ -1555,6 +1561,15 @@
       "profile": "https://github.com/beomy",
       "contributions": [
         "code"
+      ]
+    },
+    {
+      "login": "philwolstenholme",
+      "name": "Phil Wolstenholme",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6339853?v=4",
+      "profile": "https://wolstenhol.me/",
+      "contributions": [
+        "a11y"
       ]
     }
   ],
