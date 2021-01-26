@@ -136,6 +136,7 @@ const Swiper = {
     '_beforeBreakpoint',
     '_containerClasses',
     '_slideClass',
+    '_slideClasses',
     '_swiper',
     'activeIndexChange',
     'afterInit',
