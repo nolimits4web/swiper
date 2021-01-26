@@ -7,7 +7,7 @@ import SwiperCore, {
   A11y,
   Virtual,
   Zoom,
-} from '../../../build/core';
+} from '../../../../build/core';
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Virtual, Zoom]);
 
