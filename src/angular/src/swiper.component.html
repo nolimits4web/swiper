@@ -41,7 +41,11 @@
 <ng-template #slidesTemplate let-loopSlides="loopSlides" let-slideKey="key">
   <div
     *ngFor="let slide of loopSlides | async"
-    [ngClass]="slideClass + ' ' + (slideKey !== '' ? slideDuplicateClass : '')"
+    [ngClass]="
+      (slide.class ? slide.class + ' ' : '') +
+      slideClass +
+      (slideKey !== '' ? ' ' + slideDuplicateClass : '')
+    "
     [attr.data-swiper-slide-index]="slide.virtualIndex ? slide.virtualIndex : slide.slideIndex"
     [style]="style"
     [ngSwitch]="slide.zoom"
