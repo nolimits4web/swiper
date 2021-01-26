@@ -22,8 +22,8 @@
   </main>
 </template>
 <script>
-import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from '../build/core';
-import { Swiper, SwiperSlide } from '../build/vue';
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from '../../build/core';
+import { Swiper, SwiperSlide } from '../../build/vue';
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 

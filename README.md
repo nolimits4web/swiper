@@ -46,31 +46,31 @@ The result is available in `build/` folder.
 
 **Core:**
 
-folder: `./playground/`
+folder: `./playground/core`
 
 `$ npm run dev`
 
 **React:**
 
-folder: `./playground-react/`
+folder: `./playground/react/`
 
 `$ npm run react:dev`
 
 **Vue:**
 
-folder: `./playground-vue/`
+folder: `./playground/vue/`
 
 `$ npm run vue:dev`
 
 **Svelte:**
 
-folder: `./playground-svelte/`
+folder: `./playground/svelte/`
 
 `$ npm run svelte:dev`
 
 **Angular:**
 
-folder: `./playground-angular/`
+folder: `./playground/angular/`
 
 `$ npm run angular:dev` or `$ ng serve`
 

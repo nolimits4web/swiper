@@ -13,10 +13,10 @@ const env = process.env.NODE_ENV || 'development';
 module.exports = {
   mode: env,
   entry: {
-    app: './playground-react/main.js',
+    app: './playground/react/main.js',
   },
   output: {
-    path: resolvePath('playground-react/public'),
+    path: resolvePath('playground/react/public'),
     hashDigestLength: 6,
     filename: 'js/[name].[hash].js',
     chunkFilename: 'js/[name].[chunkhash].js',
@@ -32,7 +32,7 @@ module.exports = {
     hot: true,
     open: true,
     compress: true,
-    contentBase: '/playground-react/public/',
+    contentBase: '/playground/react/public/',
     disableHostCheck: true,
     historyApiFallback: true,
     watchOptions: {
@@ -63,7 +63,7 @@ module.exports = {
             ],
           },
         },
-        include: [resolvePath('src'), resolvePath('playground-react')],
+        include: [resolvePath('src'), resolvePath('playground/react')],
       },
       {
         test: /\.css$/,
@@ -88,7 +88,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       filename: './index.html',
-      template: './playground-react/index.html',
+      template: './playground/react/index.html',
       inject: true,
       minify:
         env === 'production'
