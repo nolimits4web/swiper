@@ -294,10 +294,13 @@ class Swiper {
   emitSlidesClasses() {
     const swiper = this;
     if (!swiper.params._emitClasses || !swiper.el) return;
+    const updates = [];
     swiper.slides.each((slideEl) => {
       const classNames = swiper.getSlideClasses(slideEl);
+      updates.push({ slideEl, classNames });
       swiper.emit('_slideClass', slideEl, classNames);
     });
+    swiper.emit('_slideClasses', updates);
   }
 
   slidesPerViewDynamic() {

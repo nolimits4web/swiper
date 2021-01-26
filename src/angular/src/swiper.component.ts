@@ -512,6 +512,25 @@ export class SwiperComponent implements OnInit {
         }
         this._changeDetectorRef.detectChanges();
       },
+      _slideClasses: (_, updated) => {
+        updated.forEach(({ slideEl, classNames }, index) => {
+          const slideIndex = parseInt(slideEl.getAttribute('data-swiper-slide-index')) || index;
+          if (this.virtual) {
+            const virtualSlide = this.slides.find((item) => {
+              return item.virtualIndex && item.virtualIndex === slideIndex;
+            });
+            if (virtualSlide) {
+              virtualSlide.classNames = classNames;
+              return;
+            }
+          }
+
+          if (this.slides[slideIndex]) {
+            this.slides[slideIndex].classNames = classNames;
+          }
+        });
+        this._changeDetectorRef.detectChanges();
+      },
     });
     new Swiper(this.elementRef.nativeElement, swiperParams);
   }
