@@ -1,7 +1,7 @@
 import React from 'react';
 
 function updateOnVirtualData(swiper) {
-  if (!swiper || swiper.destroyed) return;
+  if (!swiper || swiper.destroyed || !swiper.params.virtual) return;
   swiper.updateSlides();
   swiper.updateProgress();
   swiper.updateSlidesClasses();

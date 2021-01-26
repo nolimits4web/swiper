@@ -8,7 +8,7 @@
     beforeUpdate,
   } from 'svelte';
   import { getParams } from './get-params';
-  import { initSwiper } from './init-swiper';
+  import { initSwiper, mountSwiper } from './init-swiper';
   import { needsScrollbar, needsNavigation, needsPagination, uniqueClasses, extend } from './utils';
   import { getChangedParams } from './get-changed-params';
   import { updateSwiper } from './update-swiper';
@@ -77,38 +77,38 @@
     _containerClasses(_swiper, classes) {
       containerClasses = classes;
     },
-    _swiper(_swiper) {
-      swiperInstance = _swiper;
-      if (_swiper.virtual && _swiper.params.virtual.enabled) {
-        const extendWith = {
-          cache: false,
-          renderExternal: (data) => {
-            setVirtualData(data);
-            if (swiperParams.virtual && swiperParams.virtual.renderExternal) {
-              swiperParams.virtual.renderExternal(data);
-            }
-          },
-          renderExternalUpdate: false,
-        };
-        extend(_swiper.params.virtual, extendWith);
-        extend(_swiper.originalParams.virtual, extendWith);
-      }
-      dispatch('swiper', [_swiper]);
-    },
   });
+
+  swiperInstance = initSwiper(swiperParams);
+  if (swiperInstance.virtual && swiperInstance.params.virtual.enabled) {
+    const extendWith = {
+      cache: false,
+      renderExternal: (data) => {
+        setVirtualData(data);
+        if (swiperParams.virtual && swiperParams.virtual.renderExternal) {
+          swiperParams.virtual.renderExternal(data);
+        }
+      },
+      renderExternalUpdate: false,
+    };
+    extend(swiperInstance.params.virtual, extendWith);
+    extend(swiperInstance.originalParams.virtual, extendWith);
+  }
 
   onMount(() => {
     if (!swiperEl) return;
-    initSwiper(
+    mountSwiper(
       {
         el: swiperEl,
         nextEl: nextEl,
         prevEl: prevEl,
         paginationEl: paginationEl,
         scrollbarEl: scrollbarEl,
+        swiper: swiperInstance,
       },
       swiperParams,
     );
+    dispatch('swiper', [swiperInstance]);
     if (swiperParams.virtual) return;
     swiperInstance.slides.each((el) => {
       if (el.onSwiper) el.onSwiper(swiperInstance);

@@ -747,6 +747,10 @@ export interface SwiperOptions {
    * CSS class name of slide
    *
    * @default 'swiper-slide'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue components
    */
   slideClass?: string;
 
@@ -754,6 +758,10 @@ export interface SwiperOptions {
    * CSS class name of currently active slide
    *
    * @default 'swiper-slide-active'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue components
    */
   slideActiveClass?: string;
 
@@ -761,6 +769,10 @@ export interface SwiperOptions {
    * CSS class name of duplicated slide which represents the currently active slide
    *
    * @default 'swiper-slide-duplicate-active'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue components
    */
   slideDuplicateActiveClass?: string;
 
@@ -768,6 +780,10 @@ export interface SwiperOptions {
    * CSS class name of currently visible slide
    *
    * @default 'swiper-slide-visible'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
    */
   slideVisibleClass?: string;
 
@@ -775,6 +791,10 @@ export interface SwiperOptions {
    * CSS class name of slide duplicated by loop mode
    *
    * @default 'swiper-slide-duplicate'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
    */
   slideDuplicateClass?: string;
 
@@ -782,6 +802,10 @@ export interface SwiperOptions {
    * CSS class name of slide which is right after currently active slide
    *
    * @default 'swiper-slide-next'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
    */
   slideNextClass?: string;
 
@@ -789,6 +813,10 @@ export interface SwiperOptions {
    * CSS class name of duplicated slide which represents the slide next to active slide
    *
    * @default 'swiper-slide-duplicate-next'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
    */
   slideDuplicateNextClass?: string;
 
@@ -796,6 +824,10 @@ export interface SwiperOptions {
    * CSS class name of slide which is right before currently active slide
    *
    * @default 'swiper-slide-prev'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
    */
   slidePrevClass?: string;
 
@@ -803,6 +835,10 @@ export interface SwiperOptions {
    * CSS class name of duplicated slide which represents the slide previous to active slide
    *
    * @default 'swiper-slide-duplicate-prev'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
    */
   slideDuplicatePrevClass?: string;
 
@@ -810,6 +846,10 @@ export interface SwiperOptions {
    * CSS class name of blank slide append to fill groups in loop mode when `loopFillGroupWithBlank` is also enabled
    *
    * @default 'swiper-slide-invisible-blank'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
    */
   slideBlankClass?: string;
 
@@ -817,6 +857,11 @@ export interface SwiperOptions {
    * CSS class name of slides' wrapper
    *
    * @default 'swiper-wrapper'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
+   *
    */
   wrapperClass?: string;
 

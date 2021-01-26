@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, forwardRef } from 'react';
 import { getParams } from './get-params';
-import { initSwiper } from './init-swiper';
+import { initSwiper, mountSwiper } from './init-swiper';
 import { needsScrollbar, needsNavigation, needsPagination, uniqueClasses, extend } from './utils';
 import { renderLoop, calcLoopedSlides } from './loop';
 import { getChangedParams } from './get-changed-params';
@@ -57,26 +57,29 @@ const Swiper = forwardRef(
       _containerClasses(swiper, classes) {
         setContainerClasses(classes);
       },
-      _swiper(swiper) {
-        swiper.loopCreate = () => {};
-        swiper.loopDestroy = () => {};
-        if (swiperParams.loop) {
-          swiper.loopedSlides = calcLoopedSlides(slides, swiperParams);
-        }
-        swiperRef.current = swiper;
-        if (swiper.virtual && swiper.params.virtual.enabled) {
-          swiper.virtual.slides = slides;
-          const extendWith = {
-            cache: false,
-            renderExternal: setVirtualData,
-            renderExternalUpdate: false,
-          };
-          extend(swiper.params.virtual, extendWith);
-          extend(swiper.originalParams.virtual, extendWith);
-        }
-      },
     });
 
+    if (!swiperElRef.current) {
+      // init swiper
+      swiperRef.current = initSwiper(swiperParams);
+      swiperRef.current.loopCreate = () => {};
+      swiperRef.current.loopDestroy = () => {};
+      if (swiperParams.loop) {
+        swiperRef.current.loopedSlides = calcLoopedSlides(slides, swiperParams);
+      }
+      if (swiperRef.current.virtual && swiperRef.current.params.virtual.enabled) {
+        swiperRef.current.virtual.slides = slides;
+        const extendWith = {
+          cache: false,
+          renderExternal: setVirtualData,
+          renderExternalUpdate: false,
+        };
+        extend(swiperRef.current.params.virtual, extendWith);
+        extend(swiperRef.current.originalParams.virtual, extendWith);
+      }
+    }
+
+    // Listen for breakpoints change
     if (swiperRef.current) {
       swiperRef.current.on('_beforeBreakpoint', onBeforeBreakpoint);
     }
@@ -106,20 +109,21 @@ const Swiper = forwardRef(
       updateOnVirtualData(swiperRef.current);
     }, [virtualData]);
 
-    // init swiper
+    // mount swiper
     useIsomorphicLayoutEffect(() => {
       if (externalElRef) {
         externalElRef.current = swiperElRef.current;
       }
       if (!swiperElRef.current) return;
 
-      initSwiper(
+      mountSwiper(
         {
           el: swiperElRef.current,
           nextEl: nextElRef.current,
           prevEl: prevElRef.current,
           paginationEl: paginationElRef.current,
           scrollbarEl: scrollbarElRef.current,
+          swiper: swiperRef.current,
         },
         swiperParams,
       );
