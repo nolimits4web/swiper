@@ -1556,6 +1556,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "philwolstenholme",
+      "name": "Phil Wolstenholme",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6339853?v=4",
+      "profile": "https://wolstenhol.me/",
+      "contributions": [
+        "a11y"
+      ]
     }
   ],
   "contributorsPerLine": 7,

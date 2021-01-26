@@ -1,9 +1,7 @@
 ![Test](https://github.com/nolimits4web/swiper/workflows/Test/badge.svg) [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/swiper/badge?style=rounded)](https://www.jsdelivr.com/package/npm/swiper)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-172-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-173-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <a href="https://opencollective.com/swiper/" target="_blank">
@@ -363,6 +361,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/yukulele"><img src="https://avatars.githubusercontent.com/u/347244?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Clément P</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=yukulele" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/aPalenov"><img src="https://avatars.githubusercontent.com/u/20544542?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Андрей</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=aPalenov" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/beomy"><img src="https://avatars.githubusercontent.com/u/6986479?v=4?s=100" width="100px;" alt=""/><br /><sub><b>이효범</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=beomy" title="Code">💻</a></td>
+    <td align="center"><a href="https://wolstenhol.me/"><img src="https://avatars.githubusercontent.com/u/6339853?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Phil Wolstenholme</b></sub></a><br /><a href="#a11y-philwolstenholme" title="Accessibility">️️️️♿️</a></td>
   </tr>
 </table>
 
