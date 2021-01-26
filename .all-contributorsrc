@@ -1,0 +1,13 @@
+{
+  "projectName": "swiper",
+  "projectOwner": "nolimits4web",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [],
+  "contributorsPerLine": 7
+}

@@ -107,6 +107,7 @@
     "@types/jasminewd2": "~2.0.8",
     "@types/node": "^14.14.22",
     "@vue/compiler-sfc": "^3.0.5",
+    "all-contributors-cli": "^6.19.0",
     "autoprefixer": "^10.2.3",
     "babel-loader": "^8.2.2",
     "chalk": "^4.1.0",
