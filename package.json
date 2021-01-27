@@ -50,7 +50,11 @@
     "framework7",
     "carousel",
     "gallery",
-    "plugin"
+    "plugin",
+    "vue",
+    "angular",
+    "svelte",
+    "slideshow"
   ],
   "author": "Vladimir Kharlampidi",
   "license": "MIT",

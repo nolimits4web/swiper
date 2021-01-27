@@ -7,5 +7,5 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
 
 # Getting Started
   * [Getting Started Guide](https://swiperjs.com/get-started/)
-  * [API](https://swiperjs.com/api/)
+  * [API](https://swiperjs.com/swiper-api/)
   * [Demos](https://swiperjs.com/demos/)

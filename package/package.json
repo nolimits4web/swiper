@@ -40,6 +40,9 @@
     "gallery",
     "plugin",
     "react",
+    "vue",
+    "angular",
+    "svelte",
     "slideshow"
   ],
   "author": "Vladimir Kharlampidi",
