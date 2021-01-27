@@ -143,7 +143,7 @@
   class={uniqueClasses(`${containerClasses}${className ? ` ${className}` : ''}`)}
   {...restProps}
 >
-  <slot name="content-start" />
+  <slot name="container-start" />
   {#if needsNavigation(swiperParams)}
     <div bind:this={prevEl} class="swiper-button-prev" />
     <div bind:this={nextEl} class="swiper-button-next" />
@@ -159,5 +159,5 @@
     <slot {virtualData} />
     <slot name="wrapper-end" />
   </div>
-  <slot name="content-end" />
+  <slot name="container-end" />
 </div>
