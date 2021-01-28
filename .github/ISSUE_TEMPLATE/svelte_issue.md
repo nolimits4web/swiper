@@ -1,6 +1,7 @@
 ---
-name: Create new issue
-about: Create a report to help us improve
+name: Swiper Svelte Issue
+about: Create a report for Swiper Svelte components
+labels: 'Svelte'
 ---
 
 <!--
