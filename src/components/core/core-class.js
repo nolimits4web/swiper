@@ -393,14 +393,14 @@ class Swiper {
 
   mount(el) {
     const swiper = this;
-    if (swiper.mounted) return;
+    if (swiper.mounted) return true;
 
     // Find el
     const $el = $(el || swiper.params.el);
     el = $el[0];
 
     if (!el) {
-      return;
+      return false;
     }
 
     el.swiper = swiper;
@@ -429,13 +429,16 @@ class Swiper {
         (el.dir.toLowerCase() === 'rtl' || $el.css('direction') === 'rtl'),
       wrongRTL: $wrapperEl.css('display') === '-webkit-box',
     });
+
+    return true;
   }
 
   init(el) {
     const swiper = this;
-    if (swiper.initialized) return;
+    if (swiper.initialized) return swiper;
 
-    swiper.mount(el);
+    const mounted = swiper.mount(el);
+    if (mounted === false) return swiper;
 
     swiper.emit('beforeInit');
 
@@ -491,6 +494,8 @@ class Swiper {
     // Emit
     swiper.emit('init');
     swiper.emit('afterInit');
+
+    return swiper;
   }
 
   destroy(deleteInstance = true, cleanStyles = true) {
