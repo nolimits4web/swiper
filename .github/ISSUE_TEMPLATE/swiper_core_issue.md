@@ -14,7 +14,7 @@ Do you want to ask a question? Are you looking for support? Stack Overflow (http
 
 🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅-->
 
-- Swiper Version:
+- Swiper Version: EXACT RELEASE VERSION OR COMMIT HASH, HERE.
 - Platform/Target and Browser Versions: PLATFORM CLIENT YOU ARE TARGETING SUCH AS macOS, Windows, CORDOVA, IOS, ANDROID, CHROME, ETC.
 
 ## What You Did
