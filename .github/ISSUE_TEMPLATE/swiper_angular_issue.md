@@ -23,7 +23,7 @@ Do you want to ask a question? Are you looking for support? Stack Overflow (http
 EXPLAIN WHAT YOU DID, PREFERABLY WITH CODE EXAMPLES, HERE.
 
 <!--
-Please create and share minimal reproduction of the issue starting with this template: https://stackblitz.com/fork/angular-ivy
+Please create and share minimal reproduction of the issue starting with this template: https://stackblitz.com/edit/swiper-angular-example?file=src/app/app.component.ts
 -->
 <!-- ✍️--> https://stackblitz.com/...
 
