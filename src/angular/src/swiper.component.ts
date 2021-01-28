@@ -16,7 +16,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import Swiper from 'swiper/core';
-import { Observable, of, Subject, VirtualTimeScheduler } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { getParams } from './utils/get-params';
 import { SwiperSlideDirective } from './swiper-slide.directive';
 import { extend, isObject, setProperty, ignoreNgOnChanges } from './utils/utils';
