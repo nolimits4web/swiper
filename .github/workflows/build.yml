@@ -1,4 +1,4 @@
-name: Test
+name: Build
 on:
   push:
     branches: [master]
@@ -7,7 +7,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: Test
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v2
@@ -17,5 +16,5 @@ jobs:
           node-version: 14
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
-      - name: Run tests
-        run: npm test
+      - name: Run build
+        run: npm run build:prod
