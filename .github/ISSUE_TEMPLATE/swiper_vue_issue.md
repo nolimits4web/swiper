@@ -1,7 +1,7 @@
 ---
-name: Swiper Svelte Issue
-about: Create a report for Swiper Svelte components
-labels: 'Svelte'
+name: 🐞 Swiper Vue Issue
+about: Create a report for Swiper Vue components
+labels: 'Vue'
 ---
 
 <!--
@@ -10,13 +10,8 @@ Do you want to ask a question? Are you looking for support? Stack Overflow (http
 
 -->
 
-This is a (multiple allowed):
-
-- [x] bug
-- [ ] enhancement
-- [ ] feature-discussion (RFC)
-
 - Swiper Version: EXACT RELEASE VERSION OR COMMIT HASH, HERE.
+- Vue Version: EXACT RELEASE VERSION OR COMMIT HASH, HERE.
 - Platform/Target and Browser Versions: PLATFORM CLIENT YOU ARE TARGETING SUCH AS macOS, Windows, CORDOVA, IOS, ANDROID, CHROME, ETC.
 - Live Link or JSFiddle/Codepen/StackBlitz with the isssue: PREFERABLY _(IF YOU WANT YOUR ISSUE TO BE RESOLVED ASAP)_.
 
