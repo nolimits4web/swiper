@@ -23,9 +23,9 @@ Do you want to ask a question? Are you looking for support? Stack Overflow (http
 EXPLAIN WHAT YOU DID, PREFERABLY WITH CODE EXAMPLES, HERE.
 
 <!--
-Please create and share minimal reproduction of the issue starting with this template: https://stackblitz.com/fork/angular-ivy
+Please create and share minimal reproduction of the issue starting with this template: https://codesandbox.io/s/swiper-vue-fork-4butb
 -->
-<!-- ✍️--> https://stackblitz.com/...
+<!-- ✍️--> https://codesandbox.io/...
 
 <!--
 If StackBlitz is not suitable for reproduction of your issue, please create a minimal GitHub repository with the reproduction of the issue.
