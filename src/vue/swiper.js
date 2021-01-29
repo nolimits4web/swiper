@@ -300,9 +300,12 @@ const Swiper = {
     });
 
     // update on virtual update
-    watch(virtualData, () => {
-      updateOnVirtualData(swiperRef.value);
-    });
+    watch(
+      () => virtualData,
+      () => {
+        updateOnVirtualData(swiperRef.value);
+      },
+    );
 
     // mount swiper
     onMounted(() => {
