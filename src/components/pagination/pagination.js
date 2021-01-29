@@ -204,9 +204,12 @@ const Pagination = {
     const $el = swiper.pagination.$el;
     let paginationHTML = '';
     if (params.type === 'bullets') {
-      const numberOfBullets = swiper.params.loop
+      let numberOfBullets = swiper.params.loop
         ? Math.ceil((slidesLength - swiper.loopedSlides * 2) / swiper.params.slidesPerGroup)
         : swiper.snapGrid.length;
+      if (swiper.params.freeMode && !swiper.params.loop && numberOfBullets > slidesLength) {
+        numberOfBullets = slidesLength;
+      }
       for (let i = 0; i < numberOfBullets; i += 1) {
         if (params.renderBullet) {
           paginationHTML += params.renderBullet.call(swiper, i, params.bulletClass);
