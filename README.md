@@ -5,7 +5,7 @@
 <p align="center">
   <a href="https://swiperjs.com/get-started">Getting Started Guide</a> |
   <a href="https://swiperjs.com/swiper-api">API</a> |
-  <a href="https://swiperjs.com/demos">Demos</a> |
+  <a href="https://swiperjs.com/demos">Demos</a>
 </p>
 
 <p align="center">
