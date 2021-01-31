@@ -30,3 +30,6 @@ package/*.scss
 package/*.svelte
 !package/postinstall.js
 dist/demo
+
+
+cypress/screenshots

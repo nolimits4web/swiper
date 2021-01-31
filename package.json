@@ -30,6 +30,8 @@
     "validate": "npm-run-all --parallel check-format lint",
     "release": "npm run validate && node ./scripts/release",
     "test": "npm run validate && npm run build:prod",
+    "test:ui:debug": "cypress run --browser firefox --no-exit",
+    "test:ui": "cypress run --browser firefox --headless",
     "e2e": "ng e2e"
   },
   "repository": {
@@ -119,9 +121,11 @@
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.3",
     "css-loader": "^5.0.1",
+    "cypress": "^6.3.0",
     "eslint": "^7.18.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
