@@ -1,12 +1,24 @@
-[![Financial Contributors on Open Collective](https://opencollective.com/swiper/all/badge.svg?label=financial+contributors)](https://opencollective.com/swiper) ![Build](https://github.com/nolimits4web/swiper/workflows/Build/badge.svg) [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/swiper/badge?style=rounded)](https://www.jsdelivr.com/package/npm/swiper)
+<p align="center">
+  <img src="https://swiperjs.com/images/share-banner.png"/>
+</p>
 
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+<p align="center">
+  <a href="https://opencollective.com/swiper">
+    <img src="https://opencollective.com/swiper/all/badge.svg?label=financial+contributors" alt="Financial Contributors on Open Collective"/>
+  </a>
+  <a href="https://github.com/nolimits4web/swiper/actions?query=workflow%3ABuild">
+    <img src="https://github.com/nolimits4web/swiper/workflows/Build/badge.svg" alt="Build status"/>
+  </a>
+  <a href="https://www.jsdelivr.com/package/npm/swiper">
+    <img src="https://data.jsdelivr.com/v1/package/npm/swiper/badge?style=rounded" alt="jsDelivr Hits"/>
+  </a>
+</p>
 
+<p align="center">
 <a href="https://opencollective.com/swiper/" target="_blank">
   <img src="https://opencollective.com/swiper/donate/button@2x.png?color=blue" width=300 />
 </a>
+</p>
 
 # Swiper
 
