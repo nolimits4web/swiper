@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <a href="https://swiperjs.com/get-started">Getting Started Guide</a> |
-  <a href="https://swiperjs.com/swiper-api">API</a> |
+  <a href="https://swiperjs.com/get-started">Get Started</a> |
+  <a href="https://swiperjs.com/swiper-api">Documentation</a> |
   <a href="https://swiperjs.com/demos">Demos</a>
 </p>
 
