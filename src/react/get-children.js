@@ -5,7 +5,7 @@ function processChildren(c) {
   React.Children.toArray(c).forEach((child) => {
     if (child.type && child.type.displayName === 'SwiperSlide') {
       slides.push(child);
-    } else if (child.props.children) {
+    } else if (child.props && child.props.children) {
       processChildren(child.props.children).forEach((slide) => slides.push(slide));
     }
   });
@@ -27,7 +27,7 @@ function getChildren(c) {
       slides.push(child);
     } else if (child.props && child.props.slot && slots[child.props.slot]) {
       slots[child.props.slot].push(child);
-    } else if (child.props.children) {
+    } else if (child.props && child.props.children) {
       const foundSlides = processChildren(child.props.children);
       if (foundSlides.length > 0) {
         foundSlides.forEach((slide) => slides.push(slide));
