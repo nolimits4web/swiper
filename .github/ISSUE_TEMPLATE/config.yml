@@ -1,0 +1,7 @@
+contact_links:
+  - name: 🙏 Open Collective
+    url: https://opencollective.com/swiper/
+    about: Love Swiper? Please consider supporting us via Open Collective.
+  - name: 📃 Documentation Issue
+    url: https://github.com/nolimits4web/swiper-website/issues/new
+    about: Issues with Swiper website

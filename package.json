@@ -1,6 +1,6 @@
 {
   "name": "swiper-src",
-  "version": "6.4.8",
+  "version": "6.4.10",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development node scripts/build",
@@ -50,7 +50,11 @@
     "framework7",
     "carousel",
     "gallery",
-    "plugin"
+    "plugin",
+    "vue",
+    "angular",
+    "svelte",
+    "slideshow"
   ],
   "author": "Vladimir Kharlampidi",
   "license": "MIT",
@@ -106,6 +110,7 @@
     "@types/jasminewd2": "~2.0.8",
     "@types/node": "^14.14.22",
     "@vue/compiler-sfc": "^3.0.5",
+    "all-contributors-cli": "^6.19.0",
     "autoprefixer": "^10.2.3",
     "babel-loader": "^8.2.2",
     "chalk": "^4.1.0",

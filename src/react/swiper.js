@@ -97,18 +97,6 @@ const Swiper = forwardRef(
       }
     });
 
-    // watch for params change
-    useIsomorphicLayoutEffect(() => {
-      if (changedParams.length && swiperRef.current && !swiperRef.current.destroyed) {
-        updateSwiper(swiperRef.current, slides, passedParams, changedParams);
-      }
-    });
-
-    // update on virtual update
-    useIsomorphicLayoutEffect(() => {
-      updateOnVirtualData(swiperRef.current);
-    }, [virtualData]);
-
     // mount swiper
     useIsomorphicLayoutEffect(() => {
       if (externalElRef) {
@@ -136,6 +124,18 @@ const Swiper = forwardRef(
         }
       };
     }, []);
+
+    // watch for params change
+    useIsomorphicLayoutEffect(() => {
+      if (changedParams.length && swiperRef.current && !swiperRef.current.destroyed) {
+        updateSwiper(swiperRef.current, slides, passedParams, changedParams);
+      }
+    });
+
+    // update on virtual update
+    useIsomorphicLayoutEffect(() => {
+      updateOnVirtualData(swiperRef.current);
+    }, [virtualData]);
 
     // bypass swiper instance to slides
     function renderSlides() {

@@ -2,8 +2,10 @@ daysUntilStale: 180
 daysUntilClose: 60
 exemptLabels:
   - feature request
+  - probably bug
+  - bug confirmed
   - in progress
-staleLabel: wontfix
+staleLabel: stale
 markComment: >
   This issue has been automatically marked as stale because it has not had
   recent activity. It will be closed if no further activity occurs. Thank you
