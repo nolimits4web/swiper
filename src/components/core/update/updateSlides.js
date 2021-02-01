@@ -286,6 +286,7 @@ export default function updateSlides() {
       }
     }
     snapGrid = newSlidesGrid;
+
     if (
       Math.floor(swiper.virtualSize - swiperSize) - Math.floor(snapGrid[snapGrid.length - 1]) >
       1

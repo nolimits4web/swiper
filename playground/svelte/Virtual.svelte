@@ -1,6 +1,6 @@
 <script>
-  import SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Virtual } from '../build/core';
-  import { Swiper, SwiperSlide } from '../build/svelte';
+  import SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Virtual } from '../../build/core';
+  import { Swiper, SwiperSlide } from '../../build/svelte';
 
   SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Virtual]);
 

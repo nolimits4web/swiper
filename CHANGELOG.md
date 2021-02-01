@@ -1,13 +1,42 @@
 # Changelog
 
-## [Swiper 6.4.8](https://github.com/nolimits4web/swiper/compare/v6.4.7...v6.4.6) - Released on January 22th, 2021
+## [6.4.10](https://github.com/nolimits4web/Swiper/compare/v6.4.9...v6.4.10) (2021-01-29)
+
+### Bug Fixes
+
+- **core:** don't throw error when trying to init on non existent element ([31aa87a](https://github.com/nolimits4web/Swiper/commit/31aa87a4d948912a855c06740180104a8feb56c7))
+- **core:** fixed issue with "scroll container" ([c3d0b97](https://github.com/nolimits4web/Swiper/commit/c3d0b9761aa641d0029a5f045db5eb4298e81a04)), closes [#4161](https://github.com/nolimits4web/Swiper/issues/4161)
+- **react:** fixed issut with Virtual Slides not working correctly ([c24f7ef](https://github.com/nolimits4web/Swiper/commit/c24f7ef8e3a1e5553dae7eed2710087d1e636571)), closes [#4162](https://github.com/nolimits4web/Swiper/issues/4162)
+- **vue:** fixed updating virtual slides on virtual data change ([5979102](https://github.com/nolimits4web/Swiper/commit/59791021b7c800e1c0a96243b96fd0ca541f0d24))
+
+## [6.4.9](https://github.com/nolimits4web/swiper/compare/v6.4.8...v6.4.9) - Released on January 28th, 2021
+
+### Bug Fixes
+
+- **angular:** Cannot set property 'classNames' of undefined ([13bcf39](https://github.com/nolimits4web/Swiper/commit/13bcf3988ac44718d75106c16cf1045e64c7d143))
+- **angular:** content slider ngIf ([4ca13e4](https://github.com/nolimits4web/Swiper/commit/4ca13e449135c0b7735bfabb04a9d4f05e78a8e3))
+- **angular:** tsconfig path ([f2dcf16](https://github.com/nolimits4web/Swiper/commit/f2dcf1664eea9601c760a9e2b0e68e0d564cac6b))
+- **angular:** zoom container custom class ([5d4f11c](https://github.com/nolimits4web/Swiper/commit/5d4f11c9d6a954803945e5d84fa38e33e67416c7))
+- **core:** disable extra grid item for free mode ([9159d89](https://github.com/nolimits4web/Swiper/commit/9159d899ec93df6f34824f72a48699676ef20b13)), closes [#4010](https://github.com/nolimits4web/Swiper/issues/4010)
+- **docs:** change url api -> swiper-api ([3dc9203](https://github.com/nolimits4web/Swiper/commit/3dc92037e728c9b4ade664ef2f45805f6328ff23))
+- **docs:** heading levels ([e8157e6](https://github.com/nolimits4web/Swiper/commit/e8157e6221e7bd44f9f91111c3eeb7f288dbe4fe))
+- **scrollbar:** fixed issue when initialized with empty `scrollbar.el` will throw an error on destroy
+- **svelte:** slots container start & end ([b23b4e1](https://github.com/nolimits4web/Swiper/commit/b23b4e1695f43563ba051aa1fcf7636009f1c4dd))
+- **zoom:** consider window scroll for offsets ([60cd60a](https://github.com/nolimits4web/Swiper/commit/60cd60ad0cfc681b16d984aed52b08f769794926)), closes [#4039](https://github.com/nolimits4web/Swiper/issues/4039)
+
+### Features
+
+- add allcontributors ([95b49b1](https://github.com/nolimits4web/Swiper/commit/95b49b14c60458fd258707f12f0aaa874cb9d781))
+- **angular:** custom classes ([acc678a](https://github.com/nolimits4web/Swiper/commit/acc678a1a6bdf76eebf8ab43cd1b66e12fab0309))
+
+## [6.4.8](https://github.com/nolimits4web/swiper/compare/v6.4.7...v6.4.8) - Released on January 22th, 2021
 
 - Core
   - Improved default behavior on Windows touch screen devices
 - Types
   - Some docs comments fixes
 
-## [Swiper 6.4.7](https://github.com/nolimits4web/swiper/compare/v6.4.6...v6.4.7) - Released on January 21th, 2021
+## [6.4.7](https://github.com/nolimits4web/swiper/compare/v6.4.6...v6.4.7) - Released on January 21th, 2021
 
 - Types
   - Added full docs comments for all Swiper parameters
@@ -16,7 +45,7 @@
   - Fixed issue with SSR
   - Fixed issue with not working custom `pagination.el`
 
-## [Swiper 6.4.6](https://github.com/nolimits4web/swiper/compare/v6.4.5...v6.4.6) - Released on January 20th, 2021
+## [6.4.6](https://github.com/nolimits4web/swiper/compare/v6.4.5...v6.4.6) - Released on January 20th, 2021
 
 - Core
   - `edgeSwipeDetection` parameter now can receive string `'prevent'` to prevent system swipe-back navigation
@@ -27,11 +56,11 @@
   - Fixed rendering issue when virtual slides used with breakpoints
 - Minor fixes
 
-## [Swiper 6.4.5](https://github.com/nolimits4web/swiper/compare/v6.4.4...v6.4.5) - Released on December 18th, 2020
+## [6.4.5](https://github.com/nolimits4web/swiper/compare/v6.4.4...v6.4.5) - Released on December 18th, 2020
 
 - Fixed issue with `postinstall` script
 
-## [Swiper 6.4.4](https://github.com/nolimits4web/swiper/compare/v6.4.1...v6.4.4) - Released on December 18th, 2020
+## [6.4.4](https://github.com/nolimits4web/swiper/compare/v6.4.1...v6.4.4) - Released on December 18th, 2020
 
 - Fixed issue with `postinstall` script
 - Now `.css` files are also available for all components
@@ -43,11 +72,11 @@
   - Added `(index)` active slide binding (https://github.com/nolimits4web/swiper/commit/86670bd7c1b95268919147662383804e664011a7)
 - Minor fixes
 
-## [Swiper 6.4.1](https://github.com/nolimits4web/swiper/compare/v6.4.0...v6.4.1) - Released on December 9th, 2020
+## [6.4.1](https://github.com/nolimits4web/swiper/compare/v6.4.0...v6.4.1) - Released on December 9th, 2020
 
 - Fixed types errors introduced in `6.4.0`
 
-## [Swiper 6.4.0](https://github.com/nolimits4web/swiper/compare/v6.3.5...v6.4.0) - Released on December 8th, 2020
+## [6.4.0](https://github.com/nolimits4web/swiper/compare/v6.3.5...v6.4.0) - Released on December 8th, 2020
 
 - All new Swiper Angular components (kudos to @vltansky) 🎉
 - React
@@ -63,7 +92,7 @@
   - Fixed sourcemap missing original sources
 - Lots of minor fixes
 
-## [Swiper 6.3.5](https://github.com/nolimits4web/swiper/compare/v6.3.4...v6.3.5) - Released on October 30th, 2020
+## [6.3.5](https://github.com/nolimits4web/swiper/compare/v6.3.4...v6.3.5) - Released on October 30th, 2020
 
 - Build
   - Fixed builds on Windows
@@ -71,12 +100,12 @@
   - Fixed no swiping class in shadow component (#3868)
   - Typecheck for `slideTo`'s `index` parameter
 
-## [Swiper 6.3.4](https://github.com/nolimits4web/swiper/compare/v6.3.3...v6.3.4) - Released on October 20th, 2020
+## [6.3.4](https://github.com/nolimits4web/swiper/compare/v6.3.3...v6.3.4) - Released on October 20th, 2020
 
 - Vue
   - Fixed issue with `Maximum recursive updates`
 
-## [Swiper 6.3.3](https://github.com/nolimits4web/swiper/compare/v6.3.2...v6.3.3) - Released on October 9th, 2020
+## [6.3.3](https://github.com/nolimits4web/swiper/compare/v6.3.2...v6.3.3) - Released on October 9th, 2020
 
 - Core
   - Fixed issue with wrong slides calculation when slides have inner scrollbars
@@ -86,19 +115,19 @@
   - Fixed issue when slide render function data was set only after interaction
 - Minor fixes
 
-## [Swiper 6.3.2](https://github.com/nolimits4web/swiper/compare/v6.3.1...v6.3.2) - Released on September 28th, 2020
+## [6.3.2](https://github.com/nolimits4web/swiper/compare/v6.3.1...v6.3.2) - Released on September 28th, 2020
 
 - Svelte
   - Fixed issue with throwing error when using breakpoints
 
-## [Swiper 6.3.1](https://github.com/nolimits4web/swiper/compare/v6.3.0...v6.3.1) - Released on September 25th, 2020
+## [6.3.1](https://github.com/nolimits4web/swiper/compare/v6.3.0...v6.3.1) - Released on September 25th, 2020
 
 - Core
 
   - A11y
     - Init module after all other modules initialized
 
-## [Swiper 6.3.0](https://github.com/nolimits4web/swiper/compare/v6.2.0...v6.3.0) - Released on September 25th, 2020
+## [6.3.0](https://github.com/nolimits4web/swiper/compare/v6.2.0...v6.3.0) - Released on September 25th, 2020
 
 - Core
 
@@ -127,7 +156,7 @@
   </script>
   ```
 
-## [Swiper 6.2.0](https://github.com/nolimits4web/swiper/compare/v6.1.3...v6.2.0) - Released on September 4rd, 2020
+## [6.2.0](https://github.com/nolimits4web/swiper/compare/v6.1.3...v6.2.0) - Released on September 4rd, 2020
 
 - All new Swiper Vue.js (v3) components:
 
@@ -151,7 +180,7 @@
   </script>
   ```
 
-## [Swiper 6.1.3](https://github.com/nolimits4web/swiper/compare/v6.1.2...v6.1.3) - Released on September 3rd, 2020
+## [6.1.3](https://github.com/nolimits4web/swiper/compare/v6.1.2...v6.1.3) - Released on September 3rd, 2020
 
 - Core
   - Pagination
@@ -159,17 +188,17 @@
 - React
   - Fixed issue with loop mode and breakpoints not being recalculate slides
 
-## [Swiper 6.1.2](https://github.com/nolimits4web/swiper/compare/v6.1.1...v6.1.2) - Released on August 17th, 2020
+## [6.1.2](https://github.com/nolimits4web/swiper/compare/v6.1.1...v6.1.2) - Released on August 17th, 2020
 
 - React
   - Fixed issue generating `useLayoutEffect` warning in Next.js
   - Fixed issue with Virtual List in RTL mode
 
-## [Swiper 6.1.1](https://github.com/nolimits4web/swiper/compare/v6.1.0...v6.1.1) - Released on July 31th, 2020
+## [6.1.1](https://github.com/nolimits4web/swiper/compare/v6.1.0...v6.1.1) - Released on July 31th, 2020
 
 - Fixed ESM/CJS import paths
 
-## [Swiper 6.1.0](https://github.com/nolimits4web/swiper/compare/v6.0.4...v6.1.0) - Released on July 31th, 2020
+## [6.1.0](https://github.com/nolimits4web/swiper/compare/v6.0.4...v6.1.0) - Released on July 31th, 2020
 
 - Core
   - Mousewheel
@@ -189,20 +218,20 @@
     ```
 - Minor fixes
 
-## [Swiper 6.0.4](https://github.com/nolimits4web/swiper/compare/v6.0.3...v6.0.4) - Released on July 15th, 2020
+## [6.0.4](https://github.com/nolimits4web/swiper/compare/v6.0.3...v6.0.4) - Released on July 15th, 2020
 
 - Fixed TS definitions for Swiper React component (#3692)
 
-## [Swiper 6.0.3](https://github.com/nolimits4web/swiper/compare/v6.0.2...v6.0.3) - Released on July 14th, 2020
+## [6.0.3](https://github.com/nolimits4web/swiper/compare/v6.0.2...v6.0.3) - Released on July 14th, 2020
 
 - Dom7 updated to latest with correct `__proto__` setters/getters
 
-## [Swiper 6.0.2](https://github.com/nolimits4web/swiper/compare/v6.0.1...v6.0.2) - Released on July 9th, 2020
+## [6.0.2](https://github.com/nolimits4web/swiper/compare/v6.0.1...v6.0.2) - Released on July 9th, 2020
 
 - React
   - Now Swiper will be auto updated if `pagination.el`, `scrollbar.el`, `navigation.nextEl` and `navigation.prevEl` are passed from later-available refs
 
-## [Swiper 6.0.1](https://github.com/nolimits4web/swiper/compare/v6.0.0...v6.0.1) - Released on July 7th, 2020
+## [6.0.1](https://github.com/nolimits4web/swiper/compare/v6.0.0...v6.0.1) - Released on July 7th, 2020
 
 - Core
 
@@ -213,7 +242,7 @@
   - Fixed Swiper instance argument typings in event handler props
   - Added event handler props definitions for modules events
 
-## [Swiper 6.0.0](https://github.com/nolimits4web/swiper/compare/v5.4.5...v6.0.0) - Released on July 3rd, 2020
+## [6.0.0](https://github.com/nolimits4web/swiper/compare/v5.4.5...v6.0.0) - Released on July 3rd, 2020
 
 - New NPM package structure
 
@@ -272,20 +301,20 @@
   };
   ```
 
-## [Swiper 5.4.5](https://github.com/nolimits4web/swiper/compare/v5.4.3...v5.4.5) - Released on June 16th, 2020
+## [5.4.5](https://github.com/nolimits4web/swiper/compare/v5.4.3...v5.4.5) - Released on June 16th, 2020
 
 - Core
   - Fixed issue when checkOverflow method could throw error if Navigation module wasn't installed (#3621)
 - Keyboard
   - New parameter `pageUpDown` to enable/disable pageUp and pageDown keys (enabled by default)
 
-## [Swiper 5.4.3](https://github.com/nolimits4web/swiper/compare/v5.4.2...v5.4.3) - Released on June 13th, 2020
+## [5.4.3](https://github.com/nolimits4web/swiper/compare/v5.4.2...v5.4.3) - Released on June 13th, 2020
 
 - Core
   - Removed `UIWebView` text from code
   - Fixed resize handler calling `slideTo` to last slide when it shouldn't
 
-## [Swiper 5.4.2](https://github.com/nolimits4web/swiper/compare/v5.4.1...v5.4.2) - Released on June 3rd, 2020
+## [5.4.2](https://github.com/nolimits4web/swiper/compare/v5.4.1...v5.4.2) - Released on June 3rd, 2020
 
 - Mousewheel
   - Fixed issue when enabling `forceToAxis` also inverted scrolling
@@ -294,11 +323,11 @@
 - Pagination
   - Fixed detection of `uniqueNavElements` (#3590)
 
-## [Swiper 5.4.1](https://github.com/nolimits4web/swiper/compare/v5.4.0...v5.4.1) - Released on May 20th, 2020
+## [5.4.1](https://github.com/nolimits4web/swiper/compare/v5.4.0...v5.4.1) - Released on May 20th, 2020
 
 - Fixed dependencies versions
 
-## [Swiper 5.4.0](https://github.com/nolimits4web/swiper/compare/v5.3.8...v5.4.0) - Released on May 15th, 2020
+## [5.4.0](https://github.com/nolimits4web/swiper/compare/v5.3.8...v5.4.0) - Released on May 15th, 2020
 
 - Hash Navigation
   - Added `hashChange` and `hashSet` events (#3557)
@@ -309,7 +338,7 @@
 - Updated `ssr-window` and `dom7` dependencies to latest versions
 - Minor fixes
 
-## [Swiper 5.3.8](https://github.com/nolimits4web/swiper/compare/v5.3.7...v5.3.8) - Released on April 24th, 2020
+## [5.3.8](https://github.com/nolimits4web/swiper/compare/v5.3.7...v5.3.8) - Released on April 24th, 2020
 
 - Core
   - Fix iOS bug with double bounce on free mode momentum bounce
@@ -320,7 +349,7 @@
   - Added `thumbs.autoScrollOffset` parameter that allows to set on what thumbs active slide from edge. It should automatically move scroll thumbs
 - Minor fixes
 
-## [Swiper 5.3.7](https://github.com/nolimits4web/swiper/compare/v5.3.6...v5.3.7) - Released on April 10th, 2020
+## [5.3.7](https://github.com/nolimits4web/swiper/compare/v5.3.6...v5.3.7) - Released on April 10th, 2020
 
 - Core
   - Fixed `cssMode` behavior in RTL layout
@@ -328,7 +357,7 @@
   - Fixed issue with not working double-tap to toggle with virtual slides
 - Minor fixes
 
-## [Swiper 5.3.6](https://github.com/nolimits4web/swiper/compare/v5.3.1...v5.3.6) - Released on February 29th, 2020
+## [5.3.6](https://github.com/nolimits4web/swiper/compare/v5.3.1...v5.3.6) - Released on February 29th, 2020
 
 - Core
   - Fixed wrong auto height calculation with `centeredSlides` enabled
@@ -342,13 +371,13 @@
   - `stretch` parameter now can be set in `%` (#3468)
 - Minor fixes
 
-## [Swiper 5.3.1](https://github.com/nolimits4web/swiper/compare/v5.3.0...v5.3.1) - Released on February 8th, 2020
+## [5.3.1](https://github.com/nolimits4web/swiper/compare/v5.3.0...v5.3.1) - Released on February 8th, 2020
 
 - Core
   - Fixed issue when slider could stuck after last slide (#3414)
   - Added `label` to list of form events to keep clicks on it (#3407)
 
-## [Swiper 5.3.0](https://github.com/nolimits4web/swiper/compare/v5.2.1...v5.3.0) - Released on January 11th, 2020
+## [5.3.0](https://github.com/nolimits4web/swiper/compare/v5.2.1...v5.3.0) - Released on January 11th, 2020
 
 - Core
   - New `slidesPerGroupSkip` behavior (#3361)
@@ -358,7 +387,7 @@
   - Fixed issue when it can fail on load (#3383)
 - Minor fixes
 
-## [Swiper 5.2.1](https://github.com/nolimits4web/swiper/compare/v5.2.0...v5.2.1) - Released on November 16th, 2019
+## [5.2.1](https://github.com/nolimits4web/swiper/compare/v5.2.0...v5.2.1) - Released on November 16th, 2019
 
 - Core
   - New loop events `beforeLoopFix` and `loopFix`
@@ -372,7 +401,7 @@
   - New `multipleActiveThumbs` (by default `true`) option to control whether multiple thumbnail slides may get activated or not.
 - Minor fixes
 
-## [Swiper 5.2.0](https://github.com/nolimits4web/swiper/compare/v5.1.0...v5.2.0) - Released on October 26th, 2019
+## [5.2.0](https://github.com/nolimits4web/swiper/compare/v5.1.0...v5.2.0) - Released on October 26th, 2019
 
 - Core
   - New `centeredSlidesBounds` parameter that when enabled will keep first and last slides at bounds
@@ -387,7 +416,7 @@
   - Added minified version of browser.esm.bundle
 - Minor fixes
 
-## [Swiper 5.1.0](https://github.com/nolimits4web/swiper/compare/v5.0.4...v5.1.0) - Released on October 16th, 2019
+## [5.1.0](https://github.com/nolimits4web/swiper/compare/v5.0.4...v5.1.0) - Released on October 16th, 2019
 
 - Core
   - Fixed issues with touch on iOS 13
@@ -398,7 +427,7 @@
   - Fixed issue with pinch to zoom on Android
 - Minor fixes
 
-## [Swiper 5.0.4](https://github.com/nolimits4web/swiper/compare/v5.0.3...v5.0.4) - Released on September 30th, 2019
+## [5.0.4](https://github.com/nolimits4web/swiper/compare/v5.0.3...v5.0.4) - Released on September 30th, 2019
 
 - Core
   - Now on short swipes over navigation buttons, it will treat it like nav button click (#3237 by @robpop)
@@ -409,7 +438,7 @@
   - Fixed issue when it was `paused` after returning from hidden tab
 - Minor fixes
 
-## [Swiper 5.0.3](https://github.com/nolimits4web/swiper/compare/v5.0.2...v5.0.3) - Released on September 19th, 2019
+## [5.0.3](https://github.com/nolimits4web/swiper/compare/v5.0.2...v5.0.3) - Released on September 19th, 2019
 
 - Core
   - `touchEventsTarget` defaults back to `container`
@@ -418,12 +447,12 @@
   - Fixed issue with slides missplacing when prepending slides in virutal mode
   - Fixed issue when zoomed image still swiped to another slide on mobiles
 
-## [Swiper 5.0.1](https://github.com/nolimits4web/swiper/compare/v5.0.0...v5.0.1) - Released on September 17th, 2019
+## [5.0.1](https://github.com/nolimits4web/swiper/compare/v5.0.0...v5.0.1) - Released on September 17th, 2019
 
 - Core
   - Fixed typo in code
 
-## [Swiper 5.0.0](https://github.com/nolimits4web/swiper/compare/v4.5.1...v5.0.0) - Released on September 17th, 2019
+## [5.0.0](https://github.com/nolimits4web/swiper/compare/v4.5.1...v5.0.0) - Released on September 17th, 2019
 
 - Core
   - All new CSS Scroll Snap mode (can be enabled with `cssMode: true`). It doesn't support all of Swiper's features, but potentially should bring a much better performance in simple configurations
@@ -449,7 +478,7 @@
   - With `--swiper-navigation-size` (defaults to `44px`) it is now possible to change size of the navigation buttons (and icons)
 - Minor fixes and improvements
 
-## [Swiper 4.5.1](https://github.com/nolimits4web/swiper/compare/v4.5.0...v4.5.1) - Released on September 13th, 2019
+## [4.5.1](https://github.com/nolimits4web/swiper/compare/v4.5.0...v4.5.1) - Released on September 13th, 2019
 
 - Core
   - Fixed issue when callbacks fires on init even if it disabled (#2807)
@@ -465,7 +494,7 @@
   - Fixed issue when parallax opacity didn't work (#3147)
 - Minor fixes and improvements
 
-## [Swiper 4.5.0](https://github.com/nolimits4web/swiper/compare/v4.4.5...v4.5.0) - Released on February 22nd, 2019
+## [4.5.0](https://github.com/nolimits4web/swiper/compare/v4.4.5...v4.5.0) - Released on February 22nd, 2019
 
 - Core
   - New `swiper.changeDirection()` method to change direction from horizontal to vertical (and back) dynamically
@@ -485,12 +514,12 @@
   - Source styles are now available in SCSS in addition to LESS
 - Minor fixes and improvements
 
-## [Swiper 4.4.6](https://github.com/nolimits4web/swiper/compare/v4.4.5...v4.4.6) - Released on December 19th, 2018
+## [4.4.6](https://github.com/nolimits4web/swiper/compare/v4.4.5...v4.4.6) - Released on December 19th, 2018
 
 - Core
   - Fixed issue with wrong slide size calculation in some cases
 
-## [Swiper 4.4.5](https://github.com/nolimits4web/swiper/compare/v4.4.2...v4.4.5) - Released on December 14th, 2018
+## [4.4.5](https://github.com/nolimits4web/swiper/compare/v4.4.2...v4.4.5) - Released on December 14th, 2018
 
 - Core
   - New `observeSlideChildren` parameter to enable auto update on slide children update
@@ -501,7 +530,7 @@
   - Now it emits `zoomChange` event with `scale`, `imageEl` and `slideEl` arguments
 - Minor fixes
 
-## [Swiper 4.4.2](https://github.com/nolimits4web/swiper/compare/v4.4.1...v4.4.2) - Released on November 1st, 2018
+## [4.4.2](https://github.com/nolimits4web/swiper/compare/v4.4.1...v4.4.2) - Released on November 1st, 2018
 
 - New `touchStartForcePreventDefault` parameter to force touch start event prevent default
 - Breakpoints fix when breakpoint keys are strings
@@ -509,11 +538,11 @@
 - Fixed issue with wrong sort of Virtual Slides
 - Minor fixes
 
-## [Swiper 4.4.1](https://github.com/nolimits4web/swiper/compare/v4.4.0...v4.4.1) - Released on September 14th, 2018
+## [4.4.1](https://github.com/nolimits4web/swiper/compare/v4.4.0...v4.4.1) - Released on September 14th, 2018
 
 - Fixed issue with preventing touchstart event
 
-## [Swiper 4.4.0](https://github.com/nolimits4web/swiper/compare/v4.3.5...v4.4.0) - Released on September 14th, 2018
+## [4.4.0](https://github.com/nolimits4web/swiper/compare/v4.3.5...v4.4.0) - Released on September 14th, 2018
 
 - Core
   - New `centerInsufficientSlides` parameter to center slides if the amount of slides less than `slidesPerView`
@@ -524,7 +553,7 @@
   - All new "Thumbs" module/component designed to control slider thumbnails, in more logical and correct way than with Controller module.
 - Lots of minor fixes
 
-## [Swiper 4.3.5](https://github.com/nolimits4web/swiper/compare/v4.3.3...v4.3.5) - Released on July 31th, 2018
+## [4.3.5](https://github.com/nolimits4web/swiper/compare/v4.3.3...v4.3.5) - Released on July 31th, 2018
 
 - Core
   - `iOSEdgeSwipeThreshold` parameter renamed to just `edgeSwipeThreshold`. Old `iOSEdgeSwipeThreshold` name is still supported
@@ -535,14 +564,14 @@
   - Fixed issue when it was using active event listeners instead of passive. Thanks to @nyon
 - Minor fixes
 
-## [Swiper 4.3.3](https://github.com/nolimits4web/swiper/compare/v4.3.2...v4.3.3) - Released on June 5th, 2018
+## [4.3.3](https://github.com/nolimits4web/swiper/compare/v4.3.2...v4.3.3) - Released on June 5th, 2018
 
 - Core
   - Fixed issue when slidePrev goes to wrong slide #2650
   - Fixed issue when roundLength was not considered for grids calculation #2656
   - Fixed typo in API #2659
 
-## [Swiper 4.3.2](https://github.com/nolimits4web/swiper/compare/v4.3.0...v4.3.2) - Released on June 1st, 2018
+## [4.3.2](https://github.com/nolimits4web/swiper/compare/v4.3.0...v4.3.2) - Released on June 1st, 2018
 
 - Core
   - Added `addSlide(index, slide)` method to add slide at required position. Thanks to @kochizufan
@@ -552,7 +581,7 @@
   - New `formatFractionTotal(number)` parameter to format total number in Fraction pagination
 - Minor fixes
 
-## [Swiper 4.3.0](https://github.com/nolimits4web/swiper/compare/v4.2.6...v4.3.0) - Released on May 27th, 2018
+## [4.3.0](https://github.com/nolimits4web/swiper/compare/v4.2.6...v4.3.0) - Released on May 27th, 2018
 
 - Core
   - Fixed issue when `swipeBack` sometimes slides to wrong slide
@@ -562,11 +591,11 @@
   - Fixed issue with remove event listeners when they was not added
 - Minor fixes
 
-## [Swiper 4.2.6](https://github.com/nolimits4web/swiper/compare/v4.2.5...v4.2.6) - Released on May 1st, 2018
+## [4.2.6](https://github.com/nolimits4web/swiper/compare/v4.2.5...v4.2.6) - Released on May 1st, 2018
 
 - `console.log` cleanup
 
-## [Swiper 4.2.5](https://github.com/nolimits4web/swiper/compare/v4.2.2...v4.2.5) - Released on April 29th, 2018
+## [4.2.5](https://github.com/nolimits4web/swiper/compare/v4.2.2...v4.2.5) - Released on April 29th, 2018
 
 - Core
   - Prevent apply grab cursor when swiper is locked
@@ -578,7 +607,7 @@
   - Improved internal events proxies logic for better memory management
 - Minor fixes
 
-## [Swiper 4.2.2](https://github.com/nolimits4web/swiper/compare/v4.2.0...v4.2.2) - Released on April 1st, 2018
+## [4.2.2](https://github.com/nolimits4web/swiper/compare/v4.2.0...v4.2.2) - Released on April 1st, 2018
 
 - Core
   - Respect and update breakpoints when calling Swiper's `.update()` method
@@ -588,7 +617,7 @@
   - Fixed issue in `loop` + `freeMode` for loop not being set correctly
 - Minor fixes
 
-## [Swiper 4.2.0](https://github.com/nolimits4web/swiper/compare/v4.1.6...v4.2.0) - Released on March 16th, 2018
+## [4.2.0](https://github.com/nolimits4web/swiper/compare/v4.1.6...v4.2.0) - Released on March 16th, 2018
 
 - Core
   - `swiper.updateAutoHeight(speed)` now supports `speed` parameter to resize swiper wrapper with duration
@@ -602,11 +631,11 @@
   - Fixed issue when lazy loading not always triggered on window resize
 - Minor fixes
 
-## [Swiper 4.1.6](https://github.com/nolimits4web/swiper/compare/v4.1.5...v4.1.6) - Released on February 11th, 2018
+## [4.1.6](https://github.com/nolimits4web/swiper/compare/v4.1.5...v4.1.6) - Released on February 11th, 2018
 
 - Fixed onTouchMoveOpposite event on touch devices
 
-## [Swiper 4.1.5](https://github.com/nolimits4web/swiper/compare/v4.1.0...v4.1.5) - Released on February 10th, 2018
+## [4.1.5](https://github.com/nolimits4web/swiper/compare/v4.1.0...v4.1.5) - Released on February 10th, 2018
 
 - Improved touch events support on desktop Windows devices with touch screen
 - Improved "loop fix" when slider is in the free mode
@@ -624,7 +653,7 @@
   - Now supports Virtual Slides
 - Minor fixes
 
-## [Swiper 4.1.0](https://github.com/nolimits4web/swiper/compare/v4.0.7...v4.1.0) - Released on January 13th, 2018
+## [4.1.0](https://github.com/nolimits4web/swiper/compare/v4.0.7...v4.1.0) - Released on January 13th, 2018
 
 - Improved IE 10 support. But it is recommended to use [**proto** polyfill](https://www.npmjs.com/package/proto-polyfill)
 - Improved touch support for Edge
@@ -635,14 +664,14 @@
 - Keyboard
   - New `onlyInViewport` parameter (enabled by default). When enabled it will control sliders that are currently in viewport
 
-## [Swiper 4.0.7](https://github.com/nolimits4web/swiper/compare/v4.0.6...v4.0.7) - Released on November 28th, 2017
+## [4.0.7](https://github.com/nolimits4web/swiper/compare/v4.0.6...v4.0.7) - Released on November 28th, 2017
 
 - Fixed issue with not working correctly `touchReleaseOnEdges` on iOS
 - Fixed issue with not working allowSlideNext/Prev change on Breakpoints
 - Fixed wrong scrollbar dragging when using custom `dragSize`
 - Minor fixes
 
-## [Swiper 4.0.6](https://github.com/nolimits4web/swiper/compare/v4.0.5...v4.0.6) - Released on November 13th, 2017
+## [4.0.6](https://github.com/nolimits4web/swiper/compare/v4.0.5...v4.0.6) - Released on November 13th, 2017
 
 - Fixed Coverflow effect issue using with breakpoints
 - `iOSEdgeSwipeDetection` will also be in consideration with right-edge swipe
@@ -650,7 +679,7 @@
 - Swiper now emits `breakpoint` event on breakpoint change
 - Minor fixes
 
-## [Swiper 4.0.5](https://github.com/nolimits4web/swiper/compare/v4.0.3...v4.0.5) - Released on November 7th, 2017
+## [4.0.5](https://github.com/nolimits4web/swiper/compare/v4.0.3...v4.0.5) - Released on November 7th, 2017
 
 - Fixed issue with not working `noSwiping` parameter
 - Parallax now considers `slidesPerGroup` parameter
@@ -659,7 +688,7 @@
 - Fixed issues with some effects being broken with enabled `breakpoints`
 - Minor fixes
 
-## [Swiper 4.0.3](https://github.com/nolimits4web/swiper/compare/v4.0.2...v4.0.3) - Released on October 27th, 2017
+## [4.0.3](https://github.com/nolimits4web/swiper/compare/v4.0.2...v4.0.3) - Released on October 27th, 2017
 
 - Fixed Parallax opacity and scale transitions
 - Better compatability with SSR by using dummy `document` object
@@ -667,13 +696,13 @@
 - Fixed issue with last pagination button not being active with `slidesPerView: 'auto'`
 - Renamed build tasks: `build-dev` -> `build:dev`, `build-prod` -> `build:prod`
 
-## [Swiper 4.0.2](https://github.com/nolimits4web/swiper/compare/v4.0.1...v4.0.2) - Released on October 18th, 2017
+## [4.0.2](https://github.com/nolimits4web/swiper/compare/v4.0.1...v4.0.2) - Released on October 18th, 2017
 
 - Lazy loading support for Virtual slides
 - Added `beforeResize` event
 - Minor fixes
 
-## [Swiper 4.0.1](https://github.com/nolimits4web/swiper/compare/v4.0.0...v4.0.1) - Released on October 11th, 2017
+## [4.0.1](https://github.com/nolimits4web/swiper/compare/v4.0.0...v4.0.1) - Released on October 11th, 2017
 
 - Fixed issue with pagination being broken with loop mode
 - Reworked `realIndex` calculation ordering
@@ -682,7 +711,7 @@
   - `swiper.modular.js` -> `swiper.esm.js`
 - Minor fixes
 
-## [Swiper 4.0.0](https://github.com/nolimits4web/swiper/compare/v3.4.2...v4.0.0) - Released on October 4th, 2017 🎉
+## [4.0.0](https://github.com/nolimits4web/swiper/compare/v3.4.2...v4.0.0) - Released on October 4th, 2017 🎉
 
 - New API (check [Documentation](http://idangero.us/swiper/api/))
 - Virtual Slides - new module that keeps in DOM just required amount of slides
@@ -695,28 +724,28 @@
 - Improved compatibility with server-side rendering
 - Hundreds of improvements and fixes
 
-## Swiper 4.0.0-beta.4 - Released on September 20th, 2017
+## 4.0.0-beta.4 - Released on September 20th, 2017
 
 - Fixed issue with draggable Scrollbar in RTL layout
 - Minor fixes
 
-## Swiper 4.0.0-beta.3 - Released on September 13th, 2017
+## 4.0.0-beta.3 - Released on September 13th, 2017
 
 - Dom7 update to latest version
 - Small core refactoring to get better results within tree-shaking bundles
 
-## Swiper 4.0.0-beta.2 - Released on September 2nd, 2017
+## 4.0.0-beta.2 - Released on September 2nd, 2017
 
 - Disable a11y by default
 - Fixed issue with events sharing between multiple swipers
 - Fixed issue with resize handling after destroy
 - Few minor fixes
 
-## Swiper 4.0.0-beta.1 - Released on August 30th, 2017
+## 4.0.0-beta.1 - Released on August 30th, 2017
 
 - Initial 4.0.0 release
 
-## Swiper 3.4.2 - Released on March 10th, 2017
+## 3.4.2 - Released on March 10th, 2017
 
 - Fixed an issue with lazy loading callbacks when swiper is destroyed
 - New `onAfterResize` and `onBeforeResize` callbacks
@@ -724,13 +753,13 @@
 - Fixed Chrome+Windows issue with not clickable links that have "title" attribute
 - Minor fixes
 
-## Swiper 3.4.1 - Released on December 13th, 2016
+## 3.4.1 - Released on December 13th, 2016
 
 - Fixed Zoom for RTL
 - Improved slideToClickedSlide behavior when loop is enabled
 - Minor fixes
 
-## Swiper 3.4.0 - Released on October 16th, 2016
+## 3.4.0 - Released on October 16th, 2016
 
 - **Custom build** available. Now you can create custom swiper build using the folowing modules: effects, lazy-load, scrollbar, controller, hashnav, history, keyboard, mousewheel, parallax, zoom, a11y. Using cli `gulp custom -zoom,effects,lazy-loading`
 - New **zoom** functionality that enables double tap and pinch to zoom slide's inner image:
@@ -770,7 +799,7 @@
 - New "swiper-slide-duplicate-active", "swiper-slide-duplicate-next", "swiper-slide-duplicate-prev" classes that will be added in loop mode to the slides representing duplicated looped slides
 - All css classes are now configurable via new parameters: lazyLoadingClass, notificationClass, containerModifierClass, paginationClickableClass, paginationModifierClass, lazyStatusLoadingClass, lazyStatusLoadedClass, lazyPreloaderClass, notificationClass, preloaderClass, zoomContainerClass, slideDuplicateActiveClass, slideDuplicateNextClass, slideDuplicatePrevClass
 
-## Swiper 3.3.1 - Released on February 7th, 2016
+## 3.3.1 - Released on February 7th, 2016
 
 - New `uniqueNavElements` parameter. If enabled (by default) and navigation elements' parameters passed as the string (like `.pagination`) then Swiper will look for such elements through child elements first. Applies for pagination, prev/next buttons and scrollbar
 - New `onPaginationRendered` callback. Will be fired after pagination elements generated and added to DOM
@@ -781,7 +810,7 @@
 - Fixed issues when using loop with breakpoints changing `slidesPerView/Group` parameters
 - Numerous minor fixes
 
-## Swiper 3.3.0 - Released on January 10th, 2016
+## 3.3.0 - Released on January 10th, 2016
 
 - New 3D Flip effect. Can be enabled with `effect: 'flip' parameter
 - New types of pagination with new parameters:
@@ -794,17 +823,17 @@
 - New `onAutoplay(swiper)` callback
 - Minor fixes
 
-## Swiper 3.2.7 - Released on December 7th, 2015
+## 3.2.7 - Released on December 7th, 2015
 
 - Fixed issue with using HTMLElements for next/prevButton parameters with breakpoints
 - Fixed issue with not working Auto Height when using Controller
 
-## Swiper 3.2.6 - Released on November 28th, 2015
+## 3.2.6 - Released on November 28th, 2015
 
 - Fixed issue in RTL layout using `mousewheelControl`
 - Fixed issue in RTL layout using Parallax
 
-## Swiper 3.2.5 - Released on November 21st, 2015
+## 3.2.5 - Released on November 21st, 2015
 
 - New "Auto Height" mode when container/wrapper adapts to the height of currently active slide. Can be enabled with `autoHeight: true` parameter
 - Fixed issue with breakpoints in Firefox
@@ -812,7 +841,7 @@
 - Fixed issue with none-updated scroll bar after using `setWrapperTranslate`
 - Minor fixes
 
-## Swiper 3.2.0 - Released on November 7th, 2015
+## 3.2.0 - Released on November 7th, 2015
 
 - Added responsive breakpoints support using new `breakpoints` parameter. Now you can specify different `slidesPerView` and other similar parameters for different sizes:
 
@@ -841,7 +870,7 @@
 - Fixed issue with mousewheel in Chrome
 - Minor fixes
 
-## Swiper 3.1.7 - Released on October 10th, 2015
+## 3.1.7 - Released on October 10th, 2015
 
 - Fixed issue with lazy loading trying to download `undefined`-src images
 - Fixed lazy loading on slides using jQuery version
@@ -849,7 +878,7 @@
 - Fixed issue with wrong slides fill when number of slides less than `slidesPerView * slidesPerColumn` with `slidesPerColumnFill: 'row'`
 - Minor fixes
 
-## Swiper 3.1.5 - Released on September 28th, 2015
+## 3.1.5 - Released on September 28th, 2015
 
 - Added support for images `srcset` with lazy loading using `data-srcset` attribute
 - Fixed new Chrome errors with `WebkitCSSMatrix`
@@ -860,7 +889,7 @@
   - `scrollbarSnapOnRelease` - (boolean) by default is `false`. Control slider snap on scrollbar release
 - Minor fixes
 
-## Swiper 3.1.2 - Released on August 22nd, 2015
+## 3.1.2 - Released on August 22nd, 2015
 
 - Fixed issues with loop and mousewheel when swiper stopped on last slide
 - Improved mouse wheel behavior in latest Chrome
@@ -875,7 +904,7 @@
 - Improved source maps
 - Minor fixes
 
-## Swiper 3.1.0 - Released on July 14th, 2015
+## 3.1.0 - Released on July 14th, 2015
 
 - Accessibility (a11y)
   - Fixed issue with wrong buttons labels
@@ -895,7 +924,7 @@
 - Added new `swiper.jquery.umd.js` version for the environment where both Swiper and jQuery included as modules
 - Minor fixes
 
-## Swiper 3.0.8 - Released on June 14th, 2015
+## 3.0.8 - Released on June 14th, 2015
 
 - Fixed issue with wrong active index and callbacks in Fade effect
 - New mousewheel parameters:
@@ -908,7 +937,7 @@
 - Fixed issue with nested fade-effect swipers
 - Minor fixes
 
-## Swiper 3.0.7 - Released on April 25th, 2015
+## 3.0.7 - Released on April 25th, 2015
 
 - New `width` and `height` parameters to force Swiper size, useful when it is hidden on intialization
 - Better support for "Scroll Container". So now Swiper can be used as a scroll container with one single "scrollable"/"swipeable" slide
@@ -919,13 +948,13 @@
 - Fixed issues with Autoplay and Fade effect
 - Minor fixes
 
-## Swiper 3.0.6 - Released on March 27th, 2015
+## 3.0.6 - Released on March 27th, 2015
 
 - Fixed sometimes wrong slides position when using "Fade" effect
 - `.destroy(deleteInstance, cleanupStyles)` method now has second `cleanupStyles` argument, when passed - all custom styles will be removed from slides, wrapper and container. Useful if you need to destroy Swiper and to init again with new options or in different direction
 - Minor fixes
 
-## Swiper 3.0.5 - Released on March 21st, 2015
+## 3.0.5 - Released on March 21st, 2015
 
 - New Keyboard accessibility module to provide focusable navigation buttons and basic ARIA for screen readers with new parameters:
   - `a11y: false` - enable accessibility
@@ -950,7 +979,7 @@
 - Hashnav now will update document hash after transition to prevent browsers UI lags, not in the beginning like before
 - Super basic support for IE 9 with swiper.jquery version. No animation and transitions, but basic stuff like switching slides/pagination/scrollbars works
 
-## Swiper 3.0.4 - Released on March 6th, 2015
+## 3.0.4 - Released on March 6th, 2015
 
 - New Images Lazy Load component
   - With new parameters `lazyLoading`, `lazyLoadingInPrevNext`, `lazyLoadingOnTransitionStart` (all disabled by default)
@@ -965,7 +994,7 @@
 - Hash Navigation will run callback dpending on `runCallbacksOnInit` parameter
 - `watchVisibility` parameter renamed to `watchSlidesVisibility`
 
-## Swiper 3.0.3 - Released on March 1st, 2015
+## 3.0.3 - Released on March 1st, 2015
 
 - Fixed issue with not firing onSlideChangeEnd callback after calling .slideTo with
   runCallbacks=false
@@ -977,7 +1006,7 @@
 - Improved .update and .onResize methods
 - Minor fixes
 
-## Swiper 3.0.2 - Released on February 22nd, 2015
+## 3.0.2 - Released on February 22nd, 2015
 
 - Fixed issue with keyboard events not cleaned up with Swiper.destroy
 - Encoded inline SVG images for IE support
@@ -991,12 +1020,12 @@
   - `.removeSlide(index)` or `.removeSlide([indexes])` - to remove selected slides
   - `.removeAllSlides()` - to remove all slides
 
-## Swiper 3.0.1 - Released on February 13th, 2015
+## 3.0.1 - Released on February 13th, 2015
 
 - Fixed issue with navigation buttons in Firefox in loop mode
 - Fixed issue with image dragging in IE 10+
 
-## Swiper 3.0.0 - Released on February 11th, 2015
+## 3.0.0 - Released on February 11th, 2015
 
 - Initial release of all new Swiper 3
 - Removed features

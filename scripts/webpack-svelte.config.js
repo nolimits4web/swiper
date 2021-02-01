@@ -13,10 +13,10 @@ const env = process.env.NODE_ENV || 'development';
 module.exports = {
   mode: env,
   entry: {
-    app: './playground-svelte/main.js',
+    app: './playground/svelte/main.js',
   },
   output: {
-    path: resolvePath('playground-svelte/public'),
+    path: resolvePath('playground/svelte/public'),
     hashDigestLength: 6,
     filename: 'js/[name].[hash].js',
     chunkFilename: 'js/[name].[chunkhash].js',
@@ -32,7 +32,7 @@ module.exports = {
     hot: true,
     open: true,
     compress: true,
-    contentBase: '/playground-svelte/public/',
+    contentBase: '/playground/svelte/public/',
     disableHostCheck: true,
     historyApiFallback: true,
     watchOptions: {
@@ -62,7 +62,7 @@ module.exports = {
             ],
           },
         },
-        include: [resolvePath('src'), resolvePath('playground-svelte')],
+        include: [resolvePath('src'), resolvePath('playground/svelte')],
       },
       {
         test: /\.svelte$/,
@@ -96,7 +96,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       filename: './index.html',
-      template: './playground-svelte/index.html',
+      template: './playground/svelte/index.html',
       inject: true,
       minify:
         env === 'production'

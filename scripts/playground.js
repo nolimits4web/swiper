@@ -4,7 +4,7 @@ const path = require('path');
 const env = process.env.NODE_ENV || 'development';
 
 function buildPlayground() {
-  const filePath = path.resolve(__dirname, '../playground/index.html');
+  const filePath = path.resolve(__dirname, '../playground/core/index.html');
   const packageFolder = env === 'development' ? '/build/' : '/package/';
   const html = fs
     .readFileSync(filePath, 'utf-8')

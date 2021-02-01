@@ -1,6 +1,6 @@
 {
   "name": "swiper-src",
-  "version": "6.4.8",
+  "version": "6.4.10",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development node scripts/build",
@@ -13,12 +13,11 @@
     "webpack:react": "cross-env NODE_ENV=development webpack-dev-server --config ./scripts/webpack-react.config.js",
     "webpack:vue": "cross-env NODE_ENV=development webpack-dev-server --config ./scripts/webpack-vue.config.js",
     "webpack:svelte": "cross-env NODE_ENV=development webpack-dev-server --config ./scripts/webpack-svelte.config.js",
-    "dev": "npm run build:dev && npm run playground:dev && concurrently --kill-others \"npm run serve\" \"npm run watch:dev\" ",
-    "prod": "npm run build:prod && npm run playground:prod && concurrently --kill-others \"npm run serve\" \"npm run watch:prod\" ",
-    "react:dev": "npm run build:dev && concurrently --kill-others \"npm run webpack:react\" \"npm run watch:dev\"",
-    "vue:dev": "npm run build:dev && concurrently --kill-others \"npm run webpack:vue\" \"npm run watch:dev\"",
-    "svelte:dev": "npm run build:dev && concurrently --kill-others \"npm run webpack:svelte\" \"npm run watch:dev\"",
-    "angular:dev": "ng serve demo",
+    "core": "npm run build:dev && npm run playground:dev && concurrently --kill-others \"npm run serve\" \"npm run watch:dev\" ",
+    "react": "npm run build:dev && concurrently --kill-others \"npm run webpack:react\" \"npm run watch:dev\"",
+    "vue": "npm run build:dev && concurrently --kill-others \"npm run webpack:vue\" \"npm run watch:dev\"",
+    "svelte": "npm run build:dev && concurrently --kill-others \"npm run webpack:svelte\" \"npm run watch:dev\"",
+    "angular": "ng serve demo",
     "angular:dev:ssr": "ng run demo:serve-ssr",
     "angular:serve:ssr": "node dist/demo/server/main.js",
     "angular:build:ssr": "ng build --prod && ng run demo:server:production",
@@ -51,7 +50,11 @@
     "framework7",
     "carousel",
     "gallery",
-    "plugin"
+    "plugin",
+    "vue",
+    "angular",
+    "svelte",
+    "slideshow"
   ],
   "author": "Vladimir Kharlampidi",
   "license": "MIT",
@@ -59,10 +62,16 @@
     "url": "https://github.com/nolimits4web/swiper/issues"
   },
   "homepage": "https://swiperjs.com",
-  "funding": {
-    "type": "patreon",
-    "url": "https://www.patreon.com/vladimirkharlampidi"
-  },
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/vladimirkharlampidi"
+    },
+    {
+      "type": "open_collective",
+      "url": "http://opencollective.com/swiper"
+    }
+  ],
   "engines": {
     "node": ">= 4.7.0"
   },
@@ -102,6 +111,7 @@
     "@types/jasminewd2": "~2.0.8",
     "@types/node": "^14.14.22",
     "@vue/compiler-sfc": "^3.0.5",
+    "all-contributors-cli": "^6.19.0",
     "autoprefixer": "^10.2.3",
     "babel-loader": "^8.2.2",
     "chalk": "^4.1.0",

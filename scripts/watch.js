@@ -24,13 +24,13 @@ fs.watch(path.resolve(__dirname, '../src'), { recursive: true }, (eventType, fil
       buildTypes();
     } else if (fileName.includes('react')) {
       console.log('Building React');
-      buildReact();
+      buildReact('esm', 'build');
     } else if (fileName.includes('vue')) {
       console.log('Building Vue');
-      buildVue();
+      buildVue('esm', 'build');
     } else if (fileName.includes('svelte')) {
       console.log('Building Svelte');
-      buildSvelte();
+      buildSvelte('esm', 'build');
     } else if (fileName.includes('.js')) {
       console.log('Building JS');
       buildJsCore();

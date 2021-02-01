@@ -174,7 +174,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *    onAny(eventName, ...args) {
    *      console.log('Event: ', eventName);
    *      console.log('Event data: ', args);
@@ -662,7 +662,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var swiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   // Default parameters
    *   slidesPerView: 1,
    *   spaceBetween: 10,
@@ -689,7 +689,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var swiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   slidesPerView: 1,
    *   spaceBetween: 10,
    *   // using "ratio" endpoints
@@ -747,6 +747,10 @@ export interface SwiperOptions {
    * CSS class name of slide
    *
    * @default 'swiper-slide'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue components
    */
   slideClass?: string;
 
@@ -754,6 +758,10 @@ export interface SwiperOptions {
    * CSS class name of currently active slide
    *
    * @default 'swiper-slide-active'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue components
    */
   slideActiveClass?: string;
 
@@ -761,6 +769,10 @@ export interface SwiperOptions {
    * CSS class name of duplicated slide which represents the currently active slide
    *
    * @default 'swiper-slide-duplicate-active'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue components
    */
   slideDuplicateActiveClass?: string;
 
@@ -768,6 +780,10 @@ export interface SwiperOptions {
    * CSS class name of currently visible slide
    *
    * @default 'swiper-slide-visible'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
    */
   slideVisibleClass?: string;
 
@@ -775,6 +791,10 @@ export interface SwiperOptions {
    * CSS class name of slide duplicated by loop mode
    *
    * @default 'swiper-slide-duplicate'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
    */
   slideDuplicateClass?: string;
 
@@ -782,6 +802,10 @@ export interface SwiperOptions {
    * CSS class name of slide which is right after currently active slide
    *
    * @default 'swiper-slide-next'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
    */
   slideNextClass?: string;
 
@@ -789,6 +813,10 @@ export interface SwiperOptions {
    * CSS class name of duplicated slide which represents the slide next to active slide
    *
    * @default 'swiper-slide-duplicate-next'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
    */
   slideDuplicateNextClass?: string;
 
@@ -796,6 +824,10 @@ export interface SwiperOptions {
    * CSS class name of slide which is right before currently active slide
    *
    * @default 'swiper-slide-prev'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
    */
   slidePrevClass?: string;
 
@@ -803,6 +835,10 @@ export interface SwiperOptions {
    * CSS class name of duplicated slide which represents the slide previous to active slide
    *
    * @default 'swiper-slide-duplicate-prev'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
    */
   slideDuplicatePrevClass?: string;
 
@@ -810,6 +846,10 @@ export interface SwiperOptions {
    * CSS class name of blank slide append to fill groups in loop mode when `loopFillGroupWithBlank` is also enabled
    *
    * @default 'swiper-slide-invisible-blank'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
    */
   slideBlankClass?: string;
 
@@ -817,6 +857,11 @@ export interface SwiperOptions {
    * CSS class name of slides' wrapper
    *
    * @default 'swiper-wrapper'
+   *
+   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
+   *
+   * @note Not supported in Swiper Angular/React/Svelte/Vue
+   *
    */
   wrapperClass?: string;
 
@@ -825,7 +870,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   a11y: {
    *     prevSlideMessage: 'Previous slide',
    *     nextSlideMessage: 'Next slide',
@@ -840,7 +885,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *  autoplay: {
    *    delay: 5000,
    *  },
@@ -854,7 +899,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   controller: {
    *     inverse: true,
    *   },
@@ -868,7 +913,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   coverflowEffect: {
    *     rotate: 30,
    *     slideShadows: false,
@@ -883,7 +928,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   cubeEffect: {
    *     slideShadows: false,
    *   },
@@ -897,7 +942,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   effect: 'fade',
    *   fadeEffect: {
    *     crossFade: true
@@ -912,7 +957,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   flipEffect: {
    *     slideShadows: false,
    *   },
@@ -927,7 +972,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   hashNavigation: {
    *     replaceState: true,
    *   },
@@ -943,7 +988,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   history: {
    *     replaceState: true,
    *   },
@@ -963,7 +1008,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   keyboard: {
    *     enabled: true,
    *     onlyInViewport: false,
@@ -978,7 +1023,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   lazy: {
    *     loadPrevNext: true,
    *   },
@@ -992,7 +1037,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   mousewheel: {
    *     invert: true,
    *   },
@@ -1006,7 +1051,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   navigation: {
    *     nextEl: '.swiper-button-next',
    *     prevEl: '.swiper-button-prev',
@@ -1021,7 +1066,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   pagination: {
    *     el: '.swiper-pagination',
    *     type: 'bullets',
@@ -1041,7 +1086,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   scrollbar: {
    *     el: '.swiper-scrollbar',
    *     draggable: true,
@@ -1056,7 +1101,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   ...
    *   thumbs: {
    *     swiper: thumbsSwiper
@@ -1071,7 +1116,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   virtual: {
    *     slides: ['Slide 1', 'Slide 2', 'Slide 3', 'Slide 4', 'Slide 5'],
    *   },
@@ -1085,7 +1130,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * var mySwiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   zoom: {
    *     maxRatio: 5,
    *   },
@@ -1095,7 +1140,7 @@ export interface SwiperOptions {
   zoom?: ZoomOptions | boolean;
 
   /**
-   * !INTERNAL When enabled will emit "_containerClasses" and "_slideClasses" events
+   * !INTERNAL When enabled will emit "_containerClasses" and "_slideClass" events
    */
   _emitClasses?: boolean;
 }

@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import React from 'react';
-import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from '../build/core';
-import { Swiper, SwiperSlide } from '../build/react';
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from '../../build/core';
+import { Swiper, SwiperSlide } from '../../build/react';
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 

@@ -1,18 +1,11 @@
 <main>
-
-  <swiper>
-    <ng-template swiperSlide>Test</ng-template>
-    <ng-template swiperSlide>Test</ng-template>
-  </swiper>
-
-  show: {{ show ? 'true' : '...' }}
-
   <swiper
     #swiperVirtualRef
     [slidesPerView]="3"
     [spaceBetween]="50"
     [pagination]="{ type: 'fraction' }"
     virtual
+    slideActiveClass="swiper-active whyWouldIuseCustomClass"
     [centeredSlides]="true"
     navigation
   >
@@ -23,7 +16,7 @@
     <ng-template swiperSlide>Slide</ng-template>
   </swiper>
   <swiper [zoom]="true">
-    <ng-template swiperSlide [zoom]="true">
+    <ng-template swiperSlide class="custom-class" [zoom]="true">
       <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
     </ng-template>
     <ng-template swiperSlide>
@@ -50,12 +43,15 @@
       <ng-template swiperSlide>Best slide ever 1</ng-template>
       <ng-template swiperSlide>Best slide ever 2</ng-template>
     </ng-container>
-    <ng-template swiperSlide>Best slide ever 3</ng-template>
+    <ng-template swiperSlide>
+      <div *ngIf="true">Best slide ever 3</div>
+    </ng-template>
     <ng-template swiperSlide let-data *ngFor="let slide of slides; index as i">
       {{ slide }} / active: {{ data.isActive }} / next: {{ data.isNext }}</ng-template
     >
     <div slot="container-end" class="swiper-pagination pagination-test"></div>
   </swiper>
+  <button (click)="slides.push('test')">Add slide</button>
   <swiper [config]="exampleConfig">
     <ng-template swiperSlide>Best slide ever 2</ng-template>
     <ng-template swiperSlide>Best slide ever 2</ng-template>

@@ -59,6 +59,15 @@ class Swiper {
     params = extend({}, params);
     if (el && !params.el) params.el = el;
 
+    if (params.el && $(params.el).length > 1) {
+      const swipers = [];
+      $(params.el).each((containerEl) => {
+        const newParams = extend({}, params, { el: containerEl });
+        swipers.push(new Swiper(newParams));
+      });
+      return swipers;
+    }
+
     // Swiper Instance
     const swiper = this;
     swiper.support = getSupport();
@@ -113,40 +122,9 @@ class Swiper {
     // Save Dom lib
     swiper.$ = $;
 
-    // Find el
-    const $el = $(swiper.params.el);
-    el = $el[0];
-
-    if (!el) {
-      return undefined;
-    }
-
-    if ($el.length > 1) {
-      const swipers = [];
-      $el.each((containerEl) => {
-        const newParams = extend({}, params, { el: containerEl });
-        swipers.push(new Swiper(newParams));
-      });
-      return swipers;
-    }
-
-    el.swiper = swiper;
-
-    // Find Wrapper
-    let $wrapperEl;
-    if (el && el.shadowRoot && el.shadowRoot.querySelector) {
-      $wrapperEl = $(el.shadowRoot.querySelector(`.${swiper.params.wrapperClass}`));
-      // Children needs to return slot items
-      $wrapperEl.children = (options) => $el.children(options);
-    } else {
-      $wrapperEl = $el.children(`.${swiper.params.wrapperClass}`);
-    }
     // Extend Swiper
     extend(swiper, {
-      $el,
       el,
-      $wrapperEl,
-      wrapperEl: $wrapperEl[0],
 
       // Classes
       classNames: [],
@@ -164,12 +142,6 @@ class Swiper {
       isVertical() {
         return swiper.params.direction === 'vertical';
       },
-      // RTL
-      rtl: el.dir.toLowerCase() === 'rtl' || $el.css('direction') === 'rtl',
-      rtlTranslate:
-        swiper.params.direction === 'horizontal' &&
-        (el.dir.toLowerCase() === 'rtl' || $el.css('direction') === 'rtl'),
-      wrongRTL: $wrapperEl.css('display') === '-webkit-box',
 
       // Indexes
       activeIndex: 0,
@@ -280,6 +252,7 @@ class Swiper {
 
   getSlideClasses(slideEl) {
     const swiper = this;
+
     return slideEl.className
       .split(' ')
       .filter((className) => {
@@ -294,10 +267,13 @@ class Swiper {
   emitSlidesClasses() {
     const swiper = this;
     if (!swiper.params._emitClasses || !swiper.el) return;
+    const updates = [];
     swiper.slides.each((slideEl) => {
       const classNames = swiper.getSlideClasses(slideEl);
+      updates.push({ slideEl, classNames });
       swiper.emit('_slideClass', slideEl, classNames);
     });
+    swiper.emit('_slideClasses', updates);
   }
 
   slidesPerViewDynamic() {
@@ -415,9 +391,54 @@ class Swiper {
     return swiper;
   }
 
-  init() {
+  mount(el) {
     const swiper = this;
-    if (swiper.initialized) return;
+    if (swiper.mounted) return true;
+
+    // Find el
+    const $el = $(el || swiper.params.el);
+    el = $el[0];
+
+    if (!el) {
+      return false;
+    }
+
+    el.swiper = swiper;
+
+    // Find Wrapper
+    let $wrapperEl;
+    if (el && el.shadowRoot && el.shadowRoot.querySelector) {
+      $wrapperEl = $(el.shadowRoot.querySelector(`.${swiper.params.wrapperClass}`));
+      // Children needs to return slot items
+      $wrapperEl.children = (options) => $el.children(options);
+    } else {
+      $wrapperEl = $el.children(`.${swiper.params.wrapperClass}`);
+    }
+
+    extend(swiper, {
+      $el,
+      el,
+      $wrapperEl,
+      wrapperEl: $wrapperEl[0],
+      mounted: true,
+
+      // RTL
+      rtl: el.dir.toLowerCase() === 'rtl' || $el.css('direction') === 'rtl',
+      rtlTranslate:
+        swiper.params.direction === 'horizontal' &&
+        (el.dir.toLowerCase() === 'rtl' || $el.css('direction') === 'rtl'),
+      wrongRTL: $wrapperEl.css('display') === '-webkit-box',
+    });
+
+    return true;
+  }
+
+  init(el) {
+    const swiper = this;
+    if (swiper.initialized) return swiper;
+
+    const mounted = swiper.mount(el);
+    if (mounted === false) return swiper;
 
     swiper.emit('beforeInit');
 
@@ -473,6 +494,8 @@ class Swiper {
     // Emit
     swiper.emit('init');
     swiper.emit('afterInit');
+
+    return swiper;
   }
 
   destroy(deleteInstance = true, cleanStyles = true) {

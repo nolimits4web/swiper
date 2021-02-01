@@ -11,6 +11,7 @@ function getParams(obj = {}) {
   extend(params, Swiper.defaults);
   extend(params, Swiper.extendedDefaults);
   params._emitClasses = true;
+  params.init = false;
 
   const rest = {};
   const allowedParams = paramsList.map((key) => key.replace(/_/, ''));
@@ -30,6 +31,9 @@ function getParams(obj = {}) {
     } else {
       rest[key] = obj[key];
     }
+  });
+  ['navigation', 'pagination', 'scrollbar'].forEach((key) => {
+    if (params[key] === true || params[key] === false) params[key] = {};
   });
 
   return { params, passedParams, rest };

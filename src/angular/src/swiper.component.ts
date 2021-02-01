@@ -392,26 +392,8 @@ export class SwiperComponent implements OnInit {
   set paginationElRef(el: ElementRef) {
     this._setElement(el, this.pagination, 'pagination');
   }
-  @ContentChildren(SwiperSlideDirective, { descendants: true })
-  set slidesEl(val: QueryList<SwiperSlideDirective>) {
-    this.slides = val.map((slide: SwiperSlideDirective, index: number) => {
-      slide.slideIndex = index;
-      slide.classNames = this.slideClass;
-      return slide;
-    });
-    if (this.loop && !this.loopedSlides) {
-      this.calcLoopedSlides();
-    }
-    if (!this.virtual) {
-      this.prependSlides = of(this.slides.slice(this.slides.length - this.loopedSlides));
-      this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
-    }
-    if (this.swiperRef) {
-      this.swiperRef?.destroy();
-      this.initSwiper();
-    }
-    this._changeDetectorRef.markForCheck();
-  }
+  @ContentChildren(SwiperSlideDirective, { descendants: true, emitDistinctChangesOnly: true })
+  slidesEl: QueryList<SwiperSlideDirective>;
   private slides: SwiperSlideDirective[];
 
   prependSlides: Observable<SwiperSlideDirective[]>;
@@ -425,6 +407,10 @@ export class SwiperComponent implements OnInit {
       return this._activeSlides;
     }
     return of(this.slides);
+  }
+
+  get zoomContainerClass() {
+    return typeof this.zoom !== 'boolean' ? this.zoom.containerClass : 'swiper-zoom-container';
   }
 
   @HostBinding('class') containerClasses = 'swiper-container';
@@ -454,10 +440,37 @@ export class SwiperComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    this.childrenSlidesInit();
     if (this.init) {
       this.initSwiper();
       this._changeDetectorRef.detectChanges();
     }
+  }
+
+  private childrenSlidesInit() {
+    this.slidesChanges(this.slidesEl);
+    this.slidesEl.changes.subscribe(this.slidesChanges);
+  }
+
+  private slidesChanges = (val: QueryList<SwiperSlideDirective>) => {
+    this.slides = val.map((slide: SwiperSlideDirective, index: number) => {
+      slide.slideIndex = index;
+      slide.classNames = this.slideClass;
+      return slide;
+    });
+    if (this.loop && !this.loopedSlides) {
+      this.calcLoopedSlides();
+    }
+    if (!this.virtual) {
+      this.prependSlides = of(this.slides.slice(this.slides.length - this.loopedSlides));
+      this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
+    }
+    this._changeDetectorRef.detectChanges();
+    this.swiperRef?.update();
+  };
+
+  get isSwiperActive() {
+    return this.swiperRef && !this.swiperRef.destroyed;
   }
 
   initSwiper() {
@@ -499,18 +512,23 @@ export class SwiperComponent implements OnInit {
         }
         this._changeDetectorRef.detectChanges();
       },
-      _slideClass: (_, el: HTMLElement, classNames) => {
-        const slideIndex = parseInt(el.getAttribute('data-swiper-slide-index'));
-        if (this.virtual) {
-          const virtualSlide = this.slides.find((item) => {
-            return item.virtualIndex && item.virtualIndex === slideIndex;
-          });
-          if (virtualSlide) {
-            virtualSlide.classNames = classNames;
-            return;
+      _slideClasses: (_, updated) => {
+        updated.forEach(({ slideEl, classNames }, index) => {
+          const slideIndex = parseInt(slideEl.getAttribute('data-swiper-slide-index')) || index;
+          if (this.virtual) {
+            const virtualSlide = this.slides.find((item) => {
+              return item.virtualIndex && item.virtualIndex === slideIndex;
+            });
+            if (virtualSlide) {
+              virtualSlide.classNames = classNames;
+              return;
+            }
           }
-        }
-        this.slides[slideIndex].classNames = classNames;
+
+          if (this.slides[slideIndex]) {
+            this.slides[slideIndex].classNames = classNames;
+          }
+        });
         this._changeDetectorRef.detectChanges();
       },
     });
@@ -714,11 +732,11 @@ export class SwiperComponent implements OnInit {
   }
 
   setIndex(index: number, speed?: number, silent?: boolean): void {
-    if (!this.swiperRef) {
+    if (!this.isSwiperActive) {
       this.initialSlide = index;
       return;
     }
-    if (index === this.swiperRef.realIndex) {
+    if (index === this.swiperRef.activeIndex) {
       return;
     }
     this.zone.runOutsideAngular(() => {

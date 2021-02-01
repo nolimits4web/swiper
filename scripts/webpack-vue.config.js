@@ -14,10 +14,10 @@ const env = process.env.NODE_ENV || 'development';
 module.exports = {
   mode: env,
   entry: {
-    app: './playground-vue/main.js',
+    app: './playground/vue/main.js',
   },
   output: {
-    path: resolvePath('playground-vue/public'),
+    path: resolvePath('playground/vue/public'),
     hashDigestLength: 6,
     filename: 'js/[name].[hash].js',
     chunkFilename: 'js/[name].[chunkhash].js',
@@ -33,7 +33,7 @@ module.exports = {
     hot: true,
     open: true,
     compress: true,
-    contentBase: '/playground-vue/public/',
+    contentBase: '/playground/vue/public/',
     disableHostCheck: true,
     historyApiFallback: true,
     watchOptions: {
@@ -63,7 +63,7 @@ module.exports = {
             ],
           },
         },
-        include: [resolvePath('src'), resolvePath('playground-vue')],
+        include: [resolvePath('src'), resolvePath('playground/vue')],
       },
       {
         test: /\.vue$/,
@@ -93,7 +93,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       filename: './index.html',
-      template: './playground-vue/index.html',
+      template: './playground/vue/index.html',
       inject: true,
       minify:
         env === 'production'

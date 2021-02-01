@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "6.4.8",
+  "version": "6.4.10",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "swiper.cjs.js",
   "jsnext:main": "swiper.esm.js",
@@ -40,6 +40,9 @@
     "gallery",
     "plugin",
     "react",
+    "vue",
+    "angular",
+    "svelte",
     "slideshow"
   ],
   "author": "Vladimir Kharlampidi",
@@ -48,16 +51,21 @@
     "url": "https://github.com/nolimits4web/swiper/issues"
   },
   "homepage": "https://swiperjs.com",
-  "funding": {
-    "type": "patreon",
-    "url": "https://www.patreon.com/vladimirkharlampidi"
-  },
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/vladimirkharlampidi"
+    },
+    {
+      "type": "open_collective",
+      "url": "http://opencollective.com/swiper"
+    }
+  ],
   "engines": {
     "node": ">= 4.7.0"
   },
   "dependencies": {
     "dom7": "^3.0.0",
-    "ssr-window": "^3.0.0",
-    "tslib": "^2.0.0"
+    "ssr-window": "^3.0.0"
   }
 }

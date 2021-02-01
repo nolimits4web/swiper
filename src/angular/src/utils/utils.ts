@@ -18,17 +18,6 @@ export function extend(target, src) {
     }
   });
 }
-export function uniqueClasses(classNames = '') {
-  const classes = classNames
-    .split(' ')
-    .map((c) => c.trim())
-    .filter((c) => !!c);
-  const unique = [];
-  classes.forEach((c) => {
-    if (unique.indexOf(c) < 0) unique.push(c);
-  });
-  return unique.join(' ');
-}
 
 export function coerceBooleanProperty(value: any): boolean {
   return value != null && `${value}` !== 'false';

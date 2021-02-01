@@ -30,7 +30,7 @@ export interface SwiperEvents {
    *
    * @example
    * ```js
-   * var swiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   init: false,
    *   // other parameters
    * });
@@ -44,7 +44,7 @@ export interface SwiperEvents {
    * @example
    * ```js
    * // Otherwise use it as the parameter:
-   * var swiper = new Swiper('.swiper-container', {
+   * const swiper = new Swiper('.swiper-container', {
    *   // other parameters
    *   on: {
    *     init: function () {
@@ -223,6 +223,15 @@ export interface SwiperEvents {
    * INTERNAL: Event will fired after setting CSS classes on swiper slide element
    */
   _slideClass?: (swiper: Swiper, el: HTMLElement, classNames: string) => void;
+
+  /**
+   * INTERNAL: Event will fired after setting CSS classes on all swiper slides
+   */
+  _slideClasses?: (
+    swiper: Swiper,
+    slides: { el: HTMLElement; classNames: string; index: number }[],
+  ) => void;
+
   /**
    * INTERNAL: Event will fired as soon as swiper instance available (before init)
    */
