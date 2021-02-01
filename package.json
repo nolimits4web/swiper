@@ -177,17 +177,17 @@
   "size-limit": [
     {
       "path": "package/swiper-bundle.js",
-      "limit": "50 KB"
+      "limit": "40 KB"
     },
     {
       "path": "package/swiper.esm.js",
       "import": "SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Virtual, Zoom }",
-      "limit": "50 KB"
+      "limit": "30 KB"
     },
     {
       "path": "package/swiper.esm.js",
-      "import": "SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Virtual, Zoom }",
-      "limit": "50 KB"
+      "import": "SwiperCore, { Navigation, Pagination }",
+      "limit": "25 KB"
     }
   ],
   "dependencies": {
