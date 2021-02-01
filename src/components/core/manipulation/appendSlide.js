@@ -4,13 +4,9 @@ export default function appendSlide(slides) {
   if (params.loop) {
     swiper.loopDestroy();
   }
-  if (typeof slides === 'object' && 'length' in slides) {
-    for (let i = 0; i < slides.length; i += 1) {
-      if (slides[i]) $wrapperEl.append(slides[i]);
-    }
-  } else {
-    $wrapperEl.append(slides);
-  }
+  const _slides = typeof slides === 'object' && 'length' in slides ? slides : [slides];
+  _slides.map((slide) => $wrapperEl.append(slide));
+
   if (params.loop) {
     swiper.loopCreate();
   }
