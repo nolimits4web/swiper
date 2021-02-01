@@ -7,19 +7,50 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+Cypress.Commands.add('getNextSlide', { prevSubject: 'optional' }, () => {
+  return cy.get('.swiper-button-next');
+});
+Cypress.Commands.add('getPrevSlide', { prevSubject: 'optional' }, () => {
+  return cy.get('.swiper-button-prev');
+});
+Cypress.Commands.add('nextSlide', { prevSubject: 'optional' }, () => {
+  cy.getNextSlide().click();
+});
+Cypress.Commands.add('prevSlide', { prevSubject: 'optional' }, () => {
+  cy.getPrevSlide().click();
+});
+// subject, options
+Cypress.Commands.add('getActiveSlide', { prevSubject: 'optional' }, () => {
+  return cy.get('.swiper-slide-active');
+});
+
+Cypress.Commands.add('getSliderWrapper', { prevSubject: 'optional' }, () => {
+  return cy.get('.swiper-wrapper');
+});
+
+Cypress.Commands.add('getSliderContainer', { prevSubject: 'optional' }, () => {
+  return cy.get('.swiper-container');
+});
+
+Cypress.Commands.add('getSlide', { prevSubject: 'optional' }, (subject, slideIndex) => {
+  return cy.get(`.swiper-slide:nth-child(${slideIndex})`);
+});
+Cypress.Commands.add('getSlides', { prevSubject: 'optional' }, () => {
+  return cy.get(`.swiper-slide`);
+});
+
+// Cypress.Commands.add('swipeLeft', () => {
+//   cy.get('.swiper-slide-active')
+//     .trigger('mousedown', { which: 1 }) // start capture
+//     .trigger('mousemove', 'left') // register start position
+//     .trigger('mousemove', 'right') // register end position
+//     .wait(0) // wait for requestAnimationFrame to invoke fireOnMove
+//     .trigger('mouseup'); // end capture
+// });
+
+// Cypress.Commands.add('swipeRight', () => {
+//   cy.get('.swiper-slide-active')
+//     .trigger('mousedown', { position: 'left' })
+//     .trigger('mousemove', { clientX: 100, clientY: 275 })
+//     .trigger('mouseup', { force: true });
+// });

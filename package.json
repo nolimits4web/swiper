@@ -30,7 +30,7 @@
     "validate": "npm-run-all --parallel check-format lint",
     "release": "npm run validate && node ./scripts/release",
     "test": "npm run validate && npm run build:prod",
-    "test:ui:debug": "cypress run --browser firefox --no-exit",
+    "test:ui:debug": "cypress open",
     "test:ui": "cypress run --browser firefox --headless",
     "e2e": "ng e2e"
   },
