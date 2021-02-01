@@ -1,4 +1,4 @@
-import { h, ref, onMounted, onUpdated, onBeforeUnmount, watch } from 'vue';
+import { h, ref, onMounted, onUpdated, onBeforeUnmount, watch, nextTick } from 'vue';
 import { getParams } from './get-params';
 import { initSwiper, mountSwiper } from './init-swiper';
 import { needsScrollbar, needsNavigation, needsPagination, uniqueClasses, extend } from './utils';
@@ -300,12 +300,11 @@ const Swiper = {
     });
 
     // update on virtual update
-    watch(
-      () => virtualData,
-      () => {
+    watch(virtualData, () => {
+      nextTick(() => {
         updateOnVirtualData(swiperRef.value);
-      },
-    );
+      });
+    });
 
     // mount swiper
     onMounted(() => {
