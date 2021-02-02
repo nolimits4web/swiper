@@ -1,5 +1,6 @@
 const buildJsCore = require('./build-js-core');
 const buildJsBundle = require('./build-js-bundle');
+const buildJsSlim = require('./build-js-slim');
 const buildTypes = require('./build-types');
 const buildReact = require('./build-react');
 const buildVue = require('./build-vue');
@@ -13,6 +14,7 @@ const formats = ['esm', 'cjs'];
   const outputDir = env === 'development' ? 'build' : 'package';
   return Promise.all([
     buildJsBundle(),
+    buildJsSlim(),
     buildJsCore(),
     buildTypes(),
     Promise.all(formats.map((format) => buildReact(format, outputDir))),
