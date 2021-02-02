@@ -33,7 +33,17 @@ function getParams(obj = {}) {
     }
   });
   ['navigation', 'pagination', 'scrollbar'].forEach((key) => {
-    if (params[key] === true || params[key] === false) params[key] = {};
+    if (params[key] === true) params[key] = {};
+    if (params[key] === false) {
+      switch (key) {
+        case 'navigation':
+          params[key] = { nextEl: null, prevEl: null };
+          break;
+        default:
+          params[key] = { el: null };
+          break;
+      }
+    }
   });
 
   return { params, passedParams, rest };
