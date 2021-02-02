@@ -22,6 +22,7 @@
   display: flex;
   transition-property: transform;
   box-sizing: content-box;
+  -webkit-transform-style: preserve-3d;
 }
 .swiper-container-android .swiper-slide,
 .swiper-wrapper {
@@ -50,6 +51,8 @@
   height: 100%;
   position: relative;
   transition-property: transform;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
 }
 .swiper-slide-invisible-blank {
   visibility: hidden;
