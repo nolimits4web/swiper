@@ -8,7 +8,7 @@ module.exports = [
     path: 'package/swiper.esm.js',
     name: 'ESM bundle',
     import:
-      'SwiperCore, { Navigation, Pagination, Virtual, Keyboard, Scrollbar, A11y, Virtual, Zoom, Mousewheel, Lazy, History, HashNavigation, EffectFade, EffectCube, EffectFlip, EffectCoverflow, Thumbs, Autoplay, Controller, Parallax }',
+      'SwiperCore, { Navigation, Pagination, Virtual, Keyboard, Mousewheel, Scrollbar, Parallax, Zoom, Lazy, Controller, A11y, History, HashNavigation, Autoplay, EffectFade, EffectCube, EffectFlip, EffectCoverflow, Thumbs }',
     limit: '40 KB',
   },
   {
