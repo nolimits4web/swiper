@@ -5,6 +5,11 @@ module.exports = [
     limit: '40 KB',
   },
   {
+    path: 'package/swiper-slim.js',
+    name: 'bundle',
+    limit: '40 KB',
+  },
+  {
     path: 'package/swiper.esm.js',
     name: 'ESM bundle',
     import:
