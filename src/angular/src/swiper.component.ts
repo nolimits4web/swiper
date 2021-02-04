@@ -392,9 +392,11 @@ export class SwiperComponent implements OnInit {
   set paginationElRef(el: ElementRef) {
     this._setElement(el, this.pagination, 'pagination');
   }
+  @ViewChild('wrapperEl', { static: false }) wrapperEl: ElementRef;
   @ContentChildren(SwiperSlideDirective, { descendants: true, emitDistinctChangesOnly: true })
   slidesEl: QueryList<SwiperSlideDirective>;
   private slides: SwiperSlideDirective[];
+  slidesObserver: MutationObserver;
 
   prependSlides: Observable<SwiperSlideDirective[]>;
   appendSlides: Observable<SwiperSlideDirective[]>;
@@ -441,6 +443,8 @@ export class SwiperComponent implements OnInit {
 
   ngAfterViewInit() {
     this.childrenSlidesInit();
+    this.observeSlidesChanges();
+
     if (this.init) {
       this.initSwiper();
       this._changeDetectorRef.detectChanges();
@@ -465,15 +469,29 @@ export class SwiperComponent implements OnInit {
       this.prependSlides = of(this.slides.slice(this.slides.length - this.loopedSlides));
       this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
     }
-    this._changeDetectorRef.markForCheck();
-    if (this.swiperRef) {
-      this.zone.runOutsideAngular(() => {
-        setTimeout(() => {
-          this.swiperRef.update();
-        });
-      });
-    }
+    this._changeDetectorRef.detectChanges();
+    console.log('? update');
   };
+
+  private observeSlidesChanges() {
+    this.zone.runOutsideAngular(() => {
+      const wrapperEl = this.wrapperEl?.nativeElement;
+      if (!wrapperEl) {
+        return;
+      }
+      this.slidesObserver = new MutationObserver((mutations) => {
+        if (this.swiperRef) {
+          this.swiperRef.update();
+        }
+      });
+
+      this.slidesObserver.observe(wrapperEl, {
+        attributes: false,
+        childList: true,
+        characterData: false,
+      });
+    });
+  }
 
   get isSwiperActive() {
     return this.swiperRef && !this.swiperRef.destroyed;
@@ -756,5 +774,6 @@ export class SwiperComponent implements OnInit {
 
   ngOnDestroy() {
     this.swiperRef?.destroy();
+    this.slidesObserver?.disconnect();
   }
 }
