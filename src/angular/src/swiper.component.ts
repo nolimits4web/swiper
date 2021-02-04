@@ -470,7 +470,6 @@ export class SwiperComponent implements OnInit {
       this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
     }
     this._changeDetectorRef.detectChanges();
-    console.log('? update');
   };
 
   private observeSlidesChanges() {
