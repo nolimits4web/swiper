@@ -392,7 +392,6 @@ export class SwiperComponent implements OnInit {
   set paginationElRef(el: ElementRef) {
     this._setElement(el, this.pagination, 'pagination');
   }
-  @ViewChild('wrapperEl', { static: false }) wrapperEl: ElementRef;
   @ContentChildren(SwiperSlideDirective, { descendants: true, emitDistinctChangesOnly: true })
   slidesEl: QueryList<SwiperSlideDirective>;
   private slides: SwiperSlideDirective[];
@@ -443,7 +442,7 @@ export class SwiperComponent implements OnInit {
 
   ngAfterViewInit() {
     this.childrenSlidesInit();
-    this.observeSlidesChanges();
+    // this.observeSlidesChanges();
 
     if (this.init) {
       this.initSwiper();
@@ -471,26 +470,6 @@ export class SwiperComponent implements OnInit {
     }
     this._changeDetectorRef.detectChanges();
   };
-
-  private observeSlidesChanges() {
-    this.zone.runOutsideAngular(() => {
-      const wrapperEl = this.wrapperEl?.nativeElement;
-      if (!wrapperEl) {
-        return;
-      }
-      this.slidesObserver = new MutationObserver((mutations) => {
-        if (this.swiperRef) {
-          this.swiperRef.update();
-        }
-      });
-
-      this.slidesObserver.observe(wrapperEl, {
-        attributes: false,
-        childList: true,
-        characterData: false,
-      });
-    });
-  }
 
   get isSwiperActive() {
     return this.swiperRef && !this.swiperRef.destroyed;
@@ -555,6 +534,9 @@ export class SwiperComponent implements OnInit {
         this._changeDetectorRef.detectChanges();
       },
     });
+
+    swiperParams.observer = true;
+    swiperParams.observeSlideChildren = true;
     new Swiper(this.elementRef.nativeElement, swiperParams);
   }
 
