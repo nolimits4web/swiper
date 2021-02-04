@@ -395,7 +395,6 @@ export class SwiperComponent implements OnInit {
   @ContentChildren(SwiperSlideDirective, { descendants: true, emitDistinctChangesOnly: true })
   slidesEl: QueryList<SwiperSlideDirective>;
   private slides: SwiperSlideDirective[];
-  slidesObserver: MutationObserver;
 
   prependSlides: Observable<SwiperSlideDirective[]>;
   appendSlides: Observable<SwiperSlideDirective[]>;
@@ -754,6 +753,5 @@ export class SwiperComponent implements OnInit {
 
   ngOnDestroy() {
     this.swiperRef?.destroy();
-    this.slidesObserver?.disconnect();
   }
 }
