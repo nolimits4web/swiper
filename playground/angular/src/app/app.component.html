@@ -73,4 +73,19 @@
 
   <button (click)="show = !show">Toggle show</button>
   {{ exampleConfig | json }}
+  <swiper
+    #swiper
+    [slidesPerView]="1"
+    [centeredSlides]="true"
+    [navigation]="{ prevEl: '.swiper-navigation-prev', nextEl: '.swiper-navigation-next' }"
+    [pagination]="{ type: 'fraction' }"
+  >
+    <ng-template swiperSlide *ngFor="let slide of slides2; index as i">
+      {{ i }} - {{ slide }}
+    </ng-template>
+  </swiper>
+  <button type="button" class="swiper-navigation-prev">&lt;</button>
+  <button type="button" class="swiper-navigation-next">&gt;</button>
+  <hr />
+  <button (click)="replaceSlides()">replace slides</button>
 </main>

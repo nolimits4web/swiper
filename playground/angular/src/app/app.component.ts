@@ -28,6 +28,11 @@ export class AppComponent {
   slidesPerView: number = 4;
   pagination: any = false;
 
+  slides2 = ['slide 1', 'slide 2', 'slide 3'];
+  replaceSlides() {
+    this.slides2 = ['foo', 'bar'];
+  }
+
   togglePagination() {
     if (!this.pagination) {
       this.pagination = { clickable: true };

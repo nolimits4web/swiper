@@ -441,6 +441,7 @@ export class SwiperComponent implements OnInit {
 
   ngAfterViewInit() {
     this.childrenSlidesInit();
+
     if (this.init) {
       this.initSwiper();
       this._changeDetectorRef.detectChanges();
@@ -466,7 +467,6 @@ export class SwiperComponent implements OnInit {
       this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
     }
     this._changeDetectorRef.detectChanges();
-    this.swiperRef?.update();
   };
 
   get isSwiperActive() {
@@ -532,6 +532,8 @@ export class SwiperComponent implements OnInit {
         this._changeDetectorRef.detectChanges();
       },
     });
+
+    swiperParams.observer = true;
     new Swiper(this.elementRef.nativeElement, swiperParams);
   }
 
