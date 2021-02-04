@@ -465,8 +465,14 @@ export class SwiperComponent implements OnInit {
       this.prependSlides = of(this.slides.slice(this.slides.length - this.loopedSlides));
       this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
     }
-    this._changeDetectorRef.detectChanges();
-    this.swiperRef?.update();
+    this._changeDetectorRef.markForCheck();
+    if (this.swiperRef) {
+      this.zone.runOutsideAngular(() => {
+        setTimeout(() => {
+          this.swiperRef.update();
+        });
+      });
+    }
   };
 
   get isSwiperActive() {
