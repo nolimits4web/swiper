@@ -1,17 +1,27 @@
 /// <reference types="cypress" />
 
 context('Core', () => {
-  beforeEach(() => {
-    cy.visit('../../../playground/core/'); // TODO: make demo
-  });
-
   describe('a11y', () => {
+    beforeEach(() => {
+      cy.swiperPage();
+      cy.initSwiper();
+    });
     it('swiper-wrapper should have aria-live="polite"', () => {
       cy.getSliderWrapper().should('have.attr', 'aria-live', 'polite');
     });
 
     it('swiper-slide should have aria-role-description="slide"', () => {
-      cy.getSlides().should('have.attr', 'aria-role-description', 'slide');
+      cy.initSwiper({
+        a11y: { itemRoleDescriptionMessage: 'test' },
+      });
+      cy.getSlides().should('have.attr', 'aria-role-description', 'test');
+    });
+
+    it('swiper-container should have aria-role-description="slide"', () => {
+      cy.initSwiper({
+        a11y: { containerRoleDescriptionMessage: 'test' },
+      });
+      cy.getSliderContainer().should('have.attr', 'aria-role-description', 'test');
     });
 
     it('swiper-slide should have role="group"', () => {
