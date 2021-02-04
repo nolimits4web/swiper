@@ -534,7 +534,6 @@ export class SwiperComponent implements OnInit {
     });
 
     swiperParams.observer = true;
-    swiperParams.observeSlideChildren = true;
     new Swiper(this.elementRef.nativeElement, swiperParams);
   }
 
