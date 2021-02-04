@@ -442,7 +442,6 @@ export class SwiperComponent implements OnInit {
 
   ngAfterViewInit() {
     this.childrenSlidesInit();
-    // this.observeSlidesChanges();
 
     if (this.init) {
       this.initSwiper();
