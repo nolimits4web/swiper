@@ -63,16 +63,18 @@ Cypress.Commands.add(
           <div class="swiper-slide">Slide 10</div>
         </div>
         ${
-          config.navigation &&
-          `
+          config.navigation
+            ? `
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
         `
+            : ''
         }
         ${
-          config.pagination &&
-          `
+          config.pagination
+            ? `
         <div class="swiper-pagination"></div>`
+            : ''
         }
       </div>
       `;
