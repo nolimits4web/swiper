@@ -22,6 +22,7 @@
     "angular:serve:ssr": "node dist/demo/server/main.js",
     "angular:build:ssr": "ng build --prod && ng run demo:server:production",
     "angular:prerender": "ng run demo:prerender",
+    "angular:e2e": "ng e2e",
     "serve": "serve -l tcp://0.0.0.0:5000",
     "prettier": "prettier \"**/*.+(js|json|scss|css|less|ts|svelte|jsx)\"",
     "format": "npm run prettier -- --write",
@@ -30,9 +31,9 @@
     "validate": "npm-run-all --parallel check-format lint",
     "release": "npm run validate && node ./scripts/release",
     "test": "npm run validate && npm run build:prod",
-    "test:ui:debug": "cypress open",
-    "test:ui": "cypress run --browser firefox --headless",
-    "e2e": "ng e2e"
+    "test:e2e": "is-ci \"test:e2e:prod\" \"test:e2e:dev\"",
+    "test:e2e:dev": "cypress open",
+    "test:e2e:prod": "cypress run"
   },
   "repository": {
     "type": "git",
@@ -140,6 +141,7 @@
     "html-webpack-plugin": "^4.5.1",
     "husky": "^4.3.8",
     "inquirer": "^7.3.3",
+    "is-ci-cli": "^2.2.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.2.3",
