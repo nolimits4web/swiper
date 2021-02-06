@@ -8,37 +8,40 @@ context('Core', () => {
         centeredSlides: true,
         slidesPerView: 3,
         spaceBetween: 10,
-        navigation: true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
       });
     });
-    it('Active class', () => {
+    it('should have slide with active class', () => {
       cy.getSlide(1).should('have.class', 'swiper-slide-active').and('be.visible');
     });
 
-    it('Position center', () => {
+    it('should position slides center', () => {
       cy.getActiveSlide().should(($el) => {
         expect($el[0].getBoundingClientRect().x).to.be.greaterThan(100);
       });
     });
 
-    it('Prev class', () => {
+    it('should not has slide with prev class', () => {
       cy.getSlides().should('not.have.class', 'swiper-slide-prev');
     });
 
-    it('Next class', () => {
+    it('should have slide with next class', () => {
       cy.getSlide(2).should('have.class', 'swiper-slide-next').and('be.visible');
     });
     describe('visible slides', () => {
-      it('Should have 2 visible slides', () => {
+      it('should have 2 visible slides', () => {
         cy.getSlides().filter(':visible').its('length').should('be.eq', 2);
       });
-      it('Should have 3 visible slides', () => {
+      it('should have 3 visible slides after navigation', () => {
         cy.nextSlide();
         cy.getSlides().filter(':visible').its('length').should('be.eq', 2);
       });
     });
 
-    it('Should have 10px margin', () => {
+    it('should have 10px margin on slides', () => {
       cy.getSlides()
         .should('have.attr', 'style')
         .and('match', /margin-right:\s+10px/);
