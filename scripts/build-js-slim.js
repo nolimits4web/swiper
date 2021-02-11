@@ -94,7 +94,7 @@ function buildBundle(components, format, browser, cb) {
 function build() {
   const env = process.env.NODE_ENV || 'development';
   const components = [];
-  ['navigation', 'pagination', 'scrollbar', 'lazy', 'a11y', 'autoplay'].forEach((name) => {
+  ['navigation', 'pagination', 'lazy', 'a11y', 'autoplay'].forEach((name) => {
     // eslint-disable-next-line
     const capitalized = name
       .split('-')
