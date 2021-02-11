@@ -509,6 +509,9 @@ export class SwiperComponent implements OnInit {
           });
           this._changeDetectorRef.detectChanges();
         },
+        _swiper: (swiper) => {
+          this.s_swiper.emit(swiper);
+        },
       });
       const swiperRef = new Swiper(swiperParams);
       swiperRef.loopCreate = () => {};
@@ -520,9 +523,7 @@ export class SwiperComponent implements OnInit {
         swiperRef.virtual.slides = this.slides;
         const extendWith = {
           cache: false,
-          renderExternal: (data) => {
-            this.updateVirtualSlides(data);
-          },
+          renderExternal: this.updateVirtualSlides,
           renderExternalUpdate: false,
         };
         extend(swiperRef.params.virtual, extendWith);
@@ -531,6 +532,9 @@ export class SwiperComponent implements OnInit {
 
       if (isPlatformBrowser(this._platformId)) {
         this.swiperRef = swiperRef.init(this.elementRef.nativeElement);
+        if (this.swiperRef.virtual && this.swiperRef.params.virtual.enabled) {
+          this.swiperRef.virtual.update(true);
+        }
         this._changeDetectorRef.detectChanges();
         swiperRef.on('slideChange', () => {
           this.indexChange.emit(this.swiperRef.realIndex);
@@ -541,7 +545,7 @@ export class SwiperComponent implements OnInit {
 
   style: any = null;
   currentVirtualData: any; // TODO: type virtualData;
-  private updateVirtualSlides(virtualData: any) {
+  private updateVirtualSlides = (virtualData: any) => {
     // TODO: type virtualData
     if (
       !this.swiperRef ||
@@ -572,7 +576,7 @@ export class SwiperComponent implements OnInit {
       this.swiperRef.virtual.update(true);
     });
     return;
-  }
+  };
 
   ngOnChanges(changedParams: SimpleChanges) {
     this.updateSwiper(changedParams);
