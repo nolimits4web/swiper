@@ -509,9 +509,6 @@ export class SwiperComponent implements OnInit {
           });
           this._changeDetectorRef.detectChanges();
         },
-        _swiper: (swiper) => {
-          this.s_swiper.emit(swiper);
-        },
       });
       const swiperRef = new Swiper(swiperParams);
       swiperRef.loopCreate = () => {};
