@@ -7,9 +7,10 @@ import SwiperCore, {
   A11y,
   Virtual,
   Zoom,
+  Autoplay,
 } from '../../../../build/core';
 
-SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Virtual, Zoom]);
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Virtual, Zoom, Autoplay]);
 
 @Component({
   selector: 'app-root',
@@ -35,7 +36,7 @@ export class AppComponent {
 
   togglePagination() {
     if (!this.pagination) {
-      this.pagination = { clickable: true };
+      this.pagination = { type: 'fraction' };
     } else {
       this.pagination = false;
     }
