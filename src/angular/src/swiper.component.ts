@@ -478,7 +478,9 @@ export class SwiperComponent implements OnInit {
     Object.assign(this, swiperParams);
     this._ngZone.runOutsideAngular(() => {
       swiperParams.init = false;
-      swiperParams.observer = true;
+      if (!swiperParams.virtual) {
+        swiperParams.observer = true;
+      }
       swiperParams.onAny = (event, ...args) => {
         const emitter = this[`s_${event}`] as EventEmitter<any>;
         if (emitter) {
