@@ -63,7 +63,7 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
 - **History navigation**
 - **Hash navigation**
 - **Breakpoints configuration**
-- **Accessibility (A11y)**:
+- **Accessibility (A11y)**
 - **And many more ...**
 
 ## Dist / Build
