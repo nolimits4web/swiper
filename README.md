@@ -48,15 +48,23 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
 - **Rich API**: Swiper comes with a very rich API. It allows creating your own pagination, navigation buttons, parallax effects and many more
 - **RTL**: Swiper is the only slider that provides 100% RTL support with correct layout
 - **Multi Row Slides Layout**: Swiper allows a multiple row slides layout, with a few slides per column
-- **Transition Effects**: There are 3 new transition effects in addition to the usual Slide: Fade, 3D Cube and 3D Coverflow
-- **Two-way Control**: Now Swiper may be used as controller for any number of other Swipers, and even be controlled at the same time
+- **Transition Effects**: Fade, Flip, 3D Cube, 3D Coverflow
+- **Two-way Control**: Swiper may be used as controller for any number of other Swipers, and even be controlled at the same time
 - **Full Navigation Control**: Swiper comes with all required built-in navigation elements, such as Pagination, Navigation arrows and Scrollbar
 - **Flexbox Layout**: Swiper uses modern flexbox layout for slides layout, which solves a lot of problems and time with size caclulations. Such layout also allows configuring the Slides grid using pure CSS
 - **Most Flexible Slides Layout Grid**: Swiper has a lot of parameters on initialization to make it as flexible as possible. You can control slides per view, per column, per group, space between slides, and many more
 - **Images Lazy Loading**: Swiper Lazy Loading delays loading of images in inactive/invisible slides until the user swipes to them. Such feature could make the page load faster and improve Swiper performance
 - **Virtual Slides**: Swiper comes with Virtual Slides feature that is great when you have a lot of slides or content-heavy/image-heavy slides so it will keep just the required amount of slides in DOM
-- **Accessible**
-- **And many more ...**: All Swiper well-known features are also here: Responsive, Scroll prevention, Resistant bounds, Autoplay, Loop mode, Nested Swipers
+- **Loop mode**
+- **Autoplay**
+- **Keyboard control**
+- **Mousewheel control**
+- **Nested sliders**
+- **History navigation**
+- **Hash navigation**
+- **Breakpoints configuration**
+- **Accessibility (A11y)**:
+- **And many more ...**
 
 ## Dist / Build
 
