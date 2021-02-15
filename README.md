@@ -56,14 +56,14 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
 - **Images Lazy Loading**: Swiper Lazy Loading delays loading of images in inactive/invisible slides until the user swipes to them. Such feature could make the page load faster and improve Swiper performance
 - **Virtual Slides**: Swiper comes with Virtual Slides feature that is great when you have a lot of slides or content-heavy/image-heavy slides so it will keep just the required amount of slides in DOM
 - **Loop mode**
-- **Autoplay**:
-- **Keyboard control**:
-- **Mousewheel control**:
-- **Nested sliders**:
-- **History navigation**:
-- **Hash navigation**:
+- **Autoplay**
+- **Keyboard control**
+- **Mousewheel control**
+- **Nested sliders**
+- **History navigation**
+- **Hash navigation**
 - **Breakpoints configuration**
-- **A11y**: 
+- **A11y**:
 - **And many more ...**
 
 ## Dist / Build
