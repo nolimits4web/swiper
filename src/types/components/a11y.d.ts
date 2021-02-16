@@ -46,7 +46,7 @@ export interface A11yOptions {
   paginationBulletMessage?: string;
 
   /**
-   * CSS class name of a11 notification
+   * CSS class name of A11y notification
    *
    * @default 'swiper-notification'
    */
