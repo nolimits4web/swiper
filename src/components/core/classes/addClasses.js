@@ -2,7 +2,7 @@ function prepareClasses(entries, prefix) {
   const resultClasses = [];
   entries.forEach((item) => {
     if (typeof item === 'object') {
-      Object.entries(item).forEach(([condition, classNames]) => {
+      Object.entries(item).forEach(([classNames, condition]) => {
         if (condition) {
           resultClasses.push(prefix + classNames);
         }
