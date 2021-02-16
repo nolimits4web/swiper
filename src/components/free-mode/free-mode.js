@@ -3,7 +3,7 @@ import { bindModuleMethods, now } from '../../utils/utils';
 const FreeMode = {
   onTouchMove() {
     const swiper = this;
-    const { touchEventsData: data, touches } = swiper.touchEventsData;
+    const { touchEventsData: data, touches } = swiper;
     // Velocity
     if (data.velocities.length === 0) {
       data.velocities.push({
