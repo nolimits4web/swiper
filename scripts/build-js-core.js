@@ -2,10 +2,6 @@
 /* eslint no-console: "off" */
 const exec = require('exec-sh');
 const fs = require('fs');
-const { rollup } = require('rollup');
-const { default: babel } = require('@rollup/plugin-babel');
-const replace = require('@rollup/plugin-replace');
-const { default: resolve } = require('@rollup/plugin-node-resolve');
 
 const config = require('./build-config.js');
 const banner = require('./banner')();
@@ -14,42 +10,31 @@ async function buildCore(components, format, cb) {
   const env = process.env.NODE_ENV || 'development';
   const filename = `swiper.${format}`;
   const outputDir = env === 'development' ? 'build' : 'package';
+  let coreContent = '';
+  if (format === 'esm') {
+    coreContent += `export { default as Swiper, default } from './components/core/core-class';\n`;
+    coreContent += components
+      .map(
+        (component) =>
+          `export { default as ${component.capitalized} } from './components/${component.name}/${component.name}';`,
+      )
+      .join('\n');
+  } else if (format === 'cjs') {
+    coreContent += `"use strict";\n`;
+    coreContent += `exports._esModule = true;\n`;
+    coreContent += `exports.default = require('./components/core/core-class').default;\n`;
+    coreContent += `exports.Swiper = require('./components/core/core-class').default;\n`;
+    coreContent += components
+      .map(
+        (component) =>
+          `exports.${component.capitalized} = require('./components/${component.name}/${component.name}').default;`,
+      )
+      .join('\n');
+  }
 
-  const bundle = await rollup({
-    input: './src/swiper.js',
-    external() {
-      return true;
-    },
-    plugins: [
-      replace({
-        delimiters: ['', ''],
-        'process.env.NODE_ENV': JSON.stringify(env),
-        '//IMPORT_COMPONENTS': components
-          .map(
-            (component) =>
-              `import ${component.capitalized} from './components/${component.name}/${component.name}';`,
-          )
-          .join('\n'),
-        '//INSTALL_COMPONENTS': '',
-        '//EXPORT': `export default Swiper; export { Swiper, ${components
-          .map((component) => component.capitalized)
-          .join(', ')} }`,
-      }),
-      resolve({ mainFields: ['module', 'main', 'jsnext'] }),
-      babel({ babelHelpers: 'bundled' }),
-    ],
-    onwarn() {},
-  });
+  coreContent = `${banner}\n${coreContent}`;
 
-  await bundle.write({
-    format,
-    name: 'Swiper',
-    strict: true,
-    sourcemap: env === 'production' && format === 'umd',
-    sourcemapFile: `./${outputDir}/${filename}.js.map`,
-    banner,
-    file: `./${outputDir}/${filename}.js`,
-  });
+  fs.writeFileSync(`./${outputDir}/${filename}.js`, coreContent);
 
   // Babel
   const ignore = [
