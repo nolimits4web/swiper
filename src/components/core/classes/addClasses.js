@@ -1,25 +1,24 @@
-function pushClasses(settings, containerModifierClass) {
-  const result = [];
-  settings.forEach((item) => {
+function prepareClasses(entries, prefix) {
+  const resultClasses = [];
+  entries.forEach((item) => {
     if (typeof item === 'object') {
-      for (const [condition, classNames] of Object.entries(item)) {
+      Object.entries(item).forEach(([condition, classNames]) => {
         if (condition) {
-          result.push(containerModifierClass + classNames);
+          resultClasses.push(prefix + classNames);
         }
-      }
-    }
-    if (typeof value === 'string') {
-      result.push(containerModifierClass + item);
+      });
+    } else if (typeof item === 'string') {
+      resultClasses.push(prefix + item);
     }
   });
-  return result;
+  return resultClasses;
 }
 
 export default function addClasses() {
   const swiper = this;
   const { classNames, params, rtl, $el, device, support } = swiper;
   // prettier-ignore
-  const suffixes = pushClasses([
+  const suffixes = prepareClasses([
     'initialized',
     params.direction,
     { 'pointer-events': support.pointerEvents && !support.touch },
