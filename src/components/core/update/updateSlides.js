@@ -284,13 +284,8 @@ export default function updateSlides() {
   if (snapGrid.length === 0) snapGrid = [0];
 
   if (params.spaceBetween !== 0) {
-    if (swiper.isHorizontal() && rtl) {
-      slides.filter(slidesForMargin).css({ marginLeft: `${spaceBetween}px` });
-    } else {
-      slides
-        .filter(slidesForMargin)
-        .css({ [getDirectionLabel('marginRight')]: `${spaceBetween}px` });
-    }
+    const key = swiper.isHorizontal() && rtl ? 'marginLeft' : getDirectionLabel('marginRight');
+    slides.filter(slidesForMargin).css({ [key]: `${spaceBetween}px` });
   }
 
   if (params.centeredSlides && params.centeredSlidesBounds) {
