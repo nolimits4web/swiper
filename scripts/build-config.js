@@ -19,6 +19,7 @@ module.exports = {
     'effect-flip',
     'effect-coverflow',
     'thumbs',
+    'free-mode',
   ],
   themeColor: '#007aff',
   colors: {
