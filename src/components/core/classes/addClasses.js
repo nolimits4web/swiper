@@ -9,7 +9,7 @@ export default function addClasses() {
   if (support.pointerEvents && !support.touch) {
     suffixes.push('pointer-events');
   }
-  if (params.freeMode) {
+  if (params.freeMode.enabled) {
     suffixes.push('free-mode');
   }
   if (params.autoHeight) {

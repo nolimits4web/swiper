@@ -60,13 +60,6 @@ export class SwiperComponent implements OnInit {
   @Input() edgeSwipeDetection: boolean | string;
   @Input() edgeSwipeThreshold: number;
   @Input() freeMode: SwiperOptions['freeMode'];
-  @Input() freeModeMomentum: SwiperOptions['freeModeMomentum'];
-  @Input() freeModeMomentumRatio: SwiperOptions['freeModeMomentumRatio'];
-  @Input() freeModeMomentumBounce: SwiperOptions['freeModeMomentumBounce'];
-  @Input() freeModeMomentumBounceRatio: SwiperOptions['freeModeMomentumBounceRatio'];
-  @Input() freeModeMomentumVelocityRatio: SwiperOptions['freeModeMomentumVelocityRatio'];
-  @Input() freeModeSticky: SwiperOptions['freeModeSticky'];
-  @Input() freeModeMinimumVelocity: SwiperOptions['freeModeMinimumVelocity'];
   @Input() autoHeight: SwiperOptions['autoHeight'];
   @Input() setWrapperSize: SwiperOptions['setWrapperSize'];
   @Input() virtualTranslate: SwiperOptions['virtualTranslate'];

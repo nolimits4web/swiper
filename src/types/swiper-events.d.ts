@@ -20,6 +20,7 @@ import { ScrollbarEvents } from './components/scrollbar';
 import { ThumbsEvents } from './components/thumbs';
 import { VirtualEvents } from './components/virtual';
 import { ZoomEvents } from './components/zoom';
+import { FreeModeEvents } from './components/free-mode';
 
 export interface SwiperEvents {
   // CORE_EVENTS_START
@@ -338,3 +339,4 @@ interface SwiperEvents extends ScrollbarEvents {}
 interface SwiperEvents extends ThumbsEvents {}
 interface SwiperEvents extends VirtualEvents {}
 interface SwiperEvents extends ZoomEvents {}
+interface SwiperEvents extends FreeModeEvents {}

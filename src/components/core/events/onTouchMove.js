@@ -212,18 +212,8 @@ export default function onTouchMove(event) {
     swiper.updateActiveIndex();
     swiper.updateSlidesClasses();
   }
-  if (params.freeMode) {
-    // Velocity
-    if (data.velocities.length === 0) {
-      data.velocities.push({
-        position: touches[swiper.isHorizontal() ? 'startX' : 'startY'],
-        time: data.touchStartTime,
-      });
-    }
-    data.velocities.push({
-      position: touches[swiper.isHorizontal() ? 'currentX' : 'currentY'],
-      time: now(),
-    });
+  if (params.freeMode.enabled) {
+    swiper.freeMode.onTouchMove();
   }
   // Update progress
   swiper.updateProgress(data.currentTranslate);

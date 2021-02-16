@@ -22,6 +22,7 @@ import { ScrollbarMethods } from './components/scrollbar';
 import { ThumbsMethods } from './components/thumbs';
 import { VirtualMethods } from './components/virtual';
 import { ZoomMethods } from './components/zoom';
+import { FreeModeMethods } from './components/free-mode';
 
 interface SwiperClass<Events> {
   /** Add event handler */
@@ -431,6 +432,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   thumbs: ThumbsMethods;
   virtual: VirtualMethods;
   zoom: ZoomMethods;
+  freeMode: FreeModeMethods;
 }
 
 declare class Swiper implements Swiper {

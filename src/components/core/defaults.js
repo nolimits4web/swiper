@@ -23,16 +23,6 @@ export default {
   edgeSwipeDetection: false,
   edgeSwipeThreshold: 20,
 
-  // Free mode
-  freeMode: false,
-  freeModeMomentum: true,
-  freeModeMomentumRatio: 1,
-  freeModeMomentumBounce: true,
-  freeModeMomentumBounceRatio: 1,
-  freeModeMomentumVelocityRatio: 1,
-  freeModeSticky: false,
-  freeModeMinimumVelocity: 0.02,
-
   // Autoheight
   autoHeight: false,
 
