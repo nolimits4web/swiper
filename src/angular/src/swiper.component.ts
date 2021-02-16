@@ -446,6 +446,9 @@ export class SwiperComponent implements OnInit {
     this.childrenSlidesInit();
     this.initSwiper();
     this._changeDetectorRef.detectChanges();
+    setTimeout(() => {
+      this.s_swiper.emit(this.swiperRef);
+    });
   }
 
   private childrenSlidesInit() {
@@ -696,6 +699,10 @@ export class SwiperComponent implements OnInit {
         }
         this.swiperRef.currentBreakpoint = null;
         this.swiperRef.setBreakpoint();
+      }
+
+      if (changedParams.thumbs || changedParams.controller) {
+        this.updateInitSwiper(changedParams);
       }
       this.swiperRef.update();
     });
