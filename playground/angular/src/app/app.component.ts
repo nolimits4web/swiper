@@ -7,9 +7,22 @@ import SwiperCore, {
   A11y,
   Virtual,
   Zoom,
+  Autoplay,
+  Thumbs,
+  Controller,
 } from '../../../../build/core';
 
-SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Virtual, Zoom]);
+SwiperCore.use([
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Virtual,
+  Zoom,
+  Autoplay,
+  Thumbs,
+  Controller,
+]);
 
 @Component({
   selector: 'app-root',
@@ -20,8 +33,18 @@ export class AppComponent {
   @ViewChild('swiperRef', { static: false }) swiperRef?: SwiperComponent;
 
   show: boolean;
+  thumbs: any;
   constructor(private cd: ChangeDetectorRef) {}
   ngOnInit() {}
+
+  thumbsSwiper: any;
+  setThumbsSwiper(swiper) {
+    this.thumbsSwiper = swiper;
+  }
+  controlledSwiper: any;
+  setControlledSwiper(swiper) {
+    this.controlledSwiper = swiper;
+  }
 
   indexNumber = 1;
   exampleConfig = { slidesPerView: 3 };
@@ -35,7 +58,7 @@ export class AppComponent {
 
   togglePagination() {
     if (!this.pagination) {
-      this.pagination = { clickable: true };
+      this.pagination = { type: 'fraction' };
     } else {
       this.pagination = false;
     }

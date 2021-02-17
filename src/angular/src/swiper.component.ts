@@ -6,10 +6,12 @@ import {
   ElementRef,
   EventEmitter,
   HostBinding,
+  Inject,
   Input,
   NgZone,
   OnInit,
   Output,
+  PLATFORM_ID,
   QueryList,
   SimpleChanges,
   ViewChild,
@@ -28,6 +30,7 @@ import {
   ScrollbarOptions,
   VirtualOptions,
 } from 'swiper/types';
+import { isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'swiper, [swiper]',
   templateUrl: './swiper.component.html',
@@ -42,7 +45,6 @@ import {
   ],
 })
 export class SwiperComponent implements OnInit {
-  @Input() init: SwiperOptions['init'] = true;
   @Input() direction: SwiperOptions['direction'];
   @Input() touchEventsTarget: SwiperOptions['touchEventsTarget'];
   @Input() initialSlide: SwiperOptions['initialSlide'];
@@ -415,9 +417,10 @@ export class SwiperComponent implements OnInit {
 
   @HostBinding('class') containerClasses = 'swiper-container';
   constructor(
-    private zone: NgZone,
+    private _ngZone: NgZone,
     private elementRef: ElementRef,
     private _changeDetectorRef: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private _platformId,
   ) {}
 
   private _setElement(el: ElementRef, ref: any, update: string, key = 'el') {
@@ -441,11 +444,11 @@ export class SwiperComponent implements OnInit {
 
   ngAfterViewInit() {
     this.childrenSlidesInit();
-
-    if (this.init) {
-      this.initSwiper();
-      this._changeDetectorRef.detectChanges();
-    }
+    this.initSwiper();
+    this._changeDetectorRef.detectChanges();
+    setTimeout(() => {
+      this.s_swiper.emit(this.swiperRef);
+    });
   }
 
   private childrenSlidesInit() {
@@ -476,70 +479,74 @@ export class SwiperComponent implements OnInit {
   initSwiper() {
     const { params: swiperParams, passedParams } = getParams(this);
     Object.assign(this, swiperParams);
-    swiperParams.onAny = (event, ...args) => {
-      const emitter = this[`s_${event}`] as EventEmitter<any>;
-      if (emitter) {
-        emitter.emit(...args);
+    this._ngZone.runOutsideAngular(() => {
+      swiperParams.init = false;
+      if (!swiperParams.virtual) {
+        swiperParams.observer = true;
       }
-    };
-
-    Object.assign(swiperParams.on, {
-      slideChange: () => {
-        this.indexChange.emit(this.swiperRef.realIndex);
-      },
-      _containerClasses(swiper, classes) {
-        this.containerClasses = classes;
-      },
-      _swiper: (swiper) => {
-        this.swiperRef = swiper;
-        this.s_swiper.emit(this.swiperRef);
-        swiper.loopCreate = () => {};
-        swiper.loopDestroy = () => {};
-        if (swiperParams.loop) {
-          swiper.loopedSlides = this.loopedSlides;
+      swiperParams.onAny = (event, ...args) => {
+        const emitter = this[`s_${event}`] as EventEmitter<any>;
+        if (emitter) {
+          emitter.emit(...args);
         }
-        if (swiper.virtual && swiper.params.virtual.enabled) {
-          swiper.virtual.slides = this.slides;
-          const extendWith = {
-            cache: false,
-            renderExternal: (data) => {
-              this.updateVirtualSlides(data);
-            },
-            renderExternalUpdate: false,
-          };
-          extend(swiper.params.virtual, extendWith);
-          extend(swiper.originalParams.virtual, extendWith);
-        }
-        this._changeDetectorRef.detectChanges();
-      },
-      _slideClasses: (_, updated) => {
-        updated.forEach(({ slideEl, classNames }, index) => {
-          const slideIndex = parseInt(slideEl.getAttribute('data-swiper-slide-index')) || index;
-          if (this.virtual) {
-            const virtualSlide = this.slides.find((item) => {
-              return item.virtualIndex && item.virtualIndex === slideIndex;
-            });
-            if (virtualSlide) {
-              virtualSlide.classNames = classNames;
-              return;
+      };
+      Object.assign(swiperParams.on, {
+        _containerClasses(swiper, classes) {
+          this.containerClasses = classes;
+        },
+        _slideClasses: (_, updated) => {
+          updated.forEach(({ slideEl, classNames }, index) => {
+            const slideIndex = parseInt(slideEl.getAttribute('data-swiper-slide-index')) || index;
+            if (this.virtual) {
+              const virtualSlide = this.slides.find((item) => {
+                return item.virtualIndex && item.virtualIndex === slideIndex;
+              });
+              if (virtualSlide) {
+                virtualSlide.classNames = classNames;
+                return;
+              }
             }
-          }
 
-          if (this.slides[slideIndex]) {
-            this.slides[slideIndex].classNames = classNames;
-          }
-        });
+            if (this.slides[slideIndex]) {
+              this.slides[slideIndex].classNames = classNames;
+            }
+          });
+          this._changeDetectorRef.detectChanges();
+        },
+      });
+      const swiperRef = new Swiper(swiperParams);
+      swiperRef.loopCreate = () => {};
+      swiperRef.loopDestroy = () => {};
+      if (swiperParams.loop) {
+        swiperRef.loopedSlides = this.loopedSlides;
+      }
+      if (swiperRef.virtual && swiperRef.params.virtual.enabled) {
+        swiperRef.virtual.slides = this.slides;
+        const extendWith = {
+          cache: false,
+          renderExternal: this.updateVirtualSlides,
+          renderExternalUpdate: false,
+        };
+        extend(swiperRef.params.virtual, extendWith);
+        extend(swiperRef.originalParams.virtual, extendWith);
+      }
+
+      if (isPlatformBrowser(this._platformId)) {
+        this.swiperRef = swiperRef.init(this.elementRef.nativeElement);
+        if (this.swiperRef.virtual && this.swiperRef.params.virtual.enabled) {
+          this.swiperRef.virtual.update(true);
+        }
         this._changeDetectorRef.detectChanges();
-      },
+        swiperRef.on('slideChange', () => {
+          this.indexChange.emit(this.swiperRef.realIndex);
+        });
+      }
     });
-
-    swiperParams.observer = true;
-    new Swiper(this.elementRef.nativeElement, swiperParams);
   }
 
   style: any = null;
   currentVirtualData: any; // TODO: type virtualData;
-  private updateVirtualSlides(virtualData: any) {
+  private updateVirtualSlides = (virtualData: any) => {
     // TODO: type virtualData
     if (
       !this.swiperRef ||
@@ -560,15 +567,17 @@ export class SwiperComponent implements OnInit {
     this.currentVirtualData = virtualData;
     this._activeSlides.next(virtualData.slides);
     this._changeDetectorRef.detectChanges();
-    this.swiperRef.updateSlides();
-    this.swiperRef.updateProgress();
-    this.swiperRef.updateSlidesClasses();
-    if (this.swiperRef.lazy && this.swiperRef.params.lazy['enabled']) {
-      this.swiperRef.lazy.load();
-    }
-    this.swiperRef.virtual.update(true);
+    this._ngZone.runOutsideAngular(() => {
+      this.swiperRef.updateSlides();
+      this.swiperRef.updateProgress();
+      this.swiperRef.updateSlidesClasses();
+      if (this.swiperRef.lazy && this.swiperRef.params.lazy['enabled']) {
+        this.swiperRef.lazy.load();
+      }
+      this.swiperRef.virtual.update(true);
+    });
     return;
-  }
+  };
 
   ngOnChanges(changedParams: SimpleChanges) {
     this.updateSwiper(changedParams);
@@ -579,115 +588,124 @@ export class SwiperComponent implements OnInit {
     if (!(changedParams && this.swiperRef && !this.swiperRef.destroyed)) {
       return;
     }
-    const {
-      params: currentParams,
-      pagination,
-      navigation,
-      scrollbar,
-      virtual,
-      thumbs,
-    } = this.swiperRef;
 
-    if (changedParams.pagination) {
-      if (
-        this.pagination &&
-        typeof this.pagination !== 'boolean' &&
-        this.pagination.el &&
-        pagination &&
-        !pagination.el
-      ) {
-        this.updateParameter('pagination', this.pagination);
-        pagination.init();
-        pagination.render();
-        pagination.update();
-      } else {
-        pagination.destroy();
-        pagination.el = null;
+    this._ngZone.runOutsideAngular(() => {
+      const {
+        params: currentParams,
+        pagination,
+        navigation,
+        scrollbar,
+        virtual,
+        thumbs,
+      } = this.swiperRef;
+
+      if (changedParams.pagination) {
+        if (
+          this.pagination &&
+          typeof this.pagination !== 'boolean' &&
+          this.pagination.el &&
+          pagination &&
+          !pagination.el
+        ) {
+          this.updateParameter('pagination', this.pagination);
+          pagination.init();
+          pagination.render();
+          pagination.update();
+        } else {
+          pagination.destroy();
+          pagination.el = null;
+        }
       }
-    }
 
-    if (changedParams.scrollbar) {
-      if (
-        this.scrollbar &&
-        typeof this.scrollbar !== 'boolean' &&
-        this.scrollbar.el &&
-        scrollbar &&
-        !scrollbar.el
-      ) {
-        this.updateParameter('scrollbar', this.scrollbar);
-        scrollbar.init();
-        scrollbar.updateSize();
-        scrollbar.setTranslate();
-      } else {
-        scrollbar.destroy();
-        scrollbar.el = null;
+      if (changedParams.scrollbar) {
+        if (
+          this.scrollbar &&
+          typeof this.scrollbar !== 'boolean' &&
+          this.scrollbar.el &&
+          scrollbar &&
+          !scrollbar.el
+        ) {
+          this.updateParameter('scrollbar', this.scrollbar);
+          scrollbar.init();
+          scrollbar.updateSize();
+          scrollbar.setTranslate();
+        } else {
+          scrollbar.destroy();
+          scrollbar.el = null;
+        }
       }
-    }
 
-    if (changedParams.navigation) {
-      if (
-        this.navigation &&
-        typeof this.navigation !== 'boolean' &&
-        this.navigation.prevEl &&
-        this.navigation.nextEl &&
-        navigation &&
-        !navigation.prevEl &&
-        !navigation.nextEl
-      ) {
-        this.updateParameter('navigation', this.navigation);
-        navigation.init();
-        navigation.update();
-      } else if (navigation.prevEl && navigation.nextEl) {
-        navigation.destroy();
-        navigation.nextEl = null;
-        navigation.prevEl = null;
+      if (changedParams.navigation) {
+        if (
+          this.navigation &&
+          typeof this.navigation !== 'boolean' &&
+          this.navigation.prevEl &&
+          this.navigation.nextEl &&
+          navigation &&
+          !navigation.prevEl &&
+          !navigation.nextEl
+        ) {
+          this.updateParameter('navigation', this.navigation);
+          navigation.init();
+          navigation.update();
+        } else if (navigation.prevEl && navigation.nextEl) {
+          navigation.destroy();
+          navigation.nextEl = null;
+          navigation.prevEl = null;
+        }
       }
-    }
-    if (changedParams.thumbs && this.thumbs && this.thumbs.swiper) {
-      this.updateParameter('thumbs', this.thumbs);
-      const initialized = thumbs.init();
-      if (initialized) thumbs.update(true);
-    }
+      if (changedParams.thumbs && this.thumbs && this.thumbs.swiper) {
+        this.updateParameter('thumbs', this.thumbs);
+        const initialized = thumbs.init();
+        if (initialized) thumbs.update(true);
+      }
 
-    if (changedParams.controller && this.controller && this.controller.control) {
-      this.swiperRef.controller.control = this.controller.control;
-    }
+      if (changedParams.controller && this.controller && this.controller.control) {
+        this.swiperRef.controller.control = this.controller.control;
+      }
 
-    this.swiperRef.update();
+      this.swiperRef.update();
+    });
   }
 
   updateSwiper(changedParams: SimpleChanges | any) {
-    if (changedParams.config) {
-      return;
-    }
-    if (!(changedParams && this.swiperRef && !this.swiperRef.destroyed)) {
-      return;
-    }
-    for (const key in changedParams) {
-      if (ignoreNgOnChanges.indexOf(key) >= 0) {
-        continue;
+    this._ngZone.runOutsideAngular(() => {
+      if (changedParams.config) {
+        return;
       }
-      const newValue = changedParams[key]?.currentValue ?? changedParams[key];
-      this.updateParameter(key, newValue);
-    }
+      if (!(changedParams && this.swiperRef && !this.swiperRef.destroyed)) {
+        return;
+      }
+      for (const key in changedParams) {
+        if (ignoreNgOnChanges.indexOf(key) >= 0) {
+          continue;
+        }
+        const newValue = changedParams[key]?.currentValue ?? changedParams[key];
+        this.updateParameter(key, newValue);
+      }
 
-    if (changedParams.allowSlideNext) {
-      this.swiperRef.allowSlideNext = this.allowSlideNext;
-    }
-    if (changedParams.allowSlidePrev) {
-      this.swiperRef.allowSlidePrev = this.allowSlidePrev;
-    }
-    if (changedParams.direction) {
-      this.swiperRef.changeDirection(this.direction, false);
-    }
-    if (changedParams.breakpoints) {
-      if (this.loop && !this.loopedSlides) {
-        this.calcLoopedSlides();
+      if (changedParams.allowSlideNext) {
+        this.swiperRef.allowSlideNext = this.allowSlideNext;
       }
-      this.swiperRef.currentBreakpoint = null;
-      this.swiperRef.setBreakpoint();
-    }
-    this.swiperRef.update();
+      if (changedParams.allowSlidePrev) {
+        this.swiperRef.allowSlidePrev = this.allowSlidePrev;
+      }
+      if (changedParams.direction) {
+        this.swiperRef.changeDirection(this.direction, false);
+      }
+      if (changedParams.breakpoints) {
+        if (this.loop && !this.loopedSlides) {
+          this.calcLoopedSlides();
+        }
+        this.swiperRef.currentBreakpoint = null;
+        this.swiperRef.setBreakpoint();
+      }
+
+      if (changedParams.thumbs || changedParams.controller) {
+        this.updateInitSwiper(changedParams);
+      }
+      this.swiperRef.update();
+    });
   }
 
   calcLoopedSlides() {
@@ -741,7 +759,7 @@ export class SwiperComponent implements OnInit {
     if (index === this.swiperRef.activeIndex) {
       return;
     }
-    this.zone.runOutsideAngular(() => {
+    this._ngZone.runOutsideAngular(() => {
       if (this.loop) {
         this.swiperRef.slideToLoop(index, speed, !silent);
       } else {
@@ -751,6 +769,8 @@ export class SwiperComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.swiperRef?.destroy();
+    this._ngZone.runOutsideAngular(() => {
+      this.swiperRef?.destroy();
+    });
   }
 }

@@ -18,6 +18,12 @@
   <a href="https://www.jsdelivr.com/package/npm/swiper">
     <img src="https://data.jsdelivr.com/v1/package/npm/swiper/badge?style=rounded" alt="jsDelivr Hits"/>
   </a>
+  <a href="https://bundlephobia.com/result?p=swiper">
+    <img alt="tree-shakeable" src="https://badgen.net/bundlephobia/tree-shaking/swiper" />
+  </a>
+  <a href="https://npmjs.org/package/swiper">
+    <img alt="types included" src="https://badgen.net/npm/types/swiper" />
+  </a>
 </p>
 
 <p align="center">
@@ -31,6 +37,34 @@
 Swiper - is the free and most modern mobile touch slider with hardware accelerated transitions and amazing native behavior. It is intended to be used in mobile websites, mobile web apps, and mobile native/hybrid apps.
 
 Swiper is not compatible with all platforms, it is a modern touch slider which is focused only on modern apps/platforms to bring the best experience and simplicity.
+
+
+## Features
+- **Tree-shakeable**: Only modules you use will be imported into your app's bundle.
+- **Mobile-friendly**: It is intended to be used in mobile websites, mobile web apps, and mobile native/hybrid apps.
+- **Library Agnostic**: Swiper doesn't require any JavaScript libraries like jQuery, which makes Swiper much smaller and faster. It can be safely used with libraries such as jQuery, Zepto, jQuery Mobile, etc
+- **1:1 Touch movement**: By default, Swiper provides 1:1 touch movement interaction, but this ratio can be configured through Swiper settings
+- **Mutation Observer**: Swiper has an option to enable Mutation Observer, with this feature Swiper will be automatically reinitialized and recalculate all required parameters if you make dynamic changes to the DOM, or in Swiper styles itself
+- **Rich API**: Swiper comes with a very rich API. It allows creating your own pagination, navigation buttons, parallax effects and many more
+- **RTL**: Swiper is the only slider that provides 100% RTL support with correct layout
+- **Multi Row Slides Layout**: Swiper allows a multiple row slides layout, with a few slides per column
+- **Transition Effects**: Fade, Flip, 3D Cube, 3D Coverflow
+- **Two-way Control**: Swiper may be used as controller for any number of other Swipers, and even be controlled at the same time
+- **Full Navigation Control**: Swiper comes with all required built-in navigation elements, such as Pagination, Navigation arrows and Scrollbar
+- **Flexbox Layout**: Swiper uses modern flexbox layout for slides layout, which solves a lot of problems and time with size caclulations. Such layout also allows configuring the Slides grid using pure CSS
+- **Most Flexible Slides Layout Grid**: Swiper has a lot of parameters on initialization to make it as flexible as possible. You can control slides per view, per column, per group, space between slides, and many more
+- **Images Lazy Loading**: Swiper Lazy Loading delays loading of images in inactive/invisible slides until the user swipes to them. Such feature could make the page load faster and improve Swiper performance
+- **Virtual Slides**: Swiper comes with Virtual Slides feature that is great when you have a lot of slides or content-heavy/image-heavy slides so it will keep just the required amount of slides in DOM
+- **Loop mode**
+- **Autoplay**
+- **Keyboard control**
+- **Mousewheel control**
+- **Nested sliders**
+- **History navigation**
+- **Hash navigation**
+- **Breakpoints configuration**
+- **Accessibility (A11y)**
+- **And many more ...**
 
 ## Dist / Build
 
@@ -58,35 +92,13 @@ The result is available in `build/` folder.
 
 ### Running demos:
 
-**Core:**
-
-folder: `./playground/core`
-
-`$ npm run core`
-
-**React:**
-
-folder: `./playground/react/`
-
-`$ npm run react`
-
-**Vue:**
-
-folder: `./playground/vue/`
-
-`$ npm run vue`
-
-**Svelte:**
-
-folder: `./playground/svelte/`
-
-`$ npm run svelte`
-
-**Angular:**
-
-folder: `./playground/angular/`
-
-`$ npm run angular` or `$ ng serve`
+All demos located in `./playground` folder. There you will fine Core (HTML, JS), React, Vue, Svelte and Angular versions.
+To open demo, run:
+- **Core**: `npm run core`
+- **React**: `npm run react`
+- **Vue**: `npm run vue`
+- **Svelte**: `npm run svelte`
+- **Angular**: `npm run angular`
 
 ### Production Build
 

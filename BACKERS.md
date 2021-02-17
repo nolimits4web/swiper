@@ -34,10 +34,14 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 
 ### \$10+ Supporter
 
-[Currently vacant. It could be you!](https://opencollective.com/swiper/contribute/supporter-23766/checkout)
+[Will Myers](https://opencollective.com/will-myers)
+
+[Join here!](https://opencollective.com/swiper/contribute/supporter-23766/checkout)
 
 ---
 
 ### \$5+ Thank You
 
-[Currently vacant. It could be you!](https://opencollective.com/swiper/contribute/thank-you-23765/checkout)
+[Marcel Schulz](https://opencollective.com/marcel-schulz)
+
+[Join here!](https://opencollective.com/swiper/contribute/thank-you-23765/checkout)
