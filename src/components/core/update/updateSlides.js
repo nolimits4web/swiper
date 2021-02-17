@@ -2,8 +2,8 @@ import { getWindow } from 'ssr-window';
 import { extend } from '../../../utils/utils';
 
 export default function updateSlides() {
+  const swiper = this;
   const getDirectionLabel = (property) => {
-    const swiper = this;
     if (swiper.isHorizontal()) {
       return property;
     }
@@ -23,7 +23,6 @@ export default function updateSlides() {
     return parseFloat(node.getPropertyValue(getDirectionLabel(label)) || 0);
   };
 
-  const swiper = this;
   const window = getWindow();
   const params = swiper.params;
 
