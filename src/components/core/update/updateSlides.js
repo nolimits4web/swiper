@@ -1,29 +1,28 @@
 import { getWindow } from 'ssr-window';
 import { extend } from '../../../utils/utils';
 
-function getDirectionLabel(property) {
-  const swiper = this;
-  if (swiper.isHorizontal()) {
-    return property;
-  }
-  // prettier-ignore
-  return {
-    'width': 'height',
-    'margin-top': 'margin-left',
-    'margin-bottom ': 'margin-right',
-    'margin-left': 'margin-top',
-    'margin-right': 'margin-bottom',
-    'padding-left': 'padding-top',
-    'padding-right': 'padding-bottom',
-    'marginRight': 'marginBottom',
-  }[property];
-}
-
-const getDirectionPropertyValue = (node, label) => {
-  return parseFloat(node.getPropertyValue(getDirectionLabel(label)) || 0);
-};
-
 export default function updateSlides() {
+  const getDirectionLabel = (property) => {
+    const swiper = this;
+    if (swiper.isHorizontal()) {
+      return property;
+    }
+    // prettier-ignore
+    return {
+      'width': 'height',
+      'margin-top': 'margin-left',
+      'margin-bottom ': 'margin-right',
+      'margin-left': 'margin-top',
+      'margin-right': 'margin-bottom',
+      'padding-left': 'padding-top',
+      'padding-right': 'padding-bottom',
+      'marginRight': 'marginBottom',
+    }[property];
+  };
+  const getDirectionPropertyValue = (node, label) => {
+    return parseFloat(node.getPropertyValue(getDirectionLabel(label)) || 0);
+  };
+
   const swiper = this;
   const window = getWindow();
   const params = swiper.params;
