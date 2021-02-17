@@ -136,6 +136,8 @@ export class SwiperComponent implements OnInit {
   @Input() slideDuplicatePrevClass: SwiperOptions['slideDuplicatePrevClass'];
   @Input() wrapperClass: SwiperOptions['wrapperClass'] = 'swiper-wrapper';
   @Input() runCallbacksOnInit: SwiperOptions['runCallbacksOnInit'];
+  @Input() observeParents: SwiperOptions['observeParents'];
+  @Input() observeSlideChildren: SwiperOptions['observeSlideChildren'];
   @Input() a11y: SwiperOptions['a11y'];
   @Input() autoplay: SwiperOptions['autoplay'];
   @Input() controller: SwiperOptions['controller'];
