@@ -31,7 +31,7 @@ export default function addClasses() {
     { 'ios': device.ios },
     { 'css-mode': params.cssMode },
   ], params.containerModifierClass);
-
-  $el.addClass([...classNames, ...suffixes].join(' '));
+  classNames.push(...suffixes);
+  $el.addClass([...classNames].join(' '));
   swiper.emitContainerClasses();
 }
