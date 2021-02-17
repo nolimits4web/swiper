@@ -190,7 +190,7 @@ const FreeMode = {
       return;
     }
 
-    if (!params.freeModeMomentum || timeDiff >= params.longSwipesMs) {
+    if (!params.freeMode.momentum || timeDiff >= params.longSwipesMs) {
       swiper.updateProgress();
       swiper.updateActiveIndex();
       swiper.updateSlidesClasses();
