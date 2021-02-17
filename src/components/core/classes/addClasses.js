@@ -1,45 +1,37 @@
+function prepareClasses(entries, prefix) {
+  const resultClasses = [];
+  entries.forEach((item) => {
+    if (typeof item === 'object') {
+      Object.entries(item).forEach(([classNames, condition]) => {
+        if (condition) {
+          resultClasses.push(prefix + classNames);
+        }
+      });
+    } else if (typeof item === 'string') {
+      resultClasses.push(prefix + item);
+    }
+  });
+  return resultClasses;
+}
+
 export default function addClasses() {
   const swiper = this;
   const { classNames, params, rtl, $el, device, support } = swiper;
-  const suffixes = [];
+  // prettier-ignore
+  const suffixes = prepareClasses([
+    'initialized',
+    params.direction,
+    { 'pointer-events': support.pointerEvents && !support.touch },
+    { 'free-mode': params.freeMode.enabled },
+    { 'autoheight': params.autoHeight },
+    { 'rtl': rtl },
+    { 'multirow': params.slidesPerColumn > 1 },
+    { 'multirow-column': params.slidesPerColumn > 1 && params.slidesPerColumnFill === 'column' },
+    { 'android': device.android },
+    { 'ios': device.ios },
+    { 'css-mode': params.cssMode },
+  ], params.containerModifierClass);
 
-  suffixes.push('initialized');
-  suffixes.push(params.direction);
-
-  if (support.pointerEvents && !support.touch) {
-    suffixes.push('pointer-events');
-  }
-  if (params.freeMode.enabled) {
-    suffixes.push('free-mode');
-  }
-  if (params.autoHeight) {
-    suffixes.push('autoheight');
-  }
-  if (rtl) {
-    suffixes.push('rtl');
-  }
-  if (params.slidesPerColumn > 1) {
-    suffixes.push('multirow');
-    if (params.slidesPerColumnFill === 'column') {
-      suffixes.push('multirow-column');
-    }
-  }
-  if (device.android) {
-    suffixes.push('android');
-  }
-  if (device.ios) {
-    suffixes.push('ios');
-  }
-
-  if (params.cssMode) {
-    suffixes.push('css-mode');
-  }
-
-  suffixes.forEach((suffix) => {
-    classNames.push(params.containerModifierClass + suffix);
-  });
-
-  $el.addClass(classNames.join(' '));
-
+  $el.addClass([...classNames, ...suffixes].join(' '));
   swiper.emitContainerClasses();
 }

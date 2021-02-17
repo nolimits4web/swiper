@@ -21,7 +21,7 @@ async function buildCore(components, format, cb) {
       .join('\n');
   } else if (format === 'cjs') {
     coreContent += `"use strict";\n`;
-    coreContent += `exports._esModule = true;\n`;
+    coreContent += `exports.__esModule = true;\n`;
     coreContent += `exports.default = require('./components/core/core-class').default;\n`;
     coreContent += `exports.Swiper = require('./components/core/core-class').default;\n`;
     coreContent += components

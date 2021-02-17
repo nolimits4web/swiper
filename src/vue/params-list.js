@@ -85,6 +85,9 @@ const paramsList = [
   'slideDuplicatePrevClass',
   'wrapperClass',
   'runCallbacksOnInit',
+  'observer',
+  'observeParents',
+  'observeSlideChildren',
 
   // modules
   'a11y',
