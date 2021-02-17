@@ -258,7 +258,7 @@ const Mousewheel = {
           swiper.updateSlidesClasses();
         }
 
-        if (swiper.params.freeModeSticky) {
+        if (swiper.params.freeMode.sticky) {
           // When wheel scrolling starts with sticky (aka snap) enabled, then detect
           // the end of a momentum scroll by storing recent (N=15?) wheel events.
           // 1. do all N events have decreasing or same (absolute value) delta?

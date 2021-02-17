@@ -253,7 +253,7 @@ export default {
       }
     },
     scroll(swiper) {
-      if (swiper.params.freeMode && !swiper.params.freeModeSticky) {
+      if (swiper.params.freeMode && !swiper.params.freeMode.sticky) {
         swiper.lazy.load();
       }
     },

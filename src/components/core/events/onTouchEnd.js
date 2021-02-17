@@ -74,7 +74,7 @@ export default function onTouchEnd(event) {
     return;
   }
 
-  if (params.freeMode.enabled) {
+  if (swiper.params.freeMode && params.freeMode.enabled) {
     swiper.freeMode.onTouchEnd({ currentPos });
     return;
   }

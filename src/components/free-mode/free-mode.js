@@ -46,7 +46,7 @@ const FreeMode = {
         const time = lastMoveEvent.time - velocityEvent.time;
         swiper.velocity = distance / time;
         swiper.velocity /= 2;
-        if (Math.abs(swiper.velocity) < params.freeModeMinimumVelocity) {
+        if (Math.abs(swiper.velocity) < params.freeMode.minimumVelocity) {
           swiper.velocity = 0;
         }
         // this implies that the user stopped moving a finger then released.
@@ -94,7 +94,7 @@ const FreeMode = {
           newPosition = swiper.minTranslate();
         }
         if (params.loop && params.centeredSlides) needsLoopFix = true;
-      } else if (params.freeModeSticky) {
+      } else if (params.freeMode.sticky) {
         let nextSlide;
         for (let j = 0; j < snapGrid.length; j += 1) {
           if (snapGrid[j] > -newPosition) {
@@ -126,8 +126,8 @@ const FreeMode = {
         } else {
           momentumDuration = Math.abs((newPosition - swiper.translate) / swiper.velocity);
         }
-        if (params.freeModeSticky) {
-          // If freeModeSticky is active and the user ends a swipe with a slow-velocity
+        if (params.freeMode.sticky) {
+          // If freeMode.sticky is active and the user ends a swipe with a slow-velocity
           // event, then durations can be 20+ seconds to slide one (or zero!) slides.
           // It's easy to see this when simulating touch with mouse events. To fix this,
           // limit single-slide swipes to the default slide duration. This also has the
@@ -144,7 +144,7 @@ const FreeMode = {
             momentumDuration = params.speed * 2.5;
           }
         }
-      } else if (params.freeModeSticky) {
+      } else if (params.freeMode.sticky) {
         swiper.slideToClosest();
         return;
       }
@@ -185,7 +185,7 @@ const FreeMode = {
 
       swiper.updateActiveIndex();
       swiper.updateSlidesClasses();
-    } else if (params.freeModeSticky) {
+    } else if (params.freeMode.sticky) {
       swiper.slideToClosest();
       return;
     }
