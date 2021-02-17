@@ -2,6 +2,16 @@
 
 Support Swiper development by [pledging on Open Collective](http://opencollective.com/swiper)!
 
+<table>
+  <tr>
+    <td align="center" valign="middle">
+      <a href="https://www.leoboost.com/buy-instagram-likes" target="_blank">
+        <img width="160" src="https://swiperjs.com/images/sponsors/leoboost.png">
+      </a>
+    </td>
+  </tr>
+</table>
+
 ### \$500 Platinum Sponsor
 
 [Currently vacant. It could be you!](https://opencollective.com/swiper/contribute/platinum-sponsor-24468/checkout)
@@ -16,7 +26,9 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 
 ### \$100 Silver Sponsor
 
-[Currently vacant. It could be you!](https://opencollective.com/swiper/contribute/silver-sponsor-24464/checkout)
+[LeoBoost](https://www.leoboost.com/buy-instagram-likes) - Buy real Instagram Likes - 100% Real & Instant Likes
+
+[Join here!](https://opencollective.com/swiper/contribute/silver-sponsor-24464/checkout)
 
 ---
 
