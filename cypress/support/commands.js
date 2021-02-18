@@ -8,17 +8,11 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-Cypress.Commands.add('getNextSlide', { prevSubject: 'optional' }, () => {
-  return cy.get('.swiper-button-next');
+Cypress.Commands.add('navigationNextSlide', { prevSubject: 'optional' }, () => {
+  cy.get('.swiper-button-next').click();
 });
-Cypress.Commands.add('getPrevSlide', { prevSubject: 'optional' }, () => {
-  return cy.get('.swiper-button-prev');
-});
-Cypress.Commands.add('nextSlide', { prevSubject: 'optional' }, () => {
-  cy.getNextSlide().click();
-});
-Cypress.Commands.add('prevSlide', { prevSubject: 'optional' }, () => {
-  cy.getPrevSlide().click();
+Cypress.Commands.add('navigationPrevSlide', { prevSubject: 'optional' }, () => {
+  cy.get('.swiper-button-prev').click();
 });
 // subject, options
 Cypress.Commands.add('getActiveSlide', { prevSubject: 'optional' }, () => {
@@ -99,18 +93,21 @@ Cypress.Commands.add(
   },
 );
 
-// Cypress.Commands.add('swipeLeft', () => {
-//   cy.get('.swiper-slide-active')
-//     .trigger('mousedown', { which: 1 }) // start capture
-//     .trigger('mousemove', 'left') // register start position
-//     .trigger('mousemove', 'right') // register end position
-//     .wait(0) // wait for requestAnimationFrame to invoke fireOnMove
-//     .trigger('mouseup'); // end capture
-// });
+Cypress.Commands.add('swipeLeft', () => {
+  cy.getSliderContainer()
+    .trigger('pointerdown', { which: 1, pageX: 100, pageY: 100, force: true })
+    .trigger('pointermove', { pageX: 50, pageY: 100, force: true })
+    .trigger('pointerup', { force: true });
+});
 
-// Cypress.Commands.add('swipeRight', () => {
-//   cy.get('.swiper-slide-active')
-//     .trigger('mousedown', { position: 'left' })
-//     .trigger('mousemove', { clientX: 100, clientY: 275 })
-//     .trigger('mouseup', { force: true });
-// });
+Cypress.Commands.add('swipeRight', () => {
+  cy.getSliderContainer()
+    .trigger('pointerdown', { which: 1, pageX: -100, pageY: 100, force: true })
+    .trigger('pointermove', { pageX: 50, pageY: 100, force: true })
+    .trigger('pointerup', { force: true });
+});
+
+Cypress.Commands.add('waitSwipe', (subject, time = 300) => {
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(time);
+});
