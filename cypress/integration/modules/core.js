@@ -83,16 +83,16 @@ context('Core', () => {
       cy.getSlide(5).should('contain', 'Add slide 4');
     });
 
-    // it('Add multiple slides at index', function () {
-    //   this.swiper.addSlide(0, [
-    //     '<div class="swiper-slide">Add slide 0</div>',
-    //     '<div class="swiper-slide">Add slide 1</div>',
-    //     '<div class="swiper-slide">Add slide 2</div>',
-    //   ]);
-    //   cy.getSlide(0).should('contain', 'Add slide 0');
-    //   cy.getSlide(1).should('contain', 'Add slide 1');
-    //   cy.getSlide(2).should('contain', 'Add slide 2');
-    // });
+    it('Add multiple slides at index', function () {
+      this.swiper.addSlide(0, [
+        '<div class="swiper-slide">Add slide 0</div>',
+        '<div class="swiper-slide">Add slide 1</div>',
+        '<div class="swiper-slide">Add slide 2</div>',
+      ]);
+      cy.getSlide(2).should('contain', 'Add slide 0');
+      cy.getSlide(1).should('contain', 'Add slide 1');
+      cy.getSlide(0).should('contain', 'Add slide 2');
+    });
 
     it('Add slide to the end', function () {
       this.swiper.appendSlide('<div class="swiper-slide">Add slide at the end</div>');
