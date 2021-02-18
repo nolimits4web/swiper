@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import '../../build/swiper-bundle.css';
 
 // eslint-disable-next-line
