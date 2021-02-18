@@ -34,7 +34,10 @@ Cypress.Commands.add('getSliderContainer', { prevSubject: 'optional' }, () => {
 });
 
 Cypress.Commands.add('getSlide', { prevSubject: 'optional' }, (subject, slideIndex) => {
-  return cy.get(`.swiper-slide:nth-child(${slideIndex})`);
+  return cy.get(`.swiper-slide:nth-child(${slideIndex + 1})`);
+});
+Cypress.Commands.add('getSlideContains', { prevSubject: 'optional' }, (subject, content) => {
+  cy.get('.swiper-container').contains(content);
 });
 Cypress.Commands.add('getSlides', { prevSubject: 'optional' }, () => {
   return cy.get(`.swiper-slide`);
@@ -80,6 +83,7 @@ Cypress.Commands.add(
       `;
       // eslint-disable-next-line dot-notation
       _window.swiper = new _window['SwiperClass'](el, config);
+      return _window.swiper;
     });
   },
 );
@@ -94,6 +98,7 @@ Cypress.Commands.add(
     });
   },
 );
+
 // Cypress.Commands.add('swipeLeft', () => {
 //   cy.get('.swiper-slide-active')
 //     .trigger('mousedown', { which: 1 }) // start capture

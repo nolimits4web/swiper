@@ -30,10 +30,10 @@ context('Core', () => {
 
     it('should add aria-lalbel to swiper-slide', () => {
       const count = Cypress.$('.swiper-slide').length;
-      cy.getSlide(1).should('have.attr', 'aria-label', `1 / ${count}`);
-      cy.getSlide(3).should('have.attr', 'aria-label', `3 / ${count}`);
-      cy.getSlide(5).should('have.attr', 'aria-label', `5 / ${count}`);
-      cy.getSlide(10).should('have.attr', 'aria-label', `10 / ${count}`);
+      cy.getSlide(0).should('have.attr', 'aria-label', `1 / ${count}`);
+      cy.getSlide(2).should('have.attr', 'aria-label', `3 / ${count}`);
+      cy.getSlide(4).should('have.attr', 'aria-label', `5 / ${count}`);
+      cy.getSlide(9).should('have.attr', 'aria-label', `10 / ${count}`);
     });
   });
 });
