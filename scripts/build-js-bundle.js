@@ -56,7 +56,7 @@ function buildBundle(components, format, browser, cb) {
       }),
     )
     .then(async (bundle) => {
-      if (!browser && (format === 'cjs' || format === 'esm') && env === 'production') {
+      if (!browser && (format === 'cjs' || format === 'esm')) {
         // Fix imports
         const modularContent = fs
           .readFileSync(`./${output}/${filename}.js`, 'utf-8')
@@ -116,6 +116,7 @@ function build() {
   });
   if (env === 'development') {
     buildBundle(components, 'umd', true, () => {});
+    buildBundle(components, 'esm', false, () => {});
   } else {
     buildBundle(components, 'esm', false, () => {});
     buildBundle(components, 'esm', true, () => {});

@@ -38,8 +38,20 @@ Swiper - is the free and most modern mobile touch slider with hardware accelerat
 
 Swiper is not compatible with all platforms, it is a modern touch slider which is focused only on modern apps/platforms to bring the best experience and simplicity.
 
+## Sponsors
+
+<table>
+  <tr>
+    <td align="center" valign="middle">
+      <a href="https://www.leoboost.com/buy-instagram-likes" target="_blank">
+        <img width="160" src="https://swiperjs.com/images/sponsors/leoboost.png">
+      </a>
+    </td>
+  </tr>
+</table>
 
 ## Features
+
 - **Tree-shakeable**: Only modules you use will be imported into your app's bundle.
 - **Mobile-friendly**: It is intended to be used in mobile websites, mobile web apps, and mobile native/hybrid apps.
 - **Library Agnostic**: Swiper doesn't require any JavaScript libraries like jQuery, which makes Swiper much smaller and faster. It can be safely used with libraries such as jQuery, Zepto, jQuery Mobile, etc
@@ -94,6 +106,7 @@ The result is available in `build/` folder.
 
 All demos located in `./playground` folder. There you will fine Core (HTML, JS), React, Vue, Svelte and Angular versions.
 To open demo, run:
+
 - **Core**: `npm run core`
 - **React**: `npm run react`
 - **Vue**: `npm run vue`
@@ -125,10 +138,6 @@ This project exists thanks to all the people who contribute. [[Contribute](CONTR
 
 Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/swiper/contribute)]
 
-#### Individuals
-
-<a href="https://opencollective.com/swiper"><img src="https://opencollective.com/swiper/individuals.svg?width=890"></a>
-
 #### Organizations
 
 Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/swiper/contribute)]
@@ -143,3 +152,7 @@ Support this project with your organization. Your logo will show up here with a 
 <a href="https://opencollective.com/swiper/organization/7/website"><img src="https://opencollective.com/swiper/organization/7/avatar.svg"></a>
 <a href="https://opencollective.com/swiper/organization/8/website"><img src="https://opencollective.com/swiper/organization/8/avatar.svg"></a>
 <a href="https://opencollective.com/swiper/organization/9/website"><img src="https://opencollective.com/swiper/organization/9/avatar.svg"></a>
+
+#### Individuals
+
+<a href="https://opencollective.com/swiper"><img src="https://opencollective.com/swiper/individuals.svg?width=890"></a>
