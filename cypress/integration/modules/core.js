@@ -7,6 +7,7 @@ context('Core', () => {
       cy.initSwiper({
         centeredSlides: true,
         slidesPerView: 3,
+        speed: 0,
         spaceBetween: 10,
         navigation: true,
       });
@@ -33,8 +34,8 @@ context('Core', () => {
         cy.getSlides().filter(':visible').its('length').should('be.eq', 2);
       });
       it('should have 3 visible slides after navigation', () => {
-        cy.nextSlide();
-        cy.getSlides().filter(':visible').its('length').should('be.eq', 2);
+        cy.swipeLeft();
+        cy.getSlides().filter(':visible').its('length').should('be.eq', 3);
       });
     });
 
