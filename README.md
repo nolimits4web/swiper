@@ -47,6 +47,11 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
         <img width="160" src="https://swiperjs.com/images/sponsors/leoboost.png">
       </a>
     </td>
+    <td align="center" valign="middle">
+      <a href="https://socialsup.net" target="_blank">
+        <img width="160" src="https://swiperjs.com/images/sponsors/socials-up.png">
+      </a>
+    </td>
   </tr>
 </table>
 

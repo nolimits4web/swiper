@@ -9,6 +9,11 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img width="160" src="https://swiperjs.com/images/sponsors/leoboost.png">
       </a>
     </td>
+    <td align="center" valign="middle">
+      <a href="https://socialsup.net" target="_blank">
+        <img width="160" src="https://swiperjs.com/images/sponsors/socials-up.png">
+      </a>
+    </td>
   </tr>
 </table>
 
@@ -34,7 +39,9 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 
 ### \$50+ Sponsor
 
-[Currently vacant. It could be you!](https://opencollective.com/swiper/contribute/sponsor-24467/checkout)
+[Socials Up](https://socialsup.net) - Buy 100% Cheap SMM Services - Instagram, YouTube, Twitter
+
+[Join here!](https://opencollective.com/swiper/contribute/sponsor-24467/checkout)
 
 ---
 
