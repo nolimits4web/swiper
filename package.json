@@ -26,7 +26,9 @@
     "validate": "npm-run-all --parallel check-format lint",
     "release": "npm run validate && node ./scripts/release",
     "test": "npm run validate && npm run build:prod",
-    "e2e": "ng e2e"
+    "test:e2e": "is-ci \"test:e2e:prod\" \"test:e2e:dev\"",
+    "test:e2e:dev": "cypress open",
+    "test:e2e:prod": "cypress run"
   },
   "repository": {
     "type": "git",
@@ -115,9 +117,11 @@
     "codelyzer": "^6.0.1",
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.3",
+    "cypress": "^6.3.0",
     "eslint": "^7.18.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
@@ -130,6 +134,7 @@
     "globby": "^11.0.2",
     "husky": "^4.3.8",
     "inquirer": "^7.3.3",
+    "is-ci-cli": "^2.2.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.2.3",

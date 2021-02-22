@@ -1,0 +1,24 @@
+name: E2E
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+      - name: Run build dev
+        run: npm run build:dev
+      - name: Run build prod
+        run: npm run build:prod
+      - name: Run test
+        run: npm run test:e2e
