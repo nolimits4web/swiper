@@ -50,6 +50,8 @@
   height: 100%;
   position: relative;
   transition-property: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 .swiper-slide-invisible-blank {
   visibility: hidden;
