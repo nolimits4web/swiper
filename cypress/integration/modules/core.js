@@ -51,16 +51,16 @@ context('Core', () => {
       cy.swiperPage();
       cy.initSwiper().as('swiper');
     });
-    it('should slide next', function () {
+    it('should slide next', function slideNext() {
       this.swiper.slideNext();
       cy.getSlideContains('Slide 2').should('have.class', 'swiper-slide-active');
     });
-    it('should slide prev', function () {
+    it('should slide prev', function slidePrev() {
       this.swiper.slideNext();
       this.swiper.slidePrev();
       cy.getSlideContains('Slide 1').should('have.class', 'swiper-slide-active');
     });
-    it('should slide to slide 3', function () {
+    it('should slide to slide 3', function slideTo3() {
       this.swiper.slideTo(2);
       cy.getSlideContains('Slide 3').should('have.class', 'swiper-slide-active');
     });
@@ -68,7 +68,7 @@ context('Core', () => {
     //   this.swiper.slideTo(14);
     //   cy.getSlideContains('Slide 1').should('have.class', 'swiper-slide-active');
     // });
-    it('Add slide at index', function () {
+    it('Add slide at index', function slideTo() {
       this.swiper.addSlide(1, '<div class="swiper-slide">Add slide</div>');
       cy.getSlide(1).should('contain', 'Add slide');
       this.swiper.addSlide(4, '<div class="swiper-slide">Add slide 4</div>');
@@ -86,7 +86,7 @@ context('Core', () => {
     //   cy.getSlide(0).should('contain', 'Add slide 2');
     // });
 
-    it('Add slide to the end', function () {
+    it('Add slide to the end', function slideToEnd() {
       this.swiper.appendSlide('<div class="swiper-slide">Add slide at the end</div>');
       cy.getSlide(10).should('contain', 'Add slide at the end');
       this.swiper.appendSlide([
