@@ -37,6 +37,13 @@ export interface SwiperOptions {
   updateOnWindowResize?: boolean;
 
   /**
+   * When enabled it will use ResizeObserver (if supported by browser) on swiper container to detect container resize (instead of watching for window resize)
+   *
+   * @default false
+   */
+  resizeObserver?: boolean;
+
+  /**
    * Index number of initial slide.
    *
    * @default 0

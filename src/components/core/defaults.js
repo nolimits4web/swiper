@@ -6,6 +6,7 @@ export default {
   speed: 300,
   cssMode: false,
   updateOnWindowResize: true,
+  resizeObserver: false,
   nested: false,
 
   // Overrides
