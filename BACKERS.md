@@ -15,6 +15,11 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
       </a>
     </td>
     <td align="center" valign="middle">
+      <a href="https://easy-views.org" target="_blank">
+        <img width="160" src="https://swiperjs.com/images/sponsors/easy-views.png">
+      </a>
+    </td>
+    <td align="center" valign="middle">
       <a href="https://writersperhour.com" target="_blank">
         <img width="160" src="https://swiperjs.com/images/sponsors/writers-per-hour.png">
       </a>
@@ -59,7 +64,9 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 
 ### \$25+ Top Supporter
 
-[Currently vacant. It could be you!](https://opencollective.com/swiper/contribute/top-supporter-24465/checkout)
+[easy-views.org](https://easy-views.org) - High Retention Youtube Views
+
+[Join here!](https://opencollective.com/swiper/contribute/top-supporter-24465/checkout)
 
 ---
 
