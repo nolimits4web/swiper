@@ -5,6 +5,11 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 <table>
   <tr>
     <td align="center" valign="middle">
+      <a href="https://papersowl.com/pay-for-research-paper" target="_blank">
+        <img width="160" src="https://swiperjs.com/images/sponsors/papersowl.png">
+      </a>
+    </td>
+    <td align="center" valign="middle">
       <a href="https://www.leoboost.com/buy-instagram-likes" target="_blank">
         <img width="160" src="https://swiperjs.com/images/sponsors/leoboost.png">
       </a>
@@ -31,6 +36,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 
 ### \$100 Silver Sponsor
 
+[PapersOwl.com](https://papersowl.com/pay-for-research-paper) - Pay Someone to Write My Research Paper
 [LeoBoost](https://www.leoboost.com/buy-instagram-likes) - Buy real Instagram Likes - 100% Real & Instant Likes
 
 [Join here!](https://opencollective.com/swiper/contribute/silver-sponsor-24464/checkout)
