@@ -722,6 +722,15 @@ export interface SwiperOptions {
     [ratio: string]: SwiperOptions;
   };
 
+  /**
+   * Base for breakpoints (beta). Can be `window` or `container`. If set to `window` (by default) then breakpoint keys mean window width. If set to `container` then breakpoint keys treated as swiper container width
+   *
+   * @default 'window'
+   *
+   * @note Currently in beta and not supported by Swiper Angular, React, Svelte and Vue components
+   */
+  breakpointsBase?: string;
+
   // Observer
   /**
    * Set to `true` to enable Mutation Observer on Swiper and its elements. In this case Swiper will be updated (reinitialized) each time if you change its style (like hide/show) or modify its child elements (like adding/removing slides)

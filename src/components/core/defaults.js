@@ -48,6 +48,7 @@ export default {
 
   // Breakpoints
   breakpoints: undefined,
+  breakpointsBase: 'window',
 
   // Slides grid
   spaceBetween: 0,
