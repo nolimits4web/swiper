@@ -76,8 +76,48 @@ Cypress.Commands.add(
       </div>
       `;
       // eslint-disable-next-line dot-notation
-      _window.swiper = new _window['SwiperClass'](el, config);
-      return _window.swiper;
+      const _config = config;
+      if (config.navigation === true) {
+        _config.navigation = {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+          hideOnClick: false,
+          disabledClass: 'swiper-button-disabled',
+          hiddenClass: 'swiper-button-hidden',
+          lockClass: 'swiper-button-lock',
+        };
+      }
+      if (config.pagination === true) {
+        _config.pagination = {
+          el: '.swiper-pagination',
+          bulletElement: 'span',
+          clickable: true,
+          hideOnClick: false,
+          renderBullet: null,
+          renderProgressbar: null,
+          renderFraction: null,
+          renderCustom: null,
+          progressbarOpposite: false,
+          type: 'bullets', // 'bullets' or 'progressbar' or 'fraction' or 'custom'
+          dynamicBullets: false,
+          dynamicMainBullets: 1,
+          formatFractionCurrent: (number) => number,
+          formatFractionTotal: (number) => number,
+          bulletClass: 'swiper-pagination-bullet',
+          bulletActiveClass: 'swiper-pagination-bullet-active',
+          modifierClass: 'swiper-pagination-', // NEW
+          currentClass: 'swiper-pagination-current',
+          totalClass: 'swiper-pagination-total',
+          hiddenClass: 'swiper-pagination-hidden',
+          progressbarFillClass: 'swiper-pagination-progressbar-fill',
+          progressbarOppositeClass: 'swiper-pagination-progressbar-opposite',
+          clickableClass: 'swiper-pagination-clickable', // NEW
+          lockClass: 'swiper-pagination-lock',
+        };
+      }
+      _window.swiperRef = new _window.Swiper(el, _config);
+      console.log(_window.swiperRef);
+      return _window.swiperRef;
     });
   },
 );

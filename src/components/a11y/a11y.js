@@ -46,10 +46,10 @@ const A11y = {
     $el.attr('aria-disabled', false);
     return $el;
   },
-  onEnterKey(e) {
+  onEnterOrSpaceKey(e) {
+    if (e.keyCode !== 13 && e.keyCode !== 32) return;
     const swiper = this;
     const params = swiper.params.a11y;
-    if (e.keyCode !== 13) return;
     const $targetEl = $(e.target);
     if (swiper.navigation && swiper.navigation.$nextEl && $targetEl.is(swiper.navigation.$nextEl)) {
       if (!(swiper.isEnd && !swiper.params.loop)) {
@@ -184,7 +184,7 @@ const A11y = {
       swiper.a11y.makeElFocusable($nextEl);
       if ($nextEl[0].tagName !== 'BUTTON') {
         swiper.a11y.addElRole($nextEl, 'button');
-        $nextEl.on('keydown', swiper.a11y.onEnterKey);
+        $nextEl.on('keydown', swiper.a11y.onEnterOrSpaceKey);
       }
       swiper.a11y.addElLabel($nextEl, params.nextSlideMessage);
       swiper.a11y.addElControls($nextEl, wrapperId);
@@ -193,7 +193,7 @@ const A11y = {
       swiper.a11y.makeElFocusable($prevEl);
       if ($prevEl[0].tagName !== 'BUTTON') {
         swiper.a11y.addElRole($prevEl, 'button');
-        $prevEl.on('keydown', swiper.a11y.onEnterKey);
+        $prevEl.on('keydown', swiper.a11y.onEnterOrSpaceKey);
       }
       swiper.a11y.addElLabel($prevEl, params.prevSlideMessage);
       swiper.a11y.addElControls($prevEl, wrapperId);
@@ -209,7 +209,7 @@ const A11y = {
       swiper.pagination.$el.on(
         'keydown',
         `.${swiper.params.pagination.bulletClass.replace(/ /g, '.')}`,
-        swiper.a11y.onEnterKey,
+        swiper.a11y.onEnterOrSpaceKey,
       );
     }
   },
@@ -227,10 +227,10 @@ const A11y = {
       $prevEl = swiper.navigation.$prevEl;
     }
     if ($nextEl) {
-      $nextEl.off('keydown', swiper.a11y.onEnterKey);
+      $nextEl.off('keydown', swiper.a11y.onEnterOrSpaceKey);
     }
     if ($prevEl) {
-      $prevEl.off('keydown', swiper.a11y.onEnterKey);
+      $prevEl.off('keydown', swiper.a11y.onEnterOrSpaceKey);
     }
 
     // Pagination
@@ -243,7 +243,7 @@ const A11y = {
       swiper.pagination.$el.off(
         'keydown',
         `.${swiper.params.pagination.bulletClass.replace(/ /g, '.')}`,
-        swiper.a11y.onEnterKey,
+        swiper.a11y.onEnterOrSpaceKey,
       );
     }
   },
