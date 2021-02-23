@@ -51,6 +51,7 @@ export class SwiperComponent implements OnInit {
   @Input() speed: SwiperOptions['speed'];
   @Input() cssMode: SwiperOptions['cssMode'];
   @Input() updateOnWindowResize: SwiperOptions['updateOnWindowResize'];
+  @Input() resizeObserver: SwiperOptions['resizeObserver'];
   @Input() nested: SwiperOptions['nested'];
   @Input() width: SwiperOptions['width'];
   @Input() height: SwiperOptions['height'];

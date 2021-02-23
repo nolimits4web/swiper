@@ -7,6 +7,7 @@ const paramsList = [
   '_speed',
   'cssMode',
   'updateOnWindowResize',
+  'resizeObserver',
   'nested',
   '_width',
   '_height',
