@@ -15,6 +15,11 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
       </a>
     </td>
     <td align="center" valign="middle">
+      <a href="https://writersperhour.com" target="_blank">
+        <img width="160" src="https://swiperjs.com/images/sponsors/writers-per-hour.png">
+      </a>
+    </td>
+    <td align="center" valign="middle">
       <a href="https://socialsup.net" target="_blank">
         <img width="160" src="https://swiperjs.com/images/sponsors/socials-up.png">
       </a>
@@ -45,6 +50,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 
 ### \$50+ Sponsor
 
+[Writers Per Hour](https://writersperhour.com) - Custom Paper Writing and Editing Service | Essay Writing Help
 [Socials Up](https://socialsup.net) - Buy 100% Cheap SMM Services - Instagram, YouTube, Twitter
 
 [Join here!](https://opencollective.com/swiper/contribute/sponsor-24467/checkout)
