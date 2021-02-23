@@ -4,7 +4,11 @@ context('Core', () => {
   describe('a11y', () => {
     beforeEach(() => {
       cy.swiperPage();
-      cy.initSwiper();
+      cy.initSwiper({
+        speed: 0,
+        navigation: true,
+        pagination: true,
+      });
     });
     it('should add aria-live="polite" to swiper-wrapper', () => {
       cy.getSliderWrapper().should('have.attr', 'aria-live', 'polite');
@@ -34,6 +38,20 @@ context('Core', () => {
       cy.getSlide(2).should('have.attr', 'aria-label', `3 / ${count}`);
       cy.getSlide(4).should('have.attr', 'aria-label', `5 / ${count}`);
       cy.getSlide(9).should('have.attr', 'aria-label', `10 / ${count}`);
+    });
+
+    it('should navigate with arrows on enter or space key', () => {
+      cy.get('.swiper-button-next').trigger('keydown', { keyCode: 13 });
+      cy.getSlide(1).should('have.class', 'swiper-slide-active');
+      cy.get('.swiper-button-next').trigger('keydown', { keyCode: 32 });
+      cy.getSlide(2).should('have.class', 'swiper-slide-active');
+    });
+
+    it('should navigate with pagination on enter or space key', () => {
+      cy.get('.swiper-pagination-bullet:nth-child(2)').trigger('keydown', { keyCode: 13 });
+      cy.getSlide(1).should('have.class', 'swiper-slide-active');
+      cy.get('.swiper-pagination-bullet:nth-child(5)').trigger('keydown', { keyCode: 32 });
+      cy.getSlide(4).should('have.class', 'swiper-slide-active');
     });
   });
 });
