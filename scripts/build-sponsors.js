@@ -38,19 +38,24 @@ const buildTables = (sponsors) => {
       if (!rows[rowIndex]) rows[rowIndex] = [];
       rows[rowIndex].push(item);
     });
+    if (rows.length > 0 && rows[rows.length - 1].length < perRow) {
+      rows[rows.length - 1].push(...Array.from({ length: perRow - rows[rows.length - 1].length }));
+    }
     tableContent = `\n<table>\n${rows
       .map((items) =>
         [
           `  <tr>`,
           items
             .map((item) =>
-              [
-                `    <td align="center" valign="middle">`,
-                `      <a href="${item.link}" target="_blank">`,
-                `        <img src="https://swiperjs.com/images/sponsors/${item.image}" alt="${item.title}" width="160">`,
-                `      </a>`,
-                `    </td>`,
-              ].join('\n'),
+              !item
+                ? '    <td align="center" valign="middle"></td'
+                : [
+                    `    <td align="center" valign="middle">`,
+                    `      <a href="${item.link}" target="_blank">`,
+                    `        <img src="https://swiperjs.com/images/sponsors/${item.image}" alt="${item.title}" width="160">`,
+                    `      </a>`,
+                    `    </td>`,
+                  ].join('\n'),
             )
             .join('\n'),
           `  </tr>`,
