@@ -39,7 +39,7 @@ context('Core', () => {
       });
     });
 
-    it('should have 10px margin on slides', () => {
+    it('spaceBetween', () => {
       cy.getSlides()
         .should('have.attr', 'style')
         .and('match', /margin-right:\s+10px/);
