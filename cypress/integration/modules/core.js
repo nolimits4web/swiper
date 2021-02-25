@@ -141,6 +141,15 @@ context('Core', () => {
     cy.get('.swiper-slide-invisible-blank').should('not.exist');
   });
 
+  it('slideDuplicateActiveClass', () => {
+    cy.initSwiper({
+      loop: true,
+      slideDuplicateActiveClass: 'uniqueTestClass',
+    });
+    cy.get('.uniqueTestClass').should('exist');
+    cy.get('.swiper-slide-duplicate-active').should('not.exist');
+  });
+
   it('slideToClickedSlide', () => {
     cy.initSwiper({
       slideToClickedSlide: true,
