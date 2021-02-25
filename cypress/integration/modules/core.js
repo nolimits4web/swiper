@@ -99,6 +99,18 @@ context('Core', () => {
     });
   });
 
+  describe('properties', () => {
+    beforeEach(() => {
+      cy.initSwiper().as('swiper');
+    });
+
+    it('allowSlideNext', function () {
+      this.swiper.allowSlideNext = false;
+      cy.swipeLeft();
+      cy.getSlide(1).expectToBeActiveSlide();
+    });
+  });
+
   it('initialSlide', () => {
     cy.initSwiper({
       initialSlide: 2,
@@ -207,6 +219,7 @@ context('Core', () => {
     cy.getSlide(3).click().expectToBeActiveSlide();
     cy.getSlide(4).click().expectToBeActiveSlide();
   });
+
   it('grabCursor', () => {
     cy.initSwiper({
       grabCursor: true,
@@ -214,6 +227,15 @@ context('Core', () => {
     cy.getSliderContainer()
       .should('have.attr', 'style')
       .and('match', /cursor:\s+grab/);
+  });
+
+  it('allowSlideNext', () => {
+    cy.initSwiper({
+      initialSlide: 2,
+      allowSlideNext: false,
+    });
+    cy.swipeLeft();
+    cy.getSlide(2).expectToBeActiveSlide();
   });
 
   it('direction horizontal', () => {
