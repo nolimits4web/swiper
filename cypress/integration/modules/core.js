@@ -101,14 +101,26 @@ context('Core', () => {
 
   describe('properties', () => {
     beforeEach(() => {
-      cy.initSwiper().as('swiper');
+      cy.initSwiper({ speed: 0 }).as('swiper');
     });
 
-    it('allowSlideNext', function () {
-      this.swiper.allowSlideNext = false;
-      cy.swipeLeft();
-      cy.getSlide(1).expectToBeActiveSlide();
-    });
+    // it('allowSlideNext', function () {
+    //   cy.getSlide(0).expectToBeActiveSlide();
+    //   cy.swipeLeft();
+    //   cy.getSlide(1).expectToBeActiveSlide();
+    //   cy.swipeLeft();
+    //   cy.getSlide(2).expectToBeActiveSlide();
+    //   this.swiper.allowSlideNext = false;
+    //   cy.swipeLeft();
+    //   cy.getSlide(2).expectToBeActiveSlide();
+    // });
+
+    // it('allowSlidePrev', function () {
+    //   this.swiper.allowSlidePrev = false;
+    //   cy.swipeRight();
+    //   cy.swipeLeft();
+    //   cy.getSlide(1).expectToBeActiveSlide();
+    // });
   });
 
   it('initialSlide', () => {
@@ -234,8 +246,19 @@ context('Core', () => {
       initialSlide: 2,
       allowSlideNext: false,
     });
+    cy.swipeRight();
     cy.swipeLeft();
-    cy.getSlide(2).expectToBeActiveSlide();
+    cy.getSlide(1).expectToBeActiveSlide();
+  });
+
+  it('allowSlidePrev', () => {
+    cy.initSwiper({
+      initialSlide: 2,
+      allowSlidePrev: false,
+    });
+    cy.swipeLeft();
+    cy.swipeRight();
+    cy.getSlide(3).expectToBeActiveSlide();
   });
 
   it('direction horizontal', () => {
