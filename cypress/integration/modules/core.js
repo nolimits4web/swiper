@@ -122,6 +122,14 @@ context('Core', () => {
     cy.get('.swiper-container-horizontal').should('not.exist');
   });
 
+  it('slideActiveClass', () => {
+    cy.initSwiper({
+      slideActiveClass: 'unique-test-active',
+    });
+    cy.get('.unique-test-active').should('exist');
+    cy.get('.swiper-slide-active').should('not.exist');
+  });
+
   it('slideToClickedSlide', () => {
     cy.initSwiper({
       slideToClickedSlide: true,
