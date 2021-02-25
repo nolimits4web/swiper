@@ -130,6 +130,14 @@ context('Core', () => {
     cy.getSlide(3).click().expectToBeActiveSlide();
     cy.getSlide(4).click().expectToBeActiveSlide();
   });
+  it('grabCursor', () => {
+    cy.initSwiper({
+      grabCursor: true,
+    });
+    cy.getSliderContainer()
+      .should('have.attr', 'style')
+      .and('match', /cursor:\s+grab/);
+  });
 
   it('direction horizontal', () => {
     cy.initSwiper(); // check default
