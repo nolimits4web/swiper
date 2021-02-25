@@ -170,6 +170,15 @@ context('Core', () => {
     cy.get('.swiper-slide-duplicate-prev').should('not.exist');
   });
 
+  it('slideNextClass', () => {
+    cy.initSwiper({
+      slidesPerView: 2,
+      slideNextClass: 'uniqueTestClass',
+    });
+    cy.get('.uniqueTestClass').should('exist');
+    cy.get('.swiper-slide-next').should('not.exist');
+  });
+
   it('slideToClickedSlide', () => {
     cy.initSwiper({
       slideToClickedSlide: true,
