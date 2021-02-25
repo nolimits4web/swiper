@@ -154,3 +154,19 @@ Cypress.Commands.add('waitSwipe', (subject, time = 300) => {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(time);
 });
+
+Cypress.Commands.add(
+  'expectToBeActiveSlide',
+  {
+    prevSubject: 'optional',
+  },
+  (subject, className = 'swiper-slide-active') => {
+    // subject may be defined or undefined
+    // so you likely want to branch the logic
+    // based off of that
+
+    // wrap the existing subject
+    // and do something with it
+    cy.wrap(subject).should('have.class', className);
+  },
+);
