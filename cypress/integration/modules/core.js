@@ -15,7 +15,7 @@ context('Core', () => {
       });
     });
     it('should have slide with active class', () => {
-      cy.getSlide(0).should('have.class', 'swiper-slide-active').and('be.visible');
+      cy.getSlide(0).expectToBeActiveSlide().and('be.visible');
     });
 
     it('should position slides center', () => {
@@ -54,20 +54,20 @@ context('Core', () => {
     });
     it('should slide next', function slideNext() {
       this.swiper.slideNext();
-      cy.getSlideContains('Slide 2').should('have.class', 'swiper-slide-active');
+      cy.getSlideContains('Slide 2').expectToBeActiveSlide();
     });
     it('should slide prev', function slidePrev() {
       this.swiper.slideNext();
       this.swiper.slidePrev();
-      cy.getSlideContains('Slide 1').should('have.class', 'swiper-slide-active');
+      cy.getSlideContains('Slide 1').expectToBeActiveSlide();
     });
     it('should slide to slide 3', function slideTo3() {
       this.swiper.slideTo(2);
-      cy.getSlideContains('Slide 3').should('have.class', 'swiper-slide-active');
+      cy.getSlideContains('Slide 3').expectToBeActiveSlide();
     });
     // it('should slide to first slide when slideTo called with number bigger then slides amount', function () {
     //   this.swiper.slideTo(14);
-    //   cy.getSlideContains('Slide 1').should('have.class', 'swiper-slide-active');
+    //   cy.getSlideContains('Slide 1').expectToBeActiveSlide();
     // });
     it('Add slide at index', function slideTo() {
       this.swiper.addSlide(1, '<div class="swiper-slide">Add slide</div>');
@@ -103,15 +103,15 @@ context('Core', () => {
     cy.initSwiper({
       initialSlide: 2,
     });
-    cy.getSlideContains('Slide 3').should('have.class', 'swiper-slide-active');
+    cy.getSlideContains('Slide 3').expectToBeActiveSlide();
     cy.reinitSwiper({
       initialSlide: 4,
     });
-    cy.getSlideContains('Slide 5').should('have.class', 'swiper-slide-active');
+    cy.getSlideContains('Slide 5').expectToBeActiveSlide();
     cy.reinitSwiper({
       initialSlide: 0,
     });
-    cy.getSlideContains('Slide 1').should('have.class', 'swiper-slide-active');
+    cy.getSlideContains('Slide 1').expectToBeActiveSlide();
   });
 
   it('containerModifierClass', () => {
@@ -120,6 +120,15 @@ context('Core', () => {
     });
     cy.get('.unique-test-horizontal').should('exist');
     cy.get('.swiper-container-horizontal').should('not.exist');
+  });
+
+  it('slideToClickedSlide', () => {
+    cy.initSwiper({
+      slideToClickedSlide: true,
+      slidesPerView: 5,
+    });
+    cy.getSlide(3).click().expectToBeActiveSlide();
+    cy.getSlide(4).click().expectToBeActiveSlide();
   });
 
   it('direction horizontal', () => {
@@ -159,7 +168,7 @@ context('Core', () => {
     });
     cy.getSlide(0).should('contain', 'Slide 10');
     cy.swipeRight();
-    cy.getSlideContains('Slide 10').should('have.class', 'swiper-slide-active');
+    cy.getSlideContains('Slide 10').expectToBeActiveSlide();
   });
 
   it('Swipe left & right', () => {
@@ -167,14 +176,14 @@ context('Core', () => {
       speed: 0,
     });
     cy.swipeLeft();
-    cy.getSlide(1).should('have.class', 'swiper-slide-active');
+    cy.getSlide(1).expectToBeActiveSlide();
     cy.swipeLeft();
     cy.swipeLeft();
-    cy.getSlide(3).should('have.class', 'swiper-slide-active');
+    cy.getSlide(3).expectToBeActiveSlide();
     cy.swipeRight();
-    cy.getSlide(2).should('have.class', 'swiper-slide-active');
+    cy.getSlide(2).expectToBeActiveSlide();
     cy.swipeRight();
     cy.swipeRight();
-    cy.getSlide(0).should('have.class', 'swiper-slide-active');
+    cy.getSlide(0).expectToBeActiveSlide();
   });
 });
