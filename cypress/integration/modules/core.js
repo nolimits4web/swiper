@@ -114,6 +114,45 @@ context('Core', () => {
     cy.getSlideContains('Slide 1').should('have.class', 'swiper-slide-active');
   });
 
+  it('containerModifierClass', () => {
+    cy.initSwiper({
+      containerModifierClass: 'unique-test-',
+    });
+    cy.get('.unique-test-horizontal').should('exist');
+    cy.get('.swiper-container-horizontal').should('not.exist');
+  });
+
+  it('direction horizontal', () => {
+    cy.initSwiper(); // check default
+    cy.get('.swiper-container-horizontal').should('exist');
+    cy.get('.swiper-container-vertical').should('not.exist');
+    cy.reinitSwiper({
+      direction: 'horizontal',
+    });
+    cy.get('.swiper-container-horizontal').should('exist');
+    cy.get('.swiper-container-vertical').should('not.exist');
+    cy.getSlide(2).should(($el) => {
+      expect($el[0].getBoundingClientRect().x).to.be.greaterThan(100);
+    });
+    cy.getSlide(2).should(($el) => {
+      expect($el[0].getBoundingClientRect().y).to.be.not.greaterThan(100);
+    });
+  });
+
+  it('direction vertical', () => {
+    cy.initSwiper({
+      direction: 'vertical',
+    });
+    cy.get('.swiper-container-vertical').should('exist');
+    cy.get('.swiper-container-horizontal').should('not.exist');
+    cy.getSlide(2).should(($el) => {
+      expect($el[0].getBoundingClientRect().y).to.be.greaterThan(100);
+    });
+    cy.getSlide(2).should(($el) => {
+      expect($el[0].getBoundingClientRect().x).to.be.not.greaterThan(100);
+    });
+  });
+
   it('loop', () => {
     cy.initSwiper({
       loop: true,
