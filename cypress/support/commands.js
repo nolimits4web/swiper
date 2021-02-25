@@ -77,6 +77,9 @@ Cypress.Commands.add(
       `;
       // eslint-disable-next-line dot-notation
       const _config = config;
+      if (!_config.speed) {
+        _config.speed = 0;
+      }
       if (config.navigation === true) {
         _config.navigation = {
           nextEl: '.swiper-button-next',
