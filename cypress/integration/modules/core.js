@@ -189,6 +189,16 @@ context('Core', () => {
     cy.get('.swiper-slide-prev').should('not.exist');
   });
 
+  it('slideVisibleClass', () => {
+    cy.initSwiper({
+      slidesPerView: 2,
+      watchSlidesVisibility: true,
+      slideVisibleClass: 'uniqueTestClass',
+    });
+    cy.get('.uniqueTestClass').should('exist');
+    cy.get('.swiper-slide-visible').should('not.exist');
+  });
+
   it('slideToClickedSlide', () => {
     cy.initSwiper({
       slideToClickedSlide: true,
