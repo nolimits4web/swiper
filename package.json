@@ -116,6 +116,7 @@
     "clean-css": "^4.2.3",
     "codelyzer": "^6.0.1",
     "concurrently": "^5.3.0",
+    "contentful": "^8.1.7",
     "cross-env": "^7.0.3",
     "cypress": "^6.3.0",
     "eslint": "^7.18.0",

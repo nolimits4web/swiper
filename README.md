@@ -40,35 +40,37 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
 
 ## Sponsors
 
+<!-- SPONSORS_TABLE_WRAP -->
 <table>
   <tr>
     <td align="center" valign="middle">
-      <a href="https://papersowl.com/pay-for-research-paper" target="_blank">
-        <img width="160" src="https://swiperjs.com/images/sponsors/papersowl.png">
-      </a>
-    </td>
-    <td align="center" valign="middle">
       <a href="https://www.leoboost.com/buy-instagram-likes" target="_blank">
-        <img width="160" src="https://swiperjs.com/images/sponsors/leoboost.png">
+        <img src="https://swiperjs.com/images/sponsors/leoboost.png" alt="Buy real Instagram Likes - 100% Real & Instant Likes" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://easy-views.org" target="_blank">
-        <img width="160" src="https://swiperjs.com/images/sponsors/easy-views.png">
-      </a>
-    </td>
-    <td align="center" valign="middle">
-      <a href="https://writersperhour.com" target="_blank">
-        <img width="160" src="https://swiperjs.com/images/sponsors/writers-per-hour.png">
+      <a href="https://papersowl.com/pay-for-research-paper" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/papersowl.png" alt="Pay Someone to Write My Research Paper" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
       <a href="https://socialsup.net" target="_blank">
-        <img width="160" src="https://swiperjs.com/images/sponsors/socials-up.png">
+        <img src="https://swiperjs.com/images/sponsors/socials-up.png" alt="Buy 100% Cheap SMM Services - Instagram, YouTube, Twitter" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://writersperhour.com" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/writers-per-hour.png" alt="Custom Paper Writing and Editing Service | Essay Writing Help" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://easy-views.org" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/easy-views.png" alt="easy-views.org - High Retention Youtube Views" width="160">
       </a>
     </td>
   </tr>
 </table>
+<!-- SPONSORS_TABLE_WRAP -->
 
 ## Features
 
