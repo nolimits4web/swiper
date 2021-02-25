@@ -130,6 +130,17 @@ context('Core', () => {
     cy.get('.swiper-slide-active').should('not.exist');
   });
 
+  it('slideBlankClass & loopFillGroupWithBlank', () => {
+    cy.initSwiper({
+      slideBlankClass: 'unique-test-invisible-blank',
+      loop: true,
+      slidesPerGroup: 3,
+      loopFillGroupWithBlank: true,
+    });
+    cy.get('.unique-test-invisible-blank').should('exist');
+    cy.get('.swiper-slide-invisible-blank').should('not.exist');
+  });
+
   it('slideToClickedSlide', () => {
     cy.initSwiper({
       slideToClickedSlide: true,
