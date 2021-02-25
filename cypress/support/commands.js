@@ -127,7 +127,7 @@ Cypress.Commands.add(
   { prevSubject: 'optional' },
   (subject, config = {}, options) => {
     return cy.window().then((_window) => {
-      _window.swiper.destroy();
+      _window.swiperRef.destroy();
       cy.initSwiper(config, options);
     });
   },

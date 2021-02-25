@@ -1,9 +1,11 @@
 /// <reference types="cypress" />
 
 context('Core', () => {
+  beforeEach(() => {
+    cy.swiperPage();
+  });
   describe('centeredSlides & slidesPerView', () => {
     beforeEach(() => {
-      cy.swiperPage();
       cy.initSwiper({
         centeredSlides: true,
         slidesPerView: 3,
@@ -48,7 +50,6 @@ context('Core', () => {
 
   describe('methods', () => {
     beforeEach(() => {
-      cy.swiperPage();
       cy.initSwiper().as('swiper');
     });
     it('should slide next', function slideNext() {
@@ -98,27 +99,43 @@ context('Core', () => {
     });
   });
 
-  // TODO: swipe
-  describe('Slide', () => {
-    before(() => {
-      cy.swiperPage();
-      cy.initSwiper({
-        speed: 0,
-      });
+  it('initialSlide', () => {
+    cy.initSwiper({
+      initialSlide: 2,
     });
-    it('should slide next with swiping the left', () => {
-      cy.swipeLeft();
-      cy.getSlide(1).should('have.class', 'swiper-slide-active');
-      cy.swipeLeft();
-      cy.swipeLeft();
-      cy.getSlide(3).should('have.class', 'swiper-slide-active');
+    cy.getSlideContains('Slide 3').should('have.class', 'swiper-slide-active');
+    cy.reinitSwiper({
+      initialSlide: 4,
     });
-    it('should slide prev with swiping the right', () => {
-      cy.swipeRight();
-      cy.getSlide(2).should('have.class', 'swiper-slide-active');
-      cy.swipeRight();
-      cy.swipeRight();
-      cy.getSlide(0).should('have.class', 'swiper-slide-active');
+    cy.getSlideContains('Slide 5').should('have.class', 'swiper-slide-active');
+    cy.reinitSwiper({
+      initialSlide: 0,
     });
+    cy.getSlideContains('Slide 1').should('have.class', 'swiper-slide-active');
+  });
+
+  it('loop', () => {
+    cy.initSwiper({
+      loop: true,
+    });
+    cy.getSlide(0).should('contain', 'Slide 10');
+    cy.swipeRight();
+    cy.getSlideContains('Slide 10').should('have.class', 'swiper-slide-active');
+  });
+
+  it('Swipe left & right', () => {
+    cy.initSwiper({
+      speed: 0,
+    });
+    cy.swipeLeft();
+    cy.getSlide(1).should('have.class', 'swiper-slide-active');
+    cy.swipeLeft();
+    cy.swipeLeft();
+    cy.getSlide(3).should('have.class', 'swiper-slide-active');
+    cy.swipeRight();
+    cy.getSlide(2).should('have.class', 'swiper-slide-active');
+    cy.swipeRight();
+    cy.swipeRight();
+    cy.getSlide(0).should('have.class', 'swiper-slide-active');
   });
 });
