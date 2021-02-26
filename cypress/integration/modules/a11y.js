@@ -32,7 +32,7 @@ context('Core', () => {
       cy.getSlides().should('have.attr', 'role', 'group');
     });
 
-    it('should add aria-lalbel to swiper-slide', () => {
+    it('should add aria-label to swiper-slide', () => {
       const count = Cypress.$('.swiper-slide').length;
       cy.getSlide(0).should('have.attr', 'aria-label', `1 / ${count}`);
       cy.getSlide(2).should('have.attr', 'aria-label', `3 / ${count}`);

@@ -77,6 +77,9 @@ Cypress.Commands.add(
       `;
       // eslint-disable-next-line dot-notation
       const _config = config;
+      if (!_config.speed) {
+        _config.speed = 0;
+      }
       if (config.navigation === true) {
         _config.navigation = {
           nextEl: '.swiper-button-next',
@@ -127,7 +130,7 @@ Cypress.Commands.add(
   { prevSubject: 'optional' },
   (subject, config = {}, options) => {
     return cy.window().then((_window) => {
-      _window.swiper.destroy();
+      _window.swiperRef.destroy();
       cy.initSwiper(config, options);
     });
   },
@@ -147,7 +150,18 @@ Cypress.Commands.add('swipeRight', () => {
     .trigger('pointerup', { force: true });
 });
 
-Cypress.Commands.add('waitSwipe', (subject, time = 300) => {
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(time);
-});
+Cypress.Commands.add(
+  'expectToBeActiveSlide',
+  {
+    prevSubject: 'optional',
+  },
+  (subject, className = 'swiper-slide-active') => {
+    // subject may be defined or undefined
+    // so you likely want to branch the logic
+    // based off of that
+
+    // wrap the existing subject
+    // and do something with it
+    cy.wrap(subject).should('have.class', className);
+  },
+);
