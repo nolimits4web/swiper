@@ -150,11 +150,6 @@ Cypress.Commands.add('swipeRight', () => {
     .trigger('pointerup', { force: true });
 });
 
-Cypress.Commands.add('waitSwipe', (subject, time = 300) => {
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(time);
-});
-
 Cypress.Commands.add(
   'expectToBeActiveSlide',
   {

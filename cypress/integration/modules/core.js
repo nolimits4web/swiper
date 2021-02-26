@@ -4,123 +4,81 @@ context('Core', () => {
   beforeEach(() => {
     cy.swiperPage();
   });
-  describe('centeredSlides & slidesPerView', () => {
-    beforeEach(() => {
-      cy.initSwiper({
-        centeredSlides: true,
-        slidesPerView: 3,
-        speed: 0,
-        spaceBetween: 10,
-        navigation: true,
-      });
-    });
-    it('should have slide with active class', () => {
-      cy.getSlide(0).expectToBeActiveSlide().and('be.visible');
-    });
 
-    it('should position slides center', () => {
-      cy.getActiveSlide().should(($el) => {
-        expect($el[0].getBoundingClientRect().x).to.be.greaterThan(100);
-      });
+  it('centeredSlides', () => {
+    cy.initSwiper({
+      centeredSlides: true,
+      slidesPerView: 3,
     });
-
-    it('should not has slide with prev class', () => {
-      cy.getSlides().should('not.have.class', 'swiper-slide-prev');
-    });
-
-    it('should have slide with next class', () => {
-      cy.getSlide(1).should('have.class', 'swiper-slide-next').and('be.visible');
-    });
-    describe('visible slides', () => {
-      it('should have 2 visible slides', () => {
-        cy.getSlides().filter(':visible').its('length').should('be.eq', 2);
-      });
-      it('should have 3 visible slides after navigation', () => {
-        cy.swipeLeft();
-        cy.getSlides().filter(':visible').its('length').should('be.eq', 3);
-      });
-    });
-
-    it('spaceBetween', () => {
-      cy.getSlides()
-        .should('have.attr', 'style')
-        .and('match', /margin-right:\s+10px/);
+    cy.getActiveSlide().should(($el) => {
+      expect($el[0].getBoundingClientRect().x).to.be.greaterThan(100);
     });
   });
 
-  describe('methods', () => {
-    beforeEach(() => {
-      cy.initSwiper().as('swiper');
-    });
-    it('should slide next', function slideNext() {
-      this.swiper.slideNext();
-      cy.getSlideContains('Slide 2').expectToBeActiveSlide();
-    });
-    it('should slide prev', function slidePrev() {
-      this.swiper.slideNext();
-      this.swiper.slidePrev();
-      cy.getSlideContains('Slide 1').expectToBeActiveSlide();
-    });
-    it('should slide to slide 3', function slideTo3() {
-      this.swiper.slideTo(2);
-      cy.getSlideContains('Slide 3').expectToBeActiveSlide();
-    });
-    // it('should slide to first slide when slideTo called with number bigger then slides amount', function () {
-    //   this.swiper.slideTo(14);
-    //   cy.getSlideContains('Slide 1').expectToBeActiveSlide();
-    // });
-    it('Add slide at index', function slideTo() {
-      this.swiper.addSlide(1, '<div class="swiper-slide">Add slide</div>');
-      cy.getSlide(1).should('contain', 'Add slide');
-      this.swiper.addSlide(4, '<div class="swiper-slide">Add slide 4</div>');
-      cy.getSlide(4).should('contain', 'Add slide 4');
-    });
-
-    // it('Add multiple slides at index', function () {
-    //   this.swiper.addSlide(0, [
-    //     '<div class="swiper-slide">Add slide 0</div>',
-    //     '<div class="swiper-slide">Add slide 1</div>',
-    //     '<div class="swiper-slide">Add slide 2</div>',
-    //   ]);
-    //   // cy.getSlide(2).should('contain', 'Add slide 0');
-    //   // cy.getSlide(1).should('contain', 'Add slide 1');
-    //   cy.getSlide(0).should('contain', 'Add slide 2');
-    // });
-
-    it('Add slide to the end', function slideToEnd() {
-      this.swiper.appendSlide('<div class="swiper-slide">Add slide at the end</div>');
-      cy.getSlide(10).should('contain', 'Add slide at the end');
-      this.swiper.appendSlide([
-        '<div class="swiper-slide">END 1</div>',
-        '<div class="swiper-slide">END 2</div>',
-      ]);
-      cy.getSlide(11).should('contain', 'END 1');
-      cy.getSlide(12).should('contain', 'END 2');
-    });
+  it('Active slide class', () => {
+    cy.initSwiper();
+    cy.getSlide(0).expectToBeActiveSlide().and('be.visible');
   });
 
-  describe('properties', () => {
-    beforeEach(() => {
-      cy.initSwiper({ speed: 0 }).as('swiper');
+  it('Next slide class', () => {
+    cy.initSwiper();
+    cy.getSlide(1).should('have.class', 'swiper-slide-next').and('be.visible');
+  });
+
+  it('Prev slide class', () => {
+    cy.initSwiper();
+    cy.getSlides().should('not.have.class', 'swiper-slide-prev');
+    cy.reinitSwiper({
+      initialSlide: 1,
     });
+    cy.getSlide(0).should('have.class', 'swiper-slide-prev');
+  });
 
-    // it('allowSlideNext', function () {
-    //   cy.getSlide(0).expectToBeActiveSlide();
-    //   cy.swipeLeft();
-    //   cy.getSlide(1).expectToBeActiveSlide();
-    //   cy.swipeLeft();
-    //   cy.getSlide(2).expectToBeActiveSlide();
-    //   this.swiper.allowSlideNext = false;
-    //   cy.swipeLeft();
-    //   cy.getSlide(2).expectToBeActiveSlide();
-    // });
+  it('slidesPerView', () => {
+    cy.initSwiper({
+      slidesPerView: 2,
+      spaceBetween: 10,
+    });
+    cy.getSlides().filter(':visible').its('length').should('be.eq', 2);
+    cy.reinitSwiper({
+      slidesPerView: 3,
+      spaceBetween: 10,
+    });
+    cy.getSlides().filter(':visible').its('length').should('be.eq', 3);
+  });
 
-    // it('allowSlidePrev', function () {
-    //   this.swiper.allowSlidePrev = false;
-    //   cy.swipeRight();
-    //   cy.swipeLeft();
-    //   cy.getSlide(1).expectToBeActiveSlide();
-    // });
+  it('slidesPerGroup', () => {
+    cy.initSwiper({
+      slidesPerView: 3,
+      slidesPerGroup: 2,
+    });
+    cy.swipeLeft();
+    cy.getSlide(2).expectToBeActiveSlide();
+  });
+
+  it('slidesPerGroupSkip', () => {
+    cy.initSwiper({
+      slidesPerGroupSkip: 2,
+      slidesPerView: 3,
+      slidesPerGroup: 2,
+    });
+    cy.swipeLeft();
+    cy.getSlide(1).expectToBeActiveSlide();
+  });
+
+  it('spaceBetween', () => {
+    cy.initSwiper({
+      spaceBetween: 10,
+    });
+    cy.getSlides()
+      .should('have.attr', 'style')
+      .and('match', /margin-right:\s+10px/);
+    cy.reinitSwiper({
+      spaceBetween: 20,
+    });
+    cy.getSlides()
+      .should('have.attr', 'style')
+      .and('match', /margin-right:\s+20px/);
   });
 
   it('initialSlide', () => {
@@ -136,6 +94,19 @@ context('Core', () => {
       initialSlide: 0,
     });
     cy.getSlideContains('Slide 1').expectToBeActiveSlide();
+  });
+
+  it('allowTouchMove', () => {
+    cy.initSwiper({
+      allowTouchMove: false,
+      navigation: true,
+      pagination: true,
+    });
+    cy.swipeLeft();
+    cy.swipeRight();
+    cy.navigationNextSlide();
+    cy.navigationPrevSlide();
+    cy.getSlide(0).expectToBeActiveSlide();
   });
 
   it('containerModifierClass', () => {
