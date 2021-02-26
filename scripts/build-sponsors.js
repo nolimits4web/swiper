@@ -48,7 +48,7 @@ const buildTables = (sponsors) => {
           items
             .map((item) =>
               !item
-                ? '    <td align="center" valign="middle"></td'
+                ? '    <td align="center" valign="middle"></td>'
                 : [
                     `    <td align="center" valign="middle">`,
                     `      <a href="${item.link}" target="_blank">`,

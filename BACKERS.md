@@ -16,8 +16,8 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://paperell.com/pay-for-research-papers" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/paperell.svg" alt="Pay for a Research Paper Writing - Paperell.com" width="160">
+      <a href="https://paperell.com" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/paperell.svg" alt="Website that Writes Essays for You - Paperell.com" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -37,10 +37,10 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/easy-views.png" alt="easy-views.org - High Retention Youtube Views" width="160">
       </a>
     </td>
-    <td align="center" valign="middle"></td
-    <td align="center" valign="middle"></td
-    <td align="center" valign="middle"></td
-    <td align="center" valign="middle"></td
+    <td align="center" valign="middle"></td>
+    <td align="center" valign="middle"></td>
+    <td align="center" valign="middle"></td>
+    <td align="center" valign="middle"></td>
   </tr>
 </table>
 <!-- SPONSORS_TABLE_WRAP -->

@@ -54,8 +54,8 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://paperell.com/pay-for-research-papers" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/paperell.svg" alt="Pay for a Research Paper Writing - Paperell.com" width="160">
+      <a href="https://paperell.com" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/paperell.svg" alt="Website that Writes Essays for You - Paperell.com" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -75,10 +75,10 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
         <img src="https://swiperjs.com/images/sponsors/easy-views.png" alt="easy-views.org - High Retention Youtube Views" width="160">
       </a>
     </td>
-    <td align="center" valign="middle"></td
-    <td align="center" valign="middle"></td
-    <td align="center" valign="middle"></td
-    <td align="center" valign="middle"></td
+    <td align="center" valign="middle"></td>
+    <td align="center" valign="middle"></td>
+    <td align="center" valign="middle"></td>
+    <td align="center" valign="middle"></td>
   </tr>
 </table>
 <!-- SPONSORS_TABLE_WRAP -->
