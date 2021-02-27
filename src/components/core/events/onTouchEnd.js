@@ -218,7 +218,7 @@ export default function onTouchEnd(event) {
             });
           }, 0);
         });
-      } else if (swiper.velocity) {
+      } else {
         swiper.updateProgress(newPosition);
         swiper.setTransition(momentumDuration);
         swiper.setTranslate(newPosition);
@@ -230,8 +230,6 @@ export default function onTouchEnd(event) {
             swiper.transitionEnd();
           });
         }
-      } else {
-        swiper.updateProgress(newPosition);
       }
 
       swiper.updateActiveIndex();
