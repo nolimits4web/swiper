@@ -44,7 +44,7 @@ export interface VirtualMethods {
   removeAllSlides(): void;
 
   /**
-   * Update virutal slides state
+   * Update virtual slides state
    */
   update(force: boolean): void;
 }
