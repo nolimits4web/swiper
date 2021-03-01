@@ -17,7 +17,7 @@ context('Core methods', () => {
     cy.getSlideContains('Slide 1').expectToBeActiveSlide();
   });
 
-  it('slideTo', function () {
+  it('slideTo', function slideTo() {
     this.swiper.slideTo(2);
     cy.getSlideContains('Slide 3')
       .expectToBeActiveSlide()
@@ -27,7 +27,7 @@ context('Core methods', () => {
       });
   });
 
-  it('addSlide', function slideTo() {
+  it('addSlide', function addSlide() {
     this.swiper.addSlide(1, '<div class="swiper-slide">Add slide</div>');
     cy.getSlide(1).should('contain', 'Add slide');
     this.swiper.addSlide(4, '<div class="swiper-slide">Add slide 4</div>');
@@ -45,7 +45,7 @@ context('Core methods', () => {
       });
   });
 
-  it('appendSlide', function slideToEnd() {
+  it('appendSlide', function appendSlide() {
     this.swiper.appendSlide('<div class="swiper-slide">Add slide at the end</div>');
     cy.getSlide(10).should('contain', 'Add slide at the end');
     this.swiper.appendSlide([
@@ -56,7 +56,7 @@ context('Core methods', () => {
     cy.getSlide(12).should('contain', 'END 2');
   });
 
-  it('prependSlide', function slideToStart() {
+  it('prependSlide', function prependSlide() {
     this.swiper.prependSlide('<div class="swiper-slide">Add slide at the start</div>');
     cy.getSlide(0)
       .should('contain', 'Add slide at the start')
@@ -103,14 +103,14 @@ context('Core methods', () => {
       cy.initSwiper({ speed: 0 }).as('swiper');
     });
 
-    it('allowSlideNext', function () {
+    it('allowSlideNext', function allowSlideNext() {
       this.swiper.allowSlideNext = false;
       this.swiper.slideTo(3);
       cy.swipeLeft();
       cy.getSlide(0).expectToBeActiveSlide();
     });
 
-    it('allowSlidePrev', function () {
+    it('allowSlidePrev', function allowSlidePrev() {
       this.swiper.allowSlidePrev = false;
       this.swiper.slideTo(3);
       this.swiper.slideTo(0);
@@ -131,7 +131,7 @@ context('Core methods', () => {
       });
     });
 
-    it('allowTouchMove', function activeIndex() {
+    it('allowTouchMove', function allowTouchMove() {
       this.swiper.allowTouchMove = false;
       cy.swipeRight();
       cy.swipeLeft();
