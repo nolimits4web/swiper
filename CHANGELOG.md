@@ -492,7 +492,7 @@
   - `touchEventsTarget` defaults back to `container`
   - Added handling of `touchcancel` event #3219
   - Fixed issue with wrong order calculation in `slidesPerColumnFill: 'row'` mode
-  - Fixed issue with slides missplacing when prepending slides in virutal mode
+  - Fixed issue with slides missplacing when prepending slides in virtual mode
   - Fixed issue when zoomed image still swiped to another slide on mobiles
 
 ## [5.0.1](https://github.com/nolimits4web/swiper/compare/v5.0.0...v5.0.1) - Released on September 17th, 2019
