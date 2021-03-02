@@ -101,6 +101,32 @@ context('Core', () => {
     cy.getSlides().filter(':visible').its('length').should('be.eq', 3);
   });
 
+  it.only('slidesPerView auto', () => {
+    cy.injectStyles(`
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-slide {
+      width: 100%;
+    }
+    .swiper-slide:nth-child(2n) {
+      width: 60%;
+    }
+
+    .swiper-slide:nth-child(3n) {
+      width: 40%;
+    }
+    `);
+    cy.initSwiper({
+      slidesPerView: 'auto',
+      spaceBetween: 10,
+    });
+    cy.getSlides().filter(':visible').its('length').should('be.eq', 1);
+    cy.swipeLeft();
+    cy.getSlides().filter(':visible').its('length').should('be.eq', 2);
+  });
+
   it('slidesPerGroup', () => {
     cy.initSwiper({
       slidesPerView: 3,
