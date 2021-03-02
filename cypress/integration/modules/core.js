@@ -317,6 +317,43 @@ context('Core', () => {
     });
   });
 
+  it('loopAdditionalSlides', () => {
+    cy.initSwiper({
+      loop: true,
+    });
+    cy.getSlides().its('length').should('be.eq', 12);
+    cy.reinitSwiper({
+      loop: true,
+      loopAdditionalSlides: 2,
+    });
+    cy.getSlides().its('length').should('be.eq', 16);
+    cy.reinitSwiper({
+      loop: true,
+      loopAdditionalSlides: 4,
+    });
+    cy.getSlides().its('length').should('be.eq', 20);
+    cy.reinitSwiper({
+      loop: true,
+      loopAdditionalSlides: 7,
+    });
+    cy.getSlides().its('length').should('be.eq', 26);
+    cy.reinitSwiper({
+      loop: true,
+      loopAdditionalSlides: 9,
+    });
+    cy.getSlides().its('length').should('be.eq', 30);
+    cy.reinitSwiper({
+      loop: true,
+      loopAdditionalSlides: 11,
+    });
+    cy.getSlides().its('length').should('be.eq', 30);
+    cy.reinitSwiper({
+      loop: true,
+      loopAdditionalSlides: 15,
+    });
+    cy.getSlides().its('length').should('be.eq', 30);
+  });
+
   it('loop', () => {
     cy.initSwiper({
       loop: true,
