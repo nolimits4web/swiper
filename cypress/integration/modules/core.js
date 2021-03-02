@@ -37,6 +37,38 @@ context('Core', () => {
       expect($el[0].getBoundingClientRect().height).to.be.greaterThan(400);
     });
   });
+
+  it('speed', () => {
+    cy.initSwiper({
+      speed: 0,
+    });
+    cy.getSlide(1).should(($el) => {
+      expect($el[0].getBoundingClientRect().x).to.be.greaterThan(400);
+    });
+    cy.swipeLeft();
+    cy.getSlide(1).should(($el) => {
+      expect($el[0].getBoundingClientRect().x).to.be.equal(0);
+    });
+    cy.getSlide(1).expectToBeActiveSlide();
+    cy.reinitSwiper({
+      speed: 200,
+    });
+    cy.swipeLeft();
+    cy.getActiveSlide().should(($el) => {
+      expect($el[0].getBoundingClientRect().x).to.be.greaterThan(400);
+    });
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(5);
+    cy.getActiveSlide().should(($el) => {
+      expect($el[0].getBoundingClientRect().x).not.to.be.greaterThan(200);
+    });
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(200);
+    cy.getActiveSlide().should(($el) => {
+      expect($el[0].getBoundingClientRect().x).not.to.be.greaterThan(50);
+    });
+  });
+
   it('Active slide class', () => {
     cy.initSwiper();
     cy.getSlide(0).expectToBeActiveSlide().and('be.visible');
