@@ -231,6 +231,7 @@ export default function onTouchEnd(event) {
           });
         }
       } else {
+        swiper.emit('_freeModeNoMomentumRelease');
         swiper.updateProgress(newPosition);
       }
 
@@ -239,6 +240,8 @@ export default function onTouchEnd(event) {
     } else if (params.freeModeSticky) {
       swiper.slideToClosest();
       return;
+    } else if (params.freeMode) {
+      swiper.emit('_freeModeNoMomentumRelease');
     }
 
     if (!params.freeModeMomentum || timeDiff >= params.longSwipesMs) {

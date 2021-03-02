@@ -215,17 +215,19 @@ export interface SwiperEvents {
    * !INTERNAL: Event will fired right before breakpoint change
    */
   _beforeBreakpoint?: (swiper: Swiper, breakpointParams: SwiperOptions) => void;
+
   /**
    * !INTERNAL: Event will fired after setting CSS classes on swiper container element
    */
   _containerClasses?: (swiper: Swiper, classNames: string) => void;
+
   /**
-   * INTERNAL: Event will fired after setting CSS classes on swiper slide element
+   * !INTERNAL: Event will fired after setting CSS classes on swiper slide element
    */
   _slideClass?: (swiper: Swiper, el: HTMLElement, classNames: string) => void;
 
   /**
-   * INTERNAL: Event will fired after setting CSS classes on all swiper slides
+   * !INTERNAL: Event will fired after setting CSS classes on all swiper slides
    */
   _slideClasses?: (
     swiper: Swiper,
@@ -233,9 +235,15 @@ export interface SwiperEvents {
   ) => void;
 
   /**
-   * INTERNAL: Event will fired as soon as swiper instance available (before init)
+   * !INTERNAL: Event will fired as soon as swiper instance available (before init)
    */
   _swiper?: (swiper: Swiper) => void;
+
+  /**
+   * !INTERNAL: Event will be fired on free mode touch end (release) and there will no be momentum
+   */
+  _freeModeNoMomentumRelease?: (swiper: Swiper) => void;
+
   /**
    * Event will fired on active index change
    */
