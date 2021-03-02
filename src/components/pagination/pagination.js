@@ -380,12 +380,19 @@ export default {
       swiper.pagination.destroy();
     },
     click(swiper, e) {
+      const targetEl = e.target;
       if (
         swiper.params.pagination.el &&
         swiper.params.pagination.hideOnClick &&
         swiper.pagination.$el.length > 0 &&
-        !$(e.target).hasClass(swiper.params.pagination.bulletClass)
+        !$(targetEl).hasClass(swiper.params.pagination.bulletClass)
       ) {
+        if (
+          swiper.navigation &&
+          ((swiper.navigation.nextEl && targetEl === swiper.navigation.nextEl) ||
+            (swiper.navigation.prevEl && targetEl === swiper.navigation.prevEl))
+        )
+          return;
         const isHidden = swiper.pagination.$el.hasClass(swiper.params.pagination.hiddenClass);
         if (isHidden === true) {
           swiper.emit('paginationShow');
