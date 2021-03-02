@@ -138,11 +138,19 @@ export default {
     },
     click(swiper, e) {
       const { $nextEl, $prevEl } = swiper.navigation;
+      const targetEl = e.target;
       if (
         swiper.params.navigation.hideOnClick &&
-        !$(e.target).is($prevEl) &&
-        !$(e.target).is($nextEl)
+        !$(targetEl).is($prevEl) &&
+        !$(targetEl).is($nextEl)
       ) {
+        if (
+          swiper.pagination &&
+          swiper.params.pagination &&
+          swiper.params.pagination.clickable &&
+          (swiper.pagination.el === targetEl || swiper.pagination.el.contains(targetEl))
+        )
+          return;
         let isHidden;
         if ($nextEl) {
           isHidden = $nextEl.hasClass(swiper.params.navigation.hiddenClass);
