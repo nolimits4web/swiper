@@ -185,6 +185,9 @@ export default function onTouchMove(event) {
   ) {
     data.currentTranslate = data.startTranslate;
   }
+  if (!swiper.allowSlidePrev && !swiper.allowSlideNext) {
+    data.currentTranslate = data.startTranslate;
+  }
 
   // Threshold
   if (params.threshold > 0) {
