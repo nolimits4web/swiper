@@ -119,7 +119,6 @@ Cypress.Commands.add(
         };
       }
       _window.swiperRef = new _window.Swiper(el, _config);
-      console.log(_window.swiperRef);
       return _window.swiperRef;
     });
   },
@@ -135,6 +134,12 @@ Cypress.Commands.add(
     });
   },
 );
+
+Cypress.Commands.add('injectStyles', { prevSubject: 'optional' }, (subject, cssStyles = ``) => {
+  return cy.document().then((_document) => {
+    _document.head.insertAdjacentHTML('beforeend', `<style>${cssStyles}</style>`);
+  });
+});
 
 Cypress.Commands.add('swipeLeft', () => {
   cy.getSliderContainer()

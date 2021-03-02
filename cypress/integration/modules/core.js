@@ -15,6 +15,28 @@ context('Core', () => {
     });
   });
 
+  it('autoHeight', () => {
+    cy.initSwiper({
+      autoHeight: true,
+    });
+    cy.injectStyles(`
+    .swiper-container .swiper-slide {
+      height: 300px;
+      line-height: 300px;
+    }
+
+    .swiper-container .swiper-slide:nth-child(2n) {
+      height: 500px;
+      line-height: 500px;
+    }`);
+    cy.getActiveSlide().should(($el) => {
+      expect($el[0].getBoundingClientRect().height).not.to.be.greaterThan(400);
+    });
+    cy.swipeLeft();
+    cy.getActiveSlide().should(($el) => {
+      expect($el[0].getBoundingClientRect().height).to.be.greaterThan(400);
+    });
+  });
   it('Active slide class', () => {
     cy.initSwiper();
     cy.getSlide(0).expectToBeActiveSlide().and('be.visible');
