@@ -80,7 +80,7 @@ Cypress.Commands.add(
       if (!_config.speed) {
         _config.speed = 0;
       }
-      if (config.navigation === true) {
+      if (config.navigation) {
         _config.navigation = {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
@@ -88,9 +88,10 @@ Cypress.Commands.add(
           disabledClass: 'swiper-button-disabled',
           hiddenClass: 'swiper-button-hidden',
           lockClass: 'swiper-button-lock',
+          ..._config.navigation,
         };
       }
-      if (config.pagination === true) {
+      if (config.pagination) {
         _config.pagination = {
           el: '.swiper-pagination',
           bulletElement: 'span',
@@ -116,6 +117,7 @@ Cypress.Commands.add(
           progressbarOppositeClass: 'swiper-pagination-progressbar-opposite',
           clickableClass: 'swiper-pagination-clickable', // NEW
           lockClass: 'swiper-pagination-lock',
+          ..._config.pagination,
         };
       }
       _window.swiperRef = new _window.Swiper(el, _config);
