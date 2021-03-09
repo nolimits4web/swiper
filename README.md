@@ -60,7 +60,7 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
     </td>
     <td align="center" valign="middle">
       <a href="https://netticasinohex.com" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/256.png" alt="The most informative and honest casino reviews for Finnish players" width="160">
+        <img src="https://swiperjs.com/images/sponsors/netticasinohex.png" alt="The most informative and honest casino reviews for Finnish players" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
