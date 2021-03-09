@@ -81,10 +81,22 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
       </a>
     </td>
     <td align="center" valign="middle">
+      <a href="https://anbefaltcasino.com" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/256.png" alt="AnbefaltCasino.com | Guiden til de beste norske casino" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://friendlylikes.com" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/friendlylikes-logo.png" alt="Friendlylikes - Order Instagram Followers, Likes, and Views Easily!" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
       <a href="https://www.aumentosocial.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/aumentosocial-logo.png" alt="Crece en Instagram, Facebook, YouTube y TikTok | AumentoSocial" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://paperell.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/paperell.svg" alt="Website that Writes Essays for You - Paperell.com" width="160">
@@ -95,8 +107,6 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
         <img src="https://swiperjs.com/images/sponsors/socials-up.png" alt="Buy 100% Cheap SMM Services - Instagram, YouTube, Twitter" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://writersperhour.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/writers-per-hour.png" alt="Custom Paper Writing and Editing Service | Essay Writing Help" width="160">
@@ -107,8 +117,6 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
         <img src="https://swiperjs.com/images/sponsors/easy-views.png" alt="easy-views.org - High Retention Youtube Views" width="160">
       </a>
     </td>
-    <td align="center" valign="middle"></td>
-    <td align="center" valign="middle"></td>
     <td align="center" valign="middle"></td>
   </tr>
 </table>
