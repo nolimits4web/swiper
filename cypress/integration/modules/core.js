@@ -15,6 +15,60 @@ context('Core', () => {
     });
   });
 
+  it('autoHeight', () => {
+    cy.initSwiper({
+      autoHeight: true,
+    });
+    cy.injectStyles(`
+    .swiper-container .swiper-slide {
+      height: 300px;
+      line-height: 300px;
+    }
+
+    .swiper-container .swiper-slide:nth-child(2n) {
+      height: 500px;
+      line-height: 500px;
+    }`);
+    cy.getActiveSlide().should(($el) => {
+      expect($el[0].getBoundingClientRect().height).not.to.be.greaterThan(400);
+    });
+    cy.swipeLeft();
+    cy.getActiveSlide().should(($el) => {
+      expect($el[0].getBoundingClientRect().height).to.be.greaterThan(400);
+    });
+  });
+
+  it('speed', () => {
+    cy.initSwiper({
+      speed: 0,
+    });
+    cy.getSlide(1).should(($el) => {
+      expect($el[0].getBoundingClientRect().x).to.be.greaterThan(400);
+    });
+    cy.swipeLeft();
+    cy.getSlide(1).should(($el) => {
+      expect($el[0].getBoundingClientRect().x).to.be.equal(0);
+    });
+    cy.getSlide(1).expectToBeActiveSlide();
+    cy.reinitSwiper({
+      speed: 200,
+    });
+    cy.swipeLeft();
+    cy.getActiveSlide().should(($el) => {
+      expect($el[0].getBoundingClientRect().x).to.be.greaterThan(400);
+    });
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(5);
+    cy.getActiveSlide().should(($el) => {
+      expect($el[0].getBoundingClientRect().x).not.to.be.greaterThan(200);
+    });
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(200);
+    cy.getActiveSlide().should(($el) => {
+      expect($el[0].getBoundingClientRect().x).not.to.be.greaterThan(50);
+    });
+  });
+
   it('Active slide class', () => {
     cy.initSwiper();
     cy.getSlide(0).expectToBeActiveSlide().and('be.visible');
@@ -45,6 +99,32 @@ context('Core', () => {
       spaceBetween: 10,
     });
     cy.getSlides().filter(':visible').its('length').should('be.eq', 3);
+  });
+
+  it.only('slidesPerView auto', () => {
+    cy.injectStyles(`
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-slide {
+      width: 100%;
+    }
+    .swiper-slide:nth-child(2n) {
+      width: 60%;
+    }
+
+    .swiper-slide:nth-child(3n) {
+      width: 40%;
+    }
+    `);
+    cy.initSwiper({
+      slidesPerView: 'auto',
+      spaceBetween: 10,
+    });
+    cy.getSlides().filter(':visible').its('length').should('be.eq', 1);
+    cy.swipeLeft();
+    cy.getSlides().filter(':visible').its('length').should('be.eq', 2);
   });
 
   it('slidesPerGroup', () => {
@@ -261,6 +341,43 @@ context('Core', () => {
     cy.getSlide(2).should(($el) => {
       expect($el[0].getBoundingClientRect().x).to.be.not.greaterThan(100);
     });
+  });
+
+  it('loopAdditionalSlides', () => {
+    cy.initSwiper({
+      loop: true,
+    });
+    cy.getSlides().its('length').should('be.eq', 12);
+    cy.reinitSwiper({
+      loop: true,
+      loopAdditionalSlides: 2,
+    });
+    cy.getSlides().its('length').should('be.eq', 16);
+    cy.reinitSwiper({
+      loop: true,
+      loopAdditionalSlides: 4,
+    });
+    cy.getSlides().its('length').should('be.eq', 20);
+    cy.reinitSwiper({
+      loop: true,
+      loopAdditionalSlides: 7,
+    });
+    cy.getSlides().its('length').should('be.eq', 26);
+    cy.reinitSwiper({
+      loop: true,
+      loopAdditionalSlides: 9,
+    });
+    cy.getSlides().its('length').should('be.eq', 30);
+    cy.reinitSwiper({
+      loop: true,
+      loopAdditionalSlides: 11,
+    });
+    cy.getSlides().its('length').should('be.eq', 30);
+    cy.reinitSwiper({
+      loop: true,
+      loopAdditionalSlides: 15,
+    });
+    cy.getSlides().its('length').should('be.eq', 30);
   });
 
   it('loop', () => {
