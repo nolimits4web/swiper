@@ -2,19 +2,24 @@ import $ from '../../utils/dom';
 import { extend, bindModuleMethods } from '../../utils/utils';
 
 const Navigation = {
+  toggleEl($el, disabled) {
+    $el[disabled ? 'addClass' : 'removeClass'](this.params.navigation.disabledClass);
+    if ($el[0] && $el[0].tagName === 'BUTTON') $el[0].disabled = disabled;
+  },
   update() {
     // Update Navigation Buttons
     const swiper = this;
     const params = swiper.params.navigation;
+    const toggleEl = swiper.navigation.toggleEl;
 
     if (swiper.params.loop) return;
     const { $nextEl, $prevEl } = swiper.navigation;
 
     if ($prevEl && $prevEl.length > 0) {
       if (swiper.isBeginning) {
-        $prevEl.addClass(params.disabledClass);
+        toggleEl($prevEl, true);
       } else {
-        $prevEl.removeClass(params.disabledClass);
+        toggleEl($prevEl, false);
       }
       $prevEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](
         params.lockClass,
@@ -22,9 +27,9 @@ const Navigation = {
     }
     if ($nextEl && $nextEl.length > 0) {
       if (swiper.isEnd) {
-        $nextEl.addClass(params.disabledClass);
+        toggleEl($nextEl, true);
       } else {
-        $nextEl.removeClass(params.disabledClass);
+        toggleEl($nextEl, false);
       }
       $nextEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](
         params.lockClass,
