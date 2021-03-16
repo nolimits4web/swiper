@@ -6,6 +6,11 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 <table>
   <tr>
     <td align="center" valign="middle">
+      <a href="https://casinority.com/au/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/casinority-australia.png" alt="Best online casinos for Australian players" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
       <a href="https://www.auscasinos.com/new/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/aus-casinos.png" alt="New Online Casinos in Australia (2021) - Which Sites Are Safe?" width="160">
       </a>
@@ -25,13 +30,13 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/netticasinohex.png" alt="The most informative and honest casino reviews for Finnish players" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://aussiecasinohex.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/hex.png" alt="#1 Aussie Gambling Guide" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.leoboost.com/buy-instagram-likes" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/leoboost.png" alt="Buy real Instagram Likes - 100% Real & Instant Likes" width="160">
@@ -40,6 +45,23 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
     <td align="center" valign="middle">
       <a href="https://papersowl.com/pay-for-research-paper" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/papersowl.png" alt="Pay Someone to Write My Research Paper" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.5bingosites.com" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/5bingosites-com.png" alt="Exclusive £5 Deposit Bingo Bonuses - £5 Bingo Sites" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://realcasinoscanada.com" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/realcasinoscanada.png" alt="Your guide to the world of Canadian online gambling sites in 2021" width="160">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle">
+      <a href="https://nederlandscasinos.net" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/nederlandscasinos.png" alt="Online Casinos Nederland - Betrouwbare NL Goksites" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -57,13 +79,13 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/friendlylikes-logo.png" alt="Friendlylikes - Order Instagram Followers, Likes, and Views Easily!" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.aumentosocial.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/aumentosocial-logo.png" alt="Crece en Instagram, Facebook, YouTube y TikTok | AumentoSocial" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://paperell.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/paperell.svg" alt="Website that Writes Essays for You - Paperell.com" width="160">
@@ -84,6 +106,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/easy-views.png" alt="easy-views.org - High Retention Youtube Views" width="160">
       </a>
     </td>
+    <td align="center" valign="middle"></td>
   </tr>
 </table>
 <!-- SPONSORS_TABLE_WRAP -->
