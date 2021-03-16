@@ -226,6 +226,11 @@ Production version will available in `package/` folder.
 
 All changes should be committed to `src/` files only. Before you open an issue please review the [contributing](https://github.com/nolimits4web/swiper/blob/master/CONTRIBUTING.md) guideline.
 
+## Major Roadmapped Features
+
+- [Top Feature Requests](https://github.com/nolimits4web/swiper/issues?q=is%3Aissue+is%3Aopen+label%3A%22feature+request%22+sort%3Areactions-%2B1-desc+) (Add your own votes using the 👍 reaction)
+- [Top Bugs 😱](https://github.com/nolimits4web/swiper/issues?q=is%3Aissue+is%3Aopen+-label%3A%22feature+request%22++sort%3Areactions-%2B1-desc+) (Add your own votes using the 👍 reaction)
+
 ## Contributors
 
 ### Code Contributors
