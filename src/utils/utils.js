@@ -21,13 +21,28 @@ function nextTick(callback, delay = 0) {
 function now() {
   return Date.now();
 }
+function getComputedStyle(el) {
+  const window = getWindow();
+  let style;
+  if (window.getComputedStyle) {
+    style = window.getComputedStyle(el, null);
+  }
+  if (!style && el.currentStyle) {
+    style = el.currentStyle;
+  }
+  if (!style) {
+    style = el.style;
+  }
+
+  return style;
+}
 function getTranslate(el, axis = 'x') {
   const window = getWindow();
   let matrix;
   let curTransform;
   let transformMatrix;
 
-  const curStyle = window.getComputedStyle(el, null);
+  const curStyle = getComputedStyle(el, null);
 
   if (window.WebKitCSSMatrix) {
     curTransform = curStyle.transform || curStyle.webkitTransform;
@@ -110,4 +125,13 @@ function bindModuleMethods(instance, obj) {
   });
 }
 
-export { deleteProps, nextTick, now, getTranslate, isObject, extend, bindModuleMethods };
+export {
+  deleteProps,
+  nextTick,
+  now,
+  getTranslate,
+  isObject,
+  extend,
+  bindModuleMethods,
+  getComputedStyle,
+};

@@ -1,4 +1,3 @@
-import { getWindow } from 'ssr-window';
 import { extend } from '../../../utils/utils';
 
 export default function updateSlides() {
@@ -23,7 +22,6 @@ export default function updateSlides() {
     return parseFloat(node.getPropertyValue(getDirectionLabel(label)) || 0);
   };
 
-  const window = getWindow();
   const params = swiper.params;
 
   const { $wrapperEl, size: swiperSize, rtlTranslate: rtl, wrongRTL } = swiper;
@@ -151,7 +149,7 @@ export default function updateSlides() {
     if (slide.css('display') === 'none') continue; // eslint-disable-line
 
     if (params.slidesPerView === 'auto') {
-      const slideStyles = window.getComputedStyle(slide[0], null);
+      const slideStyles = getComputedStyle(slide[0]);
       const currentTransform = slide[0].style.transform;
       const currentWebKitTransform = slide[0].style.webkitTransform;
       if (currentTransform) {
