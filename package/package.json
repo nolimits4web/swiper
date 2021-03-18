@@ -67,5 +67,8 @@
   "dependencies": {
     "dom7": "^3.0.0",
     "ssr-window": "^3.0.0"
+  },
+  "peerDependencies": {
+    "svelte": "^3.x"
   }
 }
