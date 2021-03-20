@@ -14,7 +14,6 @@ const Virtual = {
       renderSlide,
       offset: previousOffset,
     } = swiper.virtual;
-    swiper.updateActiveIndex();
     const activeIndex = swiper.activeIndex || 0;
 
     let offsetProp;
@@ -229,11 +228,6 @@ export default {
     beforeInit(swiper) {
       if (!swiper.params.virtual.enabled) return;
       swiper.classNames.push(`${swiper.params.containerModifierClass}virtual`);
-      const overwriteParams = {
-        watchSlidesProgress: true,
-      };
-      extend(swiper.params, overwriteParams);
-      extend(swiper.originalParams, overwriteParams);
 
       if (!swiper.params.initialSlide) {
         swiper.virtual.update();
