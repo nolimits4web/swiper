@@ -10,3 +10,6 @@ const components = [
 Swiper.use(components);
 
 //EXPORT
+
+
+//test comment
