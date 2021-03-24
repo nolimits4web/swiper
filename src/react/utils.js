@@ -1,5 +1,10 @@
 function isObject(o) {
-  return typeof o === 'object' && o !== null && o.constructor && o.constructor === Object;
+  return (
+    typeof o === 'object' &&
+    o !== null &&
+    o.constructor &&
+    Object.prototype.toString.call(o).slice(8, -1) === 'Object'
+  );
 }
 
 function extend(target, src) {
