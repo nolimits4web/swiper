@@ -480,6 +480,11 @@ export class SwiperComponent implements OnInit {
     if (!this.virtual) {
       this.prependSlides = of(this.slides.slice(this.slides.length - this.loopedSlides));
       this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
+    } else if (this.swiperRef && this.swiperRef.virtual) {
+      this._ngZone.runOutsideAngular(() => {
+        this.swiperRef.virtual.slides = this.slides;
+        this.swiperRef.virtual.update(true);
+      });
     }
     this._changeDetectorRef.detectChanges();
   };

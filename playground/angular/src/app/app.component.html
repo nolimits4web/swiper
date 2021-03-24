@@ -5,7 +5,7 @@
       [slidesPerView]="3"
       [spaceBetween]="50"
       [pagination]="{ type: 'fraction' }"
-      virtual
+      [virtual]="true"
       slideActiveClass="swiper-active whyWouldIuseCustomClass"
       [centeredSlides]="true"
       navigation
@@ -16,6 +16,22 @@
       <ng-template swiperSlide>Slide</ng-template>
       <ng-template swiperSlide>Slide</ng-template>
     </swiper>
+
+    <swiper
+      #swiperVirtualRef
+      [slidesPerView]="3"
+      [spaceBetween]="50"
+      [pagination]="{ type: 'fraction' }"
+      [virtual]="true"
+      [centeredSlides]="true"
+      navigation
+    >
+      <ng-template swiperSlide *ngFor="let slide of slides$ | async; index as i"
+        >Slide {{ slide }}</ng-template
+      >
+    </swiper>
+    <button (click)="getSlides()">Get slides</button>
+
     <swiper [zoom]="true" [autoplay]="true">
       <ng-template swiperSlide class="custom-class" [zoom]="true">
         <img src="https://swiperjs.com/demos/images/nature-1.jpg" />

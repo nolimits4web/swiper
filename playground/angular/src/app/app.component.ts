@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { SwiperComponent } from 'src/angular/src/public-api';
 import SwiperCore, {
   Navigation,
@@ -34,8 +35,13 @@ export class AppComponent {
 
   show: boolean;
   thumbs: any;
+  slides$ = new BehaviorSubject<string[]>(['']);
   constructor(private cd: ChangeDetectorRef) {}
   ngOnInit() {}
+
+  getSlides() {
+    this.slides$.next(Array.from({ length: 600 }).map((el, index) => `Slide ${index + 1}`));
+  }
 
   thumbsSwiper: any;
   setThumbsSwiper(swiper) {
