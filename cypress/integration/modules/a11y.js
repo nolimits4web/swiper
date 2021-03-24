@@ -14,11 +14,30 @@ context('Core', () => {
       cy.getSliderWrapper().should('have.attr', 'aria-live', 'polite');
     });
 
+    it('paginationBulletMessage', () => {
+      cy.initSwiper({
+        pagination: true,
+        a11y: { paginationBulletMessage: 'Slide to {{index}}' },
+      });
+      cy.getPaginationBullet(1).should('have.attr', 'aria-label', 'Slide to 2');
+      cy.getPaginationBullet(4).should('have.attr', 'aria-label', 'Slide to 5');
+      cy.getPaginationBullet(9).should('have.attr', 'aria-label', 'Slide to 10');
+    });
+
     it('should add aria-role-description="slide" to swiper-slide', () => {
       cy.initSwiper({
         a11y: { itemRoleDescriptionMessage: 'test' },
       });
       cy.getSlides().should('have.attr', 'aria-role-description', 'test');
+    });
+
+    it('should add aria-label="1 of 10" to swiper-slide', () => {
+      cy.initSwiper({
+        a11y: { slideLabelMessage: '{{index}} of {{slidesLength}}' },
+      });
+      cy.getSlide(0).should('have.attr', 'aria-label', '1 of 10');
+      cy.getSlide(4).should('have.attr', 'aria-label', '5 of 10');
+      cy.getSlide(9).should('have.attr', 'aria-label', '10 of 10');
     });
 
     it('should add aria-role-description="slide" to swiper-container', () => {

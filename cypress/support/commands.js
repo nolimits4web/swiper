@@ -30,6 +30,7 @@ Cypress.Commands.add('getSliderContainer', { prevSubject: 'optional' }, () => {
 Cypress.Commands.add('getSlide', { prevSubject: 'optional' }, (subject, slideIndex) => {
   return cy.get(`.swiper-slide:nth-child(${slideIndex + 1})`);
 });
+
 Cypress.Commands.add('getSlideContains', { prevSubject: 'optional' }, (subject, content) => {
   cy.get('.swiper-container').contains(content);
 });
@@ -38,6 +39,10 @@ Cypress.Commands.add('getSlides', { prevSubject: 'optional' }, () => {
 });
 Cypress.Commands.add('swiperPage', { prevSubject: 'optional' }, () => {
   return cy.visit('cypress/test.html');
+});
+
+Cypress.Commands.add('getPaginationBullet', { prevSubject: 'optional' }, (subject, bulletIndex) => {
+  return cy.get(`.swiper-pagination-bullet:nth-child(${bulletIndex + 1})`);
 });
 
 Cypress.Commands.add(
