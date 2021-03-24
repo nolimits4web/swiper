@@ -14,12 +14,14 @@ context('Core', () => {
       cy.getSliderWrapper().should('have.attr', 'aria-live', 'polite');
     });
 
-    it.only('paginationBulletMessage', () => {
+    it('paginationBulletMessage', () => {
       cy.initSwiper({
         pagination: true,
         a11y: { paginationBulletMessage: 'Slide to {{index}}' },
       });
-      cy.getPaginationBullet(1).should('have.attr', 'Slide to', '2');
+      cy.getPaginationBullet(1).should('have.attr', 'aria-label', 'Slide to 2');
+      cy.getPaginationBullet(4).should('have.attr', 'aria-label', 'Slide to 5');
+      cy.getPaginationBullet(9).should('have.attr', 'aria-label', 'Slide to 10');
     });
 
     it('should add aria-role-description="slide" to swiper-slide', () => {
