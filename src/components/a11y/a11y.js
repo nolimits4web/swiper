@@ -167,7 +167,10 @@ const A11y = {
     swiper.a11y.addElRole($(swiper.slides), 'group');
     swiper.slides.each((slideEl) => {
       const $slideEl = $(slideEl);
-      swiper.a11y.addElLabel($slideEl, `${$slideEl.index() + 1} / ${swiper.slides.length}`);
+      const ariaLabelMessage = params.slideLabelMessage
+        .replace(/\{\{index\}\}/, $slideEl.index() + 1)
+        .replace(/\{\{slidesLength\}\}/, swiper.slides.length);
+      swiper.a11y.addElLabel($slideEl, ariaLabelMessage);
     });
 
     // Navigation
@@ -259,6 +262,7 @@ export default {
       firstSlideMessage: 'This is the first slide',
       lastSlideMessage: 'This is the last slide',
       paginationBulletMessage: 'Go to slide {{index}}',
+      slideLabelMessage: '{{index}} / {{slidesLength}}',
       containerMessage: null,
       containerRoleDescriptionMessage: null,
       itemRoleDescriptionMessage: null,
