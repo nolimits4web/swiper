@@ -49,7 +49,11 @@ class Swiper {
   constructor(...args) {
     let el;
     let params;
-    if (args.length === 1 && args[0].constructor && args[0].constructor === Object) {
+    if (
+      args.length === 1 &&
+      args[0].constructor &&
+      Object.prototype.toString.call(args[0]).slice(8, -1) === 'Object'
+    ) {
       params = args[0];
     } else {
       [el, params] = args;
