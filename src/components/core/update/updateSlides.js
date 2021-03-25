@@ -167,7 +167,7 @@ export default function updateSlides() {
         const paddingRight = getDirectionPropertyValue(slideStyles, 'padding-right');
         const marginLeft = getDirectionPropertyValue(slideStyles, 'margin-left');
         const marginRight = getDirectionPropertyValue(slideStyles, 'margin-right');
-        const boxSizing = slideStyles.getPropertyValue(slideStyles, 'box-sizing');
+        const boxSizing = slideStyles.getPropertyValue('box-sizing');
         if (boxSizing && boxSizing === 'border-box') {
           slideSize = width + marginLeft + marginRight;
         } else {
