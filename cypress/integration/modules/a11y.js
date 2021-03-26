@@ -24,11 +24,11 @@ context('Core', () => {
       cy.getPaginationBullet(9).should('have.attr', 'aria-label', 'Slide to 10');
     });
 
-    it('should add aria-role-description="slide" to swiper-slide', () => {
+    it('should add aria-roledescription="slide" to swiper-slide', () => {
       cy.initSwiper({
         a11y: { itemRoleDescriptionMessage: 'test' },
       });
-      cy.getSlides().should('have.attr', 'aria-role-description', 'test');
+      cy.getSlides().should('have.attr', 'aria-roledescription', 'test');
     });
 
     it('should add aria-label="1 of 10" to swiper-slide', () => {
@@ -40,11 +40,11 @@ context('Core', () => {
       cy.getSlide(9).should('have.attr', 'aria-label', '10 of 10');
     });
 
-    it('should add aria-role-description="slide" to swiper-container', () => {
+    it('should add aria-roledescription="slide" to swiper-container', () => {
       cy.initSwiper({
         a11y: { containerRoleDescriptionMessage: 'test' },
       });
-      cy.getSliderContainer().should('have.attr', 'aria-role-description', 'test');
+      cy.getSliderContainer().should('have.attr', 'aria-roledescription', 'test');
     });
 
     it('should add role="group" to swiper-slide', () => {
