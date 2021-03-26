@@ -19,7 +19,7 @@ const A11y = {
     return $el;
   },
   addElRoleDescription($el, description) {
-    $el.attr('aria-role-description', description);
+    $el.attr('aria-roledescription', description);
     return $el;
   },
   addElControls($el, controls) {
