@@ -94,10 +94,11 @@ function isObject(o) {
 }
 function extend(...args) {
   const to = Object(args[0]);
+  const noExtend = ['__proto__', 'constructor', 'prototype'];
   for (let i = 1; i < args.length; i += 1) {
     const nextSource = args[i];
     if (nextSource !== undefined && nextSource !== null) {
-      const keysArray = Object.keys(Object(nextSource)).filter((key) => key !== '__proto__');
+      const keysArray = Object.keys(Object(nextSource)).filter((key) => noExtend.indexOf(key) < 0);
       for (let nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex += 1) {
         const nextKey = keysArray[nextIndex];
         const desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
