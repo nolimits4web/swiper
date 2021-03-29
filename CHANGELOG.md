@@ -1,5 +1,24 @@
 # Changelog
 
+# [6.5.1](https://github.com/nolimits4web/Swiper/compare/v6.5.0...v6.5.1) (2021-03-29)
+
+### Bug Fixes
+
+- **a11y:** correct `aria-roledescription` attribute name ([1b73c3b](https://github.com/nolimits4web/Swiper/commit/1b73c3b82dfd0b789650474bc5e13fd200115b28)), closes [#4371](https://github.com/nolimits4web/Swiper/issues/4371)
+- **core:** fixed **proto** pollution ([ec358de](https://github.com/nolimits4web/Swiper/commit/ec358deab79a8cd2529465f07a0ead5dbcc264ad))
+- **core:** fixed **proto** pollution ([9dad273](https://github.com/nolimits4web/Swiper/commit/9dad2739b7474f383474773d5ab898a0c29ac178))
+- isObject cross window ([7c36077](https://github.com/nolimits4web/Swiper/commit/7c36077c5e3442576769adef73daa8aa28997732))
+- isObject cross window ([95b5dfe](https://github.com/nolimits4web/Swiper/commit/95b5dfe16e7a3b565dd5b22504c6b430f2a660bb))
+- update virtual slides ([e33242c](https://github.com/nolimits4web/Swiper/commit/e33242ce41149265f04224380981c34386ec72b4))
+- **core:** replace unsupported Object.entries ([6dff71d](https://github.com/nolimits4web/Swiper/commit/6dff71dd3c3e49447d81e7cd543937e376bc9d0d)), closes [#4341](https://github.com/nolimits4web/Swiper/issues/4341)
+- **core:** use `getComputedStyle` helper ([9698e58](https://github.com/nolimits4web/Swiper/commit/9698e58101d7350a4be80c542bdd3352a2173a43)), closes [#4337](https://github.com/nolimits4web/Swiper/issues/4337)
+
+### Features
+
+- a11y.slideLabelMessage ([9fd6e68](https://github.com/nolimits4web/Swiper/commit/9fd6e68382b304d3163911cde75d77b07370e62c))
+- custom html element support ([f96db02](https://github.com/nolimits4web/Swiper/commit/f96db02f50a8067eff8241817681615b8b26b81d))
+- **navigation:** set `disabled` prop on nav element if it is a `<button>` element ([7536fbd](https://github.com/nolimits4web/Swiper/commit/7536fbda91a0c2887c200b7208dc8de3feb35bf8)), closes [#4312](https://github.com/nolimits4web/Swiper/issues/4312)
+
 # [6.5.0](https://github.com/nolimits4web/Swiper/compare/v6.4.15...v6.5.0) (2021-03-05)
 
 ### Bug Fixes
