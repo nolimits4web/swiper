@@ -14,7 +14,8 @@ function extend(target, src) {
     .forEach((key) => {
       if (typeof target[key] === 'undefined') target[key] = src[key];
       else if (isObject(src[key]) && isObject(target[key]) && Object.keys(src[key]).length > 0) {
-        extend(target[key], src[key]);
+        if (src[key].__swiper__) target[key] = src[key];
+        else extend(target[key], src[key]);
       } else {
         target[key] = src[key];
       }

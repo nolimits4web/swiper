@@ -74,6 +74,7 @@ class Swiper {
 
     // Swiper Instance
     const swiper = this;
+    swiper.__swiper__ = true;
     swiper.support = getSupport();
     swiper.device = getDevice({ userAgent: params.userAgent });
     swiper.browser = getBrowser();
