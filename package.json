@@ -1,6 +1,6 @@
 {
   "name": "swiper-src",
-  "version": "6.5.1",
+  "version": "6.5.2",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development node scripts/build",
@@ -28,7 +28,8 @@
     "test": "npm run validate && npm run build:prod",
     "test:e2e": "is-ci \"test:e2e:prod\" \"test:e2e:dev\"",
     "test:e2e:dev": "cypress open",
-    "test:e2e:prod": "cypress run"
+    "test:e2e:prod": "cypress run",
+    "changelog": "npx conventional-changelog -p angular -i CHANGELOG.md -u -s"
   },
   "repository": {
     "type": "git",

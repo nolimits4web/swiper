@@ -1,5 +1,11 @@
 # Changelog
 
+# [6.5.2](https://github.com/nolimits4web/Swiper/compare/v6.5.1...v6.5.2) (2021-03-30)
+
+### Bug Fixes
+
+- **core:** fix params extending loosing Swiper instance ([32092ae](https://github.com/nolimits4web/Swiper/commit/32092ae9544b0ba3ecc6c3b65346afa546d0547d)), closes [#4384](https://github.com/nolimits4web/Swiper/issues/4384)
+
 # [6.5.1](https://github.com/nolimits4web/Swiper/compare/v6.5.0...v6.5.1) (2021-03-29)
 
 ### Bug Fixes
