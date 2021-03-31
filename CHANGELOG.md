@@ -1,5 +1,11 @@
 # Changelog
 
+# [6.5.3](https://github.com/nolimits4web/Swiper/compare/v6.5.2...v6.5.3) (2021-03-31)
+
+### Bug Fixes
+
+- **navigation:** fix wrong nav button position ([ef97693](https://github.com/nolimits4web/Swiper/commit/ef976937fb2a00cae4add0e3acabf66d1d1d35a3)), closes [#4393](https://github.com/nolimits4web/Swiper/issues/4393)
+
 # [6.5.2](https://github.com/nolimits4web/Swiper/compare/v6.5.1...v6.5.2) (2021-03-30)
 
 ### Bug Fixes
