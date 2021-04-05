@@ -1,5 +1,12 @@
 # Changelog
 
+# [6.5.4](https://github.com/nolimits4web/Swiper/compare/v6.5.3...v6.5.4) (2021-04-05)
+
+### Bug Fixes
+
+- **core:** fix pagination and a11y classes escaping ([49e06f9](https://github.com/nolimits4web/Swiper/commit/49e06f9f35aecae1a002bdec679dae6d6aaebb01)), closes [#4403](https://github.com/nolimits4web/Swiper/issues/4403)
+- **svelte:** don't destroy on server-side ([8a8fb62](https://github.com/nolimits4web/Swiper/commit/8a8fb625a9ce2fc543e0aa8d81c1aed1e0b19c8f)), closes [#3961](https://github.com/nolimits4web/Swiper/issues/3961)
+
 # [6.5.3](https://github.com/nolimits4web/Swiper/compare/v6.5.2...v6.5.3) (2021-03-31)
 
 ### Bug Fixes
