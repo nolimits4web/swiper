@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import { bindModuleMethods } from '../../utils/utils';
+import { bindModuleMethods, classesToSelector } from '../../utils/utils';
 
 const A11y = {
   getRandomNumber(size = 16) {
@@ -71,9 +71,10 @@ const A11y = {
         swiper.a11y.notify(params.prevSlideMessage);
       }
     }
+
     if (
       swiper.pagination &&
-      $targetEl.is(`.${swiper.params.pagination.bulletClass.replace(/ /g, '.')}`)
+      $targetEl.is(classesToSelector(swiper.params.pagination.bulletClass))
     ) {
       $targetEl[0].click();
     }
@@ -211,7 +212,7 @@ const A11y = {
     ) {
       swiper.pagination.$el.on(
         'keydown',
-        `.${swiper.params.pagination.bulletClass.replace(/ /g, '.')}`,
+        classesToSelector(swiper.params.pagination.bulletClass),
         swiper.a11y.onEnterOrSpaceKey,
       );
     }
@@ -245,7 +246,7 @@ const A11y = {
     ) {
       swiper.pagination.$el.off(
         'keydown',
-        `.${swiper.params.pagination.bulletClass.replace(/ /g, '.')}`,
+        classesToSelector(swiper.params.pagination.bulletClass),
         swiper.a11y.onEnterOrSpaceKey,
       );
     }

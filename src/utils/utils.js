@@ -139,6 +139,13 @@ function bindModuleMethods(instance, obj) {
   });
 }
 
+function classesToSelector(classes = '') {
+  return `.${classes
+    .trim()
+    .replace(/([\.:\/])/g, '\\$1') // eslint-disable-line
+    .replace(/ /g, '.')}`;
+}
+
 export {
   deleteProps,
   nextTick,
@@ -148,4 +155,5 @@ export {
   extend,
   bindModuleMethods,
   getComputedStyle,
+  classesToSelector,
 };
