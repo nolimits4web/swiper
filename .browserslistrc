@@ -1,0 +1,12 @@
+# This file is used by the build system to adjust CSS and JS output to support the specified browsers below.
+# For additional information regarding the format and rule options, please see:
+# https://github.com/browserslist/browserslist#queries
+
+
+# You can see what browsers were selected by your queries by running:
+#   npx browserslist
+
+last 2 version
+> 1%
+not IE 9-10 # Swiper not supporting IE 9-10 To opt-in, remove the 'not' prefix on this line.
+not IE 11 # Swiper not supporting IE 11
