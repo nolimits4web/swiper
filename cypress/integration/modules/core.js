@@ -101,7 +101,7 @@ context('Core', () => {
     cy.getSlides().filter(':visible').its('length').should('be.eq', 3);
   });
 
-  it.only('slidesPerView auto', () => {
+  it('slidesPerView auto', () => {
     cy.injectStyles(`
     .swiper-container {
       width: 100%;
