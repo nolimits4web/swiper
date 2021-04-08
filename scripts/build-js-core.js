@@ -12,7 +12,6 @@ async function buildCore(components, format, cb) {
   const outputDir = env === 'development' ? 'build' : 'package';
   let coreContent = '';
   if (format === 'esm') {
-    coreContent += `export const __esModule = true;\n`;
     coreContent += `export { default as Swiper, default } from './components/core/core-class';\n`;
     coreContent += components
       .map(
