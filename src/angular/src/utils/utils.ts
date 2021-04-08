@@ -34,13 +34,14 @@ export function coerceBooleanProperty(value: any): boolean {
 
 export const ignoreNgOnChanges = ['pagination', 'navigation', 'scrollbar', 'virtual'];
 
-export function setProperty(val, obj = {}) {
+export function setProperty(val: any, obj = {}): {} | false {
   if (isObject(val)) {
     return val;
   }
-  const newValue = coerceBooleanProperty(val);
-  if (newValue === true) {
+
+  if (coerceBooleanProperty(val) === true) {
     return obj;
   }
-  return newValue;
+
+  return false;
 }

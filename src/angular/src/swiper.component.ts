@@ -21,7 +21,13 @@ import Swiper from 'swiper/core';
 import { Observable, of, Subject } from 'rxjs';
 import { getParams } from './utils/get-params';
 import { SwiperSlideDirective } from './swiper-slide.directive';
-import { extend, isObject, setProperty, ignoreNgOnChanges } from './utils/utils';
+import {
+  extend,
+  isObject,
+  setProperty,
+  ignoreNgOnChanges,
+  coerceBooleanProperty,
+} from './utils/utils';
 import {
   SwiperOptions,
   SwiperEvents,
@@ -163,7 +169,7 @@ export class SwiperComponent implements OnInit {
       prevEl: currentPrev || null,
     });
     if (
-      val !== true &&
+      coerceBooleanProperty(val) !== true &&
       typeof this._navigation !== 'boolean' &&
       this._navigation?.prevEl !== this._prevElRef?.nativeElement &&
       (typeof this._navigation?.nextEl === 'string' ||
@@ -187,7 +193,7 @@ export class SwiperComponent implements OnInit {
       el: current || null,
     });
     if (
-      val !== true &&
+      coerceBooleanProperty(val) !== true &&
       typeof this._pagination !== 'boolean' &&
       this._pagination?.el !== this._paginationElRef?.nativeElement &&
       (typeof this._pagination?.el === 'string' || typeof this._pagination?.el === 'object')
@@ -208,7 +214,7 @@ export class SwiperComponent implements OnInit {
       el: current || null,
     });
     if (
-      val !== true &&
+      coerceBooleanProperty(val) !== true &&
       typeof this._scrollbar !== 'boolean' &&
       this._scrollbar?.el !== this._scrollbarElRef?.nativeElement &&
       (typeof this._scrollbar?.el === 'string' || typeof this._scrollbar?.el === 'object')
