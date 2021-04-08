@@ -60,6 +60,11 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
   </tr>
   <tr>
     <td align="center" valign="middle">
+      <a href="https://studyclerk.com" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/studyclerk.png" alt="Professional Essay Writing Service from Top Providers - Study Clerk" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
       <a href="https://www.123calendars.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/calendar.png" alt="2021 Printable Calendar" width="160">
       </a>
@@ -79,13 +84,13 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/estepera.png" alt="Hair transplant Turkey" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://elroyalecasino.com/games/blackjack" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/elroyalcasino.png" alt="Play Online Blackjack at elroyalecasino.com" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.codefirst.co.uk" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/codefirst.png" alt="Software Development Company | CodeFirst UK" width="160">
@@ -106,13 +111,13 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/nettcasinobonus.png" alt="Få bransjens beste casino bonus " width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://www.5bingosites.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/5bingosites-com.png" alt="Exclusive £5 Deposit Bingo Bonuses - £5 Bingo Sites" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://realcasinoscanada.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/realcasinoscanada.png" alt="Your guide to the world of Canadian online gambling sites in 2021" width="160">
@@ -133,13 +138,13 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/256.png" alt="AnbefaltCasino.com | Guiden til de beste norske casino" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://friendlylikes.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/friendlylikes-logo.png" alt="Friendlylikes - Order Instagram Followers, Likes, and Views Easily!" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.aumentosocial.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/aumentosocial-logo.png" alt="Crece en Instagram, Facebook, YouTube y TikTok | AumentoSocial" width="160">
@@ -160,7 +165,6 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/easy-views.png" alt="easy-views.org - High Retention Youtube Views" width="160">
       </a>
     </td>
-    <td align="center" valign="middle"></td>
   </tr>
 </table>
 <!-- SPONSORS_TABLE_WRAP -->
