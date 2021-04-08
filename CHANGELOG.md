@@ -1,5 +1,12 @@
 # Changelog
 
+# [6.5.5](https://github.com/nolimits4web/Swiper/compare/v6.5.4...v6.5.5) (2021-04-08)
+
+### Bug Fixes
+
+- **core:** removed Svelte from peerDependencies
+- **utils:** dom not writeable ([8775c1a](https://github.com/nolimits4web/Swiper/commit/8775c1a748541f7597525cf2eb7559788f4e6422))
+
 # [6.5.4](https://github.com/nolimits4web/Swiper/compare/v6.5.3...v6.5.4) (2021-04-05)
 
 ### Bug Fixes
