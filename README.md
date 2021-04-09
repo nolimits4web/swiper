@@ -235,6 +235,12 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
 - **Accessibility (A11y)**
 - **And many more ...**
 
+## Community
+
+The Swiper community can be found on [GitHub Discussions](https://github.com/nolimits4web/swiper), where you can ask questions, voice ideas, and share your projects
+
+To chat with other community members you can join the [Swiper Discord](https://discord.gg/BUpd4UTkgj)
+
 ## Dist / Build
 
 On production use files (JS and CSS) only from `package/` folder, there will be the most stable versions, `build/` folder is only for development purpose.
