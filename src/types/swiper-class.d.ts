@@ -457,7 +457,7 @@ declare class Swiper implements Swiper {
   static extendDefaults(options: SwiperOptions): void;
 
   /**
-   * Object with global Swiper exntended options
+   * Object with global Swiper extended options
    */
   static extendedDefaults: SwiperOptions;
 }
