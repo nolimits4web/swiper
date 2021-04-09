@@ -1,5 +1,12 @@
 # Changelog
 
+# [6.5.6](https://github.com/nolimits4web/Swiper/compare/v6.5.5...v6.5.6) (2021-04-09)
+
+### Bug Fixes
+
+- **angular:** custom html element support ([b7d0c1f](https://github.com/nolimits4web/Swiper/commit/b7d0c1f795fbf324ab03f805e47c211cb11ff5b9))
+- **angular:** custom html element support ([dec54c2](https://github.com/nolimits4web/Swiper/commit/dec54c23cb33fa9f6eae1539a51251a641e98088))
+
 # [6.5.5](https://github.com/nolimits4web/Swiper/compare/v6.5.4...v6.5.5) (2021-04-08)
 
 ### Bug Fixes
