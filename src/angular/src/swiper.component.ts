@@ -21,7 +21,13 @@ import Swiper from 'swiper/core';
 import { Observable, of, Subject } from 'rxjs';
 import { getParams } from './utils/get-params';
 import { SwiperSlideDirective } from './swiper-slide.directive';
-import { extend, isObject, setProperty, ignoreNgOnChanges } from './utils/utils';
+import {
+  extend,
+  isObject,
+  setProperty,
+  ignoreNgOnChanges,
+  coerceBooleanProperty,
+} from './utils/utils';
 import {
   SwiperOptions,
   SwiperEvents,
@@ -163,7 +169,9 @@ export class SwiperComponent implements OnInit {
       prevEl: currentPrev || null,
     });
     if (
+      coerceBooleanProperty(val) !== true &&
       typeof this._navigation !== 'boolean' &&
+      this._navigation?.prevEl !== this._prevElRef?.nativeElement &&
       (typeof this._navigation?.nextEl === 'string' ||
         typeof this._navigation?.prevEl === 'string' ||
         typeof this._navigation?.nextEl === 'object' ||
@@ -185,7 +193,9 @@ export class SwiperComponent implements OnInit {
       el: current || null,
     });
     if (
+      coerceBooleanProperty(val) !== true &&
       typeof this._pagination !== 'boolean' &&
+      this._pagination?.el !== this._paginationElRef?.nativeElement &&
       (typeof this._pagination?.el === 'string' || typeof this._pagination?.el === 'object')
     ) {
       this.showPagination = false;
@@ -204,7 +214,9 @@ export class SwiperComponent implements OnInit {
       el: current || null,
     });
     if (
+      coerceBooleanProperty(val) !== true &&
       typeof this._scrollbar !== 'boolean' &&
+      this._scrollbar?.el !== this._scrollbarElRef?.nativeElement &&
       (typeof this._scrollbar?.el === 'string' || typeof this._scrollbar?.el === 'object')
     ) {
       this.showScrollbar = false;
@@ -392,20 +404,28 @@ export class SwiperComponent implements OnInit {
 
   @ViewChild('prevElRef', { static: false })
   set prevElRef(el: ElementRef) {
+    this._prevElRef = el;
     this._setElement(el, this.navigation, 'navigation', 'prevEl');
   }
+  _prevElRef: ElementRef;
   @ViewChild('nextElRef', { static: false })
   set nextElRef(el: ElementRef) {
+    this._nextElRef = el;
     this._setElement(el, this.navigation, 'navigation', 'nextEl');
   }
+  _nextElRef: ElementRef;
   @ViewChild('scrollbarElRef', { static: false })
   set scrollbarElRef(el: ElementRef) {
+    this._scrollbarElRef = el;
     this._setElement(el, this.scrollbar, 'scrollbar');
   }
+  _scrollbarElRef: ElementRef;
   @ViewChild('paginationElRef', { static: false })
   set paginationElRef(el: ElementRef) {
+    this._paginationElRef = el;
     this._setElement(el, this.pagination, 'pagination');
   }
+  _paginationElRef: ElementRef;
   @ContentChildren(SwiperSlideDirective, { descendants: true, emitDistinctChangesOnly: true })
   slidesEl: QueryList<SwiperSlideDirective>;
   private slides: SwiperSlideDirective[];
@@ -453,7 +473,6 @@ export class SwiperComponent implements OnInit {
     const { params } = getParams(this);
     Object.assign(this, params);
   }
-
   ngAfterViewInit() {
     this.childrenSlidesInit();
     this.initSwiper();
