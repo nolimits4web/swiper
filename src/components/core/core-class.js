@@ -243,6 +243,17 @@ class Swiper {
     return swiper;
   }
 
+  setProgress(progress, speed) {
+    const swiper = this;
+    progress = Math.min(Math.max(progress, 0), 1);
+    const min = swiper.minTranslate();
+    const max = swiper.maxTranslate();
+    const current = (max - min) * progress + min;
+    swiper.translateTo(current, typeof speed === 'undefined' ? 0 : speed);
+    swiper.updateActiveIndex();
+    swiper.updateSlidesClasses();
+  }
+
   emitContainerClasses() {
     const swiper = this;
     if (!swiper.params._emitClasses || !swiper.el) return;
