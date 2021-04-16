@@ -39,16 +39,6 @@ const Swiper = forwardRef(
 
     const { slides, slots } = getChildren(children);
 
-    const changedParams = getChangedParams(
-      passedParams,
-      oldPassedParamsRef.current,
-      slides,
-      oldSlides.current,
-    );
-
-    oldPassedParamsRef.current = passedParams;
-    oldSlides.current = slides;
-
     const onBeforeBreakpoint = () => {
       setBreakpointChanged(!breakpointChanged);
     };
@@ -127,6 +117,14 @@ const Swiper = forwardRef(
 
     // watch for params change
     useIsomorphicLayoutEffect(() => {
+      const changedParams = getChangedParams(
+        passedParams,
+        oldPassedParamsRef.current,
+        slides,
+        oldSlides.current,
+      );
+      oldPassedParamsRef.current = passedParams;
+      oldSlides.current = slides;
       if (changedParams.length && swiperRef.current && !swiperRef.current.destroyed) {
         updateSwiper(swiperRef.current, slides, passedParams, changedParams);
       }
