@@ -165,7 +165,7 @@ const A11y = {
     if (params.itemRoleDescriptionMessage) {
       swiper.a11y.addElRoleDescription($(swiper.slides), params.itemRoleDescriptionMessage);
     }
-    swiper.a11y.addElRole($(swiper.slides), 'group');
+    swiper.a11y.addElRole($(swiper.slides), params.slideRole);
     swiper.slides.each((slideEl) => {
       const $slideEl = $(slideEl);
       const ariaLabelMessage = params.slideLabelMessage
@@ -267,6 +267,7 @@ export default {
       containerMessage: null,
       containerRoleDescriptionMessage: null,
       itemRoleDescriptionMessage: null,
+      slideRole: 'group',
     },
   },
   create() {

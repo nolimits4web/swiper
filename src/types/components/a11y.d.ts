@@ -79,4 +79,11 @@ export interface A11yOptions {
    * @default '{{index}} / {{slidesLength}}'
    */
   slideLabelMessage?: string;
+
+  /**
+   * Value of swiper slide `role` attribute
+   *
+   * @default 'group'
+   */
+  slideRole?: string;
 }
