@@ -30,7 +30,7 @@ function updateSwiper(swiper, passedParams, changedParams) {
     changedParams.includes('pagination') &&
     passedParams.pagination &&
     passedParams.pagination.el &&
-    currentParams.pagination &&
+    (currentParams.pagination || currentParams.pagination === false) &&
     pagination &&
     !pagination.el
   ) {
@@ -41,7 +41,7 @@ function updateSwiper(swiper, passedParams, changedParams) {
     changedParams.includes('scrollbar') &&
     passedParams.scrollbar &&
     passedParams.scrollbar.el &&
-    currentParams.scrollbar &&
+    (currentParams.scrollbar || currentParams.scrollbar === false) &&
     scrollbar &&
     !scrollbar.el
   ) {
@@ -53,7 +53,7 @@ function updateSwiper(swiper, passedParams, changedParams) {
     passedParams.navigation &&
     passedParams.navigation.prevEl &&
     passedParams.navigation.nextEl &&
-    currentParams.navigation &&
+    (currentParams.navigation || currentParams.navigation === false) &&
     navigation &&
     !navigation.prevEl &&
     !navigation.nextEl
