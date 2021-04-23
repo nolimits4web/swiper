@@ -1,5 +1,17 @@
 # Changelog
 
+# [6.5.8](https://github.com/nolimits4web/Swiper/compare/v6.5.7...v6.5.8) (2021-04-23)
+
+### Bug Fixes
+
+- **components:** fixed issue with navigation, pagination, scrollbar custom elements added after initialization ([cfd4efd](https://github.com/nolimits4web/Swiper/commit/cfd4efd59fe422be7c36594234bcb54aaaf5cfc3)), closes [#4458](https://github.com/nolimits4web/Swiper/issues/4458)
+- **react:** make events reactive ([301ffb0](https://github.com/nolimits4web/Swiper/commit/301ffb096295017578e9309886686b42dd4b7785)), closes [#3762](https://github.com/nolimits4web/Swiper/issues/3762)
+
+### Features
+
+- **a11y:** add `a11y.slideRole` parameter for custom slide role ([097109f](https://github.com/nolimits4web/Swiper/commit/097109fceae580fe211f60c0be7218d6344baabe)), closes [#4435](https://github.com/nolimits4web/Swiper/issues/4435)
+- **history:** new `root` parameter to avoid issues with root path detection ([e6d1202](https://github.com/nolimits4web/Swiper/commit/e6d1202fc02ab1283da1fb71b5d3092874ba8aad)), closes [#3205](https://github.com/nolimits4web/Swiper/issues/3205)
+
 # [6.5.7](https://github.com/nolimits4web/Swiper/compare/v6.5.6...v6.5.7) (2021-04-16)
 
 ### Bug Fixes
