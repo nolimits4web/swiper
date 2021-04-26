@@ -133,7 +133,7 @@ export default {
         swiper.history.destroy();
       }
     },
-    transitionEnd(swiper) {
+    'transitionEnd _freeModeNoMomentumRelease': (swiper) => {
       if (swiper.history.initialized) {
         swiper.history.setHistory(swiper.params.history.key, swiper.activeIndex);
       }
