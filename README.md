@@ -308,6 +308,18 @@ This project exists thanks to all the people who contribute. [[Contribute](CONTR
 
 Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/swiper/contribute)]
 
+#### `postinstall` message
+
+Swiper is searching for bakers, so the package shows a message about it after installation. If it causes problems for you, you can disable it:
+
+```
+ADBLOCK=true npm install
+// or
+DISABLE_OPENCOLLECTIVE=true npm install
+// or
+npm install --loglevel silent
+```
+
 #### Organizations
 
 Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/swiper/contribute)]
