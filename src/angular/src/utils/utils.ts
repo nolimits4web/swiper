@@ -7,6 +7,16 @@ export function isObject(o) {
   );
 }
 
+export function isShowEl(val, obj, el) {
+  return (
+    coerceBooleanProperty(val) !== true ||
+    (obj &&
+      typeof obj !== 'boolean' &&
+      obj.el !== el?.nativeElement &&
+      (typeof obj.el !== 'string' || typeof obj.el !== 'object'))
+  );
+}
+
 export function extend(target, src) {
   const noExtend = ['__proto__', 'constructor', 'prototype'];
   Object.keys(src)
