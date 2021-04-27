@@ -8,7 +8,7 @@ export function isObject(o) {
 }
 
 export function isShowEl(val, obj, el) {
-  return (
+  return !(
     coerceBooleanProperty(val) !== true ||
     (obj &&
       typeof obj !== 'boolean' &&

@@ -169,7 +169,7 @@ export class SwiperComponent implements OnInit {
       nextEl: currentNext || null,
       prevEl: currentPrev || null,
     });
-    if (
+    this.showNavigation = !(
       coerceBooleanProperty(val) !== true ||
       (this._navigation &&
         typeof this._navigation !== 'boolean' &&
@@ -179,9 +179,7 @@ export class SwiperComponent implements OnInit {
           typeof this._navigation.prevEl === 'string' ||
           typeof this._navigation.nextEl === 'object' ||
           typeof this._navigation.prevEl === 'object'))
-    ) {
-      this.showNavigation = false;
-    }
+    );
   }
   get navigation() {
     return this._navigation;
@@ -195,9 +193,7 @@ export class SwiperComponent implements OnInit {
     this._pagination = setProperty(val, {
       el: current || null,
     });
-    if (isShowEl(val, this._pagination, this._paginationElRef)) {
-      this.showPagination = false;
-    }
+    this.showPagination = isShowEl(val, this._pagination, this._paginationElRef);
   }
   get pagination() {
     return this._pagination;
@@ -211,9 +207,7 @@ export class SwiperComponent implements OnInit {
     this._scrollbar = setProperty(val, {
       el: current || null,
     });
-    if (isShowEl(val, this._scrollbar, this._scrollbarElRef)) {
-      this.showScrollbar = false;
-    }
+    this.showScrollbar = isShowEl(val, this._scrollbar, this._scrollbarElRef);
   }
   get scrollbar() {
     return this._scrollbar;
