@@ -18,7 +18,7 @@
     "swiper-bundle.esm.js"
   ],
   "scripts": {
-    "postinstall": "node postinstall.js"
+    "postinstall": "node -e \"try{require('./postinstall')}catch(e){}\""
   },
   "repository": {
     "type": "git",
