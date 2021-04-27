@@ -27,6 +27,7 @@ import {
   setProperty,
   ignoreNgOnChanges,
   coerceBooleanProperty,
+  isShowEl,
 } from './utils/utils';
 import {
   SwiperOptions,
@@ -168,17 +169,17 @@ export class SwiperComponent implements OnInit {
       nextEl: currentNext || null,
       prevEl: currentPrev || null,
     });
-    if (
-      coerceBooleanProperty(val) !== true &&
-      typeof this._navigation !== 'boolean' &&
-      this._navigation?.prevEl !== this._prevElRef?.nativeElement &&
-      (typeof this._navigation?.nextEl === 'string' ||
-        typeof this._navigation?.prevEl === 'string' ||
-        typeof this._navigation?.nextEl === 'object' ||
-        typeof this._navigation?.prevEl === 'object')
-    ) {
-      this.showNavigation = false;
-    }
+    this.showNavigation = !(
+      coerceBooleanProperty(val) !== true ||
+      (this._navigation &&
+        typeof this._navigation !== 'boolean' &&
+        this._navigation.prevEl !== this._prevElRef?.nativeElement &&
+        (this._navigation.prevEl !== null || this._navigation.nextEl !== null) &&
+        (typeof this._navigation.nextEl === 'string' ||
+          typeof this._navigation.prevEl === 'string' ||
+          typeof this._navigation.nextEl === 'object' ||
+          typeof this._navigation.prevEl === 'object'))
+    );
   }
   get navigation() {
     return this._navigation;
@@ -192,14 +193,7 @@ export class SwiperComponent implements OnInit {
     this._pagination = setProperty(val, {
       el: current || null,
     });
-    if (
-      coerceBooleanProperty(val) !== true &&
-      typeof this._pagination !== 'boolean' &&
-      this._pagination?.el !== this._paginationElRef?.nativeElement &&
-      (typeof this._pagination?.el === 'string' || typeof this._pagination?.el === 'object')
-    ) {
-      this.showPagination = false;
-    }
+    this.showPagination = isShowEl(val, this._pagination, this._paginationElRef);
   }
   get pagination() {
     return this._pagination;
@@ -213,14 +207,7 @@ export class SwiperComponent implements OnInit {
     this._scrollbar = setProperty(val, {
       el: current || null,
     });
-    if (
-      coerceBooleanProperty(val) !== true &&
-      typeof this._scrollbar !== 'boolean' &&
-      this._scrollbar?.el !== this._scrollbarElRef?.nativeElement &&
-      (typeof this._scrollbar?.el === 'string' || typeof this._scrollbar?.el === 'object')
-    ) {
-      this.showScrollbar = false;
-    }
+    this.showScrollbar = isShowEl(val, this._scrollbar, this._scrollbarElRef);
   }
   get scrollbar() {
     return this._scrollbar;
