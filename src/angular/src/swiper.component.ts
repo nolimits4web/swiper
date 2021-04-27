@@ -161,6 +161,7 @@ export class SwiperComponent implements OnInit {
   @Input() parallax: SwiperOptions['parallax'];
   @Input() thumbs: SwiperOptions['thumbs'];
   @Input() zoom: SwiperOptions['zoom'];
+  @Input() class: string;
   @Input()
   set navigation(val) {
     const currentNext = typeof this._navigation !== 'boolean' ? this._navigation?.nextEl : null;
