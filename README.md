@@ -310,7 +310,7 @@ Become a financial contributor and help us sustain our community. [[Contribute](
 
 #### `postinstall` message
 
-Swiper is searching for bakers, so the package shows a message about it after installation. If it causes problems for you, you can disable it:
+Swiper is searching for backers, so the package shows a message about it after installation. If it causes problems for you, you can disable it:
 
 ```
 ADBLOCK=true npm install
