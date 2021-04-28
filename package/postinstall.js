@@ -1,7 +1,4 @@
 /* eslint-disable max-len -- for better formatting */
-var fs = require('fs');
-var os = require('os');
-var path = require('path');
 var env = process.env;
 
 var ADBLOCK = is(env.ADBLOCK);
@@ -9,7 +6,6 @@ var COLOR = is(env.npm_config_color);
 var DISABLE_OPENCOLLECTIVE = is(env.DISABLE_OPENCOLLECTIVE);
 var SILENT = ['silent', 'error', 'warn'].indexOf(env.npm_config_loglevel) !== -1;
 var OPEN_SOURCE_CONTRIBUTOR = is(env.OPEN_SOURCE_CONTRIBUTOR);
-var MINUTE = 60 * 1000;
 
 // you could add a PR with an env variable for your CI detection
 var CI = [
@@ -29,23 +25,7 @@ function is(it) {
 }
 
 function isBannerRequired() {
-  if (ADBLOCK || CI || DISABLE_OPENCOLLECTIVE || SILENT || OPEN_SOURCE_CONTRIBUTOR) return false;
-  var file = path.join(os.tmpdir(), 'swiper-banners');
-  var banners = [];
-  try {
-    var DELTA = Date.now() - fs.statSync(file).mtime;
-    if (DELTA >= 0 && DELTA < MINUTE * 3) {
-        banners = JSON.parse(fs.readFileSync(file, 'utf8'));
-        if (banners.indexOf(BANNER) !== -1) return false;
-      }
-    } catch (error) {
-      banners = [];
-    }
-  try {
-    banners.push(BANNER);
-    fs.writeFileSync(file, JSON.stringify(banners), 'utf8');
-  } catch (error) { /* empty */ }
-  return true;
+  return !(ADBLOCK || CI || DISABLE_OPENCOLLECTIVE || SILENT || OPEN_SOURCE_CONTRIBUTOR);
 }
 
 function showBanner() {
