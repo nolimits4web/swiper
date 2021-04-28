@@ -8,12 +8,13 @@ export function isObject(o) {
 }
 
 export function isShowEl(val, obj, el) {
-  return !(
-    coerceBooleanProperty(val) !== true ||
-    (obj &&
+  return (
+    (coerceBooleanProperty(val) === true && obj && !obj.el) ||
+    !(
       typeof obj !== 'boolean' &&
       obj.el !== el?.nativeElement &&
-      (typeof obj.el !== 'string' || typeof obj.el !== 'object'))
+      (typeof obj.el === 'string' || typeof obj.el === 'object')
+    )
   );
 }
 
