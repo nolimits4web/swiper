@@ -162,6 +162,7 @@ export class SwiperComponent implements OnInit {
   @Input() thumbs: SwiperOptions['thumbs'];
   @Input() zoom: SwiperOptions['zoom'];
   @Input() class: string;
+  @Input() id: string;
   @Input()
   set navigation(val) {
     const currentNext = typeof this._navigation !== 'boolean' ? this._navigation?.nextEl : null;
@@ -765,10 +766,18 @@ export class SwiperComponent implements OnInit {
       return;
     }
     const _key = key.replace(/^_/, '');
+    const isCurrentParamObj = isObject(this.swiperRef.params[_key]);
+
     if (Object.keys(this.swiperRef.modules).indexOf(_key) >= 0) {
-      extend(value, this.swiperRef.modules[_key].params[_key]);
+      const defaultParams = this.swiperRef.modules[_key].params[_key];
+      if (isCurrentParamObj) {
+        extend(this.swiperRef.params[_key], defaultParams);
+      } else {
+        this.swiperRef.params[_key] = defaultParams;
+      }
     }
-    if (isObject(this.swiperRef.params[_key]) && isObject(value)) {
+
+    if (isCurrentParamObj && isObject(value)) {
       extend(this.swiperRef.params[_key], value);
     } else {
       this.swiperRef.params[_key] = value;

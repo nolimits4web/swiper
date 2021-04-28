@@ -5,7 +5,7 @@
 </ng-container>
 <div *ngIf="scrollbar && showScrollbar" class="swiper-scrollbar" #scrollbarElRef></div>
 <div *ngIf="pagination && showPagination" class="swiper-pagination" #paginationElRef></div>
-<div [ngClass]="[wrapperClass, class].join(' ')">
+<div [ngClass]="[wrapperClass, class].join(' ')" [attr.id]="id">
   <ng-content select="[slot=wrapper-start]"></ng-content>
   <ng-template
     *ngTemplateOutlet="

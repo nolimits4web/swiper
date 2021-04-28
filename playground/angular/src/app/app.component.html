@@ -10,6 +10,7 @@
       [centeredSlides]="true"
       navigation
       class="mySwiper"
+      id="mySwiperID"
     >
       <ng-template swiperSlide *ngFor="let slide of virtualSlides; index as i"
         >Slide {{ slide }}</ng-template
@@ -44,6 +45,8 @@
         <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
       </ng-template>
     </swiper>
+
+    <h3>Custom pagination</h3>
     <swiper
       #swiperRef
       [navigation]="navigation"
