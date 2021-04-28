@@ -162,6 +162,7 @@ export class SwiperComponent implements OnInit {
   @Input() thumbs: SwiperOptions['thumbs'];
   @Input() zoom: SwiperOptions['zoom'];
   @Input() class: string;
+  @Input() id: string;
   @Input()
   set navigation(val) {
     const currentNext = typeof this._navigation !== 'boolean' ? this._navigation?.nextEl : null;
