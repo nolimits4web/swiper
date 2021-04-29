@@ -6,7 +6,7 @@ const fs = require('fs');
 const config = require('./build-config.js');
 const banner = require('./banner')();
 
-async function buildCore(components, format, cb) {
+async function buildCore(components, format) {
   const env = process.env.NODE_ENV || 'development';
   const filename = `swiper.${format}`;
   const outputDir = env === 'development' ? 'build' : 'package';
@@ -49,7 +49,7 @@ async function buildCore(components, format, cb) {
     '"src/swiper-svelte.js"',
   ];
   await exec.promise(
-    `cross-env MODULES=${format} npx babel src --out-dir ${outputDir}/${format} --ignore ${ignore.join(
+    `npx cross-env MODULES=${format} npx babel src --out-dir ${outputDir}/${format} --ignore ${ignore.join(
       ',',
     )}`,
   );
@@ -70,11 +70,9 @@ async function buildCore(components, format, cb) {
     .replace(/require\('\.\//g, `require('./${format}/`)
     .replace(/from '\.\//g, `from './${format}/`);
   fs.writeFileSync(`./${outputDir}/${filename}.js`, fileContent);
-
-  if (cb) cb();
 }
 
-function build() {
+async function build() {
   const env = process.env.NODE_ENV || 'development';
   const outputDir = env === 'development' ? 'build' : 'package';
   const components = [];
@@ -98,8 +96,7 @@ function build() {
     }
   });
 
-  buildCore(components, 'esm', () => {});
-  buildCore(components, 'cjs', () => {});
+  await Promise.all([buildCore(components, 'esm'), buildCore(components, 'cjs')]);
 
   // build components
   components.forEach(({ name }) => {

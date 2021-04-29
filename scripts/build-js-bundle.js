@@ -11,7 +11,7 @@ const Terser = require('terser');
 const config = require('./build-config.js');
 const banner = require('./banner')();
 
-function buildBundle(components, format, browser, cb) {
+async function buildBundle(components, format, browser, cb) {
   const env = process.env.NODE_ENV || 'development';
   const external = format === 'umd' || browser ? [] : () => true;
   let filename = 'swiper-bundle';
@@ -20,7 +20,7 @@ function buildBundle(components, format, browser, cb) {
   const output = env === 'development' ? 'build' : 'package';
   const needSourceMap = env === 'production' && (format === 'umd' || (format === 'esm' && browser));
 
-  rollup({
+  return rollup({
     input: './src/swiper.js',
     external,
     plugins: [
@@ -92,7 +92,7 @@ function buildBundle(components, format, browser, cb) {
     });
 }
 
-function build() {
+async function build() {
   const env = process.env.NODE_ENV || 'development';
   const components = [];
   config.components.forEach((name) => {
@@ -115,14 +115,17 @@ function build() {
     }
   });
   if (env === 'development') {
-    buildBundle(components, 'umd', true, () => {});
-    buildBundle(components, 'esm', false, () => {});
-  } else {
-    buildBundle(components, 'esm', false, () => {});
-    buildBundle(components, 'esm', true, () => {});
-    buildBundle(components, 'umd', true, () => {});
-    buildBundle(components, 'cjs', false, () => {});
+    return Promise.all([
+      buildBundle(components, 'umd', true, () => {}),
+      buildBundle(components, 'esm', false, () => {}),
+    ]);
   }
+  return Promise.all([
+    buildBundle(components, 'esm', false, () => {}),
+    buildBundle(components, 'esm', true, () => {}),
+    buildBundle(components, 'umd', true, () => {}),
+    buildBundle(components, 'cjs', false, () => {}),
+  ]);
 }
 
 module.exports = build;

@@ -22,6 +22,7 @@
     "prettier": "prettier \"**/*.+(js|json|scss|css|less|ts|svelte|jsx)\"",
     "format": "npm run prettier -- --write",
     "check-format": "npm run prettier -- --list-different",
+    "size": "node -e \"try{require('./scripts/check-size.js')()}catch(e){}\"",
     "lint": "eslint --ext .js,.svelte,.jsx .",
     "validate": "npm-run-all --parallel check-format lint",
     "release": "npm run validate && node ./scripts/release",
