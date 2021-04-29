@@ -126,6 +126,7 @@
     "fs-extra": "^9.1.0",
     "glob": "^7.1.6",
     "globby": "^11.0.3",
+    "gzip-size": "^6.0.0",
     "inquirer": "^8.0.0",
     "is-ci-cli": "^2.2.0",
     "jasmine-core": "~3.7.1",
