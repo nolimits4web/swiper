@@ -5,6 +5,7 @@
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development node scripts/build",
     "build:prod": "cross-env NODE_ENV=production node scripts/build",
+    "build:prod:core": "cross-env NODE_ENV=production node scripts/build --only core",
     "build-icons-font": "python ./scripts/icon-font/generate.py",
     "playground:dev": "cross-env NODE_ENV=development node scripts/playground",
     "playground:prod": "cross-env NODE_ENV=production node scripts/playground",
@@ -22,6 +23,7 @@
     "prettier": "prettier \"**/*.+(js|json|scss|css|less|ts|svelte|jsx)\"",
     "format": "npm run prettier -- --write",
     "check-format": "npm run prettier -- --list-different",
+    "size": "node -e \"try{require('./scripts/check-size.js')()}catch(e){}\"",
     "lint": "eslint --ext .js,.svelte,.jsx .",
     "validate": "npm-run-all --parallel check-format lint",
     "release": "npm run validate && node ./scripts/release",
@@ -126,6 +128,7 @@
     "fs-extra": "^9.1.0",
     "glob": "^7.1.6",
     "globby": "^11.0.3",
+    "gzip-size": "^6.0.0",
     "inquirer": "^8.0.0",
     "is-ci-cli": "^2.2.0",
     "jasmine-core": "~3.7.1",
