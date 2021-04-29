@@ -151,14 +151,8 @@ const A11y = {
     // Wrapper
     const $wrapperEl = swiper.$wrapperEl;
     const wrapperId = $wrapperEl.attr('id') || `swiper-wrapper-${swiper.a11y.getRandomNumber(16)}`;
-    let live;
+    const live = swiper.params.autoplay && swiper.params.autoplay.enabled ? 'off' : 'polite';
     swiper.a11y.addElId($wrapperEl, wrapperId);
-
-    if (swiper.params.autoplay && swiper.params.autoplay.enabled) {
-      live = 'off';
-    } else {
-      live = 'polite';
-    }
     swiper.a11y.addElLive($wrapperEl, live);
 
     // Slide
