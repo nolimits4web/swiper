@@ -11,12 +11,15 @@ module.exports = () => {
       const filePath = path.join(__dirname, '../package/', name);
       if (fs.existsSync(filePath)) {
         const gzippedSize = gzipSize.fileSync(filePath);
-        // const size = gzipSize.fileSync(filePath);
-        console.log(`${name}: ${gzippedSize} bytes (gziped)`);
-        return gzippedSize;
+        const { size } = fs.statSync(filePath);
+        console.log(`${name}: ${size} (${gzippedSize} gziped) bytes`);
+        return { gzippedSize, size };
       }
       console.log(`${filePath} not exists`);
       return 0;
     })
-    .reduce((total, num) => total + num);
+    .reduce((total, num) => ({
+      gzippedSize: total.gzippedSize + num.gzippedSize,
+      size: total.size + num.size,
+    }));
 };
