@@ -1,3 +1,5 @@
+const chalk = require('chalk');
+
 const buildJsCore = require('./build-js-core');
 const buildJsBundle = require('./build-js-bundle');
 const buildTypes = require('./build-types');
@@ -44,12 +46,12 @@ class Build {
     });
     if (this.size) {
       const sizeMessage = (value, label = '') =>
-        `difference ${label}: ${value > 0 ? `+${value}` : value} bytes`;
+        `difference ${label}: ${value > 0 ? chalk.red(`+${value}`) : chalk.green(value)} bytes`;
 
       end = outputCheckSize();
 
-      console.log(sizeMessage(start.size - start.size));
-      console.log(sizeMessage(end.gzippedSize - end.gzippedSize, 'gzipped'));
+      console.log(sizeMessage(end.size - start.size));
+      console.log(sizeMessage(end.gzippedSize - start.gzippedSize, 'gzipped'));
     }
     return res;
   }
