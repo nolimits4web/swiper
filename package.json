@@ -6,6 +6,7 @@
     "build:dev": "cross-env NODE_ENV=development node scripts/build",
     "build:prod": "cross-env NODE_ENV=production node scripts/build",
     "build:prod:core": "cross-env NODE_ENV=production node scripts/build --only core",
+    "build:prod:bundle": "cross-env NODE_ENV=production node scripts/build --only bundle",
     "build-icons-font": "python ./scripts/icon-font/generate.py",
     "playground:dev": "cross-env NODE_ENV=development node scripts/playground",
     "playground:prod": "cross-env NODE_ENV=production node scripts/playground",
