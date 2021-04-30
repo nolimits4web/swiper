@@ -1,5 +1,27 @@
 # Changelog
 
+# [6.5.9](https://github.com/nolimits4web/Swiper/compare/v6.5.8...v6.5.9) (2021-04-30)
+
+### Bug Fixes
+
+- **angular:** custom naviation & pagination ([c96bcf6](https://github.com/nolimits4web/Swiper/commit/c96bcf65a818d56a4ed949b43078bc5a5e4980ad))
+- **angular:** don't remove Swiper styles on destroy ([96ad4f0](https://github.com/nolimits4web/Swiper/commit/96ad4f0edd647e24d962cedfacaeb9668fe7a47a)), closes [#4443](https://github.com/nolimits4web/Swiper/issues/4443)
+- **angular:** extend current params ([71be609](https://github.com/nolimits4web/Swiper/commit/71be6095b647f7c8e92126fef71ef8cdea1b69ae))
+- **angular:** pagination true should work ([434a19c](https://github.com/nolimits4web/Swiper/commit/434a19cde48aa239a8ddf7cfb77fb6526a17360b))
+- **angular:** update value ([20e25b5](https://github.com/nolimits4web/Swiper/commit/20e25b5534d050ea11fa7a95dea130c1adaf8e33))
+- **build:** size calc ([769e9df](https://github.com/nolimits4web/Swiper/commit/769e9df2e439a2082505bcaa1a3de02d1bdb231d))
+- **docs:** postinstall bakers-> backers typo ([839aea4](https://github.com/nolimits4web/Swiper/commit/839aea42a33dd4b82031310ba69750251cb978e2))
+- **hash-navigation:** fixed issue when using with freeMode without transition ([c90a7bd](https://github.com/nolimits4web/Swiper/commit/c90a7bd73dd84b4422a5699ffb996f24ec868d01)), closes [#4478](https://github.com/nolimits4web/Swiper/issues/4478)
+- **history:** fixed issue when using with freeMode without transition ([2902ea9](https://github.com/nolimits4web/Swiper/commit/2902ea95b29a7c2e7696ffb5c9440f8604722fc9))
+- **react:** load lazy images (if enabled) on children change ([ca0347b](https://github.com/nolimits4web/Swiper/commit/ca0347b505fec19a08a8c48034b01ad8faf68265)), closes [#4463](https://github.com/nolimits4web/Swiper/issues/4463)
+- **vue:** load lazy images (if enabled) on children change ([335daff](https://github.com/nolimits4web/Swiper/commit/335daff14417da61c17a6f65a2c4698c24e145e1))
+
+### Features
+
+- **angular:** support id input ([ad51e32](https://github.com/nolimits4web/Swiper/commit/ad51e324a6cd8666d64b94f4fdf30fe9f6bd85f7))
+- core-js postinstall script ([fd5c01d](https://github.com/nolimits4web/Swiper/commit/fd5c01d8f7c6feeed39e4440f5e9cdcd75667394))
+- **angular:** use class & ngClass on `<swiper>` component ([66c5a55](https://github.com/nolimits4web/Swiper/commit/66c5a55b76a5d7e58908bf3fad8866e16361244b))
+
 # [6.5.8](https://github.com/nolimits4web/Swiper/compare/v6.5.7...v6.5.8) (2021-04-23)
 
 ### Bug Fixes
