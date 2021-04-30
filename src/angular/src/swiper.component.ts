@@ -803,7 +803,7 @@ export class SwiperComponent implements OnInit {
 
   ngOnDestroy() {
     this._ngZone.runOutsideAngular(() => {
-      this.swiperRef?.destroy();
+      this.swiperRef?.destroy(true, false);
     });
   }
 }
