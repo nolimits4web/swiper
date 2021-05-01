@@ -116,6 +116,8 @@ function extend(...args) {
             } else {
               extend(to[nextKey], nextSource[nextKey]);
             }
+          } else if (nextSource[nextKey] === true && isObject(to[nextKey])) {
+            nextSource[nextKey] = to[nextKey];
           } else {
             to[nextKey] = nextSource[nextKey];
           }
@@ -146,6 +148,20 @@ function classesToSelector(classes = '') {
     .replace(/ /g, '.')}`;
 }
 
+function createElementIfNotDefined($container, params, arr = ['el', null]) {
+  if (!Array.isArray(arr[0])) {
+    arr = [arr];
+  }
+  arr.forEach((item) => {
+    const [key, className] = item;
+    if (!params[item]) {
+      $container.append(`<div class="${className}"></div>`);
+      params[key] = $container.find(`.${className}`);
+    }
+  });
+  return params;
+}
+
 export {
   deleteProps,
   nextTick,
@@ -156,4 +172,5 @@ export {
   bindModuleMethods,
   getComputedStyle,
   classesToSelector,
+  createElementIfNotDefined,
 };

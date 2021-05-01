@@ -1,56 +1,49 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Swiper Playground</title>
+    <link rel="stylesheet" href="../../build/swiper-bundle.css" />
+    <meta name="viewport" content="width=device-width" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <title>Swiper Playground</title>
-  <link rel="stylesheet" href="../../build/swiper-bundle.css">
-  <meta name="viewport" content="width=device-width">
-</head>
+  <body>
+    <section class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">Slide 1</div>
+        <div class="swiper-slide">Slide 2</div>
+        <div class="swiper-slide">Slide 3</div>
+        <div class="swiper-slide">Slide 4</div>
+        <div class="swiper-slide">Slide 5</div>
+        <div class="swiper-slide">Slide 6</div>
+        <div class="swiper-slide">Slide 7</div>
+        <div class="swiper-slide">Slide 8</div>
+        <div class="swiper-slide">Slide 9</div>
+        <div class="swiper-slide">Slide 10</div>
+      </div>
+    </section>
+    <style>
+      body,
+      html {
+        padding: 0;
+        margin: 0;
+        position: relative;
+        height: 100%;
+      }
 
-<body>
-  <section class="swiper-container">
-    <div class="swiper-scrollbar"></div>
-    <button class="swiper-button-prev"></button>
-    <button class="swiper-button-next"></button>
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">Slide 1</div>
-      <div class="swiper-slide">Slide 2</div>
-      <div class="swiper-slide">Slide 3</div>
-      <div class="swiper-slide">Slide 4</div>
-      <div class="swiper-slide">Slide 5</div>
-      <div class="swiper-slide">Slide 6</div>
-      <div class="swiper-slide">Slide 7</div>
-      <div class="swiper-slide">Slide 8</div>
-      <div class="swiper-slide">Slide 9</div>
-      <div class="swiper-slide">Slide 10</div>
-    </div>
-    <div class="swiper-pagination"></div>
-  </section>
-  <style>
-    body,
-    html {
-      padding: 0;
-      margin: 0;
-      position: relative;
-      height: 100%;
-    }
+      .swiper-container {
+        width: 100%;
+        height: 300px;
+        margin: 50px auto;
+      }
 
-    .swiper-container {
-      width: 100%;
-      height: 300px;
-      margin: 50px auto;
-    }
-
-    .swiper-slide {
-      background: #f1f1f1;
-      color: #000;
-      text-align: center;
-      line-height: 300px;
-    }
-  </style>
-  <script type="module" src="./main.js"></script>
-
-</body>
-
+      .swiper-slide {
+        background: #f1f1f1;
+        color: #000;
+        text-align: center;
+        line-height: 300px;
+      }
+    </style>
+    <script type="module" src="./main.js"></script>
+  </body>
 </html>

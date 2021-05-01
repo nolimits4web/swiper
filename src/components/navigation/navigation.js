@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import { extend, bindModuleMethods } from '../../utils/utils';
+import { extend, bindModuleMethods, createElementIfNotDefined } from '../../utils/utils';
 
 const Navigation = {
   toggleEl($el, disabled) {
@@ -51,6 +51,11 @@ const Navigation = {
   init() {
     const swiper = this;
     const params = swiper.params.navigation;
+
+    swiper.params.pagination = createElementIfNotDefined(swiper.$el, swiper.params.pagination, [
+      ['nextEl', 'swiper-button-next'],
+      ['prevEl', 'swiper-button-prev'],
+    ]);
     if (!(params.nextEl || params.prevEl)) return;
 
     let $nextEl;

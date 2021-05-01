@@ -1,6 +1,6 @@
 import { getDocument } from 'ssr-window';
 import $ from '../../utils/dom';
-import { extend, nextTick, bindModuleMethods } from '../../utils/utils';
+import { extend, nextTick, bindModuleMethods, createElementIfNotDefined } from '../../utils/utils';
 
 const Scrollbar = {
   setTranslate() {
@@ -280,8 +280,11 @@ const Scrollbar = {
   },
   init() {
     const swiper = this;
-    if (!swiper.params.scrollbar.el) return;
     const { scrollbar, $el: $swiperEl } = swiper;
+    swiper.params.scrollbar = createElementIfNotDefined($swiperEl, swiper.params.scrollbar, [
+      'el',
+      'swiper-scrollbar',
+    ]);
     const params = swiper.params.scrollbar;
 
     let $el = $(params.el);
