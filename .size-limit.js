@@ -21,6 +21,6 @@ module.exports = [
     path: 'package/swiper.esm.js',
     name: 'ESM core',
     import: 'SwiperCore',
-    limit: '20 KB',
+    limit: '25 KB',
   },
 ];
