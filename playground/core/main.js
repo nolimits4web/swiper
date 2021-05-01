@@ -10,6 +10,7 @@ window.swiper = new Swiper({
   initialSlide: 2,
   spaceBetween: 50,
   slidesPerView: 2,
+  slidesPerColumn: 2,
   centeredSlides: true,
   slideToClickedSlide: true,
   grabCursor: true,
@@ -35,3 +36,11 @@ window.swiper = new Swiper({
     itemRoleDescriptionMessage: 'slide',
   },
 });
+
+// uncomment to test SlidesPerColumn module TODO: remove
+// window.swiper = new Swiper({
+//   el: '.swiper-container',
+//   slidesPerView: 3,
+//   slidesPerColumn: 2,
+//   spaceBetween: 30,
+// });
