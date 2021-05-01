@@ -7,7 +7,7 @@ export default function setBreakpoint() {
   if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) return;
 
   // Get breakpoint for window width and update parameters
-  const breakpoint = swiper.getBreakpoint(breakpoints);
+  const breakpoint = swiper.getBreakpoint(breakpoints, swiper.params.breakpointsBase, swiper.el);
 
   if (breakpoint && swiper.currentBreakpoint !== breakpoint) {
     const breakpointOnlyParams = breakpoint in breakpoints ? breakpoints[breakpoint] : undefined;

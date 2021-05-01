@@ -37,6 +37,13 @@ export interface SwiperOptions {
   updateOnWindowResize?: boolean;
 
   /**
+   * When enabled it will use ResizeObserver (if supported by browser) on swiper container to detect container resize (instead of watching for window resize)
+   *
+   * @default false
+   */
+  resizeObserver?: boolean;
+
+  /**
    * Index number of initial slide.
    *
    * @default 0
@@ -314,7 +321,7 @@ export interface SwiperOptions {
    * Target element to listen touch events on. Can be `'container'` (to listen for touch events on swiper-container) or `'wrapper'`
    * (to listen for touch events on swiper-wrapper)
    *
-   * @default 'wrapper'
+   * @default 'container'
    */
   touchEventsTarget?: 'container' | 'wrapper';
 
@@ -714,6 +721,15 @@ export interface SwiperOptions {
     [width: number]: SwiperOptions;
     [ratio: string]: SwiperOptions;
   };
+
+  /**
+   * Base for breakpoints (beta). Can be `window` or `container`. If set to `window` (by default) then breakpoint keys mean window width. If set to `container` then breakpoint keys treated as swiper container width
+   *
+   * @default 'window'
+   *
+   * @note Currently in beta and not supported by Swiper Angular, React, Svelte and Vue components
+   */
+  breakpointsBase?: string;
 
   // Observer
   /**

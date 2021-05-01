@@ -164,6 +164,14 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   rtlTranslate: boolean;
 
   /**
+   * Set Swiper translate progress (from 0 to 1). Where 0 - its initial position (offset) on first slide, and 1 - its maximum position (offset) on last slide
+   *
+   * @param progress Swiper translate progress (from 0 to 1).
+   * @param speed Transition duration (in ms).
+   */
+  setProgress(progress: number, speed?: number): void;
+
+  /**
    * Run transition to next slide.
    *
    * @param speed Transition duration (in ms).
@@ -457,7 +465,7 @@ declare class Swiper implements Swiper {
   static extendDefaults(options: SwiperOptions): void;
 
   /**
-   * Object with global Swiper exntended options
+   * Object with global Swiper extended options
    */
   static extendedDefaults: SwiperOptions;
 }

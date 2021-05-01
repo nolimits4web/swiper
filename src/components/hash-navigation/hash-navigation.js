@@ -103,7 +103,7 @@ export default {
         swiper.hashNavigation.destroy();
       }
     },
-    transitionEnd(swiper) {
+    'transitionEnd _freeModeNoMomentumRelease': (swiper) => {
       if (swiper.hashNavigation.initialized) {
         swiper.hashNavigation.setHash();
       }

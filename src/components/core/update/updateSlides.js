@@ -1,9 +1,27 @@
-import { getWindow } from 'ssr-window';
 import { extend } from '../../../utils/utils';
 
 export default function updateSlides() {
   const swiper = this;
-  const window = getWindow();
+  const getDirectionLabel = (property) => {
+    if (swiper.isHorizontal()) {
+      return property;
+    }
+    // prettier-ignore
+    return {
+      'width': 'height',
+      'margin-top': 'margin-left',
+      'margin-bottom ': 'margin-right',
+      'margin-left': 'margin-top',
+      'margin-right': 'margin-bottom',
+      'padding-left': 'padding-top',
+      'padding-right': 'padding-bottom',
+      'marginRight': 'marginBottom',
+    }[property];
+  };
+  const getDirectionPropertyValue = (node, label) => {
+    return parseFloat(node.getPropertyValue(getDirectionLabel(label)) || 0);
+  };
+
   const params = swiper.params;
 
   const { $wrapperEl, size: swiperSize, rtlTranslate: rtl, wrongRTL } = swiper;
@@ -124,14 +142,14 @@ export default function updateSlides() {
         column = i - row * slidesPerRow;
       }
       slide.css(
-        `margin-${swiper.isHorizontal() ? 'top' : 'left'}`,
+        getDirectionLabel('margin-top'),
         row !== 0 && params.spaceBetween && `${params.spaceBetween}px`,
       );
     }
     if (slide.css('display') === 'none') continue; // eslint-disable-line
 
     if (params.slidesPerView === 'auto') {
-      const slideStyles = window.getComputedStyle(slide[0], null);
+      const slideStyles = getComputedStyle(slide[0]);
       const currentTransform = slide[0].style.transform;
       const currentWebKitTransform = slide[0].style.webkitTransform;
       if (currentTransform) {
@@ -144,44 +162,23 @@ export default function updateSlides() {
         slideSize = swiper.isHorizontal() ? slide.outerWidth(true) : slide.outerHeight(true);
       } else {
         // eslint-disable-next-line
-        if (swiper.isHorizontal()) {
-          const width = parseFloat(slideStyles.getPropertyValue('width') || 0);
-          const paddingLeft = parseFloat(slideStyles.getPropertyValue('padding-left') || 0);
-          const paddingRight = parseFloat(slideStyles.getPropertyValue('padding-right') || 0);
-          const marginLeft = parseFloat(slideStyles.getPropertyValue('margin-left') || 0);
-          const marginRight = parseFloat(slideStyles.getPropertyValue('margin-right') || 0);
-          const boxSizing = slideStyles.getPropertyValue('box-sizing');
-          if (boxSizing && boxSizing === 'border-box') {
-            slideSize = width + marginLeft + marginRight;
-          } else {
-            const { clientWidth, offsetWidth } = slide[0];
-            slideSize =
-              width +
-              paddingLeft +
-              paddingRight +
-              marginLeft +
-              marginRight +
-              (offsetWidth - clientWidth);
-          }
+        const width = getDirectionPropertyValue(slideStyles, 'width');
+        const paddingLeft = getDirectionPropertyValue(slideStyles, 'padding-left');
+        const paddingRight = getDirectionPropertyValue(slideStyles, 'padding-right');
+        const marginLeft = getDirectionPropertyValue(slideStyles, 'margin-left');
+        const marginRight = getDirectionPropertyValue(slideStyles, 'margin-right');
+        const boxSizing = slideStyles.getPropertyValue('box-sizing');
+        if (boxSizing && boxSizing === 'border-box') {
+          slideSize = width + marginLeft + marginRight;
         } else {
-          const height = parseFloat(slideStyles.getPropertyValue('height') || 0);
-          const paddingTop = parseFloat(slideStyles.getPropertyValue('padding-top') || 0);
-          const paddingBottom = parseFloat(slideStyles.getPropertyValue('padding-bottom') || 0);
-          const marginTop = parseFloat(slideStyles.getPropertyValue('margin-top') || 0);
-          const marginBottom = parseFloat(slideStyles.getPropertyValue('margin-bottom') || 0);
-          const boxSizing = slideStyles.getPropertyValue('box-sizing');
-          if (boxSizing && boxSizing === 'border-box') {
-            slideSize = height + marginTop + marginBottom;
-          } else {
-            const { clientHeight, offsetHeight } = slide[0];
-            slideSize =
-              height +
-              paddingTop +
-              paddingBottom +
-              marginTop +
-              marginBottom +
-              (offsetHeight - clientHeight);
-          }
+          const { clientWidth, offsetWidth } = slide[0];
+          slideSize =
+            width +
+            paddingLeft +
+            paddingRight +
+            marginLeft +
+            marginRight +
+            (offsetWidth - clientWidth);
         }
       }
       if (currentTransform) {
@@ -196,11 +193,7 @@ export default function updateSlides() {
       if (params.roundLengths) slideSize = Math.floor(slideSize);
 
       if (slides[i]) {
-        if (swiper.isHorizontal()) {
-          slides[i].style.width = `${slideSize}px`;
-        } else {
-          slides[i].style.height = `${slideSize}px`;
-        }
+        slides[i].style[getDirectionLabel('width')] = `${slideSize}px`;
       }
     }
     if (slides[i]) {
@@ -242,28 +235,18 @@ export default function updateSlides() {
     $wrapperEl.css({ width: `${swiper.virtualSize + params.spaceBetween}px` });
   }
   if (params.setWrapperSize) {
-    if (swiper.isHorizontal())
-      $wrapperEl.css({
-        width: `${swiper.virtualSize + params.spaceBetween}px`,
-      });
-    else
-      $wrapperEl.css({
-        height: `${swiper.virtualSize + params.spaceBetween}px`,
-      });
+    $wrapperEl.css({
+      [getDirectionLabel('width')]: `${swiper.virtualSize + params.spaceBetween}px`,
+    });
   }
 
   if (params.slidesPerColumn > 1) {
     swiper.virtualSize = (slideSize + params.spaceBetween) * slidesNumberEvenToRows;
     swiper.virtualSize =
       Math.ceil(swiper.virtualSize / params.slidesPerColumn) - params.spaceBetween;
-    if (swiper.isHorizontal())
-      $wrapperEl.css({
-        width: `${swiper.virtualSize + params.spaceBetween}px`,
-      });
-    else
-      $wrapperEl.css({
-        height: `${swiper.virtualSize + params.spaceBetween}px`,
-      });
+    $wrapperEl.css({
+      [getDirectionLabel('width')]: `${swiper.virtualSize + params.spaceBetween}px`,
+    });
     if (params.centeredSlides) {
       newSlidesGrid = [];
       for (let i = 0; i < snapGrid.length; i += 1) {
@@ -297,10 +280,8 @@ export default function updateSlides() {
   if (snapGrid.length === 0) snapGrid = [0];
 
   if (params.spaceBetween !== 0) {
-    if (swiper.isHorizontal()) {
-      if (rtl) slides.filter(slidesForMargin).css({ marginLeft: `${spaceBetween}px` });
-      else slides.filter(slidesForMargin).css({ marginRight: `${spaceBetween}px` });
-    } else slides.filter(slidesForMargin).css({ marginBottom: `${spaceBetween}px` });
+    const key = swiper.isHorizontal() && rtl ? 'marginLeft' : getDirectionLabel('marginRight');
+    slides.filter(slidesForMargin).css({ [key]: `${spaceBetween}px` });
   }
 
   if (params.centeredSlides && params.centeredSlidesBounds) {

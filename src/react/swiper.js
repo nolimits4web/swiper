@@ -21,6 +21,7 @@ const Swiper = forwardRef(
     } = {},
     externalElRef,
   ) => {
+    let eventsAssigned = false;
     const [containerClasses, setContainerClasses] = useState('swiper-container');
     const [virtualData, setVirtualData] = useState(null);
     const [breakpointChanged, setBreakpointChanged] = useState(false);
@@ -35,19 +36,9 @@ const Swiper = forwardRef(
     const paginationElRef = useRef(null);
     const scrollbarElRef = useRef(null);
 
-    const { params: swiperParams, passedParams, rest: restProps } = getParams(rest);
+    const { params: swiperParams, passedParams, rest: restProps, events } = getParams(rest);
 
     const { slides, slots } = getChildren(children);
-
-    const changedParams = getChangedParams(
-      passedParams,
-      oldPassedParamsRef.current,
-      slides,
-      oldSlides.current,
-    );
-
-    oldPassedParamsRef.current = passedParams;
-    oldSlides.current = slides;
 
     const onBeforeBreakpoint = () => {
       setBreakpointChanged(!breakpointChanged);
@@ -61,6 +52,8 @@ const Swiper = forwardRef(
 
     if (!swiperElRef.current) {
       // init swiper
+      Object.assign(swiperParams.on, events);
+      eventsAssigned = true;
       swiperRef.current = initSwiper(swiperParams);
       swiperRef.current.loopCreate = () => {};
       swiperRef.current.loopDestroy = () => {};
@@ -83,6 +76,21 @@ const Swiper = forwardRef(
     if (swiperRef.current) {
       swiperRef.current.on('_beforeBreakpoint', onBeforeBreakpoint);
     }
+
+    const attachEvents = () => {
+      if (eventsAssigned || !events || !swiperRef.current) return;
+      Object.keys(events).forEach((eventName) => {
+        swiperRef.current.on(eventName, events[eventName]);
+      });
+    };
+
+    const detachEvents = () => {
+      if (!events || !swiperRef.current) return;
+      Object.keys(events).forEach((eventName) => {
+        swiperRef.current.off(eventName, events[eventName]);
+      });
+    };
+
     useEffect(() => {
       return () => {
         if (swiperRef.current) swiperRef.current.off('_beforeBreakpoint', onBeforeBreakpoint);
@@ -127,9 +135,21 @@ const Swiper = forwardRef(
 
     // watch for params change
     useIsomorphicLayoutEffect(() => {
+      attachEvents();
+      const changedParams = getChangedParams(
+        passedParams,
+        oldPassedParamsRef.current,
+        slides,
+        oldSlides.current,
+      );
+      oldPassedParamsRef.current = passedParams;
+      oldSlides.current = slides;
       if (changedParams.length && swiperRef.current && !swiperRef.current.destroyed) {
         updateSwiper(swiperRef.current, slides, passedParams, changedParams);
       }
+      return () => {
+        detachEvents();
+      };
     });
 
     // update on virtual update

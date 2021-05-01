@@ -21,13 +21,28 @@ function nextTick(callback, delay = 0) {
 function now() {
   return Date.now();
 }
+function getComputedStyle(el) {
+  const window = getWindow();
+  let style;
+  if (window.getComputedStyle) {
+    style = window.getComputedStyle(el, null);
+  }
+  if (!style && el.currentStyle) {
+    style = el.currentStyle;
+  }
+  if (!style) {
+    style = el.style;
+  }
+
+  return style;
+}
 function getTranslate(el, axis = 'x') {
   const window = getWindow();
   let matrix;
   let curTransform;
   let transformMatrix;
 
-  const curStyle = window.getComputedStyle(el, null);
+  const curStyle = getComputedStyle(el, null);
 
   if (window.WebKitCSSMatrix) {
     curTransform = curStyle.transform || curStyle.webkitTransform;
@@ -70,23 +85,37 @@ function getTranslate(el, axis = 'x') {
   return curTransform || 0;
 }
 function isObject(o) {
-  return typeof o === 'object' && o !== null && o.constructor && o.constructor === Object;
+  return (
+    typeof o === 'object' &&
+    o !== null &&
+    o.constructor &&
+    Object.prototype.toString.call(o).slice(8, -1) === 'Object'
+  );
 }
 function extend(...args) {
   const to = Object(args[0]);
+  const noExtend = ['__proto__', 'constructor', 'prototype'];
   for (let i = 1; i < args.length; i += 1) {
     const nextSource = args[i];
     if (nextSource !== undefined && nextSource !== null) {
-      const keysArray = Object.keys(Object(nextSource));
+      const keysArray = Object.keys(Object(nextSource)).filter((key) => noExtend.indexOf(key) < 0);
       for (let nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex += 1) {
         const nextKey = keysArray[nextIndex];
         const desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
         if (desc !== undefined && desc.enumerable) {
           if (isObject(to[nextKey]) && isObject(nextSource[nextKey])) {
-            extend(to[nextKey], nextSource[nextKey]);
+            if (nextSource[nextKey].__swiper__) {
+              to[nextKey] = nextSource[nextKey];
+            } else {
+              extend(to[nextKey], nextSource[nextKey]);
+            }
           } else if (!isObject(to[nextKey]) && isObject(nextSource[nextKey])) {
             to[nextKey] = {};
-            extend(to[nextKey], nextSource[nextKey]);
+            if (nextSource[nextKey].__swiper__) {
+              to[nextKey] = nextSource[nextKey];
+            } else {
+              extend(to[nextKey], nextSource[nextKey]);
+            }
           } else {
             to[nextKey] = nextSource[nextKey];
           }
@@ -110,4 +139,21 @@ function bindModuleMethods(instance, obj) {
   });
 }
 
-export { deleteProps, nextTick, now, getTranslate, isObject, extend, bindModuleMethods };
+function classesToSelector(classes = '') {
+  return `.${classes
+    .trim()
+    .replace(/([\.:\/])/g, '\\$1') // eslint-disable-line
+    .replace(/ /g, '.')}`;
+}
+
+export {
+  deleteProps,
+  nextTick,
+  now,
+  getTranslate,
+  isObject,
+  extend,
+  bindModuleMethods,
+  getComputedStyle,
+  classesToSelector,
+};

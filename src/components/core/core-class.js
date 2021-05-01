@@ -49,7 +49,11 @@ class Swiper {
   constructor(...args) {
     let el;
     let params;
-    if (args.length === 1 && args[0].constructor && args[0].constructor === Object) {
+    if (
+      args.length === 1 &&
+      args[0].constructor &&
+      Object.prototype.toString.call(args[0]).slice(8, -1) === 'Object'
+    ) {
       params = args[0];
     } else {
       [el, params] = args;
@@ -70,6 +74,7 @@ class Swiper {
 
     // Swiper Instance
     const swiper = this;
+    swiper.__swiper__ = true;
     swiper.support = getSupport();
     swiper.device = getDevice({ userAgent: params.userAgent });
     swiper.browser = getBrowser();
@@ -236,6 +241,17 @@ class Swiper {
 
     // Return app instance
     return swiper;
+  }
+
+  setProgress(progress, speed) {
+    const swiper = this;
+    progress = Math.min(Math.max(progress, 0), 1);
+    const min = swiper.minTranslate();
+    const max = swiper.maxTranslate();
+    const current = (max - min) * progress + min;
+    swiper.translateTo(current, typeof speed === 'undefined' ? 0 : speed);
+    swiper.updateActiveIndex();
+    swiper.updateSlidesClasses();
   }
 
   emitContainerClasses() {

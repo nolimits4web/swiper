@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import { extend, bindModuleMethods } from '../../utils/utils';
+import { extend, bindModuleMethods, classesToSelector } from '../../utils/utils';
 
 const Pagination = {
   update() {
@@ -152,8 +152,10 @@ const Pagination = {
       }
     }
     if (params.type === 'fraction') {
-      $el.find(`.${params.currentClass}`).text(params.formatFractionCurrent(current + 1));
-      $el.find(`.${params.totalClass}`).text(params.formatFractionTotal(total));
+      $el
+        .find(classesToSelector(params.currentClass))
+        .text(params.formatFractionCurrent(current + 1));
+      $el.find(classesToSelector(params.totalClass)).text(params.formatFractionTotal(total));
     }
     if (params.type === 'progressbar') {
       let progressbarDirection;
@@ -171,7 +173,7 @@ const Pagination = {
         scaleY = scale;
       }
       $el
-        .find(`.${params.progressbarFillClass}`)
+        .find(classesToSelector(params.progressbarFillClass))
         .transform(`translate3d(0,0,0) scaleX(${scaleX}) scaleY(${scaleY})`)
         .transition(swiper.params.speed);
     }
@@ -218,7 +220,8 @@ const Pagination = {
         }
       }
       $el.html(paginationHTML);
-      swiper.pagination.bullets = $el.find(`.${params.bulletClass.replace(/ /g, '.')}`);
+
+      swiper.pagination.bullets = $el.find(classesToSelector(params.bulletClass));
     }
     if (params.type === 'fraction') {
       if (params.renderFraction) {
@@ -273,7 +276,7 @@ const Pagination = {
     }
 
     if (params.clickable) {
-      $el.on('click', `.${params.bulletClass.replace(/ /g, '.')}`, function onClick(e) {
+      $el.on('click', classesToSelector(params.bulletClass), function onClick(e) {
         e.preventDefault();
         let index = $(this).index() * swiper.params.slidesPerGroup;
         if (swiper.params.loop) index += swiper.loopedSlides;
@@ -302,7 +305,7 @@ const Pagination = {
     $el.removeClass(params.modifierClass + params.type);
     if (swiper.pagination.bullets) swiper.pagination.bullets.removeClass(params.bulletActiveClass);
     if (params.clickable) {
-      $el.off('click', `.${params.bulletClass.replace(/ /g, '.')}`);
+      $el.off('click', classesToSelector(params.bulletClass));
     }
   },
 };
@@ -380,12 +383,19 @@ export default {
       swiper.pagination.destroy();
     },
     click(swiper, e) {
+      const targetEl = e.target;
       if (
         swiper.params.pagination.el &&
         swiper.params.pagination.hideOnClick &&
         swiper.pagination.$el.length > 0 &&
-        !$(e.target).hasClass(swiper.params.pagination.bulletClass)
+        !$(targetEl).hasClass(swiper.params.pagination.bulletClass)
       ) {
+        if (
+          swiper.navigation &&
+          ((swiper.navigation.nextEl && targetEl === swiper.navigation.nextEl) ||
+            (swiper.navigation.prevEl && targetEl === swiper.navigation.prevEl))
+        )
+          return;
         const isHidden = swiper.pagination.$el.hasClass(swiper.params.pagination.hiddenClass);
         if (isHidden === true) {
           swiper.emit('paginationShow');

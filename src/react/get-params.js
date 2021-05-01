@@ -7,6 +7,7 @@ function getParams(obj = {}) {
   const params = {
     on: {},
   };
+  const events = {};
   const passedParams = {};
   extend(params, Swiper.defaults);
   extend(params, Swiper.extendedDefaults);
@@ -27,7 +28,7 @@ function getParams(obj = {}) {
         passedParams[key] = obj[key];
       }
     } else if (key.search(/on[A-Z]/) === 0 && typeof obj[key] === 'function') {
-      params.on[`${key[2].toLowerCase()}${key.substr(3)}`] = obj[key];
+      events[`${key[2].toLowerCase()}${key.substr(3)}`] = obj[key];
     } else {
       rest[key] = obj[key];
     }
@@ -36,7 +37,7 @@ function getParams(obj = {}) {
     if (params[key] === true) params[key] = {};
   });
 
-  return { params, passedParams, rest };
+  return { params, passedParams, rest, events };
 }
 
 export { getParams };
