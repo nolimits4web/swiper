@@ -168,6 +168,7 @@ const FreeMode = {
           }, 0);
         });
       } else if (swiper.velocity) {
+        swiper.emit('_freeModeNoMomentumRelease');
         swiper.updateProgress(newPosition);
         swiper.setTransition(momentumDuration);
         swiper.setTranslate(newPosition);
@@ -188,6 +189,8 @@ const FreeMode = {
     } else if (params.freeMode.sticky) {
       swiper.slideToClosest();
       return;
+    } else if (params.freeMode) {
+      swiper.emit('_freeModeNoMomentumRelease');
     }
 
     if (!params.freeMode.momentum || timeDiff >= params.longSwipesMs) {

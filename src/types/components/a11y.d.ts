@@ -72,4 +72,18 @@ export interface A11yOptions {
    * @default null
    */
   itemRoleDescriptionMessage?: string | null;
+
+  /**
+   * Message for screen readers describing the label of slide element
+   *
+   * @default '{{index}} / {{slidesLength}}'
+   */
+  slideLabelMessage?: string;
+
+  /**
+   * Value of swiper slide `role` attribute
+   *
+   * @default 'group'
+   */
+  slideRole?: string;
 }

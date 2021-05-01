@@ -21,7 +21,14 @@ import Swiper from 'swiper/core';
 import { Observable, of, Subject } from 'rxjs';
 import { getParams } from './utils/get-params';
 import { SwiperSlideDirective } from './swiper-slide.directive';
-import { extend, isObject, setProperty, ignoreNgOnChanges } from './utils/utils';
+import {
+  extend,
+  isObject,
+  setProperty,
+  ignoreNgOnChanges,
+  coerceBooleanProperty,
+  isShowEl,
+} from './utils/utils';
 import {
   SwiperOptions,
   SwiperEvents,
@@ -51,6 +58,7 @@ export class SwiperComponent implements OnInit {
   @Input() speed: SwiperOptions['speed'];
   @Input() cssMode: SwiperOptions['cssMode'];
   @Input() updateOnWindowResize: SwiperOptions['updateOnWindowResize'];
+  @Input() resizeObserver: SwiperOptions['resizeObserver'];
   @Input() nested: SwiperOptions['nested'];
   @Input() width: SwiperOptions['width'];
   @Input() height: SwiperOptions['height'];
@@ -129,6 +137,8 @@ export class SwiperComponent implements OnInit {
   @Input() slideDuplicatePrevClass: SwiperOptions['slideDuplicatePrevClass'];
   @Input() wrapperClass: SwiperOptions['wrapperClass'] = 'swiper-wrapper';
   @Input() runCallbacksOnInit: SwiperOptions['runCallbacksOnInit'];
+  @Input() observeParents: SwiperOptions['observeParents'];
+  @Input() observeSlideChildren: SwiperOptions['observeSlideChildren'];
   @Input() a11y: SwiperOptions['a11y'];
   @Input() autoplay: SwiperOptions['autoplay'];
   @Input() controller: SwiperOptions['controller'];
@@ -144,6 +154,8 @@ export class SwiperComponent implements OnInit {
   @Input() parallax: SwiperOptions['parallax'];
   @Input() thumbs: SwiperOptions['thumbs'];
   @Input() zoom: SwiperOptions['zoom'];
+  @Input() class: string;
+  @Input() id: string;
   @Input()
   set navigation(val) {
     const currentNext = typeof this._navigation !== 'boolean' ? this._navigation?.nextEl : null;
@@ -152,12 +164,17 @@ export class SwiperComponent implements OnInit {
       nextEl: currentNext || null,
       prevEl: currentPrev || null,
     });
-    if (
-      typeof this._navigation !== 'boolean' &&
-      (typeof this._navigation?.nextEl === 'string' || typeof this._navigation?.prevEl === 'string')
-    ) {
-      this.showNavigation = false;
-    }
+    this.showNavigation = !(
+      coerceBooleanProperty(val) !== true ||
+      (this._navigation &&
+        typeof this._navigation !== 'boolean' &&
+        this._navigation.prevEl !== this._prevElRef?.nativeElement &&
+        (this._navigation.prevEl !== null || this._navigation.nextEl !== null) &&
+        (typeof this._navigation.nextEl === 'string' ||
+          typeof this._navigation.prevEl === 'string' ||
+          typeof this._navigation.nextEl === 'object' ||
+          typeof this._navigation.prevEl === 'object'))
+    );
   }
   get navigation() {
     return this._navigation;
@@ -171,9 +188,7 @@ export class SwiperComponent implements OnInit {
     this._pagination = setProperty(val, {
       el: current || null,
     });
-    if (typeof this._pagination !== 'boolean' && typeof this._pagination?.el === 'string') {
-      this.showPagination = false;
-    }
+    this.showPagination = isShowEl(val, this._pagination, this._paginationElRef);
   }
   get pagination() {
     return this._pagination;
@@ -187,9 +202,7 @@ export class SwiperComponent implements OnInit {
     this._scrollbar = setProperty(val, {
       el: current || null,
     });
-    if (typeof this._scrollbar !== 'boolean' && typeof this._scrollbar?.el === 'string') {
-      this.showScrollbar = false;
-    }
+    this.showScrollbar = isShowEl(val, this._scrollbar, this._scrollbarElRef);
   }
   get scrollbar() {
     return this._scrollbar;
@@ -373,20 +386,28 @@ export class SwiperComponent implements OnInit {
 
   @ViewChild('prevElRef', { static: false })
   set prevElRef(el: ElementRef) {
+    this._prevElRef = el;
     this._setElement(el, this.navigation, 'navigation', 'prevEl');
   }
+  _prevElRef: ElementRef;
   @ViewChild('nextElRef', { static: false })
   set nextElRef(el: ElementRef) {
+    this._nextElRef = el;
     this._setElement(el, this.navigation, 'navigation', 'nextEl');
   }
+  _nextElRef: ElementRef;
   @ViewChild('scrollbarElRef', { static: false })
   set scrollbarElRef(el: ElementRef) {
+    this._scrollbarElRef = el;
     this._setElement(el, this.scrollbar, 'scrollbar');
   }
+  _scrollbarElRef: ElementRef;
   @ViewChild('paginationElRef', { static: false })
   set paginationElRef(el: ElementRef) {
+    this._paginationElRef = el;
     this._setElement(el, this.pagination, 'pagination');
   }
+  _paginationElRef: ElementRef;
   @ContentChildren(SwiperSlideDirective, { descendants: true, emitDistinctChangesOnly: true })
   slidesEl: QueryList<SwiperSlideDirective>;
   private slides: SwiperSlideDirective[];
@@ -434,7 +455,6 @@ export class SwiperComponent implements OnInit {
     const { params } = getParams(this);
     Object.assign(this, params);
   }
-
   ngAfterViewInit() {
     this.childrenSlidesInit();
     this.initSwiper();
@@ -461,6 +481,11 @@ export class SwiperComponent implements OnInit {
     if (!this.virtual) {
       this.prependSlides = of(this.slides.slice(this.slides.length - this.loopedSlides));
       this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
+    } else if (this.swiperRef && this.swiperRef.virtual) {
+      this._ngZone.runOutsideAngular(() => {
+        this.swiperRef.virtual.slides = this.slides;
+        this.swiperRef.virtual.update(true);
+      });
     }
     this._changeDetectorRef.detectChanges();
   };
@@ -734,10 +759,18 @@ export class SwiperComponent implements OnInit {
       return;
     }
     const _key = key.replace(/^_/, '');
+    const isCurrentParamObj = isObject(this.swiperRef.params[_key]);
+
     if (Object.keys(this.swiperRef.modules).indexOf(_key) >= 0) {
-      extend(value, this.swiperRef.modules[_key].params[_key]);
+      const defaultParams = this.swiperRef.modules[_key].params[_key];
+      if (isCurrentParamObj) {
+        extend(this.swiperRef.params[_key], defaultParams);
+      } else {
+        this.swiperRef.params[_key] = defaultParams;
+      }
     }
-    if (isObject(this.swiperRef.params[_key]) && isObject(value)) {
+
+    if (isCurrentParamObj && isObject(value)) {
       extend(this.swiperRef.params[_key], value);
     } else {
       this.swiperRef.params[_key] = value;
@@ -763,7 +796,7 @@ export class SwiperComponent implements OnInit {
 
   ngOnDestroy() {
     this._ngZone.runOutsideAngular(() => {
-      this.swiperRef?.destroy();
+      this.swiperRef?.destroy(true, false);
     });
   }
 }

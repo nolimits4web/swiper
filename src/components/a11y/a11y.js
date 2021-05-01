@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import { bindModuleMethods } from '../../utils/utils';
+import { bindModuleMethods, classesToSelector } from '../../utils/utils';
 
 const A11y = {
   getRandomNumber(size = 16) {
@@ -19,7 +19,7 @@ const A11y = {
     return $el;
   },
   addElRoleDescription($el, description) {
-    $el.attr('aria-role-description', description);
+    $el.attr('aria-roledescription', description);
     return $el;
   },
   addElControls($el, controls) {
@@ -46,10 +46,10 @@ const A11y = {
     $el.attr('aria-disabled', false);
     return $el;
   },
-  onEnterKey(e) {
+  onEnterOrSpaceKey(e) {
+    if (e.keyCode !== 13 && e.keyCode !== 32) return;
     const swiper = this;
     const params = swiper.params.a11y;
-    if (e.keyCode !== 13) return;
     const $targetEl = $(e.target);
     if (swiper.navigation && swiper.navigation.$nextEl && $targetEl.is(swiper.navigation.$nextEl)) {
       if (!(swiper.isEnd && !swiper.params.loop)) {
@@ -71,9 +71,10 @@ const A11y = {
         swiper.a11y.notify(params.prevSlideMessage);
       }
     }
+
     if (
       swiper.pagination &&
-      $targetEl.is(`.${swiper.params.pagination.bulletClass.replace(/ /g, '.')}`)
+      $targetEl.is(classesToSelector(swiper.params.pagination.bulletClass))
     ) {
       $targetEl[0].click();
     }
@@ -150,24 +151,21 @@ const A11y = {
     // Wrapper
     const $wrapperEl = swiper.$wrapperEl;
     const wrapperId = $wrapperEl.attr('id') || `swiper-wrapper-${swiper.a11y.getRandomNumber(16)}`;
-    let live;
+    const live = swiper.params.autoplay && swiper.params.autoplay.enabled ? 'off' : 'polite';
     swiper.a11y.addElId($wrapperEl, wrapperId);
-
-    if (swiper.params.autoplay && swiper.params.autoplay.enabled) {
-      live = 'off';
-    } else {
-      live = 'polite';
-    }
     swiper.a11y.addElLive($wrapperEl, live);
 
     // Slide
     if (params.itemRoleDescriptionMessage) {
       swiper.a11y.addElRoleDescription($(swiper.slides), params.itemRoleDescriptionMessage);
     }
-    swiper.a11y.addElRole($(swiper.slides), 'group');
+    swiper.a11y.addElRole($(swiper.slides), params.slideRole);
     swiper.slides.each((slideEl) => {
       const $slideEl = $(slideEl);
-      swiper.a11y.addElLabel($slideEl, `${$slideEl.index() + 1} / ${swiper.slides.length}`);
+      const ariaLabelMessage = params.slideLabelMessage
+        .replace(/\{\{index\}\}/, $slideEl.index() + 1)
+        .replace(/\{\{slidesLength\}\}/, swiper.slides.length);
+      swiper.a11y.addElLabel($slideEl, ariaLabelMessage);
     });
 
     // Navigation
@@ -184,7 +182,7 @@ const A11y = {
       swiper.a11y.makeElFocusable($nextEl);
       if ($nextEl[0].tagName !== 'BUTTON') {
         swiper.a11y.addElRole($nextEl, 'button');
-        $nextEl.on('keydown', swiper.a11y.onEnterKey);
+        $nextEl.on('keydown', swiper.a11y.onEnterOrSpaceKey);
       }
       swiper.a11y.addElLabel($nextEl, params.nextSlideMessage);
       swiper.a11y.addElControls($nextEl, wrapperId);
@@ -193,7 +191,7 @@ const A11y = {
       swiper.a11y.makeElFocusable($prevEl);
       if ($prevEl[0].tagName !== 'BUTTON') {
         swiper.a11y.addElRole($prevEl, 'button');
-        $prevEl.on('keydown', swiper.a11y.onEnterKey);
+        $prevEl.on('keydown', swiper.a11y.onEnterOrSpaceKey);
       }
       swiper.a11y.addElLabel($prevEl, params.prevSlideMessage);
       swiper.a11y.addElControls($prevEl, wrapperId);
@@ -208,8 +206,8 @@ const A11y = {
     ) {
       swiper.pagination.$el.on(
         'keydown',
-        `.${swiper.params.pagination.bulletClass.replace(/ /g, '.')}`,
-        swiper.a11y.onEnterKey,
+        classesToSelector(swiper.params.pagination.bulletClass),
+        swiper.a11y.onEnterOrSpaceKey,
       );
     }
   },
@@ -227,10 +225,10 @@ const A11y = {
       $prevEl = swiper.navigation.$prevEl;
     }
     if ($nextEl) {
-      $nextEl.off('keydown', swiper.a11y.onEnterKey);
+      $nextEl.off('keydown', swiper.a11y.onEnterOrSpaceKey);
     }
     if ($prevEl) {
-      $prevEl.off('keydown', swiper.a11y.onEnterKey);
+      $prevEl.off('keydown', swiper.a11y.onEnterOrSpaceKey);
     }
 
     // Pagination
@@ -242,8 +240,8 @@ const A11y = {
     ) {
       swiper.pagination.$el.off(
         'keydown',
-        `.${swiper.params.pagination.bulletClass.replace(/ /g, '.')}`,
-        swiper.a11y.onEnterKey,
+        classesToSelector(swiper.params.pagination.bulletClass),
+        swiper.a11y.onEnterOrSpaceKey,
       );
     }
   },
@@ -259,9 +257,11 @@ export default {
       firstSlideMessage: 'This is the first slide',
       lastSlideMessage: 'This is the last slide',
       paginationBulletMessage: 'Go to slide {{index}}',
+      slideLabelMessage: '{{index}} / {{slidesLength}}',
       containerMessage: null,
       containerRoleDescriptionMessage: null,
       itemRoleDescriptionMessage: null,
+      slideRole: 'group',
     },
   },
   create() {

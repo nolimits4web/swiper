@@ -47,6 +47,14 @@ module.exports = {
       rules,
     },
     {
+      files: ['cypress/**/*.jsx', 'cypress/**/*.js'],
+      plugins: ['cypress'],
+      extends: ['plugin:cypress/recommended'],
+      env: {
+        'cypress/globals': true,
+      },
+    },
+    {
       files: ['**/*.svelte'],
       plugins: ['svelte3'],
       processor: 'svelte3/svelte3',

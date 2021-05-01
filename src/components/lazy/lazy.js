@@ -257,12 +257,7 @@ export default {
         swiper.lazy.load();
       }
     },
-    resize(swiper) {
-      if (swiper.params.lazy.enabled) {
-        swiper.lazy.load();
-      }
-    },
-    scrollbarDragMove(swiper) {
+    'scrollbarDragMove resize _freeModeNoMomentumRelease': function lazyLoad(swiper) {
       if (swiper.params.lazy.enabled) {
         swiper.lazy.load();
       }

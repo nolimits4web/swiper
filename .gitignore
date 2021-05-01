@@ -30,3 +30,12 @@ package/*.scss
 package/*.svelte
 !package/postinstall.js
 dist/demo
+
+
+cypress/screenshots
+
+# local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

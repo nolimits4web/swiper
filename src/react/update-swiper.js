@@ -8,6 +8,7 @@ function updateSwiper(swiper, slides, passedParams, changedParams) {
   let needPaginationInit;
   let needScrollbarInit;
   let needNavigationInit;
+
   if (
     changedParams.includes('thumbs') &&
     passedParams.thumbs &&
@@ -30,7 +31,7 @@ function updateSwiper(swiper, slides, passedParams, changedParams) {
     changedParams.includes('pagination') &&
     passedParams.pagination &&
     passedParams.pagination.el &&
-    currentParams.pagination &&
+    (currentParams.pagination || currentParams.pagination === false) &&
     pagination &&
     !pagination.el
   ) {
@@ -41,7 +42,7 @@ function updateSwiper(swiper, slides, passedParams, changedParams) {
     changedParams.includes('scrollbar') &&
     passedParams.scrollbar &&
     passedParams.scrollbar.el &&
-    currentParams.scrollbar &&
+    (currentParams.scrollbar || currentParams.scrollbar === false) &&
     scrollbar &&
     !scrollbar.el
   ) {
@@ -53,7 +54,7 @@ function updateSwiper(swiper, slides, passedParams, changedParams) {
     passedParams.navigation &&
     passedParams.navigation.prevEl &&
     passedParams.navigation.nextEl &&
-    currentParams.navigation &&
+    (currentParams.navigation || currentParams.navigation === false) &&
     navigation &&
     !navigation.prevEl &&
     !navigation.nextEl
@@ -72,6 +73,8 @@ function updateSwiper(swiper, slides, passedParams, changedParams) {
   if (changedParams.includes('children') && virtual && currentParams.virtual.enabled) {
     virtual.slides = slides;
     virtual.update(true);
+  } else if (changedParams.includes('children') && swiper.lazy && swiper.params.lazy.enabled) {
+    swiper.lazy.load();
   }
 
   if (needThumbsInit) {

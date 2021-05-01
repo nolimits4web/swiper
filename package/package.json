@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "6.4.14",
+  "version": "6.5.9",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "swiper.cjs.js",
   "jsnext:main": "swiper.esm.js",
@@ -18,7 +18,7 @@
     "swiper-bundle.esm.js"
   ],
   "scripts": {
-    "postinstall": "node postinstall.js"
+    "postinstall": "node -e \"try{require('./postinstall')}catch(e){}\""
   },
   "repository": {
     "type": "git",

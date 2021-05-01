@@ -61,7 +61,11 @@ const History = {
     }
     const slide = swiper.slides.eq(index);
     let value = History.slugify(slide.attr('data-history'));
-    if (!location.pathname.includes(key)) {
+    if (swiper.params.history.root.length > 0) {
+      let root = swiper.params.history.root;
+      if (root[root.length - 1] === '/') root = root.slice(0, root.length - 1);
+      value = `${root}/${key}/${value}`;
+    } else if (!location.pathname.includes(key)) {
       value = `${key}/${value}`;
     }
     const currentState = window.history.state;
@@ -105,6 +109,7 @@ export default {
   params: {
     history: {
       enabled: false,
+      root: '',
       replaceState: false,
       key: 'slides',
     },
@@ -128,7 +133,7 @@ export default {
         swiper.history.destroy();
       }
     },
-    transitionEnd(swiper) {
+    'transitionEnd _freeModeNoMomentumRelease': (swiper) => {
       if (swiper.history.initialized) {
         swiper.history.setHistory(swiper.params.history.key, swiper.activeIndex);
       }

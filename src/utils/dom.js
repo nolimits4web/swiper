@@ -78,7 +78,7 @@ const Methods = {
 };
 
 Object.keys(Methods).forEach((methodName) => {
-  $.fn[methodName] = Methods[methodName];
+  Object.defineProperty($.fn, methodName, { value: Methods[methodName], writable: true });
 });
 
 export default $;

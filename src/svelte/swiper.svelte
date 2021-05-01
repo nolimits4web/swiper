@@ -132,7 +132,7 @@
   });
 
   onDestroy(() => {
-    if (swiperInstance && !swiperInstance.destroyed) {
+    if (typeof window !== 'undefined' && swiperInstance && !swiperInstance.destroyed) {
       swiperInstance.destroy(true, false);
     }
   });

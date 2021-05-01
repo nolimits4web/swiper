@@ -10,17 +10,28 @@ module.exports = async (format, outputDir) => {
   await exec.promise(
     `cross-env MODULES=${format} npx babel --config-file ./babel.config.svelte.js src/svelte --out-dir ${outputDir}/${format}/svelte`,
   );
-  await exec.promise(
-    `cross-env MODULES=${format} npx babel --config-file ./babel.config.svelte.js src/swiper-svelte.js --out-file ${outputDir}/swiper-svelte.${format}.js`,
-  );
+  if (format === 'esm') {
+    await exec.promise(
+      `cross-env MODULES=${format} npx babel --config-file ./babel.config.svelte.js src/swiper-svelte.js --out-file ${outputDir}/swiper-svelte.${format}.js`,
+    );
 
-  // Fix import paths
-  let fileContent = await fs.readFile(`./${outputDir}/swiper-svelte.${format}.js`, 'utf-8');
-  fileContent = fileContent
-    .replace(/require\(".\/svelte\//g, `require("./${format}/svelte/`)
-    .replace(/from '.\/svelte\//g, `from './${format}/svelte/`);
-  fileContent = `${bannerSvelte}\n${fileContent}`;
-  fs.writeFileSync(`./${outputDir}/swiper-svelte.${format}.js`, fileContent);
+    // Fix import paths
+    let fileContent = await fs.readFile(`./${outputDir}/swiper-svelte.${format}.js`, 'utf-8');
+    fileContent = fileContent
+      .replace(/require\(".\/svelte\//g, `require("./${format}/svelte/`)
+      .replace(/from '.\/svelte\//g, `from './${format}/svelte/`);
+    fileContent = `${bannerSvelte}\n${fileContent}`;
+    fs.writeFileSync(`./${outputDir}/swiper-svelte.${format}.js`, fileContent);
+  } else {
+    const fileContent = [
+      bannerSvelte,
+      '"use strict";',
+      'exports.__esModule = true;',
+      'exports.Swiper = require("./cjs/svelte/swiper").default;',
+      'exports.SwiperSlide = require("./cjs/svelte/swiper-slide").default;',
+    ].join('\n');
+    fs.writeFileSync(`./${outputDir}/swiper-svelte.${format}.js`, fileContent);
+  }
 
   // Transform svelte files
   let swiper = await fs.readFile('./src/svelte/swiper.svelte', 'utf8');

@@ -646,7 +646,12 @@ export default {
       swiper.zoom.onTouchEnd(e);
     },
     doubleTap(swiper, e) {
-      if (swiper.params.zoom.enabled && swiper.zoom.enabled && swiper.params.zoom.toggle) {
+      if (
+        !swiper.animating &&
+        swiper.params.zoom.enabled &&
+        swiper.zoom.enabled &&
+        swiper.params.zoom.toggle
+      ) {
         swiper.zoom.toggle(e);
       }
     },
