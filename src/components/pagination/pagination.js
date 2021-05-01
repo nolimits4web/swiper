@@ -254,8 +254,7 @@ const Pagination = {
   init() {
     const swiper = this;
     swiper.params.pagination = createElementIfNotDefined(swiper.$el, swiper.params.pagination, [
-      'el',
-      'swiper-pagination',
+      ['el', 'swiper-pagination'],
     ]);
     const params = swiper.params.pagination;
 

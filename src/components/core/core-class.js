@@ -421,14 +421,20 @@ class Swiper {
 
     el.swiper = swiper;
 
+    const getWrapper = () => {
+      if (el && el.shadowRoot && el.shadowRoot.querySelector) {
+        const res = $(el.shadowRoot.querySelector(`.${swiper.params.wrapperClass}`));
+        // Children needs to return slot items
+        res.children = (options) => $el.children(options);
+        return res;
+      }
+      return $el.children(`.${swiper.params.wrapperClass}`);
+    };
     // Find Wrapper
-    let $wrapperEl;
-    if (el && el.shadowRoot && el.shadowRoot.querySelector) {
-      $wrapperEl = $(el.shadowRoot.querySelector(`.${swiper.params.wrapperClass}`));
-      // Children needs to return slot items
-      $wrapperEl.children = (options) => $el.children(options);
-    } else {
-      $wrapperEl = $el.children(`.${swiper.params.wrapperClass}`);
+    let $wrapperEl = getWrapper();
+    if ($wrapperEl.length === 0) {
+      $el[0].innerHTML = `<div class="${swiper.params.wrapperClass}">${$el[0].innerHTML}</div>`;
+      $wrapperEl = getWrapper();
     }
 
     extend(swiper, {
