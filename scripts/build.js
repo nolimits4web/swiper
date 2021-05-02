@@ -9,20 +9,16 @@ const buildSvelte = require('./build-svelte');
 const buildStyles = require('./build-styles');
 const buildAngular = require('./build-angular');
 const outputCheckSize = require('./check-size');
+const setEnv = require('./utils/env');
 
 class Build {
   constructor() {
     this.argv = process.argv.slice(2).map((v) => v.toLowerCase());
     this.size = this.argv.includes('--size');
-    this.setEnv();
+    const { outputDir } = setEnv();
+    this.outputDir = outputDir;
     this.tasks = [];
     return this;
-  }
-
-  setEnv() {
-    this.isProd = this.argv.includes('--prod');
-    process.env.NODE_ENV = this.isProd ? 'production' : 'development';
-    this.outputDir = this.isProd ? 'package' : 'build';
   }
 
   add(flag, buildFn) {
