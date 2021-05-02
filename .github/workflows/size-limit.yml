@@ -1,8 +1,7 @@
 name: 'size'
 on:
   pull_request:
-    branches:
-      - master
+    branches: [master, Swiper7]
 jobs:
   size:
     runs-on: ubuntu-latest
