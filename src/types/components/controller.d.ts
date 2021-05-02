@@ -15,7 +15,7 @@ export interface ControllerOptions {
    * Pass here another Swiper instance or array with Swiper instances that should be controlled
    * by this Swiper
    */
-  control?: Swiper;
+  control?: Swiper | Swiper[];
 
   /**
    * Set to `true` and controlling will be in inverse direction
