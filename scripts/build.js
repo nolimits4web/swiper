@@ -10,14 +10,19 @@ const buildStyles = require('./build-styles');
 const buildAngular = require('./build-angular');
 const outputCheckSize = require('./check-size');
 
-const env = process.env.NODE_ENV || 'development';
-const outputDir = env === 'development' ? 'build' : 'package';
 class Build {
   constructor() {
     this.argv = process.argv.slice(2).map((v) => v.toLowerCase());
     this.size = this.argv.includes('--size');
+    this.setEnv();
     this.tasks = [];
     return this;
+  }
+
+  setEnv() {
+    this.isProd = this.argv.includes('--prod');
+    process.env.NODE_ENV = this.isProd ? 'production' : 'development';
+    this.outputDir = this.isProd ? 'package' : 'build';
   }
 
   add(flag, buildFn) {
@@ -29,7 +34,7 @@ class Build {
 
   addMultipleFormats(flag, buildFn) {
     return this.add(flag, async () =>
-      Promise.all(['esm', 'cjs'].map((format) => buildFn(format, outputDir))),
+      Promise.all(['esm', 'cjs'].map((format) => buildFn(format, this.outputDir))),
     );
   }
 
@@ -58,7 +63,8 @@ class Build {
 }
 
 (async () => {
-  await new Build()
+  const build = new Build();
+  await build
     .add('core', buildJsCore)
     .add('bundle', buildJsBundle)
     .add('types', buildTypes)
@@ -66,6 +72,6 @@ class Build {
     .addMultipleFormats('vue', buildVue)
     .addMultipleFormats('svelte', buildSvelte)
     .add('angular', buildAngular)
-    .add('styles', () => buildStyles(outputDir))
+    .add('styles', () => buildStyles(build.outputDir))
     .run();
 })();
