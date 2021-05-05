@@ -432,7 +432,7 @@ class Swiper {
     };
     // Find Wrapper
     let $wrapperEl = getWrapper();
-    if ($wrapperEl.length === 0) {
+    if ($wrapperEl.length === 0 && swiper.params.createElements) {
       $el[0].innerHTML = `<div class="${swiper.params.wrapperClass}">${$el[0].innerHTML}</div>`;
       $wrapperEl = getWrapper();
     }
