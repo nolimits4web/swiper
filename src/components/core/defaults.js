@@ -8,6 +8,7 @@ export default {
   updateOnWindowResize: true,
   resizeObserver: false,
   nested: false,
+  createElements: false,
 
   // Overrides
   width: null,

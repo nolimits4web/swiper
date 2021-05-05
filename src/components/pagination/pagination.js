@@ -257,6 +257,7 @@ const Pagination = {
       ['el', 'swiper-pagination'],
     ]);
     const params = swiper.params.pagination;
+    if (!params.el) return;
 
     let $el = $(params.el);
     if ($el.length === 0) return;

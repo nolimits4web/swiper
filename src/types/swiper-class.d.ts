@@ -439,6 +439,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   thumbs: ThumbsMethods;
   virtual: VirtualMethods;
   zoom: ZoomMethods;
+  createElements: boolean;
 }
 
 declare class Swiper implements Swiper {

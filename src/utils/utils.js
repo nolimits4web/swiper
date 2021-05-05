@@ -149,13 +149,15 @@ function classesToSelector(classes = '') {
 }
 
 function createElementIfNotDefined($container, params, arr) {
-  arr.forEach((item) => {
-    const [key, className] = item;
-    if (!params[key]) {
-      $container.append(`<div class="${className}"></div>`);
-      params[key] = $container.find(`.${className}`);
-    }
-  });
+  if (params.createElements) {
+    arr.forEach((item) => {
+      const [key, className] = item;
+      if (!params[key]) {
+        $container.append(`<div class="${className}"></div>`);
+        params[key] = $container.find(`.${className}`);
+      }
+    });
+  }
   return params;
 }
 
