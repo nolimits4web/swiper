@@ -1,16 +1,15 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
+const setEnv = require('./utils/env');
 
-const env = process.env.NODE_ENV || 'development';
-
-function buildPlayground() {
+(async () => {
   const filePath = path.resolve(__dirname, '../playground/core/index.html');
-  const packageFolder = env === 'development' ? '/build/' : '/package/';
-  const html = fs
-    .readFileSync(filePath, 'utf-8')
-    .replace(/\/build\//g, packageFolder)
-    .replace(/\/package\//g, packageFolder);
-  fs.writeFileSync(filePath, html);
-}
+  const { outputDir } = setEnv();
+  const packageFolder = `/${outputDir}/`;
+  const html = await fs.readFile(filePath, 'utf-8');
 
-buildPlayground();
+  await fs.writeFile(
+    filePath,
+    html.replace(/\/build\//g, packageFolder).replace(/\/package\//g, packageFolder),
+  );
+})();
