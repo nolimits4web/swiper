@@ -15,18 +15,14 @@ export interface FreeModeMethods {
    * Initialize thumbs
    */
   init(): boolean;
+
+  onTouchMove(): void;
+  onTouchEnd(): void;
 }
 
 export interface FreeModeEvents {}
 
 export interface FreeModeOptions {
-  /**
-   * Swiper instance of swiper used as thumbs or object with Swiper parameters to initialize thumbs swiper
-   *
-   * @default null
-   */
-  swiper?: Swiper | null;
-
   enabled?: boolean;
 
   /**
