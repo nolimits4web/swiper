@@ -2,7 +2,7 @@ import { extend } from '../../../utils/utils';
 
 export default function updateSlides() {
   const swiper = this;
-  const getDirectionLabel = (property) => {
+  function getDirectionLabel(property) {
     if (swiper.isHorizontal()) {
       return property;
     }
@@ -17,10 +17,10 @@ export default function updateSlides() {
       'padding-right': 'padding-bottom',
       'marginRight': 'marginBottom',
     }[property];
-  };
-  const getDirectionPropertyValue = (node, label) => {
+  }
+  function getDirectionPropertyValue(node, label) {
     return parseFloat(node.getPropertyValue(getDirectionLabel(label)) || 0);
-  };
+  }
 
   const params = swiper.params;
 
@@ -32,14 +32,6 @@ export default function updateSlides() {
   let snapGrid = [];
   const slidesGrid = [];
   const slidesSizesGrid = [];
-
-  function slidesForMargin(slideEl, slideIndex) {
-    if (!params.cssMode) return true;
-    if (slideIndex === slides.length - 1) {
-      return false;
-    }
-    return true;
-  }
 
   let offsetBefore = params.slidesOffsetBefore;
   if (typeof offsetBefore === 'function') {
@@ -281,7 +273,15 @@ export default function updateSlides() {
 
   if (params.spaceBetween !== 0) {
     const key = swiper.isHorizontal() && rtl ? 'marginLeft' : getDirectionLabel('marginRight');
-    slides.filter(slidesForMargin).css({ [key]: `${spaceBetween}px` });
+    slides
+      .filter((_, slideIndex) => {
+        if (!params.cssMode) return true;
+        if (slideIndex === slides.length - 1) {
+          return false;
+        }
+        return true;
+      })
+      .css({ [key]: `${spaceBetween}px` });
   }
 
   if (params.centeredSlides && params.centeredSlidesBounds) {
