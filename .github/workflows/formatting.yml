@@ -1,9 +1,9 @@
 name: Formatting
 on:
   push:
-    branches: [master]
+    branches: [master, Swiper7]
   pull_request:
-    branches: [master]
+    branches: [master, Swiper7]
 jobs:
   test:
     runs-on: ubuntu-latest
