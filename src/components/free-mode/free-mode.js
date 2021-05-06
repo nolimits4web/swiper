@@ -205,7 +205,7 @@ export default {
   name: 'free-mode',
   params: {
     freeMode: {
-      enabled: true,
+      enabled: false,
       momentum: true,
       momentumRatio: 1,
       momentumBounce: true,
