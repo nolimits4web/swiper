@@ -1,7 +1,8 @@
 /* eslint no-unused-vars: "off" */
 export default function slidePrev(speed = this.params.speed, runCallbacks = true, internal) {
   const swiper = this;
-  const { params, animating, snapGrid, slidesGrid, rtlTranslate } = swiper;
+  const { params, animating, snapGrid, slidesGrid, rtlTranslate, enabled } = swiper;
+  if (!enabled) return swiper;
 
   if (params.loop) {
     if (animating && params.loopPreventsSlide) return false;

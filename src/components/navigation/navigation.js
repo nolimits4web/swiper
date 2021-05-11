@@ -21,9 +21,9 @@ const Navigation = {
       } else {
         toggleEl($prevEl, false);
       }
-      $prevEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](
-        params.lockClass,
-      );
+      if (swiper.params.watchOverflow && swiper.enabled) {
+        $prevEl[swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
+      }
     }
     if ($nextEl && $nextEl.length > 0) {
       if (swiper.isEnd) {
@@ -31,9 +31,9 @@ const Navigation = {
       } else {
         toggleEl($nextEl, false);
       }
-      $nextEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](
-        params.lockClass,
-      );
+      if (swiper.params.watchOverflow && swiper.enabled) {
+        $nextEl[swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
+      }
     }
   },
   onPrevClick(e) {
@@ -91,6 +91,11 @@ const Navigation = {
       $prevEl,
       prevEl: $prevEl && $prevEl[0],
     });
+
+    if (!swiper.enabled) {
+      if ($nextEl) $nextEl.addClass(params.lockClass);
+      if ($prevEl) $prevEl.addClass(params.lockClass);
+    }
   },
   destroy() {
     const swiper = this;
@@ -140,6 +145,15 @@ export default {
     },
     destroy(swiper) {
       swiper.navigation.destroy();
+    },
+    'enable disable': (swiper) => {
+      const { $nextEl, $prevEl } = swiper.navigation;
+      if ($nextEl) {
+        $nextEl[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.navigation.lockClass);
+      }
+      if ($prevEl) {
+        $prevEl[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.navigation.lockClass);
+      }
     },
     click(swiper, e) {
       const { $nextEl, $prevEl } = swiper.navigation;

@@ -1,6 +1,7 @@
 export default function onScroll() {
   const swiper = this;
-  const { wrapperEl, rtlTranslate } = swiper;
+  const { wrapperEl, rtlTranslate, enabled } = swiper;
+  if (!enabled) return;
   swiper.previousTranslate = swiper.translate;
   if (swiper.isHorizontal()) {
     if (rtlTranslate) {

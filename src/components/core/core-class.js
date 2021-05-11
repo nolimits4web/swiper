@@ -129,6 +129,7 @@ class Swiper {
 
     // Extend Swiper
     extend(swiper, {
+      enabled: swiper.params.enabled,
       el,
 
       // Classes
@@ -241,6 +242,26 @@ class Swiper {
 
     // Return app instance
     return swiper;
+  }
+
+  enable() {
+    const swiper = this;
+    if (swiper.enabled) return;
+    swiper.enabled = true;
+    if (swiper.params.grabCursor) {
+      swiper.setGrabCursor();
+    }
+    swiper.emit('enable');
+  }
+
+  disable() {
+    const swiper = this;
+    if (!swiper.enabled) return;
+    swiper.enabled = false;
+    if (swiper.params.grabCursor) {
+      swiper.unsetGrabCursor();
+    }
+    swiper.emit('disable');
   }
 
   setProgress(progress, speed) {
@@ -482,7 +503,7 @@ class Swiper {
     }
 
     // Set Grab Cursor
-    if (swiper.params.grabCursor) {
+    if (swiper.params.grabCursor && swiper.enabled) {
       swiper.setGrabCursor();
     }
 
@@ -496,9 +517,11 @@ class Swiper {
         swiper.params.initialSlide + swiper.loopedSlides,
         0,
         swiper.params.runCallbacksOnInit,
+        false,
+        true,
       );
     } else {
-      swiper.slideTo(swiper.params.initialSlide, 0, swiper.params.runCallbacksOnInit);
+      swiper.slideTo(swiper.params.initialSlide, 0, swiper.params.runCallbacksOnInit, false, true);
     }
 
     // Attach events

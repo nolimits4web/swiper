@@ -30,6 +30,13 @@ export interface SwiperOptions {
   init?: boolean;
 
   /**
+   * Whether Swiper initially enabled. When Swiper is disabled, it will hide all navigation elements and won't respond to any events and interractions
+   *
+   * @default true
+   */
+  enabled?: boolean;
+
+  /**
    * Swiper will recalculate slides position on window resize (orientationchange)
    *
    * @default true

@@ -183,9 +183,9 @@ const Pagination = {
     } else {
       swiper.emit('paginationUpdate', $el[0]);
     }
-    $el[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](
-      params.lockClass,
-    );
+    if (swiper.params.watchOverflow && swiper.enabled) {
+      $el[swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
+    }
   },
   render() {
     // Render Container
@@ -288,6 +288,10 @@ const Pagination = {
       $el,
       el: $el[0],
     });
+
+    if (!swiper.enabled) {
+      $el.addClass(params.lockClass);
+    }
   },
   destroy() {
     const swiper = this;
@@ -381,6 +385,12 @@ export default {
     },
     destroy(swiper) {
       swiper.pagination.destroy();
+    },
+    'enable disable': (swiper) => {
+      const { $el } = swiper.pagination;
+      if ($el) {
+        $el[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.pagination.lockClass);
+      }
     },
     click(swiper, e) {
       const targetEl = e.target;
