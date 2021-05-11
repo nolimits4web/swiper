@@ -1,5 +1,11 @@
 # Changelog
 
+# [6.6.1](https://github.com/nolimits4web/Swiper/compare/v6.6.0...v6.6.1) (2021-05-11)
+
+### Bug Fixes
+
+- **core:** fix breakpoints `enabled` detection ([0be8099](https://github.com/nolimits4web/Swiper/commit/0be80997f11951985797e767c150545e3180f761)), closes [#4543](https://github.com/nolimits4web/Swiper/issues/4543)
+
 # [6.6.0](https://github.com/nolimits4web/Swiper/compare/v6.5.9...v6.6.0) (2021-05-11)
 
 ### Bug Fixes
