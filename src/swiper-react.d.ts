@@ -27,6 +27,14 @@ interface Swiper extends SwiperOptions {
   // MODULES_EVENTS
 }
 
+interface SlideData {
+  isActive: boolean;
+  isVisible: boolean;
+  isDuplicate: boolean;
+  isPrev: boolean;
+  isNext: boolean;
+}
+
 interface SwiperSlide {
   /**
    * Slide tag
@@ -48,6 +56,13 @@ interface SwiperSlide {
    * @default false
    */
   virtualIndex?: number;
+
+  /**
+   * Slide's child element or render function
+   *
+   * @default undefined
+   */
+  children?: React.ReactNode | ((slideData: SlideData) => React.ReactNode);
 }
 
 interface Swiper
@@ -66,6 +81,6 @@ interface Swiper
 interface SwiperSlide extends React.HTMLAttributes<HTMLElement> {}
 
 declare const Swiper: React.FunctionComponent<Swiper>;
-declare const SwiperSlide: React.FunctionComponent<SwiperSlide>;
+declare const SwiperSlide: React.VoidFunctionComponent<SwiperSlide>;
 
 export { Swiper, SwiperSlide };
