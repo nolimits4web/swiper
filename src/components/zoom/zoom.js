@@ -306,7 +306,13 @@ const Zoom = {
       gesture.$imageEl = gesture.$slideEl.find('img, svg, canvas, picture, .swiper-zoom-target');
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
     }
-    if (!gesture.$imageEl || gesture.$imageEl.length === 0) return;
+    if (
+      !gesture.$imageEl ||
+      gesture.$imageEl.length === 0 ||
+      !gesture.$imageWrapEl ||
+      gesture.$imageWrapEl.length === 0
+    )
+      return;
 
     gesture.$slideEl.addClass(`${params.zoomedSlideClass}`);
 
@@ -398,7 +404,13 @@ const Zoom = {
       gesture.$imageEl = gesture.$slideEl.find('img, svg, canvas, picture, .swiper-zoom-target');
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
     }
-    if (!gesture.$imageEl || gesture.$imageEl.length === 0) return;
+    if (
+      !gesture.$imageEl ||
+      gesture.$imageEl.length === 0 ||
+      !gesture.$imageWrapEl ||
+      gesture.$imageWrapEl.length === 0
+    )
+      return;
 
     zoom.scale = 1;
     zoom.currentScale = 1;
