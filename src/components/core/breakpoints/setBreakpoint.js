@@ -37,7 +37,6 @@ export default function setBreakpoint() {
   const isMultiRow = breakpointParams.slidesPerColumn > 1;
 
   const wasEnabled = params.enabled;
-  const isEnabled = breakpointParams.enabled;
 
   if (wasMultiRow && !isMultiRow) {
     $el.removeClass(
@@ -62,6 +61,8 @@ export default function setBreakpoint() {
   }
 
   extend(swiper.params, breakpointParams);
+
+  const isEnabled = swiper.params.enabled;
 
   extend(swiper, {
     allowTouchMove: swiper.params.allowTouchMove,
