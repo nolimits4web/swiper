@@ -56,4 +56,12 @@
       filter: blur(50px);
     }
   }
+  .swiper-slide-prev:not(.swiper-slide-duplicate-next) {
+    pointer-events: auto;
+    visibility: visible;
+  }
+  .swiper-slide-prev.swiper-slide-duplicate-next.swiper-slide-duplicate {
+    pointer-events: none;
+    visibility: hidden;
+  }
 }
