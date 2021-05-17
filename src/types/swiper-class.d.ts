@@ -164,7 +164,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   rtlTranslate: boolean;
 
   /**
-   * Disable Swiper (if it was enabled). When Swiper is disabled, it will hide all navigation elements and won't respond to any events and interractions
+   * Disable Swiper (if it was enabled). When Swiper is disabled, it will hide all navigation elements and won't respond to any events and interactions
    *
    */
   disable(): void;
