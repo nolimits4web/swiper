@@ -1,5 +1,13 @@
 # Changelog
 
+# [6.6.2](https://github.com/nolimits4web/Swiper/compare/v6.6.1...v6.6.2) (2021-05-19)
+
+### Bug Fixes
+
+- **autoplay:** fix resume after pause on mouseenter ([3d480be](https://github.com/nolimits4web/Swiper/commit/3d480bef871add22543794fc279c95f4544c81ed)), closes [#4569](https://github.com/nolimits4web/Swiper/issues/4569)
+- **navigation:** better SCSS interpolation ([a1337df](https://github.com/nolimits4web/Swiper/commit/a1337dfed176a01631d84714785524953d08ecd5))
+- **svelte:** auto update Virtual slides on slides prop change ([ddf11b8](https://github.com/nolimits4web/Swiper/commit/ddf11b8fbf6494d076cddc55e306c720f975dd31)), closes [#4564](https://github.com/nolimits4web/Swiper/issues/4564)
+
 # [6.6.1](https://github.com/nolimits4web/Swiper/compare/v6.6.0...v6.6.1) (2021-05-11)
 
 ### Bug Fixes
