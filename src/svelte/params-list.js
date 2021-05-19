@@ -115,7 +115,7 @@ const paramsList = [
   'parallax',
   '_scrollbar',
   '_thumbs',
-  'virtual',
+  '_virtual',
   'zoom',
 ];
 export { paramsList };
