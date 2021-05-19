@@ -1,4 +1,4 @@
-import { getWindow } from 'ssr-window';
+import { getDocument, getWindow } from 'ssr-window';
 
 function deleteProps(obj) {
   const object = obj;
@@ -149,12 +149,15 @@ function classesToSelector(classes = '') {
 }
 
 function createElementIfNotDefined($container, params, createElements, arr) {
+  const document = getDocument();
   if (createElements) {
     arr.forEach((item) => {
       const [key, className] = item;
       if (!params[key]) {
-        $container.append(`<div class="${className}"></div>`);
-        params[key] = $container.find(`.${className}`);
+        const element = document.createElement('div');
+        element.className = className;
+        $container.append(element);
+        params[key] = element;
       }
     });
   }
