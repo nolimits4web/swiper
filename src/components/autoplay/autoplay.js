@@ -122,6 +122,7 @@ const Autoplay = {
   },
   onMouseLeave() {
     const swiper = this;
+    swiper.autoplay.paused = false;
     swiper.autoplay.run();
   },
   attachMouseEvents() {
