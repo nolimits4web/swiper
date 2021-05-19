@@ -52,10 +52,15 @@ const Navigation = {
     const swiper = this;
     const params = swiper.params.navigation;
 
-    swiper.params.pagination = createElementIfNotDefined(swiper.$el, swiper.params.pagination, [
-      ['nextEl', 'swiper-button-next'],
-      ['prevEl', 'swiper-button-prev'],
-    ]);
+    swiper.params.navigation = createElementIfNotDefined(
+      swiper.$el,
+      params,
+      swiper.params.createElements,
+      [
+        ['nextEl', 'swiper-button-next'],
+        ['prevEl', 'swiper-button-prev'],
+      ],
+    );
     if (!(params.nextEl || params.prevEl)) return;
 
     let $nextEl;

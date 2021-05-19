@@ -14,6 +14,7 @@ window.swiper = new Swiper({
   slideToClickedSlide: true,
   grabCursor: true,
   scrollbar: true,
+  createElements: true,
   mousewheel: {
     enabled: true,
   },

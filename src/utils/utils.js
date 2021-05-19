@@ -148,8 +148,8 @@ function classesToSelector(classes = '') {
     .replace(/ /g, '.')}`;
 }
 
-function createElementIfNotDefined($container, params, arr) {
-  if (params.createElements) {
+function createElementIfNotDefined($container, params, createElements, arr) {
+  if (createElements) {
     arr.forEach((item) => {
       const [key, className] = item;
       if (!params[key]) {

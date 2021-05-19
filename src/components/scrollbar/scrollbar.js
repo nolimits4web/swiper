@@ -281,9 +281,12 @@ const Scrollbar = {
   init() {
     const swiper = this;
     const { scrollbar, $el: $swiperEl } = swiper;
-    swiper.params.scrollbar = createElementIfNotDefined($swiperEl, swiper.params.scrollbar, [
-      ['el', 'swiper-scrollbar'],
-    ]);
+    swiper.params.scrollbar = createElementIfNotDefined(
+      $swiperEl,
+      swiper.params.scrollbar,
+      swiper.params.createElements,
+      [['el', 'swiper-scrollbar']],
+    );
     const params = swiper.params.scrollbar;
     if (!params.el) return;
 
