@@ -1,4 +1,5 @@
 /* eslint no-param-reassign: "off" */
+import { getDocument } from 'ssr-window';
 import $ from '../../utils/dom';
 import { extend, now, deleteProps } from '../../utils/utils';
 import { getSupport } from '../../utils/get-support';
@@ -433,6 +434,15 @@ class Swiper {
     // Find Wrapper
     let $wrapperEl = getWrapper();
     if ($wrapperEl.length === 0 && swiper.params.createElements) {
+      const document = getDocument();
+      const wrapper = document.createElement('div');
+      wrapper.className = swiper.params.wrapperClass;
+      $(el).append(wrapper);
+
+      swiper.slides.each((slideEl) => {
+        $(wrapper).append(slideEl);
+      });
+
       $el[0].innerHTML = `<div class="${swiper.params.wrapperClass}">${$el[0].innerHTML}</div>`;
       $wrapperEl = getWrapper();
     }
