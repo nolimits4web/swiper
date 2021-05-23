@@ -1,0 +1,189 @@
+<main>
+  <div>
+    <h4>Default: Not in NgZone</h4>
+    <swiper [virtual]="true">
+      <ng-template *ngFor="let item of [].constructor(10); let i = index" swiperSlide>
+        <img [routerLink]="['/details', { id: i }]" src="https://picsum.photos/id/{{ i }}/200" />
+      </ng-template>
+    </swiper>
+  </div>
+  <div>
+    <swiper
+      #swiperVirtualRef
+      [slidesPerView]="3"
+      [spaceBetween]="50"
+      [pagination]="{ type: 'fraction' }"
+      [virtual]="true"
+      slideActiveClass="swiper-active whyWouldIuseCustomClass"
+      [centeredSlides]="true"
+      navigation
+      class="mySwiper"
+      id="mySwiperID"
+    >
+      <ng-template swiperSlide *ngFor="let slide of virtualSlides; index as i"
+        >Slide {{ slide }}</ng-template
+      >
+      <ng-template swiperSlide>Slide</ng-template>
+      <ng-template swiperSlide>Slide</ng-template>
+    </swiper>
+
+    <swiper
+      #swiperVirtualRef
+      [slidesPerView]="3"
+      [spaceBetween]="50"
+      [pagination]="{ type: 'fraction' }"
+      [virtual]="true"
+      [centeredSlides]="true"
+      navigation
+    >
+      <ng-template swiperSlide *ngFor="let slide of slides$ | async; index as i"
+        >Slide {{ slide }}</ng-template
+      >
+    </swiper>
+    <button (click)="getSlides()">Get slides</button>
+
+    <swiper [zoom]="true" [autoplay]="true">
+      <ng-template swiperSlide class="custom-class" [zoom]="true">
+        <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+      </ng-template>
+      <ng-template swiperSlide>
+        <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+      </ng-template>
+      <ng-template swiperSlide [zoom]="true">
+        <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+      </ng-template>
+    </swiper>
+
+    <h3>Custom pagination</h3>
+    <swiper
+      #swiperRef
+      [navigation]="navigation"
+      (swiper)="log('swiper')"
+      (slideChange)="log('slideChange')"
+      [slidesPerView]="3"
+      [spaceBetween]="50"
+      [breakpoints]="breakpoints"
+      [scrollbar]="scrollbar"
+      [loop]="true"
+      [(index)]="indexNumber"
+      [pagination]="{ el: '.swiper-pagination.pagination-test' }"
+    >
+      <ng-container *ngIf="show">
+        <ng-template swiperSlide>Best slide ever 1 {{ show }}</ng-template>
+        <ng-template swiperSlide>Best slide ever 2</ng-template>
+      </ng-container>
+      <ng-template swiperSlide>
+        <div *ngIf="true">Best slide ever 3</div>
+      </ng-template>
+      <ng-template swiperSlide let-data *ngFor="let slide of slides; index as i">
+        {{ slide }} / active: {{ data.isActive }} / next: {{ data.isNext }}</ng-template
+      >
+      <div slot="container-end" class="swiper-pagination pagination-test"></div>
+    </swiper>
+    <button (click)="slides.push('test')">Add slide</button>
+    <button (click)="toggleNavigation()">Toggle navigation</button>
+    <button (click)="toggleScrollbar()">Toggle scrollbar</button>
+    <button (click)="breakpointChange()">Breakpoint change</button>
+    <button (click)="show = !show">Toggle show</button>
+    <button (click)="indexNumber = 0">0</button>
+    <button (click)="indexNumber = 3">3</button>
+    <button (click)="indexNumber = 5">5</button>
+    <button (click)="indexNumber = 6">6</button>
+    {{ indexNumber }}
+
+    <swiper [config]="exampleConfig">
+      <ng-template swiperSlide>Best slide ever 2</ng-template>
+      <ng-template swiperSlide>Best slide ever 2</ng-template>
+      <ng-template swiperSlide>Best slide ever 2</ng-template>
+      <ng-template swiperSlide>Best slide ever 2</ng-template>
+      <ng-template swiperSlide>Best slide ever 2</ng-template>
+    </swiper>
+    <button (click)="exampleConfig = { slidesPerView: 2 }">changeConfig</button>
+
+    {{ exampleConfig | json }}
+  </div>
+  <div>
+    <swiper
+      #swiper
+      [slidesPerView]="1"
+      [centeredSlides]="true"
+      [navigation]="{ prevEl: prevEl, nextEl: nextEl }"
+      [pagination]="pagination"
+    >
+      <ng-template swiperSlide *ngFor="let slide of slides2; index as i">
+        {{ i }} - {{ slide }}
+      </ng-template>
+    </swiper>
+    <button type="button" #nextEl class="swiper-navigation-prev">&lt;</button>
+    <button type="button" #prevEl class="swiper-navigation-next">&gt;</button>
+    <hr />
+    <button (click)="replaceSlides()">replace slides</button>
+    <button (click)="togglePagination()">Toggle pagination</button>
+  </div>
+  <div>
+    <swiper
+      [slidesPerView]="1"
+      [spaceBetween]="50"
+      [navigation]="true"
+      [pagination]="{ clickable: true }"
+      [thumbs]="{ swiper: thumbsSwiper }"
+    >
+      <ng-template swiperSlide>Slide 1</ng-template>
+      <ng-template swiperSlide>Slide 2</ng-template>
+      <ng-template swiperSlide>Slide 3</ng-template>
+      <ng-template swiperSlide>Slide 4</ng-template>
+      <ng-template swiperSlide>Slide 5</ng-template>
+      <ng-template swiperSlide>Slide 6</ng-template>
+    </swiper>
+    <swiper
+      [slidesPerView]="3"
+      [spaceBetween]="50"
+      (swiper)="setThumbsSwiper($event)"
+      [navigation]="{}"
+      [pagination]="{ clickable: true }"
+      [scrollbar]="{ draggable: true }"
+      [watchSlidesVisibility]="true"
+      [watchSlidesProgress]="true"
+    >
+      <ng-template swiperSlide>Slide 1</ng-template>
+      <ng-template swiperSlide>Slide 2</ng-template>
+      <ng-template swiperSlide>Slide 3</ng-template>
+      <ng-template swiperSlide>Slide 4</ng-template>
+      <ng-template swiperSlide>Slide 5</ng-template>
+      <ng-template swiperSlide>Slide 6</ng-template>
+    </swiper>
+  </div>
+  <div>
+    <swiper
+      [slidesPerView]="1"
+      [spaceBetween]="50"
+      [navigation]="true"
+      [pagination]="{ clickable: true }"
+      [controller]="{ control: controlledSwiper }"
+    >
+      <ng-template swiperSlide>Slide 1</ng-template>
+      <ng-template swiperSlide>Slide 2</ng-template>
+      <ng-template swiperSlide>Slide 3</ng-template>
+      <ng-template swiperSlide>Slide 4</ng-template>
+      <ng-template swiperSlide>Slide 5</ng-template>
+      <ng-template swiperSlide>Slide 6</ng-template>
+    </swiper>
+    <swiper
+      [slidesPerView]="3"
+      [spaceBetween]="50"
+      (swiper)="setControlledSwiper($event)"
+      [navigation]="{}"
+      [pagination]="{ clickable: true }"
+      [scrollbar]="{ draggable: true }"
+      [watchSlidesVisibility]="true"
+      [watchSlidesProgress]="true"
+    >
+      <ng-template swiperSlide>Slide 1</ng-template>
+      <ng-template swiperSlide>Slide 2</ng-template>
+      <ng-template swiperSlide>Slide 3</ng-template>
+      <ng-template swiperSlide>Slide 4</ng-template>
+      <ng-template swiperSlide>Slide 5</ng-template>
+      <ng-template swiperSlide>Slide 6</ng-template>
+    </swiper>
+  </div>
+</main>
