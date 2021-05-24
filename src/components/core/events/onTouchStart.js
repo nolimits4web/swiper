@@ -8,7 +8,8 @@ export default function onTouchStart(event) {
   const window = getWindow();
 
   const data = swiper.touchEventsData;
-  const { params, touches } = swiper;
+  const { params, touches, enabled } = swiper;
+  if (!enabled) return;
 
   if (swiper.animating && params.preventInteractionOnTransition) {
     return;

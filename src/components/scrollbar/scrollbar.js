@@ -87,9 +87,11 @@ const Scrollbar = {
       moveDivider,
       dragSize,
     });
-    scrollbar.$el[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](
-      swiper.params.scrollbar.lockClass,
-    );
+    if (swiper.params.watchOverflow && swiper.enabled) {
+      scrollbar.$el[swiper.isLocked ? 'addClass' : 'removeClass'](
+        swiper.params.scrollbar.lockClass,
+      );
+    }
   },
   getPointerPosition(e) {
     const swiper = this;
@@ -316,6 +318,10 @@ const Scrollbar = {
     if (params.draggable) {
       scrollbar.enableDraggable();
     }
+
+    if ($el) {
+      $el[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.scrollbar.lockClass);
+    }
   },
   destroy() {
     const swiper = this;
@@ -367,6 +373,12 @@ export default {
     },
     setTransition(swiper, duration) {
       swiper.scrollbar.setTransition(duration);
+    },
+    'enable disable': (swiper) => {
+      const { $el } = swiper.scrollbar;
+      if ($el) {
+        $el[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.scrollbar.lockClass);
+      }
     },
     destroy(swiper) {
       swiper.scrollbar.destroy();

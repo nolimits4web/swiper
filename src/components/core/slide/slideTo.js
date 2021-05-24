@@ -3,6 +3,7 @@ export default function slideTo(
   speed = this.params.speed,
   runCallbacks = true,
   internal,
+  initial,
 ) {
   if (typeof index !== 'number' && typeof index !== 'string') {
     throw new Error(
@@ -47,8 +48,13 @@ export default function slideTo(
     activeIndex,
     rtlTranslate: rtl,
     wrapperEl,
+    enabled,
   } = swiper;
-  if (swiper.animating && params.preventInteractionOnTransition) {
+
+  if (
+    (swiper.animating && params.preventInteractionOnTransition) ||
+    (!enabled && !internal && !initial)
+  ) {
     return false;
   }
 

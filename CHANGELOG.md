@@ -1,5 +1,32 @@
 # Changelog
 
+# [6.6.2](https://github.com/nolimits4web/Swiper/compare/v6.6.1...v6.6.2) (2021-05-19)
+
+### Bug Fixes
+
+- **autoplay:** fix resume after pause on mouseenter ([3d480be](https://github.com/nolimits4web/Swiper/commit/3d480bef871add22543794fc279c95f4544c81ed)), closes [#4569](https://github.com/nolimits4web/Swiper/issues/4569)
+- **navigation:** better SCSS interpolation ([a1337df](https://github.com/nolimits4web/Swiper/commit/a1337dfed176a01631d84714785524953d08ecd5))
+- **svelte:** auto update Virtual slides on slides prop change ([ddf11b8](https://github.com/nolimits4web/Swiper/commit/ddf11b8fbf6494d076cddc55e306c720f975dd31)), closes [#4564](https://github.com/nolimits4web/Swiper/issues/4564)
+
+# [6.6.1](https://github.com/nolimits4web/Swiper/compare/v6.6.0...v6.6.1) (2021-05-11)
+
+### Bug Fixes
+
+- **core:** fix breakpoints `enabled` detection ([0be8099](https://github.com/nolimits4web/Swiper/commit/0be80997f11951985797e767c150545e3180f761)), closes [#4543](https://github.com/nolimits4web/Swiper/issues/4543)
+
+# [6.6.0](https://github.com/nolimits4web/Swiper/compare/v6.5.9...v6.6.0) (2021-05-11)
+
+### Bug Fixes
+
+- **core:** make autoHeight work with Virtual slides ([6925acf](https://github.com/nolimits4web/Swiper/commit/6925acf3b75fc2bdfdae0879cbb3f0f07a79beb4)), closes [#4525](https://github.com/nolimits4web/Swiper/issues/4525)
+- **zoom:** don't toggle zoom on slides without zoom-container ([e1de61b](https://github.com/nolimits4web/Swiper/commit/e1de61b821e29f202f041e63afe55b3b2b4250de)), closes [#4535](https://github.com/nolimits4web/Swiper/issues/4535)
+
+### Features
+
+- **autoplay:** new `pauseOnMouseEnter` parameter to pause autoplay on mouse enter over container ([1a10247](https://github.com/nolimits4web/Swiper/commit/1a102473df5be7c507b54efb1902a0dcbb53195d)), closes [#4482](https://github.com/nolimits4web/Swiper/issues/4482)
+- **core:** new parameters and methods to enable/disable Swiper dynamically ([575bc84](https://github.com/nolimits4web/Swiper/commit/575bc841539d8ceb79b88484534c7caf4e94a8fb)), closes [#4356](https://github.com/nolimits4web/Swiper/issues/4356) [#4311](https://github.com/nolimits4web/Swiper/issues/4311)
+- **react:** add the missing render function type ([cfa1459](https://github.com/nolimits4web/Swiper/commit/cfa1459b7d338274c2d0f682f68b27d7fc683884))
+
 # [6.5.9](https://github.com/nolimits4web/Swiper/compare/v6.5.8...v6.5.9) (2021-04-30)
 
 ### Bug Fixes

@@ -591,7 +591,9 @@ export class SwiperComponent implements OnInit {
         };
     this.currentVirtualData = virtualData;
     this._activeSlides.next(virtualData.slides);
-    this._changeDetectorRef.detectChanges();
+    this._ngZone.run(() => {
+      this._changeDetectorRef.detectChanges();
+    });
     this._ngZone.runOutsideAngular(() => {
       this.swiperRef.updateSlides();
       this.swiperRef.updateProgress();

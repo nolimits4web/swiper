@@ -9,6 +9,7 @@ export default {
   resizeObserver: false,
   nested: false,
   createElements: false,
+  enabled: true,
 
   // Overrides
   width: null,
