@@ -1,5 +1,10 @@
 import $ from '../../utils/dom';
-import { extend, bindModuleMethods, classesToSelector } from '../../utils/utils';
+import {
+  extend,
+  bindModuleMethods,
+  classesToSelector,
+  createElementIfNotDefined,
+} from '../../utils/utils';
 
 const Pagination = {
   update() {
@@ -248,6 +253,12 @@ const Pagination = {
   },
   init() {
     const swiper = this;
+    swiper.params.pagination = createElementIfNotDefined(
+      swiper.$el,
+      swiper.params.pagination,
+      swiper.params.createElements,
+      { el: 'swiper-pagination' },
+    );
     const params = swiper.params.pagination;
     if (!params.el) return;
 

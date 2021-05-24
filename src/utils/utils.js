@@ -1,4 +1,4 @@
-import { getWindow } from 'ssr-window';
+import { getDocument, getWindow } from 'ssr-window';
 
 function deleteProps(obj) {
   const object = obj;
@@ -146,6 +146,21 @@ function classesToSelector(classes = '') {
     .replace(/ /g, '.')}`;
 }
 
+function createElementIfNotDefined($container, params, createElements, checkProps) {
+  const document = getDocument();
+  if (createElements) {
+    Object.keys(checkProps).forEach((key) => {
+      if (!params[key]) {
+        const element = document.createElement('div');
+        element.className = checkProps[key];
+        $container.append(element);
+        params[key] = element;
+      }
+    });
+  }
+  return params;
+}
+
 export {
   deleteProps,
   nextTick,
@@ -156,4 +171,5 @@ export {
   bindModuleMethods,
   getComputedStyle,
   classesToSelector,
+  createElementIfNotDefined,
 };

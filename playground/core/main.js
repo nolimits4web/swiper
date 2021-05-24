@@ -13,22 +13,16 @@ window.swiper = new Swiper({
   centeredSlides: true,
   slideToClickedSlide: true,
   grabCursor: true,
-  scrollbar: {
-    el: '.swiper-scrollbar',
-  },
+  scrollbar: true,
+  createElements: true,
   mousewheel: {
     enabled: true,
   },
   keyboard: {
     enabled: true,
   },
-  pagination: {
-    el: '.swiper-pagination',
-  },
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
+  pagination: true,
+  navigation: true,
   a11y: {
     containerMessage: 'Example content',
     containerRoleDescriptionMessage: 'carousel',

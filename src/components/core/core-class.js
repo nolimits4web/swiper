@@ -1,4 +1,5 @@
 /* eslint no-param-reassign: "off" */
+import { getDocument } from 'ssr-window';
 import $ from '../../utils/dom';
 import { extend, now, deleteProps } from '../../utils/utils';
 import { getSupport } from '../../utils/get-support';
@@ -91,6 +92,12 @@ class Swiper {
         const moduleParamName = Object.keys(module.params)[0];
         const moduleParams = module.params[moduleParamName];
         if (typeof moduleParams !== 'object' || moduleParams === null) return;
+        if (
+          ['navigation', 'pagination', 'scrollbar'].indexOf(moduleParamName) >= 0 &&
+          params[moduleParamName] === true
+        ) {
+          params[moduleParamName] = {};
+        }
         if (!(moduleParamName in params && 'enabled' in moduleParams)) return;
         if (params[moduleParamName] === true) {
           params[moduleParamName] = { enabled: true };
@@ -442,14 +449,26 @@ class Swiper {
 
     el.swiper = swiper;
 
+    const getWrapper = () => {
+      if (el && el.shadowRoot && el.shadowRoot.querySelector) {
+        const res = $(el.shadowRoot.querySelector(`.${swiper.params.wrapperClass}`));
+        // Children needs to return slot items
+        res.children = (options) => $el.children(options);
+        return res;
+      }
+      return $el.children(`.${swiper.params.wrapperClass}`);
+    };
     // Find Wrapper
-    let $wrapperEl;
-    if (el && el.shadowRoot && el.shadowRoot.querySelector) {
-      $wrapperEl = $(el.shadowRoot.querySelector(`.${swiper.params.wrapperClass}`));
-      // Children needs to return slot items
-      $wrapperEl.children = (options) => $el.children(options);
-    } else {
-      $wrapperEl = $el.children(`.${swiper.params.wrapperClass}`);
+    let $wrapperEl = getWrapper();
+    if ($wrapperEl.length === 0 && swiper.params.createElements) {
+      const document = getDocument();
+      const wrapper = document.createElement('div');
+      $wrapperEl = $(wrapper);
+      wrapper.className = swiper.params.wrapperClass;
+      $el.append(wrapper);
+      $el.children(`.${swiper.params.slideClass}`).each((slideEl) => {
+        $wrapperEl.append(slideEl);
+      });
     }
 
     extend(swiper, {
