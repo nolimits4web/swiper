@@ -124,6 +124,15 @@ export interface SwiperOptions {
   nested?: boolean;
 
   /**
+   * When enabled Swiper will automatically wrap slides with swiper-wrapper element,
+   * and will create required elements for navigation, pagination and scrollbar
+   * they are enabled (with their respective params object or with boolean `true`))
+   *
+   * @default false
+   */
+  createElements?: boolean;
+
+  /**
    * If enabled (by default) and navigation elements' parameters passed as a string (like `".pagination"`)
    * then Swiper will look for such elements through child elements first.
    * Applies for pagination, prev/next buttons and scrollbar elements
