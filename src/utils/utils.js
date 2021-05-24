@@ -116,8 +116,6 @@ function extend(...args) {
             } else {
               extend(to[nextKey], nextSource[nextKey]);
             }
-          } else if (nextSource[nextKey] === true && isObject(to[nextKey])) {
-            nextSource[nextKey] = to[nextKey];
           } else {
             to[nextKey] = nextSource[nextKey];
           }
@@ -148,14 +146,13 @@ function classesToSelector(classes = '') {
     .replace(/ /g, '.')}`;
 }
 
-function createElementIfNotDefined($container, params, createElements, arr) {
+function createElementIfNotDefined($container, params, createElements, checkProps) {
   const document = getDocument();
   if (createElements) {
-    arr.forEach((item) => {
-      const [key, className] = item;
+    Object.keys(checkProps).forEach((key) => {
       if (!params[key]) {
         const element = document.createElement('div');
-        element.className = className;
+        element.className = checkProps[key];
         $container.append(element);
         params[key] = element;
       }

@@ -92,6 +92,12 @@ class Swiper {
         const moduleParamName = Object.keys(module.params)[0];
         const moduleParams = module.params[moduleParamName];
         if (typeof moduleParams !== 'object' || moduleParams === null) return;
+        if (
+          ['navigation', 'pagination', 'scrollbar'].indexOf(moduleParamName) >= 0 &&
+          params[moduleParamName] === true
+        ) {
+          params[moduleParamName] = {};
+        }
         if (!(moduleParamName in params && 'enabled' in moduleParams)) return;
         if (params[moduleParamName] === true) {
           params[moduleParamName] = { enabled: true };

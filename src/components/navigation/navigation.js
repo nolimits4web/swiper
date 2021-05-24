@@ -54,12 +54,12 @@ const Navigation = {
 
     swiper.params.navigation = createElementIfNotDefined(
       swiper.$el,
-      params,
+      swiper.params.navigation,
       swiper.params.createElements,
-      [
-        ['nextEl', 'swiper-button-next'],
-        ['prevEl', 'swiper-button-prev'],
-      ],
+      {
+        nextEl: 'swiper-button-next',
+        prevEl: 'swiper-button-prev',
+      },
     );
     if (!(params.nextEl || params.prevEl)) return;
 

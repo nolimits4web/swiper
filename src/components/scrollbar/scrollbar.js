@@ -285,7 +285,7 @@ const Scrollbar = {
       $swiperEl,
       swiper.params.scrollbar,
       swiper.params.createElements,
-      [['el', 'swiper-scrollbar']],
+      { el: 'swiper-scrollbar' },
     );
     const params = swiper.params.scrollbar;
     if (!params.el) return;

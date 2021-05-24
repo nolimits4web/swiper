@@ -257,7 +257,7 @@ const Pagination = {
       swiper.$el,
       swiper.params.pagination,
       swiper.params.createElements,
-      [['el', 'swiper-pagination']],
+      { el: 'swiper-pagination' },
     );
     const params = swiper.params.pagination;
     if (!params.el) return;
