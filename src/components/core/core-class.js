@@ -436,15 +436,12 @@ class Swiper {
     if ($wrapperEl.length === 0 && swiper.params.createElements) {
       const document = getDocument();
       const wrapper = document.createElement('div');
+      $wrapperEl = $(wrapper);
       wrapper.className = swiper.params.wrapperClass;
-      $(el).append(wrapper);
-
-      swiper.slides.each((slideEl) => {
-        $(wrapper).append(slideEl);
+      $el.append(wrapper);
+      $el.children(`.${swiper.params.slideClass}`).each((slideEl) => {
+        $wrapperEl.append(slideEl);
       });
-
-      $el[0].innerHTML = `<div class="${swiper.params.wrapperClass}">${$el[0].innerHTML}</div>`;
-      $wrapperEl = getWrapper();
     }
 
     extend(swiper, {
