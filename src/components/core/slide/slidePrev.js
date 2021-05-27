@@ -22,12 +22,12 @@ export default function slidePrev(speed = this.params.speed, runCallbacks = true
   let prevSnap = snapGrid[normalizedSnapGrid.indexOf(normalizedTranslate) - 1];
   if (typeof prevSnap === 'undefined' && params.cssMode) {
     snapGrid.forEach((snap) => {
-      if (!prevSnap && normalizedTranslate >= snap) prevSnap = snap;
+      if ((!prevSnap || prevSnap < snap) && normalizedTranslate >= snap)  prevSnap = snap;
     });
   }
   let prevIndex;
   if (typeof prevSnap !== 'undefined') {
-    prevIndex = slidesGrid.indexOf(prevSnap);
+    prevIndex = slidesGrid.indexOf(prevSnap)-1;
     if (prevIndex < 0) prevIndex = swiper.activeIndex - 1;
   }
   return swiper.slideTo(prevIndex, speed, runCallbacks, internal);
