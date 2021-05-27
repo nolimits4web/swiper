@@ -27,7 +27,7 @@ export default function slidePrev(speed = this.params.speed, runCallbacks = true
   }
   let prevIndex;
   if (typeof prevSnap !== 'undefined') {
-    prevIndex = slidesGrid.indexOf(prevSnap)-1;
+    prevIndex = slidesGrid.indexOf(prevSnap) - 1;
     if (prevIndex < 0) prevIndex = swiper.activeIndex - 1;
   }
   return swiper.slideTo(prevIndex, speed, runCallbacks, internal);
