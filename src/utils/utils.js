@@ -150,7 +150,7 @@ function createElementIfNotDefined($container, params, createElements, checkProp
   const document = getDocument();
   if (createElements) {
     Object.keys(checkProps).forEach((key) => {
-      if (!params[key]) {
+      if (!params[key] && params.auto === true) {
         const element = document.createElement('div');
         element.className = checkProps[key];
         $container.append(element);

@@ -96,7 +96,7 @@ class Swiper {
           ['navigation', 'pagination', 'scrollbar'].indexOf(moduleParamName) >= 0 &&
           params[moduleParamName] === true
         ) {
-          params[moduleParamName] = {};
+          params[moduleParamName] = { auto: true };
         }
         if (!(moduleParamName in params && 'enabled' in moduleParams)) return;
         if (params[moduleParamName] === true) {
