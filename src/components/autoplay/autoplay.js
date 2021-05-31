@@ -115,13 +115,21 @@ const Autoplay = {
   },
   onMouseEnter() {
     const swiper = this;
-    swiper.autoplay.pause();
+    if (swiper.params.autoplay.disableOnInteraction) {
+      swiper.autoplay.stop();
+    } else {
+      swiper.autoplay.pause();
+    }
+
     ['transitionend', 'webkitTransitionEnd'].forEach((event) => {
       swiper.$wrapperEl[0].removeEventListener(event, swiper.autoplay.onTransitionEnd);
     });
   },
   onMouseLeave() {
     const swiper = this;
+    if (swiper.params.autoplay.disableOnInteraction) {
+      return;
+    }
     swiper.autoplay.paused = false;
     swiper.autoplay.run();
   },
