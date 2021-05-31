@@ -1,5 +1,20 @@
 # Changelog
 
+# [6.7.0](https://github.com/nolimits4web/Swiper/compare/v6.6.2...v6.7.0) (2021-05-31)
+
+### Bug Fixes
+
+- **angular:** virtual mode run changeDetecton inside ngZone ([#4601](https://github.com/nolimits4web/Swiper/issues/4601)) ([4f37a61](https://github.com/nolimits4web/Swiper/commit/4f37a615a78c91149cd574437735037f5692da2a))
+- **lazy:** use passive listener for scroll listeners ([cbe7a59](https://github.com/nolimits4web/Swiper/commit/cbe7a5958a31eab98cd64bcdb81a69b7a6e3c5ac))
+- **thumbs:** improve thumbs with slidesPerGroup ([b2b31b3](https://github.com/nolimits4web/Swiper/commit/b2b31b325b9777269de4d23847fde11274beafe5)), closes [#3704](https://github.com/nolimits4web/Swiper/issues/3704) [#4007](https://github.com/nolimits4web/Swiper/issues/4007) [#4615](https://github.com/nolimits4web/Swiper/issues/4615) [#4208](https://github.com/nolimits4web/Swiper/issues/4208)
+- **vue:** definition for "lock" and "unlock" events ([46d35f7](https://github.com/nolimits4web/Swiper/commit/46d35f761c899563dd1f8e39b912ad8d68c55bbb)), closes [#4596](https://github.com/nolimits4web/Swiper/issues/4596)
+
+### Features
+
+- **core:** starter html layout can be optional with new `createElements: true` parameter ([#4507](https://github.com/nolimits4web/Swiper/issues/4507)) ([aef2865](https://github.com/nolimits4web/Swiper/commit/aef2865d9bc6cb7c63809b114668aa8b728c875c))
+- **autoplay:** if `disableOnInteraction` and `pauseOnMouseEnter`, it will stop autoplay on interaction ([e7e5031](https://github.com/nolimits4web/Swiper/commit/e7e5031a58b50e3f21f2c349db242408379beb05)), closes [#4598](https://github.com/nolimits4web/Swiper/issues/4598)
+- **vue:** add support for use Swiper as async component ([ff53797](https://github.com/nolimits4web/Swiper/commit/ff53797a68882940b4d239d11332005222a26058)), closes [#4613](https://github.com/nolimits4web/Swiper/issues/4613)
+
 # [6.6.2](https://github.com/nolimits4web/Swiper/compare/v6.6.1...v6.6.2) (2021-05-19)
 
 ### Bug Fixes
