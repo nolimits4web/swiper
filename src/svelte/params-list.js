@@ -9,6 +9,7 @@ const paramsList = [
   'updateOnWindowResize',
   'resizeObserver',
   'nested',
+  '_enabled',
   '_width',
   '_height',
   'preventInteractionOnTransition',
