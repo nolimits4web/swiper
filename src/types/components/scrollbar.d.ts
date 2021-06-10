@@ -107,7 +107,7 @@ export interface ScrollbarOptions {
   lockClass?: string;
 
   /**
-   *     Scrollbar draggable element CSS class
+   * Scrollbar draggable element CSS class
    *
    * @default 'swiper-scrollbar-drag'
    */
