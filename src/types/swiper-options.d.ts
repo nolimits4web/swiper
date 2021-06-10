@@ -1094,7 +1094,7 @@ export interface SwiperOptions {
   navigation?: NavigationOptions | boolean;
 
   /**
-   * Object with navigation parameters
+   * Object with pagination parameters
    *
    * @example
    * ```js
