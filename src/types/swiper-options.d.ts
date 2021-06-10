@@ -149,7 +149,7 @@ export interface SwiperOptions {
   uniqueNavElements?: boolean;
 
   /**
-   * Transition effect. Can be "slide", "fade", "cube", "coverflow" or "flip"
+   * Transition effect. Can be `'slide'`, `'fade'`, `'cube'`, `'coverflow'` or `'flip'`
    *
    * @default 'slide'
    */
@@ -261,7 +261,7 @@ export interface SwiperOptions {
   slidesPerColumn?: number;
 
   /**
-   * Can be 'column' or 'row'. Defines how slides should fill rows, by column or by row
+   * Can be `'column'` or `'row'`. Defines how slides should fill rows, by column or by row
    *
    * @default 'column'
    */
