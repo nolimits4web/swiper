@@ -81,7 +81,7 @@ export interface ScrollbarOptions {
   /**
    * Set to `true` to enable make scrollbar draggable that allows you to control slider position
    *
-   * @default true
+   * @default false
    */
   draggable?: boolean;
 
