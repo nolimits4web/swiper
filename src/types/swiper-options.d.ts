@@ -946,6 +946,7 @@ export interface SwiperOptions {
    * @example
    * ```js
    * const swiper = new Swiper('.swiper-container', {
+   *   effect: 'coverflow',
    *   coverflowEffect: {
    *     rotate: 30,
    *     slideShadows: false,
@@ -961,6 +962,7 @@ export interface SwiperOptions {
    * @example
    * ```js
    * const swiper = new Swiper('.swiper-container', {
+   *   effect: 'cube',
    *   cubeEffect: {
    *     slideShadows: false,
    *   },
@@ -990,6 +992,7 @@ export interface SwiperOptions {
    * @example
    * ```js
    * const swiper = new Swiper('.swiper-container', {
+   *   effect: 'flip',
    *   flipEffect: {
    *     slideShadows: false,
    *   },
