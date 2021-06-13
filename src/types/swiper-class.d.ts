@@ -444,10 +444,10 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   keyboard: KeyboardMethods;
   lazy: LazyMethods;
   mousewheel: MousewheelMethods;
-  navigation: NavigationMethods | boolean;
-  pagination: PaginationMethods | boolean;
+  navigation: NavigationMethods;
+  pagination: PaginationMethods;
   parallax: ParallaxMethods;
-  scrollbar: ScrollbarMethods | boolean;
+  scrollbar: ScrollbarMethods;
   thumbs: ThumbsMethods;
   virtual: VirtualMethods;
   zoom: ZoomMethods;
