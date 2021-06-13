@@ -149,7 +149,7 @@ export interface SwiperOptions {
   uniqueNavElements?: boolean;
 
   /**
-   * Transition effect. Can be "slide", "fade", "cube", "coverflow" or "flip"
+   * Transition effect. Can be `'slide'`, `'fade'`, `'cube'`, `'coverflow'` or `'flip'`
    *
    * @default 'slide'
    */
@@ -261,7 +261,7 @@ export interface SwiperOptions {
   slidesPerColumn?: number;
 
   /**
-   * Can be 'column' or 'row'. Defines how slides should fill rows, by column or by row
+   * Can be `'column'` or `'row'`. Defines how slides should fill rows, by column or by row
    *
    * @default 'column'
    */
@@ -946,6 +946,7 @@ export interface SwiperOptions {
    * @example
    * ```js
    * const swiper = new Swiper('.swiper-container', {
+   *   effect: 'coverflow',
    *   coverflowEffect: {
    *     rotate: 30,
    *     slideShadows: false,
@@ -961,6 +962,7 @@ export interface SwiperOptions {
    * @example
    * ```js
    * const swiper = new Swiper('.swiper-container', {
+   *   effect: 'cube',
    *   cubeEffect: {
    *     slideShadows: false,
    *   },
@@ -990,6 +992,7 @@ export interface SwiperOptions {
    * @example
    * ```js
    * const swiper = new Swiper('.swiper-container', {
+   *   effect: 'flip',
    *   flipEffect: {
    *     slideShadows: false,
    *   },
@@ -1094,7 +1097,7 @@ export interface SwiperOptions {
   navigation?: NavigationOptions | boolean;
 
   /**
-   * Object with navigation parameters
+   * Object with pagination parameters
    *
    * @example
    * ```js
