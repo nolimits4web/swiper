@@ -449,14 +449,18 @@ class Swiper {
 
     el.swiper = swiper;
 
+    const getWrapperSelector = () => {
+      return `.${(swiper.params.wrapperClass || '').trim().split(' ').join('.')}`;
+    };
+
     const getWrapper = () => {
       if (el && el.shadowRoot && el.shadowRoot.querySelector) {
-        const res = $(el.shadowRoot.querySelector(`.${swiper.params.wrapperClass}`));
+        const res = $(el.shadowRoot.querySelector(getWrapperSelector()));
         // Children needs to return slot items
         res.children = (options) => $el.children(options);
         return res;
       }
-      return $el.children(`.${swiper.params.wrapperClass}`);
+      return $el.children(getWrapperSelector());
     };
     // Find Wrapper
     let $wrapperEl = getWrapper();
