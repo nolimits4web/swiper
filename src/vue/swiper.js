@@ -300,7 +300,16 @@ const Swiper = {
         swiperRef.value &&
         !swiperRef.value.destroyed
       ) {
-        updateSwiper(swiperRef.value, slidesRef.value, newPassedParams, changedParams);
+        updateSwiper({
+          swiper: swiperRef.value,
+          slides: slidesRef.value,
+          passedParams: newPassedParams,
+          changedParams,
+          nextEl: nextElRef.value,
+          prevEl: prevElRef.value,
+          scrollbarEl: scrollbarElRef.value,
+          paginationEl: paginationElRef.value,
+        });
       }
       breakpointChanged.value = false;
     });
