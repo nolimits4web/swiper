@@ -13,12 +13,6 @@ window.swiper = new Swiper({
   createElements: true,
   pagination: true,
   navigation: true,
-  speed: 2000,
-  autoplay: {
-    delay: 2000,
-    pauseOnMouseEnter: true,
-    disableOnInteraction: true,
-  },
   a11y: {
     containerMessage: 'Example content',
     containerRoleDescriptionMessage: 'carousel',
