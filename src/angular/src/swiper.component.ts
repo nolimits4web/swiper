@@ -60,6 +60,7 @@ export class SwiperComponent implements OnInit {
   @Input() updateOnWindowResize: SwiperOptions['updateOnWindowResize'];
   @Input() resizeObserver: SwiperOptions['resizeObserver'];
   @Input() nested: SwiperOptions['nested'];
+  @Input() focusableElements: SwiperOptions['focusableElements'];
   @Input() width: SwiperOptions['width'];
   @Input() height: SwiperOptions['height'];
   @Input() preventInteractionOnTransition: SwiperOptions['preventInteractionOnTransition'];

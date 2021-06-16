@@ -9,6 +9,7 @@ export const paramsList = [
   'updateOnWindowResize',
   'resizeObserver',
   'nested',
+  'focusableElements',
   '_width',
   '_height',
   'preventInteractionOnTransition',

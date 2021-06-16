@@ -140,6 +140,13 @@ export interface SwiperOptions {
   createElements?: boolean;
 
   /**
+   * CSS selector for focusable elements. Swiping will be disabled on such elements if they are "focused"
+   *
+   * @default 'input, select, option, textarea, button, video, label'
+   */
+  focusableElements?: string;
+
+  /**
    * If enabled (by default) and navigation elements' parameters passed as a string (like `".pagination"`)
    * then Swiper will look for such elements through child elements first.
    * Applies for pagination, prev/next buttons and scrollbar elements

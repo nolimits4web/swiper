@@ -207,7 +207,7 @@ class Swiper {
         startTranslate: undefined,
         allowThresholdMove: undefined,
         // Form elements to match
-        formElements: 'input, select, option, textarea, button, video, label',
+        focusableElements: swiper.params.focusableElements,
         // Last click time
         lastClickTime: now(),
         clickTimeout: undefined,

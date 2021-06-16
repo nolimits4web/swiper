@@ -10,6 +10,7 @@ export default {
   nested: false,
   createElements: false,
   enabled: true,
+  focusableElements: 'input, select, option, textarea, button, video, label',
 
   // Overrides
   width: null,
