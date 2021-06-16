@@ -145,7 +145,16 @@ const Swiper = forwardRef(
       oldPassedParamsRef.current = passedParams;
       oldSlides.current = slides;
       if (changedParams.length && swiperRef.current && !swiperRef.current.destroyed) {
-        updateSwiper(swiperRef.current, slides, passedParams, changedParams);
+        updateSwiper({
+          swiper: swiperRef.current,
+          slides,
+          passedParams,
+          changedParams,
+          nextEl: nextElRef.current,
+          prevEl: prevElRef.current,
+          scrollbarEl: scrollbarElRef.current,
+          paginationEl: paginationElRef.current,
+        });
       }
       return () => {
         detachEvents();
