@@ -1,6 +1,14 @@
 import { isObject, extend } from './utils';
 
-function updateSwiper(swiper, passedParams, changedParams) {
+function updateSwiper({
+  swiper,
+  passedParams,
+  changedParams,
+  nextEl,
+  prevEl,
+  scrollbarEl,
+  paginationEl,
+}) {
   const updateParams = changedParams.filter((key) => key !== 'children' && key !== 'direction');
   const { params: currentParams, pagination, navigation, scrollbar, thumbs } = swiper;
   let needThumbsInit;
@@ -29,7 +37,7 @@ function updateSwiper(swiper, passedParams, changedParams) {
   if (
     changedParams.includes('pagination') &&
     passedParams.pagination &&
-    passedParams.pagination.el &&
+    (passedParams.pagination.el || paginationEl) &&
     (currentParams.pagination || currentParams.pagination === false) &&
     pagination &&
     !pagination.el
@@ -40,7 +48,7 @@ function updateSwiper(swiper, passedParams, changedParams) {
   if (
     changedParams.includes('scrollbar') &&
     passedParams.scrollbar &&
-    passedParams.scrollbar.el &&
+    (passedParams.scrollbar.el || scrollbarEl) &&
     (currentParams.scrollbar || currentParams.scrollbar === false) &&
     scrollbar &&
     !scrollbar.el
@@ -51,8 +59,8 @@ function updateSwiper(swiper, passedParams, changedParams) {
   if (
     changedParams.includes('navigation') &&
     passedParams.navigation &&
-    passedParams.navigation.prevEl &&
-    passedParams.navigation.nextEl &&
+    (passedParams.navigation.prevEl || prevEl) &&
+    (passedParams.navigation.nextEl || nextEl) &&
     (currentParams.navigation || currentParams.navigation === false) &&
     navigation &&
     !navigation.prevEl &&
@@ -67,11 +75,35 @@ function updateSwiper(swiper, passedParams, changedParams) {
     }
   }
 
+  const destroyModule = (mod) => {
+    if (!swiper[mod]) return;
+    swiper[mod].destroy();
+    if (mod === 'navigation') {
+      currentParams[mod].prevEl = undefined;
+      currentParams[mod].nextEl = undefined;
+      swiper[mod].prevEl = undefined;
+      swiper[mod].nextEl = undefined;
+    } else {
+      currentParams[mod].el = undefined;
+      swiper[mod].el = undefined;
+    }
+  };
+
   updateParams.forEach((key) => {
     if (isObject(currentParams[key]) && isObject(passedParams[key])) {
       extend(currentParams[key], passedParams[key]);
     } else {
-      currentParams[key] = passedParams[key];
+      const newValue = passedParams[key];
+      if (
+        (newValue === true || newValue === false) &&
+        (key === 'navigation' || key === 'pagination' || key === 'scrollbar')
+      ) {
+        if (newValue === false) {
+          destroyModule(key);
+        }
+      } else {
+        currentParams[key] = passedParams[key];
+      }
     }
   });
 
@@ -87,18 +119,22 @@ function updateSwiper(swiper, passedParams, changedParams) {
   }
 
   if (needPaginationInit) {
+    if (paginationEl) currentParams.pagination.el = paginationEl;
     pagination.init();
     pagination.render();
     pagination.update();
   }
 
   if (needScrollbarInit) {
+    if (scrollbarEl) currentParams.scrollbar.el = scrollbarEl;
     scrollbar.init();
     scrollbar.updateSize();
     scrollbar.setTranslate();
   }
 
   if (needNavigationInit) {
+    if (nextEl) currentParams.navigation.nextEl = nextEl;
+    if (prevEl) currentParams.navigation.prevEl = prevEl;
     navigation.init();
     navigation.update();
   }
