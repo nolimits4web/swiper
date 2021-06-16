@@ -135,7 +135,7 @@ export default function updateSlides() {
       }
       slide.css(
         getDirectionLabel('margin-top'),
-        row !== 0 && params.spaceBetween && `${params.spaceBetween}px`,
+        row !== 0 ? params.spaceBetween && `${params.spaceBetween}px` : '',
       );
     }
     if (slide.css('display') === 'none') continue; // eslint-disable-line
