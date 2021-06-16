@@ -5,7 +5,6 @@ export default function getBreakpoint(breakpoints, base = 'window', containerEl)
   let breakpoint = false;
 
   const window = getWindow();
-  const currentWidth = base === 'window' ? window.innerWidth : containerEl.clientWidth;
   const currentHeight = base === 'window' ? window.innerHeight : containerEl.clientHeight;
 
   const points = Object.keys(breakpoints).map((point) => {
@@ -20,7 +19,11 @@ export default function getBreakpoint(breakpoints, base = 'window', containerEl)
   points.sort((a, b) => parseInt(a.value, 10) - parseInt(b.value, 10));
   for (let i = 0; i < points.length; i += 1) {
     const { point, value } = points[i];
-    if (value <= currentWidth) {
+    if (base === 'window') {
+      if (window.matchMedia(`(min-width: ${value}px)`).matches) {
+        breakpoint = point;
+      }
+    } else if (value <= containerEl.clientWidth) {
       breakpoint = point;
     }
   }
