@@ -3,7 +3,7 @@
 const path = require('path');
 const glob = require('glob');
 const fs = require('fs');
-const fse = require('./utils/fs-extra.js');
+const fse = require('./utils/fs-extra');
 
 async function build(cb) {
   const env = process.env.NODE_ENV || 'development';
