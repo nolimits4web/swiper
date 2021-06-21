@@ -3,7 +3,7 @@
 const exec = require('exec-sh');
 const fs = require('fs');
 
-const config = require('./build-config.js');
+const config = require('./build-config');
 const banner = require('./banner')();
 
 async function buildCore(components, format) {

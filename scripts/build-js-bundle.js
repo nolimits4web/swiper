@@ -8,7 +8,7 @@ const replace = require('@rollup/plugin-replace');
 const { default: resolve } = require('@rollup/plugin-node-resolve');
 const Terser = require('terser');
 
-const config = require('./build-config.js');
+const config = require('./build-config');
 const banner = require('./banner')();
 
 async function buildBundle(components, format, browser, cb) {
