@@ -18,7 +18,6 @@ export default function slidePrev(speed = this.params.speed, runCallbacks = true
   const normalizedTranslate = normalize(translate);
   const normalizedSnapGrid = snapGrid.map((val) => normalize(val));
 
-  const currentSnap = snapGrid[normalizedSnapGrid.indexOf(normalizedTranslate)];
   let prevSnap = snapGrid[normalizedSnapGrid.indexOf(normalizedTranslate) - 1];
   if (typeof prevSnap === 'undefined' && params.cssMode) {
     snapGrid.forEach((snap) => {
