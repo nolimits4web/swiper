@@ -12,6 +12,7 @@ import { LazyOptions } from './components/lazy';
 import { MousewheelOptions } from './components/mousewheel';
 import { NavigationOptions } from './components/navigation';
 import { PaginationOptions } from './components/pagination';
+import { ParallaxOptions } from './components/parallax';
 import { ScrollbarOptions } from './components/scrollbar';
 import { ThumbsOptions } from './components/thumbs';
 import { VirtualOptions } from './components/virtual';
@@ -1089,7 +1090,7 @@ export interface SwiperOptions {
   mousewheel?: MousewheelOptions | boolean;
 
   /**
-   * Object with navigation parameters
+   * Object with navigation parameters or boolean `true` to enable with default settings.
    *
    * @example
    * ```js
@@ -1104,7 +1105,7 @@ export interface SwiperOptions {
   navigation?: NavigationOptions | boolean;
 
   /**
-   * Object with pagination parameters
+   * Object with pagination parameters or boolean `true` to enable with default settings.
    *
    * @example
    * ```js
@@ -1119,12 +1120,12 @@ export interface SwiperOptions {
   pagination?: PaginationOptions | boolean;
 
   /**
-   * Enable, if you want to use "parallaxed" elements inside of slider
+   * Object with parallax parameters or boolean `true` to enable with default settings.
    */
-  parallax?: boolean;
+  parallax?: ParallaxOptions | boolean;
 
   /**
-   * Object with scrollbar parameters
+   * Object with scrollbar parameters or boolean `true` to enable with default settings.
    *
    * @example
    * ```js
