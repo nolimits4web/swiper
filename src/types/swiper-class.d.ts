@@ -173,7 +173,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    * Enable Swiper (if it was disabled)
    *
    */
-  enabled(): void;
+  enable(): void;
 
   /**
    * Set Swiper translate progress (from 0 to 1). Where 0 - its initial position (offset) on first slide, and 1 - its maximum position (offset) on last slide
