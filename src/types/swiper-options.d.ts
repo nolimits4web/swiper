@@ -1121,6 +1121,13 @@ export interface SwiperOptions {
 
   /**
    * Object with parallax parameters or boolean `true` to enable with default settings.
+   *
+   * @example
+   * ```js
+   * const swiper = new Swiper('.swiper-container', {
+   *   parallax: true,
+   * });
+   * ```
    */
   parallax?: ParallaxOptions | boolean;
 
