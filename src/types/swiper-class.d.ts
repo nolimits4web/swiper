@@ -161,6 +161,9 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    */
   allowTouchMove: boolean;
 
+  /**
+   * !INTERNAL
+   */
   rtlTranslate: boolean;
 
   /**
