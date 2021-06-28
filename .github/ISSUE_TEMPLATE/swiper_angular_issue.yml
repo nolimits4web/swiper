@@ -26,7 +26,6 @@ body:
     id: descr
     attributes:
       label: Bug description
-      placeholder: Bug description
     validations:
       required: true
   - type: textarea
