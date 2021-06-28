@@ -422,16 +422,36 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    */
   offAny(handler: (eventName: string, ...args: any[]) => void): void;
 
+  /**
+   * !INTERNAL
+   */
   isHorizontal(): boolean;
 
+  /**
+   * !INTERNAL
+   */
   getBreakpoint(breakpoints: SwiperOptions['breakpoints']): string;
 
+  /**
+   * !INTERNAL
+   */
   setBreakpoint(): void;
 
+  /**
+   * !INTERNAL
+   */
   currentBreakpoint: any;
 
+  /**
+   * !INTERNAL
+   */
   destroyed: boolean;
+
+  /**
+   * !INTERNAL
+   */
   modules: Array<any>; //TODO: add typing
+
   a11y: A11yMethods;
   autoplay: AutoplayMethods;
   controller: ControllerMethods;
