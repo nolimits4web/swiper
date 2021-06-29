@@ -73,12 +73,10 @@ body:
           required: true
         - label: Make sure this is a Swiper issue and not a framework-specific issue
           required: true
-        - label: Check that this is a concrete bug. For Q&A open a [GitHub Discussion](https://github.com/nolimits4web/swiper/discussions) or join our [Discord Chat Server](https://discord.gg/BUpd4UTkgj).
-          required: true
   - type: checkboxes
     id: pr
     attributes:
-      label: Would you like to open a PR for this feature?
+      label: Would you like to open a PR for this bug?
       description: Before starting to work on PR it is recommended to get maintainers approval
       options:
         - label: I'm willing to open a PR
