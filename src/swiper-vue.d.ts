@@ -469,85 +469,9 @@ declare const Swiper: DefineComponent<
   ComponentOptionsMixin,
   ComponentOptionsMixin,
   {
-    activeIndexChange: (swiper: SwiperClass) => void;
-    afterInit: (swiper: SwiperClass) => void;
-    autoplay: (swiper: SwiperClass) => void;
-    autoplayStart: (swiper: SwiperClass) => void;
-    autoplayStop: (swiper: SwiperClass) => void;
-    beforeDestroy: (swiper: SwiperClass) => void;
-    beforeInit: (swiper: SwiperClass) => void;
-    beforeLoopFix: (swiper: SwiperClass) => void;
-    beforeResize: (swiper: SwiperClass) => void;
-    beforeSlideChangeStart: (swiper: SwiperClass) => void;
-    beforeTransitionStart: (swiper: SwiperClass, speed: number, internal: any) => void;
-    breakpoint: (swiper: SwiperClass, breakpointParams: SwiperOptions) => void;
-    changeDirection: (swiper: SwiperClass) => void;
-    click: (swiper: SwiperClass, event: MouseEvent | TouchEvent | PointerEvent) => void;
-    doubleTap: (swiper: SwiperClass, event: MouseEvent | TouchEvent | PointerEvent) => void;
-    doubleClick: (swiper: SwiperClass, event: MouseEvent | TouchEvent | PointerEvent) => void;
-    destroy: (swiper: SwiperClass) => void;
-    fromEdge: (swiper: SwiperClass) => void;
-    hashChange: (swiper: SwiperClass) => void;
-    hashSet: (swiper: SwiperClass) => void;
-    imagesReady: (swiper: SwiperClass) => void;
-    init: (swiper: SwiperClass) => void;
-    keyPress: (swiper: SwiperClass) => void;
-    lazyImageLoad: (swiper: SwiperClass) => void;
-    lazyImageReady: (swiper: SwiperClass) => void;
-    lock: (swiper: SwiperClass) => void;
-    loopFix: (swiper: SwiperClass) => void;
-    momentumBounce: (swiper: SwiperClass) => void;
-    navigationHide: (swiper: SwiperClass) => void;
-    navigationShow: (swiper: SwiperClass) => void;
-    observerUpdate: (swiper: SwiperClass) => void;
-    orientationchange: (swiper: SwiperClass) => void;
-    paginationHide: (swiper: SwiperClass) => void;
-    paginationRender: (swiper: SwiperClass) => void;
-    paginationShow: (swiper: SwiperClass) => void;
-    paginationUpdate: (swiper: SwiperClass) => void;
-    progress: (swiper: SwiperClass, progress: number) => void;
-    reachBeginning: (swiper: SwiperClass) => void;
-    reachEnd: (swiper: SwiperClass) => void;
-    realIndexChange: (swiper: SwiperClass) => void;
-    resize: (swiper: SwiperClass) => void;
-    scroll: (swiper: SwiperClass) => void;
-    scrollbarDragEnd: (swiper: SwiperClass) => void;
-    scrollbarDragMove: (swiper: SwiperClass) => void;
-    scrollbarDragStart: (swiper: SwiperClass) => void;
-    setTransition: (swiper: SwiperClass, transition: number) => void;
-    setTranslate: (swiper: SwiperClass, translate: number) => void;
-    slideChange: (swiper: SwiperClass) => void;
-    slideChangeTransitionEnd: (swiper: SwiperClass) => void;
-    slideChangeTransitionStart: (swiper: SwiperClass) => void;
-    slideNextTransitionEnd: (swiper: SwiperClass) => void;
-    slideNextTransitionStart: (swiper: SwiperClass) => void;
-    slidePrevTransitionEnd: (swiper: SwiperClass) => void;
-    slidePrevTransitionStart: (swiper: SwiperClass) => void;
-    slideResetTransitionStart: (swiper: SwiperClass) => void;
-    slideResetTransitionEnd: (swiper: SwiperClass) => void;
-    sliderMove: (swiper: SwiperClass, event: MouseEvent | TouchEvent | PointerEvent) => void;
-    sliderFirstMove: (swiper: SwiperClass, event: TouchEvent) => void;
-    slidesLengthChange: (swiper: SwiperClass) => void;
-    slidesGridLengthChange: (swiper: SwiperClass) => void;
-    snapGridLengthChange: (swiper: SwiperClass) => void;
-    snapIndexChange: (swiper: SwiperClass) => void;
     swiper: (swiper: SwiperClass) => void;
-    tap: (swiper: SwiperClass, event: MouseEvent | TouchEvent | PointerEvent) => void;
-    toEdge: (swiper: SwiperClass) => void;
-    touchEnd: (swiper: SwiperClass, event: MouseEvent | TouchEvent | PointerEvent) => void;
-    touchMove: (swiper: SwiperClass, event: MouseEvent | TouchEvent | PointerEvent) => void;
-    touchMoveOpposite: (swiper: SwiperClass, event: MouseEvent | TouchEvent | PointerEvent) => void;
-    touchStart: (swiper: SwiperClass, event: MouseEvent | TouchEvent | PointerEvent) => void;
-    transitionEnd: (swiper: SwiperClass, event: MouseEvent | TouchEvent | PointerEvent) => void;
-    transitionStart: (swiper: SwiperClass) => void;
-    unlock: (swiper: SwiperClass) => void;
-    update: (swiper: SwiperClass) => void;
-    zoomChange: (
-      swiper: SwiperClass,
-      scale: number,
-      imageEl: HTMLElement,
-      slideEl: HTMLElement,
-    ) => void;
+    // CORE_EVENTS
+    // MODULES_EVENTS
   }
 >;
 
