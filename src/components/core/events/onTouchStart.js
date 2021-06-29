@@ -2,17 +2,13 @@ import { getWindow, getDocument } from 'ssr-window';
 import $ from '../../../utils/dom';
 import { extend, now } from '../../../utils/utils';
 
-// https://stackoverflow.com/questions/54520554/custom-element-getrootnode-closest-function-crossing-multiple-parent-shadowd
+// Modified from https://stackoverflow.com/questions/54520554/custom-element-getrootnode-closest-function-crossing-multiple-parent-shadowd
 function closestElement(selector, base = this) {
   function __closestFrom(el) {
-      if (!el || el === document || el === window)
-          return null;
-      if (el.assignedSlot)
-          el = el.assignedSlot;
-      let found = el.closest(selector);
-      return found
-          ? found
-          : __closestFrom(el.getRootNode().host);
+    if (!el || el === getDocument() || el === getWindow()) return null;
+    if (el.assignedSlot) el = el.assignedSlot;
+    const found = el.closest(selector);
+    return found || __closestFrom(el.getRootNode().host);
   }
   return __closestFrom(base);
 }
@@ -46,11 +42,18 @@ export default function onTouchStart(event) {
     $targetEl = $(event.path[0]);
   }
 
-  const noSwipingSelector = params.noSwipingSelector ? params.noSwipingSelector : "." + params.noSwipingClass;
+  const noSwipingSelector = params.noSwipingSelector
+    ? params.noSwipingSelector
+    : `.${params.noSwipingClass}`;
   const isTargetShadow = !!(e.target && e.target.shadowRoot);
 
   // use closestElement for shadow root element to get the actual closest for nested shadow root element
-  if (params.noSwiping && (isTargetShadow ? closestElement(noSwipingSelector, e.target) : $targetEl.closest(noSwipingSelector)[0])) {
+  if (
+    params.noSwiping &&
+    (isTargetShadow
+      ? closestElement(noSwipingSelector, e.target)
+      : $targetEl.closest(noSwipingSelector)[0])
+  ) {
     swiper.allowClick = true;
     return;
   }
