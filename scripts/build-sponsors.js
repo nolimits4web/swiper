@@ -29,12 +29,12 @@ const buildTables = (sponsors) => {
   let tableContent = '';
   if (tableSponsors.length > 0) {
     const rows = [];
-    const perRow = 5;
+    const perRow = 6;
     let rowIndex = 0;
 
     tableSponsors.forEach((item, index) => {
       const colIndex = index - perRow * rowIndex;
-      if (colIndex > 4) rowIndex += 1;
+      if (colIndex > perRow - 1) rowIndex += 1;
       if (!rows[rowIndex]) rows[rowIndex] = [];
       rows[rowIndex].push(item);
     });
