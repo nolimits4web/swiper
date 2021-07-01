@@ -298,11 +298,17 @@ const Zoom = {
     const { gesture, image } = zoom;
 
     if (!gesture.$slideEl) {
-      if (swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual) {
-        gesture.$slideEl = swiper.$wrapperEl.children(`.${swiper.params.slideActiveClass}`);
-      } else {
-        gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
+      if (e && e.target) {
+        gesture.$slideEl = $(e.target).closest(`.${swiper.params.slideClass}`);
       }
+      if (!gesture.$slideEl) {
+        if (swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual) {
+          gesture.$slideEl = swiper.$wrapperEl.children(`.${swiper.params.slideActiveClass}`);
+        } else {
+          gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
+        }
+      }
+
       gesture.$imageEl = gesture.$slideEl.find('img, svg, canvas, picture, .swiper-zoom-target');
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
     }
