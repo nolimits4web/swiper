@@ -1231,7 +1231,7 @@
 - New `onObserverUpdate` callback function to be called after updates by observer
 - Fixed issue with not working inputs with keyboard control for jQuery version
 - New `paginationBulletRender` parameter that accepts function which allow custom pagination elements layout
-- Hash Navigation will run callback dpending on `runCallbacksOnInit` parameter
+- Hash Navigation will run callback depending on `runCallbacksOnInit` parameter
 - `watchVisibility` parameter renamed to `watchSlidesVisibility`
 
 ## 3.0.3 - Released on March 1st, 2015
