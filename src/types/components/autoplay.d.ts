@@ -91,4 +91,11 @@ export interface AutoplayOptions {
    * @default true
    */
   waitForTransition?: boolean;
+
+  /**
+   * When enabled autoplay will be paused on mouse enter over Swiper container. If `disableOnInteraction` is also enabled, it will stop autoplay instead of pause
+   *
+   * @default false
+   */
+  pauseOnMouseEnter?: boolean;
 }

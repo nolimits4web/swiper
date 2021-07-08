@@ -29,6 +29,7 @@ const Swiper = {
     updateOnWindowResize: { type: Boolean, default: undefined },
     resizeObserver: { type: Boolean, default: undefined },
     nested: { type: Boolean, default: undefined },
+    focusableElements: { type: Boolean, default: undefined },
     width: { type: Number, default: undefined },
     height: { type: Number, default: undefined },
     preventInteractionOnTransition: { type: Boolean, default: undefined },
@@ -167,6 +168,7 @@ const Swiper = {
     'keyPress',
     'lazyImageLoad',
     'lazyImageReady',
+    'lock',
     'loopFix',
     'momentumBounce',
     'navigationHide',
@@ -212,6 +214,7 @@ const Swiper = {
     'touchStart',
     'transitionEnd',
     'transitionStart',
+    'unlock',
     'update',
     'zoomChange',
   ],
@@ -298,7 +301,16 @@ const Swiper = {
         swiperRef.value &&
         !swiperRef.value.destroyed
       ) {
-        updateSwiper(swiperRef.value, slidesRef.value, newPassedParams, changedParams);
+        updateSwiper({
+          swiper: swiperRef.value,
+          slides: slidesRef.value,
+          passedParams: newPassedParams,
+          changedParams,
+          nextEl: nextElRef.value,
+          prevEl: prevElRef.value,
+          scrollbarEl: scrollbarElRef.value,
+          paginationEl: paginationElRef.value,
+        });
       }
       breakpointChanged.value = false;
     });

@@ -1,6 +1,6 @@
 import { getDocument } from 'ssr-window';
 import $ from '../../utils/dom';
-import { extend, nextTick, bindModuleMethods } from '../../utils/utils';
+import { extend, nextTick, bindModuleMethods, createElementIfNotDefined } from '../../utils/utils';
 
 const Scrollbar = {
   setTranslate() {
@@ -87,9 +87,11 @@ const Scrollbar = {
       moveDivider,
       dragSize,
     });
-    scrollbar.$el[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](
-      swiper.params.scrollbar.lockClass,
-    );
+    if (swiper.params.watchOverflow && swiper.enabled) {
+      scrollbar.$el[swiper.isLocked ? 'addClass' : 'removeClass'](
+        swiper.params.scrollbar.lockClass,
+      );
+    }
   },
   getPointerPosition(e) {
     const swiper = this;
@@ -280,9 +282,15 @@ const Scrollbar = {
   },
   init() {
     const swiper = this;
-    if (!swiper.params.scrollbar.el) return;
     const { scrollbar, $el: $swiperEl } = swiper;
+    swiper.params.scrollbar = createElementIfNotDefined(
+      $swiperEl,
+      swiper.params.scrollbar,
+      swiper.params.createElements,
+      { el: 'swiper-scrollbar' },
+    );
     const params = swiper.params.scrollbar;
+    if (!params.el) return;
 
     let $el = $(params.el);
     if (
@@ -309,6 +317,10 @@ const Scrollbar = {
 
     if (params.draggable) {
       scrollbar.enableDraggable();
+    }
+
+    if ($el) {
+      $el[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.scrollbar.lockClass);
     }
   },
   destroy() {
@@ -361,6 +373,12 @@ export default {
     },
     setTransition(swiper, duration) {
       swiper.scrollbar.setTransition(duration);
+    },
+    'enable disable': (swiper) => {
+      const { $el } = swiper.scrollbar;
+      if ($el) {
+        $el[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.scrollbar.lockClass);
+      }
     },
     destroy(swiper) {
       swiper.scrollbar.destroy();

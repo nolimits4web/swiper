@@ -404,4 +404,68 @@ context('Core', () => {
     cy.swipeRight();
     cy.getSlide(0).expectToBeActiveSlide();
   });
+
+  it('should not work as createElements false', () => {
+    cy.window().then((_window) => {
+      _window.document.body.innerHTML = `
+      <div class="swiper-container">
+        <div class="swiper-slide">Slide 1</div>
+        <div class="swiper-slide">Slide 2</div>
+        <div class="swiper-slide">Slide 3</div>
+        <div class="swiper-slide">Slide 4</div>
+        <div class="swiper-slide">Slide 5</div>
+        <div class="swiper-slide">Slide 6</div>
+        <div class="swiper-slide">Slide 7</div>
+        <div class="swiper-slide">Slide 8</div>
+        <div class="swiper-slide">Slide 9</div>
+        <div class="swiper-slide">Slide 10</div>
+      </div>
+      `;
+      _window.swiperRef = new _window.Swiper('.swiper-container', {
+        slidesPerView: 2,
+        scrollbar: true,
+        createElements: false,
+        pagination: true,
+        navigation: true,
+      });
+      return _window.swiperRef;
+    });
+    cy.get(`.swiper-button-next`).should('not.exist');
+    cy.get(`.swiper-button-prev`).should('not.exist');
+    cy.get(`.swiper-wrapper`).should('not.exist');
+    cy.get(`.swiper-scrollbar`).should('not.exist');
+    cy.get(`.swiper-pagination`).should('not.exist');
+  });
+
+  it('should not work as createElements false', () => {
+    cy.window().then((_window) => {
+      _window.document.body.innerHTML = `
+      <div class="swiper-container">
+        <div class="swiper-slide">Slide 1</div>
+        <div class="swiper-slide">Slide 2</div>
+        <div class="swiper-slide">Slide 3</div>
+        <div class="swiper-slide">Slide 4</div>
+        <div class="swiper-slide">Slide 5</div>
+        <div class="swiper-slide">Slide 6</div>
+        <div class="swiper-slide">Slide 7</div>
+        <div class="swiper-slide">Slide 8</div>
+        <div class="swiper-slide">Slide 9</div>
+        <div class="swiper-slide">Slide 10</div>
+      </div>
+      `;
+      _window.swiperRef = new _window.Swiper('.swiper-container', {
+        slidesPerView: 2,
+        scrollbar: true,
+        createElements: true,
+        pagination: true,
+        navigation: true,
+      });
+      return _window.swiperRef;
+    });
+    cy.get(`.swiper-wrapper`).should('exist');
+    cy.get(`.swiper-button-next`).should('exist');
+    cy.get(`.swiper-button-prev`).should('exist');
+    cy.get(`.swiper-scrollbar`).should('exist');
+    cy.get(`.swiper-pagination`).should('exist');
+  });
 });

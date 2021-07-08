@@ -1,5 +1,5 @@
 import $ from '../../utils/dom';
-import { extend, bindModuleMethods } from '../../utils/utils';
+import { extend, bindModuleMethods, createElementIfNotDefined } from '../../utils/utils';
 
 const Navigation = {
   toggleEl($el, disabled) {
@@ -21,9 +21,9 @@ const Navigation = {
       } else {
         toggleEl($prevEl, false);
       }
-      $prevEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](
-        params.lockClass,
-      );
+      if (swiper.params.watchOverflow && swiper.enabled) {
+        $prevEl[swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
+      }
     }
     if ($nextEl && $nextEl.length > 0) {
       if (swiper.isEnd) {
@@ -31,9 +31,9 @@ const Navigation = {
       } else {
         toggleEl($nextEl, false);
       }
-      $nextEl[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](
-        params.lockClass,
-      );
+      if (swiper.params.watchOverflow && swiper.enabled) {
+        $nextEl[swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
+      }
     }
   },
   onPrevClick(e) {
@@ -51,6 +51,16 @@ const Navigation = {
   init() {
     const swiper = this;
     const params = swiper.params.navigation;
+
+    swiper.params.navigation = createElementIfNotDefined(
+      swiper.$el,
+      swiper.params.navigation,
+      swiper.params.createElements,
+      {
+        nextEl: 'swiper-button-next',
+        prevEl: 'swiper-button-prev',
+      },
+    );
     if (!(params.nextEl || params.prevEl)) return;
 
     let $nextEl;
@@ -91,6 +101,11 @@ const Navigation = {
       $prevEl,
       prevEl: $prevEl && $prevEl[0],
     });
+
+    if (!swiper.enabled) {
+      if ($nextEl) $nextEl.addClass(params.lockClass);
+      if ($prevEl) $prevEl.addClass(params.lockClass);
+    }
   },
   destroy() {
     const swiper = this;
@@ -140,6 +155,15 @@ export default {
     },
     destroy(swiper) {
       swiper.navigation.destroy();
+    },
+    'enable disable': (swiper) => {
+      const { $nextEl, $prevEl } = swiper.navigation;
+      if ($nextEl) {
+        $nextEl[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.navigation.lockClass);
+      }
+      if ($prevEl) {
+        $prevEl[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.navigation.lockClass);
+      }
     },
     click(swiper, e) {
       const { $nextEl, $prevEl } = swiper.navigation;

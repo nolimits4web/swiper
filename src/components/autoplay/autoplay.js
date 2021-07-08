@@ -83,8 +83,9 @@ const Autoplay = {
       swiper.autoplay.paused = false;
       swiper.autoplay.run();
     } else {
-      swiper.$wrapperEl[0].addEventListener('transitionend', swiper.autoplay.onTransitionEnd);
-      swiper.$wrapperEl[0].addEventListener('webkitTransitionEnd', swiper.autoplay.onTransitionEnd);
+      ['transitionend', 'webkitTransitionEnd'].forEach((event) => {
+        swiper.$wrapperEl[0].addEventListener(event, swiper.autoplay.onTransitionEnd);
+      });
     }
   },
   onVisibilityChange() {
@@ -102,17 +103,47 @@ const Autoplay = {
     const swiper = this;
     if (!swiper || swiper.destroyed || !swiper.$wrapperEl) return;
     if (e.target !== swiper.$wrapperEl[0]) return;
-    swiper.$wrapperEl[0].removeEventListener('transitionend', swiper.autoplay.onTransitionEnd);
-    swiper.$wrapperEl[0].removeEventListener(
-      'webkitTransitionEnd',
-      swiper.autoplay.onTransitionEnd,
-    );
+    ['transitionend', 'webkitTransitionEnd'].forEach((event) => {
+      swiper.$wrapperEl[0].removeEventListener(event, swiper.autoplay.onTransitionEnd);
+    });
     swiper.autoplay.paused = false;
     if (!swiper.autoplay.running) {
       swiper.autoplay.stop();
     } else {
       swiper.autoplay.run();
     }
+  },
+  onMouseEnter() {
+    const swiper = this;
+    if (swiper.params.autoplay.disableOnInteraction) {
+      swiper.autoplay.stop();
+    } else {
+      swiper.autoplay.pause();
+    }
+
+    ['transitionend', 'webkitTransitionEnd'].forEach((event) => {
+      swiper.$wrapperEl[0].removeEventListener(event, swiper.autoplay.onTransitionEnd);
+    });
+  },
+  onMouseLeave() {
+    const swiper = this;
+    if (swiper.params.autoplay.disableOnInteraction) {
+      return;
+    }
+    swiper.autoplay.paused = false;
+    swiper.autoplay.run();
+  },
+  attachMouseEvents() {
+    const swiper = this;
+    if (swiper.params.autoplay.pauseOnMouseEnter) {
+      swiper.$el.on('mouseenter', swiper.autoplay.onMouseEnter);
+      swiper.$el.on('mouseleave', swiper.autoplay.onMouseLeave);
+    }
+  },
+  detachMouseEvents() {
+    const swiper = this;
+    swiper.$el.off('mouseenter', swiper.autoplay.onMouseEnter);
+    swiper.$el.off('mouseleave', swiper.autoplay.onMouseLeave);
   },
 };
 
@@ -126,6 +157,7 @@ export default {
       disableOnInteraction: true,
       stopOnLastSlide: false,
       reverseDirection: false,
+      pauseOnMouseEnter: false,
     },
   },
   create() {
@@ -144,6 +176,7 @@ export default {
         swiper.autoplay.start();
         const document = getDocument();
         document.addEventListener('visibilitychange', swiper.autoplay.onVisibilityChange);
+        swiper.autoplay.attachMouseEvents();
       }
     },
     beforeTransitionStart(swiper, speed, internal) {
@@ -174,6 +207,7 @@ export default {
       }
     },
     destroy(swiper) {
+      swiper.autoplay.detachMouseEvents();
       if (swiper.autoplay.running) {
         swiper.autoplay.stop();
       }
