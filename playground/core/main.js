@@ -19,3 +19,11 @@ window.swiper = new Swiper({
     itemRoleDescriptionMessage: 'slide',
   },
 });
+
+// uncomment to test SlidesPerColumn module TODO: remove
+// window.swiper = new Swiper({
+//   el: '.swiper-container',
+//   slidesPerView: 3,
+//   slidesPerColumn: 2,
+//   spaceBetween: 30,
+// });

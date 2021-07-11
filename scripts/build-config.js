@@ -19,6 +19,7 @@ module.exports = {
     'effect-flip',
     'effect-coverflow',
     'thumbs',
+    'slides-per-column',
   ],
   themeColor: '#007aff',
   colors: {
