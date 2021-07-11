@@ -20,6 +20,13 @@ window.swiper = new Swiper({
   },
 });
 
+// eslint-disable-next-line no-restricted-globals
+document.querySelector('.append-slide').addEventListener('click', (e) => {
+  e.preventDefault();
+  // eslint-disable-next-line no-restricted-globals
+  window.swiper.appendSlide('<div class="swiper-slide">Slide</div>');
+});
+
 // uncomment to test SlidesPerColumn module TODO: remove
 // window.swiper = new Swiper({
 //   el: '.swiper-container',
