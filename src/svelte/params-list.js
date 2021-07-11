@@ -9,6 +9,8 @@ const paramsList = [
   'updateOnWindowResize',
   'resizeObserver',
   'nested',
+  'focusableElements',
+  '_enabled',
   '_width',
   '_height',
   'preventInteractionOnTransition',
@@ -115,7 +117,7 @@ const paramsList = [
   'parallax',
   '_scrollbar',
   '_thumbs',
-  'virtual',
+  '_virtual',
   'zoom',
 ];
 export { paramsList };

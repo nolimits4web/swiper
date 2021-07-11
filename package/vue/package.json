@@ -4,5 +4,6 @@
   "main": "../swiper-vue.cjs.js",
   "jsnext:main": "../swiper-vue.esm.js",
   "module": "../swiper-vue.esm.js",
+  "typings": "../swiper-vue.d.ts",
   "sideEffects": false
 }

@@ -201,12 +201,19 @@ const Lazy = {
       }
     }
 
+    const passiveListener =
+      swiper.touchEvents.start === 'touchstart' &&
+      swiper.support.passiveListener &&
+      swiper.params.passiveListeners
+        ? { passive: true, capture: false }
+        : false;
+
     if (inView) {
       swiper.lazy.load();
-      $scrollElement.off('scroll', swiper.lazy.checkInViewOnLoad);
+      $scrollElement.off('scroll', swiper.lazy.checkInViewOnLoad, passiveListener);
     } else if (!swiper.lazy.scrollHandlerAttached) {
       swiper.lazy.scrollHandlerAttached = true;
-      $scrollElement.on('scroll', swiper.lazy.checkInViewOnLoad);
+      $scrollElement.on('scroll', swiper.lazy.checkInViewOnLoad, passiveListener);
     }
   },
 };
@@ -278,7 +285,20 @@ export default {
       }
     },
     slideChange(swiper) {
-      if (swiper.params.lazy.enabled && swiper.params.cssMode) {
+      const {
+        lazy,
+        cssMode,
+        watchSlidesVisibility,
+        watchSlidesProgress,
+        touchReleaseOnEdges,
+        resistanceRatio,
+      } = swiper.params;
+      if (
+        lazy.enabled &&
+        (cssMode ||
+          ((watchSlidesVisibility || watchSlidesProgress) &&
+            (touchReleaseOnEdges || resistanceRatio === 0)))
+      ) {
         swiper.lazy.load();
       }
     },

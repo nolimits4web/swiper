@@ -54,8 +54,8 @@
 @each $navColorName, $navColorValue in $colors {
   .swiper-button-prev,
   .swiper-button-next {
-    &.swiper-button-#{$navColorName} {
-      --swiper-navigation-color: #{$navColorValue};
+    &.swiper-button-#{'' + $navColorName} {
+      --swiper-navigation-color: #{'' + $navColorValue};
     }
   }
 }

@@ -8,7 +8,8 @@ export default function onTouchStart(event) {
   const window = getWindow();
 
   const data = swiper.touchEventsData;
-  const { params, touches } = swiper;
+  const { params, touches, enabled } = swiper;
+  if (!enabled) return;
 
   if (swiper.animating && params.preventInteractionOnTransition) {
     return;
@@ -82,10 +83,10 @@ export default function onTouchStart(event) {
   if (params.threshold > 0) data.allowThresholdMove = false;
   if (e.type !== 'touchstart') {
     let preventDefault = true;
-    if ($targetEl.is(data.formElements)) preventDefault = false;
+    if ($targetEl.is(data.focusableElements)) preventDefault = false;
     if (
       document.activeElement &&
-      $(document.activeElement).is(data.formElements) &&
+      $(document.activeElement).is(data.focusableElements) &&
       document.activeElement !== $targetEl[0]
     ) {
       document.activeElement.blur();

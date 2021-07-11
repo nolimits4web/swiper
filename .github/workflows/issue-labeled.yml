@@ -1,0 +1,19 @@
+name: Issue Labeled
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  reply-labeled:
+    runs-on: ubuntu-latest
+    steps:
+      - name: missing demo
+        if: github.event.label.name == 'missing demo'
+        uses: actions-cool/issues-helper@v2.2.1
+        with:
+          actions: 'create-comment, remove-labels'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hello @${{ github.event.issue.user.login }}. Please provide a online reproduction by [codesandbox](https://codesandbox.io/) or a minimal GitHub repository. You can fork one of our [demos](https://swiperjs.com/demos) in codesandbox to get start. Issues labeled by `missing demo` will be closed if no activities in 3 days.

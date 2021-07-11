@@ -3,5 +3,5 @@
 const exec = require('exec-sh').promise;
 
 module.exports = async () => {
-  return exec(`ng build swiper --prod`);
+  return exec(`ng build swiper --configuration production`);
 };
