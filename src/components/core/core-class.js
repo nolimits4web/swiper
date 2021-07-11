@@ -375,7 +375,7 @@ class Swiper {
       swiper.updateSlidesClasses();
     }
     let translated;
-    if (swiper.params.freeMode) {
+    if (swiper.params.freeMode && swiper.params.freeMode.enabled) {
       setTranslate();
       if (swiper.params.autoHeight) {
         swiper.updateAutoHeight();

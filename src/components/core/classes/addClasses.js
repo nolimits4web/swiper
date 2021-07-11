@@ -22,7 +22,7 @@ export default function addClasses() {
     'initialized',
     params.direction,
     { 'pointer-events': support.pointerEvents && !support.touch },
-    { 'free-mode': params.freeMode },
+    { 'free-mode': swiper.params.freeMode && params.freeMode.enabled },
     { 'autoheight': params.autoHeight },
     { 'rtl': rtl },
     { 'multirow': params.slidesPerColumn > 1 },

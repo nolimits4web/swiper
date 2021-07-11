@@ -21,6 +21,7 @@ declare const Scrollbar: SwiperComponent;
 declare const Thumbs: SwiperComponent;
 declare const Virtual: SwiperComponent;
 declare const Zoom: SwiperComponent;
+declare const FreeMode: SwiperComponent;
 
 export default Swiper;
 export {
@@ -45,4 +46,5 @@ export {
   Thumbs,
   Virtual,
   Zoom,
+  FreeMode,
 };

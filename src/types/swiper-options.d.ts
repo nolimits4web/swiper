@@ -17,6 +17,7 @@ import { ScrollbarOptions } from './components/scrollbar';
 import { ThumbsOptions } from './components/thumbs';
 import { VirtualOptions } from './components/virtual';
 import { ZoomOptions } from './components/zoom';
+import { FreeModeOptions } from './components/free-mode';
 
 import { CSSSelector } from './shared';
 import { SwiperEvents } from './swiper-events';
@@ -565,56 +566,7 @@ export interface SwiperOptions {
    *
    * @default false
    */
-  freeMode?: boolean;
-
-  /**
-   * If enabled, then slide will keep moving for a while after you release it
-   *
-   * @default true
-   */
-  freeModeMomentum?: boolean;
-
-  /**
-   * Higher value produces larger momentum distance after you release slider
-   *
-   * @default 1
-   */
-  freeModeMomentumRatio?: number;
-
-  /**
-   * Higher value produces larger momentum velocity after you release slider
-   *
-   * @default 1
-   */
-  freeModeMomentumVelocityRatio?: number;
-
-  /**
-   * Set to `false` if you want to disable momentum bounce in free mode
-   *
-   * @default true
-   */
-  freeModeMomentumBounce?: boolean;
-
-  /**
-   * Higher value produces larger momentum bounce effect
-   *
-   * @default 1
-   */
-  freeModeMomentumBounceRatio?: number;
-
-  /**
-   * Minimum touchmove-velocity required to trigger free mode momentum
-   *
-   * @default 0.02
-   */
-  freeModeMinimumVelocity?: number;
-
-  /**
-   * Set to enabled to enable snap to slides positions in free mode
-   *
-   * @default false
-   */
-  freeModeSticky?: boolean;
+  freeMode?: FreeModeOptions | boolean;
 
   // Progress
   /**
