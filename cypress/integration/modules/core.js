@@ -146,6 +146,99 @@ context('Core', () => {
     cy.getSlide(1).expectToBeActiveSlide();
   });
 
+  it('slidesPerColumn', () => {
+    cy.initSwiper({
+      slidesPerView: 2,
+      slidesPerColumn: 2,
+      spaceBetween: 30,
+    });
+    cy.injectStyles(`
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      height: calc((100% - 30px) / 2);
+
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+    `);
+    cy.getSlide(1).should(($el) => {
+      expect($el[0].getBoundingClientRect().y).to.be.greaterThan(100);
+    });
+    cy.getSlide(2).should(($el) => {
+      expect($el[0].getBoundingClientRect().x).to.be.greaterThan(100);
+    });
+  });
+
+  it.only('slidesPerColumnFill', () => {
+    cy.initSwiper({
+      slidesPerView: 2,
+      slidesPerColumnFill: 'row',
+      slidesPerColumn: 2,
+      spaceBetween: 30,
+    });
+    cy.injectStyles(`
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      height: calc((100% - 30px) / 2);
+
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+    `);
+    cy.getSlide(1).should(($el) => {
+      expect($el[0].offsetTop).not.to.be.greaterThan(100);
+      expect($el[0].offsetLeft).to.be.greaterThan(100);
+    });
+    cy.getSlide(2).should(($el) => {
+      expect($el[0].offsetTop).not.to.be.greaterThan(100);
+      expect($el[0].offsetLeft).to.be.greaterThan(100);
+    });
+    cy.getSlide(6).should(($el) => {
+      expect($el[0].offsetTop).to.be.greaterThan(100);
+      expect($el[0].offsetLeft).to.be.greaterThan(100);
+    });
+  });
+
   it('spaceBetween', () => {
     cy.initSwiper({
       spaceBetween: 10,

@@ -20,6 +20,7 @@ module.exports = {
     'effect-coverflow',
     'thumbs',
     'free-mode',
+    'slides-per-column',
   ],
   themeColor: '#007aff',
   colors: {

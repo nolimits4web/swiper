@@ -63,80 +63,18 @@ export default function updateSlides() {
   if (rtl) slides.css({ marginLeft: '', marginTop: '' });
   else slides.css({ marginRight: '', marginBottom: '' });
 
-  let slidesNumberEvenToRows;
-  if (params.slidesPerColumn > 1) {
-    if (
-      Math.floor(slidesLength / params.slidesPerColumn) ===
-      slidesLength / swiper.params.slidesPerColumn
-    ) {
-      slidesNumberEvenToRows = slidesLength;
-    } else {
-      slidesNumberEvenToRows =
-        Math.ceil(slidesLength / params.slidesPerColumn) * params.slidesPerColumn;
-    }
-    if (params.slidesPerView !== 'auto' && params.slidesPerColumnFill === 'row') {
-      slidesNumberEvenToRows = Math.max(
-        slidesNumberEvenToRows,
-        params.slidesPerView * params.slidesPerColumn,
-      );
-    }
-  }
-
   // Calc slides
   let slideSize;
-  const slidesPerColumn = params.slidesPerColumn;
-  const slidesPerRow = slidesNumberEvenToRows / slidesPerColumn;
-  const numFullColumns = Math.floor(slidesLength / params.slidesPerColumn);
+  const slidesPerColumnEnabled = params.slidesPerColumn > 1;
+  if (slidesPerColumnEnabled) {
+    swiper.slidesPerColumn.updateSlides(slidesLength);
+  }
   for (let i = 0; i < slidesLength; i += 1) {
     slideSize = 0;
     const slide = slides.eq(i);
-    if (params.slidesPerColumn > 1) {
-      // Set slides order
-      let newSlideOrderIndex;
-      let column;
-      let row;
-      if (params.slidesPerColumnFill === 'row' && params.slidesPerGroup > 1) {
-        const groupIndex = Math.floor(i / (params.slidesPerGroup * params.slidesPerColumn));
-        const slideIndexInGroup = i - params.slidesPerColumn * params.slidesPerGroup * groupIndex;
-        const columnsInGroup =
-          groupIndex === 0
-            ? params.slidesPerGroup
-            : Math.min(
-                Math.ceil(
-                  (slidesLength - groupIndex * slidesPerColumn * params.slidesPerGroup) /
-                    slidesPerColumn,
-                ),
-                params.slidesPerGroup,
-              );
-        row = Math.floor(slideIndexInGroup / columnsInGroup);
-        column = slideIndexInGroup - row * columnsInGroup + groupIndex * params.slidesPerGroup;
 
-        newSlideOrderIndex = column + (row * slidesNumberEvenToRows) / slidesPerColumn;
-        slide.css({
-          '-webkit-box-ordinal-group': newSlideOrderIndex,
-          '-moz-box-ordinal-group': newSlideOrderIndex,
-          '-ms-flex-order': newSlideOrderIndex,
-          '-webkit-order': newSlideOrderIndex,
-          order: newSlideOrderIndex,
-        });
-      } else if (params.slidesPerColumnFill === 'column') {
-        column = Math.floor(i / slidesPerColumn);
-        row = i - column * slidesPerColumn;
-        if (column > numFullColumns || (column === numFullColumns && row === slidesPerColumn - 1)) {
-          row += 1;
-          if (row >= slidesPerColumn) {
-            row = 0;
-            column += 1;
-          }
-        }
-      } else {
-        row = Math.floor(i / slidesPerRow);
-        column = i - row * slidesPerRow;
-      }
-      slide.css(
-        getDirectionLabel('margin-top'),
-        row !== 0 ? params.spaceBetween && `${params.spaceBetween}px` : '',
-      );
+    if (slidesPerColumnEnabled) {
+      swiper.slidesPerColumn.updateSlidesLoop(i, slide, slidesLength, getDirectionLabel);
     }
     if (slide.css('display') === 'none') continue; // eslint-disable-line
 
@@ -232,22 +170,13 @@ export default function updateSlides() {
     });
   }
 
-  if (params.slidesPerColumn > 1) {
-    swiper.virtualSize = (slideSize + params.spaceBetween) * slidesNumberEvenToRows;
-    swiper.virtualSize =
-      Math.ceil(swiper.virtualSize / params.slidesPerColumn) - params.spaceBetween;
-    $wrapperEl.css({
-      [getDirectionLabel('width')]: `${swiper.virtualSize + params.spaceBetween}px`,
-    });
-    if (params.centeredSlides) {
-      newSlidesGrid = [];
-      for (let i = 0; i < snapGrid.length; i += 1) {
-        let slidesGridItem = snapGrid[i];
-        if (params.roundLengths) slidesGridItem = Math.floor(slidesGridItem);
-        if (snapGrid[i] < swiper.virtualSize + snapGrid[0]) newSlidesGrid.push(slidesGridItem);
-      }
-      snapGrid = newSlidesGrid;
-    }
+  if (slidesPerColumnEnabled) {
+    snapGrid = swiper.slidesPerColumn.updateSlidesLoop2(
+      slideSize,
+      snapGrid,
+      newSlidesGrid,
+      getDirectionLabel,
+    );
   }
 
   // Remove last grid elements depending on width
