@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { getWindow, getDocument } from 'ssr-window';
 import $ from '../../utils/dom';
 import { bindModuleMethods } from '../../utils/utils';
@@ -5,6 +6,7 @@ import { bindModuleMethods } from '../../utils/utils';
 const Keyboard = {
   handle(event) {
     const swiper = this;
+    if (!swiper.enabled) return;
     const window = getWindow();
     const document = getDocument();
     const { rtlTranslate: rtl } = swiper;

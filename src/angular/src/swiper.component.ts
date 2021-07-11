@@ -60,6 +60,7 @@ export class SwiperComponent implements OnInit {
   @Input() updateOnWindowResize: SwiperOptions['updateOnWindowResize'];
   @Input() resizeObserver: SwiperOptions['resizeObserver'];
   @Input() nested: SwiperOptions['nested'];
+  @Input() focusableElements: SwiperOptions['focusableElements'];
   @Input() width: SwiperOptions['width'];
   @Input() height: SwiperOptions['height'];
   @Input() preventInteractionOnTransition: SwiperOptions['preventInteractionOnTransition'];
@@ -584,7 +585,9 @@ export class SwiperComponent implements OnInit {
         };
     this.currentVirtualData = virtualData;
     this._activeSlides.next(virtualData.slides);
-    this._changeDetectorRef.detectChanges();
+    this._ngZone.run(() => {
+      this._changeDetectorRef.detectChanges();
+    });
     this._ngZone.runOutsideAngular(() => {
       this.swiperRef.updateSlides();
       this.swiperRef.updateProgress();

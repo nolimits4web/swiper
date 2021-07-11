@@ -19,9 +19,7 @@
         "@schematics/angular:guard": {
           "skipTests": true
         },
-        "@schematics/angular:module": {
-          "skipTests": true
-        },
+        "@schematics/angular:module": {},
         "@schematics/angular:pipe": {
           "skipTests": true
         },
@@ -70,9 +68,7 @@
         "@schematics/angular:guard": {
           "skipTests": true
         },
-        "@schematics/angular:module": {
-          "skipTests": true
-        },
+        "@schematics/angular:module": {},
         "@schematics/angular:pipe": {
           "skipTests": true
         },
@@ -92,10 +88,15 @@
             "main": "playground/angular/src/main.ts",
             "polyfills": "playground/angular/src/polyfills.ts",
             "tsConfig": "playground/angular/tsconfig.app.json",
-            "aot": true,
             "assets": ["playground/angular/src/favicon.ico", "playground/angular/src/assets"],
             "styles": ["playground/angular/src/styles.scss"],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -125,7 +126,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -171,7 +173,9 @@
           "options": {
             "outputPath": "dist/demo/server",
             "main": "playground/angular/server.ts",
-            "tsConfig": "playground/angular/tsconfig.server.json"
+            "tsConfig": "playground/angular/tsconfig.server.json",
+            "sourceMap": true,
+            "optimization": false
           },
           "configurations": {
             "production": {
@@ -185,7 +189,8 @@
               "sourceMap": false,
               "optimization": true
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",

@@ -1,4 +1,4 @@
-import { getWindow } from 'ssr-window';
+import { getDocument, getWindow } from 'ssr-window';
 
 function deleteProps(obj) {
   const object = obj;
@@ -95,9 +95,15 @@ function isObject(o) {
 function extend(...args) {
   const to = Object(args[0]);
   const noExtend = ['__proto__', 'constructor', 'prototype'];
+  // eslint-disable-next-line
+  const HTMLElement = typeof window !== 'undefined' ? window.HTMLElement : undefined;
   for (let i = 1; i < args.length; i += 1) {
     const nextSource = args[i];
-    if (nextSource !== undefined && nextSource !== null) {
+    if (
+      nextSource !== undefined &&
+      nextSource !== null &&
+      !(HTMLElement && nextSource instanceof HTMLElement)
+    ) {
       const keysArray = Object.keys(Object(nextSource)).filter((key) => noExtend.indexOf(key) < 0);
       for (let nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex += 1) {
         const nextKey = keysArray[nextIndex];
@@ -146,6 +152,21 @@ function classesToSelector(classes = '') {
     .replace(/ /g, '.')}`;
 }
 
+function createElementIfNotDefined($container, params, createElements, checkProps) {
+  const document = getDocument();
+  if (createElements) {
+    Object.keys(checkProps).forEach((key) => {
+      if (!params[key] && params.auto === true) {
+        const element = document.createElement('div');
+        element.className = checkProps[key];
+        $container.append(element);
+        params[key] = element;
+      }
+    });
+  }
+  return params;
+}
+
 export {
   deleteProps,
   nextTick,
@@ -156,4 +177,5 @@ export {
   bindModuleMethods,
   getComputedStyle,
   classesToSelector,
+  createElementIfNotDefined,
 };

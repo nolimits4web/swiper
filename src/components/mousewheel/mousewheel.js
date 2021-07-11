@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { getWindow, getDocument } from 'ssr-window';
 import $ from '../../utils/dom';
 import { now, nextTick, bindModuleMethods } from '../../utils/utils';
@@ -112,16 +113,19 @@ const Mousewheel = {
   },
   handleMouseEnter() {
     const swiper = this;
+    if (!swiper.enabled) return;
     swiper.mouseEntered = true;
   },
   handleMouseLeave() {
     const swiper = this;
+    if (!swiper.enabled) return;
     swiper.mouseEntered = false;
   },
   handle(event) {
     let e = event;
     let disableParentSwiper = true;
     const swiper = this;
+    if (!swiper.enabled) return;
     const params = swiper.params.mousewheel;
 
     if (swiper.params.cssMode) {

@@ -1,5 +1,10 @@
 import $ from '../../utils/dom';
-import { extend, bindModuleMethods, classesToSelector } from '../../utils/utils';
+import {
+  extend,
+  bindModuleMethods,
+  classesToSelector,
+  createElementIfNotDefined,
+} from '../../utils/utils';
 
 const Pagination = {
   update() {
@@ -183,9 +188,9 @@ const Pagination = {
     } else {
       swiper.emit('paginationUpdate', $el[0]);
     }
-    $el[swiper.params.watchOverflow && swiper.isLocked ? 'addClass' : 'removeClass'](
-      params.lockClass,
-    );
+    if (swiper.params.watchOverflow && swiper.enabled) {
+      $el[swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
+    }
   },
   render() {
     // Render Container
@@ -248,6 +253,12 @@ const Pagination = {
   },
   init() {
     const swiper = this;
+    swiper.params.pagination = createElementIfNotDefined(
+      swiper.$el,
+      swiper.params.pagination,
+      swiper.params.createElements,
+      { el: 'swiper-pagination' },
+    );
     const params = swiper.params.pagination;
     if (!params.el) return;
 
@@ -288,6 +299,10 @@ const Pagination = {
       $el,
       el: $el[0],
     });
+
+    if (!swiper.enabled) {
+      $el.addClass(params.lockClass);
+    }
   },
   destroy() {
     const swiper = this;
@@ -381,6 +396,12 @@ export default {
     },
     destroy(swiper) {
       swiper.pagination.destroy();
+    },
+    'enable disable': (swiper) => {
+      const { $el } = swiper.pagination;
+      if ($el) {
+        $el[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.pagination.lockClass);
+      }
     },
     click(swiper, e) {
       const targetEl = e.target;

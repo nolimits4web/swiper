@@ -325,6 +325,14 @@ export interface SwiperEvents {
    * Event will be fired after swiper.update() call
    */
   update: (swiper: Swiper) => void;
+  /**
+   * Event will be fired when swiper is locked (when `watchOverflow` enabled)
+   */
+  lock: (swiper: Swiper) => void;
+  /**
+   * Event will be fired when swiper is unlocked (when `watchOverflow` enabled)
+   */
+  unlock: (swiper: Swiper) => void;
   // CORE_EVENTS_END
 }
 

@@ -35,6 +35,7 @@ function getParams(obj = {}) {
 
   ['navigation', 'pagination', 'scrollbar'].forEach((key) => {
     if (params[key] === true) params[key] = {};
+    if (params[key] === false) delete params[key];
   });
 
   return { params, passedParams, rest };
