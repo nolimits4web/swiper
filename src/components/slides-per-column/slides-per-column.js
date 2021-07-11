@@ -22,9 +22,8 @@ const SlidesPerColumn = {
     const swiper = this;
     const { params } = swiper;
 
-    swiper.slidesPerColumn.slidesNumberEvenToRows = swiper.slidesPerColumn.getSlidesNumberEvenToRows(
-      slidesLength,
-    );
+    swiper.slidesPerColumn.slidesNumberEvenToRows =
+      swiper.slidesPerColumn.getSlidesNumberEvenToRows(slidesLength);
     swiper.slidesPerColumn.slidesPerRow =
       swiper.slidesPerColumn.slidesNumberEvenToRows / params.slidesPerColumn;
     swiper.slidesPerColumn.numFullColumns = Math.floor(slidesLength / params.slidesPerColumn);
@@ -80,7 +79,7 @@ const SlidesPerColumn = {
     }
     slide.css(
       getDirectionLabel('margin-top'),
-      row !== 0 && params.spaceBetween && `${params.spaceBetween}px`,
+      row !== 0 ? params.spaceBetween && `${params.spaceBetween}px` : '',
     );
   },
   updateSlidesLoop2(slideSize, snapGrid, newSlidesGrid, getDirectionLabel) {
