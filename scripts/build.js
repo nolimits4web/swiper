@@ -2,7 +2,6 @@ const chalk = require('chalk');
 
 const buildJsCore = require('./build-js-core');
 const buildJsBundle = require('./build-js-bundle');
-const buildJsSlim = require('./build-js-slim');
 const buildTypes = require('./build-types');
 const buildReact = require('./build-react');
 const buildVue = require('./build-vue');
@@ -65,7 +64,6 @@ class Build {
     .add('core', buildJsCore)
     .add('bundle', buildJsBundle)
     .add('types', buildTypes)
-    .add('slim', buildJsSlim)
     .addMultipleFormats('react', buildReact)
     .addMultipleFormats('vue', buildVue)
     .addMultipleFormats('svelte', buildSvelte)
