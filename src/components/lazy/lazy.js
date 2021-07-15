@@ -260,7 +260,11 @@ export default {
       }
     },
     scroll(swiper) {
-      if (swiper.params.freeMode && !swiper.params.freeMode.sticky) {
+      if (
+        swiper.params.freeMode &&
+        swiper.params.freeMode.enabled &&
+        !swiper.params.freeMode.sticky
+      ) {
         swiper.lazy.load();
       }
     },

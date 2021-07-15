@@ -179,7 +179,7 @@ const Mousewheel = {
 
     if (disableParentSwiper && swiper.params.nested) e.stopPropagation();
 
-    if (!swiper.params.freeMode) {
+    if (!swiper.params.freeMode || !swiper.params.freeMode.enabled) {
       // Register the new event in a variable which stores the relevant data
       const newEvent = {
         time: now(),

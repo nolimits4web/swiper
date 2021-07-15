@@ -212,7 +212,11 @@ export default function onTouchMove(event) {
   if (!params.followFinger || params.cssMode) return;
 
   // Update active index in free mode
-  if (params.freeMode || params.watchSlidesProgress || params.watchSlidesVisibility) {
+  if (
+    (params.freeMode && params.freeMode.enabled) ||
+    params.watchSlidesProgress ||
+    params.watchSlidesVisibility
+  ) {
     swiper.updateActiveIndex();
     swiper.updateSlidesClasses();
   }
