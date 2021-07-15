@@ -1,21 +1,4 @@
-import Swiper from '../swiper-class';
-
 export interface FreeModeMethods {
-  /**
-   * Swiper instance of thumbs swiper
-   */
-  swiper: Swiper;
-
-  /**
-   * Update thumbs
-   */
-  update(initial: boolean): void;
-
-  /**
-   * Initialize thumbs
-   */
-  init(): boolean;
-
   onTouchMove(): void;
   onTouchEnd(): void;
 }
