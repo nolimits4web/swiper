@@ -2,8 +2,10 @@
   <div>
     <h4>Nested</h4>
     <swiper direction="horizontal">
-      <ng-template swiperSlide> test 1 </ng-template>
-      <ng-template swiperSlide> test 2 </ng-template>
+      <ng-container *ngFor="let item of [].constructor(4); let i = index">
+        <ng-template swiperSlide> test {{ i + 1 }} </ng-template>
+      </ng-container>
+      <ng-template swiperSlide> test 5 </ng-template>
       <ng-template swiperSlide>
         <swiper direction="vertical">
           <ng-template swiperSlide> test vertical 1 </ng-template>
