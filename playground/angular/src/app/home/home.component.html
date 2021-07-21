@@ -1,5 +1,18 @@
 <main>
   <div>
+    <h4>Nested</h4>
+    <swiper direction="horizontal">
+      <ng-template swiperSlide> test 1 </ng-template>
+      <ng-template swiperSlide> test 2 </ng-template>
+      <ng-template swiperSlide>
+        <swiper direction="vertical">
+          <ng-template swiperSlide> test vertical 1 </ng-template>
+          <ng-template swiperSlide> test vertical 2 </ng-template>
+        </swiper>
+      </ng-template>
+    </swiper>
+  </div>
+  <div>
     <h4>Default: Not in NgZone</h4>
     <swiper [virtual]="true">
       <ng-template *ngFor="let item of [].constructor(10); let i = index" swiperSlide>

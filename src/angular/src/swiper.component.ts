@@ -416,7 +416,7 @@ export class SwiperComponent implements OnInit {
     this._setElement(el, this.pagination, 'pagination');
   }
   _paginationElRef: ElementRef;
-  @ContentChildren(SwiperSlideDirective, { descendants: true, emitDistinctChangesOnly: true })
+  @ContentChildren(SwiperSlideDirective, { descendants: false, emitDistinctChangesOnly: true })
   slidesEl: QueryList<SwiperSlideDirective>;
   private slides: SwiperSlideDirective[];
 
