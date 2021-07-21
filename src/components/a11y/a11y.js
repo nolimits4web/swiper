@@ -160,12 +160,19 @@ const A11y = {
       swiper.a11y.addElRoleDescription($(swiper.slides), params.itemRoleDescriptionMessage);
     }
     swiper.a11y.addElRole($(swiper.slides), params.slideRole);
-    swiper.slides.each((slideEl) => {
-      const $slideEl = $(slideEl);
-      const ariaLabelMessage = params.slideLabelMessage
-        .replace(/\{\{index\}\}/, $slideEl.index() + 1)
-        .replace(/\{\{slidesLength\}\}/, swiper.slides.length);
-      swiper.a11y.addElLabel($slideEl, ariaLabelMessage);
+    let originSlides = [];
+    swiper.slides.each(function (slideEl) {
+      if(!$(slideEl).hasClass(params.slideDuplicateClass)){
+        originSlides.push($(slideEl));
+      }
+    });
+
+    $(originSlides).each(function (originSlideEl, index) {
+      let $originSlideEl = $(originSlideEl);
+      let ariaLabelMessage = params.slideLabelMessage
+        .replace(/\{\{index\}\}/, index + 1)
+        .replace(/\{\{slidesLength\}\}/, originSlides.length);
+      swiper.a11y.addElLabel($originSlideEl, ariaLabelMessage);
     });
 
     // Navigation
