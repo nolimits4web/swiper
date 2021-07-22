@@ -94,7 +94,7 @@ function isObject(o) {
 }
 function isNode(node) {
   // eslint-disable-next-line
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined' && typeof window.HTMLElement !== 'undefined') {
     return node instanceof HTMLElement;
   }
   return node && (node.nodeType === 1 || node.nodeType === 11);
