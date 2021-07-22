@@ -1,5 +1,16 @@
 # Changelog
 
+# [6.8.0](https://github.com/nolimits4web/Swiper/compare/v6.7.5...v6.8.0) (2021-07-22)
+
+### Bug Fixes
+
+- **a11y:** count aria-label without duplicated item in loop option ([4bd7461](https://github.com/nolimits4web/Swiper/commit/4bd7461f4c7ba0ca097a8d5a77881a547b0545e7)), closes [#4782](https://github.com/nolimits4web/Swiper/issues/4782) [#4781](https://github.com/nolimits4web/Swiper/issues/4781)
+- **angular:** nested swiper ([#4785](https://github.com/nolimits4web/Swiper/issues/4785)) ([2be958c](https://github.com/nolimits4web/Swiper/commit/2be958cd07be46d45000c3e971fc6a7f7f8b22f6))
+- **core:** don't extend html elements in SSR ([#4784](https://github.com/nolimits4web/Swiper/issues/4784)) ([adac257](https://github.com/nolimits4web/Swiper/commit/adac2579a0d2f311b9a269e2e6c526f46ba2c2dc))
+- **hash-navigation:** typos in comments and function name ([#4779](https://github.com/nolimits4web/Swiper/issues/4779)) ([07b8dc3](https://github.com/nolimits4web/Swiper/commit/07b8dc326796aa132360a3e5d1241f5b154a86b3))
+- **svelte:** install modules via `module` component prop ([#4768](https://github.com/nolimits4web/Swiper/issues/4768)) ([ddaa069](https://github.com/nolimits4web/Swiper/commit/ddaa0699cfb9cc2e068186339902a2d7099dc20e)), closes [#4767](https://github.com/nolimits4web/Swiper/issues/4767)
+- **zoom:** fix zoom panning in RTL ([08bcd05](https://github.com/nolimits4web/Swiper/commit/08bcd05ff008beb8e0b721048f1b36a8fd25094a)), closes [#4074](https://github.com/nolimits4web/Swiper/issues/4074)
+
 # [6.7.5](https://github.com/nolimits4web/Swiper/compare/v6.7.1...v6.7.5) (2021-07-01)
 
 ### Bug Fixes
