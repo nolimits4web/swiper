@@ -3,7 +3,7 @@ import $ from '../../utils/dom';
 import { bindModuleMethods } from '../../utils/utils';
 
 const HashNavigation = {
-  onHashCange() {
+  onHashChange() {
     const swiper = this;
     const document = getDocument();
     swiper.emit('hashChange');
@@ -63,14 +63,14 @@ const HashNavigation = {
       }
     }
     if (swiper.params.hashNavigation.watchState) {
-      $(window).on('hashchange', swiper.hashNavigation.onHashCange);
+      $(window).on('hashchange', swiper.hashNavigation.onHashChange);
     }
   },
   destroy() {
     const swiper = this;
     const window = getWindow();
     if (swiper.params.hashNavigation.watchState) {
-      $(window).off('hashchange', swiper.hashNavigation.onHashCange);
+      $(window).off('hashchange', swiper.hashNavigation.onHashChange);
     }
   },
 };
