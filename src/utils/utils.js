@@ -104,7 +104,7 @@ function extend(...args) {
   const noExtend = ['__proto__', 'constructor', 'prototype'];
   for (let i = 1; i < args.length; i += 1) {
     const nextSource = args[i];
-    if (nextSource !== undefined && nextSource !== null && !isNode(HTMLElement)) {
+    if (nextSource !== undefined && nextSource !== null && !isNode(nextSource)) {
       const keysArray = Object.keys(Object(nextSource)).filter((key) => noExtend.indexOf(key) < 0);
       for (let nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex += 1) {
         const nextKey = keysArray[nextIndex];
