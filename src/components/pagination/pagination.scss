@@ -67,6 +67,10 @@
   .swiper-pagination-clickable & {
     cursor: pointer;
   }
+
+  &:only-child {
+    display: none !important;
+  }
 }
 .swiper-pagination-bullet-active {
   opacity: 1;
