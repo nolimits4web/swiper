@@ -19,3 +19,10 @@ window.swiper = new Swiper({
     itemRoleDescriptionMessage: 'slide',
   },
 });
+
+// eslint-disable-next-line no-restricted-globals
+document.querySelector('.append-slide').addEventListener('click', (e) => {
+  e.preventDefault();
+  // eslint-disable-next-line no-restricted-globals
+  window.swiper.appendSlide('<div class="swiper-slide">Slide</div>');
+});

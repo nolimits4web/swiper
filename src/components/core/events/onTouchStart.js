@@ -37,6 +37,7 @@ export default function onTouchStart(event) {
   if (!data.isTouchEvent && 'button' in e && e.button > 0) return;
   if (data.isTouched && data.isMoved) return;
 
+  // change target el for shadow root component
   const swipingClassHasValue = !!params.noSwipingClass && params.noSwipingClass !== '';
   if (swipingClassHasValue && e.target && e.target.shadowRoot && event.path && event.path[0]) {
     $targetEl = $(event.path[0]);

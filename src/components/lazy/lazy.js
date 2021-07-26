@@ -285,7 +285,20 @@ export default {
       }
     },
     slideChange(swiper) {
-      if (swiper.params.lazy.enabled && swiper.params.cssMode) {
+      const {
+        lazy,
+        cssMode,
+        watchSlidesVisibility,
+        watchSlidesProgress,
+        touchReleaseOnEdges,
+        resistanceRatio,
+      } = swiper.params;
+      if (
+        lazy.enabled &&
+        (cssMode ||
+          ((watchSlidesVisibility || watchSlidesProgress) &&
+            (touchReleaseOnEdges || resistanceRatio === 0)))
+      ) {
         swiper.lazy.load();
       }
     },

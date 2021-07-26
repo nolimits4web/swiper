@@ -1,30 +1,48 @@
 # Changelog
 
-# [6.7.1](https://github.com/nolimits4web/Swiper/compare/v6.7.0...v6.7.1) (2021-06-23)
-
+# [6.8.0](https://github.com/nolimits4web/Swiper/compare/v6.7.5...v6.8.0) (2021-07-22)
 
 ### Bug Fixes
 
-* **angular:** don't set main `class` on wrapper element ([1285195](https://github.com/nolimits4web/Swiper/commit/12851953491155f5f96930355c91110c9a4cf753)), closes [#4679](https://github.com/nolimits4web/Swiper/issues/4679)
-* **core:** don't extend html elements ([#4691](https://github.com/nolimits4web/Swiper/issues/4691)) ([32ae99b](https://github.com/nolimits4web/Swiper/commit/32ae99b5d7ffbd148cb3268c5048c76720190c54))
-* **core:** unset top margin on slide when `slidesPerColum` changed ([1ced4f7](https://github.com/nolimits4web/Swiper/commit/1ced4f725f66572505aeda34fe2e4c3e0cef05bf)), closes [#4658](https://github.com/nolimits4web/Swiper/issues/4658)
-* **react:** dynamically enable/disable navigation/pagination/scrollbar ([d87ac0c](https://github.com/nolimits4web/Swiper/commit/d87ac0c611cbe050c50ab70f4faf5a53decabf12)), closes [#4681](https://github.com/nolimits4web/Swiper/issues/4681)
-* **react:** update parallax on Virtual slides rendered ([ce210f3](https://github.com/nolimits4web/Swiper/commit/ce210f3de6336e068ef78511f8ee7a309e8d5456)), closes [#4673](https://github.com/nolimits4web/Swiper/issues/4673)
-* **react, svelte, vue:** allow to accept `enabled` prop ([76dd086](https://github.com/nolimits4web/Swiper/commit/76dd086ef6a6ba7794e5cc9fd7633d46bdec1c5c)), closes [#4633](https://github.com/nolimits4web/Swiper/issues/4633)
-* **svelte:** dynamically enable/disable navigation/pagination/scrollbar ([8711bb9](https://github.com/nolimits4web/Swiper/commit/8711bb944f5d3aece3550125ed9f5842419c1ea2))
-* **typings:** fixed methods definitions for navigation, pagination and scrollbar ([77d6909](https://github.com/nolimits4web/Swiper/commit/77d69092e229dc2dd8cf764766e70ba29408caec))
-* **vue:** dynamically enable/disable navigation/pagination/scrollbar ([4821008](https://github.com/nolimits4web/Swiper/commit/482100847d1f6459191d2ccf0ef868a6f69b5691))
-* **vue:** update parallax on Virtual slides rendered ([b78c6e0](https://github.com/nolimits4web/Swiper/commit/b78c6e0a758bdb52986ecc1c7b3134737807cbdc))
+- **a11y:** count aria-label without duplicated item in loop option ([4bd7461](https://github.com/nolimits4web/Swiper/commit/4bd7461f4c7ba0ca097a8d5a77881a547b0545e7)), closes [#4782](https://github.com/nolimits4web/Swiper/issues/4782) [#4781](https://github.com/nolimits4web/Swiper/issues/4781)
+- **angular:** nested swiper ([#4785](https://github.com/nolimits4web/Swiper/issues/4785)) ([2be958c](https://github.com/nolimits4web/Swiper/commit/2be958cd07be46d45000c3e971fc6a7f7f8b22f6))
+- **core:** don't extend html elements in SSR ([#4784](https://github.com/nolimits4web/Swiper/issues/4784)) ([adac257](https://github.com/nolimits4web/Swiper/commit/adac2579a0d2f311b9a269e2e6c526f46ba2c2dc))
+- **hash-navigation:** typos in comments and function name ([#4779](https://github.com/nolimits4web/Swiper/issues/4779)) ([07b8dc3](https://github.com/nolimits4web/Swiper/commit/07b8dc326796aa132360a3e5d1241f5b154a86b3))
+- **svelte:** install modules via `module` component prop ([#4768](https://github.com/nolimits4web/Swiper/issues/4768)) ([ddaa069](https://github.com/nolimits4web/Swiper/commit/ddaa0699cfb9cc2e068186339902a2d7099dc20e)), closes [#4767](https://github.com/nolimits4web/Swiper/issues/4767)
+- **zoom:** fix zoom panning in RTL ([08bcd05](https://github.com/nolimits4web/Swiper/commit/08bcd05ff008beb8e0b721048f1b36a8fd25094a)), closes [#4074](https://github.com/nolimits4web/Swiper/issues/4074)
 
+# [6.7.5](https://github.com/nolimits4web/Swiper/compare/v6.7.1...v6.7.5) (2021-07-01)
+
+### Bug Fixes
+
+- **lazy:** lazy load when no sides resistance enabled ([1949a9e](https://github.com/nolimits4web/Swiper/commit/1949a9e65bfc029fd62532920b3e3c34f351d44d)), closes [#4729](https://github.com/nolimits4web/Swiper/issues/4729)
+- **zoom:** compatibility with slidesPerView to zoom only clicked slide ([aa1a778](https://github.com/nolimits4web/Swiper/commit/aa1a7789482b7f244e44183e050e62009cdea00d)), closes [#4716](https://github.com/nolimits4web/Swiper/issues/4716)
 
 ### Features
 
-* **core:** add ParallaxOptions types ([7cc22fe](https://github.com/nolimits4web/Swiper/commit/7cc22fe72bf95a1fa74a6f4226bebb3bdd4527a2)), closes [#4684](https://github.com/nolimits4web/Swiper/issues/4684)
-* **core:** allow `wrapperClass` to be multiple classes ([0d578b0](https://github.com/nolimits4web/Swiper/commit/0d578b0b98bb95141a481d74f1a8ec286bfaad54)), closes [#4680](https://github.com/nolimits4web/Swiper/issues/4680)
-* **core:** make `focusableElements` configurable ([6ff0866](https://github.com/nolimits4web/Swiper/commit/6ff086644805be9992adcb6668198496e64e7707)), closes [#4677](https://github.com/nolimits4web/Swiper/issues/4677)
-* **core:** use `window.matchMedia` to detect window width for breakpoints ([1a4afe0](https://github.com/nolimits4web/Swiper/commit/1a4afe0f86ef6f7978fde8a8caf6522ee87faab2)), closes [#4682](https://github.com/nolimits4web/Swiper/issues/4682)
+- **vue:** added Vue components typings ([#4707](https://github.com/nolimits4web/Swiper/issues/4707)) ([c452c08](https://github.com/nolimits4web/Swiper/commit/c452c089995760c23e429fa06afa04bd7a1d7c81)), closes [#3916](https://github.com/nolimits4web/Swiper/issues/3916)
 
+# [6.7.1](https://github.com/nolimits4web/Swiper/compare/v6.7.0...v6.7.1) (2021-06-23)
 
+### Bug Fixes
+
+- **angular:** don't set main `class` on wrapper element ([1285195](https://github.com/nolimits4web/Swiper/commit/12851953491155f5f96930355c91110c9a4cf753)), closes [#4679](https://github.com/nolimits4web/Swiper/issues/4679)
+- **core:** don't extend html elements ([#4691](https://github.com/nolimits4web/Swiper/issues/4691)) ([32ae99b](https://github.com/nolimits4web/Swiper/commit/32ae99b5d7ffbd148cb3268c5048c76720190c54))
+- **core:** unset top margin on slide when `slidesPerColum` changed ([1ced4f7](https://github.com/nolimits4web/Swiper/commit/1ced4f725f66572505aeda34fe2e4c3e0cef05bf)), closes [#4658](https://github.com/nolimits4web/Swiper/issues/4658)
+- **react:** dynamically enable/disable navigation/pagination/scrollbar ([d87ac0c](https://github.com/nolimits4web/Swiper/commit/d87ac0c611cbe050c50ab70f4faf5a53decabf12)), closes [#4681](https://github.com/nolimits4web/Swiper/issues/4681)
+- **react:** update parallax on Virtual slides rendered ([ce210f3](https://github.com/nolimits4web/Swiper/commit/ce210f3de6336e068ef78511f8ee7a309e8d5456)), closes [#4673](https://github.com/nolimits4web/Swiper/issues/4673)
+- **react, svelte, vue:** allow to accept `enabled` prop ([76dd086](https://github.com/nolimits4web/Swiper/commit/76dd086ef6a6ba7794e5cc9fd7633d46bdec1c5c)), closes [#4633](https://github.com/nolimits4web/Swiper/issues/4633)
+- **svelte:** dynamically enable/disable navigation/pagination/scrollbar ([8711bb9](https://github.com/nolimits4web/Swiper/commit/8711bb944f5d3aece3550125ed9f5842419c1ea2))
+- **typings:** fixed methods definitions for navigation, pagination and scrollbar ([77d6909](https://github.com/nolimits4web/Swiper/commit/77d69092e229dc2dd8cf764766e70ba29408caec))
+- **vue:** dynamically enable/disable navigation/pagination/scrollbar ([4821008](https://github.com/nolimits4web/Swiper/commit/482100847d1f6459191d2ccf0ef868a6f69b5691))
+- **vue:** update parallax on Virtual slides rendered ([b78c6e0](https://github.com/nolimits4web/Swiper/commit/b78c6e0a758bdb52986ecc1c7b3134737807cbdc))
+
+### Features
+
+- **core:** add ParallaxOptions types ([7cc22fe](https://github.com/nolimits4web/Swiper/commit/7cc22fe72bf95a1fa74a6f4226bebb3bdd4527a2)), closes [#4684](https://github.com/nolimits4web/Swiper/issues/4684)
+- **core:** allow `wrapperClass` to be multiple classes ([0d578b0](https://github.com/nolimits4web/Swiper/commit/0d578b0b98bb95141a481d74f1a8ec286bfaad54)), closes [#4680](https://github.com/nolimits4web/Swiper/issues/4680)
+- **core:** make `focusableElements` configurable ([6ff0866](https://github.com/nolimits4web/Swiper/commit/6ff086644805be9992adcb6668198496e64e7707)), closes [#4677](https://github.com/nolimits4web/Swiper/issues/4677)
+- **core:** use `window.matchMedia` to detect window width for breakpoints ([1a4afe0](https://github.com/nolimits4web/Swiper/commit/1a4afe0f86ef6f7978fde8a8caf6522ee87faab2)), closes [#4682](https://github.com/nolimits4web/Swiper/issues/4682)
 
 # [6.7.0](https://github.com/nolimits4web/Swiper/compare/v6.6.2...v6.7.0) (2021-05-31)
 
@@ -1224,7 +1242,7 @@
 - New `onObserverUpdate` callback function to be called after updates by observer
 - Fixed issue with not working inputs with keyboard control for jQuery version
 - New `paginationBulletRender` parameter that accepts function which allow custom pagination elements layout
-- Hash Navigation will run callback dpending on `runCallbacksOnInit` parameter
+- Hash Navigation will run callback depending on `runCallbacksOnInit` parameter
 - `watchVisibility` parameter renamed to `watchSlidesVisibility`
 
 ## 3.0.3 - Released on March 1st, 2015

@@ -55,8 +55,8 @@ body:
     id: browser
     attributes:
       label: Platform/Target and Browser Versions
-      description: Platform client you are targeting such as macOS, Windows, Cordova, IOS, Android, Chrome, etc.
-      placeholder: e.g macOS safari 14.1
+      description: Platform client you are targeting such as macOS, Windows, Cordova, iOS, Android, Chrome, etc.
+      placeholder: e.g macOS Safari 14.1
     validations:
       required: true
   - type: checkboxes

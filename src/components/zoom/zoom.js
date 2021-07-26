@@ -133,10 +133,6 @@ const Zoom = {
       gesture.slideWidth = gesture.$slideEl[0].offsetWidth;
       gesture.slideHeight = gesture.$slideEl[0].offsetHeight;
       gesture.$imageWrapEl.transition(0);
-      if (swiper.rtl) {
-        image.startX = -image.startX;
-        image.startY = -image.startY;
-      }
     }
     // Define if we need image drag
     const scaledWidth = image.width * zoom.scale;
@@ -298,11 +294,17 @@ const Zoom = {
     const { gesture, image } = zoom;
 
     if (!gesture.$slideEl) {
-      if (swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual) {
-        gesture.$slideEl = swiper.$wrapperEl.children(`.${swiper.params.slideActiveClass}`);
-      } else {
-        gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
+      if (e && e.target) {
+        gesture.$slideEl = $(e.target).closest(`.${swiper.params.slideClass}`);
       }
+      if (!gesture.$slideEl) {
+        if (swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual) {
+          gesture.$slideEl = swiper.$wrapperEl.children(`.${swiper.params.slideActiveClass}`);
+        } else {
+          gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
+        }
+      }
+
       gesture.$imageEl = gesture.$slideEl.find('img, svg, canvas, picture, .swiper-zoom-target');
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
     }

@@ -32,7 +32,7 @@ export interface A11yOptions {
   firstSlideMessage?: string;
 
   /**
-   * Message for screen readers for previous button when swiper is on last slide
+   * Message for screen readers for next button when swiper is on last slide
    *
    * @default 'This is the last slide'
    */
