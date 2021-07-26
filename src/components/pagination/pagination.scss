@@ -69,7 +69,7 @@
   }
 
   &:only-child {
-    display: none;
+    display: none !important;
   }
 }
 .swiper-pagination-bullet-active {
