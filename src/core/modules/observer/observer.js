@@ -1,22 +1,20 @@
 import { getWindow } from 'ssr-window';
-import { bindModuleMethods } from '../../../shared/utils.js';
 
-const Observer = {
-  attach(target, options = {}) {
-    const window = getWindow();
-    const swiper = this;
-
+export default function Observer({ swiper, extendParams, on, emit }) {
+  const observers = [];
+  const window = getWindow();
+  const attach = (target, options = {}) => {
     const ObserverFunc = window.MutationObserver || window.WebkitMutationObserver;
     const observer = new ObserverFunc((mutations) => {
       // The observerUpdate event should only be triggered
       // once despite the number of mutations.  Additional
       // triggers are redundant and are very costly
       if (mutations.length === 1) {
-        swiper.emit('observerUpdate', mutations[0]);
+        emit('observerUpdate', mutations[0]);
         return;
       }
       const observerUpdate = function observerUpdate() {
-        swiper.emit('observerUpdate', mutations[0]);
+        emit('observerUpdate', mutations[0]);
       };
 
       if (window.requestAnimationFrame) {
@@ -32,56 +30,36 @@ const Observer = {
       characterData: typeof options.characterData === 'undefined' ? true : options.characterData,
     });
 
-    swiper.observer.observers.push(observer);
-  },
-  init() {
-    const swiper = this;
+    observers.push(observer);
+  };
+  const init = () => {
     if (!swiper.support.observer || !swiper.params.observer) return;
     if (swiper.params.observeParents) {
       const containerParents = swiper.$el.parents();
       for (let i = 0; i < containerParents.length; i += 1) {
-        swiper.observer.attach(containerParents[i]);
+        attach(containerParents[i]);
       }
     }
     // Observe container
-    swiper.observer.attach(swiper.$el[0], {
+    attach(swiper.$el[0], {
       childList: swiper.params.observeSlideChildren,
     });
 
     // Observe wrapper
-    swiper.observer.attach(swiper.$wrapperEl[0], { attributes: false });
-  },
-  destroy() {
-    const swiper = this;
-    swiper.observer.observers.forEach((observer) => {
+    attach(swiper.$wrapperEl[0], { attributes: false });
+  };
+  const destroy = () => {
+    observers.forEach((observer) => {
       observer.disconnect();
     });
-    swiper.observer.observers = [];
-  },
-};
+    observers.splice(0, observers.length);
+  };
 
-export default {
-  name: 'observer',
-  params: {
+  extendParams({
     observer: false,
     observeParents: false,
     observeSlideChildren: false,
-  },
-  create() {
-    const swiper = this;
-    bindModuleMethods(swiper, {
-      observer: {
-        ...Observer,
-        observers: [],
-      },
-    });
-  },
-  on: {
-    init(swiper) {
-      swiper.observer.init();
-    },
-    destroy(swiper) {
-      swiper.observer.destroy();
-    },
-  },
-};
+  });
+  on('init', init);
+  on('destroy', destroy);
+}
