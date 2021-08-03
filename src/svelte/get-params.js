@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import Swiper from '../../core';
+import Swiper from '../core/core-class';
 import { isObject, extend } from './utils';
 import { paramsList } from './params-list';
 

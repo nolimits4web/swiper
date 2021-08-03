@@ -1,5 +1,4 @@
-// eslint-disable-next-line
-import Swiper from '../../core';
+import Swiper from '../core/core-class';
 import { needsNavigation, needsPagination, needsScrollbar } from './utils';
 
 function initSwiper(swiperParams, modules) {
