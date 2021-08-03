@@ -70,7 +70,7 @@ async function release() {
   // Copy dependencies
   childPkg.dependencies = pkg.dependencies;
 
-  fs.writeFileSync(path.resolve(__dirname, '../package.json'), JSON.stringify(pkg, null, 2));
+  fs.writeFileSync(path.resolve(__dirname, '../package.json'), `${JSON.stringify(pkg, null, 2)}\n`);
   fs.writeFileSync(
     path.resolve(__dirname, '../package/package.json'),
     `${JSON.stringify(childPkg, null, 2)}\n`,
