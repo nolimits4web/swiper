@@ -1,8 +1,8 @@
 // eslint-disable-next-line
-import '../../build/swiper-bundle.css';
+import '../../build/css';
 
 // eslint-disable-next-line
-import Swiper from '../../build/swiper-bundle.esm';
+import Swiper from '../../build/bundle';
 
 // eslint-disable-next-line
 window.swiper = new Swiper({
