@@ -45,7 +45,10 @@ export default function setBreakpoint() {
     swiper.emitContainerClasses();
   } else if (!wasMultiRow && isMultiRow) {
     $el.addClass(`${params.containerModifierClass}multirow`);
-    if (breakpointParams.slidesPerColumnFill === 'column') {
+    if (
+      (breakpointParams.slidesPerColumnFill && breakpointParams.slidesPerColumnFill === 'column') ||
+      (!breakpointParams.slidesPerColumnFill && params.slidesPerColumnFill === 'column')
+    ) {
       $el.addClass(`${params.containerModifierClass}multirow-column`);
     }
     swiper.emitContainerClasses();

@@ -92,18 +92,19 @@ function isObject(o) {
     Object.prototype.toString.call(o).slice(8, -1) === 'Object'
   );
 }
+function isNode(node) {
+  // eslint-disable-next-line
+  if (typeof window !== 'undefined' && typeof window.HTMLElement !== 'undefined') {
+    return node instanceof HTMLElement;
+  }
+  return node && (node.nodeType === 1 || node.nodeType === 11);
+}
 function extend(...args) {
   const to = Object(args[0]);
   const noExtend = ['__proto__', 'constructor', 'prototype'];
-  // eslint-disable-next-line
-  const HTMLElement = typeof window !== 'undefined' ? window.HTMLElement : undefined;
   for (let i = 1; i < args.length; i += 1) {
     const nextSource = args[i];
-    if (
-      nextSource !== undefined &&
-      nextSource !== null &&
-      !(HTMLElement && nextSource instanceof HTMLElement)
-    ) {
+    if (nextSource !== undefined && nextSource !== null && !isNode(nextSource)) {
       const keysArray = Object.keys(Object(nextSource)).filter((key) => noExtend.indexOf(key) < 0);
       for (let nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex += 1) {
         const nextKey = keysArray[nextIndex];

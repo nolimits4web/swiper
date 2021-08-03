@@ -13,17 +13,20 @@ window.swiper = new Swiper({
   createElements: true,
   pagination: true,
   navigation: true,
-  a11y: {
-    containerMessage: 'Example content',
-    containerRoleDescriptionMessage: 'carousel',
-    itemRoleDescriptionMessage: 'slide',
+  spaceBetween: 20,
+  breakpoints: {
+    640: {
+      slidesPerColumn: 2,
+    },
+    768: {
+      slidesPerColumn: 3,
+    },
   },
 });
 
-// uncomment to test SlidesPerColumn module TODO: remove
-// window.swiper = new Swiper({
-//   el: '.swiper-container',
-//   slidesPerView: 3,
-//   slidesPerColumn: 2,
-//   spaceBetween: 30,
-// });
+// eslint-disable-next-line no-restricted-globals
+document.querySelector('.append-slide').addEventListener('click', (e) => {
+  e.preventDefault();
+  // eslint-disable-next-line no-restricted-globals
+  window.swiper.appendSlide('<div class="swiper-slide">Slide</div>');
+});

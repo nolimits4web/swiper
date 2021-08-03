@@ -2,7 +2,8 @@
 import Swiper from '../../core';
 import { needsNavigation, needsPagination, needsScrollbar } from './utils';
 
-function initSwiper(swiperParams) {
+function initSwiper(swiperParams, modules) {
+  if (modules) Swiper.use(modules);
   return new Swiper(swiperParams);
 }
 

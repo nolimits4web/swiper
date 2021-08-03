@@ -21,6 +21,7 @@
     <div class="swiper-slide">Slide 9</div>
     <div class="swiper-slide">Slide 10</div>
   </section>
+  <a href="#" class="append-slide">Append</a>
   <style>
     body,
     html {
@@ -40,7 +41,14 @@
       background: #f1f1f1;
       color: #000;
       text-align: center;
-      line-height: 300px;
+      /* line-height: 300px; */
+      height: calc(100% / 2 - 10px);
+    }
+
+    @media (min-width: 768px) {
+      .swiper-slide {
+        height: calc((100% - 40px) / 3);
+      }
     }
   </style>
   <script type="module" src="./main.js"></script>

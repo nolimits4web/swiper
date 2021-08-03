@@ -60,8 +60,8 @@ export default function updateSlides() {
   swiper.virtualSize = -spaceBetween;
 
   // reset margins
-  if (rtl) slides.css({ marginLeft: '', marginTop: '' });
-  else slides.css({ marginRight: '', marginBottom: '' });
+  if (rtl) slides.css({ marginLeft: '', marginBottom: '', marginTop: '' });
+  else slides.css({ marginRight: '', marginBottom: '', marginTop: '' });
 
   // Calc slides
   let slideSize;
