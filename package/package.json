@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "6.8.0",
+  "version": "6.8.1",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "swiper.cjs.js",
   "jsnext:main": "swiper.esm.js",

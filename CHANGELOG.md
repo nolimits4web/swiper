@@ -1,5 +1,16 @@
 # Changelog
 
+# [6.8.1](https://github.com/nolimits4web/Swiper/compare/v6.8.0...v.6.8.1) (2021-08-03)
+
+### Bug Fixes
+
+- **core:** reset slides margin-top on `slidesPerColumn` breakpoint ([c94a115](https://github.com/nolimits4web/Swiper/commit/c94a115b4e5ca326730722cdeeb5c27a387cf1db)), closes [#4044](https://github.com/nolimits4web/Swiper/issues/4044)
+- **core:** fix server side check for `HTMLElement` (close [#4787](https://github.com/nolimits4web/Swiper/issues/4787)) ([#4788](https://github.com/nolimits4web/Swiper/issues/4788)) ([ca4f6b8](https://github.com/nolimits4web/Swiper/commit/ca4f6b8dfcc96c0f59d7b78afba8633d06faced8))
+
+### Features
+
+- **pagination:** hide 1 dot pagination ([#4786](https://github.com/nolimits4web/Swiper/issues/4786)) ([cc5e417](https://github.com/nolimits4web/Swiper/commit/cc5e4174ae7bc1b3e465a9eea6a4ee8d7df16cdb))
+
 # [6.8.0](https://github.com/nolimits4web/Swiper/compare/v6.7.5...v6.8.0) (2021-07-22)
 
 ### Bug Fixes

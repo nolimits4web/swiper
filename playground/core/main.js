@@ -13,10 +13,14 @@ window.swiper = new Swiper({
   createElements: true,
   pagination: true,
   navigation: true,
-  a11y: {
-    containerMessage: 'Example content',
-    containerRoleDescriptionMessage: 'carousel',
-    itemRoleDescriptionMessage: 'slide',
+  spaceBetween: 20,
+  breakpoints: {
+    640: {
+      slidesPerColumn: 2,
+    },
+    768: {
+      slidesPerColumn: 3,
+    },
   },
 });
 
