@@ -46,6 +46,8 @@ export default {
   // Slides grid
   spaceBetween: 0,
   slidesPerView: 1,
+  slidesPerColumn: 1,
+  slidesPerColumnFill: 'column',
   slidesPerGroup: 1,
   slidesPerGroupSkip: 0,
   centeredSlides: false,

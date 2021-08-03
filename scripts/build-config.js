@@ -20,6 +20,5 @@ module.exports = {
     'effect-coverflow',
     'thumbs',
     'free-mode',
-    'slides-per-column',
   ],
 };
