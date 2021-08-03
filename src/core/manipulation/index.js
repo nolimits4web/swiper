@@ -1,8 +1,8 @@
-import appendSlide from './appendSlide';
-import prependSlide from './prependSlide';
-import addSlide from './addSlide';
-import removeSlide from './removeSlide';
-import removeAllSlides from './removeAllSlides';
+import appendSlide from './appendSlide.js';
+import prependSlide from './prependSlide.js';
+import addSlide from './addSlide.js';
+import removeSlide from './removeSlide.js';
+import removeAllSlides from './removeAllSlides.js';
 
 export default {
   appendSlide,

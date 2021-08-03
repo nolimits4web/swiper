@@ -1,6 +1,6 @@
 import { getWindow } from 'ssr-window';
-import $ from '../../shared/dom';
-import { bindModuleMethods, getTranslate } from '../../shared/utils';
+import $ from '../../shared/dom.js';
+import { bindModuleMethods, getTranslate } from '../../shared/utils.js';
 
 const Zoom = {
   // Calc Scale From Multi-touches

@@ -1,12 +1,18 @@
 import { h, ref, onMounted, onUpdated, onBeforeUnmount, watch, nextTick } from 'vue';
-import { getParams } from './get-params';
-import { initSwiper, mountSwiper } from './init-swiper';
-import { needsScrollbar, needsNavigation, needsPagination, uniqueClasses, extend } from './utils';
-import { renderLoop, calcLoopedSlides } from './loop';
-import { getChangedParams } from './get-changed-params';
-import { getChildren } from './get-children';
-import { updateSwiper } from './update-swiper';
-import { renderVirtual, updateOnVirtualData } from './virtual';
+import { getParams } from './get-params.js';
+import { initSwiper, mountSwiper } from './init-swiper.js';
+import {
+  needsScrollbar,
+  needsNavigation,
+  needsPagination,
+  uniqueClasses,
+  extend,
+} from './utils.js';
+import { renderLoop, calcLoopedSlides } from './loop.js';
+import { getChangedParams } from './get-changed-params.js';
+import { getChildren } from './get-children.js';
+import { updateSwiper } from './update-swiper.js';
+import { renderVirtual, updateOnVirtualData } from './virtual.js';
 
 const Swiper = {
   name: 'Swiper',

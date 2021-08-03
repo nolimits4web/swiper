@@ -1,5 +1,5 @@
-import $ from '../../shared/dom';
-import { bindModuleMethods } from '../../shared/utils';
+import $ from '../../shared/dom.js';
+import { bindModuleMethods } from '../../shared/utils.js';
 
 const Coverflow = {
   setTranslate() {

@@ -1,6 +1,5 @@
 import { h } from 'vue';
-// eslint-disable-next-line
-import Swiper from '../../core';
+import Swiper from '../core/core-class.js';
 
 function calcLoopedSlides(slides, swiperParams) {
   let slidesPerViewParams = swiperParams.slidesPerView;

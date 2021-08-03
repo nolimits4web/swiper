@@ -1,6 +1,6 @@
 import { getWindow, getDocument } from 'ssr-window';
-import $ from '../../shared/dom';
-import { extend, now } from '../../shared/utils';
+import $ from '../../shared/dom.js';
+import { extend, now } from '../../shared/utils.js';
 
 // Modified from https://stackoverflow.com/questions/54520554/custom-element-getrootnode-closest-function-crossing-multiple-parent-shadowd
 function closestElement(selector, base = this) {

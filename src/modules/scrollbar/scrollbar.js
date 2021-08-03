@@ -1,6 +1,11 @@
 import { getDocument } from 'ssr-window';
-import $ from '../../shared/dom';
-import { extend, nextTick, bindModuleMethods, createElementIfNotDefined } from '../../shared/utils';
+import $ from '../../shared/dom.js';
+import {
+  extend,
+  nextTick,
+  bindModuleMethods,
+  createElementIfNotDefined,
+} from '../../shared/utils.js';
 
 const Scrollbar = {
   setTranslate() {

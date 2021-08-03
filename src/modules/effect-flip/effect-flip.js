@@ -1,5 +1,5 @@
-import $ from '../../shared/dom';
-import { extend, bindModuleMethods } from '../../shared/utils';
+import $ from '../../shared/dom.js';
+import { extend, bindModuleMethods } from '../../shared/utils.js';
 
 const Flip = {
   setTranslate() {

@@ -1,5 +1,5 @@
-import setGrabCursor from './setGrabCursor';
-import unsetGrabCursor from './unsetGrabCursor';
+import setGrabCursor from './setGrabCursor.js';
+import unsetGrabCursor from './unsetGrabCursor.js';
 
 export default {
   setGrabCursor,

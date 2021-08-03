@@ -1,6 +1,6 @@
 import React, { useRef, useState, forwardRef } from 'react';
-import { uniqueClasses } from './utils';
-import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect';
+import { uniqueClasses } from './utils.js';
+import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.js';
 
 const SwiperSlide = forwardRef(
   (

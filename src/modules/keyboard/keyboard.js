@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import { getWindow, getDocument } from 'ssr-window';
-import $ from '../../shared/dom';
-import { bindModuleMethods } from '../../shared/utils';
+import $ from '../../shared/dom.js';
+import { bindModuleMethods } from '../../shared/utils.js';
 
 const Keyboard = {
   handle(event) {

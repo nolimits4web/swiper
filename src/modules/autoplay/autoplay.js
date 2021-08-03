@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: "off" */
 import { getDocument } from 'ssr-window';
-import { nextTick, bindModuleMethods } from '../../shared/utils';
+import { nextTick, bindModuleMethods } from '../../shared/utils.js';
 
 const Autoplay = {
   run() {

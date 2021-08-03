@@ -1,4 +1,4 @@
-import { extend } from '../shared/utils';
+import { extend } from '../shared/utils.js';
 
 export default {
   useParams(instanceParams) {

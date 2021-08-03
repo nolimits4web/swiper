@@ -1,5 +1,5 @@
 import { getDocument } from 'ssr-window';
-import $ from '../../shared/dom';
+import $ from '../../shared/dom.js';
 
 export default function loopCreate() {
   const swiper = this;

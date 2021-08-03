@@ -1,7 +1,6 @@
-// eslint-disable-next-line
-import Swiper from '../core/core-class';
-import { isObject, extend } from './utils';
-import { paramsList } from './params-list';
+import Swiper from '../core/core-class.js';
+import { isObject, extend } from './utils.js';
+import { paramsList } from './params-list.js';
 
 function getParams(obj = {}) {
   const params = {

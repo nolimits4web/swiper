@@ -1,4 +1,4 @@
-import { bindModuleMethods, now } from '../../shared/utils';
+import { bindModuleMethods, now } from '../../shared/utils.js';
 
 const FreeMode = {
   onTouchMove() {

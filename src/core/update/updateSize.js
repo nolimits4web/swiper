@@ -1,4 +1,4 @@
-import { extend } from '../../shared/utils';
+import { extend } from '../../shared/utils.js';
 
 export default function updateSize() {
   const swiper = this;

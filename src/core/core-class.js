@@ -1,31 +1,31 @@
 /* eslint no-param-reassign: "off" */
 import { getDocument } from 'ssr-window';
-import $ from '../shared/dom';
-import { extend, now, deleteProps } from '../shared/utils';
-import { getSupport } from '../shared/get-support';
-import { getDevice } from '../shared/get-device';
-import { getBrowser } from '../shared/get-browser';
+import $ from '../shared/dom.js';
+import { extend, now, deleteProps } from '../shared/utils.js';
+import { getSupport } from '../shared/get-support.js';
+import { getDevice } from '../shared/get-device.js';
+import { getBrowser } from '../shared/get-browser.js';
 
-import Resize from './modules/resize/resize';
-import Observer from './modules/observer/observer';
+import Resize from './modules/resize/resize.js';
+import Observer from './modules/observer/observer.js';
 
-import modular from './modular';
-import eventsEmitter from './events-emitter';
+import modular from './modular.js';
+import eventsEmitter from './events-emitter.js';
 
-import update from './update/index';
-import translate from './translate/index';
-import transition from './transition/index';
-import slide from './slide/index';
-import loop from './loop/index';
-import grabCursor from './grab-cursor/index';
-import manipulation from './manipulation/index';
-import events from './events/index';
-import breakpoints from './breakpoints/index';
-import classes from './classes/index';
-import images from './images/index';
-import checkOverflow from './check-overflow/index';
+import update from './update/index.js';
+import translate from './translate/index.js';
+import transition from './transition/index.js';
+import slide from './slide/index.js';
+import loop from './loop/index.js';
+import grabCursor from './grab-cursor/index.js';
+import manipulation from './manipulation/index.js';
+import events from './events/index.js';
+import breakpoints from './breakpoints/index.js';
+import classes from './classes/index.js';
+import images from './images/index.js';
+import checkOverflow from './check-overflow/index.js';
 
-import defaults from './defaults';
+import defaults from './defaults.js';
 
 const prototypes = {
   modular,

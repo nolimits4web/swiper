@@ -1,5 +1,4 @@
-/* eslint-disable */
-import Swiper from './svelte/swiper';
-import SwiperSlide from './svelte/swiper-slide';
+import Swiper from './swiper.svelte';
+import SwiperSlide from './swiper-slide.svelte';
 
 export { Swiper, SwiperSlide };

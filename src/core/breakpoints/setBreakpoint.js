@@ -1,4 +1,4 @@
-import { extend } from '../../shared/utils';
+import { extend } from '../../shared/utils.js';
 
 export default function setBreakpoint() {
   const swiper = this;

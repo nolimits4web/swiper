@@ -1,5 +1,5 @@
-import $ from '../../shared/dom';
-import { nextTick } from '../../shared/utils';
+import $ from '../../shared/dom.js';
+import { nextTick } from '../../shared/utils.js';
 
 export default function slideToClickedSlide() {
   const swiper = this;

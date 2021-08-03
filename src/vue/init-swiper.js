@@ -1,5 +1,5 @@
-import Swiper from '../core/core-class';
-import { needsNavigation, needsPagination, needsScrollbar } from './utils';
+import Swiper from '../core/core-class.js';
+import { needsNavigation, needsPagination, needsScrollbar } from './utils.js';
 
 function initSwiper(swiperParams) {
   return new Swiper(swiperParams);

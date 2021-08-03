@@ -1,4 +1,4 @@
-import addClasses from './addClasses';
-import removeClasses from './removeClasses';
+import addClasses from './addClasses.js';
+import removeClasses from './removeClasses.js';
 
 export default { addClasses, removeClasses };

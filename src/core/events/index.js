@@ -1,11 +1,11 @@
 import { getDocument } from 'ssr-window';
 
-import onTouchStart from './onTouchStart';
-import onTouchMove from './onTouchMove';
-import onTouchEnd from './onTouchEnd';
-import onResize from './onResize';
-import onClick from './onClick';
-import onScroll from './onScroll';
+import onTouchStart from './onTouchStart.js';
+import onTouchMove from './onTouchMove.js';
+import onTouchEnd from './onTouchEnd.js';
+import onResize from './onResize.js';
+import onClick from './onClick.js';
+import onScroll from './onScroll.js';
 
 let dummyEventAttached = false;
 function dummyEventListener() {}

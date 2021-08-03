@@ -64,5 +64,12 @@ module.exports = {
         'no-restricted-globals': 'off',
       },
     },
+    {
+      files: ['src/**/*.*'],
+      rules: {
+        ...rules,
+        'import/extensions': [2, { js: 'always' }],
+      },
+    },
   ],
 };

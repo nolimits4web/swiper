@@ -1,10 +1,10 @@
-import $ from '../../shared/dom';
+import $ from '../../shared/dom.js';
 import {
   extend,
   bindModuleMethods,
   classesToSelector,
   createElementIfNotDefined,
-} from '../../shared/utils';
+} from '../../shared/utils.js';
 
 const Pagination = {
   update() {
