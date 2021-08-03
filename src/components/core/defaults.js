@@ -6,7 +6,7 @@ export default {
   speed: 300,
   cssMode: false,
   updateOnWindowResize: true,
-  resizeObserver: false,
+  resizeObserver: true,
   nested: false,
   createElements: false,
   enabled: true,

@@ -48,7 +48,7 @@ export interface SwiperOptions {
   /**
    * When enabled it will use ResizeObserver (if supported by browser) on swiper container to detect container resize (instead of watching for window resize)
    *
-   * @default false
+   * @default true
    */
   resizeObserver?: boolean;
 
