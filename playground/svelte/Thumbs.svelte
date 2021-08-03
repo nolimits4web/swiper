@@ -1,4 +1,5 @@
 <script>
+  // eslint-disable-next-line
   import SwiperCore, {
     Navigation,
     Pagination,
@@ -6,6 +7,7 @@
     A11y,
     Thumbs,
   } from '../../build/swiper.esm.js';
+  // eslint-disable-next-line
   import { Swiper, SwiperSlide } from '../../build/svelte/swiper-svelte.js';
 
   SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Thumbs]);
