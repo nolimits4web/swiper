@@ -56,7 +56,7 @@ async function buildBundle(components, format, browser, cb) {
       }),
     )
     .then(async (bundle) => {
-      if (!browser && (format === 'cjs' || format === 'esm')) {
+      if (!browser && format === 'esm') {
         // Fix imports
         const modularContent = fs
           .readFileSync(`./${output}/${filename}.js`, 'utf-8')
@@ -124,7 +124,6 @@ async function build() {
     buildBundle(components, 'esm', false, () => {}),
     buildBundle(components, 'esm', true, () => {}),
     buildBundle(components, 'umd', true, () => {}),
-    buildBundle(components, 'cjs', false, () => {}),
   ]);
 }
 

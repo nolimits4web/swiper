@@ -23,15 +23,9 @@ class Build {
 
   add(flag, buildFn) {
     if (!this.argv.includes('--only') || this.argv.includes(flag)) {
-      this.tasks.push(buildFn);
+      this.tasks.push(() => buildFn(this.outputDir));
     }
     return this;
-  }
-
-  addMultipleFormats(flag, buildFn) {
-    return this.add(flag, async () =>
-      Promise.all(['esm', 'cjs'].map((format) => buildFn(format, this.outputDir))),
-    );
   }
 
   async run() {
@@ -64,9 +58,9 @@ class Build {
     .add('core', buildJsCore)
     .add('bundle', buildJsBundle)
     .add('types', buildTypes)
-    .addMultipleFormats('react', buildReact)
-    .addMultipleFormats('vue', buildVue)
-    .addMultipleFormats('svelte', buildSvelte)
+    .add('react', buildReact)
+    .add('vue', buildVue)
+    .add('svelte', buildSvelte)
     .add('angular', buildAngular)
     .add('styles', () => buildStyles(build.outputDir))
     .run();

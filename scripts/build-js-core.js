@@ -6,31 +6,18 @@ const fs = require('fs');
 const config = require('./build-config');
 const banner = require('./banner')();
 
-async function buildCore(components, format) {
+async function buildCore(components) {
   const env = process.env.NODE_ENV || 'development';
-  const filename = `swiper.${format}`;
+  const filename = `swiper.esm`;
   const outputDir = env === 'development' ? 'build' : 'package';
   let coreContent = '';
-  if (format === 'esm') {
-    coreContent += `export { default as Swiper, default } from './components/core/core-class';\n`;
-    coreContent += components
-      .map(
-        (component) =>
-          `export { default as ${component.capitalized} } from './components/${component.name}/${component.name}';`,
-      )
-      .join('\n');
-  } else if (format === 'cjs') {
-    coreContent += `"use strict";\n`;
-    coreContent += `exports.__esModule = true;\n`;
-    coreContent += `exports.default = require('./components/core/core-class').default;\n`;
-    coreContent += `exports.Swiper = require('./components/core/core-class').default;\n`;
-    coreContent += components
-      .map(
-        (component) =>
-          `exports.${component.capitalized} = require('./components/${component.name}/${component.name}').default;`,
-      )
-      .join('\n');
-  }
+  coreContent += `export { default as Swiper, default } from './components/core/core-class';\n`;
+  coreContent += components
+    .map(
+      (component) =>
+        `export { default as ${component.capitalized} } from './components/${component.name}/${component.name}';`,
+    )
+    .join('\n');
 
   coreContent = `${banner}\n${coreContent}`;
 
@@ -49,26 +36,24 @@ async function buildCore(components, format) {
     '"src/swiper-svelte.js"',
   ];
   await exec.promise(
-    `npx cross-env MODULES=${format} npx babel src --out-dir ${outputDir}/${format} --ignore ${ignore.join(
-      ',',
-    )}`,
+    `npx cross-env npx babel src --out-dir ${outputDir}/esm --ignore ${ignore.join(',')}`,
   );
 
   // Remove unused dirs
   const dirsToRemove = ['less'];
   const filesToRemove = ['swiper.js'];
   dirsToRemove.forEach((dir) => {
-    fs.rmdirSync(`./${outputDir}/${format}/${dir}`, { recursive: true });
+    fs.rmdirSync(`./${outputDir}/esm/${dir}`, { recursive: true });
   });
   filesToRemove.forEach((file) => {
-    fs.unlinkSync(`./${outputDir}/${format}/${file}`);
+    fs.unlinkSync(`./${outputDir}/esm/${file}`);
   });
 
   // Fix import paths
   let fileContent = fs.readFileSync(`./${outputDir}/${filename}.js`, 'utf-8');
   fileContent = fileContent
-    .replace(/require\('\.\//g, `require('./${format}/`)
-    .replace(/from '\.\//g, `from './${format}/`);
+    .replace(/require\('\.\//g, `require('./esm/`)
+    .replace(/from '\.\//g, `from './esm/`);
   fs.writeFileSync(`./${outputDir}/${filename}.js`, fileContent);
 }
 
@@ -96,7 +81,7 @@ async function build() {
     }
   });
 
-  await Promise.all([buildCore(components, 'esm'), buildCore(components, 'cjs')]);
+  await buildCore(components, 'esm');
 
   // build components
   components.forEach(({ name }) => {
