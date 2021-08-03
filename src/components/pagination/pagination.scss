@@ -147,11 +147,6 @@
     top: 0;
   }
 }
-@each $paginationColorName, $paginationColorValue in $colors {
-  .swiper-pagination-#{'' + $paginationColorName} {
-    --swiper-pagination-color: #{'' + $paginationColorValue};
-  }
-}
 .swiper-pagination-lock {
   display: none;
 }

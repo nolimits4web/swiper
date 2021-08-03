@@ -11,14 +11,7 @@ const minifyCSS = require('./utils/clean-css');
 const banner = require('./banner')();
 const config = require('./build-config');
 
-const base64Encode = async (file) => {
-  // read binary data
-  const bitmap = await fs.readFile(file);
-  // convert binary data to base64 encoded string
-  return Buffer.from(bitmap).toString('base64');
-};
-
-const readSwiperFile = async (filePath, iconsFontBase64, colors) => {
+const readSwiperFile = async (filePath) => {
   const fileContent = await fs.readFile(filePath, 'utf-8');
   if (filePath.includes('swiper.less')) {
     const coreContent = fs.readFileSync(
@@ -26,17 +19,12 @@ const readSwiperFile = async (filePath, iconsFontBase64, colors) => {
       'utf-8',
     );
     return fileContent
-      .replace('swiperIconsFont()', `'${iconsFontBase64}'`)
-      .replace('$themeColor', config.themeColor)
-      .replace('$colors', colors.join(', '))
       .replace('//IMPORT_COMPONENTS', '')
       .replace(`@import url('./less/mixins.less');`, '')
       .replace(`@import url('./components/core/core.less');`, coreContent);
   }
   if (filePath.includes('swiper-vars.less')) {
-    return fileContent
-      .replace('$themeColor', config.themeColor)
-      .replace('$colors', colors.join(', '));
+    return fileContent;
   }
   if (filePath.includes('navigation.less') || filePath.includes('pagination.less')) {
     return ["@import url('../../swiper-vars.less');", fileContent].join('\n\n');
@@ -53,19 +41,16 @@ const readSwiperFile = async (filePath, iconsFontBase64, colors) => {
   return fileContent;
 };
 
-const buildCSS = async ({ isBundle, colors, components, minified, outputDir }) => {
+const buildCSS = async ({ isBundle, components, minified, outputDir }) => {
   let lessContent = await fs.readFile(path.resolve(__dirname, '../src/swiper.less'), 'utf8');
-  lessContent = lessContent
-    .replace(
-      '//IMPORT_COMPONENTS',
-      !isBundle
-        ? ''
-        : components
-            .map((component) => `@import url('./components/${component}/${component}.less');`)
-            .join('\n'),
-    )
-    .replace('$themeColor', config.themeColor)
-    .replace('$colors', colors.join(', '));
+  lessContent = lessContent.replace(
+    '//IMPORT_COMPONENTS',
+    !isBundle
+      ? ''
+      : components
+          .map((component) => `@import url('./components/${component}/${component}.less');`)
+          .join('\n'),
+  );
 
   const cssContent = await autoprefixer(
     await less(lessContent, path.resolve(__dirname, '../src')),
@@ -94,18 +79,15 @@ module.exports = async (outputDir) => {
     const lessFilePath = `./src/components/${name}/${name}.less`;
     return fs.existsSync(lessFilePath);
   });
-  const colors = Object.keys(config.colors).map((key) => `${key} ${config.colors[key]}`);
 
-  buildCSS({ isBundle: true, colors, components, minified: env !== 'development', outputDir });
-  buildCSS({ isBundle: false, colors, components, minified: env !== 'development', outputDir });
+  buildCSS({ isBundle: true, components, minified: env !== 'development', outputDir });
+  buildCSS({ isBundle: false, components, minified: env !== 'development', outputDir });
 
   if (env === 'development') {
     return;
   }
 
   // Copy less & scss
-  const iconsFontBase64 = await base64Encode('./src/icons/font/swiper-icons.woff');
-
   const files = await globby(
     [
       '**/**.scss',
@@ -123,7 +105,7 @@ module.exports = async (outputDir) => {
     files.map(async (file) => {
       const distFilePath = path.resolve(__dirname, `../${outputDir}`, file);
       const srcFilePath = path.resolve(__dirname, '../src', file);
-      const distFileContent = await readSwiperFile(srcFilePath, iconsFontBase64, colors);
+      const distFileContent = await readSwiperFile(srcFilePath);
       await fs.ensureDir(path.dirname(distFilePath));
       await fs.writeFile(distFilePath, distFileContent);
     }),
