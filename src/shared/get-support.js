@@ -12,11 +12,6 @@ function calcSupport() {
       (window.DocumentTouch && document instanceof window.DocumentTouch)
     ),
 
-    pointerEvents:
-      !!window.PointerEvent &&
-      'maxTouchPoints' in window.navigator &&
-      window.navigator.maxTouchPoints >= 0,
-
     observer: (function checkObserver() {
       return 'MutationObserver' in window || 'WebkitMutationObserver' in window;
     })(),

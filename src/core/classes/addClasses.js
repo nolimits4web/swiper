@@ -21,7 +21,7 @@ export default function addClasses() {
   const suffixes = prepareClasses([
     'initialized',
     params.direction,
-    { 'pointer-events': support.pointerEvents && !support.touch },
+    { 'pointer-events': !support.touch },
     { 'free-mode': swiper.params.freeMode && params.freeMode.enabled },
     { 'autoheight': params.autoHeight },
     { 'rtl': rtl },
