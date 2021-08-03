@@ -114,7 +114,7 @@
     "node": ">= 4.7.0"
   },
   "dependencies": {
-    "dom7": "^3.0.0",
-    "ssr-window": "^3.0.0"
+    "dom7": "^4.0.0-beta.1",
+    "ssr-window": "^4.0.0-beta.2"
   }
 }
