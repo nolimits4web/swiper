@@ -1,4 +1,4 @@
-import Swiper from '../core/core-class.js';
+import Swiper from '../core/core.js';
 import { needsNavigation, needsPagination, needsScrollbar } from './utils.js';
 
 function initSwiper(swiperParams, modules) {

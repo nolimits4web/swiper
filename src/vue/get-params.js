@@ -1,4 +1,4 @@
-import Swiper from '../core/core-class.js';
+import Swiper from '../core/core.js';
 import { isObject, extend } from './utils.js';
 import { paramsList } from './params-list.js';
 

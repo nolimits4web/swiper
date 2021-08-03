@@ -1,5 +1,5 @@
 // Swiper Class
-import Swiper from './core/core-class.js';
+import Swiper from './core/core.js';
 
 //IMPORT_COMPONENTS
 

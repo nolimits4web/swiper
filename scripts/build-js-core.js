@@ -11,7 +11,7 @@ async function buildCore(components) {
   const filename = `swiper.esm`;
   const outputDir = env === 'development' ? 'build' : 'package';
   let coreContent = '';
-  coreContent += `export { default as Swiper, default } from './core/core-class.js';\n`;
+  coreContent += `export { default as Swiper, default } from './core/core.js';\n`;
   coreContent += components
     .map(
       (component) =>
