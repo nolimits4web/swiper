@@ -1,8 +1,0 @@
-{
-  "name": "swiper/svelte",
-  "private": true,
-  "main": "../swiper-svelte.cjs.js",
-  "jsnext:main": "../swiper-svelte.esm.js",
-  "module": "../swiper-svelte.esm.js",
-  "sideEffects": false
-}

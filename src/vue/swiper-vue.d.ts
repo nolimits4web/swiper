@@ -18,10 +18,9 @@ import {
   ThumbsOptions,
   VirtualOptions,
   ZoomOptions,
-} from '../types/public-api';
+} from '../types';
 import { ComponentOptionsMixin, DefineComponent, PropType } from 'vue';
-import { SwiperOptions } from '../swiper';
-import SwiperClass from '../types/swiper-class';
+import { SwiperOptions, Swiper as SwiperClass } from '../types';
 
 declare const Swiper: DefineComponent<
   {

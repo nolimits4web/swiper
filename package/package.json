@@ -6,6 +6,7 @@
   "type": "module",
   "exports": {
     ".": "./swiper.esm.js",
+    "./": "./swiper.esm.js",
     "./core": "./swiper.esm.js",
     "./core/": "./swiper.esm.js",
     "./bundle": "./swiper-bundle.esm.js",
@@ -61,16 +62,9 @@
     "./vue": "./vue/swiper-vue.js",
     "./vue/": "./vue/swiper-vue.js",
     "./svelte": "./svelte/swiper-svelte.js",
-    "./svelte/": "./svelte/swiper-svelte.js"
+    "./svelte/": "./svelte/swiper-svelte.js",
+    "./types/": "./types/index.d.ts"
   },
-  "sideEffects": [
-    "*.less",
-    "*.scss",
-    "*.css",
-    "./shared/dom.js",
-    "./core/core-class.js",
-    "./swiper-bundle.esm.js"
-  ],
   "scripts": {
     "postinstall": "node -e \"try{require('./postinstall')}catch(e){}\""
   },
