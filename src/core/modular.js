@@ -4,11 +4,9 @@ export default {
   useParams(instanceParams) {
     const instance = this;
     if (!instance.modules) return;
-    Object.keys(instance.modules).forEach((moduleName) => {
-      const module = instance.modules[moduleName];
-      // Extend params
-      if (module.params) {
-        extend(instanceParams, module.params);
+    instance.modules.forEach((mod) => {
+      if (mod.params) {
+        extend(instanceParams, mod.params);
       }
     });
   },
@@ -17,19 +15,19 @@ export default {
     const instance = this;
     if (!instance.modules) return;
     Object.keys(instance.modules).forEach((moduleName) => {
-      const module = instance.modules[moduleName];
+      const mod = instance.modules[moduleName];
       const moduleParams = modulesParams[moduleName] || {};
 
       // Add event listeners
-      if (module.on && instance.on) {
-        Object.keys(module.on).forEach((moduleEventName) => {
-          instance.on(moduleEventName, module.on[moduleEventName]);
+      if (mod.on && instance.on) {
+        Object.keys(mod.on).forEach((moduleEventName) => {
+          instance.on(moduleEventName, mod.on[moduleEventName]);
         });
       }
 
       // Module create callback
-      if (module.create) {
-        module.create.bind(instance)(moduleParams);
+      if (mod.create) {
+        mod.create.bind(instance)(moduleParams);
       }
     });
   },

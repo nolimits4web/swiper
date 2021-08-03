@@ -84,13 +84,55 @@ class Swiper {
     swiper.eventsAnyListeners = [];
 
     if (typeof swiper.modules === 'undefined') {
-      swiper.modules = {};
+      swiper.modules = [];
     }
-    Object.keys(swiper.modules).forEach((moduleName) => {
-      const module = swiper.modules[moduleName];
-      if (module.params) {
-        const moduleParamName = Object.keys(module.params)[0];
-        const moduleParams = module.params[moduleParamName];
+
+    const modulesParams = {};
+
+    swiper.modules.forEach((mod) => {
+      if (typeof mod === 'function') {
+        const extendParams = (obj = {}) => {
+          const moduleParamName = Object.keys(obj)[0];
+          const moduleParams = obj[moduleParamName];
+          if (typeof moduleParams !== 'object' || moduleParams === null) {
+            extend(modulesParams, obj);
+            return;
+          }
+          if (
+            ['navigation', 'pagination', 'scrollbar'].indexOf(moduleParamName) >= 0 &&
+            params[moduleParamName] === true
+          ) {
+            params[moduleParamName] = { auto: true };
+          }
+          if (!(moduleParamName in params && 'enabled' in moduleParams)) {
+            extend(modulesParams, obj);
+            return;
+          }
+          if (params[moduleParamName] === true) {
+            params[moduleParamName] = { enabled: true };
+          }
+          if (
+            typeof params[moduleParamName] === 'object' &&
+            !('enabled' in params[moduleParamName])
+          ) {
+            params[moduleParamName].enabled = true;
+          }
+          if (!params[moduleParamName]) params[moduleParamName] = { enabled: false };
+          extend(modulesParams, obj);
+        };
+        mod({
+          swiper,
+          extendParams,
+          on: swiper.on.bind(swiper),
+          off: swiper.off.bind(swiper),
+          emit: swiper.emit.bind(swiper),
+        });
+        return;
+      }
+      // TODO: remove after all modules conversion
+      if (mod.params) {
+        const moduleParamName = Object.keys(mod.params)[0];
+        const moduleParams = mod.params[moduleParamName];
         if (typeof moduleParams !== 'object' || moduleParams === null) return;
         if (
           ['navigation', 'pagination', 'scrollbar'].indexOf(moduleParamName) >= 0 &&
@@ -113,7 +155,7 @@ class Swiper {
     });
 
     // Extend defaults with modules params
-    const swiperParams = extend({}, defaults);
+    const swiperParams = extend({}, defaults, modulesParams);
     swiper.useParams(swiperParams);
 
     // Extend defaults with passed params
@@ -627,10 +669,20 @@ class Swiper {
     return defaults;
   }
 
-  static installModule(module) {
-    if (!Swiper.prototype.modules) Swiper.prototype.modules = {};
-    const name = module.name || `${Object.keys(Swiper.prototype.modules).length}_${now()}`;
-    Swiper.prototype.modules[name] = module;
+  static installModule(mod) {
+    if (!Swiper.prototype.modules) Swiper.prototype.modules = [];
+    const modules = Swiper.prototype.modules;
+
+    if (typeof mod === 'function' && modules.indexOf(mod) < 0) {
+      modules.push(mod);
+      return;
+    }
+    const name = mod.name;
+    const sameNameModule = modules.filter((m) => m.name === name)[0];
+    if (sameNameModule) {
+      modules.splice(modules.indexOf(sameNameModule), 1);
+    }
+    modules.push(mod);
   }
 
   static use(module) {
