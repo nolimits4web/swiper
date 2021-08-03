@@ -1,5 +1,5 @@
-import $ from '../../utils/dom';
-import { extend, bindModuleMethods, createElementIfNotDefined } from '../../utils/utils';
+import $ from '../../shared/dom';
+import { extend, bindModuleMethods, createElementIfNotDefined } from '../../shared/utils';
 
 const Navigation = {
   toggleEl($el, disabled) {

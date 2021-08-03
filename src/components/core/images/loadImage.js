@@ -1,5 +1,5 @@
 import { getWindow } from 'ssr-window';
-import $ from '../../../utils/dom';
+import $ from '../../../shared/dom';
 
 export default function loadImage(imageEl, src, srcset, sizes, checkForComplete, callback) {
   const window = getWindow();

@@ -1,4 +1,4 @@
-import { Swiper } from './vue/swiper';
-import { SwiperSlide } from './vue/swiper-slide';
+import { Swiper } from './swiper';
+import { SwiperSlide } from './swiper-slide';
 
 export { Swiper, SwiperSlide };

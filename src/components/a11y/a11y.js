@@ -1,5 +1,5 @@
-import $ from '../../utils/dom';
-import { bindModuleMethods, classesToSelector } from '../../utils/utils';
+import $ from '../../shared/dom';
+import { bindModuleMethods, classesToSelector } from '../../shared/utils';
 
 const A11y = {
   getRandomNumber(size = 16) {

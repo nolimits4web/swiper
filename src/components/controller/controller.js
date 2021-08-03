@@ -1,5 +1,5 @@
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
-import { nextTick, bindModuleMethods } from '../../utils/utils';
+import { nextTick, bindModuleMethods } from '../../shared/utils';
 
 const Controller = {
   LinearSpline: function LinearSpline(x, y) {

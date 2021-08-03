@@ -1,4 +1,4 @@
-import $ from '../../../utils/dom';
+import $ from '../../../shared/dom';
 
 export default function updateClickedSlide(e) {
   const swiper = this;

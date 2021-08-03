@@ -1,4 +1,4 @@
-import { extend, bindModuleMethods } from '../../utils/utils';
+import { extend, bindModuleMethods } from '../../shared/utils';
 
 const Fade = {
   setTranslate() {

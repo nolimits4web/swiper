@@ -1,6 +1,6 @@
 import { getWindow } from 'ssr-window';
-import $ from '../../utils/dom';
-import { bindModuleMethods } from '../../utils/utils';
+import $ from '../../shared/dom';
+import { bindModuleMethods } from '../../shared/utils';
 
 const Lazy = {
   loadInSlide(index, loadInDuplicate = true) {

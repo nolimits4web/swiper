@@ -1,4 +1,4 @@
-import { bindModuleMethods, now } from '../../utils/utils';
+import { bindModuleMethods, now } from '../../shared/utils';
 
 const FreeMode = {
   onTouchMove() {
@@ -211,7 +211,7 @@ export default {
       momentumBounce: true,
       momentumBounceRatio: 1,
       momentumVelocityRatio: 1,
-      sticky: true,
+      sticky: false,
       minimumVelocity: 0.02,
     },
   },

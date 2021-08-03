@@ -1,10 +1,10 @@
 /* eslint no-param-reassign: "off" */
 import { getDocument } from 'ssr-window';
-import $ from '../../utils/dom';
-import { extend, now, deleteProps } from '../../utils/utils';
-import { getSupport } from '../../utils/get-support';
-import { getDevice } from '../../utils/get-device';
-import { getBrowser } from '../../utils/get-browser';
+import $ from '../../shared/dom';
+import { extend, now, deleteProps } from '../../shared/utils';
+import { getSupport } from '../../shared/get-support';
+import { getDevice } from '../../shared/get-device';
+import { getBrowser } from '../../shared/get-browser';
 
 import Resize from '../../modules/resize/resize';
 import Observer from '../../modules/observer/observer';

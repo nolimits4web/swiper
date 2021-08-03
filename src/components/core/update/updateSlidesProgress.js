@@ -1,4 +1,4 @@
-import $ from '../../../utils/dom';
+import $ from '../../../shared/dom';
 
 export default function updateSlidesProgress(translate = (this && this.translate) || 0) {
   const swiper = this;

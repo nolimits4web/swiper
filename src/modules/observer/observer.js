@@ -1,5 +1,5 @@
 import { getWindow } from 'ssr-window';
-import { bindModuleMethods } from '../../utils/utils';
+import { bindModuleMethods } from '../../shared/utils';
 
 const Observer = {
   attach(target, options = {}) {

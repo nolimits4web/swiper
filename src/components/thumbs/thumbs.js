@@ -1,5 +1,5 @@
-import { extend, isObject, bindModuleMethods } from '../../utils/utils';
-import $ from '../../utils/dom';
+import { extend, isObject, bindModuleMethods } from '../../shared/utils';
+import $ from '../../shared/dom';
 
 const Thumbs = {
   init() {

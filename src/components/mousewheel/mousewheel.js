@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import { getWindow, getDocument } from 'ssr-window';
-import $ from '../../utils/dom';
-import { now, nextTick, bindModuleMethods } from '../../utils/utils';
+import $ from '../../shared/dom';
+import { now, nextTick, bindModuleMethods } from '../../shared/utils';
 
 function isEventSupported() {
   const document = getDocument();

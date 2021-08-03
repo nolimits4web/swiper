@@ -1,5 +1,5 @@
 import { getWindow } from 'ssr-window';
-import { extend } from '../../utils/utils';
+import { extend } from '../../shared/utils';
 
 const supportsResizeObserver = () => {
   const window = getWindow();

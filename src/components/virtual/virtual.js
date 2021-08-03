@@ -1,5 +1,5 @@
-import $ from '../../utils/dom';
-import { extend, bindModuleMethods } from '../../utils/utils';
+import $ from '../../shared/dom';
+import { extend, bindModuleMethods } from '../../shared/utils';
 
 const Virtual = {
   update(force) {

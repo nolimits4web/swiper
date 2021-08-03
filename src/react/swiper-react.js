@@ -1,4 +1,4 @@
-import { Swiper } from './react/swiper';
-import { SwiperSlide } from './react/swiper-slide';
+import { Swiper } from './swiper';
+import { SwiperSlide } from './swiper-slide';
 
 export { Swiper, SwiperSlide };
