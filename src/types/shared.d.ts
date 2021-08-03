@@ -1,3 +1,3 @@
 export interface CSSSelector extends String {}
 
-export interface SwiperComponent {}
+export interface SwiperModule {}

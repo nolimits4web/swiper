@@ -1,6 +1,6 @@
 import { Dom7Array } from 'dom7';
 import { SwiperOptions } from './swiper-options';
-import { CSSSelector, SwiperComponent } from './shared';
+import { CSSSelector, SwiperModule } from './shared';
 import { SwiperEvents } from './swiper-events';
 
 import { A11yMethods } from './modules/a11y';
@@ -489,7 +489,7 @@ declare class Swiper implements Swiper {
   /**
    * Installs modules on Swiper in runtime.
    */
-  static use(modules: SwiperComponent[]): void;
+  static use(modules: SwiperModule[]): void;
 
   /**
    * Swiper default options
