@@ -1,9 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import React from 'react';
-// eslint-disable-next-line
-import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from '../../build/';
-// eslint-disable-next-line
-import { Swiper, SwiperSlide } from '../../build/react';
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from '../../build/swiper.esm';
+import { Swiper, SwiperSlide } from '../../build/react/swiper-react';
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
