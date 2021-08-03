@@ -1,9 +1,13 @@
 import $ from '../../shared/dom.js';
-import { bindModuleMethods } from '../../shared/utils.js';
 
-const Parallax = {
-  setTransform(el, progress) {
-    const swiper = this;
+export default function Parallax({ swiper, extendParams, on }) {
+  extendParams({
+    parallax: {
+      enabled: false,
+    },
+  });
+
+  const setTransform = (el, progress) => {
     const { rtl } = swiper;
 
     const $el = $(el);
@@ -47,16 +51,16 @@ const Parallax = {
       const currentScale = scale - (scale - 1) * (1 - Math.abs(progress));
       $el.transform(`translate3d(${x}, ${y}, 0px) scale(${currentScale})`);
     }
-  },
-  setTranslate() {
-    const swiper = this;
+  };
+
+  const setTranslate = () => {
     const { $el, slides, progress, snapGrid } = swiper;
     $el
       .children(
         '[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y], [data-swiper-parallax-opacity], [data-swiper-parallax-scale]',
       )
       .each((el) => {
-        swiper.parallax.setTransform(el, progress);
+        setTransform(el, progress);
       });
     slides.each((slideEl, slideIndex) => {
       let slideProgress = slideEl.progress;
@@ -69,12 +73,12 @@ const Parallax = {
           '[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y], [data-swiper-parallax-opacity], [data-swiper-parallax-scale]',
         )
         .each((el) => {
-          swiper.parallax.setTransform(el, slideProgress);
+          setTransform(el, slideProgress);
         });
     });
-  },
-  setTransition(duration = this.params.speed) {
-    const swiper = this;
+  };
+
+  const setTransition = (duration = swiper.params.speed) => {
     const { $el } = swiper;
     $el
       .find(
@@ -87,41 +91,23 @@ const Parallax = {
         if (duration === 0) parallaxDuration = 0;
         $parallaxEl.transition(parallaxDuration);
       });
-  },
-};
+  };
 
-export default {
-  name: 'parallax',
-  params: {
-    parallax: {
-      enabled: false,
-    },
-  },
-  create() {
-    const swiper = this;
-    bindModuleMethods(swiper, {
-      parallax: {
-        ...Parallax,
-      },
-    });
-  },
-  on: {
-    beforeInit(swiper) {
-      if (!swiper.params.parallax.enabled) return;
-      swiper.params.watchSlidesProgress = true;
-      swiper.originalParams.watchSlidesProgress = true;
-    },
-    init(swiper) {
-      if (!swiper.params.parallax.enabled) return;
-      swiper.parallax.setTranslate();
-    },
-    setTranslate(swiper) {
-      if (!swiper.params.parallax.enabled) return;
-      swiper.parallax.setTranslate();
-    },
-    setTransition(swiper, duration) {
-      if (!swiper.params.parallax.enabled) return;
-      swiper.parallax.setTransition(duration);
-    },
-  },
-};
+  on('beforeInit', () => {
+    if (!swiper.params.parallax.enabled) return;
+    swiper.params.watchSlidesProgress = true;
+    swiper.originalParams.watchSlidesProgress = true;
+  });
+  on('init', () => {
+    if (!swiper.params.parallax.enabled) return;
+    setTranslate();
+  });
+  on('setTranslate', () => {
+    if (!swiper.params.parallax.enabled) return;
+    setTranslate();
+  });
+  on('setTransition', (_swiper, duration) => {
+    if (!swiper.params.parallax.enabled) return;
+    setTransition(duration);
+  });
+}
