@@ -178,10 +178,8 @@ class Swiper {
       // Touch Events
       touchEvents: (function touchEvents() {
         const touch = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
-        let desktop = ['mousedown', 'mousemove', 'mouseup'];
-        if (swiper.support.pointerEvents) {
-          desktop = ['pointerdown', 'pointermove', 'pointerup'];
-        }
+        const desktop = ['pointerdown', 'pointermove', 'pointerup'];
+
         swiper.touchEventsTouch = {
           start: touch[0],
           move: touch[1],

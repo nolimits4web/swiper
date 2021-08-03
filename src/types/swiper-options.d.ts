@@ -421,14 +421,14 @@ export interface SwiperOptions {
   threshold?: number;
 
   /**
-   * If disabled, `touchstart` (`mousedown`) event won't be prevented
+   * If disabled, `touchstart` (`pointerdown`) event won't be prevented
    *
    * @default true
    */
   touchStartPreventDefault?: boolean;
 
   /**
-   * Force to always prevent default for `touchstart` (`mousedown`) event
+   * Force to always prevent default for `touchstart` (`pointerdown`) event
    *
    * @default false
    */

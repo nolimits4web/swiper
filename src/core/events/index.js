@@ -27,38 +27,28 @@ function attachEvents() {
   const capture = !!params.nested;
 
   // Touch Events
-  if (!support.touch && support.pointerEvents) {
+  if (!support.touch) {
     el.addEventListener(touchEvents.start, swiper.onTouchStart, false);
     document.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
     document.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
   } else {
-    if (support.touch) {
-      const passiveListener =
-        touchEvents.start === 'touchstart' && support.passiveListener && params.passiveListeners
-          ? { passive: true, capture: false }
-          : false;
-      el.addEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
-      el.addEventListener(
-        touchEvents.move,
-        swiper.onTouchMove,
-        support.passiveListener ? { passive: false, capture } : capture,
-      );
-      el.addEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
-      if (touchEvents.cancel) {
-        el.addEventListener(touchEvents.cancel, swiper.onTouchEnd, passiveListener);
-      }
-      if (!dummyEventAttached) {
-        document.addEventListener('touchstart', dummyEventListener);
-        dummyEventAttached = true;
-      }
+    const passiveListener =
+      touchEvents.start === 'touchstart' && support.passiveListener && params.passiveListeners
+        ? { passive: true, capture: false }
+        : false;
+    el.addEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
+    el.addEventListener(
+      touchEvents.move,
+      swiper.onTouchMove,
+      support.passiveListener ? { passive: false, capture } : capture,
+    );
+    el.addEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
+    if (touchEvents.cancel) {
+      el.addEventListener(touchEvents.cancel, swiper.onTouchEnd, passiveListener);
     }
-    if (
-      (params.simulateTouch && !device.ios && !device.android) ||
-      (params.simulateTouch && !support.touch && device.ios)
-    ) {
-      el.addEventListener('mousedown', swiper.onTouchStart, false);
-      document.addEventListener('mousemove', swiper.onTouchMove, capture);
-      document.addEventListener('mouseup', swiper.onTouchEnd, false);
+    if (!dummyEventAttached) {
+      document.addEventListener('touchstart', dummyEventListener);
+      dummyEventAttached = true;
     }
   }
   // Prevent Links Clicks
@@ -92,30 +82,20 @@ function detachEvents() {
   const capture = !!params.nested;
 
   // Touch Events
-  if (!support.touch && support.pointerEvents) {
+  if (!support.touch) {
     el.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
     document.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
     document.removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
   } else {
-    if (support.touch) {
-      const passiveListener =
-        touchEvents.start === 'onTouchStart' && support.passiveListener && params.passiveListeners
-          ? { passive: true, capture: false }
-          : false;
-      el.removeEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
-      el.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
-      el.removeEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
-      if (touchEvents.cancel) {
-        el.removeEventListener(touchEvents.cancel, swiper.onTouchEnd, passiveListener);
-      }
-    }
-    if (
-      (params.simulateTouch && !device.ios && !device.android) ||
-      (params.simulateTouch && !support.touch && device.ios)
-    ) {
-      el.removeEventListener('mousedown', swiper.onTouchStart, false);
-      document.removeEventListener('mousemove', swiper.onTouchMove, capture);
-      document.removeEventListener('mouseup', swiper.onTouchEnd, false);
+    const passiveListener =
+      touchEvents.start === 'onTouchStart' && support.passiveListener && params.passiveListeners
+        ? { passive: true, capture: false }
+        : false;
+    el.removeEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
+    el.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
+    el.removeEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
+    if (touchEvents.cancel) {
+      el.removeEventListener(touchEvents.cancel, swiper.onTouchEnd, passiveListener);
     }
   }
   // Prevent Links Clicks
