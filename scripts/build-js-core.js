@@ -36,25 +36,18 @@ async function buildCore(components) {
     '"src/swiper-svelte.js"',
   ];
   await exec.promise(
-    `npx cross-env npx babel src --out-dir ${outputDir}/esm --ignore ${ignore.join(',')}`,
+    `npx cross-env npx babel src --out-dir ${outputDir} --ignore ${ignore.join(',')}`,
   );
 
   // Remove unused dirs
   const dirsToRemove = ['less'];
   const filesToRemove = ['swiper.js'];
   dirsToRemove.forEach((dir) => {
-    fs.rmdirSync(`./${outputDir}/esm/${dir}`, { recursive: true });
+    fs.rmdirSync(`./${outputDir}/${dir}`, { recursive: true });
   });
   filesToRemove.forEach((file) => {
-    fs.unlinkSync(`./${outputDir}/esm/${file}`);
+    fs.unlinkSync(`./${outputDir}/${file}`);
   });
-
-  // Fix import paths
-  let fileContent = fs.readFileSync(`./${outputDir}/${filename}.js`, 'utf-8');
-  fileContent = fileContent
-    .replace(/require\('\.\//g, `require('./esm/`)
-    .replace(/from '\.\//g, `from './esm/`);
-  fs.writeFileSync(`./${outputDir}/${filename}.js`, fileContent);
 }
 
 async function build() {
@@ -82,23 +75,6 @@ async function build() {
   });
 
   await buildCore(components, 'esm');
-
-  // build components
-  components.forEach(({ name }) => {
-    fs.mkdirSync(`./${outputDir}/modules/${name}`, { recursive: true });
-    const pkg = JSON.stringify(
-      {
-        name: `swiper/${name}`,
-        private: true,
-        sideEffects: false,
-        main: `../../cjs/modules/${name}/${name}.js`,
-        module: `../../esm/modules/${name}/${name}.js`,
-      },
-      '',
-      2,
-    );
-    fs.writeFileSync(`./${outputDir}/modules/${name}/package.json`, pkg);
-  });
 }
 
 module.exports = build;
