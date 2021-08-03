@@ -6,9 +6,13 @@
   "type": "module",
   "exports": {
     ".": "./swiper.esm.js",
+    "./core": "./swiper.esm.js",
     "./core/": "./swiper.esm.js",
+    "./bundle": "./swiper-bundle.esm.js",
     "./bundle/": "./swiper-bundle.esm.js",
+    "./css": "./swiper-bundle.css",
     "./css/": "./swiper-bundle.css",
+    "./less": "./swiper.less",
     "./less/": "./swiper.less",
     "./less/a11y": "./modules/a11y/a11y.less",
     "./less/autoplay": "./modules/autoplay/autoplay.less",
@@ -30,6 +34,7 @@
     "./less/thumbs": "./modules/thumbs/thumbs.less",
     "./less/virtual": "./modules/virtual/virtual.less",
     "./less/zoom": "./modules/zoom/zoom.less",
+    "./scss": "./swiper.scss",
     "./scss/": "./swiper.scss",
     "./scss/a11y": "./modules/a11y/a11y.scss",
     "./scss/autoplay": "./modules/autoplay/autoplay.scss",
@@ -51,20 +56,20 @@
     "./scss/thumbs": "./modules/thumbs/thumbs.scss",
     "./scss/virtual": "./modules/virtual/virtual.scss",
     "./scss/zoom": "./modules/zoom/zoom.scss",
+    "./react": "./react/swiper-react.js",
     "./react/": "./react/swiper-react.js",
+    "./vue": "./vue/swiper-vue.js",
     "./vue/": "./vue/swiper-vue.js",
+    "./svelte": "./svelte/swiper-svelte.js",
     "./svelte/": "./svelte/swiper-svelte.js"
   },
   "sideEffects": [
     "*.less",
     "*.scss",
     "*.css",
-    "cjs/utils/dom.js",
-    "cjs/components/core/core-class.js",
-    "esm/utils/dom.js",
-    "esm/components/core/core-class.js",
-    "swiper-bundle.cjs.js",
-    "swiper-bundle.esm.js"
+    "./shared/dom.js",
+    "./core/core-class.js",
+    "./swiper-bundle.esm.js"
   ],
   "scripts": {
     "postinstall": "node -e \"try{require('./postinstall')}catch(e){}\""
