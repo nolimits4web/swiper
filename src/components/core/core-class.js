@@ -6,8 +6,8 @@ import { getSupport } from '../../shared/get-support';
 import { getDevice } from '../../shared/get-device';
 import { getBrowser } from '../../shared/get-browser';
 
-import Resize from '../../modules/resize/resize';
-import Observer from '../../modules/observer/observer';
+import Resize from '../../core-modules/resize/resize';
+import Observer from '../../core-modules/observer/observer';
 
 import modular from './modular';
 import eventsEmitter from './events-emitter';
