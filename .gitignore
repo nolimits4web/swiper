@@ -11,10 +11,13 @@ custom
 
 .versions
 .idea
-package/cjs
-package/components
-package/esm
+package/modules
+package/core-modules
+package/react
+package/svelte
+package/vue
 package/types
+package/shared
 !package/types/package.json
 package/**/*.js
 package/**/*.map

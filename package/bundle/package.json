@@ -1,9 +1,0 @@
-{
-  "name": "swiper/bundle",
-  "private": true,
-  "main": "../swiper-bundle.cjs.js",
-  "jsnext:main": "../swiper-bundle.esm.js",
-  "module": "../swiper-bundle.esm.js",
-  "typings": "../swiper.d.ts",
-  "sideEffects": false
-}
