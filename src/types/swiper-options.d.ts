@@ -346,7 +346,7 @@ export interface SwiperOptions {
    * Target element to listen touch events on. Can be `'container'` (to listen for touch events on swiper-container) or `'wrapper'`
    * (to listen for touch events on swiper-wrapper)
    *
-   * @default 'container'
+   * @default 'wrapper'
    */
   touchEventsTarget?: 'container' | 'wrapper';
 

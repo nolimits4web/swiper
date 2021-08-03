@@ -149,14 +149,14 @@ Cypress.Commands.add('injectStyles', { prevSubject: 'optional' }, (subject, cssS
 });
 
 Cypress.Commands.add('swipeLeft', () => {
-  cy.getSliderContainer()
+  cy.getSliderWrapper()
     .trigger('pointerdown', { which: 1, pageX: 100, pageY: 100, force: true })
     .trigger('pointermove', { pageX: 50, pageY: 100, force: true })
     .trigger('pointerup', { force: true });
 });
 
 Cypress.Commands.add('swipeRight', () => {
-  cy.getSliderContainer()
+  cy.getSliderWrapper()
     .trigger('pointerdown', { which: 1, pageX: -100, pageY: 100, force: true })
     .trigger('pointermove', { pageX: 50, pageY: 100, force: true })
     .trigger('pointerup', { force: true });
