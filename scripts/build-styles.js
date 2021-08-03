@@ -15,13 +15,13 @@ const readSwiperFile = async (filePath) => {
   const fileContent = await fs.readFile(filePath, 'utf-8');
   if (filePath.includes('swiper.less')) {
     const coreContent = fs.readFileSync(
-      path.resolve(__dirname, '../src/components/core/core.less'),
+      path.resolve(__dirname, '../src/modules/core/core.less'),
       'utf-8',
     );
     return fileContent
       .replace('//IMPORT_COMPONENTS', '')
       .replace(`@import url('./less/mixins.less');`, '')
-      .replace(`@import url('./components/core/core.less');`, coreContent);
+      .replace(`@import url('./modules/core/core.less');`, coreContent);
   }
   if (filePath.includes('swiper-vars.less')) {
     return fileContent;
@@ -31,11 +31,11 @@ const readSwiperFile = async (filePath) => {
   }
   if (filePath.includes('swiper.scss')) {
     const coreContent = await fs.readFile(
-      path.resolve(__dirname, '../src/components/core/core.scss'),
+      path.resolve(__dirname, '../src/modules/core/core.scss'),
       'utf-8',
     );
     return fileContent
-      .replace(`@import './components/core/core';`, coreContent)
+      .replace(`@import './modules/core/core';`, coreContent)
       .replace('//IMPORT_COMPONENTS', '');
   }
   return fileContent;
@@ -48,7 +48,7 @@ const buildCSS = async ({ isBundle, components, minified, outputDir }) => {
     !isBundle
       ? ''
       : components
-          .map((component) => `@import url('./components/${component}/${component}.less');`)
+          .map((component) => `@import url('./modules/${component}/${component}.less');`)
           .join('\n'),
   );
 
@@ -76,7 +76,7 @@ module.exports = async (outputDir) => {
   const env = process.env.NODE_ENV || 'development';
 
   const components = config.components.filter((name) => {
-    const lessFilePath = `./src/components/${name}/${name}.less`;
+    const lessFilePath = `./src/modules/${name}/${name}.less`;
     return fs.existsSync(lessFilePath);
   });
 

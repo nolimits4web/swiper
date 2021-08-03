@@ -3,26 +3,26 @@ import { SwiperOptions } from './swiper-options';
 import { CSSSelector, SwiperComponent } from './shared';
 import { SwiperEvents } from './swiper-events';
 
-import { A11yMethods } from './components/a11y';
-import { AutoplayMethods } from './components/autoplay';
-import { ControllerMethods } from './components/controller';
-import { CoverflowEffectMethods } from './components/effect-coverflow';
-import { CubeEffectMethods } from './components/effect-cube';
-import { FadeEffectMethods } from './components/effect-fade';
-import { FlipEffectMethods } from './components/effect-flip';
-import { HashNavigationMethods } from './components/hash-navigation';
-import { HistoryMethods } from './components/history';
-import { KeyboardMethods } from './components/keyboard';
-import { LazyMethods } from './components/lazy';
-import { MousewheelMethods } from './components/mousewheel';
-import { NavigationMethods } from './components/navigation';
-import { PaginationMethods } from './components/pagination';
-import { ParallaxMethods } from './components/parallax';
-import { ScrollbarMethods } from './components/scrollbar';
-import { ThumbsMethods } from './components/thumbs';
-import { VirtualMethods } from './components/virtual';
-import { ZoomMethods } from './components/zoom';
-import { FreeModeMethods } from './components/free-mode';
+import { A11yMethods } from './modules/a11y';
+import { AutoplayMethods } from './modules/autoplay';
+import { ControllerMethods } from './modules/controller';
+import { CoverflowEffectMethods } from './modules/effect-coverflow';
+import { CubeEffectMethods } from './modules/effect-cube';
+import { FadeEffectMethods } from './modules/effect-fade';
+import { FlipEffectMethods } from './modules/effect-flip';
+import { HashNavigationMethods } from './modules/hash-navigation';
+import { HistoryMethods } from './modules/history';
+import { KeyboardMethods } from './modules/keyboard';
+import { LazyMethods } from './modules/lazy';
+import { MousewheelMethods } from './modules/mousewheel';
+import { NavigationMethods } from './modules/navigation';
+import { PaginationMethods } from './modules/pagination';
+import { ParallaxMethods } from './modules/parallax';
+import { ScrollbarMethods } from './modules/scrollbar';
+import { ThumbsMethods } from './modules/thumbs';
+import { VirtualMethods } from './modules/virtual';
+import { ZoomMethods } from './modules/zoom';
+import { FreeModeMethods } from './modules/free-mode';
 
 interface SwiperClass<Events> {
   /** Add event handler */

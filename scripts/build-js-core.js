@@ -11,11 +11,11 @@ async function buildCore(components) {
   const filename = `swiper.esm`;
   const outputDir = env === 'development' ? 'build' : 'package';
   let coreContent = '';
-  coreContent += `export { default as Swiper, default } from './components/core/core-class';\n`;
+  coreContent += `export { default as Swiper, default } from './modules/core/core-class';\n`;
   coreContent += components
     .map(
       (component) =>
-        `export { default as ${component.capitalized} } from './components/${component.name}/${component.name}';`,
+        `export { default as ${component.capitalized} } from './modules/${component.name}/${component.name}';`,
     )
     .join('\n');
 
@@ -75,7 +75,7 @@ async function build() {
           .join('');
       })
       .join('');
-    const jsFilePath = `./src/components/${name}/${name}.js`;
+    const jsFilePath = `./src/modules/${name}/${name}.js`;
     if (fs.existsSync(jsFilePath)) {
       components.push({ name, capitalized });
     }
@@ -85,19 +85,19 @@ async function build() {
 
   // build components
   components.forEach(({ name }) => {
-    fs.mkdirSync(`./${outputDir}/components/${name}`, { recursive: true });
+    fs.mkdirSync(`./${outputDir}/modules/${name}`, { recursive: true });
     const pkg = JSON.stringify(
       {
         name: `swiper/${name}`,
         private: true,
         sideEffects: false,
-        main: `../../cjs/components/${name}/${name}.js`,
-        module: `../../esm/components/${name}/${name}.js`,
+        main: `../../cjs/modules/${name}/${name}.js`,
+        module: `../../esm/modules/${name}/${name}.js`,
       },
       '',
       2,
     );
-    fs.writeFileSync(`./${outputDir}/components/${name}/package.json`, pkg);
+    fs.writeFileSync(`./${outputDir}/modules/${name}/package.json`, pkg);
   });
 }
 

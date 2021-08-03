@@ -41,7 +41,7 @@ async function build(cb) {
   };
 
   const getModulesEventsContent = async () => {
-    const eventsFiles = await globby('src/types/components/*.d.ts');
+    const eventsFiles = await globby('src/types/modules/*.d.ts');
     eventsFiles.forEach((eventsFile) => {
       if (eventsFile.indexOf('public-api') > -1) {
         return;

@@ -30,7 +30,7 @@ async function buildBundle(components, format, browser, cb) {
         '//IMPORT_COMPONENTS': components
           .map(
             (component) =>
-              `import ${component.capitalized} from './components/${component.name}/${component.name}';`,
+              `import ${component.capitalized} from './modules/${component.name}/${component.name}';`,
           )
           .join('\n'),
         '//INSTALL_COMPONENTS': components
@@ -109,7 +109,7 @@ async function build() {
           .join('');
       })
       .join('');
-    const jsFilePath = `./src/components/${name}/${name}.js`;
+    const jsFilePath = `./src/modules/${name}/${name}.js`;
     if (fs.existsSync(jsFilePath)) {
       components.push({ name, capitalized });
     }
