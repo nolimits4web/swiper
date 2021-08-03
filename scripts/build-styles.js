@@ -14,14 +14,11 @@ const config = require('./build-config');
 const readSwiperFile = async (filePath) => {
   const fileContent = await fs.readFile(filePath, 'utf-8');
   if (filePath.includes('swiper.less')) {
-    const coreContent = fs.readFileSync(
-      path.resolve(__dirname, '../src/modules/core/core.less'),
-      'utf-8',
-    );
+    const coreContent = fs.readFileSync(path.resolve(__dirname, '../src/core/core.less'), 'utf-8');
     return fileContent
       .replace('//IMPORT_COMPONENTS', '')
       .replace(`@import url('./less/mixins.less');`, '')
-      .replace(`@import url('./modules/core/core.less');`, coreContent);
+      .replace(`@import url('./core/core.less');`, coreContent);
   }
   if (filePath.includes('swiper-vars.less')) {
     return fileContent;
@@ -31,11 +28,11 @@ const readSwiperFile = async (filePath) => {
   }
   if (filePath.includes('swiper.scss')) {
     const coreContent = await fs.readFile(
-      path.resolve(__dirname, '../src/modules/core/core.scss'),
+      path.resolve(__dirname, '../src/core/core.scss'),
       'utf-8',
     );
     return fileContent
-      .replace(`@import './modules/core/core';`, coreContent)
+      .replace(`@import './core/core';`, coreContent)
       .replace('//IMPORT_COMPONENTS', '');
   }
   return fileContent;

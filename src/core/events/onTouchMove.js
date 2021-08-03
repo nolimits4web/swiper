@@ -1,6 +1,6 @@
 import { getDocument } from 'ssr-window';
-import $ from '../../../shared/dom';
-import { extend, now } from '../../../shared/utils';
+import $ from '../../shared/dom';
+import { extend, now } from '../../shared/utils';
 
 export default function onTouchMove(event) {
   const document = getDocument();

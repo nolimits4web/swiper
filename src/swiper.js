@@ -1,5 +1,5 @@
 // Swiper Class
-import Swiper from './modules/core/core-class';
+import Swiper from './core/core-class';
 
 //IMPORT_COMPONENTS
 
