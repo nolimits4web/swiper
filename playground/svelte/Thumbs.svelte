@@ -6,6 +6,7 @@
     Scrollbar,
     A11y,
     Thumbs,
+    // eslint-disable-next-line
   } from '../../build/swiper.esm.js';
   // eslint-disable-next-line
   import { Swiper, SwiperSlide } from '../../build/svelte/swiper-svelte.js';
