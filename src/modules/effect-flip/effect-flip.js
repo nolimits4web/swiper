@@ -1,9 +1,14 @@
 import $ from '../../shared/dom.js';
-import { extend, bindModuleMethods } from '../../shared/utils.js';
+import { extend } from '../../shared/utils.js';
 
-const Flip = {
-  setTranslate() {
-    const swiper = this;
+export default function Flip({ swiper, extendParams, on }) {
+  extendParams({
+    flipEffect: {
+      slideShadows: true,
+      limitRotation: true,
+    },
+  });
+  const setTranslate = () => {
     const { slides, rtlTranslate: rtl } = swiper;
     for (let i = 0; i < slides.length; i += 1) {
       const $slideEl = slides.eq(i);
@@ -55,9 +60,9 @@ const Flip = {
         `translate3d(${tx}px, ${ty}px, 0px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
       );
     }
-  },
-  setTransition(duration) {
-    const swiper = this;
+  };
+
+  const setTransition = (duration) => {
     const { slides, activeIndex, $wrapperEl } = swiper;
     slides
       .transition(duration)
@@ -80,48 +85,29 @@ const Flip = {
         }
       });
     }
-  },
-};
+  };
 
-export default {
-  name: 'effect-flip',
-  params: {
-    flipEffect: {
-      slideShadows: true,
-      limitRotation: true,
-    },
-  },
-  create() {
-    const swiper = this;
-    bindModuleMethods(swiper, {
-      flipEffect: {
-        ...Flip,
-      },
-    });
-  },
-  on: {
-    beforeInit(swiper) {
-      if (swiper.params.effect !== 'flip') return;
-      swiper.classNames.push(`${swiper.params.containerModifierClass}flip`);
-      swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
-      const overwriteParams = {
-        slidesPerView: 1,
-        slidesPerColumn: 1,
-        slidesPerGroup: 1,
-        watchSlidesProgress: true,
-        spaceBetween: 0,
-        virtualTranslate: true,
-      };
-      extend(swiper.params, overwriteParams);
-      extend(swiper.originalParams, overwriteParams);
-    },
-    setTranslate(swiper) {
-      if (swiper.params.effect !== 'flip') return;
-      swiper.flipEffect.setTranslate();
-    },
-    setTransition(swiper, duration) {
-      if (swiper.params.effect !== 'flip') return;
-      swiper.flipEffect.setTransition(duration);
-    },
-  },
-};
+  on('beforeInit', () => {
+    if (swiper.params.effect !== 'flip') return;
+    swiper.classNames.push(`${swiper.params.containerModifierClass}flip`);
+    swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
+    const overwriteParams = {
+      slidesPerView: 1,
+      slidesPerColumn: 1,
+      slidesPerGroup: 1,
+      watchSlidesProgress: true,
+      spaceBetween: 0,
+      virtualTranslate: true,
+    };
+    extend(swiper.params, overwriteParams);
+    extend(swiper.originalParams, overwriteParams);
+  });
+  on('setTranslate', () => {
+    if (swiper.params.effect !== 'flip') return;
+    setTranslate();
+  });
+  on('setTransition', (_s, duration) => {
+    if (swiper.params.effect !== 'flip') return;
+    setTransition(duration);
+  });
+}

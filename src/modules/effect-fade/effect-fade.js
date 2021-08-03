@@ -1,8 +1,13 @@
-import { extend, bindModuleMethods } from '../../shared/utils.js';
+import { extend } from '../../shared/utils.js';
 
-const Fade = {
-  setTranslate() {
-    const swiper = this;
+export default function Fade({ swiper, extendParams, on }) {
+  extendParams({
+    fadeEffect: {
+      crossFade: false,
+    },
+  });
+
+  const setTranslate = () => {
     const { slides } = swiper;
     for (let i = 0; i < slides.length; i += 1) {
       const $slideEl = swiper.slides.eq(i);
@@ -23,9 +28,8 @@ const Fade = {
         })
         .transform(`translate3d(${tx}px, ${ty}px, 0px)`);
     }
-  },
-  setTransition(duration) {
-    const swiper = this;
+  };
+  const setTransition = (duration) => {
     const { slides, $wrapperEl } = swiper;
     slides.transition(duration);
     if (swiper.params.virtualTranslate && duration !== 0) {
@@ -41,46 +45,28 @@ const Fade = {
         }
       });
     }
-  },
-};
+  };
 
-export default {
-  name: 'effect-fade',
-  params: {
-    fadeEffect: {
-      crossFade: false,
-    },
-  },
-  create() {
-    const swiper = this;
-    bindModuleMethods(swiper, {
-      fadeEffect: {
-        ...Fade,
-      },
-    });
-  },
-  on: {
-    beforeInit(swiper) {
-      if (swiper.params.effect !== 'fade') return;
-      swiper.classNames.push(`${swiper.params.containerModifierClass}fade`);
-      const overwriteParams = {
-        slidesPerView: 1,
-        slidesPerColumn: 1,
-        slidesPerGroup: 1,
-        watchSlidesProgress: true,
-        spaceBetween: 0,
-        virtualTranslate: true,
-      };
-      extend(swiper.params, overwriteParams);
-      extend(swiper.originalParams, overwriteParams);
-    },
-    setTranslate(swiper) {
-      if (swiper.params.effect !== 'fade') return;
-      swiper.fadeEffect.setTranslate();
-    },
-    setTransition(swiper, duration) {
-      if (swiper.params.effect !== 'fade') return;
-      swiper.fadeEffect.setTransition(duration);
-    },
-  },
-};
+  on('beforeInit', () => {
+    if (swiper.params.effect !== 'fade') return;
+    swiper.classNames.push(`${swiper.params.containerModifierClass}fade`);
+    const overwriteParams = {
+      slidesPerView: 1,
+      slidesPerColumn: 1,
+      slidesPerGroup: 1,
+      watchSlidesProgress: true,
+      spaceBetween: 0,
+      virtualTranslate: true,
+    };
+    extend(swiper.params, overwriteParams);
+    extend(swiper.originalParams, overwriteParams);
+  });
+  on('setTranslate', () => {
+    if (swiper.params.effect !== 'fade') return;
+    setTranslate();
+  });
+  on('setTransition', (_s, duration) => {
+    if (swiper.params.effect !== 'fade') return;
+    setTransition(duration);
+  });
+}

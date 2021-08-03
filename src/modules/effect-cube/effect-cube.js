@@ -1,9 +1,17 @@
 import $ from '../../shared/dom.js';
-import { extend, bindModuleMethods } from '../../shared/utils.js';
+import { extend } from '../../shared/utils.js';
 
-const Cube = {
-  setTranslate() {
-    const swiper = this;
+export default function Cube({ swiper, extendParams, on }) {
+  extendParams({
+    cubeEffect: {
+      slideShadows: true,
+      shadow: true,
+      shadowOffset: 20,
+      shadowScale: 0.94,
+    },
+  });
+
+  const setTranslate = () => {
     const {
       $el,
       $wrapperEl,
@@ -141,9 +149,8 @@ const Cube = {
         swiper.isHorizontal() ? 0 : wrapperRotate
       }deg) rotateY(${swiper.isHorizontal() ? -wrapperRotate : 0}deg)`,
     );
-  },
-  setTransition(duration) {
-    const swiper = this;
+  };
+  const setTransition = (duration) => {
     const { $el, slides } = swiper;
     slides
       .transition(duration)
@@ -154,52 +161,31 @@ const Cube = {
     if (swiper.params.cubeEffect.shadow && !swiper.isHorizontal()) {
       $el.find('.swiper-cube-shadow').transition(duration);
     }
-  },
-};
+  };
 
-export default {
-  name: 'effect-cube',
-  params: {
-    cubeEffect: {
-      slideShadows: true,
-      shadow: true,
-      shadowOffset: 20,
-      shadowScale: 0.94,
-    },
-  },
-  create() {
-    const swiper = this;
-    bindModuleMethods(swiper, {
-      cubeEffect: {
-        ...Cube,
-      },
-    });
-  },
-  on: {
-    beforeInit(swiper) {
-      if (swiper.params.effect !== 'cube') return;
-      swiper.classNames.push(`${swiper.params.containerModifierClass}cube`);
-      swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
-      const overwriteParams = {
-        slidesPerView: 1,
-        slidesPerColumn: 1,
-        slidesPerGroup: 1,
-        watchSlidesProgress: true,
-        resistanceRatio: 0,
-        spaceBetween: 0,
-        centeredSlides: false,
-        virtualTranslate: true,
-      };
-      extend(swiper.params, overwriteParams);
-      extend(swiper.originalParams, overwriteParams);
-    },
-    setTranslate(swiper) {
-      if (swiper.params.effect !== 'cube') return;
-      swiper.cubeEffect.setTranslate();
-    },
-    setTransition(swiper, duration) {
-      if (swiper.params.effect !== 'cube') return;
-      swiper.cubeEffect.setTransition(duration);
-    },
-  },
-};
+  on('beforeInit', () => {
+    if (swiper.params.effect !== 'cube') return;
+    swiper.classNames.push(`${swiper.params.containerModifierClass}cube`);
+    swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
+    const overwriteParams = {
+      slidesPerView: 1,
+      slidesPerColumn: 1,
+      slidesPerGroup: 1,
+      watchSlidesProgress: true,
+      resistanceRatio: 0,
+      spaceBetween: 0,
+      centeredSlides: false,
+      virtualTranslate: true,
+    };
+    extend(swiper.params, overwriteParams);
+    extend(swiper.originalParams, overwriteParams);
+  });
+  on('setTranslate', () => {
+    if (swiper.params.effect !== 'cube') return;
+    setTranslate();
+  });
+  on('setTransition', (_s, duration) => {
+    if (swiper.params.effect !== 'cube') return;
+    setTransition(duration);
+  });
+}

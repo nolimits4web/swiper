@@ -1,8 +1,17 @@
 import $ from '../../shared/dom.js';
-import { bindModuleMethods } from '../../shared/utils.js';
 
-const Coverflow = {
-  setTranslate() {
+export default function Coverflow({ swiper, extendParams, on }) {
+  extendParams({
+    coverflowEffect: {
+      rotate: 50,
+      stretch: 0,
+      depth: 100,
+      scale: 1,
+      modifier: 1,
+      slideShadows: true,
+    },
+  });
+  const setTranslate = () => {
     const swiper = this;
     const { width: swiperWidth, height: swiperHeight, slides, slidesSizesGrid } = swiper;
     const params = swiper.params.coverflowEffect;
@@ -72,8 +81,8 @@ const Coverflow = {
           $shadowAfterEl[0].style.opacity = -offsetMultiplier > 0 ? -offsetMultiplier : 0;
       }
     }
-  },
-  setTransition(duration) {
+  };
+  const setTransition = (duration) => {
     const swiper = this;
     swiper.slides
       .transition(duration)
@@ -81,46 +90,23 @@ const Coverflow = {
         '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
       )
       .transition(duration);
-  },
-};
+  };
 
-export default {
-  name: 'effect-coverflow',
-  params: {
-    coverflowEffect: {
-      rotate: 50,
-      stretch: 0,
-      depth: 100,
-      scale: 1,
-      modifier: 1,
-      slideShadows: true,
-    },
-  },
-  create() {
-    const swiper = this;
-    bindModuleMethods(swiper, {
-      coverflowEffect: {
-        ...Coverflow,
-      },
-    });
-  },
-  on: {
-    beforeInit(swiper) {
-      if (swiper.params.effect !== 'coverflow') return;
+  on('beforeInit', () => {
+    if (swiper.params.effect !== 'coverflow') return;
 
-      swiper.classNames.push(`${swiper.params.containerModifierClass}coverflow`);
-      swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
+    swiper.classNames.push(`${swiper.params.containerModifierClass}coverflow`);
+    swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
 
-      swiper.params.watchSlidesProgress = true;
-      swiper.originalParams.watchSlidesProgress = true;
-    },
-    setTranslate(swiper) {
-      if (swiper.params.effect !== 'coverflow') return;
-      swiper.coverflowEffect.setTranslate();
-    },
-    setTransition(swiper, duration) {
-      if (swiper.params.effect !== 'coverflow') return;
-      swiper.coverflowEffect.setTransition(duration);
-    },
-  },
-};
+    swiper.params.watchSlidesProgress = true;
+    swiper.originalParams.watchSlidesProgress = true;
+  });
+  on('setTranslate', () => {
+    if (swiper.params.effect !== 'coverflow') return;
+    setTranslate();
+  });
+  on('setTransition', (_s, duration) => {
+    if (swiper.params.effect !== 'coverflow') return;
+    setTransition(duration);
+  });
+}
