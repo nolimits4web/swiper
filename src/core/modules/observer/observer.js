@@ -33,7 +33,7 @@ export default function Observer({ swiper, extendParams, on, emit }) {
     observers.push(observer);
   };
   const init = () => {
-    if (!swiper.support.observer || !swiper.params.observer) return;
+    if (!swiper.params.observer) return;
     if (swiper.params.observeParents) {
       const containerParents = swiper.$el.parents();
       for (let i = 0; i < containerParents.length; i += 1) {

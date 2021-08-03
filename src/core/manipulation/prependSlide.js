@@ -17,7 +17,7 @@ export default function prependSlide(slides) {
   if (params.loop) {
     swiper.loopCreate();
   }
-  if (!(params.observer && swiper.support.observer)) {
+  if (!params.observer) {
     swiper.update();
   }
   swiper.slideTo(newActiveIndex, 0, false);

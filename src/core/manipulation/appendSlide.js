@@ -14,7 +14,7 @@ export default function appendSlide(slides) {
   if (params.loop) {
     swiper.loopCreate();
   }
-  if (!(params.observer && swiper.support.observer)) {
+  if (!params.observer) {
     swiper.update();
   }
 }

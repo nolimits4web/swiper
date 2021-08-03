@@ -12,10 +12,6 @@ function calcSupport() {
       (window.DocumentTouch && document instanceof window.DocumentTouch)
     ),
 
-    observer: (function checkObserver() {
-      return 'MutationObserver' in window || 'WebkitMutationObserver' in window;
-    })(),
-
     passiveListener: (function checkPassiveListener() {
       let supportsPassive = false;
       try {
