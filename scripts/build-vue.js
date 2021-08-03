@@ -11,7 +11,7 @@ module.exports = async (outputDir) => {
   );
 
   // Fix import paths
-  let fileContent = await fs.readFile(`./${outputDir}/swiper-vue.js`, 'utf-8');
+  let fileContent = await fs.readFile(`./${outputDir}/vue/swiper-vue.js`, 'utf-8');
   fileContent = `${bannerVue}\n${fileContent}`;
-  await fs.writeFile(`./${outputDir}/swiper-vue.js`, fileContent);
+  await fs.writeFile(`./${outputDir}/vue/swiper-vue.js`, fileContent);
 };

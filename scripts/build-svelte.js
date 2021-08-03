@@ -12,9 +12,9 @@ module.exports = async (outputDir) => {
   );
 
   // Fix import paths
-  let fileContent = await fs.readFile(`./${outputDir}/swiper-svelte.js`, 'utf-8');
+  let fileContent = await fs.readFile(`./${outputDir}/svelte/swiper-svelte.js`, 'utf-8');
   fileContent = `${bannerSvelte}\n${fileContent}`;
-  fs.writeFileSync(`./${outputDir}/swiper-svelte.js`, fileContent);
+  fs.writeFileSync(`./${outputDir}/svelte/swiper-svelte.js`, fileContent);
 
   /* DON'T TRANSFORM SVELTE FILES
   // Transform svelte files

@@ -11,11 +11,11 @@ async function buildCore(components) {
   const filename = `swiper.esm`;
   const outputDir = env === 'development' ? 'build' : 'package';
   let coreContent = '';
-  coreContent += `export { default as Swiper, default } from './core/core-class';\n`;
+  coreContent += `export { default as Swiper, default } from './core/core-class.js';\n`;
   coreContent += components
     .map(
       (component) =>
-        `export { default as ${component.capitalized} } from './modules/${component.name}/${component.name}';`,
+        `export { default as ${component.capitalized} } from './modules/${component.name}/${component.name}.js';`,
     )
     .join('\n');
 
@@ -25,15 +25,13 @@ async function buildCore(components) {
 
   // Babel
   const ignore = [
+    '"src/angular/**/*.js"',
     '"src/react/**/*.js"',
     '"src/*-react.js"',
-    '"src/swiper-react.js"',
     '"src/vue/**/*.js"',
     '"src/*-vue.js"',
-    '"src/swiper-vue.js"',
     '"src/svelte/**/*.js"',
     '"src/*-svelte.js"',
-    '"src/swiper-svelte.js"',
   ];
   await exec.promise(
     `npx cross-env npx babel src --out-dir ${outputDir} --ignore ${ignore.join(',')}`,
@@ -51,8 +49,6 @@ async function buildCore(components) {
 }
 
 async function build() {
-  const env = process.env.NODE_ENV || 'development';
-  const outputDir = env === 'development' ? 'build' : 'package';
   const components = [];
   config.components.forEach((name) => {
     // eslint-disable-next-line

@@ -30,7 +30,7 @@ async function buildBundle(components, format, browser, cb) {
         '//IMPORT_COMPONENTS': components
           .map(
             (component) =>
-              `import ${component.capitalized} from './modules/${component.name}/${component.name}';`,
+              `import ${component.capitalized} from './modules/${component.name}/${component.name}.js';`,
           )
           .join('\n'),
         '//INSTALL_COMPONENTS': components
@@ -56,14 +56,6 @@ async function buildBundle(components, format, browser, cb) {
       }),
     )
     .then(async (bundle) => {
-      if (!browser && format === 'esm') {
-        // Fix imports
-        const modularContent = fs
-          .readFileSync(`./${output}/${filename}.js`, 'utf-8')
-          .replace(/require\('\.\//g, `require('./${format}/`)
-          .replace(/from '\.\//g, `from './${format}/`);
-        fs.writeFileSync(`./${output}/${filename}.js`, modularContent);
-      }
       if (env === 'development' || !browser) {
         if (cb) cb();
         return;
