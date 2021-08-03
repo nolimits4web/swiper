@@ -73,7 +73,7 @@ async function release() {
   fs.writeFileSync(path.resolve(__dirname, '../package.json'), JSON.stringify(pkg, null, 2));
   fs.writeFileSync(
     path.resolve(__dirname, '../package/package.json'),
-    JSON.stringify(childPkg, null, 2),
+    `${JSON.stringify(childPkg, null, 2)}\n`,
   );
 
   const cleanPackage = [
