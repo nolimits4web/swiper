@@ -7,5 +7,5 @@ export default function unsetGrabCursor() {
   ) {
     return;
   }
-  swiper.el.style.cursor = '';
+  swiper[swiper.params.touchEventsTarget === 'container' ? 'el' : 'wrapperEl'].style.cursor = '';
 }
