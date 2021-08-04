@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "7.0.0-alpha.4",
+  "version": "7.0.0-alpha.5",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "typings": "swiper.d.ts",
   "type": "module",
