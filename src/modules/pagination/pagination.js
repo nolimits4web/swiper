@@ -394,4 +394,11 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       $el.toggleClass(swiper.params.pagination.hiddenClass);
     }
   });
+
+  Object.assign(swiper.pagination, {
+    render,
+    update,
+    init,
+    destroy,
+  });
 }
