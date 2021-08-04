@@ -1,10 +1,29 @@
 import { getWindow } from 'ssr-window';
 import $ from '../../shared/dom.js';
-import { bindModuleMethods } from '../../shared/utils.js';
 
-const Lazy = {
-  loadInSlide(index, loadInDuplicate = true) {
-    const swiper = this;
+export default function Lazy({ swiper, extendParams, on, emit }) {
+  extendParams({
+    lazy: {
+      checkInView: false,
+      enabled: false,
+      loadPrevNext: false,
+      loadPrevNextAmount: 1,
+      loadOnTransitionStart: false,
+      scrollingElement: '',
+
+      elementClass: 'swiper-lazy',
+      loadingClass: 'swiper-lazy-loading',
+      loadedClass: 'swiper-lazy-loaded',
+      preloaderClass: 'swiper-lazy-preloader',
+    },
+  });
+
+  swiper.lazy = {};
+
+  let scrollHandlerAttached = false;
+  let initialImageLoaded = false;
+
+  function loadInSlide(index, loadInDuplicate = true) {
     const params = swiper.params.lazy;
     if (typeof index === 'undefined') return;
     if (swiper.slides.length === 0) return;
@@ -83,25 +102,25 @@ const Lazy = {
             const originalSlide = swiper.$wrapperEl.children(
               `[data-swiper-slide-index="${slideOriginalIndex}"]:not(.${swiper.params.slideDuplicateClass})`,
             );
-            swiper.lazy.loadInSlide(originalSlide.index(), false);
+            loadInSlide(originalSlide.index(), false);
           } else {
             const duplicatedSlide = swiper.$wrapperEl.children(
               `.${swiper.params.slideDuplicateClass}[data-swiper-slide-index="${slideOriginalIndex}"]`,
             );
-            swiper.lazy.loadInSlide(duplicatedSlide.index(), false);
+            loadInSlide(duplicatedSlide.index(), false);
           }
         }
-        swiper.emit('lazyImageReady', $slideEl[0], $imageEl[0]);
+        emit('lazyImageReady', $slideEl[0], $imageEl[0]);
         if (swiper.params.autoHeight) {
           swiper.updateAutoHeight();
         }
       });
 
-      swiper.emit('lazyImageLoad', $slideEl[0], $imageEl[0]);
+      emit('lazyImageLoad', $slideEl[0], $imageEl[0]);
     });
-  },
-  load() {
-    const swiper = this;
+  }
+
+  function load() {
     const { $wrapperEl, params: swiperParams, slides, activeIndex } = swiper;
     const isVirtual = swiper.virtual && swiperParams.virtual.enabled;
     const params = swiperParams.lazy;
@@ -130,18 +149,18 @@ const Lazy = {
       return $(slideEl).index();
     }
 
-    if (!swiper.lazy.initialImageLoaded) swiper.lazy.initialImageLoaded = true;
+    if (!initialImageLoaded) initialImageLoaded = true;
     if (swiper.params.watchSlidesVisibility) {
       $wrapperEl.children(`.${swiperParams.slideVisibleClass}`).each((slideEl) => {
         const index = isVirtual ? $(slideEl).attr('data-swiper-slide-index') : $(slideEl).index();
-        swiper.lazy.loadInSlide(index);
+        loadInSlide(index);
       });
     } else if (slidesPerView > 1) {
       for (let i = activeIndex; i < activeIndex + slidesPerView; i += 1) {
-        if (slideExist(i)) swiper.lazy.loadInSlide(i);
+        if (slideExist(i)) loadInSlide(i);
       }
     } else {
-      swiper.lazy.loadInSlide(activeIndex);
+      loadInSlide(activeIndex);
     }
     if (params.loadPrevNext) {
       if (slidesPerView > 1 || (params.loadPrevNextAmount && params.loadPrevNextAmount > 1)) {
@@ -151,24 +170,23 @@ const Lazy = {
         const minIndex = Math.max(activeIndex - Math.max(spv, amount), 0);
         // Next Slides
         for (let i = activeIndex + slidesPerView; i < maxIndex; i += 1) {
-          if (slideExist(i)) swiper.lazy.loadInSlide(i);
+          if (slideExist(i)) loadInSlide(i);
         }
         // Prev Slides
         for (let i = minIndex; i < activeIndex; i += 1) {
-          if (slideExist(i)) swiper.lazy.loadInSlide(i);
+          if (slideExist(i)) loadInSlide(i);
         }
       } else {
         const nextSlide = $wrapperEl.children(`.${swiperParams.slideNextClass}`);
-        if (nextSlide.length > 0) swiper.lazy.loadInSlide(slideIndex(nextSlide));
+        if (nextSlide.length > 0) loadInSlide(slideIndex(nextSlide));
 
         const prevSlide = $wrapperEl.children(`.${swiperParams.slidePrevClass}`);
-        if (prevSlide.length > 0) swiper.lazy.loadInSlide(slideIndex(prevSlide));
+        if (prevSlide.length > 0) loadInSlide(slideIndex(prevSlide));
       }
     }
-  },
-  checkInViewOnLoad() {
+  }
+  function checkInViewOnLoad() {
     const window = getWindow();
-    const swiper = this;
     if (!swiper || swiper.destroyed) return;
     const $scrollElement = swiper.params.lazy.scrollingElement
       ? $(swiper.params.lazy.scrollingElement)
@@ -209,102 +227,78 @@ const Lazy = {
         : false;
 
     if (inView) {
-      swiper.lazy.load();
-      $scrollElement.off('scroll', swiper.lazy.checkInViewOnLoad, passiveListener);
-    } else if (!swiper.lazy.scrollHandlerAttached) {
-      swiper.lazy.scrollHandlerAttached = true;
-      $scrollElement.on('scroll', swiper.lazy.checkInViewOnLoad, passiveListener);
+      load();
+      $scrollElement.off('scroll', checkInViewOnLoad, passiveListener);
+    } else if (!scrollHandlerAttached) {
+      scrollHandlerAttached = true;
+      $scrollElement.on('scroll', checkInViewOnLoad, passiveListener);
     }
-  },
-};
+  }
 
-export default {
-  name: 'lazy',
-  params: {
-    lazy: {
-      checkInView: false,
-      enabled: false,
-      loadPrevNext: false,
-      loadPrevNextAmount: 1,
-      loadOnTransitionStart: false,
-      scrollingElement: '',
+  on('beforeInit', () => {
+    if (swiper.params.lazy.enabled && swiper.params.preloadImages) {
+      swiper.params.preloadImages = false;
+    }
+  });
+  on('init', () => {
+    if (swiper.params.lazy.enabled && !swiper.params.loop && swiper.params.initialSlide === 0) {
+      if (swiper.params.lazy.checkInView) {
+        checkInViewOnLoad();
+      } else {
+        load();
+      }
+    }
+  });
+  on('scroll', () => {
+    if (
+      swiper.params.freeMode &&
+      swiper.params.freeMode.enabled &&
+      !swiper.params.freeMode.sticky
+    ) {
+      load();
+    }
+  });
+  on('scrollbarDragMove resize _freeModeNoMomentumRelease', () => {
+    if (swiper.params.lazy.enabled) {
+      load();
+    }
+  });
+  on('transitionStart', () => {
+    if (swiper.params.lazy.enabled) {
+      if (
+        swiper.params.lazy.loadOnTransitionStart ||
+        (!swiper.params.lazy.loadOnTransitionStart && !initialImageLoaded)
+      ) {
+        load();
+      }
+    }
+  });
+  on('transitionEnd', () => {
+    if (swiper.params.lazy.enabled && !swiper.params.lazy.loadOnTransitionStart) {
+      load();
+    }
+  });
+  on('slideChange', () => {
+    const {
+      lazy,
+      cssMode,
+      watchSlidesVisibility,
+      watchSlidesProgress,
+      touchReleaseOnEdges,
+      resistanceRatio,
+    } = swiper.params;
+    if (
+      lazy.enabled &&
+      (cssMode ||
+        ((watchSlidesVisibility || watchSlidesProgress) &&
+          (touchReleaseOnEdges || resistanceRatio === 0)))
+    ) {
+      load();
+    }
+  });
 
-      elementClass: 'swiper-lazy',
-      loadingClass: 'swiper-lazy-loading',
-      loadedClass: 'swiper-lazy-loaded',
-      preloaderClass: 'swiper-lazy-preloader',
-    },
-  },
-  create() {
-    const swiper = this;
-    bindModuleMethods(swiper, {
-      lazy: {
-        initialImageLoaded: false,
-        ...Lazy,
-      },
-    });
-  },
-  on: {
-    beforeInit(swiper) {
-      if (swiper.params.lazy.enabled && swiper.params.preloadImages) {
-        swiper.params.preloadImages = false;
-      }
-    },
-    init(swiper) {
-      if (swiper.params.lazy.enabled && !swiper.params.loop && swiper.params.initialSlide === 0) {
-        if (swiper.params.lazy.checkInView) {
-          swiper.lazy.checkInViewOnLoad();
-        } else {
-          swiper.lazy.load();
-        }
-      }
-    },
-    scroll(swiper) {
-      if (
-        swiper.params.freeMode &&
-        swiper.params.freeMode.enabled &&
-        !swiper.params.freeMode.sticky
-      ) {
-        swiper.lazy.load();
-      }
-    },
-    'scrollbarDragMove resize _freeModeNoMomentumRelease': function lazyLoad(swiper) {
-      if (swiper.params.lazy.enabled) {
-        swiper.lazy.load();
-      }
-    },
-    transitionStart(swiper) {
-      if (swiper.params.lazy.enabled) {
-        if (
-          swiper.params.lazy.loadOnTransitionStart ||
-          (!swiper.params.lazy.loadOnTransitionStart && !swiper.lazy.initialImageLoaded)
-        ) {
-          swiper.lazy.load();
-        }
-      }
-    },
-    transitionEnd(swiper) {
-      if (swiper.params.lazy.enabled && !swiper.params.lazy.loadOnTransitionStart) {
-        swiper.lazy.load();
-      }
-    },
-    slideChange(swiper) {
-      const {
-        lazy,
-        cssMode,
-        watchSlidesVisibility,
-        watchSlidesProgress,
-        touchReleaseOnEdges,
-        resistanceRatio,
-      } = swiper.params;
-      if (
-        lazy.enabled &&
-        (cssMode ||
-          ((watchSlidesVisibility || watchSlidesProgress) &&
-            (touchReleaseOnEdges || resistanceRatio === 0)))
-      ) {
-        swiper.lazy.load();
-      }
-    },
-  },
-};
+  Object.assign(swiper.lazy, {
+    load,
+    loadInSlide,
+  });
+}
