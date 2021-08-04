@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import '../../build/swiper-bundle.css';
+import 'swiper/swiper-bundle.css';
 
 import App from './App.svelte';
 

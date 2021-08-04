@@ -27,17 +27,17 @@ const watchFunction = async (fileName, outputDir) => {
 
   if (fileName.includes('react')) {
     console.log('Building React');
-    buildReact('esm', 'build');
+    buildReact('build');
     return;
   }
   if (fileName.includes('vue')) {
     console.log('Building Vue');
-    buildVue('esm', 'build');
+    buildVue('build');
     return;
   }
   if (fileName.includes('svelte')) {
     console.log('Building Svelte');
-    buildSvelte('esm', 'build');
+    buildSvelte('build');
     return;
   }
   if (fileName.includes('.js')) {

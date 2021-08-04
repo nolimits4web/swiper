@@ -1,17 +1,15 @@
 <script>
   // eslint-disable-next-line
-  import SwiperCore, {
+  import {
     Navigation,
     Pagination,
     Scrollbar,
     A11y,
     Thumbs,
     // eslint-disable-next-line
-  } from '../../build/swiper.esm.js';
+  } from 'swiper';
   // eslint-disable-next-line
-  import { Swiper, SwiperSlide } from '../../build/svelte/swiper-svelte.js';
-
-  SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Thumbs]);
+  import { Swiper, SwiperSlide } from 'swiper/svelte/swiper-svelte.js';
 
   let thumbsSwiper = null;
 
@@ -26,13 +24,20 @@
 </script>
 
 <main>
-  <Swiper thumbs={{ swiper: thumbsSwiper }} slidesPerView={1} spaceBetween={50} navigation>
+  <Swiper
+    modules={[Navigation, Pagination, Scrollbar, A11y, Thumbs]}
+    thumbs={{ swiper: thumbsSwiper }}
+    slidesPerView={1}
+    spaceBetween={50}
+    navigation
+  >
     {#each slides as slide, index (index)}
       <SwiperSlide>Slide {slide + 1}</SwiperSlide>
     {/each}
   </Swiper>
   <Swiper
     on:swiper={setThumbsSwiper}
+    modules={[Navigation, Pagination, Scrollbar, A11y, Thumbs]}
     slidesPerView={5}
     spaceBetween={10}
     navigation

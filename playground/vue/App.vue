@@ -7,6 +7,7 @@
       navigation
       :scrollbar="{ draggable: true }"
       :pagination="{ clickable: true }"
+      :modules="modules"
     >
       <swiper-slide>Slide 1</swiper-slide>
       <swiper-slide>Slide 2</swiper-slide>
@@ -23,11 +24,9 @@
 </template>
 <script>
 // eslint-disable-next-line
-import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from '../../build/swiper.esm.js';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 // eslint-disable-next-line
-import { Swiper, SwiperSlide } from '../../build/vue/swiper-vue.js';
-
-SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
+import { Swiper, SwiperSlide } from 'swiper/vue/swiper-vue.js';
 
 export default {
   components: {
@@ -40,6 +39,7 @@ export default {
       window.swiper = swiper;
     };
     return {
+      modules: [Navigation, Pagination, Scrollbar, A11y],
       onSwiper,
     };
   },

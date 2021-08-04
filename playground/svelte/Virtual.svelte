@@ -1,17 +1,15 @@
 <script>
   // eslint-disable-next-line
-  import SwiperCore, {
+  import {
     Navigation,
     Pagination,
     Scrollbar,
     A11y,
     Virtual,
     // eslint-disable-next-line
-  } from '../../build/swiper.esm.js';
+  } from 'swiper';
   // eslint-disable-next-line
-  import { Swiper, SwiperSlide } from '../../build/svelte/swiper-svelte.js';
-
-  SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Virtual]);
+  import { Swiper, SwiperSlide } from 'swiper/svelte/swiper-svelte.js';
 
   const data = {
     min: 1,
@@ -39,6 +37,7 @@
 <main>
   <Swiper
     on:swiper={(e) => (window.swiper = e.detail[0])}
+    modules={[Navigation, Pagination, Scrollbar, A11y, Virtual]}
     slidesPerView={1}
     spaceBetween={50}
     navigation
