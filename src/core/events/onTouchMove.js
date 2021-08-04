@@ -1,6 +1,6 @@
 import { getDocument } from 'ssr-window';
 import $ from '../../shared/dom.js';
-import { extend, now } from '../../shared/utils.js';
+import { now } from '../../shared/utils.js';
 
 export default function onTouchMove(event) {
   const document = getDocument();
@@ -30,7 +30,7 @@ export default function onTouchMove(event) {
     // isMoved = true;
     swiper.allowClick = false;
     if (data.isTouched) {
-      extend(touches, {
+      Object.assign(touches, {
         startX: pageX,
         startY: pageY,
         currentX: pageX,

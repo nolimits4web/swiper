@@ -9,7 +9,6 @@ import { getBrowser } from '../shared/get-browser.js';
 import Resize from './modules/resize/resize.js';
 import Observer from './modules/observer/observer.js';
 
-import modular from './modular.js';
 import eventsEmitter from './events-emitter.js';
 
 import update from './update/index.js';
@@ -26,9 +25,9 @@ import images from './images/index.js';
 import checkOverflow from './check-overflow/index.js';
 
 import defaults from './defaults.js';
+import moduleExtendParams from './moduleExtendParams.js';
 
 const prototypes = {
-  modular,
   eventsEmitter,
   update,
   translate,
@@ -86,78 +85,25 @@ class Swiper {
     if (typeof swiper.modules === 'undefined') {
       swiper.modules = [];
     }
+    if (params.modules && Array.isArray(params.modules)) {
+      swiper.modules.push(...params.modules);
+    }
 
-    const modulesParams = {};
+    const allModulesParams = {};
 
     swiper.modules.forEach((mod) => {
-      if (typeof mod === 'function') {
-        const extendParams = (obj = {}) => {
-          const moduleParamName = Object.keys(obj)[0];
-          const moduleParams = obj[moduleParamName];
-          if (typeof moduleParams !== 'object' || moduleParams === null) {
-            extend(modulesParams, obj);
-            return;
-          }
-          if (
-            ['navigation', 'pagination', 'scrollbar'].indexOf(moduleParamName) >= 0 &&
-            params[moduleParamName] === true
-          ) {
-            params[moduleParamName] = { auto: true };
-          }
-          if (!(moduleParamName in params && 'enabled' in moduleParams)) {
-            extend(modulesParams, obj);
-            return;
-          }
-          if (params[moduleParamName] === true) {
-            params[moduleParamName] = { enabled: true };
-          }
-          if (
-            typeof params[moduleParamName] === 'object' &&
-            !('enabled' in params[moduleParamName])
-          ) {
-            params[moduleParamName].enabled = true;
-          }
-          if (!params[moduleParamName]) params[moduleParamName] = { enabled: false };
-          extend(modulesParams, obj);
-        };
-        mod({
-          swiper,
-          extendParams,
-          on: swiper.on.bind(swiper),
-          once: swiper.once.bind(swiper),
-          off: swiper.off.bind(swiper),
-          emit: swiper.emit.bind(swiper),
-        });
-        return;
-      }
-      // TODO: remove after all modules conversion
-      if (mod.params) {
-        const moduleParamName = Object.keys(mod.params)[0];
-        const moduleParams = mod.params[moduleParamName];
-        if (typeof moduleParams !== 'object' || moduleParams === null) return;
-        if (
-          ['navigation', 'pagination', 'scrollbar'].indexOf(moduleParamName) >= 0 &&
-          params[moduleParamName] === true
-        ) {
-          params[moduleParamName] = { auto: true };
-        }
-        if (!(moduleParamName in params && 'enabled' in moduleParams)) return;
-        if (params[moduleParamName] === true) {
-          params[moduleParamName] = { enabled: true };
-        }
-        if (
-          typeof params[moduleParamName] === 'object' &&
-          !('enabled' in params[moduleParamName])
-        ) {
-          params[moduleParamName].enabled = true;
-        }
-        if (!params[moduleParamName]) params[moduleParamName] = { enabled: false };
-      }
+      mod({
+        swiper,
+        extendParams: moduleExtendParams,
+        on: swiper.on.bind(swiper),
+        once: swiper.once.bind(swiper),
+        off: swiper.off.bind(swiper),
+        emit: swiper.emit.bind(swiper),
+      });
     });
 
     // Extend defaults with modules params
-    const swiperParams = extend({}, defaults, modulesParams);
-    swiper.useParams(swiperParams);
+    const swiperParams = extend({}, defaults, allModulesParams);
 
     // Extend defaults with passed params
     swiper.params = extend({}, swiperParams, extendedDefaults, params);
@@ -277,9 +223,6 @@ class Swiper {
       imagesToLoad: [],
       imagesLoaded: 0,
     });
-
-    // Install Modules
-    swiper.useModules();
 
     swiper.emit('_swiper');
 
@@ -676,14 +619,7 @@ class Swiper {
 
     if (typeof mod === 'function' && modules.indexOf(mod) < 0) {
       modules.push(mod);
-      return;
     }
-    const name = mod.name;
-    const sameNameModule = modules.filter((m) => m.name === name)[0];
-    if (sameNameModule) {
-      modules.splice(modules.indexOf(sameNameModule), 1);
-    }
-    modules.push(mod);
   }
 
   static use(module) {
