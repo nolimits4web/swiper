@@ -213,14 +213,14 @@ export default function onTouchMove(event) {
 
   // Update active index in free mode
   if (
-    (params.freeMode && params.freeMode.enabled) ||
+    (params.freeMode && params.freeMode.enabled && swiper.freeMode) ||
     params.watchSlidesProgress ||
     params.watchSlidesVisibility
   ) {
     swiper.updateActiveIndex();
     swiper.updateSlidesClasses();
   }
-  if (swiper.params.freeMode && params.freeMode.enabled) {
+  if (swiper.params.freeMode && params.freeMode.enabled && swiper.freeMode) {
     swiper.freeMode.onTouchMove();
   }
   // Update progress
