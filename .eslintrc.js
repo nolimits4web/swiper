@@ -14,7 +14,7 @@ const rules = {
   'react/no-array-index-key': 'off',
   'react/prop-types': 'off',
   'react/jsx-props-no-spreading': 'off',
-  'import/no-unresolved': [2, { ignore: ['ssr-window', 'dom7'] }],
+  'import/no-unresolved': [2, { ignore: ['ssr-window', 'dom7', 'swiper'] }],
 };
 module.exports = {
   env: {
