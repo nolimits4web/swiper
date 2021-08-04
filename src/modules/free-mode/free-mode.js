@@ -1,8 +1,20 @@
-import { bindModuleMethods, now } from '../../shared/utils.js';
+import { now } from '../../shared/utils.js';
 
-const FreeMode = {
-  onTouchMove() {
-    const swiper = this;
+export default function freeMode({ swiper, extendParams, emit }) {
+  extendParams({
+    freeMode: {
+      enabled: false,
+      momentum: true,
+      momentumRatio: 1,
+      momentumBounce: true,
+      momentumBounceRatio: 1,
+      momentumVelocityRatio: 1,
+      sticky: false,
+      minimumVelocity: 0.02,
+    },
+  });
+
+  function onTouchMove() {
     const { touchEventsData: data, touches } = swiper;
     // Velocity
     if (data.velocities.length === 0) {
@@ -15,11 +27,10 @@ const FreeMode = {
       position: touches[swiper.isHorizontal() ? 'currentX' : 'currentY'],
       time: now(),
     });
-  },
-  onTouchEnd({ currentPos }) {
-    const swiper = this;
-    const { params, $wrapperEl, rtlTranslate: rtl, snapGrid } = swiper;
-    const data = swiper.touchEventsData;
+  }
+
+  function onTouchEnd({ currentPos }) {
+    const { params, $wrapperEl, rtlTranslate: rtl, snapGrid, touchEventsData: data } = swiper;
     // Time diff
     const touchEndTime = now();
     const timeDiff = touchEndTime - data.touchStartTime;
@@ -157,7 +168,7 @@ const FreeMode = {
         swiper.animating = true;
         $wrapperEl.transitionEnd(() => {
           if (!swiper || swiper.destroyed || !data.allowMomentumBounce) return;
-          swiper.emit('momentumBounce');
+          emit('momentumBounce');
           swiper.setTransition(params.speed);
           setTimeout(() => {
             swiper.setTranslate(afterBouncePosition);
@@ -168,7 +179,7 @@ const FreeMode = {
           }, 0);
         });
       } else if (swiper.velocity) {
-        swiper.emit('_freeModeNoMomentumRelease');
+        emit('_freeModeNoMomentumRelease');
         swiper.updateProgress(newPosition);
         swiper.setTransition(momentumDuration);
         swiper.setTranslate(newPosition);
@@ -190,7 +201,7 @@ const FreeMode = {
       swiper.slideToClosest();
       return;
     } else if (params.freeMode) {
-      swiper.emit('_freeModeNoMomentumRelease');
+      emit('_freeModeNoMomentumRelease');
     }
 
     if (!params.freeMode.momentum || timeDiff >= params.longSwipesMs) {
@@ -198,27 +209,12 @@ const FreeMode = {
       swiper.updateActiveIndex();
       swiper.updateSlidesClasses();
     }
-  },
-};
+  }
 
-export default {
-  name: 'free-mode',
-  params: {
+  Object.assign(swiper, {
     freeMode: {
-      enabled: false,
-      momentum: true,
-      momentumRatio: 1,
-      momentumBounce: true,
-      momentumBounceRatio: 1,
-      momentumVelocityRatio: 1,
-      sticky: false,
-      minimumVelocity: 0.02,
+      onTouchMove,
+      onTouchEnd,
     },
-  },
-  create() {
-    const swiper = this;
-
-    bindModuleMethods(swiper, { freeMode: FreeMode });
-  },
-  on: {},
-};
+  });
+}
