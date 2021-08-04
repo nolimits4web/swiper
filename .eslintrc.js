@@ -4,7 +4,6 @@ const rules = {
   'prefer-object-spread': 'off',
   'prefer-destructuring': 'off',
   'import/prefer-default-export': 'off',
-  'no-shadow': 'off',
   'guard-for-in': 'off',
   'no-restricted-syntax': 'off',
   'import/no-extraneous-dependencies': 'off',
