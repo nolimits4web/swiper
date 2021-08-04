@@ -19,9 +19,7 @@ export default function A11y({ swiper, extendParams, on }) {
     },
   });
 
-  const liveRegion = $(
-    `<span class="${swiper.params.a11y.notificationClass}" aria-live="assertive" aria-atomic="true"></span>`,
-  );
+  let liveRegion = null;
 
   function notify(message) {
     const notification = liveRegion;
@@ -253,6 +251,12 @@ export default function A11y({ swiper, extendParams, on }) {
       );
     }
   }
+
+  on('beforeInit', () => {
+    liveRegion = $(
+      `<span class="${swiper.params.a11y.notificationClass}" aria-live="assertive" aria-atomic="true"></span>`,
+    );
+  });
 
   on('afterInit', () => {
     if (!swiper.params.a11y.enabled) return;

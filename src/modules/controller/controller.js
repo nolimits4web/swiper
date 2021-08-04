@@ -1,8 +1,20 @@
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
-import { nextTick, bindModuleMethods } from '../../shared/utils.js';
+import { nextTick } from '../../shared/utils.js';
 
-const Controller = {
-  LinearSpline: function LinearSpline(x, y) {
+export default function Controller({ swiper, extendParams, on }) {
+  extendParams({
+    controller: {
+      control: undefined,
+      inverse: false,
+      by: 'slide', // or 'container'
+    },
+  });
+
+  swiper.controller = {
+    control: undefined,
+  };
+
+  function LinearSpline(x, y) {
     const binarySearch = (function search() {
       let maxIndex;
       let minIndex;
@@ -44,18 +56,16 @@ const Controller = {
       );
     };
     return this;
-  },
+  }
   // xxx: for now i will just save one spline function to to
-  getInterpolateFunction(c) {
-    const swiper = this;
+  function getInterpolateFunction(c) {
     if (!swiper.controller.spline) {
       swiper.controller.spline = swiper.params.loop
-        ? new Controller.LinearSpline(swiper.slidesGrid, c.slidesGrid)
-        : new Controller.LinearSpline(swiper.snapGrid, c.snapGrid);
+        ? new LinearSpline(swiper.slidesGrid, c.slidesGrid)
+        : new LinearSpline(swiper.snapGrid, c.snapGrid);
     }
-  },
-  setTranslate(setTranslate, byController) {
-    const swiper = this;
+  }
+  function setTranslate(_t, byController) {
     const controlled = swiper.controller.control;
     let multiplier;
     let controlledTranslate;
@@ -67,7 +77,7 @@ const Controller = {
       // the function does a lot of value caching for performance
       const translate = swiper.rtlTranslate ? -swiper.translate : swiper.translate;
       if (swiper.params.controller.by === 'slide') {
-        swiper.controller.getInterpolateFunction(c);
+        getInterpolateFunction(c);
         // i am not sure why the values have to be multiplicated this way, tried to invert the snapGrid
         // but it did not work out
         controlledTranslate = -swiper.controller.spline.interpolate(-translate);
@@ -96,9 +106,8 @@ const Controller = {
     } else if (controlled instanceof Swiper && byController !== controlled) {
       setControlledTranslate(controlled);
     }
-  },
-  setTransition(duration, byController) {
-    const swiper = this;
+  }
+  function setTransition(duration, byController) {
     const Swiper = swiper.constructor;
     const controlled = swiper.controller.control;
     let i;
@@ -129,55 +138,38 @@ const Controller = {
     } else if (controlled instanceof Swiper && byController !== controlled) {
       setControlledTransition(controlled);
     }
-  },
-};
-export default {
-  name: 'controller',
-  params: {
-    controller: {
-      control: undefined,
-      inverse: false,
-      by: 'slide', // or 'container'
-    },
-  },
-  create() {
-    const swiper = this;
-    bindModuleMethods(swiper, {
-      controller: {
-        control: swiper.params.controller.control,
-        ...Controller,
-      },
-    });
-  },
-  on: {
-    update(swiper) {
-      if (!swiper.controller.control) return;
-      if (swiper.controller.spline) {
-        swiper.controller.spline = undefined;
-        delete swiper.controller.spline;
-      }
-    },
-    resize(swiper) {
-      if (!swiper.controller.control) return;
-      if (swiper.controller.spline) {
-        swiper.controller.spline = undefined;
-        delete swiper.controller.spline;
-      }
-    },
-    observerUpdate(swiper) {
-      if (!swiper.controller.control) return;
-      if (swiper.controller.spline) {
-        swiper.controller.spline = undefined;
-        delete swiper.controller.spline;
-      }
-    },
-    setTranslate(swiper, translate, byController) {
-      if (!swiper.controller.control) return;
-      swiper.controller.setTranslate(translate, byController);
-    },
-    setTransition(swiper, duration, byController) {
-      if (!swiper.controller.control) return;
-      swiper.controller.setTransition(duration, byController);
-    },
-  },
-};
+  }
+
+  function removeSpline() {
+    if (!swiper.controller.control) return;
+    if (swiper.controller.spline) {
+      swiper.controller.spline = undefined;
+      delete swiper.controller.spline;
+    }
+  }
+  on('beforeInit', () => {
+    swiper.controller.control = swiper.params.controller.control;
+  });
+  on('update', () => {
+    removeSpline();
+  });
+  on('resize', () => {
+    removeSpline();
+  });
+  on('observerUpdate', () => {
+    removeSpline();
+  });
+  on('setTranslate', (_s, translate, byController) => {
+    if (!swiper.controller.control) return;
+    swiper.controller.setTranslate(translate, byController);
+  });
+  on('setTransition', (_s, duration, byController) => {
+    if (!swiper.controller.control) return;
+    swiper.controller.setTransition(duration, byController);
+  });
+
+  Object.assign(swiper.controller, {
+    setTranslate,
+    setTransition,
+  });
+}
