@@ -1,14 +1,24 @@
 /* eslint-disable consistent-return */
 import { getWindow, getDocument } from 'ssr-window';
 import $ from '../../shared/dom.js';
-import { bindModuleMethods } from '../../shared/utils.js';
 
-const Keyboard = {
-  handle(event) {
-    const swiper = this;
+export default function Keyboard({ swiper, extendParams, on, emit }) {
+  const document = getDocument();
+  const window = getWindow();
+  swiper.keyboard = {
+    enabled: true,
+  };
+  extendParams({
+    keyboard: {
+      enabled: false,
+      onlyInViewport: true,
+      pageUpDown: true,
+    },
+  });
+
+  function handle(event) {
     if (!swiper.enabled) return;
-    const window = getWindow();
-    const document = getDocument();
+
     const { rtlTranslate: rtl } = swiper;
     let e = event;
     if (e.originalEvent) e = e.originalEvent; // jquery fix
@@ -98,53 +108,33 @@ const Keyboard = {
       if (isPageDown || isArrowDown) swiper.slideNext();
       if (isPageUp || isArrowUp) swiper.slidePrev();
     }
-    swiper.emit('keyPress', kc);
+    emit('keyPress', kc);
     return undefined;
-  },
-  enable() {
-    const swiper = this;
-    const document = getDocument();
+  }
+  function enable() {
     if (swiper.keyboard.enabled) return;
-    $(document).on('keydown', swiper.keyboard.handle);
+    $(document).on('keydown', handle);
     swiper.keyboard.enabled = true;
-  },
-  disable() {
-    const swiper = this;
-    const document = getDocument();
+  }
+  function disable() {
     if (!swiper.keyboard.enabled) return;
-    $(document).off('keydown', swiper.keyboard.handle);
+    $(document).off('keydown', handle);
     swiper.keyboard.enabled = false;
-  },
-};
+  }
 
-export default {
-  name: 'keyboard',
-  params: {
-    keyboard: {
-      enabled: false,
-      onlyInViewport: true,
-      pageUpDown: true,
-    },
-  },
-  create() {
-    const swiper = this;
-    bindModuleMethods(swiper, {
-      keyboard: {
-        enabled: false,
-        ...Keyboard,
-      },
-    });
-  },
-  on: {
-    init(swiper) {
-      if (swiper.params.keyboard.enabled) {
-        swiper.keyboard.enable();
-      }
-    },
-    destroy(swiper) {
-      if (swiper.keyboard.enabled) {
-        swiper.keyboard.disable();
-      }
-    },
-  },
-};
+  on('init', () => {
+    if (swiper.params.keyboard.enabled) {
+      enable();
+    }
+  });
+  on('destroy', () => {
+    if (swiper.keyboard.enabled) {
+      disable();
+    }
+  });
+
+  Object.assign(swiper.keyboard, {
+    enable,
+    disable,
+  });
+}
