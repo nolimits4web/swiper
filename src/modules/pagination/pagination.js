@@ -2,6 +2,7 @@ import $ from '../../shared/dom.js';
 import { extend, classesToSelector, createElementIfNotDefined } from '../../shared/utils.js';
 
 export default function Pagination({ swiper, extendParams, on, emit }) {
+  const pfx = 'swiper-pagination';
   extendParams({
     pagination: {
       el: null,
@@ -18,16 +19,16 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       dynamicMainBullets: 1,
       formatFractionCurrent: (number) => number,
       formatFractionTotal: (number) => number,
-      bulletClass: 'swiper-pagination-bullet',
-      bulletActiveClass: 'swiper-pagination-bullet-active',
-      modifierClass: 'swiper-pagination-',
-      currentClass: 'swiper-pagination-current',
-      totalClass: 'swiper-pagination-total',
-      hiddenClass: 'swiper-pagination-hidden',
-      progressbarFillClass: 'swiper-pagination-progressbar-fill',
-      progressbarOppositeClass: 'swiper-pagination-progressbar-opposite',
-      clickableClass: 'swiper-pagination-clickable',
-      lockClass: 'swiper-pagination-lock',
+      bulletClass: `${pfx}-bullet`,
+      bulletActiveClass: `${pfx}-bullet-active`,
+      modifierClass: `${pfx}-`,
+      currentClass: `${pfx}-current`,
+      totalClass: `${pfx}-total`,
+      hiddenClass: `${pfx}-hidden`,
+      progressbarFillClass: `${pfx}-progressbar-fill`,
+      progressbarOppositeClass: `${pfx}-progressbar-opposite`,
+      clickableClass: `${pfx}-clickable`,
+      lockClass: `${pfx}-lock`,
     },
   });
 
