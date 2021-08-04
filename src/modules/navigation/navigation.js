@@ -1,55 +1,71 @@
 import $ from '../../shared/dom.js';
-import { extend, bindModuleMethods, createElementIfNotDefined } from '../../shared/utils.js';
+import { extend, createElementIfNotDefined } from '../../shared/utils.js';
 
-const Navigation = {
-  toggleEl($el, disabled) {
-    $el[disabled ? 'addClass' : 'removeClass'](this.params.navigation.disabledClass);
-    if ($el[0] && $el[0].tagName === 'BUTTON') $el[0].disabled = disabled;
-  },
-  update() {
-    // Update Navigation Buttons
-    const swiper = this;
+export default function Navigation({ swiper, extendParams, on, emit }) {
+  extendParams({
+    navigation: {
+      nextEl: null,
+      prevEl: null,
+
+      hideOnClick: false,
+      disabledClass: 'swiper-button-disabled',
+      hiddenClass: 'swiper-button-hidden',
+      lockClass: 'swiper-button-lock',
+    },
+  });
+
+  swiper.navigation = {
+    nextEl: null,
+    $nextEl: null,
+    prevEl: null,
+    $prevEl: null,
+  };
+
+  function getEl(el) {
+    let $el;
+    if (el) {
+      $el = $(el);
+      if (
+        swiper.params.uniqueNavElements &&
+        typeof el === 'string' &&
+        $el.length > 1 &&
+        swiper.$el.find(el).length === 1
+      ) {
+        $el = swiper.$el.find(el);
+      }
+    }
+    return $el;
+  }
+
+  function toggleEl($el, disabled) {
     const params = swiper.params.navigation;
-    const toggleEl = swiper.navigation.toggleEl;
-
+    if ($el && $el.length > 0) {
+      $el[disabled ? 'addClass' : 'removeClass'](params.disabledClass);
+      if ($el[0] && $el[0].tagName === 'BUTTON') $el[0].disabled = disabled;
+      if (swiper.params.watchOverflow && swiper.enabled) {
+        $el[swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
+      }
+    }
+  }
+  function update() {
+    // Update Navigation Buttons
     if (swiper.params.loop) return;
     const { $nextEl, $prevEl } = swiper.navigation;
 
-    if ($prevEl && $prevEl.length > 0) {
-      if (swiper.isBeginning) {
-        toggleEl($prevEl, true);
-      } else {
-        toggleEl($prevEl, false);
-      }
-      if (swiper.params.watchOverflow && swiper.enabled) {
-        $prevEl[swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
-      }
-    }
-    if ($nextEl && $nextEl.length > 0) {
-      if (swiper.isEnd) {
-        toggleEl($nextEl, true);
-      } else {
-        toggleEl($nextEl, false);
-      }
-      if (swiper.params.watchOverflow && swiper.enabled) {
-        $nextEl[swiper.isLocked ? 'addClass' : 'removeClass'](params.lockClass);
-      }
-    }
-  },
-  onPrevClick(e) {
-    const swiper = this;
+    toggleEl($prevEl, swiper.isBeginning);
+    toggleEl($nextEl, swiper.isEnd);
+  }
+  function onPrevClick(e) {
     e.preventDefault();
     if (swiper.isBeginning && !swiper.params.loop) return;
     swiper.slidePrev();
-  },
-  onNextClick(e) {
-    const swiper = this;
+  }
+  function onNextClick(e) {
     e.preventDefault();
     if (swiper.isEnd && !swiper.params.loop) return;
     swiper.slideNext();
-  },
-  init() {
-    const swiper = this;
+  }
+  function init() {
     const params = swiper.params.navigation;
 
     swiper.params.navigation = createElementIfNotDefined(
@@ -63,36 +79,14 @@ const Navigation = {
     );
     if (!(params.nextEl || params.prevEl)) return;
 
-    let $nextEl;
-    let $prevEl;
-    if (params.nextEl) {
-      $nextEl = $(params.nextEl);
-      if (
-        swiper.params.uniqueNavElements &&
-        typeof params.nextEl === 'string' &&
-        $nextEl.length > 1 &&
-        swiper.$el.find(params.nextEl).length === 1
-      ) {
-        $nextEl = swiper.$el.find(params.nextEl);
-      }
-    }
-    if (params.prevEl) {
-      $prevEl = $(params.prevEl);
-      if (
-        swiper.params.uniqueNavElements &&
-        typeof params.prevEl === 'string' &&
-        $prevEl.length > 1 &&
-        swiper.$el.find(params.prevEl).length === 1
-      ) {
-        $prevEl = swiper.$el.find(params.prevEl);
-      }
-    }
+    const $nextEl = getEl(params.nextEl);
+    const $prevEl = getEl(params.prevEl);
 
     if ($nextEl && $nextEl.length > 0) {
-      $nextEl.on('click', swiper.navigation.onNextClick);
+      $nextEl.on('click', onNextClick);
     }
     if ($prevEl && $prevEl.length > 0) {
-      $prevEl.on('click', swiper.navigation.onPrevClick);
+      $prevEl.on('click', onPrevClick);
     }
 
     extend(swiper.navigation, {
@@ -106,98 +100,79 @@ const Navigation = {
       if ($nextEl) $nextEl.addClass(params.lockClass);
       if ($prevEl) $prevEl.addClass(params.lockClass);
     }
-  },
-  destroy() {
-    const swiper = this;
+  }
+  function destroy() {
     const { $nextEl, $prevEl } = swiper.navigation;
     if ($nextEl && $nextEl.length) {
-      $nextEl.off('click', swiper.navigation.onNextClick);
+      $nextEl.off('click', onNextClick);
       $nextEl.removeClass(swiper.params.navigation.disabledClass);
     }
     if ($prevEl && $prevEl.length) {
-      $prevEl.off('click', swiper.navigation.onPrevClick);
+      $prevEl.off('click', onPrevClick);
       $prevEl.removeClass(swiper.params.navigation.disabledClass);
     }
-  },
-};
+  }
 
-export default {
-  name: 'navigation',
-  params: {
-    navigation: {
-      nextEl: null,
-      prevEl: null,
-
-      hideOnClick: false,
-      disabledClass: 'swiper-button-disabled',
-      hiddenClass: 'swiper-button-hidden',
-      lockClass: 'swiper-button-lock',
-    },
-  },
-  create() {
-    const swiper = this;
-    bindModuleMethods(swiper, {
-      navigation: {
-        ...Navigation,
-      },
-    });
-  },
-  on: {
-    init(swiper) {
-      swiper.navigation.init();
-      swiper.navigation.update();
-    },
-    toEdge(swiper) {
-      swiper.navigation.update();
-    },
-    fromEdge(swiper) {
-      swiper.navigation.update();
-    },
-    destroy(swiper) {
-      swiper.navigation.destroy();
-    },
-    'enable disable': (swiper) => {
-      const { $nextEl, $prevEl } = swiper.navigation;
+  on('init', () => {
+    init();
+    update();
+  });
+  on('toEdge', () => {
+    update();
+  });
+  on('fromEdge', () => {
+    update();
+  });
+  on('destroy', () => {
+    destroy();
+  });
+  on('enable disable', () => {
+    const { $nextEl, $prevEl } = swiper.navigation;
+    if ($nextEl) {
+      $nextEl[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.navigation.lockClass);
+    }
+    if ($prevEl) {
+      $prevEl[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.navigation.lockClass);
+    }
+  });
+  on('click', (_s, e) => {
+    const { $nextEl, $prevEl } = swiper.navigation;
+    const targetEl = e.target;
+    if (
+      swiper.params.navigation.hideOnClick &&
+      !$(targetEl).is($prevEl) &&
+      !$(targetEl).is($nextEl)
+    ) {
+      if (
+        swiper.pagination &&
+        swiper.params.pagination &&
+        swiper.params.pagination.clickable &&
+        (swiper.pagination.el === targetEl || swiper.pagination.el.contains(targetEl))
+      )
+        return;
+      let isHidden;
       if ($nextEl) {
-        $nextEl[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.navigation.lockClass);
+        isHidden = $nextEl.hasClass(swiper.params.navigation.hiddenClass);
+      } else if ($prevEl) {
+        isHidden = $prevEl.hasClass(swiper.params.navigation.hiddenClass);
+      }
+      if (isHidden === true) {
+        emit('navigationShow');
+      } else {
+        emit('navigationHide');
+      }
+      if ($nextEl) {
+        $nextEl.toggleClass(swiper.params.navigation.hiddenClass);
       }
       if ($prevEl) {
-        $prevEl[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.navigation.lockClass);
+        $prevEl.toggleClass(swiper.params.navigation.hiddenClass);
       }
-    },
-    click(swiper, e) {
-      const { $nextEl, $prevEl } = swiper.navigation;
-      const targetEl = e.target;
-      if (
-        swiper.params.navigation.hideOnClick &&
-        !$(targetEl).is($prevEl) &&
-        !$(targetEl).is($nextEl)
-      ) {
-        if (
-          swiper.pagination &&
-          swiper.params.pagination &&
-          swiper.params.pagination.clickable &&
-          (swiper.pagination.el === targetEl || swiper.pagination.el.contains(targetEl))
-        )
-          return;
-        let isHidden;
-        if ($nextEl) {
-          isHidden = $nextEl.hasClass(swiper.params.navigation.hiddenClass);
-        } else if ($prevEl) {
-          isHidden = $prevEl.hasClass(swiper.params.navigation.hiddenClass);
-        }
-        if (isHidden === true) {
-          swiper.emit('navigationShow');
-        } else {
-          swiper.emit('navigationHide');
-        }
-        if ($nextEl) {
-          $nextEl.toggleClass(swiper.params.navigation.hiddenClass);
-        }
-        if ($prevEl) {
-          $prevEl.toggleClass(swiper.params.navigation.hiddenClass);
-        }
-      }
-    },
-  },
-};
+    }
+  });
+
+  Object.assign(swiper.navigation, {
+    update,
+    init,
+    destroy,
+  });
+}
