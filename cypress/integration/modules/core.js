@@ -287,7 +287,7 @@ context('Core', () => {
     cy.initSwiper({
       grabCursor: true,
     });
-    cy.getSliderContainer()
+    cy.getSliderWrapper()
       .should('have.attr', 'style')
       .and('match', /cursor:\s+grab/);
   });

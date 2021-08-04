@@ -87,12 +87,12 @@ context('Core methods', () => {
 
   it('setGrabCursor & unsetGrabCursor', function setGrabCursor() {
     this.swiper.setGrabCursor();
-    cy.getSliderContainer()
+    cy.getSliderWrapper()
       .should('have.attr', 'style')
       .and('match', /cursor:\s+grab/)
       .then(() => {
         this.swiper.unsetGrabCursor();
-        cy.getSliderContainer()
+        cy.getSliderWrapper()
           .should('have.attr', 'style')
           .and('not.match', /cursor:\s+grab/);
       });
