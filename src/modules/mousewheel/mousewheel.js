@@ -1,43 +1,34 @@
 /* eslint-disable consistent-return */
-import { getWindow, getDocument } from 'ssr-window';
+import { getWindow } from 'ssr-window';
 import $ from '../../shared/dom.js';
-import { now, nextTick, bindModuleMethods } from '../../shared/utils.js';
+import { now, nextTick } from '../../shared/utils.js';
 
-function isEventSupported() {
-  const document = getDocument();
-  const eventName = 'onwheel';
-  let isSupported = eventName in document;
+export default function Mousewheel({ swiper, extendParams, on, emit }) {
+  const window = getWindow();
 
-  if (!isSupported) {
-    const element = document.createElement('div');
-    element.setAttribute(eventName, 'return;');
-    isSupported = typeof element[eventName] === 'function';
-  }
+  extendParams({
+    mousewheel: {
+      enabled: false,
+      releaseOnEdges: false,
+      invert: false,
+      forceToAxis: false,
+      sensitivity: 1,
+      eventsTarget: 'container',
+      thresholdDelta: null,
+      thresholdTime: null,
+    },
+  });
 
-  if (
-    !isSupported &&
-    document.implementation &&
-    document.implementation.hasFeature &&
-    // always returns true in newer browsers as per the standard.
-    // @see http://dom.spec.whatwg.org/#dom-domimplementation-hasfeature
-    document.implementation.hasFeature('', '') !== true
-  ) {
-    // This is the only way to test support for the `wheel` event in IE9+.
-    isSupported = document.implementation.hasFeature('Events.wheel', '3.0');
-  }
+  swiper.mousewheel = {
+    enabled: false,
+  };
 
-  return isSupported;
-}
-const Mousewheel = {
-  lastScrollTime: now(),
-  lastEventBeforeSnap: undefined,
-  recentWheelEvents: [],
-  event() {
-    const window = getWindow();
-    if (window.navigator.userAgent.indexOf('firefox') > -1) return 'DOMMouseScroll';
-    return isEventSupported() ? 'wheel' : 'mousewheel';
-  },
-  normalize(e) {
+  let timeout;
+  let lastScrollTime = now();
+  let lastEventBeforeSnap;
+  const recentWheelEvents = [];
+
+  function normalize(e) {
     // Reasonable defaults
     const PIXEL_STEP = 10;
     const LINE_HEIGHT = 40;
@@ -110,21 +101,81 @@ const Mousewheel = {
       pixelX: pX,
       pixelY: pY,
     };
-  },
-  handleMouseEnter() {
-    const swiper = this;
+  }
+  function handleMouseEnter() {
     if (!swiper.enabled) return;
     swiper.mouseEntered = true;
-  },
-  handleMouseLeave() {
-    const swiper = this;
+  }
+  function handleMouseLeave() {
     if (!swiper.enabled) return;
     swiper.mouseEntered = false;
-  },
-  handle(event) {
+  }
+  function animateSlider(newEvent) {
+    if (
+      swiper.params.mousewheel.thresholdDelta &&
+      newEvent.delta < swiper.params.mousewheel.thresholdDelta
+    ) {
+      // Prevent if delta of wheel scroll delta is below configured threshold
+      return false;
+    }
+
+    if (
+      swiper.params.mousewheel.thresholdTime &&
+      now() - lastScrollTime < swiper.params.mousewheel.thresholdTime
+    ) {
+      // Prevent if time between scrolls is below configured threshold
+      return false;
+    }
+
+    // If the movement is NOT big enough and
+    // if the last time the user scrolled was too close to the current one (avoid continuously triggering the slider):
+    //   Don't go any further (avoid insignificant scroll movement).
+    if (newEvent.delta >= 6 && now() - lastScrollTime < 60) {
+      // Return false as a default
+      return true;
+    }
+    // If user is scrolling towards the end:
+    //   If the slider hasn't hit the latest slide or
+    //   if the slider is a loop and
+    //   if the slider isn't moving right now:
+    //     Go to next slide and
+    //     emit a scroll event.
+    // Else (the user is scrolling towards the beginning) and
+    // if the slider hasn't hit the first slide or
+    // if the slider is a loop and
+    // if the slider isn't moving right now:
+    //   Go to prev slide and
+    //   emit a scroll event.
+    if (newEvent.direction < 0) {
+      if ((!swiper.isEnd || swiper.params.loop) && !swiper.animating) {
+        swiper.slideNext();
+        emit('scroll', newEvent.raw);
+      }
+    } else if ((!swiper.isBeginning || swiper.params.loop) && !swiper.animating) {
+      swiper.slidePrev();
+      emit('scroll', newEvent.raw);
+    }
+    // If you got here is because an animation has been triggered so store the current time
+    lastScrollTime = new window.Date().getTime();
+    // Return false as a default
+    return false;
+  }
+  function releaseScroll(newEvent) {
+    const params = swiper.params.mousewheel;
+    if (newEvent.direction < 0) {
+      if (swiper.isEnd && !swiper.params.loop && params.releaseOnEdges) {
+        // Return true to animate scroll on edges
+        return true;
+      }
+    } else if (swiper.isBeginning && !swiper.params.loop && params.releaseOnEdges) {
+      // Return true to animate scroll on edges
+      return true;
+    }
+    return false;
+  }
+  function handle(event) {
     let e = event;
     let disableParentSwiper = true;
-    const swiper = this;
     if (!swiper.enabled) return;
     const params = swiper.params.mousewheel;
 
@@ -143,7 +194,7 @@ const Mousewheel = {
     let delta = 0;
     const rtlFactor = swiper.rtlTranslate ? -1 : 1;
 
-    const data = Mousewheel.normalize(e);
+    const data = normalize(e);
 
     if (params.forceToAxis) {
       if (swiper.isHorizontal()) {
@@ -189,7 +240,6 @@ const Mousewheel = {
       };
 
       // Keep the most recent events
-      const recentWheelEvents = swiper.mousewheel.recentWheelEvents;
       if (recentWheelEvents.length >= 2) {
         recentWheelEvents.shift(); // only store the last N events
       }
@@ -210,15 +260,15 @@ const Mousewheel = {
           newEvent.delta > prevEvent.delta ||
           newEvent.time > prevEvent.time + 150
         ) {
-          swiper.mousewheel.animateSlider(newEvent);
+          animateSlider(newEvent);
         }
       } else {
-        swiper.mousewheel.animateSlider(newEvent);
+        animateSlider(newEvent);
       }
 
       // If it's time to release the scroll:
       //   Return now so you don't hit the preventDefault.
-      if (swiper.mousewheel.releaseScroll(newEvent)) {
+      if (releaseScroll(newEvent)) {
         return true;
       }
     } else {
@@ -233,14 +283,13 @@ const Mousewheel = {
         delta: Math.abs(delta),
         direction: Math.sign(delta),
       };
-      const { lastEventBeforeSnap } = swiper.mousewheel;
       const ignoreWheelEvents =
         lastEventBeforeSnap &&
         newEvent.time < lastEventBeforeSnap.time + 500 &&
         newEvent.delta <= lastEventBeforeSnap.delta &&
         newEvent.direction === lastEventBeforeSnap.direction;
       if (!ignoreWheelEvents) {
-        swiper.mousewheel.lastEventBeforeSnap = undefined;
+        lastEventBeforeSnap = undefined;
 
         if (swiper.params.loop) {
           swiper.loopFix();
@@ -274,9 +323,8 @@ const Mousewheel = {
           // Snap immediately and ignore remaining wheel events in this scroll.
           // See comment above for "remaining wheel events in this scroll" determination.
           // If 1-4 aren't satisfied, then wait to snap until 500ms after the last event.
-          clearTimeout(swiper.mousewheel.timeout);
-          swiper.mousewheel.timeout = undefined;
-          const recentWheelEvents = swiper.mousewheel.recentWheelEvents;
+          clearTimeout(timeout);
+          timeout = undefined;
           if (recentWheelEvents.length >= 15) {
             recentWheelEvents.shift(); // only store the last N events
           }
@@ -304,19 +352,19 @@ const Mousewheel = {
             // in the same direction as the scroll instead of reversing to snap.  Therefore,
             // if it's already scrolled more than 20% in the current direction, keep going.
             const snapToThreshold = delta > 0 ? 0.8 : 0.2;
-            swiper.mousewheel.lastEventBeforeSnap = newEvent;
+            lastEventBeforeSnap = newEvent;
             recentWheelEvents.splice(0);
-            swiper.mousewheel.timeout = nextTick(() => {
+            timeout = nextTick(() => {
               swiper.slideToClosest(swiper.params.speed, true, undefined, snapToThreshold);
             }, 0); // no delay; move on next tick
           }
-          if (!swiper.mousewheel.timeout) {
+          if (!timeout) {
             // if we get here, then we haven't detected the end of a momentum scroll, so
             // we'll consider a scroll "complete" when there haven't been any wheel events
             // for 500ms.
-            swiper.mousewheel.timeout = nextTick(() => {
+            timeout = nextTick(() => {
               const snapToThreshold = 0.5;
-              swiper.mousewheel.lastEventBeforeSnap = newEvent;
+              lastEventBeforeSnap = newEvent;
               recentWheelEvents.splice(0);
               swiper.slideToClosest(swiper.params.speed, true, undefined, snapToThreshold);
             }, 500);
@@ -324,7 +372,7 @@ const Mousewheel = {
         }
 
         // Emit event
-        if (!ignoreWheelEvents) swiper.emit('scroll', e);
+        if (!ignoreWheelEvents) emit('scroll', e);
 
         // Stop autoplay
         if (swiper.params.autoplay && swiper.params.autoplayDisableOnInteraction)
@@ -337,157 +385,54 @@ const Mousewheel = {
     if (e.preventDefault) e.preventDefault();
     else e.returnValue = false;
     return false;
-  },
-  animateSlider(newEvent) {
-    const swiper = this;
-    const window = getWindow();
+  }
 
-    if (
-      this.params.mousewheel.thresholdDelta &&
-      newEvent.delta < this.params.mousewheel.thresholdDelta
-    ) {
-      // Prevent if delta of wheel scroll delta is below configured threshold
-      return false;
-    }
-
-    if (
-      this.params.mousewheel.thresholdTime &&
-      now() - swiper.mousewheel.lastScrollTime < this.params.mousewheel.thresholdTime
-    ) {
-      // Prevent if time between scrolls is below configured threshold
-      return false;
-    }
-
-    // If the movement is NOT big enough and
-    // if the last time the user scrolled was too close to the current one (avoid continuously triggering the slider):
-    //   Don't go any further (avoid insignificant scroll movement).
-    if (newEvent.delta >= 6 && now() - swiper.mousewheel.lastScrollTime < 60) {
-      // Return false as a default
-      return true;
-    }
-    // If user is scrolling towards the end:
-    //   If the slider hasn't hit the latest slide or
-    //   if the slider is a loop and
-    //   if the slider isn't moving right now:
-    //     Go to next slide and
-    //     emit a scroll event.
-    // Else (the user is scrolling towards the beginning) and
-    // if the slider hasn't hit the first slide or
-    // if the slider is a loop and
-    // if the slider isn't moving right now:
-    //   Go to prev slide and
-    //   emit a scroll event.
-    if (newEvent.direction < 0) {
-      if ((!swiper.isEnd || swiper.params.loop) && !swiper.animating) {
-        swiper.slideNext();
-        swiper.emit('scroll', newEvent.raw);
-      }
-    } else if ((!swiper.isBeginning || swiper.params.loop) && !swiper.animating) {
-      swiper.slidePrev();
-      swiper.emit('scroll', newEvent.raw);
-    }
-    // If you got here is because an animation has been triggered so store the current time
-    swiper.mousewheel.lastScrollTime = new window.Date().getTime();
-    // Return false as a default
-    return false;
-  },
-  releaseScroll(newEvent) {
-    const swiper = this;
-    const params = swiper.params.mousewheel;
-    if (newEvent.direction < 0) {
-      if (swiper.isEnd && !swiper.params.loop && params.releaseOnEdges) {
-        // Return true to animate scroll on edges
-        return true;
-      }
-    } else if (swiper.isBeginning && !swiper.params.loop && params.releaseOnEdges) {
-      // Return true to animate scroll on edges
-      return true;
-    }
-    return false;
-  },
-  enable() {
-    const swiper = this;
-    const event = Mousewheel.event();
-    if (swiper.params.cssMode) {
-      swiper.wrapperEl.removeEventListener(event, swiper.mousewheel.handle);
-      return true;
-    }
-    if (!event) return false;
-    if (swiper.mousewheel.enabled) return false;
+  function events(method) {
     let target = swiper.$el;
     if (swiper.params.mousewheel.eventsTarget !== 'container') {
       target = $(swiper.params.mousewheel.eventsTarget);
     }
-    target.on('mouseenter', swiper.mousewheel.handleMouseEnter);
-    target.on('mouseleave', swiper.mousewheel.handleMouseLeave);
-    target.on(event, swiper.mousewheel.handle);
+    target[method]('mouseenter', handleMouseEnter);
+    target[method]('mouseleave', handleMouseLeave);
+    target[method]('wheel', handle);
+  }
+
+  function enable() {
+    if (swiper.params.cssMode) {
+      swiper.wrapperEl.removeEventListener('wheel', handle);
+      return true;
+    }
+    if (swiper.mousewheel.enabled) return false;
+    events('on');
     swiper.mousewheel.enabled = true;
     return true;
-  },
-  disable() {
-    const swiper = this;
-    const event = Mousewheel.event();
+  }
+  function disable() {
     if (swiper.params.cssMode) {
-      swiper.wrapperEl.addEventListener(event, swiper.mousewheel.handle);
+      swiper.wrapperEl.addEventListener(event, handle);
       return true;
     }
-    if (!event) return false;
     if (!swiper.mousewheel.enabled) return false;
-    let target = swiper.$el;
-    if (swiper.params.mousewheel.eventsTarget !== 'container') {
-      target = $(swiper.params.mousewheel.eventsTarget);
-    }
-    target.off(event, swiper.mousewheel.handle);
+    events('off');
     swiper.mousewheel.enabled = false;
     return true;
-  },
-};
+  }
 
-export default {
-  name: 'mousewheel',
-  params: {
-    mousewheel: {
-      enabled: false,
-      releaseOnEdges: false,
-      invert: false,
-      forceToAxis: false,
-      sensitivity: 1,
-      eventsTarget: 'container',
-      thresholdDelta: null,
-      thresholdTime: null,
-    },
-  },
-  create() {
-    const swiper = this;
-    bindModuleMethods(swiper, {
-      mousewheel: {
-        enabled: false,
-        lastScrollTime: now(),
-        lastEventBeforeSnap: undefined,
-        recentWheelEvents: [],
+  on('init', () => {
+    if (!swiper.params.mousewheel.enabled && swiper.params.cssMode) {
+      disable();
+    }
+    if (swiper.params.mousewheel.enabled) enable();
+  });
+  on('destroy', () => {
+    if (swiper.params.cssMode) {
+      enable();
+    }
+    if (swiper.mousewheel.enabled) disable();
+  });
 
-        enable: Mousewheel.enable,
-        disable: Mousewheel.disable,
-        handle: Mousewheel.handle,
-        handleMouseEnter: Mousewheel.handleMouseEnter,
-        handleMouseLeave: Mousewheel.handleMouseLeave,
-        animateSlider: Mousewheel.animateSlider,
-        releaseScroll: Mousewheel.releaseScroll,
-      },
-    });
-  },
-  on: {
-    init(swiper) {
-      if (!swiper.params.mousewheel.enabled && swiper.params.cssMode) {
-        swiper.mousewheel.disable();
-      }
-      if (swiper.params.mousewheel.enabled) swiper.mousewheel.enable();
-    },
-    destroy(swiper) {
-      if (swiper.params.cssMode) {
-        swiper.mousewheel.enable();
-      }
-      if (swiper.mousewheel.enabled) swiper.mousewheel.disable();
-    },
-  },
-};
+  Object.assign(swiper.mousewheel, {
+    enable,
+    disable,
+  });
+}
