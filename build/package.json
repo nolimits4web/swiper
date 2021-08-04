@@ -5,7 +5,6 @@
   "type": "module",
   "exports": {
     ".": "./swiper.esm.js",
-    "./": "./swiper.esm.js",
     "./core": "./swiper.esm.js",
     "./core/": "./swiper.esm.js",
     "./bundle": "./swiper-bundle.esm.js",
