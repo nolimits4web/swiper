@@ -1,7 +1,7 @@
 import { getWindow } from 'ssr-window';
 import { getSupport } from './get-support.js';
 
-let device;
+let deviceCached;
 
 function calcDevice({ userAgent } = {}) {
   const support = getSupport();
@@ -65,10 +65,10 @@ function calcDevice({ userAgent } = {}) {
 }
 
 function getDevice(overrides = {}) {
-  if (!device) {
-    device = calcDevice(overrides);
+  if (!deviceCached) {
+    deviceCached = calcDevice(overrides);
   }
-  return device;
+  return deviceCached;
 }
 
 export { getDevice };

@@ -112,22 +112,22 @@ export default function History({ swiper, extendParams, on }) {
     }
   };
 
-  on('init', (swiper) => {
+  on('init', () => {
     if (swiper.params.history.enabled) {
       init();
     }
   });
-  on('destroy', (swiper) => {
+  on('destroy', () => {
     if (swiper.params.history.enabled) {
       destroy();
     }
   });
-  on('transitionEnd _freeModeNoMomentumRelease', (swiper) => {
+  on('transitionEnd _freeModeNoMomentumRelease', () => {
     if (initialized) {
       setHistory(swiper.params.history.key, swiper.activeIndex);
     }
   });
-  on('slideChange', (swiper) => {
+  on('slideChange', () => {
     if (initialized && swiper.params.cssMode) {
       setHistory(swiper.params.history.key, swiper.activeIndex);
     }

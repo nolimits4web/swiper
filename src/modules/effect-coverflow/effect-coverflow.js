@@ -12,7 +12,6 @@ export default function Coverflow({ swiper, extendParams, on }) {
     },
   });
   const setTranslate = () => {
-    const swiper = this;
     const { width: swiperWidth, height: swiperHeight, slides, slidesSizesGrid } = swiper;
     const params = swiper.params.coverflowEffect;
     const isHorizontal = swiper.isHorizontal();
@@ -83,7 +82,6 @@ export default function Coverflow({ swiper, extendParams, on }) {
     }
   };
   const setTransition = (duration) => {
-    const swiper = this;
     swiper.slides
       .transition(duration)
       .find(

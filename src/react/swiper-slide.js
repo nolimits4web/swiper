@@ -9,7 +9,7 @@ const SwiperSlide = forwardRef(
   ) => {
     const slideElRef = useRef(null);
     const [slideClasses, setSlideClasses] = useState('swiper-slide');
-    function updateClasses(swiper, el, classNames) {
+    function updateClasses(_s, el, classNames) {
       if (el === slideElRef.current) {
         setSlideClasses(classNames);
       }

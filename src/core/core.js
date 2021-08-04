@@ -325,13 +325,13 @@ class Swiper {
   emitContainerClasses() {
     const swiper = this;
     if (!swiper.params._emitClasses || !swiper.el) return;
-    const classes = swiper.el.className.split(' ').filter((className) => {
+    const cls = swiper.el.className.split(' ').filter((className) => {
       return (
         className.indexOf('swiper-container') === 0 ||
         className.indexOf(swiper.params.containerModifierClass) === 0
       );
     });
-    swiper.emit('_containerClasses', classes.join(' '));
+    swiper.emit('_containerClasses', cls.join(' '));
   }
 
   getSlideClasses(slideEl) {
