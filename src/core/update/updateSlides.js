@@ -113,9 +113,6 @@ export default function updateSlides() {
 
         newSlideOrderIndex = column + (row * slidesNumberEvenToRows) / slidesPerColumn;
         slide.css({
-          '-webkit-box-ordinal-group': newSlideOrderIndex,
-          '-moz-box-ordinal-group': newSlideOrderIndex,
-          '-ms-flex-order': newSlideOrderIndex,
           '-webkit-order': newSlideOrderIndex,
           order: newSlideOrderIndex,
         });

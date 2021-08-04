@@ -115,8 +115,6 @@ export default function Cube({ swiper, extendParams, on }) {
     }
     $wrapperEl.css({
       '-webkit-transform-origin': `50% 50% -${swiperSize / 2}px`,
-      '-moz-transform-origin': `50% 50% -${swiperSize / 2}px`,
-      '-ms-transform-origin': `50% 50% -${swiperSize / 2}px`,
       'transform-origin': `50% 50% -${swiperSize / 2}px`,
     });
 
