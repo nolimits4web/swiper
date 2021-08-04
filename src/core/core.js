@@ -124,6 +124,7 @@ class Swiper {
           swiper,
           extendParams,
           on: swiper.on.bind(swiper),
+          once: swiper.once.bind(swiper),
           off: swiper.off.bind(swiper),
           emit: swiper.emit.bind(swiper),
         });

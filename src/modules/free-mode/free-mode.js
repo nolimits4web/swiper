@@ -1,6 +1,6 @@
 import { now } from '../../shared/utils.js';
 
-export default function freeMode({ swiper, extendParams, emit }) {
+export default function freeMode({ swiper, extendParams, emit, once }) {
   extendParams({
     freeMode: {
       enabled: false,
@@ -126,7 +126,7 @@ export default function freeMode({ swiper, extendParams, emit }) {
         newPosition = -newPosition;
       }
       if (needsLoopFix) {
-        swiper.once('transitionEnd', () => {
+        once('transitionEnd', () => {
           swiper.loopFix();
         });
       }
