@@ -1,5 +1,3 @@
-import { extend } from '../../shared/utils.js';
-
 export default function updateSlides() {
   const swiper = this;
   function getDirectionLabel(property) {
@@ -312,7 +310,7 @@ export default function updateSlides() {
     }
   }
 
-  extend(swiper, {
+  Object.assign(swiper, {
     slides,
     snapGrid,
     slidesGrid,

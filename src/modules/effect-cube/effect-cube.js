@@ -1,5 +1,4 @@
 import $ from '../../shared/dom.js';
-import { extend } from '../../shared/utils.js';
 
 export default function Cube({ swiper, extendParams, on }) {
   extendParams({
@@ -175,8 +174,8 @@ export default function Cube({ swiper, extendParams, on }) {
       centeredSlides: false,
       virtualTranslate: true,
     };
-    extend(swiper.params, overwriteParams);
-    extend(swiper.originalParams, overwriteParams);
+    Object.assign(swiper.params, overwriteParams);
+    Object.assign(swiper.originalParams, overwriteParams);
   });
   on('setTranslate', () => {
     if (swiper.params.effect !== 'cube') return;

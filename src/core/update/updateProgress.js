@@ -1,5 +1,3 @@
-import { extend } from '../../shared/utils.js';
-
 export default function updateProgress(translate) {
   const swiper = this;
   if (typeof translate === 'undefined') {
@@ -21,7 +19,7 @@ export default function updateProgress(translate) {
     isBeginning = progress <= 0;
     isEnd = progress >= 1;
   }
-  extend(swiper, {
+  Object.assign(swiper, {
     progress,
     isBeginning,
     isEnd,

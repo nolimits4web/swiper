@@ -1,5 +1,3 @@
-import { extend } from '../../shared/utils.js';
-
 export default function Fade({ swiper, extendParams, on }) {
   extendParams({
     fadeEffect: {
@@ -58,8 +56,8 @@ export default function Fade({ swiper, extendParams, on }) {
       spaceBetween: 0,
       virtualTranslate: true,
     };
-    extend(swiper.params, overwriteParams);
-    extend(swiper.originalParams, overwriteParams);
+    Object.assign(swiper.params, overwriteParams);
+    Object.assign(swiper.originalParams, overwriteParams);
   });
   on('setTranslate', () => {
     if (swiper.params.effect !== 'fade') return;

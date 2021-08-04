@@ -1,5 +1,3 @@
-import { extend } from '../../shared/utils.js';
-
 export default function updateSize() {
   const swiper = this;
   let width;
@@ -32,7 +30,7 @@ export default function updateSize() {
   if (Number.isNaN(width)) width = 0;
   if (Number.isNaN(height)) height = 0;
 
-  extend(swiper, {
+  Object.assign(swiper, {
     width,
     height,
     size: swiper.isHorizontal() ? width : height,

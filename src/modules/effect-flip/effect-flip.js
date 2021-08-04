@@ -1,5 +1,4 @@
 import $ from '../../shared/dom.js';
-import { extend } from '../../shared/utils.js';
 
 export default function Flip({ swiper, extendParams, on }) {
   extendParams({
@@ -76,7 +75,6 @@ export default function Flip({ swiper, extendParams, on }) {
       slides.eq(activeIndex).transitionEnd(function onTransitionEnd() {
         if (eventTriggered) return;
         if (!swiper || swiper.destroyed) return;
-        // if (!$(this).hasClass(swiper.params.slideActiveClass)) return;
         eventTriggered = true;
         swiper.animating = false;
         const triggerEvents = ['webkitTransitionEnd', 'transitionend'];
@@ -99,8 +97,8 @@ export default function Flip({ swiper, extendParams, on }) {
       spaceBetween: 0,
       virtualTranslate: true,
     };
-    extend(swiper.params, overwriteParams);
-    extend(swiper.originalParams, overwriteParams);
+    Object.assign(swiper.params, overwriteParams);
+    Object.assign(swiper.originalParams, overwriteParams);
   });
   on('setTranslate', () => {
     if (swiper.params.effect !== 'flip') return;

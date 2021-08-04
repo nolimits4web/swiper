@@ -1,5 +1,5 @@
 import $ from '../../shared/dom.js';
-import { extend, classesToSelector, createElementIfNotDefined } from '../../shared/utils.js';
+import { classesToSelector, createElementIfNotDefined } from '../../shared/utils.js';
 
 export default function Pagination({ swiper, extendParams, on, emit }) {
   const pfx = 'swiper-pagination';
@@ -311,7 +311,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       });
     }
 
-    extend(swiper.pagination, {
+    Object.assign(swiper.pagination, {
       $el,
       el: $el[0],
     });

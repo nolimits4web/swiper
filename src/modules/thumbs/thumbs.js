@@ -1,4 +1,4 @@
-import { extend, isObject } from '../../shared/utils.js';
+import { isObject } from '../../shared/utils.js';
 import $ from '../../shared/dom.js';
 
 export default function Thumb({ swiper, extendParams, on }) {
@@ -66,22 +66,22 @@ export default function Thumb({ swiper, extendParams, on }) {
     const SwiperClass = swiper.constructor;
     if (thumbsParams.swiper instanceof SwiperClass) {
       swiper.thumbs.swiper = thumbsParams.swiper;
-      extend(swiper.thumbs.swiper.originalParams, {
+      Object.assign(swiper.thumbs.swiper.originalParams, {
         watchSlidesProgress: true,
         slideToClickedSlide: false,
       });
-      extend(swiper.thumbs.swiper.params, {
+      Object.assign(swiper.thumbs.swiper.params, {
         watchSlidesProgress: true,
         slideToClickedSlide: false,
       });
     } else if (isObject(thumbsParams.swiper)) {
-      swiper.thumbs.swiper = new SwiperClass(
-        extend({}, thumbsParams.swiper, {
-          watchSlidesVisibility: true,
-          watchSlidesProgress: true,
-          slideToClickedSlide: false,
-        }),
-      );
+      const thumbsSwiperParams = Object.assign({}, thumbsParams.swiper);
+      Object.assign(thumbsSwiperParams, {
+        watchSlidesVisibility: true,
+        watchSlidesProgress: true,
+        slideToClickedSlide: false,
+      });
+      swiper.thumbs.swiper = new SwiperClass(thumbsSwiperParams);
       swiperCreated = true;
     }
     swiper.thumbs.swiper.$el.addClass(swiper.params.thumbs.thumbsContainerClass);

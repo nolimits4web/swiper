@@ -67,7 +67,7 @@ export default function setBreakpoint() {
 
   const isEnabled = swiper.params.enabled;
 
-  extend(swiper, {
+  Object.assign(swiper, {
     allowTouchMove: swiper.params.allowTouchMove,
     allowSlideNext: swiper.params.allowSlideNext,
     allowSlidePrev: swiper.params.allowSlidePrev,

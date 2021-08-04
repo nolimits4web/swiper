@@ -1,6 +1,6 @@
 import { getDocument } from 'ssr-window';
 import $ from '../../shared/dom.js';
-import { extend, nextTick, createElementIfNotDefined } from '../../shared/utils.js';
+import { nextTick, createElementIfNotDefined } from '../../shared/utils.js';
 
 export default function Scrollbar({ swiper, extendParams, on, emit }) {
   const document = getDocument();
@@ -270,7 +270,7 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
       $el.append($dragEl);
     }
 
-    extend(scrollbar, {
+    Object.assign(scrollbar, {
       $el,
       el: $el[0],
       $dragEl,

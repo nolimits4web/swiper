@@ -1,5 +1,5 @@
 import $ from '../../shared/dom.js';
-import { extend, createElementIfNotDefined } from '../../shared/utils.js';
+import { createElementIfNotDefined } from '../../shared/utils.js';
 
 export default function Navigation({ swiper, extendParams, on, emit }) {
   extendParams({
@@ -89,7 +89,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
       $prevEl.on('click', onPrevClick);
     }
 
-    extend(swiper.navigation, {
+    Object.assign(swiper.navigation, {
       $nextEl,
       nextEl: $nextEl && $nextEl[0],
       $prevEl,

@@ -178,7 +178,7 @@ class Swiper {
     swiper.$ = $;
 
     // Extend Swiper
-    extend(swiper, {
+    Object.assign(swiper, {
       enabled: swiper.params.enabled,
       el,
 
@@ -516,7 +516,7 @@ class Swiper {
       });
     }
 
-    extend(swiper, {
+    Object.assign(swiper, {
       $el,
       el,
       $wrapperEl,

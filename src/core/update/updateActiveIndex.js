@@ -1,5 +1,3 @@
-import { extend } from '../../shared/utils.js';
-
 export default function updateActiveIndex(newActiveIndex) {
   const swiper = this;
   const translate = swiper.rtlTranslate ? swiper.translate : -swiper.translate;
@@ -54,7 +52,7 @@ export default function updateActiveIndex(newActiveIndex) {
     10,
   );
 
-  extend(swiper, {
+  Object.assign(swiper, {
     snapIndex,
     realIndex,
     previousIndex,
