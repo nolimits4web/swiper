@@ -25,7 +25,7 @@ const Swiper = {
       type: String,
       default: 'div',
     },
-
+    modules: { type: Array, default: undefined },
     init: { type: Boolean, default: undefined },
     direction: { type: String, default: undefined },
     touchEventsTarget: { type: String, default: undefined },

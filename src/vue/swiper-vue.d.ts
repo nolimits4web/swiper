@@ -32,6 +32,10 @@ declare const Swiper: DefineComponent<
       type: StringConstructor;
       default: string;
     };
+    modules: {
+      type: ArrayConstructor;
+      default: undefined;
+    };
     init: {
       type: BooleanConstructor;
       default: undefined;
