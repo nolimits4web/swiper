@@ -19,10 +19,14 @@ import { VirtualOptions } from './modules/virtual';
 import { ZoomOptions } from './modules/zoom';
 import { FreeModeOptions } from './modules/free-mode';
 
-import { CSSSelector } from './shared';
+import { CSSSelector, SwiperModule } from './shared';
 import { SwiperEvents } from './swiper-events';
 
 export interface SwiperOptions {
+  /**
+   * Array with Swiper modules
+   */
+  modules?: SwiperModule[];
   /**
    * Whether Swiper should be initialised automatically when you create an instance.
    * If disabled, then you need to init it manually by calling `swiper.init()`
