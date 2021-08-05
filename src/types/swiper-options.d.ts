@@ -18,6 +18,7 @@ import { ThumbsOptions } from './modules/thumbs';
 import { VirtualOptions } from './modules/virtual';
 import { ZoomOptions } from './modules/zoom';
 import { FreeModeOptions } from './modules/free-mode';
+import { GridOptions } from './modules/grid';
 
 import { CSSSelector, SwiperModule } from './shared';
 import { SwiperEvents } from './swiper-events';
@@ -25,6 +26,15 @@ import { SwiperEvents } from './swiper-events';
 export interface SwiperOptions {
   /**
    * Array with Swiper modules
+   *
+   * @example
+   * ```js
+   * import Swiper, { Navigation, Pagination } from 'swiper';
+   *
+   * const swiper = new Swiper('.swiper-container', {
+   *    modules: [ Navigation, Pagination ],
+   *  });
+   * ```
    */
   modules?: SwiperModule[];
   /**
@@ -258,27 +268,11 @@ export interface SwiperOptions {
   /**
    * Number of slides per view (slides visible at the same time on slider's container).
    * @note If you use it with "auto" value and along with `loop: true` then you need to specify `loopedSlides` parameter with amount of slides to loop (duplicate)
-   * @note `slidesPerView: 'auto'` is currently not compatible with multirow mode, when `slidesPerColumn` > 1
+   * @note `slidesPerView: 'auto'` is currently not compatible with multirow mode, when `grid.rows` > 1
    *
    * @default 1
    */
   slidesPerView?: number | 'auto';
-
-  /**
-   * Number of slides per column, for multirow layout
-   *
-   * @note `slidesPerColumn` > 1 is currently not compatible with loop mode (`loop: true`)
-   *
-   * @default 1
-   */
-  slidesPerColumn?: number;
-
-  /**
-   * Can be `'column'` or `'row'`. Defines how slides should fill rows, by column or by row
-   *
-   * @default 'column'
-   */
-  slidesPerColumnFill?: 'row' | 'column';
 
   /**
    * Set numbers of slides to define and enable group sliding. Useful to use with slidesPerView > 1
@@ -333,7 +327,7 @@ export interface SwiperOptions {
   normalizeSlideIndex?: boolean;
 
   /**
-   * When enabled it center slides if the amount of slides less than `slidesPerView`. Not intended to be used `loop` mode and `slidesPerColumn`
+   * When enabled it center slides if the amount of slides less than `slidesPerView`. Not intended to be used `loop` mode and `grid.rows`
    *
    * @default false
    */
@@ -563,15 +557,6 @@ export interface SwiperOptions {
    */
   slideToClickedSlide?: boolean;
 
-  // Freemode
-
-  /**
-   * If enabled then slides will not have fixed positions
-   *
-   * @default false
-   */
-  freeMode?: FreeModeOptions | boolean;
-
   // Progress
   /**
    * Enable this feature to calculate each slides progress
@@ -645,7 +630,7 @@ export interface SwiperOptions {
   loopPreventsSlide?: boolean;
 
   /**
-   * Allows to set different parameter for different responsive breakpoints (screen sizes). Not all parameters can be changed in breakpoints, only those which are not required different layout and logic, like `slidesPerView`, `slidesPerGroup`, `spaceBetween`, `slidesPerColumn`. Such parameters like `loop` and `effect` won't work
+   * Allows to set different parameter for different responsive breakpoints (screen sizes). Not all parameters can be changed in breakpoints, only those which are not required different layout and logic, like `slidesPerView`, `slidesPerGroup`, `spaceBetween`, `grid.rows`. Such parameters like `loop` and `effect` won't work
    *
    * @example
    * ```js
@@ -1144,6 +1129,39 @@ export interface SwiperOptions {
    * ```
    */
   zoom?: ZoomOptions | boolean;
+
+  /**
+   * Enables free mode functionality. Object with free mode parameters or boolean `true` to enable with default settings.
+   *
+   * @example
+   * ```js
+   * const swiper = new Swiper('.swiper-container', {
+   *   freeMode: true,
+   * });
+   *
+   * const swiper = new Swiper('.swiper-container', {
+   *   freeMode: {
+   *     enabled: true,
+   *     sticky: true,
+   *   },
+   * });
+   * ```
+   */
+  freeMode?: FreeModeOptions | boolean;
+
+  /**
+   * Object with grid parameters to enable "multirow" slider.
+   *
+   * @example
+   * ```js
+   * const swiper = new Swiper('.swiper-container', {
+   *   grid: {
+   *     rows: 2,
+   *   },
+   * });
+   * ```
+   */
+  grid?: GridOptions;
 
   /**
    * !INTERNAL When enabled will emit "_containerClasses" and "_slideClass" events

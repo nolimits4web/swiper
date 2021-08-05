@@ -166,7 +166,6 @@ export default function Cube({ swiper, extendParams, on }) {
     swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
     const overwriteParams = {
       slidesPerView: 1,
-      slidesPerColumn: 1,
       slidesPerGroup: 1,
       watchSlidesProgress: true,
       resistanceRatio: 0,

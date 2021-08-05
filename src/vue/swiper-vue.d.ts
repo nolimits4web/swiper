@@ -18,6 +18,8 @@ import {
   ThumbsOptions,
   VirtualOptions,
   ZoomOptions,
+  FreeModeOptions,
+  GridOptions,
 } from '../types';
 import { ComponentOptionsMixin, DefineComponent, PropType } from 'vue';
 import { SwiperOptions, Swiper as SwiperClass } from '../types';
@@ -83,35 +85,6 @@ declare const Swiper: DefineComponent<
       type: NumberConstructor;
       default: undefined;
     };
-    freeMode: { type: BooleanConstructor; default: undefined };
-    freeModeMomentum: {
-      type: BooleanConstructor;
-      default: undefined;
-    };
-    freeModeMomentumRatio: {
-      type: NumberConstructor;
-      default: undefined;
-    };
-    freeModeMomentumBounce: {
-      type: BooleanConstructor;
-      default: undefined;
-    };
-    freeModeMomentumBounceRatio: {
-      type: NumberConstructor;
-      default: undefined;
-    };
-    freeModeMomentumVelocityRatio: {
-      type: NumberConstructor;
-      default: undefined;
-    };
-    freeModeSticky: {
-      type: BooleanConstructor;
-      default: undefined;
-    };
-    freeModeMinimumVelocity: {
-      type: NumberConstructor;
-      default: undefined;
-    };
     autoHeight: {
       type: BooleanConstructor;
       default: undefined;
@@ -138,14 +111,6 @@ declare const Swiper: DefineComponent<
     };
     slidesPerView: {
       type: PropType<SwiperOptions['slidesPerView']>;
-      default: undefined;
-    };
-    slidesPerColumn: {
-      type: NumberConstructor;
-      default: undefined;
-    };
-    slidesPerColumnFill: {
-      type: PropType<SwiperOptions['slidesPerColumnFill']>;
       default: undefined;
     };
     slidesPerGroup: {
@@ -462,6 +427,14 @@ declare const Swiper: DefineComponent<
     };
     zoom: {
       type: PropType<ZoomOptions | boolean>;
+      default: undefined;
+    };
+    freeMode: {
+      type: PropType<FreeModeOptions | boolean>;
+      default: undefined;
+    };
+    grid: {
+      type: PropType<GridOptions>;
       default: undefined;
     };
   },

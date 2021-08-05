@@ -17,7 +17,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import Swiper from 'swiper/core';
+import Swiper from 'swiper';
 import { Observable, of, Subject } from 'rxjs';
 import { getParams } from './utils/get-params';
 import { SwiperSlideDirective } from './swiper-slide.directive';
@@ -76,8 +76,7 @@ export class SwiperComponent implements OnInit {
   @Input() breakpoints: SwiperOptions['breakpoints'];
   @Input() spaceBetween: SwiperOptions['spaceBetween'];
   @Input() slidesPerView: SwiperOptions['slidesPerView'];
-  @Input() slidesPerColumn: SwiperOptions['slidesPerColumn'];
-  @Input() slidesPerColumnFill: SwiperOptions['slidesPerColumnFill'];
+  @Input() grid: SwiperOptions['grid'];
   @Input() slidesPerGroup: SwiperOptions['slidesPerGroup'];
   @Input() slidesPerGroupSkip: SwiperOptions['slidesPerGroupSkip'];
   @Input() centeredSlides: SwiperOptions['centeredSlides'];

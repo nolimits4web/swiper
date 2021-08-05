@@ -1,5 +1,9 @@
 import { extend } from '../../shared/utils.js';
 
+const isGridEnabled = (swiper, params) => {
+  return swiper.grid && params.grid && params.grid.rows > 1;
+};
+
 export default function setBreakpoint() {
   const swiper = this;
   const { activeIndex, initialized, loopedSlides = 0, params, $el } = swiper;
@@ -12,44 +16,24 @@ export default function setBreakpoint() {
   if (!breakpoint || swiper.currentBreakpoint === breakpoint) return;
 
   const breakpointOnlyParams = breakpoint in breakpoints ? breakpoints[breakpoint] : undefined;
-  if (breakpointOnlyParams) {
-    [
-      'slidesPerView',
-      'spaceBetween',
-      'slidesPerGroup',
-      'slidesPerGroupSkip',
-      'slidesPerColumn',
-    ].forEach((param) => {
-      const paramValue = breakpointOnlyParams[param];
-      if (typeof paramValue === 'undefined') return;
-      if (param === 'slidesPerView' && (paramValue === 'AUTO' || paramValue === 'auto')) {
-        breakpointOnlyParams[param] = 'auto';
-      } else if (param === 'slidesPerView') {
-        breakpointOnlyParams[param] = parseFloat(paramValue);
-      } else {
-        breakpointOnlyParams[param] = parseInt(paramValue, 10);
-      }
-    });
-  }
-
   const breakpointParams = breakpointOnlyParams || swiper.originalParams;
-  const wasMultiRow = params.slidesPerColumn > 1;
-  const isMultiRow = breakpointParams.slidesPerColumn > 1;
+  const wasMultiRow = isGridEnabled(swiper, params);
+  const isMultiRow = isGridEnabled(swiper, breakpointParams);
 
   const wasEnabled = params.enabled;
 
   if (wasMultiRow && !isMultiRow) {
     $el.removeClass(
-      `${params.containerModifierClass}multirow ${params.containerModifierClass}multirow-column`,
+      `${params.containerModifierClass}grid ${params.containerModifierClass}grid-column`,
     );
     swiper.emitContainerClasses();
   } else if (!wasMultiRow && isMultiRow) {
-    $el.addClass(`${params.containerModifierClass}multirow`);
+    $el.addClass(`${params.containerModifierClass}grid`);
     if (
-      (breakpointParams.slidesPerColumnFill && breakpointParams.slidesPerColumnFill === 'column') ||
-      (!breakpointParams.slidesPerColumnFill && params.slidesPerColumnFill === 'column')
+      (breakpointParams.grid.fill && breakpointParams.grid.fill === 'column') ||
+      (!breakpointParams.grid.fill && params.grid.fill === 'column')
     ) {
-      $el.addClass(`${params.containerModifierClass}multirow-column`);
+      $el.addClass(`${params.containerModifierClass}grid-column`);
     }
     swiper.emitContainerClasses();
   }

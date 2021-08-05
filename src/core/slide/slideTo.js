@@ -75,21 +75,21 @@ export default function slideTo(
   if (params.normalizeSlideIndex) {
     for (let i = 0; i < slidesGrid.length; i += 1) {
       const normalizedTranslate = -Math.floor(translate * 100);
-      const normalizedGird = Math.floor(slidesGrid[i] * 100);
+      const normalizedGrid = Math.floor(slidesGrid[i] * 100);
       const normalizedGridNext = Math.floor(slidesGrid[i + 1] * 100);
       if (typeof slidesGrid[i + 1] !== 'undefined') {
         if (
-          normalizedTranslate >= normalizedGird &&
-          normalizedTranslate < normalizedGridNext - (normalizedGridNext - normalizedGird) / 2
+          normalizedTranslate >= normalizedGrid &&
+          normalizedTranslate < normalizedGridNext - (normalizedGridNext - normalizedGrid) / 2
         ) {
           slideIndex = i;
         } else if (
-          normalizedTranslate >= normalizedGird &&
+          normalizedTranslate >= normalizedGrid &&
           normalizedTranslate < normalizedGridNext
         ) {
           slideIndex = i + 1;
         }
-      } else if (normalizedTranslate >= normalizedGird) {
+      } else if (normalizedTranslate >= normalizedGrid) {
         slideIndex = i;
       }
     }

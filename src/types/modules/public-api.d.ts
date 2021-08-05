@@ -18,3 +18,4 @@ export * from './thumbs';
 export * from './virtual';
 export * from './zoom';
 export * from './free-mode';
+export * from './grid';

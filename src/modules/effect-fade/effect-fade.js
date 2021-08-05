@@ -50,7 +50,6 @@ export default function Fade({ swiper, extendParams, on }) {
     swiper.classNames.push(`${swiper.params.containerModifierClass}fade`);
     const overwriteParams = {
       slidesPerView: 1,
-      slidesPerColumn: 1,
       slidesPerGroup: 1,
       watchSlidesProgress: true,
       spaceBetween: 0,
