@@ -158,28 +158,35 @@ function createElementIfNotDefined(swiper, originalParams, params, checkProps) {
 
 function animateCSSModeScroll({ swiper, targetPosition, side }) {
   const window = getWindow();
-  const currentPosition = -swiper.translate;
-  const frameTime = 1000 / 60;
-  const frames = swiper.params.speed / frameTime;
-  const perFrame = (targetPosition - currentPosition) / frames;
+  const startPosition = -swiper.translate;
+  let startTime = null;
+  let time;
+  const duration = swiper.params.speed;
 
-  let progressPosition = currentPosition;
   swiper.wrapperEl.style.scrollSnapType = 'none';
   window.cancelAnimationFrame(swiper.cssModeFrameID);
 
-  const dir = targetPosition > currentPosition ? 'next' : 'prev';
+  const dir = targetPosition > startPosition ? 'next' : 'prev';
 
-  const isOutOfBound = (progress, target) => {
-    return (dir === 'next' && progress >= target) || (dir === 'prev' && progress <= target);
+  const isOutOfBound = (current, target) => {
+    return (dir === 'next' && current >= target) || (dir === 'prev' && current <= target);
   };
 
   const animate = () => {
-    progressPosition += perFrame;
-    if (isOutOfBound(progressPosition, targetPosition)) progressPosition = targetPosition;
+    time = new Date().getTime();
+    if (startTime === null) {
+      startTime = time;
+    }
+
+    const progress = Math.max(Math.min((time - startTime) / duration, 1), 0);
+    const easeProgress = 0.5 - Math.cos(progress * Math.PI) / 2;
+    let currentPosition = startPosition + easeProgress * (targetPosition - startPosition);
+
+    if (isOutOfBound(currentPosition, targetPosition)) currentPosition = targetPosition;
     swiper.wrapperEl.scrollTo({
-      [side]: progressPosition,
+      [side]: currentPosition,
     });
-    if (isOutOfBound(progressPosition, targetPosition)) {
+    if (isOutOfBound(currentPosition, targetPosition)) {
       swiper.wrapperEl.style.scrollSnapType = '';
       window.cancelAnimationFrame(swiper.cssModeFrameID);
       return;
