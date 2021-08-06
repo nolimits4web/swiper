@@ -1,3 +1,5 @@
+import { setCSSProperty } from '../../shared/utils.js';
+
 export default function updateSlides() {
   const swiper = this;
   function getDirectionLabel(property) {
@@ -60,6 +62,12 @@ export default function updateSlides() {
   // reset margins
   if (rtl) slides.css({ marginLeft: '', marginBottom: '', marginTop: '' });
   else slides.css({ marginRight: '', marginBottom: '', marginTop: '' });
+
+  // reset cssMode offsets
+  if (params.centeredSlides && params.cssMode) {
+    setCSSProperty(swiper.wrapperEl, '--swiper-centered-offset-before', '');
+    setCSSProperty(swiper.wrapperEl, '--swiper-centered-offset-after', '');
+  }
 
   const gridEnabled = params.grid && params.grid.rows > 1 && swiper.grid;
   if (gridEnabled) {
@@ -243,6 +251,19 @@ export default function updateSlides() {
     slidesGrid,
     slidesSizesGrid,
   });
+
+  if (params.centeredSlides && params.cssMode && !params.centeredSlidesBounds) {
+    setCSSProperty(swiper.wrapperEl, '--swiper-centered-offset-before', `${-snapGrid[0]}px`);
+    setCSSProperty(
+      swiper.wrapperEl,
+      '--swiper-centered-offset-after',
+      `${swiper.size / 2 - slidesSizesGrid[slidesSizesGrid.length - 1] / 2}px`,
+    );
+    const addToSnapGrid = -swiper.snapGrid[0];
+    const addToSlidesGrid = -swiper.slidesGrid[0];
+    swiper.snapGrid = swiper.snapGrid.map((v) => v + addToSnapGrid);
+    swiper.slidesGrid = swiper.slidesGrid.map((v) => v + addToSlidesGrid);
+  }
 
   if (slidesLength !== previousSlidesLength) {
     swiper.emit('slidesLengthChange');

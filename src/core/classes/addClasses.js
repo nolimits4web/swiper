@@ -30,6 +30,7 @@ export default function addClasses() {
     { 'android': device.android },
     { 'ios': device.ios },
     { 'css-mode': params.cssMode },
+    { 'centered': params.cssMode && params.centeredSlides },
   ], params.containerModifierClass);
   classNames.push(...suffixes);
   $el.addClass([...classNames].join(' '));

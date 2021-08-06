@@ -156,6 +156,10 @@ function createElementIfNotDefined(swiper, originalParams, params, checkProps) {
   return params;
 }
 
+function setCSSProperty(el, varName, varValue) {
+  el.style.setProperty(varName, varValue);
+}
+
 function animateCSSModeScroll({ swiper, targetPosition, side }) {
   const window = getWindow();
   const startPosition = -swiper.translate;
@@ -207,4 +211,5 @@ export {
   getComputedStyle,
   classesToSelector,
   createElementIfNotDefined,
+  setCSSProperty,
 };

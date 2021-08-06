@@ -236,14 +236,11 @@ export interface SwiperOptions {
    *
    * This is what is not supported when it is enabled:
    *
-   * - All effects (Fade, Coverflow, Flip, Cube)
+   * - Some effects (Fade, Flip, Cube)
    * - Zoom
-   * - Virtual Slides
-   * - `speed` parameter will have no effect
+   * - `speed` parameter may not have no effect
    * - All transition start/end related events (use `slideChange` instead)
    * - `slidesPerGroup` has limited support
-   * - `centeredSlides` is not supported
-   * - Changing slides with anything except touch/swipe and mousewheel will happen without transition in browsers without `scrollTo.behaviour = 'smooth'` support (e.g. in desktop and iOS Safari)
    * - `simulateTouch` doesn't have effect and "dragging" with mouse doesn't work
    * - `resistance` doesn't have any effect
    * - `allowSlidePrev/Next`

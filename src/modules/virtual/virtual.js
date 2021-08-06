@@ -1,4 +1,5 @@
 import $ from '../../shared/dom.js';
+import { setCSSProperty } from '../../shared/utils.js';
 
 export default function Virtual({ swiper, extendParams, on }) {
   extendParams({
@@ -235,7 +236,7 @@ export default function Virtual({ swiper, extendParams, on }) {
   on('init update resize', () => {
     if (!swiper.params.virtual.enabled) return;
     if (swiper.params.cssMode) {
-      swiper.wrapperEl.style.setProperty('--swiper-virtual-size', `${swiper.virtualSize}px`);
+      setCSSProperty(swiper.wrapperEl, '--swiper-virtual-size', `${swiper.virtualSize}px`);
     }
   });
 
