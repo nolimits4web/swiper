@@ -140,15 +140,16 @@ function classesToSelector(classes = '') {
     .replace(/ /g, '.')}`;
 }
 
-function createElementIfNotDefined($container, params, createElements, checkProps) {
+function createElementIfNotDefined(swiper, originalParams, params, checkProps) {
   const document = getDocument();
-  if (createElements) {
+  if (swiper.params.createElements) {
     Object.keys(checkProps).forEach((key) => {
       if (!params[key] && params.auto === true) {
         const element = document.createElement('div');
         element.className = checkProps[key];
-        $container.append(element);
+        swiper.$el.append(element);
         params[key] = element;
+        originalParams[key] = element;
       }
     });
   }

@@ -46,7 +46,6 @@ export default function setBreakpoint() {
   if (directionChanged && initialized) {
     swiper.changeDirection();
   }
-
   extend(swiper.params, breakpointParams);
 
   const isEnabled = swiper.params.enabled;

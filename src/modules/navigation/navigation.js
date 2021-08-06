@@ -69,9 +69,9 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     const params = swiper.params.navigation;
 
     swiper.params.navigation = createElementIfNotDefined(
-      swiper.$el,
+      swiper,
+      swiper.originalParams.navigation,
       swiper.params.navigation,
-      swiper.params.createElements,
       {
         nextEl: 'swiper-button-next',
         prevEl: 'swiper-button-prev',

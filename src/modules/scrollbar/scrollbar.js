@@ -246,9 +246,9 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
   function init() {
     const { scrollbar, $el: $swiperEl } = swiper;
     swiper.params.scrollbar = createElementIfNotDefined(
-      $swiperEl,
+      swiper,
+      swiper.originalParams.scrollbar,
       swiper.params.scrollbar,
-      swiper.params.createElements,
       { el: 'swiper-scrollbar' },
     );
     const params = swiper.params.scrollbar;

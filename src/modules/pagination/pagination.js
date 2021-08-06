@@ -270,9 +270,9 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
   }
   function init() {
     swiper.params.pagination = createElementIfNotDefined(
-      swiper.$el,
+      swiper,
+      swiper.originalParams.pagination,
       swiper.params.pagination,
-      swiper.params.createElements,
       { el: 'swiper-pagination' },
     );
     const params = swiper.params.pagination;
