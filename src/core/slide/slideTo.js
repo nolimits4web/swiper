@@ -143,7 +143,16 @@ export default function slideTo(
       t = wrapperEl.scrollWidth - wrapperEl.offsetWidth - t;
     }
     if (speed === 0) {
+      const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
+      if (isVirtual) {
+        swiper.wrapperEl.style.scrollSnapType = 'none';
+      }
       wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = t;
+      if (isVirtual) {
+        requestAnimationFrame(() => {
+          swiper.wrapperEl.style.scrollSnapType = '';
+        });
+      }
     } else {
       if (!swiper.support.smoothScroll) {
         animateCSSModeScroll({ swiper, targetPosition: t, side: isH ? 'left' : 'top' });

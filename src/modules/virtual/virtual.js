@@ -16,8 +16,8 @@ export default function Virtual({ swiper, extendParams, on }) {
 
   swiper.virtual = {
     cache: {},
-    from: null,
-    to: null,
+    from: undefined,
+    to: undefined,
     slides: [],
     offset: 0,
     slidesGrid: [],
@@ -231,6 +231,11 @@ export default function Virtual({ swiper, extendParams, on }) {
   on('setTranslate', () => {
     if (!swiper.params.virtual.enabled) return;
     update();
+  });
+  on('init update resize', () => {
+    if (swiper.params.cssMode) {
+      swiper.wrapperEl.style.setProperty('--swiper-virtual-size', `${swiper.virtualSize}px`);
+    }
   });
 
   Object.assign(swiper.virtual, {
