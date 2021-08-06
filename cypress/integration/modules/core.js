@@ -267,7 +267,7 @@ context('Core', () => {
   it('slideVisibleClass', () => {
     cy.initSwiper({
       slidesPerView: 2,
-      watchSlidesVisibility: true,
+      watchSlidesProgress: true,
       slideVisibleClass: 'uniqueTestClass',
     });
     cy.get('.uniqueTestClass').should('exist');

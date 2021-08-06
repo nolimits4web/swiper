@@ -41,7 +41,6 @@
     slidesPerView={5}
     spaceBetween={10}
     navigation
-    watchSlidesVisibility
     watchSlidesProgress
   >
     {#each slides as slide, index (index)}
