@@ -58,7 +58,10 @@
 
 /* 3D Effects */
 .swiper-container-3d {
-  perspective: 1200px;
+  &,
+  &.swiper-container-css-mode .swiper-wrapper {
+    perspective: 1200px;
+  }
   .swiper-wrapper,
   .swiper-slide,
   .swiper-slide-shadow-left,
