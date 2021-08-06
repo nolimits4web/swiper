@@ -9,6 +9,7 @@
 
 <body>
   <section class="swiper-container">
+    <div class="swiper-pagination"></div>
     <div class="swiper-slide">Slide 1</div>
     <div class="swiper-slide">Slide 2</div>
     <div class="swiper-slide">Slide 3</div>
@@ -42,7 +43,31 @@
       line-height: 300px;
     }
   </style>
-  <script type="module" src="./main.js"></script>
+  <script type="module">
+    // eslint-disable-next-line
+    import 'swiper/swiper-bundle.css';
+
+    // eslint-disable-next-line
+    import Swiper from 'swiper/swiper-bundle.esm.js';
+
+    // eslint-disable-next-line
+    window.swiper = new Swiper({
+      el: '.swiper-container',
+      slideToClickedSlide: true,
+      grabCursor: true,
+      scrollbar: true,
+      createElements: true,
+      speed: 1300,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: true,
+      spaceBetween: 20,
+      cssMode: true,
+    });
+
+  </script>
 </body>
 
 </html>
