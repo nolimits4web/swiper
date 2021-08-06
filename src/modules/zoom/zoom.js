@@ -351,6 +351,10 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       gesture.$imageWrapEl.length === 0
     )
       return;
+    if (swiper.params.cssMode) {
+      swiper.wrapperEl.style.overflow = 'hidden';
+      swiper.wrapperEl.style.touchAction = 'none';
+    }
 
     gesture.$slideEl.addClass(`${params.zoomedSlideClass}`);
 
@@ -446,7 +450,10 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       gesture.$imageWrapEl.length === 0
     )
       return;
-
+    if (swiper.params.cssMode) {
+      swiper.wrapperEl.style.overflow = '';
+      swiper.wrapperEl.style.touchAction = '';
+    }
     zoom.scale = 1;
     currentScale = 1;
     gesture.$imageWrapEl.transition(300).transform('translate3d(0,0,0)');

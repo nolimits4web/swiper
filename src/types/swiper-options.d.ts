@@ -237,7 +237,6 @@ export interface SwiperOptions {
    * This is what is not supported when it is enabled:
    *
    * - Some effects (Fade, Flip, Cube)
-   * - Zoom
    * - `speed` parameter may not have no effect
    * - All transition start/end related events (use `slideChange` instead)
    * - `slidesPerGroup` has limited support
