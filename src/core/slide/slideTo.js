@@ -1,4 +1,4 @@
-import animateCSSModeScroll from './animateCSSModeScroll.js';
+import { animateCSSModeScroll } from '../../shared/utils.js';
 
 export default function slideTo(
   index = 0,
@@ -145,7 +145,7 @@ export default function slideTo(
     if (speed === 0) {
       wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = t;
     } else {
-      if (swiper.support.smoothScroll) {
+      if (!swiper.support.smoothScroll) {
         animateCSSModeScroll({ swiper, targetPosition: t, side: isH ? 'left' : 'top' });
         return true;
       }

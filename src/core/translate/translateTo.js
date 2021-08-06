@@ -1,3 +1,5 @@
+import { animateCSSModeScroll } from '../../shared/utils.js';
+
 export default function translateTo(
   translate = 0,
   speed = this.params.speed,
@@ -28,15 +30,14 @@ export default function translateTo(
     if (speed === 0) {
       wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = -newTranslate;
     } else {
-      // eslint-disable-next-line
-      if (wrapperEl.scrollTo) {
-        wrapperEl.scrollTo({
-          [isH ? 'left' : 'top']: -newTranslate,
-          behavior: 'smooth',
-        });
-      } else {
-        wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = -newTranslate;
+      if (!swiper.support.smoothScroll) {
+        animateCSSModeScroll({ swiper, targetPosition: -newTranslate, side: isH ? 'left' : 'top' });
+        return true;
       }
+      wrapperEl.scrollTo({
+        [isH ? 'left' : 'top']: -newTranslate,
+        behavior: 'smooth',
+      });
     }
     return true;
   }
