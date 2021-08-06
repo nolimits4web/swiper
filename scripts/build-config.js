@@ -21,5 +21,6 @@ module.exports = {
     'thumbs',
     'free-mode',
     'grid',
+    'manipulation',
   ],
 };

@@ -17,7 +17,6 @@ import transition from './transition/index.js';
 import slide from './slide/index.js';
 import loop from './loop/index.js';
 import grabCursor from './grab-cursor/index.js';
-import manipulation from './manipulation/index.js';
 import events from './events/index.js';
 import breakpoints from './breakpoints/index.js';
 import classes from './classes/index.js';
@@ -35,7 +34,6 @@ const prototypes = {
   slide,
   loop,
   grabCursor,
-  manipulation,
   events,
   breakpoints,
   checkOverflow,
