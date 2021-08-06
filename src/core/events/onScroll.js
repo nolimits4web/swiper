@@ -4,11 +4,7 @@ export default function onScroll() {
   if (!enabled) return;
   swiper.previousTranslate = swiper.translate;
   if (swiper.isHorizontal()) {
-    if (rtlTranslate) {
-      swiper.translate = wrapperEl.scrollWidth - wrapperEl.offsetWidth - wrapperEl.scrollLeft;
-    } else {
-      swiper.translate = -wrapperEl.scrollLeft;
-    }
+    swiper.translate = -wrapperEl.scrollLeft;
   } else {
     swiper.translate = -wrapperEl.scrollTop;
   }

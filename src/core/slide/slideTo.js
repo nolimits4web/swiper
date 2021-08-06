@@ -138,10 +138,7 @@ export default function slideTo(
   }
   if (params.cssMode) {
     const isH = swiper.isHorizontal();
-    let t = -translate;
-    if (rtl) {
-      t = wrapperEl.scrollWidth - wrapperEl.offsetWidth - t;
-    }
+    const t = rtl ? translate : -translate;
     if (speed === 0) {
       const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
       if (isVirtual) {
