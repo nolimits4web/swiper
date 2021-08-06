@@ -119,7 +119,7 @@ export default function onTouchMove(event) {
   }
 
   if (!data.isMoved) {
-    if (params.loop) {
+    if (params.loop && !params.cssMode) {
       swiper.loopFix();
     }
     data.startTranslate = swiper.getTranslate();
