@@ -96,6 +96,7 @@ export default function Coverflow({ swiper, extendParams, on }) {
     swiper.classNames.push(`${swiper.params.containerModifierClass}coverflow`);
     swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
 
+    swiper.params.watchSlidesProgress = true;
     swiper.originalParams.watchSlidesProgress = true;
   });
   on('setTranslate', () => {
