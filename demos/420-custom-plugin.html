@@ -5,9 +5,115 @@
   <meta charset="utf-8">
   <title>Swiper demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+</head>
 
-  <!-- Link Swiper's CSS -->
-  <link rel="stylesheet" href="../package/swiper-bundle.min.css">
+<body>
+  <!-- Swiper -->
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">Slide 1</div>
+      <div class="swiper-slide">Slide 2</div>
+      <div class="swiper-slide">Slide 3</div>
+      <div class="swiper-slide">Slide 4</div>
+      <div class="swiper-slide">Slide 5</div>
+      <div class="swiper-slide">Slide 6</div>
+      <div class="swiper-slide">Slide 7</div>
+      <div class="swiper-slide">Slide 8</div>
+      <div class="swiper-slide">Slide 9</div>
+      <div class="swiper-slide">Slide 10</div>
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Add Navigation -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
+
+
+  <script type="module">
+    import Swiper from 'swiper/swiper-bundle.esm.js';
+    import 'swiper/swiper-bundle.css';
+
+    /* ========
+    Debugger plugin, simple demo plugin to console.log some of callbacks
+    ======== */
+    function myPlugin({ swiper, extendParams, on }) {
+      extendParams({
+        debugger: false,
+      });
+
+      on('init', () => {
+        if (!swiper.params.debugger) return;
+        console.log('init');
+      });
+      on('click', (swiper, e) => {
+        if (!swiper.params.debugger) return;
+        console.log('click');
+      });
+      on('tap', (swiper, e) => {
+        if (!swiper.params.debugger) return;
+        console.log('tap');
+      });
+      on('doubleTap', (swiper, e) => {
+        if (!swiper.params.debugger) return;
+        console.log('doubleTap');
+      });
+      on('sliderMove', (swiper, e) => {
+        if (!swiper.params.debugger) return;
+        console.log('sliderMove');
+      });
+      on('slideChange', () => {
+        if (!swiper.params.debugger) return;
+        console.log('slideChange', swiper.previousIndex, '->', swiper.activeIndex);
+      });
+      on('slideChangeTransitionStart', () => {
+        if (!swiper.params.debugger) return;
+        console.log('slideChangeTransitionStart');
+      });
+      on('slideChangeTransitionEnd', () => {
+        if (!swiper.params.debugger) return;
+        console.log('slideChangeTransitionEnd');
+      });
+      on('transitionStart', () => {
+        if (!swiper.params.debugger) return;
+        console.log('transitionStart');
+      });
+      on('transitionEnd', () => {
+        if (!swiper.params.debugger) return;
+        console.log('transitionEnd');
+      });
+      on('fromEdge', () => {
+        if (!swiper.params.debugger) return;
+        console.log('fromEdge');
+      });
+      on('reachBeginning', () => {
+        if (!swiper.params.debugger) return;
+        console.log('reachBeginning');
+      });
+      on('reachEnd', () => {
+        if (!swiper.params.debugger) return;
+        console.log('reachEnd');
+      });
+
+    }
+
+    // Install Plugin To Swiper
+    Swiper.use([myPlugin]);
+
+    // Init Swiper
+    var swiper = new Swiper('.swiper-container', {
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      // Enable debugger
+      debugger: true,
+    });
+  </script>
 
   <!-- Demo styles -->
   <style>
@@ -51,118 +157,6 @@
       align-items: center;
     }
   </style>
-</head>
-
-<body>
-  <!-- Swiper -->
-  <div class="swiper-container">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">Slide 1</div>
-      <div class="swiper-slide">Slide 2</div>
-      <div class="swiper-slide">Slide 3</div>
-      <div class="swiper-slide">Slide 4</div>
-      <div class="swiper-slide">Slide 5</div>
-      <div class="swiper-slide">Slide 6</div>
-      <div class="swiper-slide">Slide 7</div>
-      <div class="swiper-slide">Slide 8</div>
-      <div class="swiper-slide">Slide 9</div>
-      <div class="swiper-slide">Slide 10</div>
-    </div>
-    <!-- Add Pagination -->
-    <div class="swiper-pagination"></div>
-    <!-- Add Navigation -->
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-  </div>
-
-  <!-- Swiper JS -->
-  <script src="../package/swiper-bundle.min.js"></script>
-
-  <!-- Include plugin after Swiper -->
-  <script>
-    /* ========
-    Debugger plugin, simple demo plugin to console.log some of callbacks
-    ======== */
-    var myPlugin = {
-      name: 'debugger',
-      params: {
-        debugger: false,
-      },
-      on: {
-        init: function (swiper) {
-          if (!swiper.params.debugger) return;
-          console.log('init');
-        },
-        click: function (swiper, e) {
-          if (!swiper.params.debugger) return;
-          console.log('click');
-        },
-        tap: function (swiper, e) {
-          if (!swiper.params.debugger) return;
-          console.log('tap');
-        },
-        doubleTap: function (swiper, e) {
-          if (!swiper.params.debugger) return;
-          console.log('doubleTap');
-        },
-        sliderMove: function (swiper, e) {
-          if (!swiper.params.debugger) return;
-          console.log('sliderMove');
-        },
-        slideChange: function (swiper) {
-          if (!swiper.params.debugger) return;
-          console.log('slideChange', this.previousIndex, '->', this.activeIndex);
-        },
-        slideChangeTransitionStart: function (swiper) {
-          if (!swiper.params.debugger) return;
-          console.log('slideChangeTransitionStart');
-        },
-        slideChangeTransitionEnd: function (swiper) {
-          if (!swiper.params.debugger) return;
-          console.log('slideChangeTransitionEnd');
-        },
-        transitionStart: function (swiper) {
-          if (!swiper.params.debugger) return;
-          console.log('transitionStart');
-        },
-        transitionEnd: function (swiper) {
-          if (!swiper.params.debugger) return;
-          console.log('transitionEnd');
-        },
-        fromEdge: function (swiper) {
-          if (!swiper.params.debugger) return;
-          console.log('fromEdge');
-        },
-        reachBeginning: function (swiper) {
-          if (!swiper.params.debugger) return;
-          console.log('reachBeginning');
-        },
-        reachEnd: function (swiper) {
-          if (!swiper.params.debugger) return;
-          console.log('reachEnd');
-        },
-      },
-    };
-  </script>
-
-  <script>
-    // Install Plugin To Swiper
-    Swiper.use(myPlugin);
-
-    // Init Swiper
-    var swiper = new Swiper('.swiper-container', {
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      // Enable debugger
-      debugger: true,
-    });
-  </script>
 </body>
 
 </html>

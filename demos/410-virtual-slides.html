@@ -5,9 +5,79 @@
   <meta charset="utf-8">
   <title>Swiper demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+</head>
 
-  <!-- Link Swiper's CSS -->
-  <link rel="stylesheet" href="../package/swiper-bundle.min.css">
+<body>
+  <!-- Swiper -->
+  <div class="swiper-container">
+    <div class="swiper-wrapper"></div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+  <p class="append-buttons">
+    <a href="#" class="prepend-2-slides">Prepend 2 Slides</a>
+    <a href="#" class="slide-1">Slide 1</a>
+    <a href="#" class="slide-250">Slide 250</a>
+    <a href="#" class="slide-500">Slide 500</a>
+    <a href="#" class="append-slide">Append Slide</a>
+  </p>
+
+
+  <!-- Initialize Swiper -->
+  <script type="module">
+    import Swiper from 'swiper/swiper-bundle.esm.js';
+    import 'swiper/swiper-bundle.css';
+    var appendNumber = 600;
+    var prependNumber = 1;
+    var swiper = new Swiper('.swiper-container', {
+      slidesPerView: 3,
+      centeredSlides: true,
+      spaceBetween: 30,
+      pagination: {
+        el: '.swiper-pagination',
+        type: 'fraction',
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      virtual: {
+        slides: (function () {
+          var slides = [];
+          for (var i = 0; i < 600; i += 1) {
+            slides.push('Slide ' + (i + 1));
+          }
+          return slides;
+        }()),
+      },
+    });
+    document.querySelector('.slide-1').addEventListener('click', function (e) {
+      e.preventDefault();
+      swiper.slideTo(0, 0);
+    });
+    document.querySelector('.slide-250').addEventListener('click', function (e) {
+      e.preventDefault();
+      swiper.slideTo(249, 0);
+    });
+    document.querySelector('.slide-500').addEventListener('click', function (e) {
+      e.preventDefault();
+      swiper.slideTo(499, 0);
+    });
+    document.querySelector('.prepend-2-slides').addEventListener('click', function (e) {
+      e.preventDefault();
+      swiper.virtual.prependSlide([
+        'Slide ' + (--prependNumber),
+        'Slide ' + (--prependNumber)
+      ]);
+    });
+    document.querySelector('.append-slide').addEventListener('click', function (e) {
+      e.preventDefault();
+      swiper.virtual.appendSlide('Slide ' + (++appendNumber));
+    });
+  </script>
 
   <!-- Demo styles -->
   <style>
@@ -62,78 +132,6 @@
       font-size: 13px;
     }
   </style>
-</head>
-
-<body>
-  <!-- Swiper -->
-  <div class="swiper-container">
-    <div class="swiper-wrapper"></div>
-    <!-- Add Pagination -->
-    <div class="swiper-pagination"></div>
-    <!-- Add Arrows -->
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-  </div>
-  <p class="append-buttons">
-    <a href="#" class="prepend-2-slides">Prepend 2 Slides</a>
-    <a href="#" class="slide-1">Slide 1</a>
-    <a href="#" class="slide-250">Slide 250</a>
-    <a href="#" class="slide-500">Slide 500</a>
-    <a href="#" class="append-slide">Append Slide</a>
-  </p>
-  <!-- Swiper JS -->
-  <script src="../package/swiper-bundle.min.js"></script>
-
-  <!-- Initialize Swiper -->
-  <script>
-    var appendNumber = 600;
-    var prependNumber = 1;
-    var swiper = new Swiper('.swiper-container', {
-      slidesPerView: 3,
-      centeredSlides: true,
-      spaceBetween: 30,
-      pagination: {
-        el: '.swiper-pagination',
-        type: 'fraction',
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      virtual: {
-        slides: (function () {
-          var slides = [];
-          for (var i = 0; i < 600; i += 1) {
-            slides.push('Slide ' + (i + 1));
-          }
-          return slides;
-        }()),
-      },
-    });
-    document.querySelector('.slide-1').addEventListener('click', function (e) {
-      e.preventDefault();
-      swiper.slideTo(0, 0);
-    });
-    document.querySelector('.slide-250').addEventListener('click', function (e) {
-      e.preventDefault();
-      swiper.slideTo(249, 0);
-    });
-    document.querySelector('.slide-500').addEventListener('click', function (e) {
-      e.preventDefault();
-      swiper.slideTo(499, 0);
-    });
-    document.querySelector('.prepend-2-slides').addEventListener('click', function (e) {
-      e.preventDefault();
-      swiper.virtual.prependSlide([
-        'Slide ' + (--prependNumber),
-        'Slide ' + (--prependNumber)
-      ]);
-    });
-    document.querySelector('.append-slide').addEventListener('click', function (e) {
-      e.preventDefault();
-      swiper.virtual.appendSlide('Slide ' + (++appendNumber));
-    });
-  </script>
 </body>
 
 </html>

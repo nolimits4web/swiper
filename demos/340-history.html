@@ -4,8 +4,48 @@
 <head>
   <meta charset="UTF-8">
   <title>Swiper Playground</title>
-  <link rel="stylesheet" href="../package/swiper-bundle.min.css">
   <meta name="viewport" content="width=device-width">
+
+</head>
+
+<body>
+  <div class="swiper-container">
+    <div class="swiper-scrollbar"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" data-history="1">Slide 1</div>
+      <div class="swiper-slide" data-history="Slide 2">Slide 2</div>
+      <div class="swiper-slide" data-history="3">Slide 3</div>
+      <div class="swiper-slide" data-history="Slide 4">Slide 4</div>
+      <div class="swiper-slide" data-history="5">Slide 5</div>
+      <div class="swiper-slide" data-history="Slide 6">Slide 6</div>
+      <div class="swiper-slide" data-history="7">Slide 7</div>
+      <div class="swiper-slide" data-history="Slide 8">Slide 8</div>
+      <div class="swiper-slide" data-history="9">Slide 9</div>
+      <div class="swiper-slide" data-history="Slide 10">Slide 10</div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+  <script type="module">
+    import Swiper from 'swiper/swiper-bundle.esm.js';
+    import 'swiper/swiper-bundle.css';
+    var swiper = new Swiper('.swiper-container', {
+      spaceBetween: 50,
+      slidesPerView: 1,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+      },
+      history: {
+        key: 'slide',
+      },
+    });
+  </script>
+
   <style>
     html,
     body {
@@ -47,44 +87,6 @@
       align-items: center;
     }
   </style>
-</head>
-
-<body>
-  <div class="swiper-container">
-    <div class="swiper-scrollbar"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-    <div class="swiper-wrapper">
-      <div class="swiper-slide" data-history="1">Slide 1</div>
-      <div class="swiper-slide" data-history="Slide 2">Slide 2</div>
-      <div class="swiper-slide" data-history="3">Slide 3</div>
-      <div class="swiper-slide" data-history="Slide 4">Slide 4</div>
-      <div class="swiper-slide" data-history="5">Slide 5</div>
-      <div class="swiper-slide" data-history="Slide 6">Slide 6</div>
-      <div class="swiper-slide" data-history="7">Slide 7</div>
-      <div class="swiper-slide" data-history="Slide 8">Slide 8</div>
-      <div class="swiper-slide" data-history="9">Slide 9</div>
-      <div class="swiper-slide" data-history="Slide 10">Slide 10</div>
-    </div>
-    <div class="swiper-pagination"></div>
-  </div>
-  <script src="../package/swiper-bundle.min.js"></script>
-  <script>
-    var swiper = new Swiper('.swiper-container', {
-      spaceBetween: 50,
-      slidesPerView: 1,
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      pagination: {
-        el: '.swiper-pagination',
-      },
-      history: {
-        key: 'slide',
-      },
-    });
-  </script>
 </body>
 
 </html>

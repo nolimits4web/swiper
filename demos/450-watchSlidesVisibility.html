@@ -4,33 +4,6 @@
 <head>
   <meta charset="utf-8">
   <title>Swiper demo</title>
-  <!-- Link Swiper's CSS -->
-  <link rel="stylesheet" href="../package/swiper-bundle.min.css">
-
-  <!-- Demo styles -->
-  <style>
-    html,
-    body {
-      position: relative;
-      height: 100%;
-    }
-
-    body {
-      background: #eee;
-      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-      font-size: 14px;
-      color: #000;
-      margin: 0;
-      padding: 0;
-    }
-
-    .swiper-slide {
-      height: 300px;
-      background: #882525;
-      line-height: 300px;
-      text-align: center;
-    }
-  </style>
 </head>
 
 <body>
@@ -57,16 +30,42 @@
         slider8</div>
     </div>
   </div>
-  <!-- Swiper JS -->
-  <script src="../package/swiper-bundle.min.js"></script>
+
   <!-- Initialize Swiper -->
-  <script>
+  <script type="module">
+    import Swiper from 'swiper/swiper-bundle.esm.js';
+    import 'swiper/swiper-bundle.css';
     var mySwiper2 = new Swiper('#swiper-container2', {
       watchSlidesProgress: true,
       slidesPerView: 3
 
     })
   </script>
+
+  <!-- Demo styles -->
+  <style>
+    html,
+    body {
+      position: relative;
+      height: 100%;
+    }
+
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+      margin: 0;
+      padding: 0;
+    }
+
+    .swiper-slide {
+      height: 300px;
+      background: #882525;
+      line-height: 300px;
+      text-align: center;
+    }
+  </style>
 
 </body>
 
