@@ -1,5 +1,5 @@
 module.exports = {
-  components: [
+  modules: [
     'virtual',
     'keyboard',
     'mousewheel',

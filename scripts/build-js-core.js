@@ -6,16 +6,16 @@ const fs = require('fs');
 const config = require('./build-config');
 const banner = require('./banner')();
 
-async function buildCore(components) {
+async function buildCore(modules) {
   const env = process.env.NODE_ENV || 'development';
   const filename = `swiper.esm`;
   const outputDir = env === 'development' ? 'build' : 'package';
   let coreContent = '';
   coreContent += `export { default as Swiper, default } from './core/core.js';\n`;
-  coreContent += components
+  coreContent += modules
     .map(
-      (component) =>
-        `export { default as ${component.capitalized} } from './modules/${component.name}/${component.name}.js';`,
+      (mod) =>
+        `export { default as ${mod.capitalized} } from './modules/${mod.name}/${mod.name}.js';`,
     )
     .join('\n');
 
@@ -49,8 +49,8 @@ async function buildCore(components) {
 }
 
 async function build() {
-  const components = [];
-  config.components.forEach((name) => {
+  const modules = [];
+  config.modules.forEach((name) => {
     // eslint-disable-next-line
     const capitalized = name
       .split('-')
@@ -66,11 +66,11 @@ async function build() {
       .join('');
     const jsFilePath = `./src/modules/${name}/${name}.js`;
     if (fs.existsSync(jsFilePath)) {
-      components.push({ name, capitalized });
+      modules.push({ name, capitalized });
     }
   });
 
-  await buildCore(components, 'esm');
+  await buildCore(modules, 'esm');
 }
 
 module.exports = build;

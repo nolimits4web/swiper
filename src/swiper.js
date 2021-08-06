@@ -1,12 +1,12 @@
 // Swiper Class
 import Swiper from './core/core.js';
 
-//IMPORT_COMPONENTS
+//IMPORT_MODULES
 
-const components = [
-  //INSTALL_COMPONENTS
+const modules = [
+  //INSTALL_MODULES
 ];
 
-Swiper.use(components);
+Swiper.use(modules);
 
 //EXPORT

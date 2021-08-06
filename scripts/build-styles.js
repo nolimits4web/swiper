@@ -16,7 +16,7 @@ const readSwiperFile = async (filePath) => {
   if (filePath.includes('swiper.less')) {
     const coreContent = fs.readFileSync(path.resolve(__dirname, '../src/core/core.less'), 'utf-8');
     return fileContent
-      .replace('//IMPORT_COMPONENTS', '')
+      .replace('//IMPORT_MODULES', '')
       .replace(`@import url('./less/mixins.less');`, '')
       .replace(`@import url('./core/core.less');`, coreContent);
   }
@@ -33,20 +33,18 @@ const readSwiperFile = async (filePath) => {
     );
     return fileContent
       .replace(`@import './core/core';`, coreContent)
-      .replace('//IMPORT_COMPONENTS', '');
+      .replace('//IMPORT_MODULES', '');
   }
   return fileContent;
 };
 
-const buildCSS = async ({ isBundle, components, minified, outputDir }) => {
+const buildCSS = async ({ isBundle, modules, minified, outputDir }) => {
   let lessContent = await fs.readFile(path.resolve(__dirname, '../src/swiper.less'), 'utf8');
   lessContent = lessContent.replace(
-    '//IMPORT_COMPONENTS',
+    '//IMPORT_MODULES',
     !isBundle
       ? ''
-      : components
-          .map((component) => `@import url('./modules/${component}/${component}.less');`)
-          .join('\n'),
+      : modules.map((mod) => `@import url('./modules/${mod}/${mod}.less');`).join('\n'),
   );
 
   const cssContent = await autoprefixer(
@@ -72,13 +70,13 @@ const buildCSS = async ({ isBundle, components, minified, outputDir }) => {
 module.exports = async (outputDir) => {
   const env = process.env.NODE_ENV || 'development';
 
-  const components = config.components.filter((name) => {
+  const modules = config.modules.filter((name) => {
     const lessFilePath = `./src/modules/${name}/${name}.less`;
     return fs.existsSync(lessFilePath);
   });
 
-  buildCSS({ isBundle: true, components, minified: env !== 'development', outputDir });
-  buildCSS({ isBundle: false, components, minified: env !== 'development', outputDir });
+  buildCSS({ isBundle: true, modules, minified: env !== 'development', outputDir });
+  buildCSS({ isBundle: false, modules, minified: env !== 'development', outputDir });
 
   if (env === 'development') {
     return;
@@ -108,12 +106,12 @@ module.exports = async (outputDir) => {
     }),
   );
 
-  const componentsLessFiles = await globby(['**/**.less'], {
-    cwd: path.resolve(__dirname, '../package/components'),
+  const modulesLessFiles = await globby(['**/**.less'], {
+    cwd: path.resolve(__dirname, '../package/modules'),
     absolute: true,
   });
   await Promise.all(
-    componentsLessFiles.map(async (filePath) => {
+    modulesLessFiles.map(async (filePath) => {
       const fileContent = await fs.readFile(filePath, 'utf-8');
 
       const content = fileContent.replace('@themeColor', config.themeColor);

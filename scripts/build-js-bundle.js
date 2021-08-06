@@ -11,7 +11,7 @@ const Terser = require('terser');
 const config = require('./build-config');
 const banner = require('./banner')();
 
-async function buildBundle(components, format, browser, cb) {
+async function buildBundle(modules, format, browser, cb) {
   const env = process.env.NODE_ENV || 'development';
   const external = format === 'umd' || browser ? [] : () => true;
   let filename = 'swiper-bundle';
@@ -27,15 +27,10 @@ async function buildBundle(components, format, browser, cb) {
       replace({
         delimiters: ['', ''],
         'process.env.NODE_ENV': JSON.stringify(env),
-        '//IMPORT_COMPONENTS': components
-          .map(
-            (component) =>
-              `import ${component.capitalized} from './modules/${component.name}/${component.name}.js';`,
-          )
+        '//IMPORT_MODULES': modules
+          .map((mod) => `import ${mod.capitalized} from './modules/${mod.name}/${mod.name}.js';`)
           .join('\n'),
-        '//INSTALL_COMPONENTS': components
-          .map((component) => `${component.capitalized}`)
-          .join(',\n  '),
+        '//INSTALL_MODULES': modules.map((mod) => `${mod.capitalized}`).join(',\n  '),
         '//EXPORT':
           format === 'umd' ? 'export default Swiper;' : 'export default Swiper; export { Swiper }',
       }),
@@ -86,8 +81,8 @@ async function buildBundle(components, format, browser, cb) {
 
 async function build() {
   const env = process.env.NODE_ENV || 'development';
-  const components = [];
-  config.components.forEach((name) => {
+  const modules = [];
+  config.modules.forEach((name) => {
     // eslint-disable-next-line
     const capitalized = name
       .split('-')
@@ -103,19 +98,19 @@ async function build() {
       .join('');
     const jsFilePath = `./src/modules/${name}/${name}.js`;
     if (fs.existsSync(jsFilePath)) {
-      components.push({ name, capitalized });
+      modules.push({ name, capitalized });
     }
   });
   if (env === 'development') {
     return Promise.all([
-      buildBundle(components, 'umd', true, () => {}),
-      buildBundle(components, 'esm', false, () => {}),
+      buildBundle(modules, 'umd', true, () => {}),
+      buildBundle(modules, 'esm', false, () => {}),
     ]);
   }
   return Promise.all([
-    buildBundle(components, 'esm', false, () => {}),
-    buildBundle(components, 'esm', true, () => {}),
-    buildBundle(components, 'umd', true, () => {}),
+    buildBundle(modules, 'esm', false, () => {}),
+    buildBundle(modules, 'esm', true, () => {}),
+    buildBundle(modules, 'umd', true, () => {}),
   ]);
 }
 
