@@ -233,6 +233,7 @@ export default function Virtual({ swiper, extendParams, on }) {
     update();
   });
   on('init update resize', () => {
+    if (!swiper.params.virtual.enabled) return;
     if (swiper.params.cssMode) {
       swiper.wrapperEl.style.setProperty('--swiper-virtual-size', `${swiper.virtualSize}px`);
     }
