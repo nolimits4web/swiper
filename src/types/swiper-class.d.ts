@@ -414,6 +414,8 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   freeMode: FreeModeMethods;
 }
 
+interface Swiper extends ManipulationMethods {}
+
 declare class Swiper implements Swiper {
   /**
    * Constructs a new Swiper instance.

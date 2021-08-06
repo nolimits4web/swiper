@@ -22,6 +22,8 @@ declare const Thumbs: SwiperModule;
 declare const Virtual: SwiperModule;
 declare const Zoom: SwiperModule;
 declare const FreeMode: SwiperModule;
+declare const Grid: SwiperModule;
+declare const Manipulation: SwiperModule;
 
 export default Swiper;
 export {
@@ -47,4 +49,6 @@ export {
   Virtual,
   Zoom,
   FreeMode,
+  Grid,
+  Manipulation,
 };
