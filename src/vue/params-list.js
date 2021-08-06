@@ -56,7 +56,6 @@ const paramsList = [
   '_resistance',
   '_resistanceRatio',
   '_watchSlidesProgress',
-  '_watchSlidesVisibility',
   '_grabCursor',
   'preventClicks',
   'preventClicksPropagation',

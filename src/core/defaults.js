@@ -86,7 +86,6 @@ export default {
 
   // Progress
   watchSlidesProgress: false,
-  watchSlidesVisibility: false,
 
   // Cursor
   grabCursor: false,

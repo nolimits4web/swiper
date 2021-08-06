@@ -78,7 +78,6 @@ const Swiper = {
     resistance: { type: Boolean, default: undefined },
     resistanceRatio: { type: Number, default: undefined },
     watchSlidesProgress: { type: Boolean, default: undefined },
-    watchSlidesVisibility: { type: Boolean, default: undefined },
     grabCursor: { type: Boolean, default: undefined },
     preventClicks: { type: Boolean, default: undefined },
     preventClicksPropagation: { type: Boolean, default: undefined },

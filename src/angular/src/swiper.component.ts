@@ -105,7 +105,6 @@ export class SwiperComponent implements OnInit {
   @Input() resistance: SwiperOptions['resistance'];
   @Input() resistanceRatio: SwiperOptions['resistanceRatio'];
   @Input() watchSlidesProgress: SwiperOptions['watchSlidesProgress'];
-  @Input() watchSlidesVisibility: SwiperOptions['watchSlidesVisibility'];
   @Input() grabCursor: SwiperOptions['grabCursor'];
   @Input() preventClicks: SwiperOptions['preventClicks'];
   @Input() preventClicksPropagation: SwiperOptions['preventClicksPropagation'];

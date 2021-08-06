@@ -222,10 +222,6 @@ declare const Swiper: DefineComponent<
       type: BooleanConstructor;
       default: undefined;
     };
-    watchSlidesVisibility: {
-      type: BooleanConstructor;
-      default: undefined;
-    };
     grabCursor: {
       type: BooleanConstructor;
       default: undefined;

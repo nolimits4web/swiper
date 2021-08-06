@@ -25,11 +25,7 @@ export default function updateProgress(translate) {
     isEnd,
   });
 
-  if (
-    params.watchSlidesProgress ||
-    params.watchSlidesVisibility ||
-    (params.centeredSlides && params.autoHeight)
-  )
+  if (params.watchSlidesProgress || (params.centeredSlides && params.autoHeight))
     swiper.updateSlidesProgress(translate);
 
   if (isBeginning && !wasBeginning) {

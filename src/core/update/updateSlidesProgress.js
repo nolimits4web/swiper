@@ -25,18 +25,16 @@ export default function updateSlidesProgress(translate = (this && this.translate
         (params.centeredSlides ? swiper.minTranslate() : 0) -
         slide.swiperSlideOffset) /
       (slide.swiperSlideSize + params.spaceBetween);
-    if (params.watchSlidesVisibility || (params.centeredSlides && params.autoHeight)) {
-      const slideBefore = -(offsetCenter - slide.swiperSlideOffset);
-      const slideAfter = slideBefore + swiper.slidesSizesGrid[i];
-      const isVisible =
-        (slideBefore >= 0 && slideBefore < swiper.size - 1) ||
-        (slideAfter > 1 && slideAfter <= swiper.size) ||
-        (slideBefore <= 0 && slideAfter >= swiper.size);
-      if (isVisible) {
-        swiper.visibleSlides.push(slide);
-        swiper.visibleSlidesIndexes.push(i);
-        slides.eq(i).addClass(params.slideVisibleClass);
-      }
+    const slideBefore = -(offsetCenter - slide.swiperSlideOffset);
+    const slideAfter = slideBefore + swiper.slidesSizesGrid[i];
+    const isVisible =
+      (slideBefore >= 0 && slideBefore < swiper.size - 1) ||
+      (slideAfter > 1 && slideAfter <= swiper.size) ||
+      (slideBefore <= 0 && slideAfter >= swiper.size);
+    if (isVisible) {
+      swiper.visibleSlides.push(slide);
+      swiper.visibleSlidesIndexes.push(i);
+      slides.eq(i).addClass(params.slideVisibleClass);
     }
     slide.progress = rtl ? -slideProgress : slideProgress;
   }

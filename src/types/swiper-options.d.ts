@@ -559,18 +559,11 @@ export interface SwiperOptions {
 
   // Progress
   /**
-   * Enable this feature to calculate each slides progress
+   * Enable this feature to calculate each slides progress and visibility (slides in viewport will have additional visible class)
    *
    * @default false
    */
   watchSlidesProgress?: boolean;
-
-  /**
-   * `watchSlidesProgress` should be enabled. Enable this option and slides that are in viewport will have additional visible class
-   *
-   * @default false
-   */
-  watchSlidesVisibility?: boolean;
 
   // Images
   /**

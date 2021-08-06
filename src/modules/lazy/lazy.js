@@ -150,7 +150,7 @@ export default function Lazy({ swiper, extendParams, on, emit }) {
     }
 
     if (!initialImageLoaded) initialImageLoaded = true;
-    if (swiper.params.watchSlidesVisibility) {
+    if (swiper.params.watchSlidesProgress) {
       $wrapperEl.children(`.${swiperParams.slideVisibleClass}`).each((slideEl) => {
         const index = isVirtual ? $(slideEl).attr('data-swiper-slide-index') : $(slideEl).index();
         loadInSlide(index);
@@ -279,19 +279,11 @@ export default function Lazy({ swiper, extendParams, on, emit }) {
     }
   });
   on('slideChange', () => {
-    const {
-      lazy,
-      cssMode,
-      watchSlidesVisibility,
-      watchSlidesProgress,
-      touchReleaseOnEdges,
-      resistanceRatio,
-    } = swiper.params;
+    const { lazy, cssMode, watchSlidesProgress, touchReleaseOnEdges, resistanceRatio } =
+      swiper.params;
     if (
       lazy.enabled &&
-      (cssMode ||
-        ((watchSlidesVisibility || watchSlidesProgress) &&
-          (touchReleaseOnEdges || resistanceRatio === 0)))
+      (cssMode || (watchSlidesProgress && (touchReleaseOnEdges || resistanceRatio === 0)))
     ) {
       load();
     }
