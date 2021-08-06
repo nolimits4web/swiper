@@ -1,3 +1,5 @@
+import animateCSSModeScroll from './animateCSSModeScroll.js';
+
 export default function slideTo(
   index = 0,
   speed = this.params.speed,
@@ -143,15 +145,14 @@ export default function slideTo(
     if (speed === 0) {
       wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = t;
     } else {
-      // eslint-disable-next-line
-      if (wrapperEl.scrollTo) {
-        wrapperEl.scrollTo({
-          [isH ? 'left' : 'top']: t,
-          behavior: 'smooth',
-        });
-      } else {
-        wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = t;
+      if (swiper.support.smoothScroll) {
+        animateCSSModeScroll({ swiper, targetPosition: t, side: isH ? 'left' : 'top' });
+        return true;
       }
+      wrapperEl.scrollTo({
+        [isH ? 'left' : 'top']: t,
+        behavior: 'smooth',
+      });
     }
     return true;
   }

@@ -11,6 +11,7 @@ export default function slidePrev(speed = this.params.speed, runCallbacks = true
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
   }
   const translate = rtlTranslate ? swiper.translate : -swiper.translate;
+
   function normalize(val) {
     if (val < 0) return -Math.floor(Math.abs(val));
     return Math.floor(val);
@@ -20,9 +21,16 @@ export default function slidePrev(speed = this.params.speed, runCallbacks = true
 
   let prevSnap = snapGrid[normalizedSnapGrid.indexOf(normalizedTranslate) - 1];
   if (typeof prevSnap === 'undefined' && params.cssMode) {
-    snapGrid.forEach((snap) => {
-      if (!prevSnap && normalizedTranslate >= snap) prevSnap = snap;
+    let prevSnapIndex;
+    snapGrid.forEach((snap, snapIndex) => {
+      if (normalizedTranslate >= snap) {
+        // prevSnap = snap;
+        prevSnapIndex = snapIndex;
+      }
     });
+    if (typeof prevSnapIndex !== 'undefined') {
+      prevSnap = snapGrid[prevSnapIndex > 0 ? prevSnapIndex - 1 : prevSnapIndex];
+    }
   }
   let prevIndex;
   if (typeof prevSnap !== 'undefined') {
