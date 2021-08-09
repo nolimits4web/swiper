@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy, beforeUpdate, afterUpdate, tick } from 'svelte';
+  import { onMount, onDestroy, beforeUpdate, afterUpdate } from 'svelte';
   import { uniqueClasses } from './utils.js';
 
   export let zoom = undefined;

@@ -13,8 +13,10 @@ async function build(cb) {
 
   let coreEventsReact = '';
   let coreEventsVue = '';
+  let coreEventsSvelte = '';
   let modulesEventsReact = '';
   let modulesEventsVue = '';
+  let modulesEventsSvelte = '';
 
   const replaceInstances = (content) => {
     return content
@@ -37,6 +39,14 @@ async function build(cb) {
       coreEventsContent.replace(/ ([a-zA-Z_?]*): \(/g, (string, name) => {
         return ` ${name.replace('?', '')}: (`;
       }),
+    );
+    coreEventsSvelte = replaceInstances(
+      coreEventsContent
+        .replace(/ ([a-zA-Z_?]*): \(/g, (string, name) => {
+          return ` ${name.replace('?', '')}: CustomEvent<[`;
+        })
+        .replace(/\) => void;/g, ']>;')
+        .replace(/\) => any;/g, ']>;'),
     );
   };
 
@@ -62,6 +72,14 @@ async function build(cb) {
             return ` ${name.replace('?', '')}: (`;
           }),
         );
+        modulesEventsSvelte += replaceInstances(
+          eventsContent
+            .replace(/ ([a-zA-Z_?]*): \(/g, (string, name) => {
+              return ` ${name.replace('?', '')}: CustomEvent<[`;
+            })
+            .replace(/\) => void;/g, ']>;')
+            .replace(/\) => any;/g, ']>;'),
+        );
       }
     });
   };
@@ -81,6 +99,10 @@ async function build(cb) {
       } else if (file.indexOf('swiper-vue.d.ts') >= 0) {
         fileContent = fileContent.replace('// CORE_EVENTS', coreEventsVue);
         fileContent = fileContent.replace('// MODULES_EVENTS', modulesEventsVue);
+        fse.writeFileSync(path.resolve(__dirname, `../${outputDir}`, file), fileContent);
+      } else if (file.indexOf('swiper-svelte.d.ts') >= 0) {
+        fileContent = fileContent.replace('// CORE_EVENTS', coreEventsSvelte);
+        fileContent = fileContent.replace('// MODULES_EVENTS', modulesEventsSvelte);
         fse.writeFileSync(path.resolve(__dirname, `../${outputDir}`, file), fileContent);
       } else {
         fse.writeFileSync(path.resolve(__dirname, `../${outputDir}`, file), fileContent);
