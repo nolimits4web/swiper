@@ -2,11 +2,13 @@ export default function Fade({ swiper, extendParams, on }) {
   extendParams({
     fadeEffect: {
       crossFade: false,
+      transformEl: null,
     },
   });
 
   const setTranslate = () => {
     const { slides } = swiper;
+    const params = swiper.params.fadeEffect;
     for (let i = 0; i < slides.length; i += 1) {
       const $slideEl = swiper.slides.eq(i);
       const offset = $slideEl[0].swiperSlideOffset;
@@ -20,7 +22,9 @@ export default function Fade({ swiper, extendParams, on }) {
       const slideOpacity = swiper.params.fadeEffect.crossFade
         ? Math.max(1 - Math.abs($slideEl[0].progress), 0)
         : 1 + Math.min(Math.max($slideEl[0].progress, -1), 0);
-      $slideEl
+
+      const $translateTarget = params.transformEl ? $slideEl.find(params.transformEl) : $slideEl;
+      $translateTarget
         .css({
           opacity: slideOpacity,
         })
@@ -29,10 +33,13 @@ export default function Fade({ swiper, extendParams, on }) {
   };
   const setTransition = (duration) => {
     const { slides, $wrapperEl } = swiper;
-    slides.transition(duration);
+    const { transformEl } = swiper.params.fadeEffect;
+    const $transitionElements = transformEl ? slides.find(transformEl) : slides;
+    $transitionElements.transition(duration);
     if (swiper.params.virtualTranslate && duration !== 0) {
       let eventTriggered = false;
-      slides.transitionEnd(() => {
+      const $transitionEndTarget = transformEl ? slides.find(transformEl) : slides;
+      $transitionEndTarget.transitionEnd(() => {
         if (eventTriggered) return;
         if (!swiper || swiper.destroyed) return;
         eventTriggered = true;
@@ -53,7 +60,7 @@ export default function Fade({ swiper, extendParams, on }) {
       slidesPerGroup: 1,
       watchSlidesProgress: true,
       spaceBetween: 0,
-      virtualTranslate: true,
+      virtualTranslate: !swiper.params.cssMode,
     };
     Object.assign(swiper.params, overwriteParams);
     Object.assign(swiper.originalParams, overwriteParams);
