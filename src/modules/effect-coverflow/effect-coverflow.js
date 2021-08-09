@@ -9,8 +9,19 @@ export default function Coverflow({ swiper, extendParams, on }) {
       scale: 1,
       modifier: 1,
       slideShadows: true,
+      transformEl: null,
     },
   });
+
+  const createShadow = (params, $slideEl, side) => {
+    const $shadowEl = $(`<div class="swiper-slide-shadow-${side}"></div>`);
+    if (params.transformEl) {
+      $slideEl.find(params.transformEl).append($shadowEl);
+    } else {
+      $slideEl.append($shadowEl);
+    }
+    return $shadowEl;
+  };
   const setTranslate = () => {
     const { width: swiperWidth, height: swiperHeight, slides, slidesSizesGrid } = swiper;
     const params = swiper.params.coverflowEffect;
@@ -52,7 +63,11 @@ export default function Coverflow({ swiper, extendParams, on }) {
 
       const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
 
-      $slideEl.transform(slideTransform);
+      if (params.transformEl) {
+        $slideEl.find(params.transformEl).transform(slideTransform);
+      } else {
+        $slideEl.transform(slideTransform);
+      }
       $slideEl[0].style.zIndex = -Math.abs(Math.round(offsetMultiplier)) + 1;
       if (params.slideShadows) {
         // Set shadows
@@ -63,16 +78,10 @@ export default function Coverflow({ swiper, extendParams, on }) {
           ? $slideEl.find('.swiper-slide-shadow-right')
           : $slideEl.find('.swiper-slide-shadow-bottom');
         if ($shadowBeforeEl.length === 0) {
-          $shadowBeforeEl = $(
-            `<div class="swiper-slide-shadow-${isHorizontal ? 'left' : 'top'}"></div>`,
-          );
-          $slideEl.append($shadowBeforeEl);
+          $shadowBeforeEl = createShadow(params, $slideEl, isHorizontal ? 'left' : 'top');
         }
         if ($shadowAfterEl.length === 0) {
-          $shadowAfterEl = $(
-            `<div class="swiper-slide-shadow-${isHorizontal ? 'right' : 'bottom'}"></div>`,
-          );
-          $slideEl.append($shadowAfterEl);
+          $shadowAfterEl = createShadow(params, $slideEl, isHorizontal ? 'right' : 'bottom');
         }
         if ($shadowBeforeEl.length)
           $shadowBeforeEl[0].style.opacity = offsetMultiplier > 0 ? offsetMultiplier : 0;
@@ -82,7 +91,9 @@ export default function Coverflow({ swiper, extendParams, on }) {
     }
   };
   const setTransition = (duration) => {
-    swiper.slides
+    const { transformEl } = swiper.params.coverflowEffect;
+    const $transitionElements = transformEl ? swiper.slides.find(transformEl) : swiper.slides;
+    $transitionElements
       .transition(duration)
       .find(
         '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
