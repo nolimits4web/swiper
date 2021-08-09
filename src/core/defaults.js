@@ -48,6 +48,7 @@ export default {
   slidesPerView: 1,
   slidesPerGroup: 1,
   slidesPerGroupSkip: 0,
+  slidesPerGroupAuto: false,
   centeredSlides: false,
   centeredSlidesBounds: false,
   slidesOffsetBefore: 0, // in px

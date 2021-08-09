@@ -302,9 +302,9 @@ class Swiper {
     swiper.emit('_slideClasses', updates);
   }
 
-  slidesPerViewDynamic() {
+  slidesPerViewDynamic(view = 'current', exact = false) {
     const swiper = this;
-    const { params, slides, slidesGrid, size: swiperSize, activeIndex } = swiper;
+    const { params, slides, slidesGrid, slidesSizesGrid, size: swiperSize, activeIndex } = swiper;
     let spv = 1;
     if (params.centeredSlides) {
       let slideSize = slides[activeIndex].swiperSlideSize;
@@ -324,9 +324,23 @@ class Swiper {
         }
       }
     } else {
-      for (let i = activeIndex + 1; i < slides.length; i += 1) {
-        if (slidesGrid[i] - slidesGrid[activeIndex] < swiperSize) {
-          spv += 1;
+      // eslint-disable-next-line
+      if (view === 'current') {
+        for (let i = activeIndex + 1; i < slides.length; i += 1) {
+          const slideInView = exact
+            ? slidesGrid[i] + slidesSizesGrid[i] - slidesGrid[activeIndex] < swiperSize
+            : slidesGrid[i] - slidesGrid[activeIndex] < swiperSize;
+          if (slideInView) {
+            spv += 1;
+          }
+        }
+      } else {
+        // previous
+        for (let i = activeIndex - 1; i >= 0; i -= 1) {
+          const slideInView = slidesGrid[activeIndex] - slidesGrid[i] < swiperSize;
+          if (slideInView) {
+            spv += 1;
+          }
         }
       }
     }

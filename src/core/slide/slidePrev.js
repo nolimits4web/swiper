@@ -32,10 +32,18 @@ export default function slidePrev(speed = this.params.speed, runCallbacks = true
       prevSnap = snapGrid[prevSnapIndex > 0 ? prevSnapIndex - 1 : prevSnapIndex];
     }
   }
-  let prevIndex;
+  let prevIndex = 0;
   if (typeof prevSnap !== 'undefined') {
     prevIndex = slidesGrid.indexOf(prevSnap);
     if (prevIndex < 0) prevIndex = swiper.activeIndex - 1;
+    if (
+      params.slidesPerView === 'auto' &&
+      params.slidesPerGroup === 1 &&
+      params.slidesPerGroupAuto
+    ) {
+      prevIndex = prevIndex - swiper.slidesPerViewDynamic('previous', true) + 1;
+      prevIndex = Math.max(prevIndex, 0);
+    }
   }
   return swiper.slideTo(prevIndex, speed, runCallbacks, internal);
 }

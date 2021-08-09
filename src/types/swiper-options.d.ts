@@ -287,6 +287,13 @@ export interface SwiperOptions {
   slidesPerGroupSkip?: number;
 
   /**
+   * This param intended to be used only with `slidesPerView: 'auto' and `slidesPerGroup: 1`. When enabled, it will skip all slides in view on `.slideNext()` & `.slidePrev()` methods calls, on Navigation "buttons" clicks and in autoplay.
+   *
+   * @default false
+   */
+  slidesPerGroupAuto?: boolean;
+
+  /**
    * If `true`, then active slide will be centered, not always on the left side.
    *
    * @default false
