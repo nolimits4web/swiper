@@ -121,6 +121,10 @@ declare const Swiper: DefineComponent<
       type: NumberConstructor;
       default: undefined;
     };
+    slidesPerGroupAuto: {
+      type: BooleanConstructor;
+      default: undefined;
+    };
     centeredSlides: {
       type: BooleanConstructor;
       default: undefined;

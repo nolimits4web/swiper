@@ -52,6 +52,7 @@ const Swiper = {
     slidesPerView: { type: [Number, String], default: undefined },
     slidesPerGroup: { type: Number, default: undefined },
     slidesPerGroupSkip: { type: Number, default: undefined },
+    slidesPerGroupAuto: { type: Boolean, default: undefined },
     centeredSlides: { type: Boolean, default: undefined },
     centeredSlidesBounds: { type: Boolean, default: undefined },
     slidesOffsetBefore: { type: Number, default: undefined },
