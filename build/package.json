@@ -21,10 +21,12 @@
     "./less/effect-fade": "./modules/effect-fade/effect-fade.less",
     "./less/effect-flip": "./modules/effect-flip/effect-flip.less",
     "./less/free-mode": "./modules/free-mode/free-mode.less",
+    "./less/grid": "./modules/grid/grid.less",
     "./less/hash-navigation": "./modules/hash-navigation/hash-navigation.less",
     "./less/history": "./modules/history/history.less",
     "./less/keyboard": "./modules/keyboard/keyboard.less",
     "./less/lazy": "./modules/lazy/lazy.less",
+    "./less/manipulation": "./modules/manipulation/manipulation.less",
     "./less/mousewheel": "./modules/mousewheel/mousewheel.less",
     "./less/navigation": "./modules/navigation/navigation.less",
     "./less/pagination": "./modules/pagination/pagination.less",
@@ -43,10 +45,12 @@
     "./scss/effect-fade": "./modules/effect-fade/effect-fade.scss",
     "./scss/effect-flip": "./modules/effect-flip/effect-flip.scss",
     "./scss/free-mode": "./modules/free-mode/free-mode.scss",
+    "./scss/grid": "./modules/grid/grid.scss",
     "./scss/hash-navigation": "./modules/hash-navigation/hash-navigation.scss",
     "./scss/history": "./modules/history/history.scss",
     "./scss/keyboard": "./modules/keyboard/keyboard.scss",
     "./scss/lazy": "./modules/lazy/lazy.scss",
+    "./scss/manipulation": "./modules/manipulation/manipulation.scss",
     "./scss/mousewheel": "./modules/mousewheel/mousewheel.scss",
     "./scss/navigation": "./modules/navigation/navigation.scss",
     "./scss/pagination": "./modules/pagination/pagination.scss",
@@ -61,6 +65,21 @@
     "./vue/": "./vue/swiper-vue.js",
     "./svelte": "./svelte/swiper-svelte.js",
     "./svelte/": "./svelte/swiper-svelte.js",
-    "./types/": "./types/index.d.ts"
+    "./types": "./types/index.d.ts",
+    "./types/": "./types/index.d.ts",
+    "./package.json": "./types/package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "react": [
+        "react/swiper-react.d.ts"
+      ],
+      "svelte": [
+        "svelte/swiper-svelte.d.ts"
+      ],
+      "vue": [
+        "vue/swiper-vue.d.ts"
+      ]
+    }
   }
 }
