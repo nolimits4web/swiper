@@ -6,6 +6,7 @@ import {
   CubeEffectOptions,
   FadeEffectOptions,
   FlipEffectOptions,
+  CustomEffectOptions,
   HashNavigationOptions,
   HistoryOptions,
   KeyboardOptions,
@@ -382,6 +383,10 @@ declare const Swiper: DefineComponent<
     };
     flipEffect: {
       type: PropType<FlipEffectOptions>;
+      default: undefined;
+    };
+    customEffect: {
+      type: PropType<CustomEffectOptions>;
       default: undefined;
     };
     hashNavigation: {

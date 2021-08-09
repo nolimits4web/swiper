@@ -100,6 +100,7 @@ const paramsList = [
   'cubeEffect',
   'fadeEffect',
   'flipEffect',
+  'customEffect',
   'hashNavigation',
   'history',
   'keyboard',

@@ -1,6 +1,6 @@
 import $ from '../../shared/dom.js';
 
-export default function Cube({ swiper, extendParams, on }) {
+export default function EffectCube({ swiper, extendParams, on }) {
   extendParams({
     cubeEffect: {
       slideShadows: true,

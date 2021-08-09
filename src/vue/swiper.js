@@ -120,6 +120,7 @@ const Swiper = {
     cubeEffect: { type: Object, default: undefined },
     fadeEffect: { type: Object, default: undefined },
     flipEffect: { type: Object, default: undefined },
+    customEffect: { type: Object, default: undefined },
     hashNavigation: { type: [Boolean, Object], default: undefined },
     history: { type: [Boolean, Object], default: undefined },
     keyboard: { type: [Boolean, Object], default: undefined },

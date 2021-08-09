@@ -1,4 +1,4 @@
-export default function Fade({ swiper, extendParams, on }) {
+export default function EffectFade({ swiper, extendParams, on }) {
   extendParams({
     fadeEffect: {
       crossFade: false,

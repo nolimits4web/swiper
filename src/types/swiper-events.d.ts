@@ -8,6 +8,7 @@ import { CoverflowEffectEvents } from './modules/effect-coverflow';
 import { CubeEffectEvents } from './modules/effect-cube';
 import { FadeEffectEvents } from './modules/effect-fade';
 import { FlipEffectEvents } from './modules/effect-flip';
+import { CustomEffectEvents } from './modules/effect-custom';
 import { HashNavigationEvents } from './modules/hash-navigation';
 import { HistoryEvents } from './modules/history';
 import { KeyboardEvents } from './modules/keyboard';
@@ -343,6 +344,7 @@ interface SwiperEvents extends CoverflowEffectEvents {}
 interface SwiperEvents extends CubeEffectEvents {}
 interface SwiperEvents extends FadeEffectEvents {}
 interface SwiperEvents extends FlipEffectEvents {}
+interface SwiperEvents extends CustomEffectEvents {}
 interface SwiperEvents extends HashNavigationEvents {}
 interface SwiperEvents extends HistoryEvents {}
 interface SwiperEvents extends KeyboardEvents {}

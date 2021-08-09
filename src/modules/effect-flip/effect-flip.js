@@ -1,6 +1,6 @@
 import $ from '../../shared/dom.js';
 
-export default function Flip({ swiper, extendParams, on }) {
+export default function EffectFlip({ swiper, extendParams, on }) {
   extendParams({
     flipEffect: {
       slideShadows: true,
@@ -90,7 +90,7 @@ export default function Flip({ swiper, extendParams, on }) {
         ? slides.eq(activeIndex).find(transformEl)
         : slides.eq(activeIndex);
       // eslint-disable-next-line
-      $transitionEndTarget.transitionEnd(function onTransitionEnd() {
+      $transitionEndTarget.transitionEnd(() => {
         if (eventTriggered) return;
         if (!swiper || swiper.destroyed) return;
         eventTriggered = true;

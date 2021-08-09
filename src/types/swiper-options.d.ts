@@ -5,6 +5,7 @@ import { CoverflowEffectOptions } from './modules/effect-coverflow';
 import { CubeEffectOptions } from './modules/effect-cube';
 import { FadeEffectOptions } from './modules/effect-fade';
 import { FlipEffectOptions } from './modules/effect-flip';
+import { CustomEffectOptions } from './modules/effect-custom';
 import { HashNavigationOptions } from './modules/hash-navigation';
 import { HistoryOptions } from './modules/history';
 import { KeyboardOptions } from './modules/keyboard';
@@ -172,11 +173,11 @@ export interface SwiperOptions {
   uniqueNavElements?: boolean;
 
   /**
-   * Transition effect. Can be `'slide'`, `'fade'`, `'cube'`, `'coverflow'` or `'flip'`
+   * Transition effect. Can be `'slide'`, `'fade'`, `'cube'`, `'coverflow'`, `'flip'` or `'custom'`
    *
    * @default 'slide'
    */
-  effect?: 'slide' | 'fade' | 'cube' | 'coverflow' | 'flip';
+  effect?: 'slide' | 'fade' | 'cube' | 'coverflow' | 'flip' | 'custom';
 
   /**
    * Fire Transition/SlideChange/Start/End events on swiper initialization.
@@ -945,6 +946,28 @@ export interface SwiperOptions {
    * ```
    */
   flipEffect?: FlipEffectOptions;
+
+  /**
+   * Object with Custom-effect parameters
+   *
+   * @example
+   * ```js
+   * const swiper = new Swiper('.swiper-container', {
+   *   effect: 'custom',
+   *   customEffect: {
+   *     prev: {
+   *       // will set `translateZ(-400px)` on previous slides
+   *       translate: [0, 0, -400],
+   *     },
+   *     next: {
+   *       // will set `translateX(100%)` on next slides
+   *       translate: ['100%', 0, 0],
+   *     },
+   *   },
+   * });
+   * ```
+   */
+  customEffect?: CustomEffectOptions;
 
   /**
    * Enables hash url navigation to for slides.

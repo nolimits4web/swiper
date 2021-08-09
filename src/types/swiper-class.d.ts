@@ -10,6 +10,7 @@ import { CoverflowEffectMethods } from './modules/effect-coverflow';
 import { CubeEffectMethods } from './modules/effect-cube';
 import { FadeEffectMethods } from './modules/effect-fade';
 import { FlipEffectMethods } from './modules/effect-flip';
+import { CustomEffectMethods } from './modules/effect-custom';
 import { HashNavigationMethods } from './modules/hash-navigation';
 import { HistoryMethods } from './modules/history';
 import { KeyboardMethods } from './modules/keyboard';
@@ -399,6 +400,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   cubeEffect: CubeEffectMethods;
   fadeEffect: FadeEffectMethods;
   flipEffect: FlipEffectMethods;
+  customEffect: CustomEffectMethods;
   hashNavigation: HashNavigationMethods;
   history: HistoryMethods;
   keyboard: KeyboardMethods;

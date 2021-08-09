@@ -1,6 +1,6 @@
 import $ from '../../shared/dom.js';
 
-export default function Coverflow({ swiper, extendParams, on }) {
+export default function EffectCoverflow({ swiper, extendParams, on }) {
   extendParams({
     coverflowEffect: {
       rotate: 50,
