@@ -18,7 +18,8 @@
 /* Common Styles */
 .swiper-pagination-fraction,
 .swiper-pagination-custom,
-.swiper-container-horizontal > .swiper-pagination-bullets {
+.swiper-container-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
   bottom: 10px;
   left: 0;
   width: 100%;
@@ -77,43 +78,43 @@
   background: var(--swiper-pagination-color, var(--swiper-theme-color));
 }
 
-.swiper-container-vertical {
-  > .swiper-pagination-bullets {
-    right: 10px;
+.swiper-container-vertical > .swiper-pagination-bullets,
+.swiper-pagination-vertical.swiper-pagination-bullets {
+  right: 10px;
+  top: 50%;
+  transform: translate3d(0px, -50%, 0);
+  .swiper-pagination-bullet {
+    margin: 6px 0;
+    display: block;
+  }
+  &.swiper-pagination-bullets-dynamic {
     top: 50%;
-    transform: translate3d(0px, -50%, 0);
+    transform: translateY(-50%);
+    width: 8px;
     .swiper-pagination-bullet {
-      margin: 6px 0;
-      display: block;
-    }
-    &.swiper-pagination-bullets-dynamic {
-      top: 50%;
-      transform: translateY(-50%);
-      width: 8px;
-      .swiper-pagination-bullet {
-        display: inline-block;
-        transition: 200ms transform, 200ms top;
-      }
+      display: inline-block;
+      transition: 200ms transform, 200ms top;
     }
   }
 }
-.swiper-container-horizontal {
-  > .swiper-pagination-bullets {
+.swiper-container-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-horizontal.swiper-pagination-bullets {
+  .swiper-pagination-bullet {
+    margin: 0 4px;
+  }
+  &.swiper-pagination-bullets-dynamic {
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
     .swiper-pagination-bullet {
-      margin: 0 4px;
-    }
-    &.swiper-pagination-bullets-dynamic {
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: nowrap;
-      .swiper-pagination-bullet {
-        transition: 200ms transform, 200ms left;
-      }
+      transition: 200ms transform, 200ms left;
     }
   }
-  &.swiper-container-rtl > .swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
-    transition: 200ms transform, 200ms right;
-  }
+}
+.swiper-container-horizontal.swiper-container-rtl
+  > .swiper-pagination-bullets-dynamic
+  .swiper-pagination-bullet {
+  transition: 200ms transform, 200ms right;
 }
 /* Progress */
 .swiper-pagination-progressbar {
@@ -133,14 +134,18 @@
     transform-origin: right top;
   }
   .swiper-container-horizontal > &,
-  .swiper-container-vertical > &.swiper-pagination-progressbar-opposite {
+  &.swiper-pagination-horizontal,
+  .swiper-container-vertical > &.swiper-pagination-progressbar-opposite,
+  &.swiper-pagination-vertical.swiper-pagination-progressbar-opposite {
     width: 100%;
     height: 4px;
     left: 0;
     top: 0;
   }
   .swiper-container-vertical > &,
-  .swiper-container-horizontal > &.swiper-pagination-progressbar-opposite {
+  &.swiper-pagination-vertical,
+  .swiper-container-horizontal > &.swiper-pagination-progressbar-opposite,
+  &.swiper-pagination-horizontal.swiper-pagination-progressbar-opposite {
     width: 4px;
     height: 100%;
     left: 0;

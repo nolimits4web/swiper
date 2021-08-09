@@ -268,4 +268,18 @@ export interface PaginationOptions {
    * @default 'swiper-pagination-lock'
    */
   lockClass?: string;
+
+  /**
+   * CSS class name set to pagination in horizontal Swiper
+   *
+   * @default 'swiper-pagination-horizontal'
+   */
+  horizontalClass?: string;
+
+  /**
+   * CSS class name set to pagination in vertical Swiper
+   *
+   * @default 'swiper-pagination-vertical'
+   */
+  verticalClass?: string;
 }
