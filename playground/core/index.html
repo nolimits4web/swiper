@@ -20,7 +20,6 @@
     <div class="swiper-slide">Slide 9</div>
     <div class="swiper-slide">Slide 10</div>
   </section>
-  <div class="swiper-pagination"></div>
   <style>
     body,
     html {
@@ -41,15 +40,6 @@
       color: #000;
       text-align: center;
       line-height: 300px;
-      width: 100px;
-    }
-
-    .swiper-slide:nth-child(2n) {
-      width: 200px;
-    }
-
-    .swiper-slide:nth-child(3n) {
-      width: 300px;
     }
   </style>
   <script type="module">
@@ -67,15 +57,9 @@
       scrollbar: true,
       createElements: true,
       speed: 300,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
+      pagination: true,
       navigation: true,
       spaceBetween: 20,
-      slidesPerView: 'auto',
-      slidesPerGroupAuto: true,
-      // centeredSlides: true,
     });
 
   </script>
