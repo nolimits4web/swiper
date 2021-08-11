@@ -1,5 +1,6 @@
 import $ from '../../shared/dom.js';
-import { classesToSelector, createElementIfNotDefined } from '../../shared/utils.js';
+import classesToSelector from '../../shared/classes-to-selector.js';
+import createElementIfNotDefined from '../../shared/create-element-if-not-defined.js';
 
 export default function Pagination({ swiper, extendParams, on, emit }) {
   const pfx = 'swiper-pagination';

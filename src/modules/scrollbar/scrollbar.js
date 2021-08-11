@@ -1,6 +1,7 @@
 import { getDocument } from 'ssr-window';
 import $ from '../../shared/dom.js';
-import { nextTick, createElementIfNotDefined } from '../../shared/utils.js';
+import { nextTick } from '../../shared/utils.js';
+import createElementIfNotDefined from '../../shared/create-element-if-not-defined.js';
 
 export default function Scrollbar({ swiper, extendParams, on, emit }) {
   const document = getDocument();

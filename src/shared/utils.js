@@ -1,4 +1,4 @@
-import { getDocument, getWindow } from 'ssr-window';
+import { getWindow } from 'ssr-window';
 
 function deleteProps(obj) {
   const object = obj;
@@ -133,29 +133,6 @@ function extend(...args) {
   return to;
 }
 
-function classesToSelector(classes = '') {
-  return `.${classes
-    .trim()
-    .replace(/([\.:!\/])/g, '\\$1') // eslint-disable-line
-    .replace(/ /g, '.')}`;
-}
-
-function createElementIfNotDefined(swiper, originalParams, params, checkProps) {
-  const document = getDocument();
-  if (swiper.params.createElements) {
-    Object.keys(checkProps).forEach((key) => {
-      if (!params[key] && params.auto === true) {
-        const element = document.createElement('div');
-        element.className = checkProps[key];
-        swiper.$el.append(element);
-        params[key] = element;
-        originalParams[key] = element;
-      }
-    });
-  }
-  return params;
-}
-
 function setCSSProperty(el, varName, varValue) {
   el.style.setProperty(varName, varValue);
 }
@@ -209,7 +186,5 @@ export {
   isObject,
   extend,
   getComputedStyle,
-  classesToSelector,
-  createElementIfNotDefined,
   setCSSProperty,
 };

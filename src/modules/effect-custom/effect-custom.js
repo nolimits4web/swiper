@@ -1,3 +1,5 @@
+import virtualEffectTransitionEnd from '../../shared/virtual-effect-transition-end.js';
+
 export default function EffectCustom({ swiper, extendParams, on }) {
   extendParams({
     customEffect: {
@@ -90,28 +92,11 @@ export default function EffectCustom({ swiper, extendParams, on }) {
   };
 
   const setTransition = (duration) => {
-    const { slides, activeIndex, $wrapperEl } = swiper;
     const { transformEl } = swiper.params.customEffect;
     const $transitionElements = transformEl ? swiper.slides.find(transformEl) : swiper.slides;
     $transitionElements.transition(duration);
 
-    if (swiper.params.virtualTranslate && duration !== 0) {
-      let eventTriggered = false;
-      const $transitionEndTarget = transformEl
-        ? slides.eq(activeIndex).find(transformEl)
-        : slides.eq(activeIndex);
-      // eslint-disable-next-line
-      $transitionEndTarget.transitionEnd(() => {
-        if (eventTriggered) return;
-        if (!swiper || swiper.destroyed) return;
-        eventTriggered = true;
-        swiper.animating = false;
-        const triggerEvents = ['webkitTransitionEnd', 'transitionend'];
-        for (let i = 0; i < triggerEvents.length; i += 1) {
-          $wrapperEl.trigger(triggerEvents[i]);
-        }
-      });
-    }
+    virtualEffectTransitionEnd({ swiper, duration, transformEl });
   };
 
   on('beforeInit', () => {

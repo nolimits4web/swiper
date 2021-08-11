@@ -1,3 +1,5 @@
+import virtualEffectTransitionEnd from '../../shared/virtual-effect-transition-end.js';
+
 export default function EffectFade({ swiper, extendParams, on }) {
   extendParams({
     fadeEffect: {
@@ -32,24 +34,10 @@ export default function EffectFade({ swiper, extendParams, on }) {
     }
   };
   const setTransition = (duration) => {
-    const { slides, $wrapperEl } = swiper;
     const { transformEl } = swiper.params.fadeEffect;
-    const $transitionElements = transformEl ? slides.find(transformEl) : slides;
+    const $transitionElements = transformEl ? swiper.slides.find(transformEl) : swiper.slides;
     $transitionElements.transition(duration);
-    if (swiper.params.virtualTranslate && duration !== 0) {
-      let eventTriggered = false;
-      const $transitionEndTarget = transformEl ? slides.find(transformEl) : slides;
-      $transitionEndTarget.transitionEnd(() => {
-        if (eventTriggered) return;
-        if (!swiper || swiper.destroyed) return;
-        eventTriggered = true;
-        swiper.animating = false;
-        const triggerEvents = ['webkitTransitionEnd', 'transitionend'];
-        for (let i = 0; i < triggerEvents.length; i += 1) {
-          $wrapperEl.trigger(triggerEvents[i]);
-        }
-      });
-    }
+    virtualEffectTransitionEnd({ swiper, duration, transformEl, allSlides: true });
   };
 
   on('beforeInit', () => {

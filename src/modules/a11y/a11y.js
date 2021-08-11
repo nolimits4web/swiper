@@ -1,5 +1,5 @@
+import classesToSelector from '../../shared/classes-to-selector.js';
 import $ from '../../shared/dom.js';
-import { classesToSelector } from '../../shared/utils.js';
 
 export default function A11y({ swiper, extendParams, on }) {
   extendParams({

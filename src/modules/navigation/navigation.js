@@ -1,5 +1,5 @@
+import createElementIfNotDefined from '../../shared/create-element-if-not-defined.js';
 import $ from '../../shared/dom.js';
-import { createElementIfNotDefined } from '../../shared/utils.js';
 
 export default function Navigation({ swiper, extendParams, on, emit }) {
   extendParams({
