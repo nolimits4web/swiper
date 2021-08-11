@@ -192,7 +192,7 @@ export interface SwiperOptions {
    * When enabled Swiper will be disabled and hide navigation buttons on
    * case there are not enough slides for sliding.
    *
-   * @default false
+   * @default true
    */
   watchOverflow?: boolean;
 

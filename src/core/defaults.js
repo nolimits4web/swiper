@@ -57,7 +57,7 @@ export default {
   centerInsufficientSlides: false,
 
   // Disable swiper and hide navigation when container not overflow
-  watchOverflow: false,
+  watchOverflow: true,
 
   // Round length
   roundLengths: false,
