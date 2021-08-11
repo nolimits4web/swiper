@@ -85,7 +85,8 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     $dragEl[0].style.height = '';
     trackSize = swiper.isHorizontal() ? $el[0].offsetWidth : $el[0].offsetHeight;
 
-    divider = swiper.size / swiper.virtualSize;
+    divider =
+      swiper.size / (swiper.virtualSize - (swiper.params.centeredSlides ? swiper.snapGrid[0] : 0));
     if (swiper.params.scrollbar.dragSize === 'auto') {
       dragSize = trackSize * divider;
     } else {
