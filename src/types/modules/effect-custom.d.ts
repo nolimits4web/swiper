@@ -1,10 +1,10 @@
 import { CSSSelector } from '../shared';
 
 interface CustomEffectTransform {
-  translate: string[] | number[];
-  rotate: number[];
-  opacity: number;
-  scale: number;
+  translate?: string[] | number[];
+  rotate?: number[];
+  opacity?: number;
+  scale?: number;
 }
 
 export interface CustomEffectMethods {}
@@ -51,4 +51,16 @@ export interface CustomEffectOptions {
    * @default null
    */
   transformEl?: CSSSelector;
+  /**
+   * Limit progress/offset to amount of side slides. If `1`, then slides all slides after prev/next will have same state. If `2`, then all slides after 2nd before/after active will have same state, etc.
+   *
+   * @default 1
+   */
+  limitProgress?: number;
+  /**
+   * Enable this parameter if your custom transforms require 3D transformations (`translateZ`, `rotateX`, `rotateY` )
+   *
+   * @default false
+   */
+  perspective?: boolean;
 }

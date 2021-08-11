@@ -2,6 +2,8 @@ export default function EffectCustom({ swiper, extendParams, on }) {
   extendParams({
     customEffect: {
       transformEl: null,
+      limitProgress: 1,
+      perspective: false,
       prev: {
         translate: [0, 0, 0],
         rotate: [0, 0, 0],
@@ -27,7 +29,10 @@ export default function EffectCustom({ swiper, extendParams, on }) {
     const params = swiper.params.customEffect;
     for (let i = 0; i < slides.length; i += 1) {
       const $slideEl = slides.eq(i);
-      const progress = Math.min(Math.max($slideEl[0].progress, -1), 1);
+      const progress = Math.min(
+        Math.max($slideEl[0].progress, -params.limitProgress),
+        params.limitProgress,
+      );
       const offset = $slideEl[0].swiperSlideOffset;
       const t = [swiper.params.cssMode ? -offset - swiper.translate : -offset, 0, 0];
       const r = [0, 0, 0];
@@ -112,7 +117,9 @@ export default function EffectCustom({ swiper, extendParams, on }) {
   on('beforeInit', () => {
     if (swiper.params.effect !== 'custom') return;
     swiper.classNames.push(`${swiper.params.containerModifierClass}custom`);
-    swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
+    if (swiper.params.customEffect.perspective) {
+      swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
+    }
     const overwriteParams = {
       watchSlidesProgress: true,
       virtualTranslate: !swiper.params.cssMode,
