@@ -117,10 +117,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     init();
     update();
   });
-  on('toEdge', () => {
-    update();
-  });
-  on('fromEdge', () => {
+  on('toEdge fromEdge lock unlock', () => {
     update();
   });
   on('destroy', () => {

@@ -86,7 +86,10 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     trackSize = swiper.isHorizontal() ? $el[0].offsetWidth : $el[0].offsetHeight;
 
     divider =
-      swiper.size / (swiper.virtualSize - (swiper.params.centeredSlides ? swiper.snapGrid[0] : 0));
+      swiper.size /
+      (swiper.virtualSize +
+        swiper.params.slidesOffsetBefore -
+        (swiper.params.centeredSlides ? swiper.snapGrid[0] : 0));
     if (swiper.params.scrollbar.dragSize === 'auto') {
       dragSize = trackSize * divider;
     } else {
@@ -296,13 +299,7 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     updateSize();
     setTranslate();
   });
-  on('update resize observerUpdate', () => {
-    updateSize();
-  });
-  on('resize', () => {
-    updateSize();
-  });
-  on('observerUpdate', () => {
+  on('update resize observerUpdate lock unlock', () => {
     updateSize();
   });
   on('setTranslate', () => {

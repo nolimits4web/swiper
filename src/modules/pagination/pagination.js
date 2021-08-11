@@ -376,6 +376,9 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       $el[swiper.enabled ? 'removeClass' : 'addClass'](swiper.params.pagination.lockClass);
     }
   });
+  on('lock unlock', () => {
+    update();
+  });
   on('click', (_s, e) => {
     const targetEl = e.target;
     const { $el } = swiper.pagination;
