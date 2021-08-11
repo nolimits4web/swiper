@@ -6,6 +6,7 @@ import { CubeEffectOptions } from './modules/effect-cube';
 import { FadeEffectOptions } from './modules/effect-fade';
 import { FlipEffectOptions } from './modules/effect-flip';
 import { CustomEffectOptions } from './modules/effect-custom';
+import { CardsEffectOptions } from './modules/effect-cards';
 import { HashNavigationOptions } from './modules/hash-navigation';
 import { HistoryOptions } from './modules/history';
 import { KeyboardOptions } from './modules/keyboard';
@@ -237,7 +238,7 @@ export interface SwiperOptions {
    *
    * This is what is not supported when it is enabled:
    *
-   * - Cube effect
+   * - Cube and Cards effects
    * - `speed` parameter may not have no effect
    * - All transition start/end related events (use `slideChange` instead)
    * - `slidesPerGroup` has limited support
@@ -968,6 +969,21 @@ export interface SwiperOptions {
    * ```
    */
   customEffect?: CustomEffectOptions;
+
+  /**
+   * Object with Cards-effect parameters
+   *
+   * @example
+   * ```js
+   * const swiper = new Swiper('.swiper-container', {
+   *   effect: 'cards',
+   *   cardsEffect: {
+   *     // ...
+   *   },
+   * });
+   * ```
+   */
+  cardsEffect?: CardsEffectOptions;
 
   /**
    * Enables hash url navigation to for slides.

@@ -9,6 +9,7 @@ import { CubeEffectEvents } from './modules/effect-cube';
 import { FadeEffectEvents } from './modules/effect-fade';
 import { FlipEffectEvents } from './modules/effect-flip';
 import { CustomEffectEvents } from './modules/effect-custom';
+import { CardsEffectEvents } from './modules/effect-cards';
 import { HashNavigationEvents } from './modules/hash-navigation';
 import { HistoryEvents } from './modules/history';
 import { KeyboardEvents } from './modules/keyboard';
@@ -345,6 +346,7 @@ interface SwiperEvents extends CubeEffectEvents {}
 interface SwiperEvents extends FadeEffectEvents {}
 interface SwiperEvents extends FlipEffectEvents {}
 interface SwiperEvents extends CustomEffectEvents {}
+interface SwiperEvents extends CardsEffectEvents {}
 interface SwiperEvents extends HashNavigationEvents {}
 interface SwiperEvents extends HistoryEvents {}
 interface SwiperEvents extends KeyboardEvents {}

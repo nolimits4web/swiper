@@ -146,6 +146,7 @@ export class SwiperComponent implements OnInit {
   @Input() fadeEffect: SwiperOptions['fadeEffect'];
   @Input() flipEffect: SwiperOptions['flipEffect'];
   @Input() customEffect: SwiperOptions['customEffect'];
+  @Input() cardsEffect: SwiperOptions['cardsEffect'];
   @Input() hashNavigation: SwiperOptions['hashNavigation'];
   @Input() history: SwiperOptions['history'];
   @Input() keyboard: SwiperOptions['keyboard'];

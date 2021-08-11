@@ -7,6 +7,7 @@ import {
   FadeEffectOptions,
   FlipEffectOptions,
   CustomEffectOptions,
+  CardsEffectOptions,
   HashNavigationOptions,
   HistoryOptions,
   KeyboardOptions,
@@ -387,6 +388,10 @@ declare const Swiper: DefineComponent<
     };
     customEffect: {
       type: PropType<CustomEffectOptions>;
+      default: undefined;
+    };
+    cardsEffect: {
+      type: PropType<CardsEffectOptions>;
       default: undefined;
     };
     hashNavigation: {
