@@ -62,6 +62,7 @@
   }
   .swiper-wrapper,
   .swiper-slide,
+  .swiper-slide-shadow,
   .swiper-slide-shadow-left,
   .swiper-slide-shadow-right,
   .swiper-slide-shadow-top,
@@ -69,6 +70,7 @@
   .swiper-cube-shadow {
     transform-style: preserve-3d;
   }
+  .swiper-slide-shadow,
   .swiper-slide-shadow-left,
   .swiper-slide-shadow-right,
   .swiper-slide-shadow-top,
@@ -80,6 +82,9 @@
     height: 100%;
     pointer-events: none;
     z-index: 10;
+  }
+  .swiper-slide-shadow {
+    background: rgba(0, 0, 0, 0.1);
   }
   .swiper-slide-shadow-left {
     background-image: linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));

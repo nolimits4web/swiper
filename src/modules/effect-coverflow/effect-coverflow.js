@@ -1,4 +1,4 @@
-import $ from '../../shared/dom.js';
+import createShadow from '../../shared/create-shadow.js';
 
 export default function EffectCoverflow({ swiper, extendParams, on }) {
   extendParams({
@@ -13,15 +13,6 @@ export default function EffectCoverflow({ swiper, extendParams, on }) {
     },
   });
 
-  const createShadow = (params, $slideEl, side) => {
-    const $shadowEl = $(`<div class="swiper-slide-shadow-${side}"></div>`);
-    if (params.transformEl) {
-      $slideEl.find(params.transformEl).append($shadowEl);
-    } else {
-      $slideEl.append($shadowEl);
-    }
-    return $shadowEl;
-  };
   const setTranslate = () => {
     const { width: swiperWidth, height: swiperHeight, slides, slidesSizesGrid } = swiper;
     const params = swiper.params.coverflowEffect;

@@ -1,4 +1,4 @@
-import $ from '../../shared/dom.js';
+import createShadow from '../../shared/create-shadow.js';
 import virtualEffectTransitionEnd from '../../shared/virtual-effect-transition-end.js';
 
 export default function EffectFlip({ swiper, extendParams, on }) {
@@ -9,16 +9,6 @@ export default function EffectFlip({ swiper, extendParams, on }) {
       transformEl: null,
     },
   });
-
-  const createShadow = (params, $slideEl, side) => {
-    const $shadowEl = $(`<div class="swiper-slide-shadow-${side}"></div>`);
-    if (params.transformEl) {
-      $slideEl.find(params.transformEl).append($shadowEl);
-    } else {
-      $slideEl.append($shadowEl);
-    }
-    return $shadowEl;
-  };
 
   const setTranslate = () => {
     const { slides, rtlTranslate: rtl } = swiper;

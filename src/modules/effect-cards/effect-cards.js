@@ -1,8 +1,10 @@
+import createShadow from '../../shared/create-shadow.js';
 import virtualEffectTransitionEnd from '../../shared/virtual-effect-transition-end.js';
 
 export default function EffectCards({ swiper, extendParams, on }) {
   extendParams({
     cardsEffect: {
+      slideShadows: true,
       transformEl: null,
     },
   });
@@ -74,11 +76,22 @@ export default function EffectCards({ swiper, extendParams, on }) {
         scale(${scaleString})
       `;
 
+      if (params.slideShadows) {
+        // Set shadows
+        let $shadowEl = $slideEl.find('.swiper-slide-shadow');
+        if ($shadowEl.length === 0) {
+          $shadowEl = createShadow(params, $slideEl);
+        }
+        if ($shadowEl.length)
+          $shadowEl[0].style.opacity = Math.min(Math.max(Math.abs(progress), 0), 1);
+      }
+
       $slideEl[0].style.zIndex = -Math.abs(Math.round(slideProgress)) + slides.length;
       if (params.transformEl) {
         $slideEl
           .find(params.transformEl)
           .css({
+            'transform-origin': 'center-bottom',
             'backface-visibility': 'hidden',
             '-webkit-backface-visibility': 'hidden',
           })
@@ -92,7 +105,7 @@ export default function EffectCards({ swiper, extendParams, on }) {
   const setTransition = (duration) => {
     const { transformEl } = swiper.params.cardsEffect;
     const $transitionElements = transformEl ? swiper.slides.find(transformEl) : swiper.slides;
-    $transitionElements.transition(duration);
+    $transitionElements.transition(duration).find('.swiper-slide-shadow').transition(duration);
 
     virtualEffectTransitionEnd({ swiper, duration, transformEl });
   };
