@@ -1,7 +1,6 @@
 function checkOverflow() {
   const swiper = this;
-  const params = swiper.params;
-  const wasLocked = swiper.isLocked;
+  const { isLocked: wasLocked, params } = swiper;
   const { slidesOffsetBefore } = params;
 
   if (slidesOffsetBefore) {
@@ -14,9 +13,12 @@ function checkOverflow() {
   } else {
     swiper.isLocked = swiper.snapGrid.length === 1;
   }
-
-  swiper.allowSlideNext = !swiper.isLocked;
-  swiper.allowSlidePrev = !swiper.isLocked;
+  if (params.allowSlideNext === true) {
+    swiper.allowSlideNext = !swiper.isLocked;
+  }
+  if (params.allowSlidePrev === true) {
+    swiper.allowSlidePrev = !swiper.isLocked;
+  }
 
   if (wasLocked && wasLocked !== swiper.isLocked) {
     swiper.isEnd = false;
