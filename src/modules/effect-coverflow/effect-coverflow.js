@@ -1,4 +1,5 @@
 import createShadow from '../../shared/create-shadow.js';
+import effectTarget from '../../shared/effect-target.js';
 
 export default function EffectCoverflow({ swiper, extendParams, on }) {
   extendParams({
@@ -53,13 +54,11 @@ export default function EffectCoverflow({ swiper, extendParams, on }) {
       if (Math.abs(scale) < 0.001) scale = 0;
 
       const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
+      const $targetEl = effectTarget(params, $slideEl);
+      $targetEl.transform(slideTransform);
 
-      if (params.transformEl) {
-        $slideEl.find(params.transformEl).transform(slideTransform);
-      } else {
-        $slideEl.transform(slideTransform);
-      }
       $slideEl[0].style.zIndex = -Math.abs(Math.round(offsetMultiplier)) + 1;
+
       if (params.slideShadows) {
         // Set shadows
         let $shadowBeforeEl = isHorizontal

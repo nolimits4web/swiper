@@ -1,4 +1,5 @@
 import createShadow from '../../shared/create-shadow.js';
+import effectTarget from '../../shared/effect-target.js';
 import virtualEffectTransitionEnd from '../../shared/virtual-effect-transition-end.js';
 
 export default function EffectFlip({ swiper, extendParams, on }) {
@@ -54,14 +55,8 @@ export default function EffectFlip({ swiper, extendParams, on }) {
         if (shadowAfter.length) shadowAfter[0].style.opacity = Math.max(progress, 0);
       }
       const transform = `translate3d(${tx}px, ${ty}px, 0px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-      if (params.transformEl) {
-        $slideEl
-          .find(params.transformEl)
-          .css({ 'backface-visibility': 'hidden', '-webkit-backface-visibility': 'hidden' })
-          .transform(transform);
-      } else {
-        $slideEl.transform(transform);
-      }
+      const $targetEl = effectTarget(params, $slideEl);
+      $targetEl.transform(transform);
     }
   };
 

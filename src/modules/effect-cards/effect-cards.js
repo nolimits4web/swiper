@@ -1,4 +1,5 @@
 import createShadow from '../../shared/create-shadow.js';
+import effectTarget from '../../shared/effect-target.js';
 import virtualEffectTransitionEnd from '../../shared/virtual-effect-transition-end.js';
 
 export default function EffectCards({ swiper, extendParams, on }) {
@@ -87,18 +88,8 @@ export default function EffectCards({ swiper, extendParams, on }) {
       }
 
       $slideEl[0].style.zIndex = -Math.abs(Math.round(slideProgress)) + slides.length;
-      if (params.transformEl) {
-        $slideEl
-          .find(params.transformEl)
-          .css({
-            'transform-origin': 'center-bottom',
-            'backface-visibility': 'hidden',
-            '-webkit-backface-visibility': 'hidden',
-          })
-          .transform(transform);
-      } else {
-        $slideEl.transform(transform);
-      }
+      const $targetEl = effectTarget(params, $slideEl);
+      $targetEl.transform(transform);
     }
   };
 

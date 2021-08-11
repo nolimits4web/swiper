@@ -1,3 +1,4 @@
+import effectTarget from '../../shared/effect-target.js';
 import virtualEffectTransitionEnd from '../../shared/virtual-effect-transition-end.js';
 
 export default function EffectFade({ swiper, extendParams, on }) {
@@ -25,8 +26,8 @@ export default function EffectFade({ swiper, extendParams, on }) {
         ? Math.max(1 - Math.abs($slideEl[0].progress), 0)
         : 1 + Math.min(Math.max($slideEl[0].progress, -1), 0);
 
-      const $translateTarget = params.transformEl ? $slideEl.find(params.transformEl) : $slideEl;
-      $translateTarget
+      const $targetEl = effectTarget(params, $slideEl);
+      $targetEl
         .css({
           opacity: slideOpacity,
         })
