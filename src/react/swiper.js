@@ -28,7 +28,7 @@ const Swiper = forwardRef(
     externalElRef,
   ) => {
     let eventsAssigned = false;
-    const [containerClasses, setContainerClasses] = useState('swiper-container');
+    const [containerClasses, setContainerClasses] = useState('swiper');
     const [virtualData, setVirtualData] = useState(null);
     const [breakpointChanged, setBreakpointChanged] = useState(false);
     const initializedRef = useRef(false);

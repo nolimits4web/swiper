@@ -10,7 +10,7 @@
   <!-- Swiper -->
   <h3>Slider5 is visible when you slide to 2,3, or 4, and slider5 has "swiper-slide-visible" className</h3> <br>
 
-  <div class="swiper-container" id="swiper-container2" style="width:800px;">
+  <div class="swiper" id="swiper2" style="width:800px;">
     <div class="swiper-wrapper">
       <div class="swiper-slide active-slider">
         slider1</div>
@@ -35,7 +35,7 @@
   <script type="module">
     import Swiper from 'swiper/swiper-bundle.esm.js';
     import 'swiper/swiper-bundle.css';
-    var mySwiper2 = new Swiper('#swiper-container2', {
+    var mySwiper2 = new Swiper('#swiper2', {
       watchSlidesProgress: true,
       slidesPerView: 3
 

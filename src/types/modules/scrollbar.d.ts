@@ -55,7 +55,7 @@ export interface ScrollbarEvents {
  *
  * @example
  * ```js
- * const swiper = new Swiper('.swiper-container', {
+ * const swiper = new Swiper('.swiper', {
  *   scrollbar: {
  *     el: '.swiper-scrollbar',
  *     draggable: true,

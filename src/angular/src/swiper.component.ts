@@ -430,7 +430,7 @@ export class SwiperComponent implements OnInit {
     return typeof this.zoom !== 'boolean' ? this.zoom.containerClass : 'swiper-zoom-container';
   }
 
-  @HostBinding('class') containerClasses = 'swiper-container';
+  @HostBinding('class') containerClasses = 'swiper';
   constructor(
     private _ngZone: NgZone,
     private elementRef: ElementRef,

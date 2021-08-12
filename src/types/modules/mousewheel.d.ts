@@ -53,7 +53,7 @@ export interface MousewheelOptions {
    */
   sensitivity?: number;
   /**
-   * String with CSS selector or HTML element of the container accepting mousewheel events. By default it is swiper-container
+   * String with CSS selector or HTML element of the container accepting mousewheel events. By default it is swiper
    *
    * @default 'container'
    */

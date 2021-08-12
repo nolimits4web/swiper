@@ -269,7 +269,7 @@ class Swiper {
     if (!swiper.params._emitClasses || !swiper.el) return;
     const cls = swiper.el.className.split(' ').filter((className) => {
       return (
-        className.indexOf('swiper-container') === 0 ||
+        className.indexOf('swiper') === 0 ||
         className.indexOf(swiper.params.containerModifierClass) === 0
       );
     });

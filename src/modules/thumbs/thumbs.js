@@ -8,7 +8,7 @@ export default function Thumb({ swiper, extendParams, on }) {
       multipleActiveThumbs: true,
       autoScrollOffset: 0,
       slideThumbActiveClass: 'swiper-slide-thumb-active',
-      thumbsContainerClass: 'swiper-container-thumbs',
+      thumbsContainerClass: 'swiper-thumbs',
     },
   });
 

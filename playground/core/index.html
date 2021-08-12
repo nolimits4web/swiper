@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <section class="swiper-container">
+  <section class="swiper">
     <div class="swiper-slide">Slide 1</div>
     <div class="swiper-slide">Slide 2</div>
     <div class="swiper-slide">Slide 3</div>
@@ -29,7 +29,7 @@
       height: 100%;
     }
 
-    .swiper-container {
+    .swiper {
       width: 100%;
       height: 300px;
       margin: 50px auto;
@@ -51,7 +51,7 @@
 
     // eslint-disable-next-line
     window.swiper = new Swiper({
-      el: '.swiper-container',
+      el: '.swiper',
       slideToClickedSlide: true,
       grabCursor: true,
       scrollbar: true,

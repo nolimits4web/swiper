@@ -9,7 +9,7 @@
 
 <body>
   <!-- Swiper -->
-  <div class="swiper-container">
+  <div class="swiper">
     <div class="swiper-wrapper">
       <div class="swiper-slide" style="background-image:url(./images/nature-1.jpg)"></div>
       <div class="swiper-slide" style="background-image:url(./images/nature-2.jpg)"></div>
@@ -27,7 +27,7 @@
   <script type="module">
     import Swiper from 'swiper/swiper-bundle.esm.js';
     import 'swiper/swiper-bundle.css';
-    var swiper = new Swiper('.swiper-container', {
+    var swiper = new Swiper('.swiper', {
       effect: 'cube',
       grabCursor: true,
       cubeEffect: {
@@ -59,7 +59,7 @@
       padding: 0;
     }
 
-    .swiper-container {
+    .swiper {
       width: 300px;
       height: 300px;
       position: absolute;

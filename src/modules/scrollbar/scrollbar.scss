@@ -4,7 +4,7 @@
   position: relative;
   -ms-touch-action: none;
   background: rgba(0, 0, 0, 0.1);
-  .swiper-container-horizontal > & {
+  .swiper-horizontal > & {
     position: absolute;
     left: 1%;
     bottom: 3px;
@@ -12,7 +12,7 @@
     height: 5px;
     width: 98%;
   }
-  .swiper-container-vertical > & {
+  .swiper-vertical > & {
     position: absolute;
     right: 3px;
     top: 1%;

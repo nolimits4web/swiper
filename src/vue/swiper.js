@@ -223,7 +223,7 @@ const Swiper = {
   setup(props, { slots: originalSlots, emit }) {
     const { tag: Tag, wrapperTag: WrapperTag } = props;
 
-    const containerClasses = ref('swiper-container');
+    const containerClasses = ref('swiper');
     const virtualData = ref(null);
     const breakpointChanged = ref(false);
     const initializedRef = ref(false);

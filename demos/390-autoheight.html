@@ -9,7 +9,7 @@
 
 <body>
   <!-- Swiper -->
-  <div class="swiper-container">
+  <div class="swiper">
     <div class="swiper-wrapper">
       <div class="swiper-slide">Slide 1</div>
       <div class="swiper-slide">Slide 2</div>
@@ -35,7 +35,7 @@
   <script type="module">
     import Swiper from 'swiper/swiper-bundle.esm.js';
     import 'swiper/swiper-bundle.css';
-    var swiper = new Swiper('.swiper-container', {
+    var swiper = new Swiper('.swiper', {
       autoHeight: true, //enable auto height
       spaceBetween: 20,
       pagination: {
@@ -60,7 +60,7 @@
       padding: 0;
     }
 
-    .swiper-container {
+    .swiper {
       width: 100%;
       height: auto;
     }
@@ -72,12 +72,12 @@
 
     }
 
-    .swiper-container .swiper-slide {
+    .swiper .swiper-slide {
       height: 300px;
       line-height: 300px;
     }
 
-    .swiper-container .swiper-slide:nth-child(2n) {
+    .swiper .swiper-slide:nth-child(2n) {
       height: 500px;
       line-height: 500px;
     }

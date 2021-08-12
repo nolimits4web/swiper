@@ -33,9 +33,9 @@ export interface ThumbsOptions {
    */
   slideThumbActiveClass?: string;
   /**
-   * Additional class that will be added to thumbs swiper-container
+   * Additional class that will be added to thumbs swiper
    *
-   * @default 'swiper-container-thumbs'
+   * @default 'swiper-thumbs'
    */
   thumbsContainerClass?: string;
   /**

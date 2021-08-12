@@ -119,7 +119,7 @@ export default {
   passiveListeners: true,
 
   // NS
-  containerModifierClass: 'swiper-container-', // NEW
+  containerModifierClass: 'swiper-', // NEW
   slideClass: 'swiper-slide',
   slideBlankClass: 'swiper-slide-invisible-blank',
   slideActiveClass: 'swiper-slide-active',

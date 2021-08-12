@@ -35,7 +35,7 @@
   }
 }
 .swiper-button-prev,
-.swiper-container-rtl .swiper-button-next {
+.swiper-rtl .swiper-button-next {
   &:after {
     content: 'prev';
   }
@@ -43,7 +43,7 @@
   right: auto;
 }
 .swiper-button-next,
-.swiper-container-rtl .swiper-button-prev {
+.swiper-rtl .swiper-button-prev {
   &:after {
     content: 'next';
   }

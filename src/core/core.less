@@ -1,7 +1,7 @@
 :root {
   --swiper-theme-color: @themeColor;
 }
-.swiper-container {
+.swiper {
   margin-left: auto;
   margin-right: auto;
   position: relative;
@@ -11,7 +11,7 @@
   /* Fix of Webkit flickering */
   z-index: 1;
 }
-.swiper-container-vertical > .swiper-wrapper {
+.swiper-vertical > .swiper-wrapper {
   flex-direction: column;
 }
 .swiper-wrapper {
@@ -23,14 +23,14 @@
   transition-property: transform;
   box-sizing: content-box;
 }
-.swiper-container-android .swiper-slide,
+.swiper-android .swiper-slide,
 .swiper-wrapper {
   transform: translate3d(0px, 0, 0);
 }
 
-.swiper-container-pointer-events {
+.swiper-pointer-events {
   touch-action: pan-y;
-  &.swiper-container-vertical {
+  &.swiper-vertical {
     touch-action: pan-x;
   }
 }
@@ -45,19 +45,19 @@
   visibility: hidden;
 }
 /* Auto Height */
-.swiper-container-autoheight,
-.swiper-container-autoheight .swiper-slide {
+.swiper-autoheight,
+.swiper-autoheight .swiper-slide {
   height: auto;
 }
-.swiper-container-autoheight .swiper-wrapper {
+.swiper-autoheight .swiper-wrapper {
   align-items: flex-start;
   transition-property: transform, height;
 }
 
 /* 3D Effects */
-.swiper-container-3d {
+.swiper-3d {
   &,
-  &.swiper-container-css-mode .swiper-wrapper {
+  &.swiper-css-mode .swiper-wrapper {
     perspective: 1200px;
   }
   .swiper-wrapper,
@@ -101,7 +101,7 @@
 }
 
 /* CSS Mode */
-.swiper-container-css-mode {
+.swiper-css-mode {
   > .swiper-wrapper {
     overflow: auto;
     scrollbar-width: none; /* For Firefox */
@@ -114,23 +114,23 @@
     scroll-snap-align: start start;
   }
 }
-.swiper-container-horizontal.swiper-container-css-mode {
+.swiper-horizontal.swiper-css-mode {
   > .swiper-wrapper {
     scroll-snap-type: x mandatory;
   }
 }
-.swiper-container-vertical.swiper-container-css-mode {
+.swiper-vertical.swiper-css-mode {
   > .swiper-wrapper {
     scroll-snap-type: y mandatory;
   }
 }
-.swiper-container-centered {
+.swiper-centered {
   > .swiper-wrapper::before {
     content: '';
     flex-shrink: 0;
     order: 9999;
   }
-  &.swiper-container-horizontal {
+  &.swiper-horizontal {
     > .swiper-wrapper > .swiper-slide:first-child {
       margin-inline-start: var(--swiper-centered-offset-before);
     }
@@ -140,7 +140,7 @@
       width: var(--swiper-centered-offset-after);
     }
   }
-  &.swiper-container-vertical {
+  &.swiper-vertical {
     > .swiper-wrapper > .swiper-slide:first-child {
       margin-block-start: var(--swiper-centered-offset-before);
     }

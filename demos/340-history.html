@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <div class="swiper-container">
+  <div class="swiper">
     <div class="swiper-scrollbar"></div>
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
@@ -30,7 +30,7 @@
   <script type="module">
     import Swiper from 'swiper/swiper-bundle.esm.js';
     import 'swiper/swiper-bundle.css';
-    var swiper = new Swiper('.swiper-container', {
+    var swiper = new Swiper('.swiper', {
       spaceBetween: 50,
       slidesPerView: 1,
       navigation: {
@@ -62,7 +62,7 @@
       padding: 0;
     }
 
-    .swiper-container {
+    .swiper {
       width: 100%;
       height: 100%;
     }

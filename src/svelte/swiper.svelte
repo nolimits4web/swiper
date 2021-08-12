@@ -24,7 +24,7 @@
   let className = undefined;
   export { className as class };
 
-  let containerClasses = 'swiper-container';
+  let containerClasses = 'swiper';
   let breakpointChanged = false;
   let swiperInstance = null;
   let oldPassedParams = null;
