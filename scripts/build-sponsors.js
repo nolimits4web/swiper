@@ -29,7 +29,7 @@ const buildTables = (sponsors) => {
   let tableContent = '';
   if (tableSponsors.length > 0) {
     const rows = [];
-    const perRow = 6;
+    const perRow = 8;
     let rowIndex = 0;
 
     tableSponsors.forEach((item, index) => {
