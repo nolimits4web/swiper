@@ -59,6 +59,7 @@
     "./scss/thumbs": "./modules/thumbs/thumbs.scss",
     "./scss/virtual": "./modules/virtual/virtual.scss",
     "./scss/zoom": "./modules/zoom/zoom.scss",
+    "./angular": "./angular/fesm2015/swiper_angular.js",
     "./react": "./react/swiper-react.js",
     "./vue": "./vue/swiper-vue.js",
     "./svelte": "./svelte/swiper-svelte.js",
@@ -67,6 +68,9 @@
   },
   "typesVersions": {
     "*": {
+      "angular": [
+        "angular/swiper_angular.d.ts"
+      ],
       "react": [
         "react/swiper-react.d.ts"
       ],

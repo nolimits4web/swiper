@@ -2,7 +2,8 @@
 import { isObject, extend } from './utils';
 import { paramsList } from './params-list';
 import { SwiperOptions } from 'swiper/types';
-import Swiper from 'swiper/core';
+// @ts-ignore
+import Swiper from 'swiper';
 
 export const allowedParams = paramsList.map((key) => key.replace(/_/, ''));
 export function getParams(obj = {}) {
