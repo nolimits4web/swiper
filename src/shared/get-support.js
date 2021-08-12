@@ -7,7 +7,7 @@ function calcSupport() {
   const document = getDocument();
 
   return {
-    smoothScroll: 'scrollBehavior' in document.documentElement.style,
+    smoothScroll: document.documentElement && 'scrollBehavior' in document.documentElement.style,
 
     touch: !!(
       'ontouchstart' in window ||
