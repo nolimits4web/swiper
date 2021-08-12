@@ -85,7 +85,7 @@ export default function EffectCards({ swiper, extendParams, on }) {
           $shadowEl = createShadow(params, $slideEl);
         }
         if ($shadowEl.length)
-          $shadowEl[0].style.opacity = Math.min(Math.max(Math.abs(progress), 0), 1);
+          $shadowEl[0].style.opacity = Math.min(Math.max((Math.abs(progress) - 0.5) / 0.5, 0), 1);
       }
 
       $slideEl[0].style.zIndex = -Math.abs(Math.round(slideProgress)) + slides.length;
