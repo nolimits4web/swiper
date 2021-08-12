@@ -1,6 +1,7 @@
 import createShadow from '../../shared/create-shadow.js';
+import effectInit from '../../shared/effect-init.js';
 import effectTarget from '../../shared/effect-target.js';
-import virtualEffectTransitionEnd from '../../shared/virtual-effect-transition-end.js';
+import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end.js';
 
 export default function EffectCards({ swiper, extendParams, on }) {
   extendParams({
@@ -98,26 +99,19 @@ export default function EffectCards({ swiper, extendParams, on }) {
     const $transitionElements = transformEl ? swiper.slides.find(transformEl) : swiper.slides;
     $transitionElements.transition(duration).find('.swiper-slide-shadow').transition(duration);
 
-    virtualEffectTransitionEnd({ swiper, duration, transformEl });
+    effectVirtualTransitionEnd({ swiper, duration, transformEl });
   };
 
-  on('beforeInit', () => {
-    if (swiper.params.effect !== 'cards') return;
-    swiper.classNames.push(`${swiper.params.containerModifierClass}cards`);
-    swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
-    const overwriteParams = {
+  effectInit({
+    effect: 'cards',
+    swiper,
+    on,
+    setTranslate,
+    setTransition,
+    perspective: () => true,
+    overwriteParams: () => ({
       watchSlidesProgress: true,
       virtualTranslate: !swiper.params.cssMode,
-    };
-    Object.assign(swiper.params, overwriteParams);
-    Object.assign(swiper.originalParams, overwriteParams);
-  });
-  on('setTranslate', () => {
-    if (swiper.params.effect !== 'cards') return;
-    setTranslate();
-  });
-  on('setTransition', (_s, duration) => {
-    if (swiper.params.effect !== 'cards') return;
-    setTransition(duration);
+    }),
   });
 }

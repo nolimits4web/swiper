@@ -1,5 +1,6 @@
+import effectInit from '../../shared/effect-init.js';
 import effectTarget from '../../shared/effect-target.js';
-import virtualEffectTransitionEnd from '../../shared/virtual-effect-transition-end.js';
+import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end.js';
 
 export default function EffectFade({ swiper, extendParams, on }) {
   extendParams({
@@ -38,28 +39,21 @@ export default function EffectFade({ swiper, extendParams, on }) {
     const { transformEl } = swiper.params.fadeEffect;
     const $transitionElements = transformEl ? swiper.slides.find(transformEl) : swiper.slides;
     $transitionElements.transition(duration);
-    virtualEffectTransitionEnd({ swiper, duration, transformEl, allSlides: true });
+    effectVirtualTransitionEnd({ swiper, duration, transformEl, allSlides: true });
   };
 
-  on('beforeInit', () => {
-    if (swiper.params.effect !== 'fade') return;
-    swiper.classNames.push(`${swiper.params.containerModifierClass}fade`);
-    const overwriteParams = {
+  effectInit({
+    effect: 'fade',
+    swiper,
+    on,
+    setTranslate,
+    setTransition,
+    overwriteParams: () => ({
       slidesPerView: 1,
       slidesPerGroup: 1,
       watchSlidesProgress: true,
       spaceBetween: 0,
       virtualTranslate: !swiper.params.cssMode,
-    };
-    Object.assign(swiper.params, overwriteParams);
-    Object.assign(swiper.originalParams, overwriteParams);
-  });
-  on('setTranslate', () => {
-    if (swiper.params.effect !== 'fade') return;
-    setTranslate();
-  });
-  on('setTransition', (_s, duration) => {
-    if (swiper.params.effect !== 'fade') return;
-    setTransition(duration);
+    }),
   });
 }

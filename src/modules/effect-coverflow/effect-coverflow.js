@@ -1,4 +1,5 @@
 import createShadow from '../../shared/create-shadow.js';
+import effectInit from '../../shared/effect-init.js';
 import effectTarget from '../../shared/effect-target.js';
 
 export default function EffectCoverflow({ swiper, extendParams, on }) {
@@ -91,21 +92,15 @@ export default function EffectCoverflow({ swiper, extendParams, on }) {
       .transition(duration);
   };
 
-  on('beforeInit', () => {
-    if (swiper.params.effect !== 'coverflow') return;
-
-    swiper.classNames.push(`${swiper.params.containerModifierClass}coverflow`);
-    swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
-
-    swiper.params.watchSlidesProgress = true;
-    swiper.originalParams.watchSlidesProgress = true;
-  });
-  on('setTranslate', () => {
-    if (swiper.params.effect !== 'coverflow') return;
-    setTranslate();
-  });
-  on('setTransition', (_s, duration) => {
-    if (swiper.params.effect !== 'coverflow') return;
-    setTransition(duration);
+  effectInit({
+    effect: 'coverflow',
+    swiper,
+    on,
+    setTranslate,
+    setTransition,
+    perspective: () => true,
+    overwriteParams: () => ({
+      watchSlidesProgress: true,
+    }),
   });
 }

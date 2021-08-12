@@ -22,7 +22,7 @@ module.exports = {
     'effect-cube',
     'effect-flip',
     'effect-coverflow',
-    'effect-custom',
+    'effect-creative',
     'effect-cards',
   ],
 };

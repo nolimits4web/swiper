@@ -1,10 +1,11 @@
 import createShadow from '../../shared/create-shadow.js';
+import effectInit from '../../shared/effect-init.js';
 import effectTarget from '../../shared/effect-target.js';
-import virtualEffectTransitionEnd from '../../shared/virtual-effect-transition-end.js';
+import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end.js';
 
-export default function EffectCustom({ swiper, extendParams, on }) {
+export default function EffectCreative({ swiper, extendParams, on }) {
   extendParams({
-    customEffect: {
+    creativeEffect: {
       transformEl: null,
       limitProgress: 1,
       perspective: true,
@@ -30,7 +31,7 @@ export default function EffectCustom({ swiper, extendParams, on }) {
 
   const setTranslate = () => {
     const { slides } = swiper;
-    const params = swiper.params.customEffect;
+    const params = swiper.params.creativeEffect;
     for (let i = 0; i < slides.length; i += 1) {
       const $slideEl = slides.eq(i);
       const slideProgress = $slideEl[0].progress;
@@ -102,32 +103,23 @@ export default function EffectCustom({ swiper, extendParams, on }) {
   };
 
   const setTransition = (duration) => {
-    const { transformEl } = swiper.params.customEffect;
+    const { transformEl } = swiper.params.creativeEffect;
     const $transitionElements = transformEl ? swiper.slides.find(transformEl) : swiper.slides;
     $transitionElements.transition(duration).find('.swiper-slide-shadow').transition(duration);
 
-    virtualEffectTransitionEnd({ swiper, duration, transformEl });
+    effectVirtualTransitionEnd({ swiper, duration, transformEl });
   };
 
-  on('beforeInit', () => {
-    if (swiper.params.effect !== 'custom') return;
-    swiper.classNames.push(`${swiper.params.containerModifierClass}custom`);
-    if (swiper.params.customEffect.perspective) {
-      swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
-    }
-    const overwriteParams = {
+  effectInit({
+    effect: 'creative',
+    swiper,
+    on,
+    setTranslate,
+    setTransition,
+    perspective: () => swiper.params.creativeEffect.perspective,
+    overwriteParams: () => ({
       watchSlidesProgress: true,
       virtualTranslate: !swiper.params.cssMode,
-    };
-    Object.assign(swiper.params, overwriteParams);
-    Object.assign(swiper.originalParams, overwriteParams);
-  });
-  on('setTranslate', () => {
-    if (swiper.params.effect !== 'custom') return;
-    setTranslate();
-  });
-  on('setTransition', (_s, duration) => {
-    if (swiper.params.effect !== 'custom') return;
-    setTransition(duration);
+    }),
   });
 }

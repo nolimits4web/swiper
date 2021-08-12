@@ -1,4 +1,5 @@
 import $ from '../../shared/dom.js';
+import effectInit from '../../shared/effect-init.js';
 
 export default function EffectCube({ swiper, extendParams, on }) {
   extendParams({
@@ -160,11 +161,14 @@ export default function EffectCube({ swiper, extendParams, on }) {
     }
   };
 
-  on('beforeInit', () => {
-    if (swiper.params.effect !== 'cube') return;
-    swiper.classNames.push(`${swiper.params.containerModifierClass}cube`);
-    swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
-    const overwriteParams = {
+  effectInit({
+    effect: 'cube',
+    swiper,
+    on,
+    setTranslate,
+    setTransition,
+    perspective: () => true,
+    overwriteParams: () => ({
       slidesPerView: 1,
       slidesPerGroup: 1,
       watchSlidesProgress: true,
@@ -172,16 +176,6 @@ export default function EffectCube({ swiper, extendParams, on }) {
       spaceBetween: 0,
       centeredSlides: false,
       virtualTranslate: true,
-    };
-    Object.assign(swiper.params, overwriteParams);
-    Object.assign(swiper.originalParams, overwriteParams);
-  });
-  on('setTranslate', () => {
-    if (swiper.params.effect !== 'cube') return;
-    setTranslate();
-  });
-  on('setTransition', (_s, duration) => {
-    if (swiper.params.effect !== 'cube') return;
-    setTransition(duration);
+    }),
   });
 }

@@ -1,6 +1,6 @@
 import { CSSSelector } from '../shared';
 
-interface CustomEffectTransform {
+interface CreativeEffectTransform {
   translate?: string[] | number[];
   rotate?: number[];
   opacity?: number;
@@ -9,11 +9,11 @@ interface CustomEffectTransform {
   origin?: string;
 }
 
-export interface CustomEffectMethods {}
+export interface CreativeEffectMethods {}
 
-export interface CustomEffectEvents {}
+export interface CreativeEffectEvents {}
 
-export interface CustomEffectOptions {
+export interface CreativeEffectOptions {
   /**
    * Previous slide transformations. Accepts object of the following type:
    * ```
@@ -34,7 +34,7 @@ export interface CustomEffectOptions {
    * ```
    *
    */
-  prev?: CustomEffectTransform;
+  prev?: CreativeEffectTransform;
   /**
    * Next slide transformations. ```
    * {
@@ -50,7 +50,7 @@ export interface CustomEffectOptions {
    * ```
    *
    */
-  next?: CustomEffectTransform;
+  next?: CreativeEffectTransform;
   /**
    * CSS selector of the element inside of the slide to transform instead of the slide itself. Useful to use with cssMode
    *

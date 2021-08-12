@@ -97,7 +97,7 @@ export const paramsList = [
   'cubeEffect',
   'fadeEffect',
   'flipEffect',
-  'customEffect',
+  'creativeEffect',
   'cardsEffect',
   'hashNavigation',
   'history',

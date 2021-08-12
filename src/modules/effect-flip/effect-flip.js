@@ -1,6 +1,7 @@
 import createShadow from '../../shared/create-shadow.js';
+import effectInit from '../../shared/effect-init.js';
 import effectTarget from '../../shared/effect-target.js';
-import virtualEffectTransitionEnd from '../../shared/virtual-effect-transition-end.js';
+import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end.js';
 
 export default function EffectFlip({ swiper, extendParams, on }) {
   extendParams({
@@ -69,29 +70,22 @@ export default function EffectFlip({ swiper, extendParams, on }) {
         '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
       )
       .transition(duration);
-    virtualEffectTransitionEnd({ swiper, duration, transformEl });
+    effectVirtualTransitionEnd({ swiper, duration, transformEl });
   };
 
-  on('beforeInit', () => {
-    if (swiper.params.effect !== 'flip') return;
-    swiper.classNames.push(`${swiper.params.containerModifierClass}flip`);
-    swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
-    const overwriteParams = {
+  effectInit({
+    effect: 'flip',
+    swiper,
+    on,
+    setTranslate,
+    setTransition,
+    perspective: () => true,
+    overwriteParams: () => ({
       slidesPerView: 1,
       slidesPerGroup: 1,
       watchSlidesProgress: true,
       spaceBetween: 0,
       virtualTranslate: !swiper.params.cssMode,
-    };
-    Object.assign(swiper.params, overwriteParams);
-    Object.assign(swiper.originalParams, overwriteParams);
-  });
-  on('setTranslate', () => {
-    if (swiper.params.effect !== 'flip') return;
-    setTranslate();
-  });
-  on('setTransition', (_s, duration) => {
-    if (swiper.params.effect !== 'flip') return;
-    setTransition(duration);
+    }),
   });
 }

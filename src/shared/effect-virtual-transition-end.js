@@ -1,4 +1,4 @@
-export default function virtualEffectTransitionEnd({ swiper, duration, transformEl, allSlides }) {
+export default function effectVirtualTransitionEnd({ swiper, duration, transformEl, allSlides }) {
   const { slides, activeIndex, $wrapperEl } = swiper;
   if (swiper.params.virtualTranslate && duration !== 0) {
     let eventTriggered = false;

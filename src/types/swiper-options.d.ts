@@ -5,7 +5,7 @@ import { CoverflowEffectOptions } from './modules/effect-coverflow';
 import { CubeEffectOptions } from './modules/effect-cube';
 import { FadeEffectOptions } from './modules/effect-fade';
 import { FlipEffectOptions } from './modules/effect-flip';
-import { CustomEffectOptions } from './modules/effect-custom';
+import { CreativeEffectOptions } from './modules/effect-creative';
 import { CardsEffectOptions } from './modules/effect-cards';
 import { HashNavigationOptions } from './modules/hash-navigation';
 import { HistoryOptions } from './modules/history';
@@ -955,7 +955,7 @@ export interface SwiperOptions {
    * ```js
    * const swiper = new Swiper('.swiper-container', {
    *   effect: 'custom',
-   *   customEffect: {
+   *   creativeEffect: {
    *     prev: {
    *       // will set `translateZ(-400px)` on previous slides
    *       translate: [0, 0, -400],
@@ -968,7 +968,7 @@ export interface SwiperOptions {
    * });
    * ```
    */
-  customEffect?: CustomEffectOptions;
+  creativeEffect?: CreativeEffectOptions;
 
   /**
    * Object with Cards-effect parameters
