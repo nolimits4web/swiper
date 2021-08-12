@@ -77,7 +77,16 @@ async function release() {
   );
 
   const cleanPackage = [
-    "find **/*.js -type f -not -name 'postinstall.js' -print0 | xargs -0  -I {} rm -v {}",
+    "find *.js -type f -not -name 'postinstall.js' -print0 | xargs -0  -I {} rm -v {}",
+    'rm -rf angular',
+    'rm -rf components',
+    'rm -rf core',
+    'rm -rf modules',
+    'rm -rf react',
+    'rm -rf shared',
+    'rm -rf svelte',
+    'rm -rf types',
+    'rm -rf vue',
     'rm -rf **/*.ts',
     'rm -rf *.ts',
     'rm -rf **/*.css',
@@ -91,6 +100,7 @@ async function release() {
     'rm -rf **/*.svelte',
     'rm -rf *.svelte',
   ];
+  await exec.promise(`cd ./package && ${cleanPackage.join(' && ')}`);
 
   await exec.promise('git pull');
   await exec.promise('npm i');
