@@ -61,7 +61,7 @@ declare const Swiper: DefineComponent<
     };
     nested: { type: BooleanConstructor; default: undefined };
     focusableElements: {
-      type: BooleanConstructor;
+      type: StringConstructor;
       default: undefined;
     };
     width: { type: NumberConstructor; default: undefined };
