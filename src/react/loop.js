@@ -1,5 +1,5 @@
 import React from 'react';
-import Swiper from 'swiper';
+import Swiper from '../core/core.js';
 
 function calcLoopedSlides(slides, swiperParams) {
   let slidesPerViewParams = swiperParams.slidesPerView;
