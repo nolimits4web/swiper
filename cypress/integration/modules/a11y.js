@@ -40,7 +40,7 @@ context('Core', () => {
       cy.getSlide(9).should('have.attr', 'aria-label', '10 of 10');
     });
 
-    it('should add aria-roledescription="slide" to swiper-container', () => {
+    it('should add aria-roledescription="slide" to swiper container', () => {
       cy.initSwiper({
         a11y: { containerRoleDescriptionMessage: 'test' },
       });

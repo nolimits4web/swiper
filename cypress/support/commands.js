@@ -24,7 +24,7 @@ Cypress.Commands.add('getSliderWrapper', { prevSubject: 'optional' }, () => {
 });
 
 Cypress.Commands.add('getSliderContainer', { prevSubject: 'optional' }, () => {
-  return cy.get('.swiper-container');
+  return cy.get('.swiper');
 });
 
 Cypress.Commands.add('getSlide', { prevSubject: 'optional' }, (subject, slideIndex) => {
@@ -32,7 +32,7 @@ Cypress.Commands.add('getSlide', { prevSubject: 'optional' }, (subject, slideInd
 });
 
 Cypress.Commands.add('getSlideContains', { prevSubject: 'optional' }, (subject, content) => {
-  cy.get('.swiper-container').contains(content);
+  cy.get('.swiper').contains(content);
 });
 Cypress.Commands.add('getSlides', { prevSubject: 'optional' }, () => {
   return cy.get(`.swiper-slide`);
@@ -48,10 +48,10 @@ Cypress.Commands.add('getPaginationBullet', { prevSubject: 'optional' }, (subjec
 Cypress.Commands.add(
   'initSwiper',
   { prevSubject: 'optional' },
-  (subject, config = {}, el = '.swiper-container') => {
+  (subject, config = {}, el = '.swiper') => {
     return cy.window().then((_window) => {
       _window.document.body.innerHTML = `
-      <div class="swiper-container">
+      <div class="swiper">
         <div class="swiper-wrapper">
           <div class="swiper-slide">Slide 1</div>
           <div class="swiper-slide">Slide 2</div>

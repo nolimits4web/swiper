@@ -20,12 +20,12 @@ context('Core', () => {
       autoHeight: true,
     });
     cy.injectStyles(`
-    .swiper-container .swiper-slide {
+    .swiper .swiper-slide {
       height: 300px;
       line-height: 300px;
     }
 
-    .swiper-container .swiper-slide:nth-child(2n) {
+    .swiper .swiper-slide:nth-child(2n) {
       height: 500px;
       line-height: 500px;
     }`);
@@ -103,7 +103,7 @@ context('Core', () => {
 
   it('slidesPerView auto', () => {
     cy.injectStyles(`
-    .swiper-container {
+    .swiper {
       width: 100%;
       height: 100%;
     }
@@ -194,7 +194,7 @@ context('Core', () => {
       containerModifierClass: 'unique-test-',
     });
     cy.get('.unique-test-horizontal').should('exist');
-    cy.get('.swiper-container-horizontal').should('not.exist');
+    cy.get('.swiper-horizontal').should('not.exist');
   });
 
   it('slideActiveClass', () => {
@@ -314,13 +314,13 @@ context('Core', () => {
 
   it('direction horizontal', () => {
     cy.initSwiper(); // check default
-    cy.get('.swiper-container-horizontal').should('exist');
-    cy.get('.swiper-container-vertical').should('not.exist');
+    cy.get('.swiper-horizontal').should('exist');
+    cy.get('.swiper-vertical').should('not.exist');
     cy.reinitSwiper({
       direction: 'horizontal',
     });
-    cy.get('.swiper-container-horizontal').should('exist');
-    cy.get('.swiper-container-vertical').should('not.exist');
+    cy.get('.swiper-horizontal').should('exist');
+    cy.get('.swiper-vertical').should('not.exist');
     cy.getSlide(2).should(($el) => {
       expect($el[0].getBoundingClientRect().x).to.be.greaterThan(100);
     });
@@ -333,8 +333,8 @@ context('Core', () => {
     cy.initSwiper({
       direction: 'vertical',
     });
-    cy.get('.swiper-container-vertical').should('exist');
-    cy.get('.swiper-container-horizontal').should('not.exist');
+    cy.get('.swiper-vertical').should('exist');
+    cy.get('.swiper-horizontal').should('not.exist');
     cy.getSlide(2).should(($el) => {
       expect($el[0].getBoundingClientRect().y).to.be.greaterThan(100);
     });
@@ -408,7 +408,7 @@ context('Core', () => {
   it('should not work as createElements false', () => {
     cy.window().then((_window) => {
       _window.document.body.innerHTML = `
-      <div class="swiper-container">
+      <div class="swiper">
         <div class="swiper-slide">Slide 1</div>
         <div class="swiper-slide">Slide 2</div>
         <div class="swiper-slide">Slide 3</div>
@@ -421,7 +421,7 @@ context('Core', () => {
         <div class="swiper-slide">Slide 10</div>
       </div>
       `;
-      _window.swiperRef = new _window.Swiper('.swiper-container', {
+      _window.swiperRef = new _window.Swiper('.swiper', {
         slidesPerView: 2,
         scrollbar: true,
         createElements: false,
@@ -440,7 +440,7 @@ context('Core', () => {
   it('should not work as createElements false', () => {
     cy.window().then((_window) => {
       _window.document.body.innerHTML = `
-      <div class="swiper-container">
+      <div class="swiper">
         <div class="swiper-slide">Slide 1</div>
         <div class="swiper-slide">Slide 2</div>
         <div class="swiper-slide">Slide 3</div>
@@ -453,7 +453,7 @@ context('Core', () => {
         <div class="swiper-slide">Slide 10</div>
       </div>
       `;
-      _window.swiperRef = new _window.Swiper('.swiper-container', {
+      _window.swiperRef = new _window.Swiper('.swiper', {
         slidesPerView: 2,
         scrollbar: true,
         createElements: true,
