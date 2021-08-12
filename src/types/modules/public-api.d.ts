@@ -5,6 +5,8 @@ export * from './effect-coverflow';
 export * from './effect-cube';
 export * from './effect-fade';
 export * from './effect-flip';
+export * from './effect-creative';
+export * from './effect-cards';
 export * from './hash-navigation';
 export * from './history';
 export * from './keyboard';
