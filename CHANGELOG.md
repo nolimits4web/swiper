@@ -1,5 +1,13 @@
 # Changelog
 
+# [6.8.2](https://github.com/nolimits4web/Swiper/compare/v6.8.1...v.6.8.2) (2021-08-16)
+
+### Bug Fixes
+
+- **core:** support tailwind's `!` in classes ([0cfbc53](https://github.com/nolimits4web/Swiper/commit/0cfbc538d1e23e01a1b93a327a2203ae70bd44ef)), closes [#4812](https://github.com/nolimits4web/Swiper/issues/4812)
+- **vue:** add missing emitted events (enable & disable) into 'emits' option ([95665cc](https://github.com/nolimits4web/Swiper/commit/95665ccbf7b7f381aa62a4e0ef3cbdf67de5ac83))
+- **vue:** fix `focusableElements` prop type ([7f1b1b9](https://github.com/nolimits4web/Swiper/commit/7f1b1b9805ec4b042570993fd5098344ca04d637)), closes [#4822](https://github.com/nolimits4web/Swiper/issues/4822)
+
 # [6.8.1](https://github.com/nolimits4web/Swiper/compare/v6.8.0...v.6.8.1) (2021-08-03)
 
 ### Bug Fixes
