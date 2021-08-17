@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { SwiperComponent } from 'src/angular/src/public-api';
 import SwiperCore, {
@@ -35,7 +35,7 @@ export class HomePage {
   show: boolean;
   thumbs: any;
   slides$ = new BehaviorSubject<string[]>(['']);
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef, private ngZone: NgZone) {}
   ngOnInit() {}
 
   getSlides() {
@@ -103,5 +103,17 @@ export class HomePage {
       768: { slidesPerView: 4, spaceBetween: 40 },
       1024: { slidesPerView: this.breakPointsToggle ? 7 : 5, spaceBetween: 50 },
     };
+  }
+
+  slidesEx = ['first', 'second'];
+
+  onSlideChange(swiper) {
+    if (swiper.isEnd) {
+      // all swiper events are run outside of ngzone, so use ngzone.run or detectChanges to update the view.
+      this.ngZone.run(() => {
+        this.slidesEx = [...this.slidesEx, `added ${this.slidesEx.length - 1}`];
+      });
+      console.log(this.slidesEx);
+    }
   }
 }
