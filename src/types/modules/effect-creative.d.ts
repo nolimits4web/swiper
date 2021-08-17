@@ -16,7 +16,9 @@ export interface CreativeEffectEvents {}
 export interface CreativeEffectOptions {
   /**
    * Previous slide transformations. Accepts object of the following type:
-   * ```
+   *
+   * @example
+   * ```js
    * {
    *   // Array with translate X, Y and Z values
    *   translate: string[] | number[];
@@ -36,16 +38,23 @@ export interface CreativeEffectOptions {
    */
   prev?: CreativeEffectTransform;
   /**
-   * Next slide transformations. ```
+   * Next slide transformations.
+   *
+   * @example
+   * ```js
    * {
    *   // Array with translate X, Y and Z values
    *   translate: string[] | number[];
    *   // Array with rotate X, Y and Z values (in deg)
-   *   rotate: number[];
+   *   rotate?: number[];
    *   // Slide opacity
-   *   opacity: number;
+   *   opacity?: number;
    *   // Slide scale
-   *   scale: number;
+   *   scale?: number;
+   *   // Enables slide shadow
+   *   shadow?: boolean;
+   *   // Transform origin, e.g. `left bottom`
+   *   origin?: string;
    * }
    * ```
    *
