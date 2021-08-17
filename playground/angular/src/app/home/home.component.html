@@ -1,5 +1,10 @@
 <main>
   <div>
+    <h4>Slide change</h4>
+    <swiper direction="horizontal" (slideChange)="onSlideChange($event)">
+      <ng-template *ngFor="let item of slidesEx" swiperSlide> {{ item }} </ng-template>
+    </swiper>
+    {{ slidesEx | json }}
     <h4>Nested</h4>
     <swiper direction="horizontal">
       <ng-container *ngFor="let item of [].constructor(4); let i = index">
