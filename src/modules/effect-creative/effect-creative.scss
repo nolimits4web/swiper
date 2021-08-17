@@ -2,5 +2,6 @@
   .swiper-slide {
     backface-visibility: hidden;
     overflow: hidden;
+    transition-property: transform, opacity, height;
   }
 }

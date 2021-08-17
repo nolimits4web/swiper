@@ -85,7 +85,7 @@ export default function EffectCreative({ swiper, extendParams, on }) {
 
       // Set shadows
       if ((custom && data.shadow) || !custom) {
-        let $shadowEl = $slideEl.find('.swiper-slide-shadow');
+        let $shadowEl = $slideEl.children('.swiper-slide-shadow');
         if ($shadowEl.length === 0 && data.shadow) {
           $shadowEl = createShadow(params, $slideEl);
         }
