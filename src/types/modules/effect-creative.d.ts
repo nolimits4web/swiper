@@ -73,6 +73,12 @@ export interface CreativeEffectOptions {
    */
   limitProgress?: number;
   /**
+   * Allows to multiply slides transformations and opacity.
+   *
+   * @default 1
+   */
+  progressMultipler?: number;
+  /**
    * Enable this parameter if your custom transforms require 3D transformations (`translateZ`, `rotateX`, `rotateY` )
    *
    * @default true
