@@ -13,7 +13,7 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
-      "swiper": ["src"],
+      "swiper": ["src", "build/swiper.esm.js"],
       "swiper/*": ["src/*"]
     }
   }
