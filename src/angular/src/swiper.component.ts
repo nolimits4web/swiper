@@ -160,8 +160,14 @@ export class SwiperComponent implements OnInit {
   @Input() id: string;
   @Input()
   set navigation(val) {
-    const currentNext = typeof this._navigation !== 'boolean' ? this._navigation?.nextEl : null;
-    const currentPrev = typeof this._navigation !== 'boolean' ? this._navigation?.prevEl : null;
+    const currentNext =
+      typeof this._navigation !== 'boolean' && this._navigation !== ''
+        ? this._navigation?.nextEl
+        : null;
+    const currentPrev =
+      typeof this._navigation !== 'boolean' && this._navigation !== ''
+        ? this._navigation?.prevEl
+        : null;
     this._navigation = setProperty(val, {
       nextEl: currentNext || null,
       prevEl: currentPrev || null,
@@ -181,12 +187,15 @@ export class SwiperComponent implements OnInit {
   get navigation() {
     return this._navigation;
   }
-  private _navigation: NavigationOptions | boolean;
+  private _navigation: NavigationOptions | boolean | '';
   showNavigation: boolean = true;
 
   @Input()
   set pagination(val) {
-    const current = typeof this._pagination !== 'boolean' ? this._pagination?.el : null;
+    const current =
+      typeof this._pagination !== 'boolean' && this._pagination !== ''
+        ? this._pagination?.el
+        : null;
     this._pagination = setProperty(val, {
       el: current || null,
     });
@@ -195,12 +204,13 @@ export class SwiperComponent implements OnInit {
   get pagination() {
     return this._pagination;
   }
-  private _pagination: PaginationOptions | boolean;
+  private _pagination: PaginationOptions | boolean | '';
   showPagination: boolean = true;
 
   @Input()
   set scrollbar(val) {
-    const current = typeof this._scrollbar !== 'boolean' ? this._scrollbar?.el : null;
+    const current =
+      typeof this._scrollbar !== 'boolean' && this._scrollbar !== '' ? this._scrollbar?.el : null;
     this._scrollbar = setProperty(val, {
       el: current || null,
     });
@@ -209,7 +219,7 @@ export class SwiperComponent implements OnInit {
   get scrollbar() {
     return this._scrollbar;
   }
-  private _scrollbar: ScrollbarOptions | boolean;
+  private _scrollbar: ScrollbarOptions | boolean | '';
   showScrollbar: boolean = true;
 
   @Input()
@@ -219,7 +229,7 @@ export class SwiperComponent implements OnInit {
   get virtual() {
     return this._virtual;
   }
-  private _virtual: VirtualOptions | boolean;
+  private _virtual: VirtualOptions | boolean | '';
 
   @Input()
   set index(index: number) {
