@@ -6,7 +6,7 @@ export default function Keyboard({ swiper, extendParams, on, emit }) {
   const document = getDocument();
   const window = getWindow();
   swiper.keyboard = {
-    enabled: true,
+    enabled: false,
   };
   extendParams({
     keyboard: {
