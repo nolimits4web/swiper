@@ -77,9 +77,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   slides: Dom7Array;
 
   /**
-   * If you use `slidesPerView:'auto'` with loop mode you should tell to Swiper how many slides it should loop (duplicate) using this parameter
-   *
-   * @default null
+   * !INTERNAL
    */
   loopedSlides: number | null;
 
@@ -316,8 +314,14 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    */
   attachEvents(): void;
 
+  /**
+   * !INTERNAL
+   */
   loopCreate(): void;
 
+  /**
+   * !INTERNAL
+   */
   loopDestroy(): void;
 
   /**
