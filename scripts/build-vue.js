@@ -7,7 +7,7 @@ const bannerVue = require('./banner')('Vue');
 module.exports = async (outputDir) => {
   // Babel
   await exec(
-    `cross-env npx babel --config-file ./babel.config.vue.js src/vue --out-dir ${outputDir}/vue`,
+    `npx babel --config-file ./scripts/babel/babel.config.vue.js src/vue --out-dir ${outputDir}/vue`,
   );
 
   // Fix import paths

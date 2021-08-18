@@ -7,7 +7,7 @@ const bannerReact = require('./banner')('React');
 module.exports = async (outputDir) => {
   // Babel
   await exec(
-    `cross-env npx babel --config-file ./babel.config.react.js src/react --out-dir ${outputDir}/react`,
+    `npx babel --config-file ./scripts/babel/babel.config.react.js src/react --out-dir ${outputDir}/react`,
   );
 
   // Fix import paths

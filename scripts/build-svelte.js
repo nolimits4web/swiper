@@ -8,7 +8,7 @@ const bannerSvelte = require('./banner')('Svelte');
 module.exports = async (outputDir) => {
   // Babel
   await exec.promise(
-    `cross-env npx babel --config-file ./babel.config.svelte.js src/svelte --out-dir ${outputDir}/svelte`,
+    `npx babel --config-file ./scripts/babel/babel.config.svelte.js src/svelte --out-dir ${outputDir}/svelte`,
   );
 
   // Fix import paths
