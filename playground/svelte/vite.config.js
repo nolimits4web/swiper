@@ -5,7 +5,7 @@ export default {
   plugins: [svelte()],
   resolve: {
     alias: {
-      swiper: path.resolve(__dirname, '../../build/'),
+      swiper: path.resolve(__dirname, '../../package/'),
     },
   },
 };

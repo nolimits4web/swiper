@@ -15,9 +15,8 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
-      "swiper": ["build", "build/swiper.esm.js"],
-      "swiper/types": ["build/types/public-api.d.ts"],
-      "swiper/*": ["build/*"]
+      "swiper": ["package", "package/swiper.esm.js"],
+      "swiper/*": ["package/*"]
     }
   }
 }

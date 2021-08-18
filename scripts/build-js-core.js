@@ -4,12 +4,11 @@ const exec = require('exec-sh').promise;
 const fs = require('fs');
 
 const config = require('./build-config');
+const { outputDir } = require('./utils/output-dir');
 const banner = require('./banner')();
 
 async function buildCore(modules) {
-  const env = process.env.NODE_ENV || 'development';
   const filename = `swiper.esm`;
-  const outputDir = env === 'development' ? 'build' : 'package';
   let coreContent = '';
   coreContent += `export { default as Swiper, default } from './core/core.js';\n`;
   coreContent += modules

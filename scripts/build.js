@@ -9,21 +9,18 @@ const buildSvelte = require('./build-svelte');
 const buildStyles = require('./build-styles');
 const buildAngular = require('./build-angular');
 const outputCheckSize = require('./check-size');
-const setEnv = require('./utils/env');
 
 class Build {
   constructor() {
     this.argv = process.argv.slice(2).map((v) => v.toLowerCase());
     this.size = this.argv.includes('--size');
-    const { outputDir } = setEnv();
-    this.outputDir = outputDir;
     this.tasks = [];
     return this;
   }
 
   add(flag, buildFn) {
     if (!this.argv.includes('--only') || this.argv.includes(flag)) {
-      this.tasks.push(() => buildFn(this.outputDir));
+      this.tasks.push(() => buildFn());
     }
     return this;
   }
@@ -62,6 +59,6 @@ class Build {
     .add('vue', buildVue)
     .add('svelte', buildSvelte)
     .add('angular', buildAngular)
-    .add('styles', () => buildStyles(build.outputDir))
+    .add('styles', buildStyles)
     .run();
 })();

@@ -30,7 +30,6 @@ import {
   coerceBooleanProperty,
   isShowEl,
 } from './utils/utils';
-// @ts-ignore
 import {
   SwiperOptions,
   SwiperEvents,

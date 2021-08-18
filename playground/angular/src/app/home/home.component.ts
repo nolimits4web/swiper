@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, NgZone, ViewChild } from '@angular/core';
-import Swiper from 'build/swiper';
+import Swiper from 'package/swiper';
 import { BehaviorSubject } from 'rxjs';
 import { SwiperComponent } from 'src/angular/src/public-api';
 import SwiperCore, {

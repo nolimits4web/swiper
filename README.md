@@ -439,7 +439,7 @@ Our [Code of Conduct](https://github.com/nolimits4web/swiper/blob/master/CODE_OF
 
 ## Dist / Build
 
-On production use files (JS and CSS) only from `package/` folder, there will be the most stable versions, `build/` folder is only for development purpose.
+On production use files (JS and CSS) only from `package/` folder, there will be the most stable versions.
 
 ### Development Build
 
@@ -455,11 +455,11 @@ And build development version of Swiper:
 
 ```
 
-$ npm run build:dev
+$ npm run build
 
 ```
 
-The result is available in `build/` folder.
+The result is available in `package/` folder.
 
 ### Running demos:
 

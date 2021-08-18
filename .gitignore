@@ -1,15 +1,5 @@
 .DS_Store
 node_modules
-build/**/*.*
-build/angular
-build/core
-build/modules
-build/react
-build/shared
-build/svelte
-build/types
-build/vue
-!build/package.json
 custom
 *.log
 

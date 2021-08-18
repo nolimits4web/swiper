@@ -9,16 +9,16 @@ const { default: resolve } = require('@rollup/plugin-node-resolve');
 const Terser = require('terser');
 
 const config = require('./build-config');
+const { outputDir } = require('./utils/output-dir');
 const banner = require('./banner')();
 
 async function buildBundle(modules, format, browser, cb) {
   const env = process.env.NODE_ENV || 'development';
+  const needSourceMap = env === 'production' && (format === 'umd' || (format === 'esm' && browser));
   const external = format === 'umd' || browser ? [] : () => true;
   let filename = 'swiper-bundle';
   if (format !== 'umd') filename += `.${format}`;
   if (format === 'esm' && browser) filename += '.browser';
-  const output = env === 'development' ? 'build' : 'package';
-  const needSourceMap = env === 'production' && (format === 'umd' || (format === 'esm' && browser));
 
   return rollup({
     input: './src/swiper.js',
@@ -45,9 +45,9 @@ async function buildBundle(modules, format, browser, cb) {
         name: 'Swiper',
         strict: true,
         sourcemap: needSourceMap,
-        sourcemapFile: `./${output}/${filename}.js.map`,
+        sourcemapFile: `./${outputDir}/${filename}.js.map`,
         banner,
-        file: `./${output}/${filename}.js`,
+        file: `./${outputDir}/${filename}.js`,
       }),
     )
     .then(async (bundle) => {
@@ -69,8 +69,8 @@ async function buildBundle(modules, format, browser, cb) {
         console.error(`Terser failed on file ${filename}: ${err.toString()}`);
       });
 
-      fs.writeFileSync(`./${output}/${filename}.min.js`, code);
-      fs.writeFileSync(`./${output}/${filename}.min.js.map`, map);
+      fs.writeFileSync(`./${outputDir}/${filename}.min.js`, code);
+      fs.writeFileSync(`./${outputDir}/${filename}.min.js.map`, map);
       if (cb) cb();
     })
     .catch((err) => {

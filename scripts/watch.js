@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const setEnv = require('./utils/env');
 const buildJsCore = require('./build-js-core');
 const buildJsBundle = require('./build-js-bundle');
 const buildTypes = require('./build-types');
@@ -12,10 +11,10 @@ const buildSvelte = require('./build-svelte');
 
 console.log(chalk.cyan('Watching file changes ...'));
 
-const watchFunction = async (fileName, outputDir) => {
+const watchFunction = async (fileName) => {
   if (fileName.includes('.less') || fileName.includes('.css') || fileName.includes('.scss')) {
     console.log('Building styles');
-    await buildStyles(outputDir);
+    await buildStyles();
     console.log('Building styles DONE');
     return;
   }
@@ -50,10 +49,9 @@ const watchFunction = async (fileName, outputDir) => {
 };
 
 let watchTimeout;
-const { outputDir } = setEnv();
 fs.watch(path.resolve(__dirname, '../src'), { recursive: true }, (eventType, fileName) => {
   clearTimeout(watchTimeout);
   watchTimeout = setTimeout(() => {
-    watchFunction(fileName, outputDir);
+    watchFunction(fileName);
   }, 100);
 });

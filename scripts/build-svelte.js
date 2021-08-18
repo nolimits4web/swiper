@@ -2,10 +2,11 @@
 /* eslint no-console: "off" */
 const exec = require('exec-sh');
 const fs = require('fs-extra');
+const { outputDir } = require('./utils/output-dir');
 // const svelte = require('svelte/compiler');
 const bannerSvelte = require('./banner')('Svelte');
 
-module.exports = async (outputDir) => {
+module.exports = async () => {
   // Babel
   await exec.promise(
     `npx babel --config-file ./scripts/babel/babel.config.svelte.js src/svelte --out-dir ${outputDir}/svelte`,

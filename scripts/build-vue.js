@@ -2,9 +2,10 @@
 /* eslint no-console: "off" */
 const { promise: exec } = require('exec-sh');
 const fs = require('fs-extra');
+const { outputDir } = require('./utils/output-dir');
 const bannerVue = require('./banner')('Vue');
 
-module.exports = async (outputDir) => {
+module.exports = async () => {
   // Babel
   await exec(
     `npx babel --config-file ./scripts/babel/babel.config.vue.js src/vue --out-dir ${outputDir}/vue`,
