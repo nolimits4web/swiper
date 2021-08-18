@@ -17,7 +17,6 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-// @ts-ignore
 import Swiper from 'swiper';
 import { Observable, of, Subject } from 'rxjs';
 import { getParams } from './utils/get-params';
@@ -438,15 +437,17 @@ export class SwiperComponent implements OnInit {
   }
 
   get zoomContainerClass() {
-    return typeof this.zoom !== 'boolean' ? this.zoom.containerClass : 'swiper-zoom-container';
+    return this.zoom && typeof this.zoom !== 'boolean'
+      ? this.zoom.containerClass
+      : 'swiper-zoom-container';
   }
 
-  @HostBinding('class') containerClasses = 'swiper';
+  @HostBinding('class') containerClasses: string = 'swiper';
   constructor(
     private _ngZone: NgZone,
     private elementRef: ElementRef,
     private _changeDetectorRef: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private _platformId,
+    @Inject(PLATFORM_ID) private _platformId: Object,
   ) {}
 
   private _setElement(el: ElementRef, ref: any, update: string, key = 'el') {
@@ -459,7 +460,7 @@ export class SwiperComponent implements OnInit {
       }
       ref[key] = el.nativeElement;
     }
-    const updateObj = {};
+    const updateObj: { [key: string]: boolean } = {};
     updateObj[update] = true;
     this.updateInitSwiper(updateObj);
   }
@@ -484,15 +485,17 @@ export class SwiperComponent implements OnInit {
   private slidesChanges = (val: QueryList<SwiperSlideDirective>) => {
     this.slides = val.map((slide: SwiperSlideDirective, index: number) => {
       slide.slideIndex = index;
-      slide.classNames = this.slideClass;
+      slide.classNames = this.slideClass || '';
       return slide;
     });
     if (this.loop && !this.loopedSlides) {
       this.calcLoopedSlides();
     }
     if (!this.virtual) {
-      this.prependSlides = of(this.slides.slice(this.slides.length - this.loopedSlides));
-      this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
+      if (this.loopedSlides) {
+        this.prependSlides = of(this.slides.slice(this.slides.length - this.loopedSlides));
+        this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
+      }
     } else if (this.swiperRef && this.swiperRef.virtual) {
       this._ngZone.runOutsideAngular(() => {
         this.swiperRef.virtual.slides = this.slides;
@@ -514,35 +517,42 @@ export class SwiperComponent implements OnInit {
       if (!swiperParams.virtual) {
         swiperParams.observer = true;
       }
-      swiperParams.onAny = (event, ...args) => {
-        const emitter = this[`s_${event}`] as EventEmitter<any>;
+      const getKeyValue =
+        <T extends object, U extends keyof T>(key: U) =>
+        (obj: T) =>
+          obj[key];
+      swiperParams.onAny = (eventName: keyof SwiperComponent, ...args: any[]) => {
+        const emitter = this[('s_' + eventName) as keyof SwiperComponent] as EventEmitter<any>;
         if (emitter) {
           emitter.emit(...args);
         }
       };
-      Object.assign(swiperParams.on, {
-        _containerClasses(swiper, classes) {
-          this.containerClasses = classes;
-        },
-        _slideClasses: (_, updated) => {
-          updated.forEach(({ slideEl, classNames }, index) => {
-            const slideIndex = parseInt(slideEl.getAttribute('data-swiper-slide-index')) || index;
-            if (this.virtual) {
-              const virtualSlide = this.slides.find((item) => {
-                return item.virtualIndex && item.virtualIndex === slideIndex;
-              });
-              if (virtualSlide) {
-                virtualSlide.classNames = classNames;
-                return;
-              }
+      const _slideClasses: SwiperEvents['_slideClasses'] = (_, updated) => {
+        updated.forEach(({ slideEl, classNames }, index) => {
+          const dataIndex = slideEl.getAttribute('data-swiper-slide-index');
+          const slideIndex = dataIndex ? parseInt(dataIndex) : index;
+          if (this.virtual) {
+            const virtualSlide = this.slides.find((item) => {
+              return item.virtualIndex && item.virtualIndex === slideIndex;
+            });
+            if (virtualSlide) {
+              virtualSlide.classNames = classNames;
+              return;
             }
+          }
 
-            if (this.slides[slideIndex]) {
-              this.slides[slideIndex].classNames = classNames;
-            }
-          });
-          this._changeDetectorRef.detectChanges();
-        },
+          if (this.slides[slideIndex]) {
+            this.slides[slideIndex].classNames = classNames;
+          }
+        });
+        this._changeDetectorRef.detectChanges();
+      };
+      const _containerClasses: SwiperEvents['_containerClasses'] = (_, classes) => {
+        this.containerClasses = classes;
+      };
+      Object.assign(swiperParams.on, {
+        _containerClasses,
+        _slideClasses,
       });
       const swiperRef = new Swiper(swiperParams);
       swiperRef.loopCreate = () => {};
@@ -616,7 +626,7 @@ export class SwiperComponent implements OnInit {
     this._changeDetectorRef.detectChanges();
   }
 
-  updateInitSwiper(changedParams) {
+  updateInitSwiper(changedParams: any) {
     if (!(changedParams && this.swiperRef && !this.swiperRef.destroyed)) {
       return;
     }
@@ -758,9 +768,14 @@ export class SwiperComponent implements OnInit {
       return this.slides.length;
     }
     let loopedSlides = this.loopedSlides || slidesPerViewParams;
+    if (!loopedSlides) {
+      // ?
+      return;
+    }
 
-    loopedSlides += this.loopAdditionalSlides;
-
+    if (this.loopAdditionalSlides) {
+      loopedSlides += this.loopAdditionalSlides;
+    }
     if (loopedSlides > this.slides.length) {
       loopedSlides = this.slides.length;
     }
@@ -768,7 +783,7 @@ export class SwiperComponent implements OnInit {
     return loopedSlides;
   }
 
-  updateParameter(key, value) {
+  updateParameter(key: string, value: any) {
     if (!(this.swiperRef && !this.swiperRef.destroyed)) {
       return;
     }

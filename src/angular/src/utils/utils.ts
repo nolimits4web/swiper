@@ -1,4 +1,4 @@
-export function isObject(o) {
+export function isObject(o: any): boolean {
   return (
     typeof o === 'object' &&
     o !== null &&
@@ -7,7 +7,7 @@ export function isObject(o) {
   );
 }
 
-export function isShowEl(val, obj, el) {
+export function isShowEl(val: any, obj: any, el: any): boolean {
   return (
     (coerceBooleanProperty(val) === true && obj && !obj.el) ||
     !(
@@ -18,7 +18,7 @@ export function isShowEl(val, obj, el) {
   );
 }
 
-export function extend(target, src) {
+export function extend(target: any, src: any) {
   const noExtend = ['__proto__', 'constructor', 'prototype'];
   Object.keys(src)
     .filter((key) => noExtend.indexOf(key) < 0)

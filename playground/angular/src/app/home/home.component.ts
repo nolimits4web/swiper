@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, NgZone, ViewChild } from '@angular/core';
+import Swiper from 'build/swiper';
 import { BehaviorSubject } from 'rxjs';
 import { SwiperComponent } from 'src/angular/src/public-api';
 import SwiperCore, {
@@ -42,12 +43,12 @@ export class HomePage {
     this.slides$.next(Array.from({ length: 600 }).map((el, index) => `Slide ${index + 1}`));
   }
 
-  thumbsSwiper: any;
-  setThumbsSwiper(swiper) {
+  thumbsSwiper: Swiper;
+  setThumbsSwiper(swiper: Swiper) {
     this.thumbsSwiper = swiper;
   }
-  controlledSwiper: any;
-  setControlledSwiper(swiper) {
+  controlledSwiper: Swiper;
+  setControlledSwiper(swiper: Swiper) {
     this.controlledSwiper = swiper;
   }
 
@@ -91,7 +92,7 @@ export class HomePage {
   slides = Array.from({ length: 5 }).map((el, index) => `Slide ${index + 1}`);
   virtualSlides = Array.from({ length: 600 }).map((el, index) => `Slide ${index + 1}`);
 
-  log(string) {
+  log(log: string) {
     // console.log(string);
   }
 
@@ -107,7 +108,7 @@ export class HomePage {
 
   slidesEx = ['first', 'second'];
 
-  onSlideChange(swiper) {
+  onSlideChange(swiper: Swiper) {
     if (swiper.isEnd) {
       // all swiper events are run outside of ngzone, so use ngzone.run or detectChanges to update the view.
       this.ngZone.run(() => {
