@@ -8,6 +8,7 @@ export default function EffectCreative({ swiper, extendParams, on }) {
     creativeEffect: {
       transformEl: null,
       limitProgress: 1,
+      progressMultiplier: 1,
       perspective: true,
       prev: {
         translate: [0, 0, 0],
@@ -32,6 +33,7 @@ export default function EffectCreative({ swiper, extendParams, on }) {
   const setTranslate = () => {
     const { slides } = swiper;
     const params = swiper.params.creativeEffect;
+    const { progressMultiplier: multiplier } = params;
     for (let i = 0; i < slides.length; i += 1) {
       const $slideEl = slides.eq(i);
       const slideProgress = $slideEl[0].progress;
@@ -63,12 +65,12 @@ export default function EffectCreative({ swiper, extendParams, on }) {
       // set translate
       t.forEach((value, index) => {
         t[index] = `calc(${value}px + (${getTranslateValue(data.translate[index])} * ${Math.abs(
-          progress,
+          progress * multiplier,
         )}))`;
       });
       // set rotates
       r.forEach((value, index) => {
-        r[index] = data.rotate[index] * Math.abs(progress);
+        r[index] = data.rotate[index] * Math.abs(progress * multiplier);
       });
 
       $slideEl[0].style.zIndex = -Math.abs(Math.round(slideProgress)) + slides.length;
@@ -77,10 +79,12 @@ export default function EffectCreative({ swiper, extendParams, on }) {
       const rotateString = `rotateX(${r[0]}deg) rotateY(${r[1]}deg) rotateZ(${r[2]}deg)`;
       const scaleString =
         progress < 0
-          ? `scale(${1 + (1 - data.scale) * progress})`
-          : `scale(${1 - (1 - data.scale) * progress})`;
+          ? `scale(${1 + (1 - data.scale) * progress * multiplier})`
+          : `scale(${1 - (1 - data.scale) * progress * multiplier})`;
       const opacityString =
-        progress < 0 ? 1 + (1 - data.opacity) * progress : 1 - (1 - data.opacity) * progress;
+        progress < 0
+          ? 1 + (1 - data.opacity) * progress * multiplier
+          : 1 - (1 - data.opacity) * progress * multiplier;
       const transform = `translate3d(${translateString}) ${rotateString} ${scaleString}`;
 
       // Set shadows
