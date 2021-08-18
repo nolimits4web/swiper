@@ -11,7 +11,7 @@ import SwiperCore, {
   Autoplay,
   Thumbs,
   Controller,
-} from '../../../../../build/core';
+} from 'swiper';
 
 SwiperCore.use([
   Navigation,
