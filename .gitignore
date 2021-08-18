@@ -5,28 +5,7 @@ custom
 
 .versions
 .idea
-package/angular
-package/core
-package/modules
-package/react
-package/shared
-package/svelte
-package/types
-package/vue
-!package/types/package.json
-package/**/*.js
-package/**/*.map
-package/**/*.metadata.json
-package/**/*.ts
-package/**/*.d.ts*
-package/*.js
-package/*.ts
-package/*.css
-package/*.map
-package/*.less
-package/*.scss
-package/*.svelte
-!package/postinstall.js
+package
 dist/demo
 
 

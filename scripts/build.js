@@ -1,4 +1,5 @@
 const chalk = require('chalk');
+const fs = require('fs-extra');
 
 const buildJsCore = require('./build-js-core');
 const buildJsBundle = require('./build-js-bundle');
@@ -51,6 +52,7 @@ class Build {
 
 (async () => {
   const build = new Build();
+  await fs.copy('./src/copy', './package');
   await build
     .add('core', buildJsCore)
     .add('bundle', buildJsBundle)
