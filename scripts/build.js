@@ -11,6 +11,7 @@ const buildSvelte = require('./build-svelte');
 const buildStyles = require('./build-styles');
 const buildAngular = require('./build-angular');
 const outputCheckSize = require('./check-size');
+const { outputDir } = require('./utils/output-dir');
 
 class Build {
   constructor() {
@@ -28,18 +29,21 @@ class Build {
   }
 
   async run() {
+    if (!this.argv.includes('--only')) {
+      await fs.remove(`./${outputDir}`);
+      await fs.ensureDir(`./${outputDir}`);
+    }
+    await fs.copy('./src/copy/', './package');
     let start;
     let end;
     if (this.size) {
       start = outputCheckSize();
     }
 
-    elapsed.start('build');
     const res = await Promise.all(this.tasks.map((v) => v())).catch((err) => {
       console.error(err);
       process.exit(1);
     });
-    elapsed.end('build', chalk.bold.green('Build completed'));
     if (this.size) {
       const sizeMessage = (value, label = '') =>
         `difference ${label}: ${value > 0 ? chalk.red(`+${value}`) : chalk.green(value)} bytes`;
@@ -54,8 +58,8 @@ class Build {
 }
 
 (async () => {
+  elapsed.start('build');
   const build = new Build();
-  await fs.copy('./src/copy', './package');
   await build
     .add('core', buildJsCore)
     .add('bundle', buildJsBundle)
@@ -66,4 +70,5 @@ class Build {
     .add('angular', buildAngular)
     .add('styles', buildStyles)
     .run();
+  elapsed.end('build', chalk.bold.green('Build completed'));
 })();
