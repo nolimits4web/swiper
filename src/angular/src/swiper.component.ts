@@ -17,6 +17,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+// @ts-ignore
 import Swiper from 'swiper';
 import { Observable, of, Subject } from 'rxjs';
 import { getParams } from './utils/get-params';
@@ -29,6 +30,7 @@ import {
   coerceBooleanProperty,
   isShowEl,
 } from './utils/utils';
+// @ts-ignore
 import {
   SwiperOptions,
   SwiperEvents,
