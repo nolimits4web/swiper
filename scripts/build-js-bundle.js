@@ -11,10 +11,10 @@ const Terser = require('terser');
 const config = require('./build-config');
 const { outputDir } = require('./utils/output-dir');
 const banner = require('./banner')();
+const isProd = require('./utils/isProd')();
 
 async function buildBundle(modules, format, browser, cb) {
-  const env = process.env.NODE_ENV || 'development';
-  const needSourceMap = env === 'production' && (format === 'umd' || (format === 'esm' && browser));
+  const needSourceMap = isProd && (format === 'umd' || (format === 'esm' && browser));
   const external = format === 'umd' || browser ? [] : () => true;
   let filename = 'swiper-bundle';
   if (format !== 'umd') filename += `.${format}`;
@@ -26,7 +26,7 @@ async function buildBundle(modules, format, browser, cb) {
     plugins: [
       replace({
         delimiters: ['', ''],
-        'process.env.NODE_ENV': JSON.stringify(env),
+        'process.env.NODE_ENV': JSON.stringify(isProd ? 'production' : 'development'),
         '//IMPORT_MODULES': modules
           .map((mod) => `import ${mod.capitalized} from './modules/${mod.name}/${mod.name}.js';`)
           .join('\n'),
@@ -51,7 +51,7 @@ async function buildBundle(modules, format, browser, cb) {
       }),
     )
     .then(async (bundle) => {
-      if (env === 'development' || !browser) {
+      if (!isProd || !browser) {
         if (cb) cb();
         return;
       }
@@ -80,7 +80,6 @@ async function buildBundle(modules, format, browser, cb) {
 }
 
 async function build() {
-  const env = process.env.NODE_ENV || 'development';
   const modules = [];
   config.modules.forEach((name) => {
     // eslint-disable-next-line
@@ -101,16 +100,16 @@ async function build() {
       modules.push({ name, capitalized });
     }
   });
-  if (env === 'development') {
+  if (!isProd) {
     return Promise.all([
       buildBundle(modules, 'umd', true, () => {}),
       buildBundle(modules, 'esm', false, () => {}),
     ]);
   }
   return Promise.all([
+    buildBundle(modules, 'umd', true, () => {}),
     buildBundle(modules, 'esm', false, () => {}),
     buildBundle(modules, 'esm', true, () => {}),
-    buildBundle(modules, 'umd', true, () => {}),
   ]);
 }
 

@@ -1,5 +1,6 @@
 const chalk = require('chalk');
 const fs = require('fs-extra');
+const elapsed = require('elapsed-time-logger');
 
 const buildJsCore = require('./build-js-core');
 const buildJsBundle = require('./build-js-bundle');
@@ -33,10 +34,12 @@ class Build {
       start = outputCheckSize();
     }
 
+    elapsed.start('build');
     const res = await Promise.all(this.tasks.map((v) => v())).catch((err) => {
       console.error(err);
       process.exit(1);
     });
+    elapsed.end('build', chalk.bold.green('Build completed'));
     if (this.size) {
       const sizeMessage = (value, label = '') =>
         `difference ${label}: ${value > 0 ? chalk.red(`+${value}`) : chalk.green(value)} bytes`;

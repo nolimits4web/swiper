@@ -12,7 +12,7 @@ const minifyCSS = require('./utils/clean-css');
 const banner = require('./banner')();
 const config = require('./build-config');
 const { outputDir } = require('./utils/output-dir');
-const { isProd } = require('./utils/env')();
+const isProd = require('./utils/isProd')();
 
 const readSwiperFile = async (filePath) => {
   const fileContent = await fs.readFile(filePath, 'utf-8');
