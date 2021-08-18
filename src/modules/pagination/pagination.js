@@ -286,6 +286,13 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
 
     if (swiper.params.uniqueNavElements && typeof params.el === 'string' && $el.length > 1) {
       $el = swiper.$el.find(params.el);
+      // check if it belongs to another nested Swiper
+      if ($el.length > 1) {
+        $el = $el.filter((el) => {
+          if ($(el).parents('.swiper')[0] !== swiper.el) return false;
+          return true;
+        });
+      }
     }
 
     if (params.type === 'bullets' && params.clickable) {
