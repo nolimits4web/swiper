@@ -10,7 +10,7 @@ body:
     id: qa
     attributes:
       label: Check that this is really a bug
-      description: For Q&A open a [GitHub Discussion](https://github.com/nolimits4web/swiper/discussions) or join our [Discord Chat Server](https://discord.gg/BUpd4UTkgj)
+      description: For Q&A open a [GitHub Discussion](https://github.com/nolimits4web/swiper/discussions)
       options:
         - label: I confirm
           required: true

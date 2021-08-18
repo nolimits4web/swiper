@@ -435,8 +435,6 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
 
 The Swiper community can be found on [GitHub Discussions](https://github.com/nolimits4web/swiper/discussions), where you can ask questions, voice ideas, and share your projects
 
-To chat with other community members you can join the [Swiper Discord](https://discord.gg/BUpd4UTkgj)
-
 Our [Code of Conduct](https://github.com/nolimits4web/swiper/blob/master/CODE_OF_CONDUCT.md) applies to all Swiper community channels.
 
 ## Dist / Build
