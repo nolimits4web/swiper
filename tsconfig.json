@@ -4,6 +4,8 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
+    "strict": false,
+    "strictPropertyInitialization": false,
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
@@ -13,8 +15,8 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
-      "swiper": ["src", "build/swiper.esm.js"],
-      "swiper/*": ["src/*"]
+      "swiper": ["build", "build/swiper.esm.js"],
+      "swiper/*": ["build/*"]
     }
   }
 }

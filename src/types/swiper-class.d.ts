@@ -47,6 +47,11 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   params: SwiperOptions;
 
   /**
+   * Object with original initialization parameters
+   */
+  originalParams: SwiperOptions;
+
+  /**
    * Dom7 element with slider container HTML element. To get vanilla HTMLElement use `swiper.el`
    */
   $el: Dom7Array;
@@ -70,6 +75,13 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    * Dom7 array-like collection of slides HTML elements. To get specific slide HTMLElement use `swiper.slides[1]`
    */
   slides: Dom7Array;
+
+  /**
+   * If you use `slidesPerView:'auto'` with loop mode you should tell to Swiper how many slides it should loop (duplicate) using this parameter
+   *
+   * @default null
+   */
+  loopedSlides: number | null;
 
   /**
    * Width of container
@@ -304,10 +316,14 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    */
   attachEvents(): void;
 
+  loopCreate(): void;
+
+  loopDestroy(): void;
+
   /**
    * Initialize slider
    */
-  init(): void;
+  init(el?: HTMLElement): Swiper;
 
   /**
    * Destroy slider instance and detach all events listeners

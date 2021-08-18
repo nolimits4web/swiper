@@ -560,7 +560,9 @@ export class SwiperComponent implements OnInit {
       if (swiperParams.loop) {
         swiperRef.loopedSlides = this.loopedSlides;
       }
-      if (swiperRef.virtual && swiperRef.params.virtual.enabled) {
+      const isVirtualEnabled =
+        typeof swiperRef.params.virtual !== 'boolean' && swiperRef.params.virtual.enabled;
+      if (swiperRef.virtual && isVirtualEnabled) {
         swiperRef.virtual.slides = this.slides;
         const extendWith = {
           cache: false,
@@ -573,7 +575,10 @@ export class SwiperComponent implements OnInit {
 
       if (isPlatformBrowser(this._platformId)) {
         this.swiperRef = swiperRef.init(this.elementRef.nativeElement);
-        if (this.swiperRef.virtual && this.swiperRef.params.virtual.enabled) {
+        const isEnabled =
+          typeof this.swiperRef.params.virtual !== 'boolean' &&
+          this.swiperRef.params.virtual.enabled;
+        if (this.swiperRef.virtual && isEnabled) {
           this.swiperRef.virtual.update(true);
         }
         this._changeDetectorRef.detectChanges();
