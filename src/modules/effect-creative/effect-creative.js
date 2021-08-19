@@ -8,6 +8,7 @@ export default function EffectCreative({ swiper, extendParams, on }) {
     creativeEffect: {
       transformEl: null,
       limitProgress: 1,
+      shadowPerProgress: false,
       progressMultiplier: 1,
       perspective: true,
       prev: {
@@ -94,7 +95,10 @@ export default function EffectCreative({ swiper, extendParams, on }) {
           $shadowEl = createShadow(params, $slideEl);
         }
         if ($shadowEl.length) {
-          $shadowEl[0].style.opacity = Math.min(Math.max(Math.abs(progress), 0), 1);
+          const shadowOpacity = params.shadowPerProgress
+            ? progress * (1 / params.limitProgress)
+            : progress;
+          $shadowEl[0].style.opacity = Math.min(Math.max(Math.abs(shadowOpacity), 0), 1);
         }
       }
 

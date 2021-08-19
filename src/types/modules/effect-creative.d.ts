@@ -73,6 +73,12 @@ export interface CreativeEffectOptions {
    */
   limitProgress?: number;
   /**
+   * Splits shadow "opacity" per slide based on `limitProgress` (only if transformation shadows enabled). E.g. setting `limitProgress: 2` and enabling `shadowPerProgress`, will set shadow opacity to `0.5` and `1` on two slides next to active. With this parameter disabled, all slides beside active will have shadow with `1` opacity
+   *
+   * @default false
+   */
+  shadowPerProgress?: boolean;
+  /**
    * Allows to multiply slides transformations and opacity.
    *
    * @default 1
