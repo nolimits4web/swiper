@@ -1,7 +1,7 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 /* eslint no-console: "off" */
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const chalk = require('chalk');
 const elapsed = require('elapsed-time-logger');
 const { rollup } = require('rollup');
@@ -12,17 +12,17 @@ const Terser = require('terser');
 
 const config = require('./build-config');
 const { outputDir } = require('./utils/output-dir');
-const banner = require('./banner')();
+const { banner } = require('./utils/banner');
 const isProd = require('./utils/isProd')();
 
-async function buildBundle(modules, format, browser = false) {
+async function buildEntry(modules, format, browser = false) {
   const isUMD = format === 'umd';
   const isESM = format === 'esm';
   if (isUMD) browser = true;
   const needSourceMap = isProd && (isUMD || (isESM && browser));
   const external = isUMD || browser ? [] : () => true;
   let filename = 'swiper-bundle';
-  if (!isUMD) filename += `.esm`;
+  if (isESM) filename += `.esm`;
   if (isESM && browser) filename += '.browser';
 
   return rollup({
@@ -36,8 +36,7 @@ async function buildBundle(modules, format, browser = false) {
           .map((mod) => `import ${mod.capitalized} from './modules/${mod.name}/${mod.name}.js';`)
           .join('\n'),
         '//INSTALL_MODULES': modules.map((mod) => `${mod.capitalized}`).join(',\n  '),
-        '//EXPORT':
-          format === 'umd' ? 'export default Swiper;' : 'export default Swiper; export { Swiper }',
+        '//EXPORT': isUMD ? 'export default Swiper;' : 'export default Swiper; export { Swiper }',
       }),
       resolve({ mainFields: ['module', 'main', 'jsnext'] }),
       babel({ babelHelpers: 'bundled' }),
@@ -51,7 +50,7 @@ async function buildBundle(modules, format, browser = false) {
         strict: true,
         sourcemap: needSourceMap,
         sourcemapFile: `./${outputDir}/${filename}.js.map`,
-        banner,
+        banner: banner(),
         file: `./${outputDir}/${filename}.js`,
       }),
     )
@@ -67,25 +66,25 @@ async function buildBundle(modules, format, browser = false) {
           url: `${filename}.min.js.map`,
         },
         output: {
-          preamble: banner,
+          preamble: banner(),
         },
       }).catch((err) => {
         console.error(`Terser failed on file ${filename}: ${err.toString()}`);
       });
 
-      fs.writeFileSync(`./${outputDir}/${filename}.min.js`, code);
-      fs.writeFileSync(`./${outputDir}/${filename}.min.js.map`, map);
+      await fs.writeFile(`./${outputDir}/${filename}.min.js`, code);
+      await fs.writeFile(`./${outputDir}/${filename}.min.js.map`, map);
     })
     .then(async () => {
-      if (isProd && isESM && browser === false) return buildBundle(modules, format, true);
+      if (isProd && isESM && browser === false) return buildEntry(modules, format, true);
       return true;
     })
     .catch((err) => {
-      console.error(err.toString());
+      console.error('Rollup error:', err.stack);
     });
 }
 
-async function build() {
+async function buildJsBundle() {
   elapsed.start('bundle');
   const modules = [];
   config.modules.forEach((name) => {
@@ -107,9 +106,9 @@ async function build() {
       modules.push({ name, capitalized });
     }
   });
-  return Promise.all([buildBundle(modules, 'umd'), buildBundle(modules, 'esm')]).then(() => {
+  return Promise.all([buildEntry(modules, 'umd'), buildEntry(modules, 'esm')]).then(() => {
     elapsed.end('bundle', chalk.green('\nBundle build completed!'));
   });
 }
 
-module.exports = build;
+module.exports = buildJsBundle;

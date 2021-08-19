@@ -1,4 +1,5 @@
-const pkg = require('../package.json');
+const fs = require('fs-extra');
+const pkg = require('../../package.json');
 
 const date = {
   day: new Date().getDate(),
@@ -9,8 +10,8 @@ const date = {
   year: new Date().getFullYear(),
 };
 
-module.exports = (name = null) =>
-  `${`
+function banner(name = null) {
+  return `${`
 /**
  * Swiper ${name ? `${name} ` : ''}${pkg.version}
  * ${pkg.description}
@@ -23,3 +24,11 @@ module.exports = (name = null) =>
  * Released on: ${date.month} ${date.day}, ${date.year}
  */
 `.trim()}\n`;
+}
+
+async function addBannerToFile(file, name) {
+  const content = await fs.readFile(file, 'utf-8');
+  await fs.writeFile(file, `${banner(name)}\n${content}`);
+}
+
+module.exports = { banner, addBannerToFile };

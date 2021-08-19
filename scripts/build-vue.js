@@ -1,16 +1,12 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 /* eslint no-console: "off" */
-const { promise: exec } = require('exec-sh');
-const fs = require('fs-extra');
+const exec = require('exec-sh').promise;
 const { outputDir } = require('./utils/output-dir');
-const bannerVue = require('./banner')('Vue');
+const { addBannerToFile } = require('./utils/banner');
 
-module.exports = async () => {
-  // Babel
-  await exec(`npx swc src/vue --out-dir ${outputDir}/vue`);
+async function buildVue() {
+  await exec(`npx babel src/vue --out-dir ${outputDir}/vue`);
+  await addBannerToFile(`./${outputDir}/vue/swiper-vue.js`, 'Vue');
+}
 
-  // Fix import paths
-  let fileContent = await fs.readFile(`./${outputDir}/vue/swiper-vue.js`, 'utf-8');
-  fileContent = `${bannerVue}\n${fileContent}`;
-  await fs.writeFile(`./${outputDir}/vue/swiper-vue.js`, fileContent);
-};
+module.exports = buildVue;
