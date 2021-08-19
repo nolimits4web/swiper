@@ -110,8 +110,6 @@
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-replace": "^2.4.2",
-    "@swc/cli": "^0.1.49",
-    "@swc/core": "^1.2.79",
     "@types/express": "^4.17.12",
     "@types/node": "^14.14.37",
     "@vitejs/plugin-vue": "^1.2.3",
