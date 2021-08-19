@@ -2,6 +2,8 @@
 /* eslint no-console: "off" */
 
 const fs = require('fs');
+const chalk = require('chalk');
+const elapsed = require('elapsed-time-logger');
 const { rollup } = require('rollup');
 const { default: babel } = require('@rollup/plugin-babel');
 const replace = require('@rollup/plugin-replace');
@@ -13,12 +15,15 @@ const { outputDir } = require('./utils/output-dir');
 const banner = require('./banner')();
 const isProd = require('./utils/isProd')();
 
-async function buildBundle(modules, format, browser, cb) {
-  const needSourceMap = isProd && (format === 'umd' || (format === 'esm' && browser));
-  const external = format === 'umd' || browser ? [] : () => true;
+async function buildBundle(modules, format, browser = false) {
+  const isUMD = format === 'umd';
+  const isESM = format === 'esm';
+  if (isUMD) browser = true;
+  const needSourceMap = isProd && (isUMD || (isESM && browser));
+  const external = isUMD || browser ? [] : () => true;
   let filename = 'swiper-bundle';
-  if (format !== 'umd') filename += `.${format}`;
-  if (format === 'esm' && browser) filename += '.browser';
+  if (!isUMD) filename += `.esm`;
+  if (isESM && browser) filename += '.browser';
 
   return rollup({
     input: './src/swiper.js',
@@ -52,7 +57,6 @@ async function buildBundle(modules, format, browser, cb) {
     )
     .then(async (bundle) => {
       if (!isProd || !browser) {
-        if (cb) cb();
         return;
       }
       const result = bundle.output[0];
@@ -71,15 +75,18 @@ async function buildBundle(modules, format, browser, cb) {
 
       fs.writeFileSync(`./${outputDir}/${filename}.min.js`, code);
       fs.writeFileSync(`./${outputDir}/${filename}.min.js.map`, map);
-      if (cb) cb();
+    })
+    .then(async () => {
+      if (isProd && isESM && browser === false) return buildBundle(modules, format, true);
+      return true;
     })
     .catch((err) => {
-      if (cb) cb();
       console.error(err.toString());
     });
 }
 
 async function build() {
+  elapsed.start('bundle');
   const modules = [];
   config.modules.forEach((name) => {
     // eslint-disable-next-line
@@ -100,17 +107,9 @@ async function build() {
       modules.push({ name, capitalized });
     }
   });
-  if (!isProd) {
-    return Promise.all([
-      buildBundle(modules, 'umd', true, () => {}),
-      buildBundle(modules, 'esm', false, () => {}),
-    ]);
-  }
-  return Promise.all([
-    buildBundle(modules, 'umd', true, () => {}),
-    buildBundle(modules, 'esm', false, () => {}),
-    buildBundle(modules, 'esm', true, () => {}),
-  ]);
+  return Promise.all([buildBundle(modules, 'umd'), buildBundle(modules, 'esm')]).then(() => {
+    elapsed.end('bundle', chalk.green('\nBundle build completed!'));
+  });
 }
 
 module.exports = build;
