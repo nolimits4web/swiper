@@ -5,8 +5,7 @@ custom
 
 .versions
 .idea
-package
-dist/demo
+dist
 
 
 cypress/screenshots

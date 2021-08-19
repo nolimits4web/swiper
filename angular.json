@@ -83,7 +83,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/demo/browser",
+            "outputPath": "playground/angular-ssr/browser",
             "index": "playground/angular/src/index.html",
             "main": "playground/angular/src/main.ts",
             "polyfills": "playground/angular/src/polyfills.ts",
@@ -171,7 +171,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/demo/server",
+            "outputPath": "playground/angular-ssr/server",
             "main": "playground/angular/server.ts",
             "tsConfig": "playground/angular/tsconfig.server.json",
             "sourceMap": true,

@@ -106,7 +106,7 @@ module.exports = async () => {
     );
 
     const modulesLessFiles = await globby(['**/**.less'], {
-      cwd: path.resolve(__dirname, '../package/modules'),
+      cwd: path.resolve(__dirname, '../dist/modules'),
       absolute: true,
     });
     await Promise.all(

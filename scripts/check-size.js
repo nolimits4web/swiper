@@ -8,7 +8,7 @@ module.exports = () => {
     //  'swiper-bundle.esm.js'
   ]
     .map((name) => {
-      const filePath = path.join(__dirname, '../package/', name);
+      const filePath = path.join(__dirname, '../dist/', name);
       if (fs.existsSync(filePath)) {
         const gzippedSize = gzipSize.fileSync(filePath);
         const { size } = fs.statSync(filePath);

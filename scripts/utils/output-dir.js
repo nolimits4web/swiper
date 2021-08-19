@@ -1,1 +1,1 @@
-module.exports.outputDir = 'package';
+module.exports.outputDir = 'dist';

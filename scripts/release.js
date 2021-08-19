@@ -4,7 +4,7 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 const path = require('path');
 const pkg = require('../package.json');
-const childPkg = require('../package/package.json');
+const childPkg = require('../dist/package.json');
 
 async function release() {
   const options = await inquirer.prompt([
@@ -72,7 +72,7 @@ async function release() {
 
   fs.writeFileSync(path.resolve(__dirname, '../package.json'), `${JSON.stringify(pkg, null, 2)}\n`);
   fs.writeFileSync(
-    path.resolve(__dirname, '../package/package.json'),
+    path.resolve(__dirname, '../dist/package.json'),
     `${JSON.stringify(childPkg, null, 2)}\n`,
   );
 
@@ -100,11 +100,11 @@ async function release() {
     'rm -rf **/*.svelte',
     'rm -rf *.svelte',
   ];
-  await exec.promise(`cd ./package && ${cleanPackage.join(' && ')}`);
+  await exec.promise(`cd ./dist && ${cleanPackage.join(' && ')}`);
 
   await exec.promise('git pull');
   await exec.promise('npm i');
-  await exec.promise(`cd ./package && ${cleanPackage.join(' && ')}`);
+  await exec.promise(`cd ./dist && ${cleanPackage.join(' && ')}`);
   await exec.promise(`npm run build:prod`);
   await exec.promise('git add .');
   await exec.promise(`git commit -m "${pkg.version} release"`);
@@ -114,11 +114,11 @@ async function release() {
 
   // eslint-disable-next-line
   if (options.beta) {
-    await exec.promise('cd ./package && npm publish --tag beta');
+    await exec.promise('cd ./dist && npm publish --tag beta');
   } else if (options.alpha || options.next) {
-    await exec.promise('cd ./package && npm publish --tag next');
+    await exec.promise('cd ./dist && npm publish --tag next');
   } else {
-    await exec.promise('cd ./package && npm publish');
+    await exec.promise('cd ./dist && npm publish');
   }
 }
 

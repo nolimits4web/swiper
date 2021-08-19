@@ -15,8 +15,8 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
-      "swiper": ["package", "package/swiper.esm.js"],
-      "swiper/*": ["package/*"]
+      "swiper": ["dist", "dist/swiper.esm.js"],
+      "swiper/*": ["dist/*"]
     }
   }
 }

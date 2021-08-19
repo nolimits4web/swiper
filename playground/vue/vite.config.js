@@ -5,7 +5,7 @@ export default {
   plugins: [vue()],
   resolve: {
     alias: {
-      swiper: path.resolve(__dirname, '../../package/'),
+      swiper: path.resolve(__dirname, '../../dist/'),
     },
   },
 };
