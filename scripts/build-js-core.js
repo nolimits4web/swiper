@@ -2,6 +2,8 @@
 /* eslint no-console: "off" */
 const exec = require('exec-sh').promise;
 const fs = require('fs');
+const chalk = require('chalk');
+const elapsed = require('elapsed-time-logger');
 
 const config = require('./build-config');
 const { outputDir } = require('./utils/output-dir');
@@ -46,6 +48,7 @@ async function buildCore(modules) {
 }
 
 async function build() {
+  elapsed.start('core');
   const modules = [];
   config.modules.forEach((name) => {
     // eslint-disable-next-line
@@ -68,6 +71,7 @@ async function build() {
   });
 
   await buildCore(modules, 'esm');
+  elapsed.end('core', chalk.green('Core build completed!'));
 }
 
 module.exports = build;
