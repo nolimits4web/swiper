@@ -9,16 +9,16 @@ const { default: resolve } = require('@rollup/plugin-node-resolve');
 const Terser = require('terser');
 
 const config = require('./build-config');
+const { outputDir } = require('./utils/output-dir');
 const banner = require('./banner')();
+const isProd = require('./utils/isProd')();
 
 async function buildBundle(modules, format, browser, cb) {
-  const env = process.env.NODE_ENV || 'development';
+  const needSourceMap = isProd && (format === 'umd' || (format === 'esm' && browser));
   const external = format === 'umd' || browser ? [] : () => true;
   let filename = 'swiper-bundle';
   if (format !== 'umd') filename += `.${format}`;
   if (format === 'esm' && browser) filename += '.browser';
-  const output = env === 'development' ? 'build' : 'package';
-  const needSourceMap = env === 'production' && (format === 'umd' || (format === 'esm' && browser));
 
   return rollup({
     input: './src/swiper.js',
@@ -26,7 +26,7 @@ async function buildBundle(modules, format, browser, cb) {
     plugins: [
       replace({
         delimiters: ['', ''],
-        'process.env.NODE_ENV': JSON.stringify(env),
+        'process.env.NODE_ENV': JSON.stringify(isProd ? 'production' : 'development'),
         '//IMPORT_MODULES': modules
           .map((mod) => `import ${mod.capitalized} from './modules/${mod.name}/${mod.name}.js';`)
           .join('\n'),
@@ -45,13 +45,13 @@ async function buildBundle(modules, format, browser, cb) {
         name: 'Swiper',
         strict: true,
         sourcemap: needSourceMap,
-        sourcemapFile: `./${output}/${filename}.js.map`,
+        sourcemapFile: `./${outputDir}/${filename}.js.map`,
         banner,
-        file: `./${output}/${filename}.js`,
+        file: `./${outputDir}/${filename}.js`,
       }),
     )
     .then(async (bundle) => {
-      if (env === 'development' || !browser) {
+      if (!isProd || !browser) {
         if (cb) cb();
         return;
       }
@@ -69,8 +69,8 @@ async function buildBundle(modules, format, browser, cb) {
         console.error(`Terser failed on file ${filename}: ${err.toString()}`);
       });
 
-      fs.writeFileSync(`./${output}/${filename}.min.js`, code);
-      fs.writeFileSync(`./${output}/${filename}.min.js.map`, map);
+      fs.writeFileSync(`./${outputDir}/${filename}.min.js`, code);
+      fs.writeFileSync(`./${outputDir}/${filename}.min.js.map`, map);
       if (cb) cb();
     })
     .catch((err) => {
@@ -80,7 +80,6 @@ async function buildBundle(modules, format, browser, cb) {
 }
 
 async function build() {
-  const env = process.env.NODE_ENV || 'development';
   const modules = [];
   config.modules.forEach((name) => {
     // eslint-disable-next-line
@@ -101,16 +100,16 @@ async function build() {
       modules.push({ name, capitalized });
     }
   });
-  if (env === 'development') {
+  if (!isProd) {
     return Promise.all([
       buildBundle(modules, 'umd', true, () => {}),
       buildBundle(modules, 'esm', false, () => {}),
     ]);
   }
   return Promise.all([
+    buildBundle(modules, 'umd', true, () => {}),
     buildBundle(modules, 'esm', false, () => {}),
     buildBundle(modules, 'esm', true, () => {}),
-    buildBundle(modules, 'umd', true, () => {}),
   ]);
 }
 

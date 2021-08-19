@@ -160,8 +160,14 @@ export class SwiperComponent implements OnInit {
   @Input() id: string;
   @Input()
   set navigation(val) {
-    const currentNext = typeof this._navigation !== 'boolean' ? this._navigation?.nextEl : null;
-    const currentPrev = typeof this._navigation !== 'boolean' ? this._navigation?.prevEl : null;
+    const currentNext =
+      typeof this._navigation !== 'boolean' && this._navigation !== ''
+        ? this._navigation?.nextEl
+        : null;
+    const currentPrev =
+      typeof this._navigation !== 'boolean' && this._navigation !== ''
+        ? this._navigation?.prevEl
+        : null;
     this._navigation = setProperty(val, {
       nextEl: currentNext || null,
       prevEl: currentPrev || null,
@@ -181,12 +187,15 @@ export class SwiperComponent implements OnInit {
   get navigation() {
     return this._navigation;
   }
-  private _navigation: NavigationOptions | boolean;
+  private _navigation: NavigationOptions | boolean | '';
   showNavigation: boolean = true;
 
   @Input()
   set pagination(val) {
-    const current = typeof this._pagination !== 'boolean' ? this._pagination?.el : null;
+    const current =
+      typeof this._pagination !== 'boolean' && this._pagination !== ''
+        ? this._pagination?.el
+        : null;
     this._pagination = setProperty(val, {
       el: current || null,
     });
@@ -195,12 +204,13 @@ export class SwiperComponent implements OnInit {
   get pagination() {
     return this._pagination;
   }
-  private _pagination: PaginationOptions | boolean;
+  private _pagination: PaginationOptions | boolean | '';
   showPagination: boolean = true;
 
   @Input()
   set scrollbar(val) {
-    const current = typeof this._scrollbar !== 'boolean' ? this._scrollbar?.el : null;
+    const current =
+      typeof this._scrollbar !== 'boolean' && this._scrollbar !== '' ? this._scrollbar?.el : null;
     this._scrollbar = setProperty(val, {
       el: current || null,
     });
@@ -209,7 +219,7 @@ export class SwiperComponent implements OnInit {
   get scrollbar() {
     return this._scrollbar;
   }
-  private _scrollbar: ScrollbarOptions | boolean;
+  private _scrollbar: ScrollbarOptions | boolean | '';
   showScrollbar: boolean = true;
 
   @Input()
@@ -219,7 +229,7 @@ export class SwiperComponent implements OnInit {
   get virtual() {
     return this._virtual;
   }
-  private _virtual: VirtualOptions | boolean;
+  private _virtual: VirtualOptions | boolean | '';
 
   @Input()
   set index(index: number) {
@@ -428,15 +438,17 @@ export class SwiperComponent implements OnInit {
   }
 
   get zoomContainerClass() {
-    return typeof this.zoom !== 'boolean' ? this.zoom.containerClass : 'swiper-zoom-container';
+    return this.zoom && typeof this.zoom !== 'boolean'
+      ? this.zoom.containerClass
+      : 'swiper-zoom-container';
   }
 
-  @HostBinding('class') containerClasses = 'swiper';
+  @HostBinding('class') containerClasses: string = 'swiper';
   constructor(
     private _ngZone: NgZone,
     private elementRef: ElementRef,
     private _changeDetectorRef: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private _platformId,
+    @Inject(PLATFORM_ID) private _platformId: Object,
   ) {}
 
   private _setElement(el: ElementRef, ref: any, update: string, key = 'el') {
@@ -449,7 +461,7 @@ export class SwiperComponent implements OnInit {
       }
       ref[key] = el.nativeElement;
     }
-    const updateObj = {};
+    const updateObj: { [key: string]: boolean } = {};
     updateObj[update] = true;
     this.updateInitSwiper(updateObj);
   }
@@ -474,15 +486,17 @@ export class SwiperComponent implements OnInit {
   private slidesChanges = (val: QueryList<SwiperSlideDirective>) => {
     this.slides = val.map((slide: SwiperSlideDirective, index: number) => {
       slide.slideIndex = index;
-      slide.classNames = this.slideClass;
+      slide.classNames = this.slideClass || '';
       return slide;
     });
     if (this.loop && !this.loopedSlides) {
       this.calcLoopedSlides();
     }
     if (!this.virtual) {
-      this.prependSlides = of(this.slides.slice(this.slides.length - this.loopedSlides));
-      this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
+      if (this.loopedSlides) {
+        this.prependSlides = of(this.slides.slice(this.slides.length - this.loopedSlides));
+        this.appendSlides = of(this.slides.slice(0, this.loopedSlides));
+      }
     } else if (this.swiperRef && this.swiperRef.virtual) {
       this._ngZone.runOutsideAngular(() => {
         this.swiperRef.virtual.slides = this.slides;
@@ -504,35 +518,42 @@ export class SwiperComponent implements OnInit {
       if (!swiperParams.virtual) {
         swiperParams.observer = true;
       }
-      swiperParams.onAny = (event, ...args) => {
-        const emitter = this[`s_${event}`] as EventEmitter<any>;
+      const getKeyValue =
+        <T extends object, U extends keyof T>(key: U) =>
+        (obj: T) =>
+          obj[key];
+      swiperParams.onAny = (eventName: keyof SwiperComponent, ...args: any[]) => {
+        const emitter = this[('s_' + eventName) as keyof SwiperComponent] as EventEmitter<any>;
         if (emitter) {
           emitter.emit(...args);
         }
       };
-      Object.assign(swiperParams.on, {
-        _containerClasses(swiper, classes) {
-          this.containerClasses = classes;
-        },
-        _slideClasses: (_, updated) => {
-          updated.forEach(({ slideEl, classNames }, index) => {
-            const slideIndex = parseInt(slideEl.getAttribute('data-swiper-slide-index')) || index;
-            if (this.virtual) {
-              const virtualSlide = this.slides.find((item) => {
-                return item.virtualIndex && item.virtualIndex === slideIndex;
-              });
-              if (virtualSlide) {
-                virtualSlide.classNames = classNames;
-                return;
-              }
+      const _slideClasses: SwiperEvents['_slideClasses'] = (_, updated) => {
+        updated.forEach(({ slideEl, classNames }, index) => {
+          const dataIndex = slideEl.getAttribute('data-swiper-slide-index');
+          const slideIndex = dataIndex ? parseInt(dataIndex) : index;
+          if (this.virtual) {
+            const virtualSlide = this.slides.find((item) => {
+              return item.virtualIndex && item.virtualIndex === slideIndex;
+            });
+            if (virtualSlide) {
+              virtualSlide.classNames = classNames;
+              return;
             }
+          }
 
-            if (this.slides[slideIndex]) {
-              this.slides[slideIndex].classNames = classNames;
-            }
-          });
-          this._changeDetectorRef.detectChanges();
-        },
+          if (this.slides[slideIndex]) {
+            this.slides[slideIndex].classNames = classNames;
+          }
+        });
+        this._changeDetectorRef.detectChanges();
+      };
+      const _containerClasses: SwiperEvents['_containerClasses'] = (_, classes) => {
+        this.containerClasses = classes;
+      };
+      Object.assign(swiperParams.on, {
+        _containerClasses,
+        _slideClasses,
       });
       const swiperRef = new Swiper(swiperParams);
       swiperRef.loopCreate = () => {};
@@ -540,7 +561,9 @@ export class SwiperComponent implements OnInit {
       if (swiperParams.loop) {
         swiperRef.loopedSlides = this.loopedSlides;
       }
-      if (swiperRef.virtual && swiperRef.params.virtual.enabled) {
+      const isVirtualEnabled =
+        typeof swiperRef.params.virtual !== 'boolean' && swiperRef.params.virtual.enabled;
+      if (swiperRef.virtual && isVirtualEnabled) {
         swiperRef.virtual.slides = this.slides;
         const extendWith = {
           cache: false,
@@ -553,7 +576,10 @@ export class SwiperComponent implements OnInit {
 
       if (isPlatformBrowser(this._platformId)) {
         this.swiperRef = swiperRef.init(this.elementRef.nativeElement);
-        if (this.swiperRef.virtual && this.swiperRef.params.virtual.enabled) {
+        const isEnabled =
+          typeof this.swiperRef.params.virtual !== 'boolean' &&
+          this.swiperRef.params.virtual.enabled;
+        if (this.swiperRef.virtual && isEnabled) {
           this.swiperRef.virtual.update(true);
         }
         this._changeDetectorRef.detectChanges();
@@ -606,7 +632,7 @@ export class SwiperComponent implements OnInit {
     this._changeDetectorRef.detectChanges();
   }
 
-  updateInitSwiper(changedParams) {
+  updateInitSwiper(changedParams: any) {
     if (!(changedParams && this.swiperRef && !this.swiperRef.destroyed)) {
       return;
     }
@@ -748,9 +774,14 @@ export class SwiperComponent implements OnInit {
       return this.slides.length;
     }
     let loopedSlides = this.loopedSlides || slidesPerViewParams;
+    if (!loopedSlides) {
+      // ?
+      return;
+    }
 
-    loopedSlides += this.loopAdditionalSlides;
-
+    if (this.loopAdditionalSlides) {
+      loopedSlides += this.loopAdditionalSlides;
+    }
     if (loopedSlides > this.slides.length) {
       loopedSlides = this.slides.length;
     }
@@ -758,7 +789,7 @@ export class SwiperComponent implements OnInit {
     return loopedSlides;
   }
 
-  updateParameter(key, value) {
+  updateParameter(key: string, value: any) {
     if (!(this.swiperRef && !this.swiperRef.destroyed)) {
       return;
     }

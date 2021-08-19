@@ -1,43 +1,11 @@
 .DS_Store
 node_modules
-build/**/*.*
-build/angular
-build/core
-build/modules
-build/react
-build/shared
-build/svelte
-build/types
-build/vue
-!build/package.json
 custom
 *.log
 
 .versions
 .idea
-package/angular
-package/core
-package/modules
-package/react
-package/shared
-package/svelte
-package/types
-package/vue
-!package/types/package.json
-package/**/*.js
-package/**/*.map
-package/**/*.metadata.json
-package/**/*.ts
-package/**/*.d.ts*
-package/*.js
-package/*.ts
-package/*.css
-package/*.map
-package/*.less
-package/*.scss
-package/*.svelte
-!package/postinstall.js
-dist/demo
+dist
 
 
 cypress/screenshots

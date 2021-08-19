@@ -3,14 +3,15 @@
 const path = require('path');
 const glob = require('glob');
 const globby = require('globby');
+const elapsed = require('elapsed-time-logger');
+const chalk = require('chalk');
 
 const fs = require('fs');
 const fse = require('./utils/fs-extra');
+const { outputDir } = require('./utils/output-dir');
 
 async function build(cb) {
-  const env = process.env.NODE_ENV || 'development';
-  const outputDir = env === 'development' ? 'build' : 'package';
-
+  elapsed.start('types');
   let coreEventsReact = '';
   let coreEventsVue = '';
   let coreEventsSvelte = '';
@@ -109,6 +110,7 @@ async function build(cb) {
       }
       if (index === files.length - 1) cb();
     });
+    elapsed.end('types', chalk.green('Types build completed!'));
   });
 }
 

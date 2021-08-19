@@ -89,7 +89,7 @@
     "./vue": "./vue/swiper-vue.js",
     "./svelte": "./svelte/swiper-svelte.js",
     "./types": "./types/index.d.ts",
-    "./package.json": "./types/package.json"
+    "./package.json": "./package.json"
   },
   "typesVersions": {
     "*": {

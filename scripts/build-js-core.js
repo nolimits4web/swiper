@@ -1,15 +1,14 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 /* eslint no-console: "off" */
-const exec = require('exec-sh');
+const exec = require('exec-sh').promise;
 const fs = require('fs');
 
 const config = require('./build-config');
+const { outputDir } = require('./utils/output-dir');
 const banner = require('./banner')();
 
 async function buildCore(modules) {
-  const env = process.env.NODE_ENV || 'development';
   const filename = `swiper.esm`;
-  const outputDir = env === 'development' ? 'build' : 'package';
   let coreContent = '';
   coreContent += `export { default as Swiper, default } from './core/core.js';\n`;
   coreContent += modules
@@ -24,18 +23,8 @@ async function buildCore(modules) {
   fs.writeFileSync(`./${outputDir}/${filename}.js`, coreContent);
 
   // Babel
-  const ignore = [
-    '"src/angular/**/*.js"',
-    '"src/react/**/*.js"',
-    '"src/*-react.js"',
-    '"src/vue/**/*.js"',
-    '"src/*-vue.js"',
-    '"src/svelte/**/*.js"',
-    '"src/*-svelte.js"',
-  ];
-  await exec.promise(
-    `npx cross-env npx babel src --out-dir ${outputDir} --ignore ${ignore.join(',')}`,
-  );
+  const cmd = `npx babel src --out-dir ${outputDir} --config-file ./scripts/babel/babel.config.core.js`;
+  await exec(cmd);
 
   // Remove unused dirs
   const dirsToRemove = ['less'];

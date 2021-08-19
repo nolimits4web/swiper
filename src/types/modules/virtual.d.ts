@@ -71,6 +71,7 @@ export interface VirtualData {
 }
 
 export interface VirtualOptions {
+  enabled?: boolean;
   /**
    * Array with slides
    *

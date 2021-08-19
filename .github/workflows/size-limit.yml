@@ -13,4 +13,4 @@ jobs:
         with:
           repo-token: '${{ secrets.GITHUB_TOKEN }}'
           build-script: build:prod
-          pattern: './package/**/*.{js,css}'
+          pattern: './dist/**/*.{js,css}'
