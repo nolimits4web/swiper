@@ -5,6 +5,7 @@ module.exports = {
     '../../src/*-react.js',
     '../../src/vue/**/*.js',
     '../../src/*-vue.js',
+    '../../src/copy/*',
     '../../src/svelte/**/*.js',
     '../../src/*-svelte.js',
   ],

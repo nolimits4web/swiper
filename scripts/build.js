@@ -33,7 +33,7 @@ class Build {
       await fs.remove(`./${outputDir}`);
       await fs.ensureDir(`./${outputDir}`);
     }
-    await fs.copy('./src/copy/', './dist');
+    await fs.copy('./src/copy/', `./${outputDir}`);
     let start;
     let end;
     if (this.size) {
