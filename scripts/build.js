@@ -40,7 +40,7 @@ class Build {
       start = outputCheckSize();
     }
 
-    const res = await Promise.all(this.tasks.map((v) => v())).catch((err) => {
+    const res = await Promise.all(this.tasks.map((buildFn) => buildFn())).catch((err) => {
       console.error(err);
       process.exit(1);
     });
@@ -61,14 +61,14 @@ class Build {
   elapsed.start('build');
   const build = new Build();
   await build
+    .add('types', buildTypes)
+    .add('styles', buildStyles)
     .add('core', buildJsCore)
     .add('bundle', buildJsBundle)
-    .add('types', buildTypes)
     .add('react', buildReact)
     .add('vue', buildVue)
     .add('svelte', buildSvelte)
     .add('angular', buildAngular)
-    .add('styles', buildStyles)
     .run();
   elapsed.end('build', chalk.bold.green('Build completed'));
 })();
