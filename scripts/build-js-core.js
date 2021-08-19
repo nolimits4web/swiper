@@ -23,8 +23,16 @@ async function buildCore(modules) {
   fs.writeFileSync(`./${outputDir}/${filename}.js`, coreContent);
 
   // Babel
-  const cmd = `npx babel src --out-dir ${outputDir} --config-file ./scripts/babel/babel.config.core.js`;
-  await exec(cmd);
+  const ignore = [
+    '"src/angular/**/*.js"',
+    '"src/react/**/*.js"',
+    '"src/*-react.js"',
+    '"src/vue/**/*.js"',
+    '"src/*-vue.js"',
+    '"src/svelte/**/*.js"',
+    '"src/*-svelte.js"',
+  ];
+  await exec(`npx swc src --out-dir ${outputDir} --ignore ${ignore.join(',')}`);
 
   // Remove unused dirs
   const dirsToRemove = ['less'];

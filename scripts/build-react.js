@@ -7,9 +7,7 @@ const bannerReact = require('./banner')('React');
 
 module.exports = async () => {
   // Babel
-  await exec(
-    `npx babel --config-file ./scripts/babel/babel.config.react.js src/react --out-dir ${outputDir}/react`,
-  );
+  await exec(`npx swc src/react --out-dir ${outputDir}/react`);
 
   // Fix import paths
   let fileContent = await fs.readFile(`./${outputDir}/react/swiper-react.js`, 'utf-8');

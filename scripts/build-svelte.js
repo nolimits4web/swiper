@@ -8,9 +8,7 @@ const bannerSvelte = require('./banner')('Svelte');
 
 module.exports = async () => {
   // Babel
-  await exec.promise(
-    `npx babel --config-file ./scripts/babel/babel.config.svelte.js src/svelte --out-dir ${outputDir}/svelte`,
-  );
+  await exec.promise(`npx swc src/svelte --out-dir ${outputDir}/svelte`);
 
   // Fix import paths
   let fileContent = await fs.readFile(`./${outputDir}/svelte/swiper-svelte.js`, 'utf-8');
