@@ -1,5 +1,11 @@
 # Changelog
 
+# [6.8.3](https://github.com/nolimits4web/Swiper/compare/v6.8.2...v.6.8.3) (2021-08-20)
+
+### Bug Fixes
+
+- fix missing package.json in `swiper/types`
+
 # [6.8.2](https://github.com/nolimits4web/Swiper/compare/v6.8.1...v.6.8.2) (2021-08-16)
 
 ### Bug Fixes
