@@ -14,7 +14,8 @@ custom
 package/cjs
 package/components
 package/esm
-package/types
+package/types/*.ts
+package/types/**/*.ts
 package/**/*.js
 package/**/*.map
 package/**/*.metadata.json
