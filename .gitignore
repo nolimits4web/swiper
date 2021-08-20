@@ -15,7 +15,6 @@ package/cjs
 package/components
 package/esm
 package/types
-!package/types/package.json
 package/**/*.js
 package/**/*.map
 package/**/*.metadata.json
@@ -29,6 +28,7 @@ package/*.less
 package/*.scss
 package/*.svelte
 !package/postinstall.js
+!package/types/package.json
 dist/demo
 
 
