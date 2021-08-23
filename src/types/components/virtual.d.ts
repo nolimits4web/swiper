@@ -1,4 +1,5 @@
 export interface VirtualMethods {
+  enabled?: boolean;
   /**
    * Object with cached slides HTML elements
    */

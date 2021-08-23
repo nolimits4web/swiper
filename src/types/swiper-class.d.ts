@@ -63,9 +63,19 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   wrapperEl: HTMLElement;
 
   /**
+   * Object with original initialization parameters
+   */
+  originalParams: SwiperOptions;
+
+  /**
    * Dom7 array-like collection of slides HTML elements. To get specific slide HTMLElement use `swiper.slides[1]`
    */
   slides: Dom7Array;
+
+  /**
+   * !INTERNAL
+   */
+  loopedSlides: number | null;
 
   /**
    * Width of container
@@ -301,9 +311,18 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   attachEvents(): void;
 
   /**
+   * !INTERNAL
+   */
+  loopDestroy(): void;
+  /**
+   * !INTERNAL
+   */
+  loopCreate(): void;
+
+  /**
    * Initialize slider
    */
-  init(): void;
+  init(el?: HTMLElement): Swiper;
 
   /**
    * Destroy slider instance and detach all events listeners
