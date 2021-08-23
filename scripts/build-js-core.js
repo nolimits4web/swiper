@@ -1,43 +1,35 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 /* eslint no-console: "off" */
 const exec = require('exec-sh').promise;
-const fs = require('fs');
+const fs = require('fs-extra');
+const chalk = require('chalk');
+const elapsed = require('elapsed-time-logger');
 
 const config = require('./build-config');
 const { outputDir } = require('./utils/output-dir');
-const banner = require('./banner')();
+const { banner } = require('./utils/banner');
 
 async function buildCore(modules) {
   const filename = `swiper.esm`;
-  let coreContent = '';
-  coreContent += `export { default as Swiper, default } from './core/core.js';\n`;
-  coreContent += modules
-    .map(
-      (mod) =>
-        `export { default as ${mod.capitalized} } from './modules/${mod.name}/${mod.name}.js';`,
-    )
-    .join('\n');
+  const coreContent = [
+    banner(),
+    `export { default as Swiper, default } from './core/core.js';`,
+    ...modules.map(
+      ({ name, capitalized }) =>
+        `export { default as ${capitalized} } from './modules/${name}/${name}.js';`,
+    ),
+  ].join('\n');
 
-  coreContent = `${banner}\n${coreContent}`;
+  await Promise.all([
+    fs.writeFile(`./${outputDir}/${filename}.js`, coreContent),
+    exec(`npx babel src --out-dir ${outputDir} --config-file ./scripts/babel/babel.config.core.js`),
+  ]);
 
-  fs.writeFileSync(`./${outputDir}/${filename}.js`, coreContent);
-
-  // Babel
-  const cmd = `npx babel src --out-dir ${outputDir} --config-file ./scripts/babel/babel.config.core.js`;
-  await exec(cmd);
-
-  // Remove unused dirs
-  const dirsToRemove = ['less'];
-  const filesToRemove = ['swiper.js'];
-  dirsToRemove.forEach((dir) => {
-    fs.rmdirSync(`./${outputDir}/${dir}`, { recursive: true });
-  });
-  filesToRemove.forEach((file) => {
-    fs.unlinkSync(`./${outputDir}/${file}`);
-  });
+  await fs.unlink(`./${outputDir}/swiper.js`);
 }
 
 async function build() {
+  elapsed.start('core');
   const modules = [];
   config.modules.forEach((name) => {
     // eslint-disable-next-line
@@ -60,6 +52,7 @@ async function build() {
   });
 
   await buildCore(modules, 'esm');
+  elapsed.end('core', chalk.green('Core build completed!'));
 }
 
 module.exports = build;

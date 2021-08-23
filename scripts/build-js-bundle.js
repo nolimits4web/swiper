@@ -1,7 +1,9 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 /* eslint no-console: "off" */
 
-const fs = require('fs');
+const fs = require('fs-extra');
+const chalk = require('chalk');
+const elapsed = require('elapsed-time-logger');
 const { rollup } = require('rollup');
 const { default: babel } = require('@rollup/plugin-babel');
 const replace = require('@rollup/plugin-replace');
@@ -10,15 +12,18 @@ const Terser = require('terser');
 
 const config = require('./build-config');
 const { outputDir } = require('./utils/output-dir');
-const banner = require('./banner')();
+const { banner } = require('./utils/banner');
 const isProd = require('./utils/isProd')();
 
-async function buildBundle(modules, format, browser, cb) {
-  const needSourceMap = isProd && (format === 'umd' || (format === 'esm' && browser));
-  const external = format === 'umd' || browser ? [] : () => true;
+async function buildEntry(modules, format, browser = false) {
+  const isUMD = format === 'umd';
+  const isESM = format === 'esm';
+  if (isUMD) browser = true;
+  const needSourceMap = isProd && (isUMD || (isESM && browser));
+  const external = isUMD || browser ? [] : () => true;
   let filename = 'swiper-bundle';
-  if (format !== 'umd') filename += `.${format}`;
-  if (format === 'esm' && browser) filename += '.browser';
+  if (isESM) filename += `.esm`;
+  if (isESM && browser) filename += '.browser';
 
   return rollup({
     input: './src/swiper.js',
@@ -31,8 +36,7 @@ async function buildBundle(modules, format, browser, cb) {
           .map((mod) => `import ${mod.capitalized} from './modules/${mod.name}/${mod.name}.js';`)
           .join('\n'),
         '//INSTALL_MODULES': modules.map((mod) => `${mod.capitalized}`).join(',\n  '),
-        '//EXPORT':
-          format === 'umd' ? 'export default Swiper;' : 'export default Swiper; export { Swiper }',
+        '//EXPORT': isUMD ? 'export default Swiper;' : 'export default Swiper; export { Swiper }',
       }),
       resolve({ mainFields: ['module', 'main', 'jsnext'] }),
       babel({ babelHelpers: 'bundled' }),
@@ -46,13 +50,12 @@ async function buildBundle(modules, format, browser, cb) {
         strict: true,
         sourcemap: needSourceMap,
         sourcemapFile: `./${outputDir}/${filename}.js.map`,
-        banner,
+        banner: banner(),
         file: `./${outputDir}/${filename}.js`,
       }),
     )
     .then(async (bundle) => {
       if (!isProd || !browser) {
-        if (cb) cb();
         return;
       }
       const result = bundle.output[0];
@@ -63,23 +66,26 @@ async function buildBundle(modules, format, browser, cb) {
           url: `${filename}.min.js.map`,
         },
         output: {
-          preamble: banner,
+          preamble: banner(),
         },
       }).catch((err) => {
         console.error(`Terser failed on file ${filename}: ${err.toString()}`);
       });
 
-      fs.writeFileSync(`./${outputDir}/${filename}.min.js`, code);
-      fs.writeFileSync(`./${outputDir}/${filename}.min.js.map`, map);
-      if (cb) cb();
+      await fs.writeFile(`./${outputDir}/${filename}.min.js`, code);
+      await fs.writeFile(`./${outputDir}/${filename}.min.js.map`, map);
+    })
+    .then(async () => {
+      if (isProd && isESM && browser === false) return buildEntry(modules, format, true);
+      return true;
     })
     .catch((err) => {
-      if (cb) cb();
-      console.error(err.toString());
+      console.error('Rollup error:', err.stack);
     });
 }
 
-async function build() {
+async function buildJsBundle() {
+  elapsed.start('bundle');
   const modules = [];
   config.modules.forEach((name) => {
     // eslint-disable-next-line
@@ -100,17 +106,9 @@ async function build() {
       modules.push({ name, capitalized });
     }
   });
-  if (!isProd) {
-    return Promise.all([
-      buildBundle(modules, 'umd', true, () => {}),
-      buildBundle(modules, 'esm', false, () => {}),
-    ]);
-  }
-  return Promise.all([
-    buildBundle(modules, 'umd', true, () => {}),
-    buildBundle(modules, 'esm', false, () => {}),
-    buildBundle(modules, 'esm', true, () => {}),
-  ]);
+  return Promise.all([buildEntry(modules, 'umd'), buildEntry(modules, 'esm')]).then(() => {
+    elapsed.end('bundle', chalk.green('\nBundle build completed!'));
+  });
 }
 
-module.exports = build;
+module.exports = buildJsBundle;

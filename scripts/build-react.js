@@ -1,18 +1,14 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 /* eslint no-console: "off" */
 const exec = require('exec-sh').promise;
-const fs = require('fs-extra');
 const { outputDir } = require('./utils/output-dir');
-const bannerReact = require('./banner')('React');
+const { addBannerToFile } = require('./utils/banner');
 
-module.exports = async () => {
-  // Babel
+async function buildReact() {
   await exec(
     `npx babel --config-file ./scripts/babel/babel.config.react.js src/react --out-dir ${outputDir}/react`,
   );
+  await addBannerToFile(`./${outputDir}/react/swiper-react.js`, 'React');
+}
 
-  // Fix import paths
-  let fileContent = await fs.readFile(`./${outputDir}/react/swiper-react.js`, 'utf-8');
-  fileContent = `${bannerReact}\n${fileContent}`;
-  await fs.writeFile(`./${outputDir}/react/swiper-react.js`, fileContent);
-};
+module.exports = buildReact;

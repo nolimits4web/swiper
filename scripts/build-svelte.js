@@ -4,18 +4,11 @@ const exec = require('exec-sh');
 const fs = require('fs-extra');
 const { outputDir } = require('./utils/output-dir');
 // const svelte = require('svelte/compiler');
-const bannerSvelte = require('./banner')('Svelte');
+const { addBannerToFile } = require('./utils/banner');
 
-module.exports = async () => {
-  // Babel
-  await exec.promise(
-    `npx babel --config-file ./scripts/babel/babel.config.svelte.js src/svelte --out-dir ${outputDir}/svelte`,
-  );
-
-  // Fix import paths
-  let fileContent = await fs.readFile(`./${outputDir}/svelte/swiper-svelte.js`, 'utf-8');
-  fileContent = `${bannerSvelte}\n${fileContent}`;
-  fs.writeFileSync(`./${outputDir}/svelte/swiper-svelte.js`, fileContent);
+async function buildSvelte() {
+  await exec.promise(`npx babel src/svelte --out-dir ${outputDir}/svelte`);
+  await addBannerToFile(`./${outputDir}/svelte/swiper-svelte.js`, 'Svelte');
 
   /* DON'T TRANSFORM SVELTE FILES
   // Transform svelte files
@@ -46,4 +39,6 @@ module.exports = async () => {
   // } catch (err) {
   //   // no files
   // }
-};
+}
+
+module.exports = buildSvelte;

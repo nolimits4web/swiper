@@ -9,7 +9,7 @@ const elapsed = require('elapsed-time-logger');
 const less = require('./utils/less');
 const autoprefixer = require('./utils/autoprefixer');
 const minifyCSS = require('./utils/clean-css');
-const banner = require('./banner')();
+const { banner } = require('./utils/banner');
 const config = require('./build-config');
 const { outputDir } = require('./utils/output-dir');
 const isProd = require('./utils/isProd')();
@@ -61,16 +61,16 @@ const buildCSS = async ({ isBundle, modules, minified }) => {
   // Write file
   await fs.ensureDir(`./${outputDir}`);
   if (isBundle) {
-    await fs.writeFile(`./${outputDir}/${fileName}.css`, `${banner}\n${cssContent}`);
+    await fs.writeFile(`./${outputDir}/${fileName}.css`, `${banner()}\n${cssContent}`);
   }
 
   if (minified || !isBundle) {
     const minifiedContent = await minifyCSS(cssContent);
-    await fs.writeFile(`./${outputDir}/${fileName}.min.css`, `${banner}\n${minifiedContent}`);
+    await fs.writeFile(`./${outputDir}/${fileName}.min.css`, `${banner()}\n${minifiedContent}`);
   }
 };
 
-module.exports = async () => {
+async function buildStyles() {
   elapsed.start('styles');
   const modules = config.modules.filter((name) => {
     const lessFilePath = `./src/modules/${name}/${name}.less`;
@@ -129,4 +129,6 @@ module.exports = async () => {
   }
 
   elapsed.end('styles', chalk.green('Styles build completed!'));
-};
+}
+
+module.exports = buildStyles;
