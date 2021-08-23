@@ -97,7 +97,10 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     if (!gesture.$slideEl || !gesture.$slideEl.length) {
       gesture.$slideEl = $(e.target).closest(`.${swiper.params.slideClass}`);
       if (gesture.$slideEl.length === 0) gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
-      gesture.$imageEl = gesture.$slideEl.find('img, svg, canvas, picture, .swiper-zoom-target');
+      gesture.$imageEl = gesture.$slideEl
+        .find(`.${params.containerClass}`)
+        .eq(0)
+        .find('img, svg, canvas, picture, .swiper-zoom-target');
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
       gesture.maxRatio = gesture.$imageWrapEl.attr('data-swiper-zoom') || params.maxRatio;
       if (gesture.$imageWrapEl.length === 0) {
@@ -341,7 +344,10 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
         }
       }
 
-      gesture.$imageEl = gesture.$slideEl.find('img, svg, canvas, picture, .swiper-zoom-target');
+      gesture.$imageEl = gesture.$slideEl
+        .find(`.${params.containerClass}`)
+        .eq(0)
+        .find('img, svg, canvas, picture, .swiper-zoom-target');
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
     }
     if (
@@ -440,7 +446,10 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       } else {
         gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
       }
-      gesture.$imageEl = gesture.$slideEl.find('img, svg, canvas, picture, .swiper-zoom-target');
+      gesture.$imageEl = gesture.$slideEl
+        .find(`.${params.containerClass}`)
+        .eq(0)
+        .find('img, svg, canvas, picture, .swiper-zoom-target');
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
     }
     if (
