@@ -562,7 +562,9 @@ export class SwiperComponent implements OnInit {
         swiperRef.loopedSlides = this.loopedSlides;
       }
       const isVirtualEnabled =
-        typeof swiperRef.params.virtual !== 'boolean' && swiperRef.params.virtual.enabled;
+        typeof swiperRef.params.virtual !== 'undefined' &&
+        typeof swiperRef.params.virtual !== 'boolean' &&
+        swiperRef.params.virtual.enabled;
       if (swiperRef.virtual && isVirtualEnabled) {
         swiperRef.virtual.slides = this.slides;
         const extendWith = {
