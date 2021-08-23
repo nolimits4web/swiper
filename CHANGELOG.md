@@ -1,5 +1,11 @@
 # Changelog
 
+# [6.8.4](https://github.com/nolimits4web/Swiper/compare/v6.8.3...v6.8.4) (2021-08-23)
+
+### Bug Fixes
+
+- improve typing ([b0fb310](https://github.com/nolimits4web/Swiper/commit/b0fb310de000dd9fff5e4c91e07be2cc93e754eb))
+
 # [6.8.3](https://github.com/nolimits4web/Swiper/compare/v6.8.2...v.6.8.3) (2021-08-20)
 
 ### Bug Fixes

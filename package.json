@@ -1,6 +1,6 @@
 {
   "name": "swiper-src",
-  "version": "6.8.3",
+  "version": "6.8.4",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "scripts": {
     "build:dev": "node scripts/build",
