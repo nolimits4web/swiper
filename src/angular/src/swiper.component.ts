@@ -579,6 +579,7 @@ export class SwiperComponent implements OnInit {
       if (isPlatformBrowser(this._platformId)) {
         this.swiperRef = swiperRef.init(this.elementRef.nativeElement);
         const isEnabled =
+          typeof this.swiperRef.params.virtual !== 'undefined' &&
           typeof this.swiperRef.params.virtual !== 'boolean' &&
           this.swiperRef.params.virtual.enabled;
         if (this.swiperRef.virtual && isEnabled) {
