@@ -518,10 +518,7 @@ export class SwiperComponent implements OnInit {
       if (!swiperParams.virtual) {
         swiperParams.observer = true;
       }
-      const getKeyValue =
-        <T extends object, U extends keyof T>(key: U) =>
-        (obj: T) =>
-          obj[key];
+
       swiperParams.onAny = (eventName: keyof SwiperComponent, ...args: any[]) => {
         const emitter = this[('s_' + eventName) as keyof SwiperComponent] as EventEmitter<any>;
         if (emitter) {
@@ -549,7 +546,9 @@ export class SwiperComponent implements OnInit {
         this._changeDetectorRef.detectChanges();
       };
       const _containerClasses: SwiperEvents['_containerClasses'] = (_, classes) => {
-        this.containerClasses = classes;
+        setTimeout(() => {
+          this.containerClasses = classes;
+        });
       };
       Object.assign(swiperParams.on, {
         _containerClasses,
