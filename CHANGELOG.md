@@ -1,6 +1,6 @@
 # Changelog
 
-# [7.0.0](https://github.com/nolimits4web/Swiper/compare/v6.8.2...v7.0.0) (2021-08-24)
+# [7.0.0](https://github.com/nolimits4web/Swiper/compare/v6.8.4...v7.0.0) (2021-08-24)
 
 ### Bug Fixes
 
