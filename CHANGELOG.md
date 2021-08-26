@@ -1,6 +1,13 @@
 # Changelog
 
-# [7.0.0](https://github.com/nolimits4web/Swiper/compare/v6.8.4...v7.0.0) (2021-08-24)
+# [7.0.1](https://github.com/nolimits4web/Swiper/compare/v7.0.0...v7.0.1) (2021-08-26)
+
+### Bug Fixes
+
+- **autoplay:** add missing `.start()` method ([dda14bc](https://github.com/nolimits4web/Swiper/commit/dda14bc9477ee685dd8d4bad5a797e6f43834aed)), closes [#4865](https://github.com/nolimits4web/Swiper/issues/4865)
+- **pagination:** check for bullets before destroy ([ea06b4c](https://github.com/nolimits4web/Swiper/commit/ea06b4ce7f62f4b8dc908c7acf35dda016183958)), closes [#4859](https://github.com/nolimits4web/Swiper/issues/4859)
+
+# [7.0.0](https://github.com/nolimits4web/Swiper/compare/v6.8.4...v7.0.0) (2021-08-25)
 
 ### Bug Fixes
 
