@@ -339,7 +339,8 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     $el.removeClass(params.hiddenClass);
     $el.removeClass(params.modifierClass + params.type);
     $el.removeClass(params.modifierClass + swiper.params.direction);
-    if (swiper.pagination.bullets) swiper.pagination.bullets.removeClass(params.bulletActiveClass);
+    if (swiper.pagination.bullets && swiper.pagination.bullets.removeClass)
+      swiper.pagination.bullets.removeClass(params.bulletActiveClass);
     if (params.clickable) {
       $el.off('click', classesToSelector(params.bulletClass));
     }
