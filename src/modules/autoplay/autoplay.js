@@ -203,6 +203,7 @@ export default function Autoplay({ swiper, extendParams, on, emit }) {
   Object.assign(swiper.autoplay, {
     pause,
     run,
+    start,
     stop,
   });
 }
