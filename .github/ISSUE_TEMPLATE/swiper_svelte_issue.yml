@@ -48,7 +48,7 @@ body:
     attributes:
       label: Swiper version
       description: Exact release version or commit hash
-      placeholder: e.g 6.7.1
+      placeholder: e.g 7.0.0
     validations:
       required: true
   - type: input
