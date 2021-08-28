@@ -209,10 +209,10 @@ export default function A11y({ swiper, extendParams, on }) {
     }
 
     if ($nextEl && $nextEl.length) {
-      initNavEl($nextEl, params.nextSlideMessage);
+      initNavEl($nextEl, wrapperId, params.nextSlideMessage);
     }
     if ($prevEl && $prevEl.length) {
-      initNavEl($prevEl, params.prevSlideMessage);
+      initNavEl($prevEl, wrapperId, params.prevSlideMessage);
     }
 
     // Pagination
