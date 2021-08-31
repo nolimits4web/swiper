@@ -1,5 +1,13 @@
 # Changelog
 
+# [7.0.2](https://github.com/nolimits4web/Swiper/compare/v7.0.1...v7.0.2) (2021-08-31)
+
+### Bug Fixes
+
+- **a11y:** fix argments for `initNavEl()` method ([#4884](https://github.com/nolimits4web/Swiper/issues/4884)) ([2987700](https://github.com/nolimits4web/Swiper/commit/298770059e9c892378b3b244b6171b89fb4e76ee))
+- **core:** reset slides size when `slidesPerView` switches to auto ([2c8784b](https://github.com/nolimits4web/Swiper/commit/2c8784b6df0e365f3eaa9ad4ec9ca3b618113648)), closes [#4881](https://github.com/nolimits4web/Swiper/issues/4881)
+- description typo ([#4887](https://github.com/nolimits4web/Swiper/issues/4887)) ([d3c4764](https://github.com/nolimits4web/Swiper/commit/d3c47648a84c2bcfde0c44e6a43dd6d910ec8ec6))
+
 # [7.0.1](https://github.com/nolimits4web/Swiper/compare/v7.0.0...v7.0.1) (2021-08-26)
 
 ### Bug Fixes
