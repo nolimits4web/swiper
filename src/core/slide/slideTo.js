@@ -6,6 +6,7 @@ export default function slideTo(
   runCallbacks = true,
   internal,
   initial,
+  fixLoop = false,
 ) {
   if (typeof index !== 'number' && typeof index !== 'string') {
     throw new Error(
@@ -67,7 +68,7 @@ export default function slideTo(
   if ((activeIndex || params.initialSlide || 0) === (previousIndex || 0) && runCallbacks) {
     swiper.emit('beforeSlideChangeStart');
   }
-
+  if (fixLoop && slideIndex % swiper.params.slidesPerGroup > 0) snapIndex += 1;
   const translate = -snapGrid[snapIndex];
 
   // Update progress

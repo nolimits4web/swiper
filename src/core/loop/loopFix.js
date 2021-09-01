@@ -23,7 +23,7 @@ export default function loopFix() {
   if (activeIndex < loopedSlides) {
     newIndex = slides.length - loopedSlides * 3 + activeIndex;
     newIndex += loopedSlides;
-    const slideChanged = swiper.slideTo(newIndex, 0, false, true);
+    const slideChanged = swiper.slideTo(newIndex, 0, false, true, null, true);
     if (slideChanged && diff !== 0) {
       swiper.setTranslate((rtl ? -swiper.translate : swiper.translate) - diff);
     }
