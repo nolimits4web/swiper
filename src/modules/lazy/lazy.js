@@ -241,7 +241,7 @@ export default function Lazy({ swiper, extendParams, on, emit }) {
     }
   });
   on('init', () => {
-    if (swiper.params.lazy.enabled && !swiper.params.loop && swiper.params.initialSlide === 0) {
+    if (swiper.params.lazy.enabled) {
       if (swiper.params.lazy.checkInView) {
         checkInViewOnLoad();
       } else {
@@ -260,7 +260,11 @@ export default function Lazy({ swiper, extendParams, on, emit }) {
   });
   on('scrollbarDragMove resize _freeModeNoMomentumRelease', () => {
     if (swiper.params.lazy.enabled) {
-      load();
+      if (swiper.params.lazy.checkInView) {
+        checkInViewOnLoad();
+      } else {
+        load();
+      }
     }
   });
   on('transitionStart', () => {
@@ -269,13 +273,21 @@ export default function Lazy({ swiper, extendParams, on, emit }) {
         swiper.params.lazy.loadOnTransitionStart ||
         (!swiper.params.lazy.loadOnTransitionStart && !initialImageLoaded)
       ) {
-        load();
+        if (swiper.params.lazy.checkInView) {
+          checkInViewOnLoad();
+        } else {
+          load();
+        }
       }
     }
   });
   on('transitionEnd', () => {
     if (swiper.params.lazy.enabled && !swiper.params.lazy.loadOnTransitionStart) {
-      load();
+      if (swiper.params.lazy.checkInView) {
+        checkInViewOnLoad();
+      } else {
+        load();
+      }
     }
   });
   on('slideChange', () => {
