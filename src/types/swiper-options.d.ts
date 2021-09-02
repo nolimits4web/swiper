@@ -174,11 +174,11 @@ export interface SwiperOptions {
   uniqueNavElements?: boolean;
 
   /**
-   * Transition effect. Can be `'slide'`, `'fade'`, `'cube'`, `'coverflow'`, `'flip'` or `'custom'`
+   * Transition effect. Can be `'slide'`, `'fade'`, `'cube'`, `'coverflow'`, `'flip'` or `'creative'`
    *
    * @default 'slide'
    */
-  effect?: 'slide' | 'fade' | 'cube' | 'coverflow' | 'flip' | 'custom';
+  effect?: 'slide' | 'fade' | 'cube' | 'coverflow' | 'flip' | 'creative';
 
   /**
    * Fire Transition/SlideChange/Start/End events on swiper initialization.
@@ -949,12 +949,12 @@ export interface SwiperOptions {
   flipEffect?: FlipEffectOptions;
 
   /**
-   * Object with Custom-effect parameters
+   * Object with Creative-effect parameters
    *
    * @example
    * ```js
    * const swiper = new Swiper('.swiper', {
-   *   effect: 'custom',
+   *   effect: 'creative',
    *   creativeEffect: {
    *     prev: {
    *       // will set `translateZ(-400px)` on previous slides
