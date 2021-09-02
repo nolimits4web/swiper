@@ -1,7 +1,7 @@
 import { CSSSelector } from '../shared';
 
 interface CreativeEffectTransform {
-  translate?: string[] | number[];
+  translate?: (string | number)[];
   rotate?: number[];
   opacity?: number;
   scale?: number;
@@ -21,7 +21,7 @@ export interface CreativeEffectOptions {
    * ```js
    * {
    *   // Array with translate X, Y and Z values
-   *   translate: string[] | number[];
+   *   translate: (string | number)[];
    *   // Array with rotate X, Y and Z values (in deg)
    *   rotate?: number[];
    *   // Slide opacity
@@ -44,7 +44,7 @@ export interface CreativeEffectOptions {
    * ```js
    * {
    *   // Array with translate X, Y and Z values
-   *   translate: string[] | number[];
+   *   translate: (string | number)[];
    *   // Array with rotate X, Y and Z values (in deg)
    *   rotate?: number[];
    *   // Slide opacity
