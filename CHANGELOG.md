@@ -1,5 +1,11 @@
 # Changelog
 
+# [7.0.3](https://github.com/nolimits4web/Swiper/compare/v7.0.2...v7.0.3) (2021-09-03)
+
+### Bug Fixes
+
+- **types:** effect-creative `translate` ([#4907](https://github.com/nolimits4web/Swiper/issues/4907)) ([ad8fae3](https://github.com/nolimits4web/Swiper/commit/ad8fae31a26d7e6a22527d69e760eb79cfa36f32))
+
 # [7.0.2](https://github.com/nolimits4web/Swiper/compare/v7.0.1...v7.0.2) (2021-08-31)
 
 ### Bug Fixes
