@@ -272,6 +272,7 @@ const Swiper = {
       swiperRef.value.virtual.slides = slidesRef.value;
       const extendWith = {
         cache: false,
+        slides: slidesRef.value,
         renderExternal: (data) => {
           virtualData.value = data;
         },

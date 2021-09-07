@@ -568,6 +568,7 @@ export class SwiperComponent implements OnInit {
         swiperRef.virtual.slides = this.slides;
         const extendWith = {
           cache: false,
+          slides: this.slides,
           renderExternal: this.updateVirtualSlides,
           renderExternalUpdate: false,
         };

@@ -70,6 +70,7 @@ const Swiper = forwardRef(
         swiperRef.current.virtual.slides = slides;
         const extendWith = {
           cache: false,
+          slides,
           renderExternal: setVirtualData,
           renderExternalUpdate: false,
         };
