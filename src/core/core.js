@@ -79,10 +79,7 @@ class Swiper {
 
     swiper.eventsListeners = {};
     swiper.eventsAnyListeners = [];
-
-    if (typeof swiper.modules === 'undefined') {
-      swiper.modules = [];
-    }
+    swiper.modules = [...swiper.__modules__];
     if (params.modules && Array.isArray(params.modules)) {
       swiper.modules.push(...params.modules);
     }
@@ -626,8 +623,8 @@ class Swiper {
   }
 
   static installModule(mod) {
-    if (!Swiper.prototype.modules) Swiper.prototype.modules = [];
-    const modules = Swiper.prototype.modules;
+    if (!Swiper.prototype.__modules__) Swiper.prototype.__modules__ = [];
+    const modules = Swiper.prototype.__modules__;
 
     if (typeof mod === 'function' && modules.indexOf(mod) < 0) {
       modules.push(mod);
