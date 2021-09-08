@@ -1,5 +1,16 @@
 # Changelog
 
+# [7.0.4](https://github.com/nolimits4web/Swiper/compare/v7.0.3...v7.0.4) (2021-09-08)
+
+### Bug Fixes
+
+- **core:** fix cssMode animation in Safari 14 ([7fd04fe](https://github.com/nolimits4web/Swiper/commit/7fd04fe06718a651bcfa34549c5ea2add6affc1f)), closes [#4925](https://github.com/nolimits4web/Swiper/issues/4925)
+- **virtual:** fix Virtual slides in React, Vue & Angular ([e80925e](https://github.com/nolimits4web/Swiper/commit/e80925e443acedd2c65eb972567ba393aeef05ce)), closes [#4899](https://github.com/nolimits4web/Swiper/issues/4899)
+
+### Features
+
+- **pagination:** more pagination bullet CSS variables ([#4927](https://github.com/nolimits4web/Swiper/issues/4927)) ([25416de](https://github.com/nolimits4web/Swiper/commit/25416dee7a66676986bd50bcb2b95f7bce22e1a7))
+
 # [7.0.3](https://github.com/nolimits4web/Swiper/compare/v7.0.2...v7.0.3) (2021-09-03)
 
 ### Bug Fixes
