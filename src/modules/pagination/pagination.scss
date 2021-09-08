@@ -52,12 +52,12 @@
   }
 }
 .swiper-pagination-bullet {
-  width: 8px;
-  height: 8px;
+  width: var(--swiper-pagination-bullet-size, var(--swiper-pagination-bullet-width, 8px));
+  height: var(--swiper-pagination-bullet-size, var(--swiper-pagination-bullet-height, 8px));
   display: inline-block;
   border-radius: 50%;
-  background: #000;
-  opacity: 0.2;
+  background: var(--swiper-pagination-bullet-inactive-color, #000);
+  opacity: var(--swiper-pagination-bullet-inactive-opacity, 0.2);
   @at-root button#{&} {
     border: none;
     margin: 0;
@@ -74,7 +74,7 @@
   }
 }
 .swiper-pagination-bullet-active {
-  opacity: 1;
+  opacity: var(--swiper-pagination-bullet-opacity, 1);
   background: var(--swiper-pagination-color, var(--swiper-theme-color));
 }
 
