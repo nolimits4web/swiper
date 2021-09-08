@@ -163,12 +163,21 @@ function animateCSSModeScroll({ swiper, targetPosition, side }) {
     const easeProgress = 0.5 - Math.cos(progress * Math.PI) / 2;
     let currentPosition = startPosition + easeProgress * (targetPosition - startPosition);
 
-    if (isOutOfBound(currentPosition, targetPosition)) currentPosition = targetPosition;
+    if (isOutOfBound(currentPosition, targetPosition)) {
+      currentPosition = targetPosition;
+    }
     swiper.wrapperEl.scrollTo({
       [side]: currentPosition,
     });
     if (isOutOfBound(currentPosition, targetPosition)) {
+      swiper.wrapperEl.style.overflow = 'hidden';
       swiper.wrapperEl.style.scrollSnapType = '';
+      setTimeout(() => {
+        swiper.wrapperEl.style.overflow = '';
+        swiper.wrapperEl.scrollTo({
+          [side]: currentPosition,
+        });
+      });
       window.cancelAnimationFrame(swiper.cssModeFrameID);
       return;
     }
