@@ -6,6 +6,26 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 <table>
   <tr>
     <td align="center" valign="middle">
+      <a href="https://appkong.com" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/appkong.png" alt="Custom Web Development Company [AppKong]" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.parhaatkasinot.com" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/parhaatkasinot.png" alt="Parhaat nettikasinot 2021 - Valitse listalta paras kasino" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://casinoutankonto.net/casino-utan-svensk-licens/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/casinoutankonto.png" alt="Casino utan spelpaus" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.casinot.net" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/casinot-net.png" alt="Casinot | Tässä parhaat netticasinot 2021 - Katso lista" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
       <a href="https://casinoauditor.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casinoauditor.png" alt="Quality Casinos 2021 ☆ Best Online Casino Sites Review - CasinoAuditor" width="160">
       </a>
@@ -25,6 +45,8 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/thecasinodb.png" alt="UK Online Casinos, Slot Machines, and Bonuses | TheCasinoDB" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://www.casinoutanlicens.io" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casinoutanlicens.png" alt="Casino Utan Svensk Licens 🥇 2021" width="160">
@@ -45,8 +67,6 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/casino-topp.png" alt="Casino Utan Svensk Licens och Spelpaus med BankID 2021" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.eldinamo.cl/entretencion/2021/06/08/los-cinco-mejores-casinos-online-en-chile-para-2021/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/el-dinamo.png" alt="Los cinco mejores casinos online en Chile para 2021" width="160">
@@ -67,6 +87,8 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/kajino.png" alt="オンラインカジノ リストとランキング 2021 - カジノ .com | Kajino" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://www.bitcoinbuster.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/bitcoinbuster-btc-gambling.jpg" alt="Bitcoin Casino" width="160">
@@ -87,8 +109,6 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/aus-casinos.png" alt="New Online Casinos in Australia (2021) - Which Sites Are Safe?" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.casinoroyale.es/nuevos-casinos/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casino-royal.png" alt="Nuevos Casinos Online en España 2021" width="160">
@@ -109,9 +129,41 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/hex.png" alt="#1 Aussie Gambling Guide" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://papersowl.com/pay-for-research-paper" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/papersowl.png" alt="Pay Someone to Write My Research Paper" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://famousera.com/product/buyfollowers/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/famousera.png" alt="Buy Instagram Followers - Cheap & Instant - $3.90 per 1.000" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://aapeli.net" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/aapeli.png" alt="Aapeli.net | Ilmaiset pelit ja nettipelit (2021)" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://casinoclaw.com" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/casinoclaw.png" alt="Casinoclaw » Reviews, bonuses & free spins" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.parhaatnettikasinot.com" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/parhaatnettikasinot.png" alt="Parhaat nettikasinot (2021) - Katso tästä paras kasino!" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.coupons4printing.com" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/coupons4printing.png" alt="Coupons4Printing: Promotion Codes, Coupons, Coupon Codes 2021" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.booklearnpass.co.uk" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/booklearnpass.png" alt="Find a Driving Instructor Near You | Book Learn Pass" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -119,6 +171,8 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/realtimecommunicationsworld.png" alt="Real Time Communications World" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://zamsino.com/de/casino-bonus/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/zamsino.png" alt="Erik Kings Zamsino Bonus seiten" width="160">
@@ -129,8 +183,6 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/casinoonlineaams.png" alt="Review of the best online casino in Italy" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://onlinecasinohex.ca" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casinohex-canada.png" alt="Online Casino HEX - Best Online Casinos in Canada [2021]" width="160">
@@ -161,6 +213,8 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/bet-fi.png" alt="Bet-fi.com - Vedonlyönti, bonukset ja nettikasinot - Suomen casino-opas" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://www.boosbe.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/boosebe.png" alt="Get the most out of Social Media - Boosbe" width="160">
@@ -171,8 +225,6 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/best-bitcoin-casino.png" alt="Top 5 Best Bitcoin Casinos Reviewed & Ranked (2021 Updated)" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://veepn.com/ru/vpn-apps/vpn-for-chrome/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/veepn.png" alt="VPN for Chrome to Make Web Surfing 100% Safe" width="160">
@@ -203,6 +255,8 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/starwarscasinos.png" alt="Casino utan spelpaus – vad är det? Lär dig vad det betyder" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://najlepsibukmacherzy.pl/ranking-legalnych-bukmacherow/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/netpositive.png" alt="Ranking Bukmacherów Legalnych 2020. Bukmacher nr 1 to..." width="160">
@@ -213,8 +267,6 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/bonuscatch.png" alt="Try 1 Dollar Deposit Casino in Canada ✅ $1 Minimum Deposit Mobile Casino" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.vpsserver.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/vpsserver-logo.svg" alt="VPS Hosting | Buy Cheap VPS | Free VPS Server 7 Days Trial 🥇" width="160">
@@ -245,6 +297,8 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/cryptocurrencycodes.png" alt="Top FREE Crypto Sign Up Bonuses & Referral Codes" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://studyclerk.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/studyclerk.png" alt="Professional Essay Writing Service from Top Providers - Study Clerk" width="160">
@@ -255,16 +309,9 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/calendar.png" alt="2021 Printable Calendar" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://goread.io/buy-instagram-likes" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/goread.png" alt="Instagram likes" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
-      <a href="https://大吉カジノ.jp" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/daikichi.png" alt="最高オンラインカジノ日本｜日本人のためにトップ20✚オンラインカジノ" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -292,26 +339,16 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/hollandsegokken.png" alt="Gokken in online casino’s begint bij Hollandsegokken.nl!" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://nettcasinobonus.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/nettcasinobonus.png" alt="Få bransjens beste casino bonus " width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.5bingosites.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/5bingosites-com.png" alt="Exclusive £5 Deposit Bingo Bonuses - £5 Bingo Sites" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
-      <a href="https://realcasinoscanada.com" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/realcasinoscanada.png" alt="Your guide to the world of Canadian online gambling sites in 2021" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
-      <a href="https://nederlandscasinos.net" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/nederlandscasinos.png" alt="Online Casinos Nederland - Betrouwbare NL Goksites" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -339,13 +376,13 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/paperell.svg" alt="Website that Writes Essays for You - Paperell.com" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://socialsup.net" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/socials-up.png" alt="Buy 100% Cheap SMM Services - Instagram, YouTube, Twitter" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://writersperhour.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/writers-per-hour.png" alt="Custom Paper Writing and Editing Service | Essay Writing Help" width="160">
@@ -356,6 +393,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/easy-views.png" alt="easy-views.org - High Retention Youtube Views" width="160">
       </a>
     </td>
+    <td align="center" valign="middle"></td>
     <td align="center" valign="middle"></td>
     <td align="center" valign="middle"></td>
     <td align="center" valign="middle"></td>
