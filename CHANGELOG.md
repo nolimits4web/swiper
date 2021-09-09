@@ -1,5 +1,12 @@
 # Changelog
 
+# [7.0.5](https://github.com/nolimits4web/Swiper/compare/v7.0.4...v7.0.5) (2021-09-09)
+
+### Bug Fixes
+
+- **core:** don't auto create elements on destroy/init ([b4cdea8](https://github.com/nolimits4web/Swiper/commit/b4cdea842207f12603d09cbfa2828c66062273c3))
+- **core:** passes `modules` shouldn't extend prototype ([f07d43f](https://github.com/nolimits4web/Swiper/commit/f07d43fa595d068baa1140de1421b66ee555b224)), closes [#4928](https://github.com/nolimits4web/Swiper/issues/4928)
+
 # [7.0.4](https://github.com/nolimits4web/Swiper/compare/v7.0.3...v7.0.4) (2021-09-08)
 
 ### Bug Fixes
