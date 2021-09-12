@@ -1,7 +1,6 @@
 <main>
-  data-swiper-autoplay
   <div>
-    <h4>Slide change</h4>
+    <h4>data-swiper-autoplay</h4>
     <swiper
       [loop]="true"
       [autoHeight]="true"
@@ -10,17 +9,13 @@
       [pagination]="{ clickable: true }"
       [navigation]="true"
     >
-      <ng-template data-swiper-autoplay="6000" swiperSlide>
-        <div class="blue">DIV 01 AAAAAAAAA</div>
-      </ng-template>
+      <ng-template data-swiper-autoplay="6000" swiperSlide> Slide 1 </ng-template>
 
       <ng-template data-swiper-autoplay="10000" class="swiper-slide" swiperSlide>
-        <div class="green">DIV 02 BBBBBBBBB</div>
+        Slide 2
       </ng-template>
 
-      <ng-template data-swiper-autoplay="60000" swiperSlide>
-        <div class="purple">DIV 03 CCCCCCCC</div>
-      </ng-template>
+      <ng-template data-swiper-autoplay="60000" swiperSlide> Slide 3 </ng-template>
     </swiper>
   </div>
   <div>
