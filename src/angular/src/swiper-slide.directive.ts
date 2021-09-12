@@ -6,6 +6,7 @@ import { coerceBooleanProperty } from './utils/utils';
 export class SwiperSlideDirective {
   @Input() virtualIndex: number;
   @Input() class: string = '';
+  @Input('data-swiper-autoplay') autoplayDelay: string | null = null;
   @Input()
   set zoom(val: boolean) {
     this._zoom = coerceBooleanProperty(val);
