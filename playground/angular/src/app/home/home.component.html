@@ -1,5 +1,15 @@
 <main>
   <div>
+    <h4>Enable / disable</h4>
+    <swiper [enabled]="enabled" [pagination]="true">
+      <ng-template swiperSlide> test vertical 2 </ng-template>
+      <ng-template swiperSlide> test vertical 2 </ng-template>
+      <ng-template swiperSlide> test vertical 2 </ng-template>
+      <ng-template swiperSlide> test vertical 2 </ng-template>
+    </swiper>
+    <button (click)="toggleEnabled()">{{ enabled ? 'Disable' : 'Enable' }}</button>
+  </div>
+  <div>
     <h4>Slide change</h4>
     <swiper direction="horizontal" (slideChange)="onSlideChange($event)">
       <ng-template *ngFor="let item of slidesEx" swiperSlide> {{ item }} </ng-template>

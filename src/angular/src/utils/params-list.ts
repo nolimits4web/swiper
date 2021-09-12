@@ -1,6 +1,7 @@
 /* underscore in name -> watch for changes */
 export const paramsList = [
   'init',
+  'enabled',
   '_direction',
   'touchEventsTarget',
   'initialSlide',

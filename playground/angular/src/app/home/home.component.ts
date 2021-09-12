@@ -43,6 +43,11 @@ export class HomePage {
     this.slides$.next(Array.from({ length: 600 }).map((el, index) => `Slide ${index + 1}`));
   }
 
+  enabled: boolean = false;
+  toggleEnabled() {
+    this.enabled = !this.enabled;
+  }
+
   thumbsSwiper: Swiper;
   setThumbsSwiper(swiper: Swiper) {
     this.thumbsSwiper = swiper;
