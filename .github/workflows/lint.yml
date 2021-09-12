@@ -1,9 +1,9 @@
 name: Lint
 on:
   push:
-    branches: [master, Swiper7]
+    branches: [master, Swiper6]
   pull_request:
-    branches: [master, Swiper7]
+    branches: [master, Swiper6]
 jobs:
   test:
     runs-on: ubuntu-latest
