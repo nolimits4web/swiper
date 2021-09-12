@@ -178,7 +178,7 @@ export interface SwiperOptions {
    *
    * @default 'slide'
    */
-  effect?: 'slide' | 'fade' | 'cube' | 'coverflow' | 'flip' | 'creative';
+  effect?: 'slide' | 'fade' | 'cube' | 'coverflow' | 'flip' | 'creative' | 'cards';
 
   /**
    * Fire Transition/SlideChange/Start/End events on swiper initialization.
