@@ -114,7 +114,6 @@
       [breakpoints]="breakpoints"
       [scrollbar]="scrollbar"
       [loop]="true"
-      [(index)]="indexNumber"
       [pagination]="{ el: '.swiper-pagination.pagination-test' }"
     >
       <ng-container *ngIf="show">
@@ -134,11 +133,6 @@
     <button (click)="toggleScrollbar()">Toggle scrollbar</button>
     <button (click)="breakpointChange()">Breakpoint change</button>
     <button (click)="show = !show">Toggle show</button>
-    <button (click)="indexNumber = 0">0</button>
-    <button (click)="indexNumber = 3">3</button>
-    <button (click)="indexNumber = 5">5</button>
-    <button (click)="indexNumber = 6">6</button>
-    {{ indexNumber }}
 
     <swiper [config]="exampleConfig">
       <ng-template swiperSlide>Best slide ever 2</ng-template>
