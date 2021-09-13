@@ -1,5 +1,24 @@
 <main>
   <div>
+    <h4>data-swiper-autoplay</h4>
+    <swiper
+      [loop]="true"
+      [autoHeight]="true"
+      [allowTouchMove]="false"
+      [autoplay]="{ delay: 1000, pauseOnMouseEnter: false, disableOnInteraction: false }"
+      [pagination]="{ clickable: true }"
+      [navigation]="true"
+    >
+      <ng-template data-swiper-autoplay="6000" swiperSlide> Slide 1 </ng-template>
+
+      <ng-template data-swiper-autoplay="10000" class="swiper-slide" swiperSlide>
+        Slide 2
+      </ng-template>
+
+      <ng-template data-swiper-autoplay="60000" swiperSlide> Slide 3 </ng-template>
+    </swiper>
+  </div>
+  <div>
     <h4>Slide change</h4>
     <swiper direction="horizontal" (slideChange)="onSlideChange($event)">
       <ng-template *ngFor="let item of slidesEx" swiperSlide> {{ item }} </ng-template>
