@@ -56,7 +56,6 @@ export class HomePage {
     this.controlledSwiper = swiper;
   }
 
-  indexNumber = 1;
   exampleConfig = { slidesPerView: 3 };
   slidesPerView: number = 4;
   pagination: any = false;

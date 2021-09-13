@@ -234,6 +234,7 @@ export class SwiperComponent implements OnInit {
 
   @Input()
   set index(index: number) {
+    console.warn('`[(index)]` prop is deprecated and will be removed in upcoming versions');
     this.setIndex(index);
   }
   @Input()
@@ -821,8 +822,11 @@ export class SwiperComponent implements OnInit {
     } else {
       this.swiperRef.params[_key] = value;
     }
+    this.setIndex(2);
   }
-
+  /**
+   * @deprecated will be removed in upcoming versions
+   */
   setIndex(index: number, speed?: number, silent?: boolean): void {
     if (!this.isSwiperActive) {
       this.initialSlide = index;
