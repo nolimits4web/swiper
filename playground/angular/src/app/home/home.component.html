@@ -1,5 +1,15 @@
 <main>
   <div>
+    <h4>Enable / disable</h4>
+    <swiper [enabled]="enabled" [pagination]="true">
+      <ng-template swiperSlide> test vertical 2 </ng-template>
+      <ng-template swiperSlide> test vertical 2 </ng-template>
+      <ng-template swiperSlide> test vertical 2 </ng-template>
+      <ng-template swiperSlide> test vertical 2 </ng-template>
+    </swiper>
+    <button (click)="toggleEnabled()">{{ enabled ? 'Disable' : 'Enable' }}</button>
+  </div>
+  <div>
     <h4>data-swiper-autoplay</h4>
     <swiper
       [loop]="true"

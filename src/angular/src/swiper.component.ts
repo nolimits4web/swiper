@@ -53,6 +53,7 @@ import { isPlatformBrowser } from '@angular/common';
   ],
 })
 export class SwiperComponent implements OnInit {
+  @Input() enabled: SwiperOptions['enabled'];
   @Input() direction: SwiperOptions['direction'];
   @Input() touchEventsTarget: SwiperOptions['touchEventsTarget'];
   @Input() initialSlide: SwiperOptions['initialSlide'];
@@ -807,7 +808,14 @@ export class SwiperComponent implements OnInit {
         this.swiperRef.params[_key] = defaultParams;
       }
     }
-
+    if (_key === 'enabled') {
+      if (value === true) {
+        this.swiperRef.enable();
+      } else if (value === false) {
+        this.swiperRef.disable();
+      }
+      return;
+    }
     if (isCurrentParamObj && isObject(value)) {
       extend(this.swiperRef.params[_key], value);
     } else {
