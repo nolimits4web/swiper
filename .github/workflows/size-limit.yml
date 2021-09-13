@@ -1,7 +1,7 @@
 name: Compressed Size
 on:
   pull_request:
-    branches: [master, Swiper7]
+    branches: [master]
 
 jobs:
   build:
