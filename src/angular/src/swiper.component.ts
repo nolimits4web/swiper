@@ -733,7 +733,6 @@ export class SwiperComponent implements OnInit {
           continue;
         }
         const newValue = changedParams[key]?.currentValue ?? changedParams[key];
-        console.log(newValue, key);
         this.updateParameter(key, newValue);
       }
 
@@ -812,7 +811,7 @@ export class SwiperComponent implements OnInit {
     if (_key === 'enabled') {
       if (value === true) {
         this.swiperRef.enable();
-      } else {
+      } else if (value === false) {
         this.swiperRef.disable();
       }
       return;
