@@ -115,7 +115,7 @@ export default function EffectCreative({ swiper, extendParams, on }) {
     const $transitionElements = transformEl ? swiper.slides.find(transformEl) : swiper.slides;
     $transitionElements.transition(duration).find('.swiper-slide-shadow').transition(duration);
 
-    effectVirtualTransitionEnd({ swiper, duration, transformEl });
+    effectVirtualTransitionEnd({ swiper, duration, transformEl, allSlides: true });
   };
 
   effectInit({
