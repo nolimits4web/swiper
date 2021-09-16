@@ -1,5 +1,18 @@
 # Changelog
 
+# [7.0.6](https://github.com/nolimits4web/Swiper/compare/v7.0.5...v7.0.6) (2021-09-16)
+
+### Bug Fixes
+
+- **angular:** deprecate `[(index)]` and `setIndex()` ([#4951](https://github.com/nolimits4web/Swiper/issues/4951)) ([7ee3d58](https://github.com/nolimits4web/Swiper/commit/7ee3d5846c9dd0f30f0737b023b0de688664fbad))
+- **effect-creative:** fix autoplay by watching all slides transition end ([86e6fb6](https://github.com/nolimits4web/Swiper/commit/86e6fb658c203b0714e6eac8c0360c583f656007)), closes [#4961](https://github.com/nolimits4web/Swiper/issues/4961)
+- **types:** add missing `cards` effect ([#4950](https://github.com/nolimits4web/Swiper/issues/4950)) ([c18aa08](https://github.com/nolimits4web/Swiper/commit/c18aa084acb827a07ee414151be6d4235f06cc86))
+
+### Features
+
+- **angular:** `enabled` prop ([#4949](https://github.com/nolimits4web/Swiper/issues/4949)) ([6c0a3e5](https://github.com/nolimits4web/Swiper/commit/6c0a3e5408fa4a2fea18ebb5800bfa31d495ab05))
+- **angular:** support `data-swiper-autoplay` ([#4946](https://github.com/nolimits4web/Swiper/issues/4946)) ([d665fb9](https://github.com/nolimits4web/Swiper/commit/d665fb98cdd7f4c00596ae07d95cd5788e62f333))
+
 # [7.0.5](https://github.com/nolimits4web/Swiper/compare/v7.0.4...v7.0.5) (2021-09-09)
 
 ### Bug Fixes
