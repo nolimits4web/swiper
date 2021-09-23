@@ -8,7 +8,7 @@ const SwiperSlide = {
       type: String,
       default: 'div',
     },
-    swiperRef: Object,
+    swiperRef: { type: Object, required: false },
     zoom: { type: Boolean, default: undefined },
     virtualIndex: {
       type: [String, Number],
