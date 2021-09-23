@@ -466,7 +466,7 @@ declare const SwiperSlide: DefineComponent<{
     type: StringConstructor;
     default: string;
   };
-  swiperRef: SwiperClass;
+  swiperRef: { type: SwiperClass; required: false };
   zoom: { type: BooleanConstructor; default: undefined };
   virtualIndex: {
     type: StringConstructor | NumberConstructor;
