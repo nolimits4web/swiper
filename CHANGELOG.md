@@ -1,5 +1,12 @@
 # Changelog
 
+# [7.0.7](https://github.com/nolimits4web/Swiper/compare/v7.0.6...59e44ae7e91cee32827d4605cd2795a8c115948b) (2021-09-29)
+
+### Bug Fixes
+
+- **angular:** removed stray setIndex debug code (nolimits4web[#5006](https://github.com/nolimits4web/Swiper/issues/5006)) ([#5007](https://github.com/nolimits4web/Swiper/issues/5007)) ([59e44ae](https://github.com/nolimits4web/Swiper/commit/59e44ae7e91cee32827d4605cd2795a8c115948b))
+- **vue:** make `swiperRef` not required in SwiperSlide vue component ([#4992](https://github.com/nolimits4web/Swiper/issues/4992)) ([1cd6af8](https://github.com/nolimits4web/Swiper/commit/1cd6af8d7c54ec2cc63e949402ba334f7d36f557))
+
 # [7.0.6](https://github.com/nolimits4web/Swiper/compare/v7.0.5...v7.0.6) (2021-09-16)
 
 ### Bug Fixes
