@@ -143,11 +143,13 @@ export default function slideTo(
       const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
       if (isVirtual) {
         swiper.wrapperEl.style.scrollSnapType = 'none';
+        swiper._immediateVirtual = true;
       }
       wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = t;
       if (isVirtual) {
         requestAnimationFrame(() => {
           swiper.wrapperEl.style.scrollSnapType = '';
+          swiper._swiperImmediateVirtual = false;
         });
       }
     } else {

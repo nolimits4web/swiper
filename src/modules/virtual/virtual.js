@@ -15,6 +15,8 @@ export default function Virtual({ swiper, extendParams, on }) {
     },
   });
 
+  let cssModeTimeout;
+
   swiper.virtual = {
     cache: {},
     from: undefined,
@@ -49,7 +51,10 @@ export default function Virtual({ swiper, extendParams, on }) {
       slidesGrid: previousSlidesGrid,
       offset: previousOffset,
     } = swiper.virtual;
-    swiper.updateActiveIndex();
+    if (!swiper.params.cssMode) {
+      swiper.updateActiveIndex();
+    }
+
     const activeIndex = swiper.activeIndex || 0;
 
     let offsetProp;
@@ -176,7 +181,10 @@ export default function Virtual({ swiper, extendParams, on }) {
         const $cachedEl = cache[cachedIndex];
         const cachedElIndex = $cachedEl.attr('data-swiper-slide-index');
         if (cachedElIndex) {
-          $cachedEl.attr('data-swiper-slide-index', parseInt(cachedElIndex, 10) + 1);
+          $cachedEl.attr(
+            'data-swiper-slide-index',
+            parseInt(cachedElIndex, 10) + numberOfNewSlides,
+          );
         }
         newCache[parseInt(cachedIndex, 10) + numberOfNewSlides] = $cachedEl;
       });
@@ -231,7 +239,14 @@ export default function Virtual({ swiper, extendParams, on }) {
   });
   on('setTranslate', () => {
     if (!swiper.params.virtual.enabled) return;
-    update();
+    if (swiper.params.cssMode && !swiper._immediateVirtual) {
+      clearTimeout(cssModeTimeout);
+      cssModeTimeout = setTimeout(() => {
+        update();
+      }, 100);
+    } else {
+      update();
+    }
   });
   on('init update resize', () => {
     if (!swiper.params.virtual.enabled) return;
