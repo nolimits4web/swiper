@@ -1,5 +1,11 @@
 # Changelog
 
+# [7.0.8](https://github.com/nolimits4web/Swiper/compare/v7.0.7...v7.0.8) (2021-10-04)
+
+### Features
+
+- **virtual:** improve behavior with cssMode ([b478058](https://github.com/nolimits4web/Swiper/commit/b4780585341e775bab5646c3132dcbc69b35ae37))
+
 # [7.0.7](https://github.com/nolimits4web/Swiper/compare/v7.0.6...59e44ae7e91cee32827d4605cd2795a8c115948b) (2021-09-29)
 
 ### Bug Fixes
