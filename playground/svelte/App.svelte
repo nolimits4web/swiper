@@ -9,7 +9,7 @@
     // eslint-disable-next-line
   } from 'swiper';
   // eslint-disable-next-line
-  import { Swiper, SwiperSlide } from 'swiper/svelte/swiper-svelte.js';
+  import { Swiper, SwiperSlide } from 'swiper/svelte';
 
   const data = {
     min: 1,

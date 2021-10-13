@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 
 // eslint-disable-next-line
-import 'swiper/swiper-bundle.css';
+import 'swiper/css/bundle';
 
 import App from './App.vue';
 

@@ -3,7 +3,7 @@ import React from 'react';
 // eslint-disable-next-line
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 // eslint-disable-next-line
-import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 const App = () => {
   return (

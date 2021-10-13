@@ -26,7 +26,7 @@
 // eslint-disable-next-line
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 // eslint-disable-next-line
-import { Swiper, SwiperSlide } from 'swiper/vue/swiper-vue.js';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 
 export default {
   components: {
