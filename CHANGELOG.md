@@ -1,5 +1,12 @@
 # Changelog
 
+# [7.0.9](https://github.com/nolimits4web/Swiper/compare/v7.0.8...v7.0.9) (2021-10-18)
+
+### Bug Fixes
+
+- **core:** Change opacityString and scaleString to originalProgress ([#5095](https://github.com/nolimits4web/Swiper/issues/5095)) ([244cc2e](https://github.com/nolimits4web/Swiper/commit/244cc2ee2dcddaa60b625b967b64ae646e4186b5))
+- **vue:** fix SwiperSlide types ([114fee7](https://github.com/nolimits4web/Swiper/commit/114fee7c4a5499c9aab1b7b68560c7d1dd7f5320)), closes [#5069](https://github.com/nolimits4web/Swiper/issues/5069)
+
 # [7.0.8](https://github.com/nolimits4web/Swiper/compare/v7.0.7...v7.0.8) (2021-10-04)
 
 ### Features
