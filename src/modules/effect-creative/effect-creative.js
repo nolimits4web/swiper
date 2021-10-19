@@ -50,10 +50,14 @@ export default function EffectCreative({ swiper, extendParams, on }) {
         Math.max($slideEl[0].progress, -params.limitProgress),
         params.limitProgress,
       );
-      const originalProgress = Math.min(
-        Math.max($slideEl[0].originalProgress, -params.limitProgress),
-        params.limitProgress,
-      );
+      let originalProgress = progress;
+
+      if (!isCenteredSlides) {
+        originalProgress = Math.min(
+          Math.max($slideEl[0].originalProgress, -params.limitProgress),
+          params.limitProgress,
+        );
+      }
 
       const offset = $slideEl[0].swiperSlideOffset;
       const t = [swiper.params.cssMode ? -offset - swiper.translate : -offset, 0, 0];
