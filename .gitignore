@@ -2,6 +2,7 @@
 node_modules
 custom
 *.log
+pnpm-lock.yaml
 
 .versions
 .idea

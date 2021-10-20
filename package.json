@@ -161,12 +161,13 @@
     "tslib": "^2.3.0",
     "tslint": "~6.1.0",
     "typescript": "^4.2.4",
-    "vite": "^2.3.8",
+    "vite": "^2.5.1",
     "vue": "^3.0.5",
     "zone.js": "~0.11.4"
   },
   "dependencies": {
     "dom7": "^4.0.0",
-    "ssr-window": "^4.0.0"
+    "ssr-window": "^4.0.0",
+    "swiper": "file:dist"
   }
 }
