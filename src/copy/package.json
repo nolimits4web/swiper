@@ -1,0 +1,161 @@
+{
+  "name": "swiper",
+  "version": "7.0.9",
+  "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
+  "typings": "swiper.d.ts",
+  "type": "module",
+  "exports": {
+    ".": "./swiper.esm.js",
+    "./core": "./swiper.esm.js",
+    "./bundle": "./swiper-bundle.esm.js",
+    "./css": "./swiper.min.css",
+    "./css/bundle": "./swiper-bundle.min.css",
+    "./css/a11y": "./modules/a11y/a11y.min.css",
+    "./css/autoplay": "./modules/autoplay/autoplay.min.css",
+    "./css/controller": "./modules/controller/controller.min.css",
+    "./css/effect-coverflow": "./modules/effect-coverflow/effect-coverflow.min.css",
+    "./css/effect-cube": "./modules/effect-cube/effect-cube.min.css",
+    "./css/effect-fade": "./modules/effect-fade/effect-fade.min.css",
+    "./css/effect-flip": "./modules/effect-flip/effect-flip.min.css",
+    "./css/effect-creative": "./modules/effect-creative/effect-creative.min.css",
+    "./css/effect-cards": "./modules/effect-cards/effect-cards.min.css",
+    "./css/free-mode": "./modules/free-mode/free-mode.min.css",
+    "./css/grid": "./modules/grid/grid.min.css",
+    "./css/hash-navigation": "./modules/hash-navigation/hash-navigation.min.css",
+    "./css/history": "./modules/history/history.min.css",
+    "./css/keyboard": "./modules/keyboard/keyboard.min.css",
+    "./css/lazy": "./modules/lazy/lazy.min.css",
+    "./css/manipulation": "./modules/manipulation/manipulation.min.css",
+    "./css/mousewheel": "./modules/mousewheel/mousewheel.min.css",
+    "./css/navigation": "./modules/navigation/navigation.min.css",
+    "./css/pagination": "./modules/pagination/pagination.min.css",
+    "./css/parallax": "./modules/parallax/parallax.min.css",
+    "./css/scrollbar": "./modules/scrollbar/scrollbar.min.css",
+    "./css/thumbs": "./modules/thumbs/thumbs.min.css",
+    "./css/virtual": "./modules/virtual/virtual.min.css",
+    "./css/zoom": "./modules/zoom/zoom.min.css",
+    "./less": "./swiper.less",
+    "./less/a11y": "./modules/a11y/a11y.less",
+    "./less/autoplay": "./modules/autoplay/autoplay.less",
+    "./less/controller": "./modules/controller/controller.less",
+    "./less/effect-coverflow": "./modules/effect-coverflow/effect-coverflow.less",
+    "./less/effect-cube": "./modules/effect-cube/effect-cube.less",
+    "./less/effect-fade": "./modules/effect-fade/effect-fade.less",
+    "./less/effect-flip": "./modules/effect-flip/effect-flip.less",
+    "./less/effect-creative": "./modules/effect-creative/effect-creative.less",
+    "./less/effect-cards": "./modules/effect-cards/effect-cards.less",
+    "./less/free-mode": "./modules/free-mode/free-mode.less",
+    "./less/grid": "./modules/grid/grid.less",
+    "./less/hash-navigation": "./modules/hash-navigation/hash-navigation.less",
+    "./less/history": "./modules/history/history.less",
+    "./less/keyboard": "./modules/keyboard/keyboard.less",
+    "./less/lazy": "./modules/lazy/lazy.less",
+    "./less/manipulation": "./modules/manipulation/manipulation.less",
+    "./less/mousewheel": "./modules/mousewheel/mousewheel.less",
+    "./less/navigation": "./modules/navigation/navigation.less",
+    "./less/pagination": "./modules/pagination/pagination.less",
+    "./less/parallax": "./modules/parallax/parallax.less",
+    "./less/scrollbar": "./modules/scrollbar/scrollbar.less",
+    "./less/thumbs": "./modules/thumbs/thumbs.less",
+    "./less/virtual": "./modules/virtual/virtual.less",
+    "./less/zoom": "./modules/zoom/zoom.less",
+    "./scss": "./swiper.scss",
+    "./scss/a11y": "./modules/a11y/a11y.scss",
+    "./scss/autoplay": "./modules/autoplay/autoplay.scss",
+    "./scss/controller": "./modules/controller/controller.scss",
+    "./scss/effect-coverflow": "./modules/effect-coverflow/effect-coverflow.scss",
+    "./scss/effect-cube": "./modules/effect-cube/effect-cube.scss",
+    "./scss/effect-fade": "./modules/effect-fade/effect-fade.scss",
+    "./scss/effect-flip": "./modules/effect-flip/effect-flip.scss",
+    "./scss/effect-creative": "./modules/effect-creative/effect-creative.scss",
+    "./scss/effect-cards": "./modules/effect-cards/effect-cards.scss",
+    "./scss/free-mode": "./modules/free-mode/free-mode.scss",
+    "./scss/grid": "./modules/grid/grid.scss",
+    "./scss/hash-navigation": "./modules/hash-navigation/hash-navigation.scss",
+    "./scss/history": "./modules/history/history.scss",
+    "./scss/keyboard": "./modules/keyboard/keyboard.scss",
+    "./scss/lazy": "./modules/lazy/lazy.scss",
+    "./scss/manipulation": "./modules/manipulation/manipulation.scss",
+    "./scss/mousewheel": "./modules/mousewheel/mousewheel.scss",
+    "./scss/navigation": "./modules/navigation/navigation.scss",
+    "./scss/pagination": "./modules/pagination/pagination.scss",
+    "./scss/parallax": "./modules/parallax/parallax.scss",
+    "./scss/scrollbar": "./modules/scrollbar/scrollbar.scss",
+    "./scss/thumbs": "./modules/thumbs/thumbs.scss",
+    "./scss/virtual": "./modules/virtual/virtual.scss",
+    "./scss/zoom": "./modules/zoom/zoom.scss",
+    "./angular": "./angular/fesm2015/swiper_angular.js",
+    "./react": "./react/swiper-react.js",
+    "./vue": "./vue/swiper-vue.js",
+    "./svelte": "./svelte/swiper-svelte.js",
+    "./types": "./types/index.d.ts",
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "angular": [
+        "angular/swiper_angular.d.ts"
+      ],
+      "react": [
+        "react/swiper-react.d.ts"
+      ],
+      "svelte": [
+        "svelte/swiper-svelte.d.ts"
+      ],
+      "vue": [
+        "vue/swiper-vue.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "postinstall": "node -e \"try{require('./postinstall')}catch(e){}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nolimits4web/Swiper.git"
+  },
+  "keywords": [
+    "swiper",
+    "swipe",
+    "slider",
+    "touch",
+    "ios",
+    "mobile",
+    "cordova",
+    "phonegap",
+    "app",
+    "framework",
+    "framework7",
+    "carousel",
+    "gallery",
+    "plugin",
+    "react",
+    "vue",
+    "angular",
+    "svelte",
+    "slideshow"
+  ],
+  "author": "Vladimir Kharlampidi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nolimits4web/swiper/issues"
+  },
+  "homepage": "https://swiperjs.com",
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/swiperjs"
+    },
+    {
+      "type": "open_collective",
+      "url": "http://opencollective.com/swiper"
+    }
+  ],
+  "engines": {
+    "node": ">= 4.7.0"
+  },
+  "dependencies": {
+    "dom7": "^4.0.0",
+    "ssr-window": "^4.0.0"
+  }
+}

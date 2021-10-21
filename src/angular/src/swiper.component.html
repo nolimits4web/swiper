@@ -1,0 +1,71 @@
+<ng-content select="[slot=container-start]"></ng-content>
+<ng-container *ngIf="navigation && showNavigation">
+  <div class="swiper-button-prev" #prevElRef></div>
+  <div class="swiper-button-next" #nextElRef></div>
+</ng-container>
+<div *ngIf="scrollbar && showScrollbar" class="swiper-scrollbar" #scrollbarElRef></div>
+<div *ngIf="pagination && showPagination" class="swiper-pagination" #paginationElRef></div>
+<div [ngClass]="wrapperClass" [attr.id]="id">
+  <ng-content select="[slot=wrapper-start]"></ng-content>
+  <ng-template
+    *ngTemplateOutlet="
+      slidesTemplate;
+      context: {
+        loopSlides: prependSlides,
+        key: 'prepend'
+      }
+    "
+  ></ng-template>
+  <ng-template
+    *ngTemplateOutlet="
+      slidesTemplate;
+      context: {
+        loopSlides: activeSlides,
+        key: ''
+      }
+    "
+  ></ng-template>
+  <ng-template
+    *ngTemplateOutlet="
+      slidesTemplate;
+      context: {
+        loopSlides: appendSlides,
+        key: 'append'
+      }
+    "
+  ></ng-template>
+  <ng-content select="[slot=wrapper-end]"></ng-content>
+</div>
+<ng-content select="[slot=container-end]"></ng-content>
+
+<ng-template #slidesTemplate let-loopSlides="loopSlides" let-slideKey="key">
+  <div
+    *ngFor="let slide of loopSlides | async"
+    [ngClass]="
+      (slide.class ? slide.class + ' ' : '') +
+      slideClass +
+      (slideKey !== '' ? ' ' + slideDuplicateClass : '')
+    "
+    [attr.data-swiper-slide-index]="slide.virtualIndex ? slide.virtualIndex : slide.slideIndex"
+    [attr.data-swiper-autoplay]="slide.autoplayDelay"
+    [style]="style"
+    [ngSwitch]="slide.zoom"
+  >
+    <div *ngSwitchCase="true" [ngClass]="zoomContainerClass">
+      <ng-template
+        [ngTemplateOutlet]="slide.template"
+        [ngTemplateOutletContext]="{
+          $implicit: slide.slideData
+        }"
+      ></ng-template>
+    </div>
+    <ng-container *ngSwitchDefault>
+      <ng-template
+        [ngTemplateOutlet]="slide.template"
+        [ngTemplateOutletContext]="{
+          $implicit: slide.slideData
+        }"
+      ></ng-template>
+    </ng-container>
+  </div>
+</ng-template>

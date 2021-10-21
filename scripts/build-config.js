@@ -1,5 +1,5 @@
 module.exports = {
-  components: [
+  modules: [
     'virtual',
     'keyboard',
     'mousewheel',
@@ -14,15 +14,15 @@ module.exports = {
     'history',
     'hash-navigation',
     'autoplay',
+    'thumbs',
+    'free-mode',
+    'grid',
+    'manipulation',
     'effect-fade',
     'effect-cube',
     'effect-flip',
     'effect-coverflow',
-    'thumbs',
+    'effect-creative',
+    'effect-cards',
   ],
-  themeColor: '#007aff',
-  colors: {
-    white: '#ffffff',
-    black: '#000000',
-  },
 };

@@ -1,8 +1,17 @@
 .DS_Store
 node_modules
-build
 custom
 *.log
 
 .versions
 .idea
+dist
+
+
+cypress/screenshots
+
+# local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

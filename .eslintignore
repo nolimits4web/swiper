@@ -1,7 +1,8 @@
-demos
 build
-playground
+playground/index.html
+playground/angular
 node_modules
 dist
-package
 src/swiper.js
+src/angular
+postinstall.js
