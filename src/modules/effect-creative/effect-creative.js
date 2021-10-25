@@ -32,14 +32,14 @@ export default function EffectCreative({ swiper, extendParams, on }) {
   };
 
   const setTranslate = () => {
-    const { slides, $wrapperEl } = swiper;
+    const { slides, $wrapperEl, slidesSizesGrid } = swiper;
     const params = swiper.params.creativeEffect;
     const { progressMultiplier: multiplier } = params;
 
     const isCenteredSlides = swiper.params.centeredSlides;
 
     if (isCenteredSlides) {
-      const margin = slides.eq(0)[0].offsetWidth / 2 - swiper.params.slidesOffsetBefore || 0;
+      const margin = slidesSizesGrid[0] / 2 - swiper.params.slidesOffsetBefore || 0;
       $wrapperEl.transform(`translateX(calc(50% - ${margin}px))`);
     }
 
