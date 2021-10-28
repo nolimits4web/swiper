@@ -30,6 +30,12 @@ export interface CoverflowEffectOptions {
    */
   depth?: number;
   /**
+   * Slide scale effect
+   *
+   * @default 1
+   */
+  scale?: number;
+  /**
    * Effect multiplier
    *
    * @default 1

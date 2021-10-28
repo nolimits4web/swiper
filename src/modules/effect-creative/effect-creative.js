@@ -32,9 +32,17 @@ export default function EffectCreative({ swiper, extendParams, on }) {
   };
 
   const setTranslate = () => {
-    const { slides } = swiper;
+    const { slides, $wrapperEl, slidesSizesGrid } = swiper;
     const params = swiper.params.creativeEffect;
     const { progressMultiplier: multiplier } = params;
+
+    const isCenteredSlides = swiper.params.centeredSlides;
+
+    if (isCenteredSlides) {
+      const margin = slidesSizesGrid[0] / 2 - swiper.params.slidesOffsetBefore || 0;
+      $wrapperEl.transform(`translateX(calc(50% - ${margin}px))`);
+    }
+
     for (let i = 0; i < slides.length; i += 1) {
       const $slideEl = slides.eq(i);
       const slideProgress = $slideEl[0].progress;
@@ -42,6 +50,15 @@ export default function EffectCreative({ swiper, extendParams, on }) {
         Math.max($slideEl[0].progress, -params.limitProgress),
         params.limitProgress,
       );
+      let originalProgress = progress;
+
+      if (!isCenteredSlides) {
+        originalProgress = Math.min(
+          Math.max($slideEl[0].originalProgress, -params.limitProgress),
+          params.limitProgress,
+        );
+      }
+
       const offset = $slideEl[0].swiperSlideOffset;
       const t = [swiper.params.cssMode ? -offset - swiper.translate : -offset, 0, 0];
       const r = [0, 0, 0];
@@ -79,13 +96,13 @@ export default function EffectCreative({ swiper, extendParams, on }) {
       const translateString = t.join(', ');
       const rotateString = `rotateX(${r[0]}deg) rotateY(${r[1]}deg) rotateZ(${r[2]}deg)`;
       const scaleString =
-        progress < 0
-          ? `scale(${1 + (1 - data.scale) * progress * multiplier})`
-          : `scale(${1 - (1 - data.scale) * progress * multiplier})`;
+        originalProgress < 0
+          ? `scale(${1 + (1 - data.scale) * originalProgress * multiplier})`
+          : `scale(${1 - (1 - data.scale) * originalProgress * multiplier})`;
       const opacityString =
-        progress < 0
-          ? 1 + (1 - data.opacity) * progress * multiplier
-          : 1 - (1 - data.opacity) * progress * multiplier;
+        originalProgress < 0
+          ? 1 + (1 - data.opacity) * originalProgress * multiplier
+          : 1 - (1 - data.opacity) * originalProgress * multiplier;
       const transform = `translate3d(${translateString}) ${rotateString} ${scaleString}`;
 
       // Set shadows
