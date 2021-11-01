@@ -1197,6 +1197,11 @@ export interface SwiperOptions {
    * ```
    */
   grid?: GridOptions;
+  
+  /**
+  * Forced number of slides that can be changed at one time
+  */
+  slidesPerOnce?: number;
 
   /**
    * !INTERNAL When enabled will emit "_containerClasses" and "_slideClass" events
