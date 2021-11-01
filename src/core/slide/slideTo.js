@@ -123,12 +123,12 @@ export default function slideTo(
   if (params.slidesPerOnce) {
     let slidesPerOnce = params.slidesPerOnce;
     
-    if (slideIndex < activeIndex && index - activeIndex < slidesPerOnce) {
-      index = activeIndex - slidesPerOnce;
+    if (slideIndex < activeIndex && slideIndex - activeIndex < slidesPerOnce) {
+      slideIndex = activeIndex - slidesPerOnce;
     }
 
-    if (index > activeIndex && index - activeIndex > slidesPerOnce) {
-      index = activeIndex + slidesPerOnce;
+    if (slideIndex > activeIndex && slideIndex - activeIndex > slidesPerOnce) {
+      slideIndex = activeIndex + slidesPerOnce;
     }
   }
 
