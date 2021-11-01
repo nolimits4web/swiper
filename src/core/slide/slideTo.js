@@ -118,6 +118,19 @@ export default function slideTo(
   if (slideIndex > activeIndex) direction = 'next';
   else if (slideIndex < activeIndex) direction = 'prev';
   else direction = 'reset';
+  
+  // forced number of slides that can be changed at one time
+  if (params.slidesPerOnce) {
+    let slidesPerOnce = params.slidesPerOnce;
+    
+    if (slideIndex < activeIndex && index - activeIndex < slidesPerOnce) {
+      index = activeIndex - slidesPerOnce;
+    }
+
+    if (index > activeIndex && index - activeIndex > slidesPerOnce) {
+      index = activeIndex + slidesPerOnce;
+    }
+  }
 
   // Update Index
   if ((rtl && -translate === swiper.translate) || (!rtl && translate === swiper.translate)) {
