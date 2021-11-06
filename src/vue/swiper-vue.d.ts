@@ -474,4 +474,9 @@ declare const SwiperSlide: DefineComponent<{
   };
 }>;
 
-export { Swiper, SwiperSlide };
+export { 
+  Swiper, 
+  SwiperSlide,
+  SwiperOptions, 
+  SwiperClass   
+};
