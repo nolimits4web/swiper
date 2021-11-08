@@ -468,4 +468,29 @@ context('Core', () => {
     cy.get(`.swiper-scrollbar`).should('exist');
     cy.get(`.swiper-pagination`).should('exist');
   });
+
+  it('allow init empty Swiper', () => {
+    cy.window().then(async (_window) => {
+      _window.document.body.innerHTML = `
+      <div class="swiper-container">
+        <div class="swiper-wrapper"></div>
+        <div class="swiper-slide"></div>
+      </div>
+      `;
+      _window.swiperRef = new _window.Swiper('.swiper-container', {
+        loop: true,
+        loopedSlides: 0,
+        loopPreventsSlide: false,
+        on: {
+          init: () => {
+            cy.get('.swiper-slide').then((slide) => {
+              _window.swiperRef.addSlide(0, slide);
+            });
+          },
+        },
+      });
+      return _window.swiperRef;
+    });
+    cy.getActiveSlide();
+  });
 });

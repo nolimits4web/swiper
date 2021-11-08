@@ -6,7 +6,8 @@ export default function loopCreate() {
   const document = getDocument();
   const { params, $wrapperEl } = swiper;
   // Remove duplicated slides
-  const $selector = $($wrapperEl.children()[0].parentNode);
+  const $selector =
+    $wrapperEl.children().length > 0 ? $($wrapperEl.children()[0].parentNode) : $wrapperEl;
   $selector.children(`.${params.slideClass}.${params.slideDuplicateClass}`).remove();
 
   let slides = $selector.children(`.${params.slideClass}`);
