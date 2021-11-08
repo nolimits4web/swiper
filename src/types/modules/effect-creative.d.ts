@@ -83,7 +83,7 @@ export interface CreativeEffectOptions {
    *
    * @default 1
    */
-  progressMultipler?: number;
+  progressMultiplier?: number;
   /**
    * Enable this parameter if your custom transforms require 3D transformations (`translateZ`, `rotateX`, `rotateY` )
    *
