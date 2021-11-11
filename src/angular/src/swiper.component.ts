@@ -394,6 +394,10 @@ export class SwiperComponent implements OnInit {
   // prettier-ignore
   @Output('zoomChange') s_zoomChange: EventEmitter<SwiperEvents['zoomChange']> = new EventEmitter<any>();
   // prettier-ignore
+  @Output('lock') s_lock: EventEmitter<SwiperEvents['lock']> = new EventEmitter<any>();
+  // prettier-ignore
+  @Output('unlock') s_unlock: EventEmitter<SwiperEvents['unlock']> = new EventEmitter<any>();
+  // prettier-ignore
   @Output('swiper') s_swiper: EventEmitter<any> = new EventEmitter<any>();
 
   @Output() indexChange = new EventEmitter<number>();
