@@ -172,9 +172,9 @@ export default function slideTo(
   swiper.emit('beforeTransitionStart', speed, internal);
   swiper.transitionStart(runCallbacks, direction);
 
-  if(speed === 0){
-      swiper.transitionEnd(runCallbacks, direction);
-  } else if (!swiper.animating){
+  if (speed === 0) {
+    swiper.transitionEnd(runCallbacks, direction);
+  } else if (!swiper.animating) {
     swiper.animating = true;
     if (!swiper.onSlideToWrapperTransitionEnd) {
       swiper.onSlideToWrapperTransitionEnd = function transitionEnd(e) {
