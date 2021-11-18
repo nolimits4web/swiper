@@ -1,5 +1,18 @@
 # Changelog
 
+# [7.3.0](https://github.com/nolimits4web/Swiper/compare/v7.2.0...v7.3.0) (2021-11-18)
+
+### Bug Fixes
+
+- **docs:** property -> properly ([#5187](https://github.com/nolimits4web/Swiper/issues/5187)) ([2824b0c](https://github.com/nolimits4web/Swiper/commit/2824b0cf35398c97b7027b11bc6a28153bfa4b5c))
+- **zoom:** use only one element to zoom ([60a9886](https://github.com/nolimits4web/Swiper/commit/60a9886ea2b74ed166f2a5b4a762f88c0508bfe5)), closes [#5170](https://github.com/nolimits4web/Swiper/issues/5170)
+- **core:** fallback $selector to $wrapperEl if no children exist ([#5173](https://github.com/nolimits4web/Swiper/issues/5173)) ([d8b4ca1](https://github.com/nolimits4web/Swiper/commit/d8b4ca1d59b76404fdcff98c54da1025f868181d))
+- **types:** fixed typo `progressMultipler` -> `progressMultiplier` ([#5158](https://github.com/nolimits4web/Swiper/issues/5158)) ([815e837](https://github.com/nolimits4web/Swiper/commit/815e837a564784b706ed51b869c5de02dcb4b46f))
+
+### Features
+
+- **react:** export `SwiperProps` and `SwiperSlideProps` types ([d543020](https://github.com/nolimits4web/Swiper/commit/d543020d12093269d87d800ce83d8ffffcd31792)), closes [#5141](https://github.com/nolimits4web/Swiper/issues/5141)
+
 # [7.2.0](https://github.com/nolimits4web/Swiper/compare/v7.1.0...v7.2.0) (2021-10-27)
 
 ### Features
