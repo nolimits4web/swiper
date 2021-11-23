@@ -36,7 +36,7 @@ export default function onTouchEnd(event) {
 
   // Tap, doubleTap, Click
   if (swiper.allowClick) {
-    swiper.updateClickedSlide(e);
+    swiper.updateClickedSlide(e.path && e.path[0] ? e.path[0] : e);
     swiper.emit('tap click', e);
     if (timeDiff < 300 && touchEndTime - data.lastClickTime < 300) {
       swiper.emit('doubleTap doubleClick', e);
