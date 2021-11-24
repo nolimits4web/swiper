@@ -1,3 +1,4 @@
+import { SwiperEvents } from './../../../../../src/types/swiper-events.d';
 import { ChangeDetectorRef, Component, NgZone, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { SwiperComponent } from 'src/angular/src/public-api';
@@ -37,6 +38,11 @@ export class HomePage {
   slides$ = new BehaviorSubject<string[]>(['']);
   constructor(private cd: ChangeDetectorRef, private ngZone: NgZone) {}
   ngOnInit() {}
+
+  testEvent(event: Parameters<SwiperEvents['beforeTransitionStart']>) {
+    const [swiper, speed, internal] = event;
+    console.log({ swiper, speed, internal });
+  }
 
   getSlides() {
     this.slides$.next(Array.from({ length: 600 }).map((el, index) => `Slide ${index + 1}`));
