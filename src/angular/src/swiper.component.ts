@@ -454,10 +454,7 @@ export class SwiperComponent implements OnInit {
   ) {}
 
   private _setElement(el: ElementRef, ref: any, update: string, key = 'el') {
-    if (!el || !ref) {
-      return;
-    }
-    if (ref && el.nativeElement) {
+    if (ref && el && el.nativeElement) {
       if (ref[key] === el.nativeElement) {
         return;
       }
@@ -660,6 +657,7 @@ export class SwiperComponent implements OnInit {
           pagination &&
           !pagination.el
         ) {
+          console.log('pagination', changedParams.pagination);
           this.updateParameter('pagination', this.pagination);
           pagination.init();
           pagination.render();
@@ -795,19 +793,25 @@ export class SwiperComponent implements OnInit {
   }
 
   updateParameter(key: string, value: any) {
+    console.log(key);
     if (!(this.swiperRef && !this.swiperRef.destroyed)) {
       return;
     }
     const _key = key.replace(/^_/, '');
     const isCurrentParamObj = isObject(this.swiperRef.params[_key]);
 
-    if (Object.keys(this.swiperRef.modules).indexOf(_key) >= 0) {
-      const defaultParams = this.swiperRef.modules[_key].params[_key];
-      if (isCurrentParamObj) {
-        extend(this.swiperRef.params[_key], defaultParams);
-      } else {
-        this.swiperRef.params[_key] = defaultParams;
-      }
+    if (
+      Object.values(this.swiperRef.modules)
+        .map((v) => v['name']?.toLowerCase())
+        .indexOf(_key) >= 0
+    ) {
+      const defaultParams = this.swiperRef.originalParams[_key];
+      // this.swiperRef.params[_key] = value;
+      // if (isCurrentParamObj) {
+      //   extend(this.swiperRef.params[_key], value);
+      // }
+      // this.swiperRef.params[_key] = defaultParams;
+      return;
     }
     if (_key === 'enabled') {
       if (value === true) {

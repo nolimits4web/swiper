@@ -9,29 +9,36 @@ export function getParams(obj: any = {}) {
   const params: any = {
     on: {},
   };
-  const passedParams: any = {};
+  const events = {};
+  const passedParams = {};
   extend(params, Swiper.defaults);
   extend(params, Swiper.extendedDefaults);
   params._emitClasses = true;
+  params.init = false;
 
-  const rest: any = {};
-  Object.keys(obj).forEach((key: string) => {
-    const _key = key.replace(/^_/, '');
-    if (typeof obj[_key] === 'undefined') return;
-    if (allowedParams.indexOf(_key) >= 0) {
-      if (isObject(obj[_key])) {
-        params[_key] = {};
-        passedParams[_key] = {};
-        extend(params[_key], obj[_key]);
-        extend(passedParams[_key], obj[_key]);
+  const rest = {};
+  const allowedParams = paramsList.map((key) => key.replace(/_/, ''));
+  Object.keys(obj).forEach((key) => {
+    if (allowedParams.indexOf(key) >= 0) {
+      if (isObject(obj[key])) {
+        params[key] = {};
+        passedParams[key] = {};
+        extend(params[key], obj[key]);
+        extend(passedParams[key], obj[key]);
       } else {
-        params[_key] = obj[_key];
-        passedParams[_key] = obj[_key];
+        params[key] = obj[key];
+        passedParams[key] = obj[key];
       }
+    } else if (key.search(/on[A-Z]/) === 0 && typeof obj[key] === 'function') {
+      events[`${key[2].toLowerCase()}${key.substr(3)}`] = obj[key];
     } else {
-      rest[_key] = obj[_key];
+      rest[key] = obj[key];
     }
   });
+  ['navigation', 'pagination', 'scrollbar'].forEach((key) => {
+    if (params[key] === true) params[key] = {};
+    if (params[key] === false) delete params[key];
+  });
 
-  return { params, passedParams, rest };
+  return { params, passedParams, rest, events };
 }
