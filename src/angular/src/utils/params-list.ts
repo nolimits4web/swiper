@@ -112,4 +112,5 @@ export const paramsList = [
   '_thumbs',
   'virtual',
   'zoom',
+  'on',
 ];

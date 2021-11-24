@@ -54,6 +54,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class SwiperComponent implements OnInit {
   @Input() enabled: SwiperOptions['enabled'];
+  @Input() on: SwiperOptions['on'];
   @Input() direction: SwiperOptions['direction'];
   @Input() touchEventsTarget: SwiperOptions['touchEventsTarget'];
   @Input() initialSlide: SwiperOptions['initialSlide'];
