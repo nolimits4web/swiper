@@ -54,6 +54,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class SwiperComponent implements OnInit {
   @Input() enabled: SwiperOptions['enabled'];
+  @Input() on: SwiperOptions['on'];
   @Input() direction: SwiperOptions['direction'];
   @Input() touchEventsTarget: SwiperOptions['touchEventsTarget'];
   @Input() initialSlide: SwiperOptions['initialSlide'];
@@ -492,6 +493,8 @@ export class SwiperComponent implements OnInit {
   @Output('zoomChange') s_zoomChange = new EventEmitter<Parameters<SwiperEvents['zoomChange']>>();
 
   @Output('swiper') s_swiper = new EventEmitter<any>();
+
+  @Output('unlock') s_unlock = new EventEmitter<Parameters<SwiperEvents['unlock']>>();
 
   @Output() indexChange = new EventEmitter<number>();
 

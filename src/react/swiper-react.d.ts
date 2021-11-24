@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { SwiperOptions, Swiper as SwiperClass } from '../types/';
 
-interface Swiper extends SwiperOptions {
+interface SwiperProps extends SwiperOptions {
   /**
    * Swiper container tag
    *
@@ -34,7 +34,7 @@ interface SlideData {
   isNext: boolean;
 }
 
-interface SwiperSlide {
+interface SwiperSlideProps {
   /**
    * Slide tag
    *
@@ -64,7 +64,7 @@ interface SwiperSlide {
   children?: React.ReactNode | ((slideData: SlideData) => React.ReactNode);
 }
 
-interface Swiper
+interface SwiperProps
   extends Omit<
     React.HTMLAttributes<HTMLElement>,
     | 'onProgress'
@@ -77,9 +77,9 @@ interface Swiper
     | 'onDoubleClick'
     | 'onScroll'
   > {}
-interface SwiperSlide extends React.HTMLAttributes<HTMLElement> {}
+interface SwiperSlideProps extends React.HTMLAttributes<HTMLElement> {}
 
-declare const Swiper: React.FunctionComponent<Swiper>;
-declare const SwiperSlide: React.VoidFunctionComponent<SwiperSlide>;
+declare const Swiper: React.FunctionComponent<SwiperProps>;
+declare const SwiperSlide: React.VoidFunctionComponent<SwiperSlideProps>;
 
-export { Swiper, SwiperSlide };
+export { Swiper, SwiperSlide, SwiperProps, SwiperSlideProps };

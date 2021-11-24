@@ -1,5 +1,55 @@
 # Changelog
 
+# [7.3.1](https://github.com/nolimits4web/Swiper/compare/v7.3.0...v7.3.1) (2021-11-24)
+
+### Features
+
+- **angular:** support `on` params ([#5224](https://github.com/nolimits4web/Swiper/issues/5224)) ([3553c41](https://github.com/nolimits4web/Swiper/commit/3553c41a8de97832819e93e4cbf6e9ce8fce26ce))
+
+# [7.3.0](https://github.com/nolimits4web/Swiper/compare/v7.2.0...v7.3.0) (2021-11-18)
+
+### Bug Fixes
+
+- **docs:** property -> properly ([#5187](https://github.com/nolimits4web/Swiper/issues/5187)) ([2824b0c](https://github.com/nolimits4web/Swiper/commit/2824b0cf35398c97b7027b11bc6a28153bfa4b5c))
+- **zoom:** use only one element to zoom ([60a9886](https://github.com/nolimits4web/Swiper/commit/60a9886ea2b74ed166f2a5b4a762f88c0508bfe5)), closes [#5170](https://github.com/nolimits4web/Swiper/issues/5170)
+- **core:** fallback $selector to $wrapperEl if no children exist ([#5173](https://github.com/nolimits4web/Swiper/issues/5173)) ([d8b4ca1](https://github.com/nolimits4web/Swiper/commit/d8b4ca1d59b76404fdcff98c54da1025f868181d))
+- **types:** fixed typo `progressMultipler` -> `progressMultiplier` ([#5158](https://github.com/nolimits4web/Swiper/issues/5158)) ([815e837](https://github.com/nolimits4web/Swiper/commit/815e837a564784b706ed51b869c5de02dcb4b46f))
+
+### Features
+
+- **react:** export `SwiperProps` and `SwiperSlideProps` types ([d543020](https://github.com/nolimits4web/Swiper/commit/d543020d12093269d87d800ce83d8ffffcd31792)), closes [#5141](https://github.com/nolimits4web/Swiper/issues/5141)
+
+# [7.2.0](https://github.com/nolimits4web/Swiper/compare/v7.1.0...v7.2.0) (2021-10-27)
+
+### Features
+
+- add "main" and "module" package fields ([f228391](https://github.com/nolimits4web/Swiper/commit/f22839168622ceeb878a7345c2d5f9c4510e2e43))
+- update dom7 and ssr-window to latest ([7d45076](https://github.com/nolimits4web/Swiper/commit/7d45076cade7e437fcbacfc4153d910dc481470c))
+
+# [7.1.0](https://github.com/nolimits4web/Swiper/compare/v7.0.9...v7.1.0) (2021-10-25)
+
+### Bug Fixes
+
+- **core:** centeredSlides won't work when use creative-effect ([#5115](https://github.com/nolimits4web/Swiper/issues/5115)) ([264ca64](https://github.com/nolimits4web/Swiper/commit/264ca64297f7e6aeec2345fb04f752a0a9f49710))
+- **coverflow effect:** interface CoverflowEffectOptions updated. ([#5123](https://github.com/nolimits4web/Swiper/issues/5123)) ([b1c317a](https://github.com/nolimits4web/Swiper/commit/b1c317a68b3cdd09d862f50b0dec1c5362cd73b4))
+
+### Features
+
+- **core:** add support to loop with slotted elements ([#5117](https://github.com/nolimits4web/Swiper/issues/5117)) ([33c411e](https://github.com/nolimits4web/Swiper/commit/33c411ed39a7163c3f239c02013e9b106bbe16f8))
+
+# [7.0.9](https://github.com/nolimits4web/Swiper/compare/v7.0.8...v7.0.9) (2021-10-18)
+
+### Bug Fixes
+
+- **core:** Change opacityString and scaleString to originalProgress ([#5095](https://github.com/nolimits4web/Swiper/issues/5095)) ([244cc2e](https://github.com/nolimits4web/Swiper/commit/244cc2ee2dcddaa60b625b967b64ae646e4186b5))
+- **vue:** fix SwiperSlide types ([114fee7](https://github.com/nolimits4web/Swiper/commit/114fee7c4a5499c9aab1b7b68560c7d1dd7f5320)), closes [#5069](https://github.com/nolimits4web/Swiper/issues/5069)
+
+# [7.0.8](https://github.com/nolimits4web/Swiper/compare/v7.0.7...v7.0.8) (2021-10-04)
+
+### Features
+
+- **virtual:** improve behavior with cssMode ([b478058](https://github.com/nolimits4web/Swiper/commit/b4780585341e775bab5646c3132dcbc69b35ae37))
+
 # [7.0.7](https://github.com/nolimits4web/Swiper/compare/v7.0.6...59e44ae7e91cee32827d4605cd2795a8c115948b) (2021-09-29)
 
 ### Bug Fixes
@@ -87,7 +137,7 @@
 - **angular:** better typing ([e132ee8](https://github.com/nolimits4web/Swiper/commit/e132ee8bf420bc7fa38054aaf40e664c2f93dc28))
 - **angular:** better typing ([6b562fa](https://github.com/nolimits4web/Swiper/commit/6b562fa8e403982d6adfae6130497c1cf841ea78))
 - **angular:** support 'strictTemplates' flag ([613f12c](https://github.com/nolimits4web/Swiper/commit/613f12c5ba01e99991fe416bd37ad640bee22d72))
-- **effect-creative:** add `progressMultipler` option ([ed3bd7a](https://github.com/nolimits4web/Swiper/commit/ed3bd7a72b5f8eef23d46319a112b609cf021346))
+- **effect-creative:** add `progressMultiplier` option ([ed3bd7a](https://github.com/nolimits4web/Swiper/commit/ed3bd7a72b5f8eef23d46319a112b609cf021346))
 - **angular:** partial ivy build ([#4834](https://github.com/nolimits4web/Swiper/issues/4834)) ([e86b2b3](https://github.com/nolimits4web/Swiper/commit/e86b2b3011cb15bd41c30db9bad8994128c7b7af))
 - **core** `swiper-container` class to `swiper` ([ad8002c](https://github.com/nolimits4web/Swiper/commit/ad8002c87689936457110350e734766f2fc43dee))
 - **core** `swiper-container` class to `swiper` ([c763c9c](https://github.com/nolimits4web/Swiper/commit/c763c9c92cc05c1426a7250790725e032925b78e))

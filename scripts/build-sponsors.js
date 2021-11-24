@@ -85,6 +85,31 @@ const buildTables = (sponsors) => {
   );
 };
 
+const buildSponsorsList = async (sponsors) => {
+  const silverSponsorsContent = sponsors['Silver Sponsor'].map((item) =>
+    `
+  - [${item.title}](${item.link})
+  `.trim(),
+  );
+  const sponsorsContent = sponsors.Sponsor.map((item) =>
+    `
+  - [${item.title}](${item.link})
+  `.trim(),
+  );
+
+  let backersContent = fs.readFileSync(path.resolve(__dirname, '../BACKERS.md'), 'utf-8');
+
+  backersContent = backersContent.split('<!-- SILVER_SPONSOR -->');
+  backersContent[1] = `\n${silverSponsorsContent.join('\n')}\n`;
+  backersContent = backersContent.join('<!-- SILVER_SPONSOR -->');
+
+  backersContent = backersContent.split('<!-- SPONSOR -->');
+  backersContent[1] = `\n${sponsorsContent.join('\n')}\n`;
+  backersContent = backersContent.join('<!-- SPONSOR -->');
+
+  fs.writeFileSync(path.resolve(__dirname, '../BACKERS.md'), backersContent);
+};
+
 const buildSponsors = async () => {
   let spaceId;
   let accessToken;
@@ -129,6 +154,7 @@ const buildSponsors = async () => {
   }
 
   buildTables(sponsors);
+  buildSponsorsList(sponsors);
 };
 
 buildSponsors();

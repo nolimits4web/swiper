@@ -3,7 +3,7 @@ import $ from '../../shared/dom.js';
 export default function updateClickedSlide(e) {
   const swiper = this;
   const params = swiper.params;
-  const slide = $(e.target).closest(`.${params.slideClass}`)[0];
+  const slide = $(e).closest(`.${params.slideClass}`)[0];
   let slideFound = false;
   let slideIndex;
 

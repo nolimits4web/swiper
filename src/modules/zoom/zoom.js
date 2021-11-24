@@ -100,7 +100,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       gesture.$imageEl = gesture.$slideEl
         .find(`.${params.containerClass}`)
         .eq(0)
-        .find('img, svg, canvas, picture, .swiper-zoom-target');
+        .find('picture, img, svg, canvas, .swiper-zoom-target')
+        .eq(0);
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
       gesture.maxRatio = gesture.$imageWrapEl.attr('data-swiper-zoom') || params.maxRatio;
       if (gesture.$imageWrapEl.length === 0) {
@@ -347,7 +348,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       gesture.$imageEl = gesture.$slideEl
         .find(`.${params.containerClass}`)
         .eq(0)
-        .find('img, svg, canvas, picture, .swiper-zoom-target');
+        .find('picture, img, svg, canvas, .swiper-zoom-target')
+        .eq(0);
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
     }
     if (
@@ -449,7 +451,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       gesture.$imageEl = gesture.$slideEl
         .find(`.${params.containerClass}`)
         .eq(0)
-        .find('img, svg, canvas, picture, .swiper-zoom-target');
+        .find('picture, img, svg, canvas, .swiper-zoom-target')
+        .eq(0);
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
     }
     if (
