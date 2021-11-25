@@ -117,7 +117,8 @@ export class HomePage {
 
   slidesEx = ['first', 'second'];
 
-  onSlideChange(swiper: SwiperCore) {
+  onSlideChange(event: Parameters<SwiperEvents['slideChange']>) {
+    const [swiper] = event;
     if (swiper.isEnd) {
       // all swiper events are run outside of ngzone, so use ngzone.run or detectChanges to update the view.
       this.ngZone.run(() => {
