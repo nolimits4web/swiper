@@ -29,6 +29,7 @@ import {
   ignoreNgOnChanges,
   coerceBooleanProperty,
   isShowEl,
+  isEnabled,
 } from './utils/utils';
 import {
   SwiperOptions,
@@ -662,10 +663,7 @@ export class SwiperComponent implements OnInit {
       if (swiperParams.loop) {
         swiperRef.loopedSlides = this.loopedSlides;
       }
-      const isVirtualEnabled =
-        typeof swiperRef.params.virtual !== 'undefined' &&
-        typeof swiperRef.params.virtual !== 'boolean' &&
-        swiperRef.params.virtual.enabled;
+      const isVirtualEnabled = isEnabled(swiperRef.params.virtual);
       if (swiperRef.virtual && isVirtualEnabled) {
         swiperRef.virtual.slides = this.slides;
         const extendWith = {
@@ -680,11 +678,8 @@ export class SwiperComponent implements OnInit {
 
       if (isPlatformBrowser(this._platformId)) {
         this.swiperRef = swiperRef.init(this.elementRef.nativeElement);
-        const isEnabled =
-          typeof this.swiperRef.params.virtual !== 'undefined' &&
-          typeof this.swiperRef.params.virtual !== 'boolean' &&
-          this.swiperRef.params.virtual.enabled;
-        if (this.swiperRef.virtual && isEnabled) {
+        const isVirtualEnabled = isEnabled(this.swiperRef.params.virtual);
+        if (this.swiperRef.virtual && isVirtualEnabled) {
           this.swiperRef.virtual.update(true);
         }
         this._changeDetectorRef.detectChanges();
@@ -724,7 +719,7 @@ export class SwiperComponent implements OnInit {
       this.swiperRef.updateSlides();
       this.swiperRef.updateProgress();
       this.swiperRef.updateSlidesClasses();
-      if (this.swiperRef.lazy && this.swiperRef.params.lazy['enabled']) {
+      if (isEnabled(this.swiperRef.params.lazy)) {
         this.swiperRef.lazy.load();
       }
       this.swiperRef.virtual.update(true);
@@ -863,7 +858,7 @@ export class SwiperComponent implements OnInit {
 
   calcLoopedSlides() {
     if (!this.loop) {
-      return;
+      return false;
     }
     let slidesPerViewParams = this.slidesPerView;
     if (this.breakpoints) {
@@ -881,7 +876,7 @@ export class SwiperComponent implements OnInit {
     let loopedSlides = this.loopedSlides || slidesPerViewParams;
     if (!loopedSlides) {
       // ?
-      return;
+      return false;
     }
 
     if (this.loopAdditionalSlides) {
@@ -891,24 +886,28 @@ export class SwiperComponent implements OnInit {
       loopedSlides = this.slides.length;
     }
     this.loopedSlides = loopedSlides;
-    return loopedSlides;
+    return true;
   }
 
   updateParameter(key: string, value: any) {
     if (!(this.swiperRef && !this.swiperRef.destroyed)) {
       return;
     }
-    const _key = key.replace(/^_/, '');
+    const _key = key.replace(/^_/, '') as keyof SwiperOptions;
     const isCurrentParamObj = isObject(this.swiperRef.params[_key]);
 
-    if (Object.keys(this.swiperRef.modules).indexOf(_key) >= 0) {
-      const defaultParams = this.swiperRef.modules[_key].params[_key];
-      if (isCurrentParamObj) {
-        extend(this.swiperRef.params[_key], defaultParams);
-      } else {
-        this.swiperRef.params[_key] = defaultParams;
-      }
-    }
+    // if (
+    //   Object.values(this.swiperRef.modules)
+    //     .map((module) => module.name?.toLowerCase())
+    //     .includes(_key)
+    // ) {
+    //   const defaultParams = this.swiperRef.originalParams[_key];
+    //   if (isCurrentParamObj) {
+    //     extend(this.swiperRef.params[_key], defaultParams);
+    //   } else {
+    //     this.swiperRef.params[_key] = defaultParams;
+    //   }
+    // }
     if (_key === 'enabled') {
       if (value === true) {
         this.swiperRef.enable();
@@ -920,7 +919,7 @@ export class SwiperComponent implements OnInit {
     if (isCurrentParamObj && isObject(value)) {
       extend(this.swiperRef.params[_key], value);
     } else {
-      this.swiperRef.params[_key] = value;
+      (this.swiperRef.params[_key] as any) = value;
     }
   }
   /**

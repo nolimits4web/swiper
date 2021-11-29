@@ -7,6 +7,10 @@ export function isObject(o: any): boolean {
   );
 }
 
+export function isEnabled(val: boolean | { enabled?: boolean }) {
+  return typeof val !== 'undefined' && typeof val !== 'boolean' && val.enabled === true;
+}
+
 export function isShowEl(val: any, obj: any, el: any): boolean {
   return (
     (coerceBooleanProperty(val) === true && obj && !obj.el) ||
