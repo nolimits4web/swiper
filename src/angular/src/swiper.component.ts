@@ -657,7 +657,6 @@ export class SwiperComponent implements OnInit {
           pagination &&
           !pagination.el
         ) {
-          console.log('pagination', changedParams.pagination);
           this.updateParameter('pagination', this.pagination);
           pagination.init();
           pagination.render();
