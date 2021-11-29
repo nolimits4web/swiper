@@ -30,9 +30,11 @@ export function getParams(obj: any = {}) {
         params[_key] = obj[key];
         passedParams[_key] = obj[key];
       }
-    } else if (key.search(/on[A-Z]/) === 0 && typeof obj[key] === 'function') {
-      events[`${_key[2].toLowerCase()}${key.substr(3)}`] = obj[key];
-    } else {
+    }
+    // else if (key.search(/on[A-Z]/) === 0 && typeof obj[key] === 'function') {
+    //   events[`${_key[2].toLowerCase()}${key.substr(3)}`] = obj[key];
+    // }
+    else {
       rest[_key] = obj[key];
     }
   });
@@ -41,5 +43,5 @@ export function getParams(obj: any = {}) {
     if (params[key] === false) delete params[key];
   });
 
-  return { params, passedParams, rest, events };
+  return { params, passedParams, rest };
 }

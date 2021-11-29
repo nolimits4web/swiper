@@ -793,7 +793,6 @@ export class SwiperComponent implements OnInit {
   }
 
   updateParameter(key: string, value: any) {
-    console.log(key);
     if (!(this.swiperRef && !this.swiperRef.destroyed)) {
       return;
     }
