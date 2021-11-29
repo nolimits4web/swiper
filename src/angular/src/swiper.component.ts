@@ -800,19 +800,6 @@ export class SwiperComponent implements OnInit {
     const _key = key.replace(/^_/, '');
     const isCurrentParamObj = isObject(this.swiperRef.params[_key]);
 
-    if (
-      Object.values(this.swiperRef.modules)
-        .map((v) => v['name']?.toLowerCase())
-        .indexOf(_key) >= 0
-    ) {
-      const defaultParams = this.swiperRef.originalParams[_key];
-      // this.swiperRef.params[_key] = value;
-      // if (isCurrentParamObj) {
-      //   extend(this.swiperRef.params[_key], value);
-      // }
-      // this.swiperRef.params[_key] = defaultParams;
-      return;
-    }
     if (_key === 'enabled') {
       if (value === true) {
         this.swiperRef.enable();
