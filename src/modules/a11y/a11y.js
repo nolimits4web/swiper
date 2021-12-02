@@ -258,6 +258,17 @@ export default function A11y({ swiper, extendParams, on }) {
     );
   });
 
+  on('paginationUpdate', () => {
+    swiper.pagination.bullets.each((el) => {
+      const $bullet = $(el);
+      if ($bullet.is(`.${swiper.params.pagination.bulletActiveClass}`)) {
+        $bullet.attr('aria-current', 'true');
+      } else {
+        $bullet.removeAttr('aria-current');
+      }
+    });
+  });
+
   on('afterInit', () => {
     if (!swiper.params.a11y.enabled) return;
     init();
