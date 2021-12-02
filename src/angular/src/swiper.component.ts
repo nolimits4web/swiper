@@ -555,10 +555,7 @@ export class SwiperComponent implements OnInit {
   ) {}
 
   private _setElement(el: ElementRef, ref: any, update: string, key = 'el') {
-    if (!el || !ref) {
-      return;
-    }
-    if (ref && el.nativeElement) {
+    if (ref && el && el.nativeElement) {
       if (ref[key] === el.nativeElement) {
         return;
       }
@@ -896,18 +893,6 @@ export class SwiperComponent implements OnInit {
     const _key = key.replace(/^_/, '') as keyof SwiperOptions;
     const isCurrentParamObj = isObject(this.swiperRef.params[_key]);
 
-    // if (
-    //   Object.values(this.swiperRef.modules)
-    //     .map((module) => module.name?.toLowerCase())
-    //     .includes(_key)
-    // ) {
-    //   const defaultParams = this.swiperRef.originalParams[_key];
-    //   if (isCurrentParamObj) {
-    //     extend(this.swiperRef.params[_key], defaultParams);
-    //   } else {
-    //     this.swiperRef.params[_key] = defaultParams;
-    //   }
-    // }
     if (_key === 'enabled') {
       if (value === true) {
         this.swiperRef.enable();
