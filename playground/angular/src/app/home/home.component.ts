@@ -30,6 +30,8 @@ SwiperCore.use([
   templateUrl: './home.component.html',
 })
 export class HomePage {
+  p1 = true;
+  p2 = false;
   @ViewChild('swiperRef', { static: false }) swiperRef?: SwiperComponent;
 
   show: boolean;
