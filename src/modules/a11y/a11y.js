@@ -130,10 +130,12 @@ export default function A11y({ swiper, extendParams, on }) {
   }
 
   function updatePagination() {
+    console.log('a11y');
     const params = swiper.params.a11y;
-    if (hasPagination()) {
-      swiper.pagination.bullets.each((bulletEl) => {
-        const $bulletEl = $(bulletEl);
+    const doHasPagination = hasPagination();
+    swiper.pagination.bullets.each((bulletEl) => {
+      const $bulletEl = $(bulletEl);
+      if (doHasPagination) {
         makeElFocusable($bulletEl);
         if (!swiper.params.pagination.renderBullet) {
           addElRole($bulletEl, 'button');
@@ -141,14 +143,14 @@ export default function A11y({ swiper, extendParams, on }) {
             $bulletEl,
             params.paginationBulletMessage.replace(/\{\{index\}\}/, $bulletEl.index() + 1),
           );
-          if ($bulletEl.is(`.${swiper.params.pagination.bulletActiveClass}`)) {
-            $bulletEl.attr('aria-current', 'true');
-          } else {
-            $bulletEl.removeAttr('aria-current');
-          }
         }
-      });
-    }
+      }
+      if ($bulletEl.is(`.${swiper.params.pagination.bulletActiveClass}`)) {
+        $bulletEl.attr('aria-current', 'true');
+      } else {
+        $bulletEl.removeAttr('aria-current');
+      }
+    });
   }
 
   const initNavEl = ($el, wrapperId, message) => {
