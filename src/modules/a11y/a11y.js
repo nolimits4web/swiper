@@ -130,7 +130,6 @@ export default function A11y({ swiper, extendParams, on }) {
   }
 
   function updatePagination() {
-    console.log('a11y');
     const params = swiper.params.a11y;
     const doHasPagination = hasPagination();
     swiper.pagination.bullets.each((bulletEl) => {
