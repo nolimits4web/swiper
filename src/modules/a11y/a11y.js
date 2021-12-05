@@ -141,6 +141,11 @@ export default function A11y({ swiper, extendParams, on }) {
             $bulletEl,
             params.paginationBulletMessage.replace(/\{\{index\}\}/, $bulletEl.index() + 1),
           );
+          if ($bulletEl.is(`.${swiper.params.pagination.bulletActiveClass}`)) {
+            $bulletEl.attr('aria-current', 'true');
+          } else {
+            $bulletEl.removeAttr('aria-current');
+          }
         }
       });
     }
@@ -256,17 +261,6 @@ export default function A11y({ swiper, extendParams, on }) {
     liveRegion = $(
       `<span class="${swiper.params.a11y.notificationClass}" aria-live="assertive" aria-atomic="true"></span>`,
     );
-  });
-
-  on('paginationUpdate', () => {
-    swiper.pagination.bullets.each((el) => {
-      const $bullet = $(el);
-      if ($bullet.is(`.${swiper.params.pagination.bulletActiveClass}`)) {
-        $bullet.attr('aria-current', 'true');
-      } else {
-        $bullet.removeAttr('aria-current');
-      }
-    });
   });
 
   on('afterInit', () => {
