@@ -176,6 +176,11 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   allowTouchMove: boolean;
 
   /**
+   * Do not hide element at the end of carousel - Carousel will go to start after click
+   */
+  allowNextElementAtTheEnd: boolean;
+
+  /**
    * !INTERNAL
    */
   rtlTranslate: boolean;

@@ -206,6 +206,8 @@ class Swiper {
       // Touches
       allowTouchMove: swiper.params.allowTouchMove,
 
+      allowNextElementAtTheEnd: swiper.params.allowNextElementAtTheEnd,
+
       touches: {
         startX: 0,
         startY: 0,

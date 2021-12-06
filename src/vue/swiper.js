@@ -70,6 +70,7 @@ const Swiper = {
     longSwipesMs: { type: Number, default: undefined },
     followFinger: { type: Boolean, default: undefined },
     allowTouchMove: { type: Boolean, default: undefined },
+    allowNextElementAtTheEnd: { type: Boolean, default: undefined },
     threshold: { type: Number, default: undefined },
     touchMoveStopPropagation: { type: Boolean, default: undefined },
     touchStartPreventDefault: { type: Boolean, default: undefined },

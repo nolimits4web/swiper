@@ -417,6 +417,11 @@ export interface SwiperOptions {
   allowTouchMove?: boolean;
 
   /**
+   * Do not hide element at the end of carousel - Carousel will go to start after click
+   */
+  allowNextElementAtTheEnd?: boolean | undefined;
+
+  /**
    * Threshold value in px. If "touch distance" will be lower than this value then swiper will not move
    *
    * @default 0

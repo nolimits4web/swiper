@@ -46,6 +46,7 @@ export const paramsList = [
   'longSwipesMs',
   '_followFinger',
   'allowTouchMove',
+  'allowNextElementAtTheEnd',
   '_threshold',
   'touchMoveStopPropagation',
   'touchStartPreventDefault',

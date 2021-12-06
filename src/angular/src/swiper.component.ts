@@ -99,6 +99,7 @@ export class SwiperComponent implements OnInit {
   @Input() longSwipesMs: SwiperOptions['longSwipesMs'];
   @Input() followFinger: SwiperOptions['followFinger'];
   @Input() allowTouchMove: SwiperOptions['allowTouchMove'];
+  @Input() allowNextElementAtTheEnd: SwiperOptions['allowNextElementAtTheEnd'];
   @Input() threshold: SwiperOptions['threshold'];
   @Input() touchMoveStopPropagation: SwiperOptions['touchMoveStopPropagation'];
   @Input() touchStartPreventDefault: SwiperOptions['touchStartPreventDefault'];

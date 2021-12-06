@@ -53,7 +53,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     const { $nextEl, $prevEl } = swiper.navigation;
 
     toggleEl($prevEl, swiper.isBeginning);
-    toggleEl($nextEl, swiper.isEnd);
+    toggleEl($nextEl, swiper.isEnd && !swiper.allowNextElementAtTheEnd);
   }
   function onPrevClick(e) {
     e.preventDefault();
@@ -62,8 +62,12 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
   }
   function onNextClick(e) {
     e.preventDefault();
-    if (swiper.isEnd && !swiper.params.loop) return;
-    swiper.slideNext();
+    if (swiper.isEnd && !swiper.params.loop && !swiper.allowNextElementAtTheEnd) return;
+    if (swiper.isEnd && swiper.allowNextElementAtTheEnd) {
+      swiper.slideTo(0);
+    } else {
+      swiper.slideNext();
+    }
   }
   function init() {
     const params = swiper.params.navigation;

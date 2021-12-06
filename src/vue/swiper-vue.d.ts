@@ -195,6 +195,10 @@ declare const Swiper: DefineComponent<
       type: BooleanConstructor;
       default: undefined;
     };
+    allowNextElementAtTheEnd: {
+      type: BooleanConstructor;
+      default: undefined;
+    };
     threshold: { type: NumberConstructor; default: undefined };
     touchMoveStopPropagation: {
       type: BooleanConstructor;

@@ -14,7 +14,7 @@ const App = () => {
         slidesPerView={3}
         spaceBetween={50}
         navigation
-        loop
+        allowNextElementAtTheEnd
         scrollbar={{ draggable: true }}
         pagination={{ clickable: true }}
       >
