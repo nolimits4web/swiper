@@ -166,7 +166,7 @@
     "zone.js": "~0.11.4"
   },
   "dependencies": {
-    "dom7": "^4.0.1",
-    "ssr-window": "^4.0.1"
+    "dom7": "^4.0.2",
+    "ssr-window": "^4.0.2"
   }
 }
