@@ -121,19 +121,19 @@ export default function A11y({ swiper, extendParams, on }) {
   }
 
   function hasPagination() {
-    return (
-      swiper.pagination &&
-      swiper.params.pagination.clickable &&
-      swiper.pagination.bullets &&
-      swiper.pagination.bullets.length
-    );
+    return swiper.pagination && swiper.pagination.bullets && swiper.pagination.bullets.length;
+  }
+
+  function hasClickablePagination() {
+    return hasPagination() && swiper.params.pagination.clickable;
   }
 
   function updatePagination() {
     const params = swiper.params.a11y;
-    if (hasPagination()) {
-      swiper.pagination.bullets.each((bulletEl) => {
-        const $bulletEl = $(bulletEl);
+    if (!hasPagination()) return;
+    swiper.pagination.bullets.each((bulletEl) => {
+      const $bulletEl = $(bulletEl);
+      if (swiper.params.pagination.clickable) {
         makeElFocusable($bulletEl);
         if (!swiper.params.pagination.renderBullet) {
           addElRole($bulletEl, 'button');
@@ -142,8 +142,13 @@ export default function A11y({ swiper, extendParams, on }) {
             params.paginationBulletMessage.replace(/\{\{index\}\}/, $bulletEl.index() + 1),
           );
         }
-      });
-    }
+      }
+      if ($bulletEl.is(`.${swiper.params.pagination.bulletActiveClass}`)) {
+        $bulletEl.attr('aria-current', 'true');
+      } else {
+        $bulletEl.removeAttr('aria-current');
+      }
+    });
   }
 
   const initNavEl = ($el, wrapperId, message) => {
@@ -216,7 +221,7 @@ export default function A11y({ swiper, extendParams, on }) {
     }
 
     // Pagination
-    if (hasPagination()) {
+    if (hasClickablePagination()) {
       swiper.pagination.$el.on(
         'keydown',
         classesToSelector(swiper.params.pagination.bulletClass),
@@ -243,7 +248,7 @@ export default function A11y({ swiper, extendParams, on }) {
     }
 
     // Pagination
-    if (hasPagination()) {
+    if (hasClickablePagination()) {
       swiper.pagination.$el.off(
         'keydown',
         classesToSelector(swiper.params.pagination.bulletClass),

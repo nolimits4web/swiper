@@ -45,6 +45,11 @@ Cypress.Commands.add('getPaginationBullet', { prevSubject: 'optional' }, (subjec
   return cy.get(`.swiper-pagination-bullet:nth-child(${bulletIndex + 1})`);
 });
 
+Cypress.Commands.add('slideTo', { prevSubject: 'optional' }, (subject, slideIndex) => {
+  return cy.window().then((_window) => {
+    _window.swiperRef.slideTo(slideIndex);
+  });
+});
 Cypress.Commands.add(
   'initSwiper',
   { prevSubject: 'optional' },
