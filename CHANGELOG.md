@@ -1,5 +1,16 @@
 # Changelog
 
+# [7.3.2](https://github.com/nolimits4web/Swiper/compare/v7.3.1...v7.3.2) (2021-12-13)
+
+### Bug Fixes
+
+- **angular:** toggle input ([#5229](https://github.com/nolimits4web/Swiper/issues/5229)) ([ab3a4ad](https://github.com/nolimits4web/Swiper/commit/ab3a4adbb4e69f04e1790918d801ee2837b8fe61))
+
+### Features
+
+- **a11y:** add `aria-current` to current bullet ([#5258](https://github.com/nolimits4web/Swiper/issues/5258)) ([b5df68e](https://github.com/nolimits4web/Swiper/commit/b5df68eb38c9435c3f47769232cfd4344ec938bf))
+- update dom7 and ssr-window to latest ([627ca3a](https://github.com/nolimits4web/Swiper/commit/627ca3a2346539cdce5125d76213b077b227df27))
+
 # [7.3.1](https://github.com/nolimits4web/Swiper/compare/v7.3.0...v7.3.1) (2021-11-24)
 
 ### Features
