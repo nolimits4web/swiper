@@ -674,7 +674,6 @@ export class SwiperComponent implements OnInit {
       }
 
       if (changedParams.scrollbar) {
-        console.log(changedParams.scrollbar);
         if (
           this.scrollbar &&
           typeof this.scrollbar !== 'boolean' &&
