@@ -459,7 +459,8 @@ export class SwiperComponent implements OnInit {
   ) {}
 
   private _setElement(el: ElementRef, ref: any, update: string, key = 'el') {
-    if (ref && el && el.nativeElement) {
+    if (!ref && !el) return;
+    if (el.nativeElement) {
       if (ref[key] === el.nativeElement) {
         return;
       }
@@ -673,6 +674,7 @@ export class SwiperComponent implements OnInit {
       }
 
       if (changedParams.scrollbar) {
+        console.log(changedParams.scrollbar);
         if (
           this.scrollbar &&
           typeof this.scrollbar !== 'boolean' &&
