@@ -1,5 +1,11 @@
 # Changelog
 
+# [7.3.3](https://github.com/nolimits4web/Swiper/compare/v7.3.2...v7.3.3) (2021-12-16)
+
+### Bug Fixes
+
+- **angular:** setElement call updateInitSwiper bug ([#5296](https://github.com/nolimits4web/Swiper/issues/5296)) ([99be5ea](https://github.com/nolimits4web/Swiper/commit/99be5ea9395ca4cb1026fba9945cfbe6c3eff8a9))
+
 # [7.3.2](https://github.com/nolimits4web/Swiper/compare/v7.3.1...v7.3.2) (2021-12-13)
 
 ### Bug Fixes
