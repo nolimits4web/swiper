@@ -6,6 +6,7 @@
   "type": "module",
   "main": "./swiper.esm.js",
   "module": "./swiper.esm.js",
+  "svelte": "./swiper.esm.js",
   "exports": {
     ".": "./swiper.esm.js",
     "./core": "./swiper.esm.js",
