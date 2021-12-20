@@ -460,7 +460,7 @@ export class SwiperComponent implements OnInit {
 
   private _setElement(el: ElementRef, ref: any, update: string, key = 'el') {
     if (!ref && !el) return;
-    if (el.nativeElement) {
+    if (el && el.nativeElement) {
       if (ref[key] === el.nativeElement) {
         return;
       }
