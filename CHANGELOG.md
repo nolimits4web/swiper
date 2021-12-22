@@ -1,5 +1,12 @@
 # Changelog
 
+# [7.3.4](https://github.com/nolimits4web/Swiper/compare/v7.3.3...v7.3.4) (2021-12-22)
+
+### Bug Fixes
+
+- **angular:** `setElement` checks ([#5305](https://github.com/nolimits4web/Swiper/issues/5305)) ([51c4a49](https://github.com/nolimits4web/Swiper/commit/51c4a4926c6303e3e0d03332354a90c221663c40))
+- **angular:** fix `nativeElement` check ([d48fb1b](https://github.com/nolimits4web/Swiper/commit/d48fb1b848c61d79e05f075676b8567952f0d280)), closes [/github.com/nolimits4web/swiper/pull/5296#pullrequestreview-836214645](https://github.com//github.com/nolimits4web/swiper/pull/5296/issues/pullrequestreview-836214645)
+
 # [7.3.3](https://github.com/nolimits4web/Swiper/compare/v7.3.2...v7.3.3) (2021-12-16)
 
 ### Bug Fixes
