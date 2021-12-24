@@ -1,11 +1,22 @@
 # Changelog
 
+# [7.4.0](https://github.com/nolimits4web/Swiper/compare/v7.3.4...v7.4.0) (2021-12-24)
+
+### Bug Fixes
+
+- **core:** autoHeight shouldn't ignore zero height slides ([b3697f1](https://github.com/nolimits4web/Swiper/commit/b3697f16aaa0408062540298698b4c706538e3de)), closes [#5281](https://github.com/nolimits4web/Swiper/issues/5281)
+- **pagination:** fix dynamic bullets position with `loop` enabled ([3d377c2](https://github.com/nolimits4web/Swiper/commit/3d377c2a23e6267f6e106ca58ca7f3b09ed62fc9)), closes [#5304](https://github.com/nolimits4web/Swiper/issues/5304)
+
+### Features
+
+- **core:** add `rewind` functionality ([38fdd15](https://github.com/nolimits4web/Swiper/commit/38fdd151e9c75a016f0d7547b03fe0966e328779)), closes [#5003](https://github.com/nolimits4web/Swiper/issues/5003) [#5270](https://github.com/nolimits4web/Swiper/issues/5270)
+
 # [7.3.4](https://github.com/nolimits4web/Swiper/compare/v7.3.3...v7.3.4) (2021-12-22)
 
 ### Bug Fixes
 
 - **angular:** `setElement` checks ([#5305](https://github.com/nolimits4web/Swiper/issues/5305)) ([51c4a49](https://github.com/nolimits4web/Swiper/commit/51c4a4926c6303e3e0d03332354a90c221663c40))
-- **angular:** fix `nativeElement` check ([d48fb1b](https://github.com/nolimits4web/Swiper/commit/d48fb1b848c61d79e05f075676b8567952f0d280)), closes [/github.com/nolimits4web/swiper/pull/5296#pullrequestreview-836214645](https://github.com//github.com/nolimits4web/swiper/pull/5296/issues/pullrequestreview-836214645)
+- **angular:** fix `nativeElement` check ([d48fb1b](https://github.com/nolimits4web/Swiper/commit/d48fb1b848c61d79e05f075676b8567952f0d280))
 
 # [7.3.3](https://github.com/nolimits4web/Swiper/compare/v7.3.2...v7.3.3) (2021-12-16)
 
