@@ -603,12 +603,6 @@ export interface SwiperOptions {
   /**
    * Set to `true` to enable "rewind" mode. When enabled, clicking "next" navigation button (or calling `.slideNext()`) when on last slide will slide back to the first slide. Clicking "prev" navigation button (or calling `.slidePrev()`) when on first slide will slide forward to the last slide.
    *
-   * Because of nature of how the loop mode works, it will add duplicated slides. Such duplicated slides will have additional classes:
-   * - `swiper-slide-duplicate` - represents duplicated slide
-   * - `swiper-slide-duplicate-active` - represents slide duplicated to the currently active slide
-   * - `swiper-slide-duplicate-next` - represents slide duplicated to the slide next to active
-   * - `swiper-slide-duplicate-prev` - represents slide duplicated to the slide previous to active
-   *
    * @default false
    *
    * @note Should not be used together with `loop` mode
