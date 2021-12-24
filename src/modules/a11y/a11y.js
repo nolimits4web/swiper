@@ -97,7 +97,7 @@ export default function A11y({ swiper, extendParams, on }) {
   }
 
   function updateNavigation() {
-    if (swiper.params.loop || !swiper.navigation) return;
+    if (swiper.params.loop || swiper.params.rewind || !swiper.navigation) return;
     const { $nextEl, $prevEl } = swiper.navigation;
 
     if ($prevEl && $prevEl.length > 0) {

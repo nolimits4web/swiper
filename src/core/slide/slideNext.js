@@ -14,5 +14,8 @@ export default function slideNext(speed = this.params.speed, runCallbacks = true
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
   }
+  if (params.rewind && swiper.isEnd) {
+    return swiper.slideTo(0, speed, runCallbacks, internal);
+  }
   return swiper.slideTo(swiper.activeIndex + increment, speed, runCallbacks, internal);
 }

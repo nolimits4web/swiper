@@ -52,17 +52,17 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     if (swiper.params.loop) return;
     const { $nextEl, $prevEl } = swiper.navigation;
 
-    toggleEl($prevEl, swiper.isBeginning);
-    toggleEl($nextEl, swiper.isEnd);
+    toggleEl($prevEl, swiper.isBeginning && !swiper.params.rewind);
+    toggleEl($nextEl, swiper.isEnd && !swiper.params.rewind);
   }
   function onPrevClick(e) {
     e.preventDefault();
-    if (swiper.isBeginning && !swiper.params.loop) return;
+    if (swiper.isBeginning && !swiper.params.loop && !swiper.params.rewind) return;
     swiper.slidePrev();
   }
   function onNextClick(e) {
     e.preventDefault();
-    if (swiper.isEnd && !swiper.params.loop) return;
+    if (swiper.isEnd && !swiper.params.loop && !swiper.params.rewind) return;
     swiper.slideNext();
   }
   function init() {
