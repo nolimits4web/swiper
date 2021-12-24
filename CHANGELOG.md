@@ -1,5 +1,11 @@
 # Changelog
 
+# [7.4.1](https://github.com/nolimits4web/Swiper/compare/v7.4.0...v7.4.1) (2021-12-24)
+
+### Bug Fixes
+
+- **types:** fix `rewind` description ([83574e1](https://github.com/nolimits4web/Swiper/commit/83574e1b41ad6d61dd4c6bee8bcf699e099165f4))
+
 # [7.4.0](https://github.com/nolimits4web/Swiper/compare/v7.3.4...v7.4.0) (2021-12-24)
 
 ### Bug Fixes
