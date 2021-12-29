@@ -43,7 +43,8 @@
     "test:e2e": "is-ci \"test:e2e:prod\" \"test:e2e:dev\"",
     "test:e2e:dev": "cypress open",
     "test:e2e:prod": "cypress run",
-    "changelog": "npx conventional-changelog -p angular -i CHANGELOG.md -u -s"
+    "changelog": "npx conventional-changelog -p angular -i CHANGELOG.md -u -s",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -139,6 +140,7 @@
     "glob": "^7.1.7",
     "globby": "^11.0.4",
     "gzip-size": "^6.0.0",
+    "husky": "^7.0.4",
     "inquirer": "^8.1.1",
     "is-ci-cli": "^2.2.0",
     "less": "^4.1.1",
@@ -154,7 +156,6 @@
     "rollup": "^2.52.2",
     "rollup-plugin-svelte": "^7.1.0",
     "rxjs": "~7.1.0",
-    "simple-git-hooks": "^2.4.1",
     "svelte": "^3.38.2",
     "terser": "^5.7.0",
     "ts-node": "~10.0.0",
@@ -168,5 +169,8 @@
   "dependencies": {
     "dom7": "^4.0.2",
     "ssr-window": "^4.0.2"
+  },
+  "lint-staged": {
+    "*.{js,svelte,jsx}": "eslint --cache --fix"
   }
 }
