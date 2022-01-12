@@ -596,9 +596,18 @@ export interface SwiperOptions {
    *
    * @default false
    *
-   * @note If you use it along with `slidesPerView: 'auto'` then you need to specify `loopedSlides` parameter with amount of slides to loop (duplicate)
+   * @note If you use it along with `slidesPerView: 'auto'` then you need to specify `loopedSlides` parameter with amount of slides to loop (duplicate). Should not be used together with `rewind` mode
    */
   loop?: boolean;
+
+  /**
+   * Set to `true` to enable "rewind" mode. When enabled, clicking "next" navigation button (or calling `.slideNext()`) when on last slide will slide back to the first slide. Clicking "prev" navigation button (or calling `.slidePrev()`) when on first slide will slide forward to the last slide.
+   *
+   * @default false
+   *
+   * @note Should not be used together with `loop` mode
+   */
+  rewind?: boolean;
 
   /**
    * Addition number of slides that will be cloned after creating of loop

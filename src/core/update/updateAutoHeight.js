@@ -44,5 +44,5 @@ export default function updateAutoHeight(speed) {
   }
 
   // Update Height
-  if (newHeight) swiper.$wrapperEl.css('height', `${newHeight}px`);
+  if (newHeight || newHeight === 0) swiper.$wrapperEl.css('height', `${newHeight}px`);
 }

@@ -1,5 +1,46 @@
 # Changelog
 
+# [7.4.1](https://github.com/nolimits4web/Swiper/compare/v7.4.0...v7.4.1) (2021-12-24)
+
+### Bug Fixes
+
+- **types:** fix `rewind` description ([83574e1](https://github.com/nolimits4web/Swiper/commit/83574e1b41ad6d61dd4c6bee8bcf699e099165f4))
+
+# [7.4.0](https://github.com/nolimits4web/Swiper/compare/v7.3.4...v7.4.0) (2021-12-24)
+
+### Bug Fixes
+
+- **core:** autoHeight shouldn't ignore zero height slides ([b3697f1](https://github.com/nolimits4web/Swiper/commit/b3697f16aaa0408062540298698b4c706538e3de)), closes [#5281](https://github.com/nolimits4web/Swiper/issues/5281)
+- **pagination:** fix dynamic bullets position with `loop` enabled ([3d377c2](https://github.com/nolimits4web/Swiper/commit/3d377c2a23e6267f6e106ca58ca7f3b09ed62fc9)), closes [#5304](https://github.com/nolimits4web/Swiper/issues/5304)
+
+### Features
+
+- **core:** add `rewind` functionality ([38fdd15](https://github.com/nolimits4web/Swiper/commit/38fdd151e9c75a016f0d7547b03fe0966e328779)), closes [#5003](https://github.com/nolimits4web/Swiper/issues/5003) [#5270](https://github.com/nolimits4web/Swiper/issues/5270)
+
+# [7.3.4](https://github.com/nolimits4web/Swiper/compare/v7.3.3...v7.3.4) (2021-12-22)
+
+### Bug Fixes
+
+- **angular:** `setElement` checks ([#5305](https://github.com/nolimits4web/Swiper/issues/5305)) ([51c4a49](https://github.com/nolimits4web/Swiper/commit/51c4a4926c6303e3e0d03332354a90c221663c40))
+- **angular:** fix `nativeElement` check ([d48fb1b](https://github.com/nolimits4web/Swiper/commit/d48fb1b848c61d79e05f075676b8567952f0d280))
+
+# [7.3.3](https://github.com/nolimits4web/Swiper/compare/v7.3.2...v7.3.3) (2021-12-16)
+
+### Bug Fixes
+
+- **angular:** setElement call updateInitSwiper bug ([#5296](https://github.com/nolimits4web/Swiper/issues/5296)) ([99be5ea](https://github.com/nolimits4web/Swiper/commit/99be5ea9395ca4cb1026fba9945cfbe6c3eff8a9))
+
+# [7.3.2](https://github.com/nolimits4web/Swiper/compare/v7.3.1...v7.3.2) (2021-12-13)
+
+### Bug Fixes
+
+- **angular:** toggle input ([#5229](https://github.com/nolimits4web/Swiper/issues/5229)) ([ab3a4ad](https://github.com/nolimits4web/Swiper/commit/ab3a4adbb4e69f04e1790918d801ee2837b8fe61))
+
+### Features
+
+- **a11y:** add `aria-current` to current bullet ([#5258](https://github.com/nolimits4web/Swiper/issues/5258)) ([b5df68e](https://github.com/nolimits4web/Swiper/commit/b5df68eb38c9435c3f47769232cfd4344ec938bf))
+- update dom7 and ssr-window to latest ([627ca3a](https://github.com/nolimits4web/Swiper/commit/627ca3a2346539cdce5125d76213b077b227df27))
+
 # [7.3.1](https://github.com/nolimits4web/Swiper/compare/v7.3.0...v7.3.1) (2021-11-24)
 
 ### Features

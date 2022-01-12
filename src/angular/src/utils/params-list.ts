@@ -66,6 +66,7 @@ export const paramsList = [
   '_loopedSlides',
   '_loopFillGroupWithBlank',
   'loopPreventsSlide',
+  '_rewind',
   '_allowSlidePrev',
   '_allowSlideNext',
   '_swipeHandler',

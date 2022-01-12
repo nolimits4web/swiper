@@ -1,6 +1,6 @@
 {
   "name": "swiper-src",
-  "version": "7.3.1",
+  "version": "7.4.1",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "scripts": {
     "build": "node scripts/build",
@@ -43,7 +43,8 @@
     "test:e2e": "is-ci \"test:e2e:prod\" \"test:e2e:dev\"",
     "test:e2e:dev": "cypress open",
     "test:e2e:prod": "cypress run",
-    "changelog": "npx conventional-changelog -p angular -i CHANGELOG.md -u -s"
+    "changelog": "npx conventional-changelog -p angular -i CHANGELOG.md -u -s",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -140,6 +141,7 @@
     "glob": "^7.1.7",
     "globby": "^11.0.4",
     "gzip-size": "^6.0.0",
+    "husky": "^7.0.4",
     "inquirer": "^8.1.1",
     "is-ci-cli": "^2.2.0",
     "less": "^4.1.1",
@@ -153,8 +155,7 @@
     "react-dom": "^17.0.2",
     "rollup": "^2.52.2",
     "rollup-plugin-svelte": "^7.1.0",
-    "rxjs": "~7.4.0",
-    "simple-git-hooks": "^2.4.1",
+    "rxjs": "~7.1.0",
     "svelte": "^3.38.2",
     "terser": "^5.7.0",
     "ts-node": "~10.0.0",
@@ -166,7 +167,10 @@
     "zone.js": "~0.11.4"
   },
   "dependencies": {
-    "dom7": "^4.0.1",
-    "ssr-window": "^4.0.1"
+    "dom7": "^4.0.4",
+    "ssr-window": "^4.0.2"
+  },
+  "lint-staged": {
+    "*.{js,svelte,jsx}": "eslint --cache --fix"
   }
 }

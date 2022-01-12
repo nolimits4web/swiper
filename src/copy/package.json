@@ -1,11 +1,12 @@
 {
   "name": "swiper",
-  "version": "7.3.1",
+  "version": "7.4.1",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "typings": "swiper.d.ts",
   "type": "module",
   "main": "./swiper.esm.js",
   "module": "./swiper.esm.js",
+  "svelte": "./swiper.esm.js",
   "exports": {
     ".": "./swiper.esm.js",
     "./core": "./swiper.esm.js",
@@ -157,7 +158,7 @@
     "node": ">= 4.7.0"
   },
   "dependencies": {
-    "dom7": "^4.0.1",
-    "ssr-window": "^4.0.1"
+    "dom7": "^4.0.4",
+    "ssr-window": "^4.0.2"
   }
 }

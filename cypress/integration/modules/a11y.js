@@ -72,5 +72,14 @@ context('Core', () => {
       cy.get('.swiper-pagination-bullet:nth-child(5)').trigger('keydown', { keyCode: 32 });
       cy.getSlide(4).should('have.class', 'swiper-slide-active');
     });
+
+    it('Current bullet should have aria-current true', () => {
+      cy.slideTo(2);
+      cy.getPaginationBullet(2).should('have.attr', 'aria-current', 'true');
+      cy.getPaginationBullet(4).should('not.have.attr', 'aria-current');
+      cy.slideTo(4);
+      cy.getPaginationBullet(2).should('not.have.attr', 'aria-current');
+      cy.getPaginationBullet(4).should('have.attr', 'aria-current', 'true');
+    });
   });
 });

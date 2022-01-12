@@ -120,6 +120,7 @@ export class SwiperComponent implements OnInit {
   @Input() loopedSlides: SwiperOptions['loopedSlides'];
   @Input() loopFillGroupWithBlank: SwiperOptions['loopFillGroupWithBlank'];
   @Input() loopPreventsSlide: SwiperOptions['loopPreventsSlide'];
+  @Input() rewind: SwiperOptions['rewind'];
   @Input() allowSlidePrev: SwiperOptions['allowSlidePrev'];
   @Input() allowSlideNext: SwiperOptions['allowSlideNext'];
   @Input() swipeHandler: SwiperOptions['swipeHandler'];
@@ -555,7 +556,8 @@ export class SwiperComponent implements OnInit {
   ) {}
 
   private _setElement(el: ElementRef, ref: any, update: string, key = 'el') {
-    if (ref && el && el.nativeElement) {
+    if (!ref || !el) return;
+    if (el.nativeElement) {
       if (ref[key] === el.nativeElement) {
         return;
       }
