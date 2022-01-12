@@ -167,7 +167,7 @@
     "zone.js": "~0.11.4"
   },
   "dependencies": {
-    "dom7": "^4.0.2",
+    "dom7": "^4.0.4",
     "ssr-window": "^4.0.2"
   },
   "lint-staged": {
