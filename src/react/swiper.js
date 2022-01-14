@@ -196,7 +196,6 @@ const Swiper = forwardRef(
         <SwiperContext.Provider
           value={{
             swiper: swiperRef.current,
-            slides,
             nextEl: nextElRef.current,
             prevEl: prevElRef.current,
             scrollbarEl: scrollbarElRef.current,

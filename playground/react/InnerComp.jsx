@@ -1,14 +1,9 @@
 import React from 'react';
-import {
-  Swiper,
-  SwiperSlide,
-  useSwiperSlideContext,
-  useSwiperContext,
-} from 'swiper/react/swiper-react';
+import { Swiper, SwiperSlide, useSwiperSlide, useSwiper } from 'swiper/react/swiper-react';
 
 export default function InnerComp({ children }) {
-  const { swiper, slides } = useSwiperContext();
-  const { isActive, isDuplicate, isNext, isPrev, isVisible } = useSwiperSlideContext();
+  const { swiper } = useSwiper();
+  const { isActive, isDuplicate, isNext, isPrev, isVisible } = useSwiperSlide();
   return (
     <div style={{ lineHeight: 1, marginTop: '100px' }}>
       <>
