@@ -14,6 +14,7 @@ import { getChildren } from './get-children.js';
 import { updateSwiper } from './update-swiper.js';
 import { renderVirtual, updateOnVirtualData } from './virtual.js';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.js';
+import { SwiperContext } from './context.js';
 
 const Swiper = forwardRef(
   (
@@ -192,23 +193,35 @@ const Swiper = forwardRef(
         className={uniqueClasses(`${containerClasses}${className ? ` ${className}` : ''}`)}
         {...restProps}
       >
-        {slots['container-start']}
-        {needsNavigation(swiperParams) && (
-          <>
-            <div ref={prevElRef} className="swiper-button-prev" />
-            <div ref={nextElRef} className="swiper-button-next" />
-          </>
-        )}
-        {needsScrollbar(swiperParams) && <div ref={scrollbarElRef} className="swiper-scrollbar" />}
-        {needsPagination(swiperParams) && (
-          <div ref={paginationElRef} className="swiper-pagination" />
-        )}
-        <WrapperTag className="swiper-wrapper">
-          {slots['wrapper-start']}
-          {renderSlides()}
-          {slots['wrapper-end']}
-        </WrapperTag>
-        {slots['container-end']}
+        <SwiperContext.Provider
+          value={{
+            swiper: swiperRef.current,
+            nextEl: nextElRef.current,
+            prevEl: prevElRef.current,
+            scrollbarEl: scrollbarElRef.current,
+            paginationEl: paginationElRef.current,
+          }}
+        >
+          {slots['container-start']}
+          {needsNavigation(swiperParams) && (
+            <>
+              <div ref={prevElRef} className="swiper-button-prev" />
+              <div ref={nextElRef} className="swiper-button-next" />
+            </>
+          )}
+          {needsScrollbar(swiperParams) && (
+            <div ref={scrollbarElRef} className="swiper-scrollbar" />
+          )}
+          {needsPagination(swiperParams) && (
+            <div ref={paginationElRef} className="swiper-pagination" />
+          )}
+          <WrapperTag className="swiper-wrapper">
+            {slots['wrapper-start']}
+            {renderSlides()}
+            {slots['wrapper-end']}
+          </WrapperTag>
+          {slots['container-end']}
+        </SwiperContext.Provider>
       </Tag>
     );
   },

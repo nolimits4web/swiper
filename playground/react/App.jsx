@@ -5,6 +5,8 @@ import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 // eslint-disable-next-line
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 
+import InnerComp from './InnerComp.jsx';
+
 const App = () => {
   return (
     <main>
@@ -18,7 +20,14 @@ const App = () => {
         scrollbar={{ draggable: true }}
         pagination={{ clickable: true }}
       >
-        <SwiperSlide>Slide 1</SwiperSlide>
+        <SwiperSlide>
+          <InnerComp>Slide 1</InnerComp>
+        </SwiperSlide>
+        {[1, 2, 3, 4, 5].map((v) => (
+          <SwiperSlide key={v}>
+            <InnerComp>Slide {v}</InnerComp>
+          </SwiperSlide>
+        ))}
         <SwiperSlide>Slide 2</SwiperSlide>
         <SwiperSlide>Slide 3</SwiperSlide>
         <SwiperSlide>Slide 4</SwiperSlide>
