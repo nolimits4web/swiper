@@ -25,21 +25,29 @@ export interface VirtualMethods {
 
   /**
    * Append slide. `slides` can be a single slide item or array with such slides.
+   *
+   * @note Only for Core version (in React, Svelte, Vue & Angular it should be done by modifying slides array/data/source)
    */
   appendSlide(slide: HTMLElement | string | HTMLElement[] | string[]): void;
 
   /**
    * Prepend slide. `slides` can be a single slide item or array with such slides.
+   *
+   * @note Only for Core version (in React, Svelte, Vue & Angular it should be done by modifying slides array/data/source)
    */
   prependSlide(slide: HTMLElement | string | HTMLElement[] | string[]): void;
 
   /**
    * Remove specific slide or slides. `slideIndexes` can be a number with slide index to remove or array with indexes.
+   *
+   * @note Only for Core version (in React, Svelte, Vue & Angular it should be done by modifying slides array/data/source)
    */
   removeSlide(slideIndexes: number[]): void;
 
   /**
    * Remove all slides
+   *
+   * @note Only for Core version (in React, Svelte, Vue & Angular it should be done by modifying slides array/data/source)
    */
   removeAllSlides(): void;
 
