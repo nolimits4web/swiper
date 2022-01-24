@@ -1,4 +1,4 @@
-import { h, ref, onMounted, onUpdated, onBeforeUnmount, watch, nextTick } from 'vue';
+import { h, ref, onMounted, onUpdated, onBeforeUnmount, watch, nextTick, provide } from 'vue';
 import { getParams } from './get-params.js';
 import { initSwiper, mountSwiper } from './init-swiper.js';
 import {
@@ -318,6 +318,8 @@ const Swiper = {
       }
       breakpointChanged.value = false;
     });
+
+    provide('swiper', swiperRef);
 
     // update on virtual update
     watch(virtualData, () => {

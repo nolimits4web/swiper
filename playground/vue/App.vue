@@ -9,7 +9,7 @@
       :pagination="{ clickable: true }"
       :modules="modules"
     >
-      <swiper-slide>Slide 1</swiper-slide>
+      <swiper-slide><innerComp>Slide 1</innerComp></swiper-slide>
       <swiper-slide>Slide 2</swiper-slide>
       <swiper-slide>Slide 3</swiper-slide>
       <swiper-slide>Slide 4</swiper-slide>
@@ -27,11 +27,13 @@
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 // eslint-disable-next-line
 import { Swiper, SwiperSlide } from 'swiper/vue/swiper-vue.js';
+import innerComp from './innerComp.vue';
 
 export default {
   components: {
     Swiper,
     SwiperSlide,
+    innerComp,
   },
 
   setup() {
