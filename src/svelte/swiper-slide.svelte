@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy, beforeUpdate, afterUpdate } from 'svelte';
+  import { onMount, onDestroy, beforeUpdate, afterUpdate, setContext } from 'svelte';
   import { uniqueClasses } from './utils.js';
 
   export let zoom = undefined;
@@ -45,6 +45,8 @@
       slideClasses.indexOf('swiper-slide-next') >= 0 ||
       slideClasses.indexOf('swiper-slide-duplicate-next') >= 0,
   };
+
+  setContext('swiperSlide', slideData);
 
   onMount(() => {
     if (typeof virtualIndex === 'undefined') return;
