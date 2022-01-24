@@ -28,6 +28,10 @@ export interface LazyEvents {
 
 export interface LazyOptions {
   /**
+   * Whether the lazy loading images is enabled
+   */
+  enabled?: boolean;
+  /**
    * Enables to check is the Swiper in view before lazy loading images on initial slides
    *
    * @default false

@@ -18,6 +18,7 @@
     ><ng-template swiperSlide>Slide 9</ng-template>
   </swiper>
   <div>
+    dsa
     <h4>Enable / disable</h4>
     <swiper [enabled]="enabled" [pagination]="true">
       <ng-template swiperSlide> test vertical 2 </ng-template>
@@ -30,6 +31,7 @@
   <div>
     <h4>data-swiper-autoplay</h4>
     <swiper
+      (beforeTransitionStart)="testEvent($event)"
       [loop]="true"
       [autoHeight]="true"
       [allowTouchMove]="false"
