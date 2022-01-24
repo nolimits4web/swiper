@@ -1,5 +1,6 @@
 <script>
   import { onMount, onDestroy, beforeUpdate, afterUpdate, setContext } from 'svelte';
+  import { writable } from 'svelte/store';
   import { uniqueClasses } from './utils.js';
 
   export let zoom = undefined;
@@ -32,7 +33,8 @@
     eventAttached = false;
   };
 
-  $: slideData = {
+  const slideData = writable({});
+  $: slideData.set({
     isActive:
       slideClasses.indexOf('swiper-slide-active') >= 0 ||
       slideClasses.indexOf('swiper-slide-duplicate-active') >= 0,
@@ -44,7 +46,7 @@
     isNext:
       slideClasses.indexOf('swiper-slide-next') >= 0 ||
       slideClasses.indexOf('swiper-slide-duplicate-next') >= 0,
-  };
+  });
 
   setContext('swiperSlide', slideData);
 

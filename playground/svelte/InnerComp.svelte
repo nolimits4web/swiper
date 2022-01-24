@@ -3,11 +3,10 @@
 
   const swiper = getContext('swiper');
   const slideData = getContext('swiperSlide');
-  console.log(slideData);
 </script>
 
 <div style="line-height: 1; margin-top: 20px;">
-  <slot /> - {slideData.isActive} - {slideData.isNext}
+  <slot /> - {$slideData.isActive} - {$slideData.isNext}
   <button
     on:click={() => {
       swiper.slideNext();
