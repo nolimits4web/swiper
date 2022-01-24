@@ -1,24 +1,23 @@
-// eslint-disable-next-line
 import { isObject, extend } from './utils';
 import { paramsList } from './params-list';
 // @ts-ignore
 import Swiper from 'swiper';
-
+type KeyValueType = { [x: string]: any };
 export const allowedParams = paramsList.map((key) => key.replace(/_/, ''));
 export function getParams(obj: any = {}) {
   const params: any = {
     on: {},
   };
-  const events = {};
-  const passedParams = {};
+  // const events = {};
+  const passedParams: KeyValueType = {};
   extend(params, Swiper.defaults);
   extend(params, Swiper.extendedDefaults);
   params._emitClasses = true;
   params.init = false;
 
-  const rest = {};
+  const rest: KeyValueType = {};
   const allowedParams = paramsList.map((key) => key.replace(/_/, ''));
-  Object.keys(obj).forEach((key) => {
+  Object.keys(obj).forEach((key: string) => {
     const _key = key.replace(/^_/, '');
     if (allowedParams.indexOf(_key) >= 0) {
       if (isObject(obj[key])) {
