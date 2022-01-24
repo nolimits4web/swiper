@@ -23,7 +23,6 @@
   </main>
 </template>
 <script>
-import { inject } from 'vue';
 // eslint-disable-next-line
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 // eslint-disable-next-line

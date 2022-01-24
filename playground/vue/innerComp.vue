@@ -1,5 +1,5 @@
 <template>
-  test - {{ slideData.isActive }} - {{ slideData.isNext }}
+  test - {{ swiperSlide.isActive }} - {{ swiperSlide.isNext }}
   <button @click="swiper.slideNext()">Next</button>
 </template>
 <script>
@@ -7,10 +7,11 @@ import { inject } from 'vue';
 export default {
   setup() {
     const swiper = inject('swiper');
-    const slideData = inject('slideData');
+    const swiperSlide = inject('swiperSlide');
+    console.log({ swiper, swiperSlide });
     return {
       swiper,
-      slideData,
+      swiperSlide,
     };
     // console.log(swiper, slideData);
   },
