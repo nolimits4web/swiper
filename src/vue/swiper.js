@@ -319,7 +319,7 @@ const Swiper = {
       breakpointChanged.value = false;
     });
 
-    provide('swiper', swiperRef.value);
+    provide('swiper', swiperRef);
 
     // update on virtual update
     watch(virtualData, () => {
