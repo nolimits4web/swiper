@@ -102,6 +102,17 @@ function updateSwiper({
     }
   });
 
+  if (
+    updateParams.includes('controller') &&
+    !needControllerInit &&
+    swiper.controller &&
+    swiper.controller.control &&
+    currentParams.controller &&
+    currentParams.controller.control
+  ) {
+    swiper.controller.control = currentParams.controller.control;
+  }
+
   if (changedParams.includes('children') && virtual && currentParams.virtual.enabled) {
     virtual.slides = slides;
     virtual.update(true);
