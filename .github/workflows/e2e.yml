@@ -1,9 +1,9 @@
 name: E2E
 on:
   push:
-    branches: [master, Swiper6]
+    branches: [master, Swiper6, Swiper7, Swiper8]
   pull_request:
-    branches: [master, Swiper6]
+    branches: [master, Swiper6, Swiper7, Swiper8]
 jobs:
   test:
     runs-on: ubuntu-latest

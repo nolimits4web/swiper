@@ -1,6 +1,7 @@
 import React, { useRef, useState, forwardRef } from 'react';
 import { uniqueClasses } from './utils.js';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.js';
+import { SwiperSlideContext } from './context.js';
 
 const SwiperSlide = forwardRef(
   (
@@ -40,22 +41,19 @@ const SwiperSlide = forwardRef(
       }
     }, [swiper]);
 
-    let slideData;
-    if (typeof children === 'function') {
-      slideData = {
-        isActive:
-          slideClasses.indexOf('swiper-slide-active') >= 0 ||
-          slideClasses.indexOf('swiper-slide-duplicate-active') >= 0,
-        isVisible: slideClasses.indexOf('swiper-slide-visible') >= 0,
-        isDuplicate: slideClasses.indexOf('swiper-slide-duplicate') >= 0,
-        isPrev:
-          slideClasses.indexOf('swiper-slide-prev') >= 0 ||
-          slideClasses.indexOf('swiper-slide-duplicate-prev') >= 0,
-        isNext:
-          slideClasses.indexOf('swiper-slide-next') >= 0 ||
-          slideClasses.indexOf('swiper-slide-duplicate-next') >= 0,
-      };
-    }
+    const slideData = {
+      isActive:
+        slideClasses.indexOf('swiper-slide-active') >= 0 ||
+        slideClasses.indexOf('swiper-slide-duplicate-active') >= 0,
+      isVisible: slideClasses.indexOf('swiper-slide-visible') >= 0,
+      isDuplicate: slideClasses.indexOf('swiper-slide-duplicate') >= 0,
+      isPrev:
+        slideClasses.indexOf('swiper-slide-prev') >= 0 ||
+        slideClasses.indexOf('swiper-slide-duplicate-prev') >= 0,
+      isNext:
+        slideClasses.indexOf('swiper-slide-next') >= 0 ||
+        slideClasses.indexOf('swiper-slide-duplicate-next') >= 0,
+    };
 
     const renderChildren = () => {
       return typeof children === 'function' ? children(slideData) : children;
@@ -68,16 +66,18 @@ const SwiperSlide = forwardRef(
         data-swiper-slide-index={virtualIndex}
         {...rest}
       >
-        {zoom ? (
-          <div
-            className="swiper-zoom-container"
-            data-swiper-zoom={typeof zoom === 'number' ? zoom : undefined}
-          >
-            {renderChildren()}
-          </div>
-        ) : (
-          renderChildren()
-        )}
+        <SwiperSlideContext.Provider value={slideData}>
+          {zoom ? (
+            <div
+              className="swiper-zoom-container"
+              data-swiper-zoom={typeof zoom === 'number' ? zoom : undefined}
+            >
+              {renderChildren()}
+            </div>
+          ) : (
+            renderChildren()
+          )}
+        </SwiperSlideContext.Provider>
       </Tag>
     );
   },
