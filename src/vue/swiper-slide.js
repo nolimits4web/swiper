@@ -75,7 +75,7 @@ const SwiperSlide = {
         slideClasses.value.indexOf('swiper-slide-next') >= 0 ||
         slideClasses.value.indexOf('swiper-slide-duplicate-next') >= 0,
     }));
-    provide('slideData', slideData);
+    provide('swiperSlide', slideData);
     return () => {
       return h(
         props.tag,
