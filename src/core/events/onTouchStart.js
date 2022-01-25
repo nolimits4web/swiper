@@ -103,7 +103,12 @@ export default function onTouchStart(event) {
   if (params.threshold > 0) data.allowThresholdMove = false;
   if (e.type !== 'touchstart') {
     let preventDefault = true;
-    if ($targetEl.is(data.focusableElements)) preventDefault = false;
+    if ($targetEl.is(data.focusableElements)) {
+      preventDefault = false;
+      if ($targetEl[0].nodeName === 'SELECT') {
+        data.isTouched = false;
+      }
+    }
     if (
       document.activeElement &&
       $(document.activeElement).is(data.focusableElements) &&
