@@ -5,6 +5,7 @@
     afterUpdate,
     createEventDispatcher,
     tick,
+    setContext,
     beforeUpdate,
   } from 'svelte';
   import { getParams } from './get-params.js';
@@ -86,6 +87,7 @@
   });
 
   swiperInstance = initSwiper(swiperParams);
+  setContext('swiper', swiperInstance);
   if (swiperInstance.virtual && swiperInstance.params.virtual.enabled) {
     const extendWith = {
       cache: false,

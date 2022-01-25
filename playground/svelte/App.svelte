@@ -10,6 +10,7 @@
   } from 'swiper';
   // eslint-disable-next-line
   import { Swiper, SwiperSlide } from 'swiper/svelte/swiper-svelte.js';
+  import InnerComp from './InnerComp.svelte';
 
   const data = {
     min: 1,
@@ -47,7 +48,9 @@
     let:virtualData={{ slides, offset, from }}
   >
     {#each slides as slide, index (from + index)}
-      <SwiperSlide virtualIndex={from + index} style={`left: ${offset}px`}>{slide}</SwiperSlide>
+      <SwiperSlide virtualIndex={from + index} style={`left: ${offset}px`}
+        ><InnerComp>{slide}</InnerComp></SwiperSlide
+      >
     {/each}
   </Swiper>
 
