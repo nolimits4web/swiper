@@ -27,8 +27,9 @@ export default function onTouchMove(event) {
     return;
   }
   if (!swiper.allowTouchMove) {
-    // isMoved = true;
-    swiper.allowClick = false;
+    if (!$(e.target).is(data.focusableElements)) {
+      swiper.allowClick = false;
+    }
     if (data.isTouched) {
       Object.assign(touches, {
         startX: pageX,
