@@ -1,5 +1,6 @@
 <script>
   import { onMount, onDestroy, beforeUpdate, afterUpdate, setContext, getContext } from 'svelte';
+  import { writable } from 'svelte/store';
   import { uniqueClasses } from './utils.js';
 
   export let zoom = undefined;
@@ -32,19 +33,28 @@
     eventAttached = false;
   };
 
-  $: slideData = {
-    isActive:
-      slideClasses.indexOf('swiper-slide-active') >= 0 ||
-      slideClasses.indexOf('swiper-slide-duplicate-active') >= 0,
-    isVisible: slideClasses.indexOf('swiper-slide-visible') >= 0,
-    isDuplicate: slideClasses.indexOf('swiper-slide-duplicate') >= 0,
-    isPrev:
-      slideClasses.indexOf('swiper-slide-prev') >= 0 ||
-      slideClasses.indexOf('swiper-slide-duplicate-prev') >= 0,
-    isNext:
-      slideClasses.indexOf('swiper-slide-next') >= 0 ||
-      slideClasses.indexOf('swiper-slide-duplicate-next') >= 0,
+  const slideDataContext = writable({});
+  const setSlideData = () => {
+    const _data = {
+      isActive:
+        slideClasses.indexOf('swiper-slide-active') >= 0 ||
+        slideClasses.indexOf('swiper-slide-duplicate-active') >= 0,
+      isVisible: slideClasses.indexOf('swiper-slide-visible') >= 0,
+      isDuplicate: slideClasses.indexOf('swiper-slide-duplicate') >= 0,
+      isPrev:
+        slideClasses.indexOf('swiper-slide-prev') >= 0 ||
+        slideClasses.indexOf('swiper-slide-duplicate-prev') >= 0,
+      isNext:
+        slideClasses.indexOf('swiper-slide-next') >= 0 ||
+        slideClasses.indexOf('swiper-slide-duplicate-next') >= 0,
+    };
+    slideDataContext.set(_data);
+    return _data;
   };
+
+  $: slideData = setSlideData();
+
+  setContext('swiperSlide', slideDataContext);
 
   onMount(() => {
     if (typeof virtualIndex === 'undefined') return;

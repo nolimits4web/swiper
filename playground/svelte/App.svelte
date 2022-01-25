@@ -9,6 +9,7 @@
   } from 'swiper';
   // eslint-disable-next-line
   import { Swiper, SwiperSlide } from 'swiper/svelte/swiper-svelte.js';
+  import InnerComp from './InnerComp.svelte';
 </script>
 
 <main>
@@ -24,6 +25,7 @@
   >
     <SwiperSlide let:data>Slide 1 {JSON.stringify(data)}</SwiperSlide>
     <SwiperSlide let:data={{ isActive }}>Slide 2</SwiperSlide>
+    <SwiperSlide><InnerComp>Slide 4</InnerComp></SwiperSlide>
     <SwiperSlide let:data={{ isActive }}>Slide 3 {isActive}</SwiperSlide>
     <SwiperSlide let:data={{ isActive }}>Slide 4 {isActive}</SwiperSlide>
     <SwiperSlide let:data={{ isActive }}>Slide 5 {isActive}</SwiperSlide>
