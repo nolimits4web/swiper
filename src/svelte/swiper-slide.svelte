@@ -1,6 +1,5 @@
 <script>
-  import { onMount, onDestroy, beforeUpdate, afterUpdate, setContext } from 'svelte';
-  import { writable } from 'svelte/store';
+  import { onMount, onDestroy, beforeUpdate, afterUpdate, setContext, getContext } from 'svelte';
   import { uniqueClasses } from './utils.js';
 
   export let zoom = undefined;
@@ -12,7 +11,7 @@
   let slideEl = null;
   let slideClasses = 'swiper-slide';
 
-  let swiper = null;
+  let swiper = getContext('swiper');
   let eventAttached = false;
 
   const updateClasses = (_, el, classNames) => {
@@ -33,8 +32,7 @@
     eventAttached = false;
   };
 
-  const slideData = writable({});
-  $: slideData.set({
+  $: slideData = {
     isActive:
       slideClasses.indexOf('swiper-slide-active') >= 0 ||
       slideClasses.indexOf('swiper-slide-duplicate-active') >= 0,
@@ -46,9 +44,7 @@
     isNext:
       slideClasses.indexOf('swiper-slide-next') >= 0 ||
       slideClasses.indexOf('swiper-slide-duplicate-next') >= 0,
-  });
-
-  setContext('swiperSlide', slideData);
+  };
 
   onMount(() => {
     if (typeof virtualIndex === 'undefined') return;
