@@ -42,7 +42,15 @@ declare class SwiperSlide extends SvelteComponentTyped<
   SwiperSlideProps,
   {},
   {
-    default: {};
+    default: {
+      data: {
+        isActive: boolean;
+        isVisible: boolean;
+        isDuplicate: boolean;
+        isPrev: boolean;
+        isNext: boolean;
+      };
+    };
   }
 > {}
 
