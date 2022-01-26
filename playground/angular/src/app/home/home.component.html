@@ -1,4 +1,28 @@
 <main>
+  <swiper
+    #anotherSwiperRef
+    [slidesPerView]="3"
+    [centeredSlides]="true"
+    [spaceBetween]="30"
+    [pagination]="{
+      type: 'fraction'
+    }"
+    [navigation]="true"
+    [virtual]="true"
+    class="mySwiper"
+  >
+    <ng-template swiperSlide *ngFor="let slide of anotherVirtualSlides">
+      <div>{{ slide }}</div>
+    </ng-template>
+  </swiper>
+
+  <p class="append-buttons">
+    <button (click)="prepend()" class="prepend-2-slides">Prepend 2 Slides</button>
+    <button (click)="slideTo(1)" class="slide-1">Slide 1</button>
+    <button (click)="slideTo(250)" class="slide-250">Slide 250</button>
+    <button (click)="slideTo(500)" class="slide-500">Slide 500</button>
+    <button (click)="append()" class="append-slide">Append Slide</button>
+  </p>
   <h6>Initial value true</h6>
   <button (click)="p1 = !p1">{{ p1 ? 'hide' : 'show' }}</button>
   <swiper [pagination]="p1" class="mySwiper">
@@ -18,7 +42,6 @@
     ><ng-template swiperSlide>Slide 9</ng-template>
   </swiper>
   <div>
-    dsa
     <h4>Enable / disable</h4>
     <swiper [enabled]="enabled" [pagination]="true">
       <ng-template swiperSlide> test vertical 2 </ng-template>

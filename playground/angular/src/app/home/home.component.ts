@@ -34,6 +34,7 @@ export class HomePage {
   p1 = true;
   p2 = false;
   @ViewChild('swiperRef', { static: false }) swiperRef?: SwiperComponent;
+  @ViewChild('anotherSwiperRef', { static: false }) anotherSwiperRef?: SwiperComponent;
 
   show: boolean;
   thumbs: any;
@@ -128,5 +129,25 @@ export class HomePage {
       });
       console.log(this.slidesEx);
     }
+  }
+
+  anotherVirtualSlides = Array.from({ length: 500 }).map((_, index) => `Slide ${index + 1}`);
+
+  appendNumber = 500;
+  prependNumber = 1;
+
+  prepend() {
+    this.anotherVirtualSlides = [
+      ...['Slide ' + --this.prependNumber, 'Slide ' + --this.prependNumber],
+      ...this.anotherVirtualSlides,
+    ];
+  }
+
+  append() {
+    this.anotherVirtualSlides = [...this.anotherVirtualSlides, 'Slide ' + ++this.appendNumber];
+  }
+
+  slideTo(index: number) {
+    this.anotherSwiperRef.swiperRef.slideTo(index - 1, 0);
   }
 }
