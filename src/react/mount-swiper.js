@@ -1,9 +1,4 @@
-import Swiper from 'swiper';
 import { needsNavigation, needsPagination, needsScrollbar } from './utils.js';
-
-function initSwiper(swiperParams) {
-  return new Swiper(swiperParams);
-}
 
 function mountSwiper({ el, nextEl, prevEl, paginationEl, scrollbarEl, swiper }, swiperParams) {
   if (needsNavigation(swiperParams) && nextEl && prevEl) {
@@ -23,4 +18,4 @@ function mountSwiper({ el, nextEl, prevEl, paginationEl, scrollbarEl, swiper }, 
   swiper.init(el);
 }
 
-export { initSwiper, mountSwiper };
+export { mountSwiper };

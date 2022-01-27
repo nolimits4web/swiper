@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, forwardRef } from 'react';
+import SwiperCore from 'swiper';
 import { getParams } from './get-params.js';
-import { initSwiper, mountSwiper } from './init-swiper.js';
+import { mountSwiper } from './mount-swiper.js';
 import {
   needsScrollbar,
   needsNavigation,
@@ -57,11 +58,11 @@ const Swiper = forwardRef(
       },
     });
 
-    if (!swiperElRef.current) {
+    const initSwiper = () => {
       // init swiper
       Object.assign(swiperParams.on, events);
       eventsAssigned = true;
-      swiperRef.current = initSwiper(swiperParams);
+      swiperRef.current = new SwiperCore(swiperParams);
       swiperRef.current.loopCreate = () => {};
       swiperRef.current.loopDestroy = () => {};
       if (swiperParams.loop) {
@@ -78,6 +79,10 @@ const Swiper = forwardRef(
         extend(swiperRef.current.params.virtual, extendWith);
         extend(swiperRef.current.originalParams.virtual, extendWith);
       }
+    };
+
+    if (!swiperElRef.current) {
+      initSwiper();
     }
 
     // Listen for breakpoints change
@@ -119,6 +124,9 @@ const Swiper = forwardRef(
         externalElRef.current = swiperElRef.current;
       }
       if (!swiperElRef.current) return;
+      if (swiperRef.current.destroyed) {
+        initSwiper();
+      }
 
       mountSwiper(
         {
