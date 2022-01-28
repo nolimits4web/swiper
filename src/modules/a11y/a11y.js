@@ -161,6 +161,18 @@ export default function A11y({ swiper, extendParams, on }) {
     addElControls($el, wrapperId);
   };
 
+  const handleFocus = (e) => {
+    const slideEl = e.target.closest(`.${swiper.params.slideClass}`);
+    if (!slideEl || !swiper.slides.includes(slideEl)) return;
+    const isActive = swiper.slides.indexOf(slideEl) === swiper.activeIndex;
+    const isVisible =
+      swiper.params.watchSlidesProgress &&
+      swiper.visibleSlides &&
+      swiper.visibleSlides.includes(slideEl);
+    if (isActive || isVisible) return;
+    swiper.slideTo(swiper.slides.indexOf(slideEl), 0);
+  };
+
   function init() {
     const params = swiper.params.a11y;
 
@@ -228,6 +240,9 @@ export default function A11y({ swiper, extendParams, on }) {
         onEnterOrSpaceKey,
       );
     }
+
+    // Tab focus
+    swiper.$el.on('focus', handleFocus, true);
   }
   function destroy() {
     if (liveRegion && liveRegion.length > 0) liveRegion.remove();
@@ -255,6 +270,9 @@ export default function A11y({ swiper, extendParams, on }) {
         onEnterOrSpaceKey,
       );
     }
+
+    // Tab focus
+    swiper.$el.off('focus', handleFocus, true);
   }
 
   on('beforeInit', () => {
