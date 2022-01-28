@@ -14,6 +14,14 @@ export default function freeMode({ swiper, extendParams, emit, once }) {
     },
   });
 
+  function onTouchStart() {
+    const translate = swiper.getTranslate();
+    swiper.setTranslate(translate);
+    swiper.setTransition(0);
+    swiper.touchEventsData.velocities.length = 0;
+    swiper.freeMode.onTouchEnd({ currentPos: swiper.rtl ? swiper.translate : -swiper.translate });
+  }
+
   function onTouchMove() {
     const { touchEventsData: data, touches } = swiper;
     // Velocity
@@ -213,6 +221,7 @@ export default function freeMode({ swiper, extendParams, emit, once }) {
 
   Object.assign(swiper, {
     freeMode: {
+      onTouchStart,
       onTouchMove,
       onTouchEnd,
     },

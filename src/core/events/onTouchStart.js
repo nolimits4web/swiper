@@ -126,5 +126,14 @@ export default function onTouchStart(event) {
       e.preventDefault();
     }
   }
+  if (
+    swiper.params.freeMode &&
+    swiper.params.freeMode.enabled &&
+    swiper.freeMode &&
+    swiper.animating &&
+    !params.cssMode
+  ) {
+    swiper.freeMode.onTouchStart();
+  }
   swiper.emit('touchStart', e);
 }
