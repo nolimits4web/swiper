@@ -273,6 +273,15 @@ export interface SwiperOptions {
   slidesPerView?: number | 'auto';
 
   /**
+   * If total number of slides less than specified here value, then Swiper will enable `backface-visibility: hidden` on slide elements to reduce visual "flicker" in Safari.
+   *
+   * @note It is not recommended to enable it on large amount of slides as it will reduce performance
+   *
+   * @default 10
+   */
+  maxBackfaceHiddenSlides?: number;
+
+  /**
    * Set numbers of slides to define and enable group sliding. Useful to use with slidesPerView > 1
    *
    * @default 1
