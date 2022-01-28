@@ -50,6 +50,7 @@ const Swiper = {
     breakpoints: { type: Object, default: undefined },
     spaceBetween: { type: Number, default: undefined },
     slidesPerView: { type: [Number, String], default: undefined },
+    maxBackfaceHiddenSlides: { type: Number, default: undefined },
     slidesPerGroup: { type: Number, default: undefined },
     slidesPerGroupSkip: { type: Number, default: undefined },
     slidesPerGroupAuto: { type: Boolean, default: undefined },

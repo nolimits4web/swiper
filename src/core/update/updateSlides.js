@@ -289,4 +289,12 @@ export default function updateSlides() {
   if (params.watchSlidesProgress) {
     swiper.updateSlidesOffset();
   }
+
+  if (!isVirtual && !params.cssMode && (params.effect === 'slide' || params.effect === 'fade')) {
+    if (slidesLength <= params.maxBackfaceHiddenSlides) {
+      swiper.$el.addClass(`${params.containerModifierClass}backface-hidden`);
+    } else {
+      swiper.$el.removeClass(`${params.containerModifierClass}backface-hidden`);
+    }
+  }
 }

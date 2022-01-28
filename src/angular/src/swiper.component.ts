@@ -80,6 +80,7 @@ export class SwiperComponent implements OnInit {
   @Input() breakpoints: SwiperOptions['breakpoints'];
   @Input() spaceBetween: SwiperOptions['spaceBetween'];
   @Input() slidesPerView: SwiperOptions['slidesPerView'];
+  @Input() maxBackfaceHiddenSlides: SwiperOptions['maxBackfaceHiddenSlides'];
   @Input() grid: SwiperOptions['grid'];
   @Input() slidesPerGroup: SwiperOptions['slidesPerGroup'];
   @Input() slidesPerGroupSkip: SwiperOptions['slidesPerGroupSkip'];

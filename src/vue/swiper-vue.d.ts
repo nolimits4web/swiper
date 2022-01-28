@@ -115,6 +115,10 @@ declare const Swiper: DefineComponent<
       type: PropType<SwiperOptions['slidesPerView']>;
       default: undefined;
     };
+    maxBackfaceHiddenSlides: {
+      type: NumberConstructor;
+      default: undefined;
+    };
     slidesPerGroup: {
       type: NumberConstructor;
       default: undefined;

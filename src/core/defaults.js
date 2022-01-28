@@ -121,6 +121,8 @@ export default {
   // Passive Listeners
   passiveListeners: true,
 
+  maxBackfaceHiddenSlides: 10,
+
   // NS
   containerModifierClass: 'swiper-', // NEW
   slideClass: 'swiper-slide',

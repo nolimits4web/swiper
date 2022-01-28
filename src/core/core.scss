@@ -55,7 +55,10 @@
     transition-property: transform, height;
   }
 }
-
+.swiper-backface-hidden .swiper-slide {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
 /* 3D Effects */
 .swiper-3d {
   &,
