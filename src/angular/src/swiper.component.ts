@@ -277,6 +277,14 @@ export class SwiperComponent implements OnInit {
     Parameters<SwiperEvents['autoplayStop']>
   >();
 
+  @Output('autoplayPause') s_autoplayPause = new EventEmitter<
+    Parameters<SwiperEvents['autoplayPause']>
+  >();
+
+  @Output('autoplayResume') s_autoplayResume = new EventEmitter<
+    Parameters<SwiperEvents['autoplayResume']>
+  >();
+
   @Output('beforeDestroy') s_beforeDestroy = new EventEmitter<
     Parameters<SwiperEvents['beforeDestroy']>
   >();

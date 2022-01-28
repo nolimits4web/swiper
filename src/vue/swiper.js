@@ -150,6 +150,8 @@ const Swiper = {
     'autoplay',
     'autoplayStart',
     'autoplayStop',
+    'autoplayPause',
+    'autoplayResume',
     'beforeDestroy',
     'beforeInit',
     'beforeLoopFix',

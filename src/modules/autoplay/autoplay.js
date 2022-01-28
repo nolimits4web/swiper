@@ -131,6 +131,7 @@ export default function Autoplay({ swiper, extendParams, on, emit }) {
     if (swiper.params.autoplay.disableOnInteraction) {
       stop();
     } else {
+      emit('autoplayPause');
       pause();
     }
 
@@ -143,6 +144,7 @@ export default function Autoplay({ swiper, extendParams, on, emit }) {
       return;
     }
     swiper.autoplay.paused = false;
+    emit('autoplayResume');
     run();
   }
   function attachMouseEvents() {

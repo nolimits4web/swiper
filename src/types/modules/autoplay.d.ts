@@ -27,6 +27,14 @@ export interface AutoplayEvents {
    */
   autoplayStop: (swiper: Swiper) => void;
   /**
+   * Event will be fired on autoplay pause (on mouse/pointer enter), when `pauseOnMouseEnter` enabled
+   */
+  autoplayPause: (swiper: Swiper) => void;
+  /**
+   * Event will be fired on autoplay resume (on mouse/pointer leave), when `pauseOnMouseEnter` enabled
+   */
+  autoplayResume: (swiper: Swiper) => void;
+  /**
    * Event will be fired when slide changed with autoplay
    */
   autoplay: (swiper: Swiper) => void;
