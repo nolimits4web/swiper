@@ -1,5 +1,16 @@
 # Changelog
 
+# [8.0.1](https://github.com/nolimits4web/Swiper/compare/v8.0.0...v8.0.1) (2022-02-01)
+
+### Bug Fixes
+
+- **angular:** fix angular export ([8785e2b](https://github.com/nolimits4web/Swiper/commit/8785e2b5742a84cf169dc1936e58d48b5158ae0f)), closes [#5414](https://github.com/nolimits4web/Swiper/issues/5414)
+- **react:** types for useSwiper and useSwiperSlide hooks ([2cbf82c](https://github.com/nolimits4web/Swiper/commit/2cbf82c51e9b2fd22ccf464eea502b7f19705df1)), closes [#5413](https://github.com/nolimits4web/Swiper/issues/5413)
+
+### Features
+
+- **angular:** remove deprecated `index` property ([#5412](https://github.com/nolimits4web/Swiper/issues/5412)) ([63642a1](https://github.com/nolimits4web/Swiper/commit/63642a18eb1ecffc28e7ecc6128b56e965aa9e46))
+
 # [8.0.0](https://github.com/nolimits4web/Swiper/compare/v7.4.1...v8.0.0) (2022-02-01)
 
 ### Bug Fixes
