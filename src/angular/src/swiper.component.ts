@@ -33,6 +33,7 @@ import {
 } from './utils/utils';
 import {
   SwiperOptions,
+  SwiperModule,
   SwiperEvents,
   NavigationOptions,
   PaginationOptions,
@@ -162,6 +163,7 @@ export class SwiperComponent implements OnInit {
   @Input() thumbs: SwiperOptions['thumbs'];
   @Input() zoom: SwiperOptions['zoom'];
   @Input() class: string;
+  @Input() modules: SwiperModule[];
   @Input() id: string;
   @Input()
   set navigation(val) {

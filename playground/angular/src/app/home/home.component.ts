@@ -33,6 +33,17 @@ SwiperCore.use([
 export class HomePage {
   p1 = true;
   p2 = false;
+  modules = {
+    Navigation,
+    Pagination,
+    Scrollbar,
+    A11y,
+    Virtual,
+    Zoom,
+    Autoplay,
+    Thumbs,
+    Controller,
+  };
   @ViewChild('swiperRef', { static: false }) swiperRef?: SwiperComponent;
 
   show: boolean;
