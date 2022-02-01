@@ -237,11 +237,6 @@ export class SwiperComponent implements OnInit {
   private _virtual: VirtualOptions | boolean | '';
 
   @Input()
-  set index(index: number) {
-    console.warn('`[(index)]` prop is deprecated and will be removed in upcoming versions');
-    this.setIndex(index);
-  }
-  @Input()
   set config(val: SwiperOptions) {
     this.updateSwiper(val);
     const { params } = getParams(val);
@@ -507,8 +502,6 @@ export class SwiperComponent implements OnInit {
 
   @Output('unlock') s_unlock = new EventEmitter<Parameters<SwiperEvents['unlock']>>();
 
-  @Output() indexChange = new EventEmitter<number>();
-
   @ViewChild('prevElRef', { static: false })
   set prevElRef(el: ElementRef) {
     this._prevElRef = el;
@@ -691,9 +684,6 @@ export class SwiperComponent implements OnInit {
           this.swiperRef.virtual.update(true);
         }
         this._changeDetectorRef.detectChanges();
-        swiperRef.on('slideChange', () => {
-          this.indexChange.emit(this.swiperRef.realIndex);
-        });
       }
     });
   }
@@ -917,25 +907,6 @@ export class SwiperComponent implements OnInit {
     } else {
       (this.swiperRef.params[_key] as any) = value;
     }
-  }
-  /**
-   * @deprecated will be removed in upcoming versions
-   */
-  setIndex(index: number, speed?: number, silent?: boolean): void {
-    if (!this.isSwiperActive) {
-      this.initialSlide = index;
-      return;
-    }
-    if (index === this.swiperRef.activeIndex) {
-      return;
-    }
-    this._ngZone.runOutsideAngular(() => {
-      if (this.loop) {
-        this.swiperRef.slideToLoop(index, speed, !silent);
-      } else {
-        this.swiperRef.slideTo(index, speed, !silent);
-      }
-    });
   }
 
   ngOnDestroy() {
