@@ -109,6 +109,7 @@ export default {
 
   // rewind
   rewind: false,
+  rewindOnSwipe: true,
 
   // Swiping/no swiping
   allowSlidePrev: true,

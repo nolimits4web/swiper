@@ -92,6 +92,7 @@ const Swiper = {
     loopFillGroupWithBlank: { type: Boolean, default: undefined },
     loopPreventsSlide: { type: Boolean, default: undefined },
     rewind: { type: Boolean, default: undefined },
+    rewindOnSwipe: { type: Boolean, default: undefined },
     allowSlidePrev: { type: Boolean, default: undefined },
     allowSlideNext: { type: Boolean, default: undefined },
     swipeHandler: { type: Boolean, default: undefined },

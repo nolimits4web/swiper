@@ -72,6 +72,23 @@ export default function onTouchEnd(event) {
     currentPos = -data.currentTranslate;
   }
 
+  if (params.rewind && params.rewindOnSwipe) {
+    if (swiper.isBeginning) {
+      const lastIndex =
+        swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual
+          ? swiper.virtual.slides.length - 1
+          : swiper.slides.length - 1;
+      console.log('slide to last');
+      swiper.slideTo(lastIndex);
+      return;
+    }
+
+    if (swiper.isEnd) {
+      console.log('slide to first');
+      swiper.slideTo(0);
+      return;
+    }
+  }
   if (params.cssMode) {
     return;
   }
