@@ -201,15 +201,7 @@ const Swiper = forwardRef(
         className={uniqueClasses(`${containerClasses}${className ? ` ${className}` : ''}`)}
         {...restProps}
       >
-        <SwiperContext.Provider
-          value={{
-            swiper: swiperRef.current,
-            nextEl: nextElRef.current,
-            prevEl: prevElRef.current,
-            scrollbarEl: scrollbarElRef.current,
-            paginationEl: paginationElRef.current,
-          }}
-        >
+        <SwiperContext.Provider value={swiperRef.current}>
           {slots['container-start']}
           {needsNavigation(swiperParams) && (
             <>
