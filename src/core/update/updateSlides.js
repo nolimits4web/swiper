@@ -291,10 +291,12 @@ export default function updateSlides() {
   }
 
   if (!isVirtual && !params.cssMode && (params.effect === 'slide' || params.effect === 'fade')) {
+    const backFaceHiddenClass = `${params.containerModifierClass}backface-hidden`;
+    const hasClassBackfaceClassAdded = swiper.$el.hasClass(backFaceHiddenClass);
     if (slidesLength <= params.maxBackfaceHiddenSlides) {
-      swiper.$el.addClass(`${params.containerModifierClass}backface-hidden`);
-    } else {
-      swiper.$el.removeClass(`${params.containerModifierClass}backface-hidden`);
+      if (!hasClassBackfaceClassAdded) swiper.$el.addClass(backFaceHiddenClass);
+    } else if (hasClassBackfaceClassAdded) {
+      swiper.$el.removeClass(backFaceHiddenClass);
     }
   }
 }
