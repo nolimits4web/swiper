@@ -22,6 +22,7 @@ import Swiper from 'swiper';
 import { Observable, of, Subject } from 'rxjs';
 import { getParams } from './utils/get-params';
 import { SwiperSlideDirective } from './swiper-slide.directive';
+import { SwiperNgEvents } from './swiper-events';
 import {
   extend,
   isObject,
@@ -243,264 +244,218 @@ export class SwiperComponent implements OnInit {
     Object.assign(this, params);
   }
   @Output('_beforeBreakpoint') s__beforeBreakpoint = new EventEmitter<
-    Parameters<SwiperEvents['_beforeBreakpoint']>
+    SwiperNgEvents['_beforeBreakpoint']
   >();
 
   @Output('_containerClasses') s__containerClasses = new EventEmitter<
-    Parameters<SwiperEvents['_containerClasses']>
+    SwiperNgEvents['_containerClasses']
   >();
 
-  @Output('_slideClass') s__slideClass = new EventEmitter<
-    Parameters<SwiperEvents['_slideClass']>
-  >();
+  @Output('_slideClass') s__slideClass = new EventEmitter<SwiperNgEvents['_slideClass']>();
 
-  @Output('_swiper') s__swiper = new EventEmitter<Parameters<SwiperEvents['_swiper']>>();
+  @Output('_swiper') s__swiper = new EventEmitter<SwiperNgEvents['_swiper']>();
 
   @Output('activeIndexChange') s_activeIndexChange = new EventEmitter<
-    Parameters<SwiperEvents['activeIndexChange']>
+    SwiperNgEvents['activeIndexChange']
   >();
 
-  @Output('afterInit') s_afterInit = new EventEmitter<Parameters<SwiperEvents['afterInit']>>();
+  @Output('afterInit') s_afterInit = new EventEmitter<SwiperNgEvents['afterInit']>();
 
-  @Output('autoplay') s_autoplay = new EventEmitter<Parameters<SwiperEvents['autoplay']>>();
+  @Output('autoplay') s_autoplay = new EventEmitter<SwiperNgEvents['autoplay']>();
 
-  @Output('autoplayStart') s_autoplayStart = new EventEmitter<
-    Parameters<SwiperEvents['autoplayStart']>
-  >();
+  @Output('autoplayStart') s_autoplayStart = new EventEmitter<SwiperNgEvents['autoplayStart']>();
 
-  @Output('autoplayStop') s_autoplayStop = new EventEmitter<
-    Parameters<SwiperEvents['autoplayStop']>
-  >();
+  @Output('autoplayStop') s_autoplayStop = new EventEmitter<SwiperNgEvents['autoplayStop']>();
 
-  @Output('autoplayPause') s_autoplayPause = new EventEmitter<
-    Parameters<SwiperEvents['autoplayPause']>
-  >();
+  @Output('autoplayPause') s_autoplayPause = new EventEmitter<SwiperNgEvents['autoplayPause']>();
 
-  @Output('autoplayResume') s_autoplayResume = new EventEmitter<
-    Parameters<SwiperEvents['autoplayResume']>
-  >();
+  @Output('autoplayResume') s_autoplayResume = new EventEmitter<SwiperNgEvents['autoplayResume']>();
 
-  @Output('beforeDestroy') s_beforeDestroy = new EventEmitter<
-    Parameters<SwiperEvents['beforeDestroy']>
-  >();
+  @Output('beforeDestroy') s_beforeDestroy = new EventEmitter<SwiperNgEvents['beforeDestroy']>();
 
-  @Output('beforeInit') s_beforeInit = new EventEmitter<Parameters<SwiperEvents['beforeInit']>>();
+  @Output('beforeInit') s_beforeInit = new EventEmitter<SwiperNgEvents['beforeInit']>();
 
-  @Output('beforeLoopFix') s_beforeLoopFix = new EventEmitter<
-    Parameters<SwiperEvents['beforeLoopFix']>
-  >();
+  @Output('beforeLoopFix') s_beforeLoopFix = new EventEmitter<SwiperNgEvents['beforeLoopFix']>();
 
-  @Output('beforeResize') s_beforeResize = new EventEmitter<
-    Parameters<SwiperEvents['beforeResize']>
-  >();
+  @Output('beforeResize') s_beforeResize = new EventEmitter<SwiperNgEvents['beforeResize']>();
 
   @Output('beforeSlideChangeStart') s_beforeSlideChangeStart = new EventEmitter<
-    Parameters<SwiperEvents['beforeSlideChangeStart']>
+    SwiperNgEvents['beforeSlideChangeStart']
   >();
 
   @Output('beforeTransitionStart') s_beforeTransitionStart = new EventEmitter<
-    Parameters<SwiperEvents['beforeTransitionStart']>
+    SwiperNgEvents['beforeTransitionStart']
   >();
 
-  @Output('breakpoint') s_breakpoint = new EventEmitter<Parameters<SwiperEvents['breakpoint']>>();
+  @Output('breakpoint') s_breakpoint = new EventEmitter<SwiperNgEvents['breakpoint']>();
 
   @Output('changeDirection') s_changeDirection = new EventEmitter<
-    Parameters<SwiperEvents['changeDirection']>
+    SwiperNgEvents['changeDirection']
   >();
 
-  @Output('click') s_click = new EventEmitter<Parameters<SwiperEvents['click']>>();
+  @Output('click') s_click = new EventEmitter<SwiperNgEvents['click']>();
 
-  @Output('doubleTap') s_doubleTap = new EventEmitter<Parameters<SwiperEvents['doubleTap']>>();
+  @Output('doubleTap') s_doubleTap = new EventEmitter<SwiperNgEvents['doubleTap']>();
 
-  @Output('doubleClick') s_doubleClick = new EventEmitter<
-    Parameters<SwiperEvents['doubleClick']>
-  >();
+  @Output('doubleClick') s_doubleClick = new EventEmitter<SwiperNgEvents['doubleClick']>();
 
-  @Output('destroy') s_destroy = new EventEmitter<Parameters<SwiperEvents['destroy']>>();
+  @Output('destroy') s_destroy = new EventEmitter<SwiperNgEvents['destroy']>();
 
-  @Output('fromEdge') s_fromEdge = new EventEmitter<Parameters<SwiperEvents['fromEdge']>>();
+  @Output('fromEdge') s_fromEdge = new EventEmitter<SwiperNgEvents['fromEdge']>();
 
-  @Output('hashChange') s_hashChange = new EventEmitter<Parameters<SwiperEvents['hashChange']>>();
+  @Output('hashChange') s_hashChange = new EventEmitter<SwiperNgEvents['hashChange']>();
 
-  @Output('hashSet') s_hashSet = new EventEmitter<Parameters<SwiperEvents['hashSet']>>();
+  @Output('hashSet') s_hashSet = new EventEmitter<SwiperNgEvents['hashSet']>();
 
-  @Output('imagesReady') s_imagesReady = new EventEmitter<
-    Parameters<SwiperEvents['imagesReady']>
-  >();
+  @Output('imagesReady') s_imagesReady = new EventEmitter<SwiperNgEvents['imagesReady']>();
 
-  @Output('init') s_init = new EventEmitter<Parameters<SwiperEvents['init']>>();
+  @Output('init') s_init = new EventEmitter<SwiperNgEvents['init']>();
 
-  @Output('keyPress') s_keyPress = new EventEmitter<Parameters<SwiperEvents['keyPress']>>();
+  @Output('keyPress') s_keyPress = new EventEmitter<SwiperNgEvents['keyPress']>();
 
-  @Output('lazyImageLoad') s_lazyImageLoad = new EventEmitter<
-    Parameters<SwiperEvents['lazyImageLoad']>
-  >();
+  @Output('lazyImageLoad') s_lazyImageLoad = new EventEmitter<SwiperNgEvents['lazyImageLoad']>();
 
-  @Output('lazyImageReady') s_lazyImageReady = new EventEmitter<
-    Parameters<SwiperEvents['lazyImageReady']>
-  >();
+  @Output('lazyImageReady') s_lazyImageReady = new EventEmitter<SwiperNgEvents['lazyImageReady']>();
 
-  @Output('loopFix') s_loopFix = new EventEmitter<Parameters<SwiperEvents['loopFix']>>();
+  @Output('loopFix') s_loopFix = new EventEmitter<SwiperNgEvents['loopFix']>();
 
-  @Output('momentumBounce') s_momentumBounce = new EventEmitter<
-    Parameters<SwiperEvents['momentumBounce']>
-  >();
+  @Output('momentumBounce') s_momentumBounce = new EventEmitter<SwiperNgEvents['momentumBounce']>();
 
-  @Output('navigationHide') s_navigationHide = new EventEmitter<
-    Parameters<SwiperEvents['navigationHide']>
-  >();
+  @Output('navigationHide') s_navigationHide = new EventEmitter<SwiperNgEvents['navigationHide']>();
 
-  @Output('navigationShow') s_navigationShow = new EventEmitter<
-    Parameters<SwiperEvents['navigationShow']>
-  >();
+  @Output('navigationShow') s_navigationShow = new EventEmitter<SwiperNgEvents['navigationShow']>();
 
-  @Output('observerUpdate') s_observerUpdate = new EventEmitter<
-    Parameters<SwiperEvents['observerUpdate']>
-  >();
+  @Output('observerUpdate') s_observerUpdate = new EventEmitter<SwiperNgEvents['observerUpdate']>();
 
   @Output('orientationchange') s_orientationchange = new EventEmitter<
-    Parameters<SwiperEvents['orientationchange']>
+    SwiperNgEvents['orientationchange']
   >();
 
-  @Output('paginationHide') s_paginationHide = new EventEmitter<
-    Parameters<SwiperEvents['paginationHide']>
-  >();
+  @Output('paginationHide') s_paginationHide = new EventEmitter<SwiperNgEvents['paginationHide']>();
 
   @Output('paginationRender') s_paginationRender = new EventEmitter<
-    Parameters<SwiperEvents['paginationRender']>
+    SwiperNgEvents['paginationRender']
   >();
 
-  @Output('paginationShow') s_paginationShow = new EventEmitter<
-    Parameters<SwiperEvents['paginationShow']>
-  >();
+  @Output('paginationShow') s_paginationShow = new EventEmitter<SwiperNgEvents['paginationShow']>();
 
   @Output('paginationUpdate') s_paginationUpdate = new EventEmitter<
-    Parameters<SwiperEvents['paginationUpdate']>
+    SwiperNgEvents['paginationUpdate']
   >();
 
-  @Output('progress') s_progress = new EventEmitter<Parameters<SwiperEvents['progress']>>();
+  @Output('progress') s_progress = new EventEmitter<SwiperNgEvents['progress']>();
 
-  @Output('reachBeginning') s_reachBeginning = new EventEmitter<
-    Parameters<SwiperEvents['reachBeginning']>
-  >();
+  @Output('reachBeginning') s_reachBeginning = new EventEmitter<SwiperNgEvents['reachBeginning']>();
 
-  @Output('reachEnd') s_reachEnd = new EventEmitter<Parameters<SwiperEvents['reachEnd']>>();
+  @Output('reachEnd') s_reachEnd = new EventEmitter<SwiperNgEvents['reachEnd']>();
 
   @Output('realIndexChange') s_realIndexChange = new EventEmitter<
-    Parameters<SwiperEvents['realIndexChange']>
+    SwiperNgEvents['realIndexChange']
   >();
 
-  @Output('resize') s_resize = new EventEmitter<Parameters<SwiperEvents['resize']>>();
+  @Output('resize') s_resize = new EventEmitter<SwiperNgEvents['resize']>();
 
-  @Output('scroll') s_scroll = new EventEmitter<Parameters<SwiperEvents['scroll']>>();
+  @Output('scroll') s_scroll = new EventEmitter<SwiperNgEvents['scroll']>();
 
   @Output('scrollbarDragEnd') s_scrollbarDragEnd = new EventEmitter<
-    Parameters<SwiperEvents['scrollbarDragEnd']>
+    SwiperNgEvents['scrollbarDragEnd']
   >();
 
   @Output('scrollbarDragMove') s_scrollbarDragMove = new EventEmitter<
-    Parameters<SwiperEvents['scrollbarDragMove']>
+    SwiperNgEvents['scrollbarDragMove']
   >();
 
   @Output('scrollbarDragStart') s_scrollbarDragStart = new EventEmitter<
-    Parameters<SwiperEvents['scrollbarDragStart']>
+    SwiperNgEvents['scrollbarDragStart']
   >();
 
-  @Output('setTransition') s_setTransition = new EventEmitter<
-    Parameters<SwiperEvents['setTransition']>
-  >();
+  @Output('setTransition') s_setTransition = new EventEmitter<SwiperNgEvents['setTransition']>();
 
-  @Output('setTranslate') s_setTranslate = new EventEmitter<
-    Parameters<SwiperEvents['setTranslate']>
-  >();
+  @Output('setTranslate') s_setTranslate = new EventEmitter<SwiperNgEvents['setTranslate']>();
 
-  @Output('slideChange') s_slideChange = new EventEmitter<
-    Parameters<SwiperEvents['slideChange']>
-  >();
+  @Output('slideChange') s_slideChange = new EventEmitter<SwiperNgEvents['slideChange']>();
 
   @Output('slideChangeTransitionEnd') s_slideChangeTransitionEnd = new EventEmitter<
-    Parameters<SwiperEvents['slideChangeTransitionEnd']>
+    SwiperNgEvents['slideChangeTransitionEnd']
   >();
 
   @Output('slideChangeTransitionStart') s_slideChangeTransitionStart = new EventEmitter<
-    Parameters<SwiperEvents['slideChangeTransitionStart']>
+    SwiperNgEvents['slideChangeTransitionStart']
   >();
 
   @Output('slideNextTransitionEnd') s_slideNextTransitionEnd = new EventEmitter<
-    Parameters<SwiperEvents['slideNextTransitionEnd']>
+    SwiperNgEvents['slideNextTransitionEnd']
   >();
 
   @Output('slideNextTransitionStart') s_slideNextTransitionStart = new EventEmitter<
-    Parameters<SwiperEvents['slideNextTransitionStart']>
+    SwiperNgEvents['slideNextTransitionStart']
   >();
 
   @Output('slidePrevTransitionEnd') s_slidePrevTransitionEnd = new EventEmitter<
-    Parameters<SwiperEvents['slidePrevTransitionEnd']>
+    SwiperNgEvents['slidePrevTransitionEnd']
   >();
 
   @Output('slidePrevTransitionStart') s_slidePrevTransitionStart = new EventEmitter<
-    Parameters<SwiperEvents['slidePrevTransitionStart']>
+    SwiperNgEvents['slidePrevTransitionStart']
   >();
 
   @Output('slideResetTransitionStart') s_slideResetTransitionStart = new EventEmitter<
-    Parameters<SwiperEvents['slideResetTransitionStart']>
+    SwiperNgEvents['slideResetTransitionStart']
   >();
 
   @Output('slideResetTransitionEnd') s_slideResetTransitionEnd = new EventEmitter<
-    Parameters<SwiperEvents['slideResetTransitionEnd']>
+    SwiperNgEvents['slideResetTransitionEnd']
   >();
 
-  @Output('sliderMove') s_sliderMove = new EventEmitter<Parameters<SwiperEvents['sliderMove']>>();
+  @Output('sliderMove') s_sliderMove = new EventEmitter<SwiperNgEvents['sliderMove']>();
 
   @Output('sliderFirstMove') s_sliderFirstMove = new EventEmitter<
-    Parameters<SwiperEvents['sliderFirstMove']>
+    SwiperNgEvents['sliderFirstMove']
   >();
 
   @Output('slidesLengthChange') s_slidesLengthChange = new EventEmitter<
-    Parameters<SwiperEvents['slidesLengthChange']>
+    SwiperNgEvents['slidesLengthChange']
   >();
 
   @Output('slidesGridLengthChange') s_slidesGridLengthChange = new EventEmitter<
-    Parameters<SwiperEvents['slidesGridLengthChange']>
+    SwiperNgEvents['slidesGridLengthChange']
   >();
 
   @Output('snapGridLengthChange') s_snapGridLengthChange = new EventEmitter<
-    Parameters<SwiperEvents['snapGridLengthChange']>
+    SwiperNgEvents['snapGridLengthChange']
   >();
 
   @Output('snapIndexChange') s_snapIndexChange = new EventEmitter<
-    Parameters<SwiperEvents['snapIndexChange']>
+    SwiperNgEvents['snapIndexChange']
   >();
 
-  @Output('tap') s_tap = new EventEmitter<Parameters<SwiperEvents['tap']>>();
+  @Output('tap') s_tap = new EventEmitter<SwiperNgEvents['tap']>();
 
-  @Output('toEdge') s_toEdge = new EventEmitter<Parameters<SwiperEvents['toEdge']>>();
+  @Output('toEdge') s_toEdge = new EventEmitter<SwiperNgEvents['toEdge']>();
 
-  @Output('touchEnd') s_touchEnd = new EventEmitter<Parameters<SwiperEvents['touchEnd']>>();
+  @Output('touchEnd') s_touchEnd = new EventEmitter<SwiperNgEvents['touchEnd']>();
 
-  @Output('touchMove') s_touchMove = new EventEmitter<Parameters<SwiperEvents['touchMove']>>();
+  @Output('touchMove') s_touchMove = new EventEmitter<SwiperNgEvents['touchMove']>();
 
   @Output('touchMoveOpposite') s_touchMoveOpposite = new EventEmitter<
-    Parameters<SwiperEvents['touchMoveOpposite']>
+    SwiperNgEvents['touchMoveOpposite']
   >();
 
-  @Output('touchStart') s_touchStart = new EventEmitter<Parameters<SwiperEvents['touchStart']>>();
+  @Output('touchStart') s_touchStart = new EventEmitter<SwiperNgEvents['touchStart']>();
 
-  @Output('transitionEnd') s_transitionEnd = new EventEmitter<
-    Parameters<SwiperEvents['transitionEnd']>
-  >();
+  @Output('transitionEnd') s_transitionEnd = new EventEmitter<SwiperNgEvents['transitionEnd']>();
 
   @Output('transitionStart') s_transitionStart = new EventEmitter<
-    Parameters<SwiperEvents['transitionStart']>
+    SwiperNgEvents['transitionStart']
   >();
 
-  @Output('update') s_update = new EventEmitter<Parameters<SwiperEvents['update']>>();
+  @Output('update') s_update = new EventEmitter<SwiperNgEvents['update']>();
 
-  @Output('zoomChange') s_zoomChange = new EventEmitter<Parameters<SwiperEvents['zoomChange']>>();
+  @Output('zoomChange') s_zoomChange = new EventEmitter<SwiperNgEvents['zoomChange']>();
 
   @Output('swiper') s_swiper = new EventEmitter<any>();
 
-  @Output('unlock') s_unlock = new EventEmitter<Parameters<SwiperEvents['unlock']>>();
+  @Output('unlock') s_unlock = new EventEmitter<SwiperNgEvents['unlock']>();
 
   @ViewChild('prevElRef', { static: false })
   set prevElRef(el: ElementRef) {
