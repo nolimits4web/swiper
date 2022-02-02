@@ -1,5 +1,11 @@
 # Changelog
 
+# [8.0.2](https://github.com/nolimits4web/Swiper/compare/v8.0.1...v8.0.2) (2022-02-02)
+
+### Bug Fixes
+
+- **core:** fix slider freeze with enabled observer ([8ff2691](https://github.com/nolimits4web/Swiper/commit/8ff2691ae8cfa63d97040c1ff0db3cc648f8e941)), closes [#5414](https://github.com/nolimits4web/Swiper/issues/5414)
+
 # [8.0.1](https://github.com/nolimits4web/Swiper/compare/v8.0.0...v8.0.1) (2022-02-01)
 
 ### Bug Fixes
