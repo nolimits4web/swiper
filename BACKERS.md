@@ -594,6 +594,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 ### \$100 Silver Sponsor
 
 <!-- SILVER_SPONSOR -->
+
 - [Rahapelit netissä - Löydä parhaat pelisivut rahapeleihin](https://www.pelisivut.com)
 - [Paras nettikasino (2021) - Löydä listalta parhaat nettikasinot](https://www.paraskasino.fi)
 - [Online sports betting and casino at Parimatch India](https://parimatch.in/en/football/live)
@@ -623,6 +624,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 ### \$50+ Sponsor
 
 <!-- SPONSOR -->
+
 - [Casino.xyz](https://www.casino.xyz/uk/casinos-not-on-gamstop/)
 - [Vertailee pikavipit ja pikalainat](https://www.pikavippi.com)
 - [IB extended essay writing service](https://writingmetier.com/extended-essay-writing-service/)
@@ -740,5 +742,9 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 ### \$5+ Thank You
 
 [Marcel Schulz](https://opencollective.com/marcel-schulz)<br>
+
+<!-- https://opencollective.com/insta4likes -->
+
+[Instagram likes](https://insta4likes.com/buy-instagram-followers-likes.html)<br>
 
 [Join here!](https://opencollective.com/swiper/contribute/thank-you-23765/checkout)
