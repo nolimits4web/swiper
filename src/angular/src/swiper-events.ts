@@ -1,5 +1,5 @@
 import { SwiperEvents } from 'swiper/types';
 
-export type SwiperNgEvents = {
+export type EventsParams = {
   [Property in keyof SwiperEvents]: Parameters<SwiperEvents[Property]>;
 };
