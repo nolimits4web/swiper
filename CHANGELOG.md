@@ -1,5 +1,14 @@
 # Changelog
 
+# [8.0.3](https://github.com/nolimits4web/Swiper/compare/v8.0.2...v8.0.3) (2022-02-03)
+
+### Bug Fixes
+
+- **react:** `useSwiper` context value ([#5421](https://github.com/nolimits4web/Swiper/issues/5421)) ([60cbe75](https://github.com/nolimits4web/Swiper/commit/60cbe754046a133d8e443a707460547bf05693cc))
+- **react:** add autoplay to watched modules ([#5419](https://github.com/nolimits4web/Swiper/issues/5419)) ([16059ad](https://github.com/nolimits4web/Swiper/commit/16059adf98f46c7f62f24d78aa68b62a1d34815d))
+- **svelte:** add autoplay to watched modules ([1463e05](https://github.com/nolimits4web/Swiper/commit/1463e0588b42f255c76dce04f5fff251e9260283))
+- **vue:** add autoplay to watched modules ([da4d3cc](https://github.com/nolimits4web/Swiper/commit/da4d3ccdfd7d619da030fbc82af3329d94b264e8))
+
 # [8.0.2](https://github.com/nolimits4web/Swiper/compare/v8.0.1...v8.0.2) (2022-02-02)
 
 ### Bug Fixes
