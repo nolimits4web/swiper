@@ -1,7 +1,7 @@
-import { SwiperEvents } from './../../../../../src/types/swiper-events.d';
+import { SwiperEvents } from 'src/types/swiper-events.d';
 import { ChangeDetectorRef, Component, NgZone, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { SwiperComponent } from 'src/angular/src/public-api';
+import { SwiperComponent, EventsParams } from 'src/angular/src/public-api';
 import SwiperCore, {
   Navigation,
   Pagination,
@@ -41,7 +41,7 @@ export class HomePage {
   constructor(private cd: ChangeDetectorRef, private ngZone: NgZone) {}
   ngOnInit() {}
 
-  testEvent(event: Parameters<SwiperEvents['beforeTransitionStart']>) {
+  testEvent(event: EventsParams['beforeTransitionStart']) {
     const [swiper, speed, internal] = event;
     console.log({ swiper, speed, internal });
   }
@@ -119,7 +119,7 @@ export class HomePage {
 
   slidesEx = ['first', 'second'];
 
-  onSlideChange(event: Parameters<SwiperEvents['slideChange']>) {
+  onSlideChange(event: EventsParams['slideChange']) {
     const [swiper] = event;
     if (swiper.isEnd) {
       // all swiper events are run outside of ngzone, so use ngzone.run or detectChanges to update the view.

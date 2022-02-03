@@ -22,6 +22,7 @@ import Swiper from 'swiper';
 import { Observable, of, Subject } from 'rxjs';
 import { getParams } from './utils/get-params';
 import { SwiperSlideDirective } from './swiper-slide.directive';
+import { EventsParams } from './swiper-events';
 import {
   extend,
   isObject,
@@ -243,264 +244,218 @@ export class SwiperComponent implements OnInit {
     Object.assign(this, params);
   }
   @Output('_beforeBreakpoint') s__beforeBreakpoint = new EventEmitter<
-    Parameters<SwiperEvents['_beforeBreakpoint']>
+    EventsParams['_beforeBreakpoint']
   >();
 
   @Output('_containerClasses') s__containerClasses = new EventEmitter<
-    Parameters<SwiperEvents['_containerClasses']>
+    EventsParams['_containerClasses']
   >();
 
-  @Output('_slideClass') s__slideClass = new EventEmitter<
-    Parameters<SwiperEvents['_slideClass']>
-  >();
+  @Output('_slideClass') s__slideClass = new EventEmitter<EventsParams['_slideClass']>();
 
-  @Output('_swiper') s__swiper = new EventEmitter<Parameters<SwiperEvents['_swiper']>>();
+  @Output('_swiper') s__swiper = new EventEmitter<EventsParams['_swiper']>();
 
   @Output('activeIndexChange') s_activeIndexChange = new EventEmitter<
-    Parameters<SwiperEvents['activeIndexChange']>
+    EventsParams['activeIndexChange']
   >();
 
-  @Output('afterInit') s_afterInit = new EventEmitter<Parameters<SwiperEvents['afterInit']>>();
+  @Output('afterInit') s_afterInit = new EventEmitter<EventsParams['afterInit']>();
 
-  @Output('autoplay') s_autoplay = new EventEmitter<Parameters<SwiperEvents['autoplay']>>();
+  @Output('autoplay') s_autoplay = new EventEmitter<EventsParams['autoplay']>();
 
-  @Output('autoplayStart') s_autoplayStart = new EventEmitter<
-    Parameters<SwiperEvents['autoplayStart']>
-  >();
+  @Output('autoplayStart') s_autoplayStart = new EventEmitter<EventsParams['autoplayStart']>();
 
-  @Output('autoplayStop') s_autoplayStop = new EventEmitter<
-    Parameters<SwiperEvents['autoplayStop']>
-  >();
+  @Output('autoplayStop') s_autoplayStop = new EventEmitter<EventsParams['autoplayStop']>();
 
-  @Output('autoplayPause') s_autoplayPause = new EventEmitter<
-    Parameters<SwiperEvents['autoplayPause']>
-  >();
+  @Output('autoplayPause') s_autoplayPause = new EventEmitter<EventsParams['autoplayPause']>();
 
-  @Output('autoplayResume') s_autoplayResume = new EventEmitter<
-    Parameters<SwiperEvents['autoplayResume']>
-  >();
+  @Output('autoplayResume') s_autoplayResume = new EventEmitter<EventsParams['autoplayResume']>();
 
-  @Output('beforeDestroy') s_beforeDestroy = new EventEmitter<
-    Parameters<SwiperEvents['beforeDestroy']>
-  >();
+  @Output('beforeDestroy') s_beforeDestroy = new EventEmitter<EventsParams['beforeDestroy']>();
 
-  @Output('beforeInit') s_beforeInit = new EventEmitter<Parameters<SwiperEvents['beforeInit']>>();
+  @Output('beforeInit') s_beforeInit = new EventEmitter<EventsParams['beforeInit']>();
 
-  @Output('beforeLoopFix') s_beforeLoopFix = new EventEmitter<
-    Parameters<SwiperEvents['beforeLoopFix']>
-  >();
+  @Output('beforeLoopFix') s_beforeLoopFix = new EventEmitter<EventsParams['beforeLoopFix']>();
 
-  @Output('beforeResize') s_beforeResize = new EventEmitter<
-    Parameters<SwiperEvents['beforeResize']>
-  >();
+  @Output('beforeResize') s_beforeResize = new EventEmitter<EventsParams['beforeResize']>();
 
   @Output('beforeSlideChangeStart') s_beforeSlideChangeStart = new EventEmitter<
-    Parameters<SwiperEvents['beforeSlideChangeStart']>
+    EventsParams['beforeSlideChangeStart']
   >();
 
   @Output('beforeTransitionStart') s_beforeTransitionStart = new EventEmitter<
-    Parameters<SwiperEvents['beforeTransitionStart']>
+    EventsParams['beforeTransitionStart']
   >();
 
-  @Output('breakpoint') s_breakpoint = new EventEmitter<Parameters<SwiperEvents['breakpoint']>>();
+  @Output('breakpoint') s_breakpoint = new EventEmitter<EventsParams['breakpoint']>();
 
   @Output('changeDirection') s_changeDirection = new EventEmitter<
-    Parameters<SwiperEvents['changeDirection']>
+    EventsParams['changeDirection']
   >();
 
-  @Output('click') s_click = new EventEmitter<Parameters<SwiperEvents['click']>>();
+  @Output('click') s_click = new EventEmitter<EventsParams['click']>();
 
-  @Output('doubleTap') s_doubleTap = new EventEmitter<Parameters<SwiperEvents['doubleTap']>>();
+  @Output('doubleTap') s_doubleTap = new EventEmitter<EventsParams['doubleTap']>();
 
-  @Output('doubleClick') s_doubleClick = new EventEmitter<
-    Parameters<SwiperEvents['doubleClick']>
-  >();
+  @Output('doubleClick') s_doubleClick = new EventEmitter<EventsParams['doubleClick']>();
 
-  @Output('destroy') s_destroy = new EventEmitter<Parameters<SwiperEvents['destroy']>>();
+  @Output('destroy') s_destroy = new EventEmitter<EventsParams['destroy']>();
 
-  @Output('fromEdge') s_fromEdge = new EventEmitter<Parameters<SwiperEvents['fromEdge']>>();
+  @Output('fromEdge') s_fromEdge = new EventEmitter<EventsParams['fromEdge']>();
 
-  @Output('hashChange') s_hashChange = new EventEmitter<Parameters<SwiperEvents['hashChange']>>();
+  @Output('hashChange') s_hashChange = new EventEmitter<EventsParams['hashChange']>();
 
-  @Output('hashSet') s_hashSet = new EventEmitter<Parameters<SwiperEvents['hashSet']>>();
+  @Output('hashSet') s_hashSet = new EventEmitter<EventsParams['hashSet']>();
 
-  @Output('imagesReady') s_imagesReady = new EventEmitter<
-    Parameters<SwiperEvents['imagesReady']>
-  >();
+  @Output('imagesReady') s_imagesReady = new EventEmitter<EventsParams['imagesReady']>();
 
-  @Output('init') s_init = new EventEmitter<Parameters<SwiperEvents['init']>>();
+  @Output('init') s_init = new EventEmitter<EventsParams['init']>();
 
-  @Output('keyPress') s_keyPress = new EventEmitter<Parameters<SwiperEvents['keyPress']>>();
+  @Output('keyPress') s_keyPress = new EventEmitter<EventsParams['keyPress']>();
 
-  @Output('lazyImageLoad') s_lazyImageLoad = new EventEmitter<
-    Parameters<SwiperEvents['lazyImageLoad']>
-  >();
+  @Output('lazyImageLoad') s_lazyImageLoad = new EventEmitter<EventsParams['lazyImageLoad']>();
 
-  @Output('lazyImageReady') s_lazyImageReady = new EventEmitter<
-    Parameters<SwiperEvents['lazyImageReady']>
-  >();
+  @Output('lazyImageReady') s_lazyImageReady = new EventEmitter<EventsParams['lazyImageReady']>();
 
-  @Output('loopFix') s_loopFix = new EventEmitter<Parameters<SwiperEvents['loopFix']>>();
+  @Output('loopFix') s_loopFix = new EventEmitter<EventsParams['loopFix']>();
 
-  @Output('momentumBounce') s_momentumBounce = new EventEmitter<
-    Parameters<SwiperEvents['momentumBounce']>
-  >();
+  @Output('momentumBounce') s_momentumBounce = new EventEmitter<EventsParams['momentumBounce']>();
 
-  @Output('navigationHide') s_navigationHide = new EventEmitter<
-    Parameters<SwiperEvents['navigationHide']>
-  >();
+  @Output('navigationHide') s_navigationHide = new EventEmitter<EventsParams['navigationHide']>();
 
-  @Output('navigationShow') s_navigationShow = new EventEmitter<
-    Parameters<SwiperEvents['navigationShow']>
-  >();
+  @Output('navigationShow') s_navigationShow = new EventEmitter<EventsParams['navigationShow']>();
 
-  @Output('observerUpdate') s_observerUpdate = new EventEmitter<
-    Parameters<SwiperEvents['observerUpdate']>
-  >();
+  @Output('observerUpdate') s_observerUpdate = new EventEmitter<EventsParams['observerUpdate']>();
 
   @Output('orientationchange') s_orientationchange = new EventEmitter<
-    Parameters<SwiperEvents['orientationchange']>
+    EventsParams['orientationchange']
   >();
 
-  @Output('paginationHide') s_paginationHide = new EventEmitter<
-    Parameters<SwiperEvents['paginationHide']>
-  >();
+  @Output('paginationHide') s_paginationHide = new EventEmitter<EventsParams['paginationHide']>();
 
   @Output('paginationRender') s_paginationRender = new EventEmitter<
-    Parameters<SwiperEvents['paginationRender']>
+    EventsParams['paginationRender']
   >();
 
-  @Output('paginationShow') s_paginationShow = new EventEmitter<
-    Parameters<SwiperEvents['paginationShow']>
-  >();
+  @Output('paginationShow') s_paginationShow = new EventEmitter<EventsParams['paginationShow']>();
 
   @Output('paginationUpdate') s_paginationUpdate = new EventEmitter<
-    Parameters<SwiperEvents['paginationUpdate']>
+    EventsParams['paginationUpdate']
   >();
 
-  @Output('progress') s_progress = new EventEmitter<Parameters<SwiperEvents['progress']>>();
+  @Output('progress') s_progress = new EventEmitter<EventsParams['progress']>();
 
-  @Output('reachBeginning') s_reachBeginning = new EventEmitter<
-    Parameters<SwiperEvents['reachBeginning']>
-  >();
+  @Output('reachBeginning') s_reachBeginning = new EventEmitter<EventsParams['reachBeginning']>();
 
-  @Output('reachEnd') s_reachEnd = new EventEmitter<Parameters<SwiperEvents['reachEnd']>>();
+  @Output('reachEnd') s_reachEnd = new EventEmitter<EventsParams['reachEnd']>();
 
   @Output('realIndexChange') s_realIndexChange = new EventEmitter<
-    Parameters<SwiperEvents['realIndexChange']>
+    EventsParams['realIndexChange']
   >();
 
-  @Output('resize') s_resize = new EventEmitter<Parameters<SwiperEvents['resize']>>();
+  @Output('resize') s_resize = new EventEmitter<EventsParams['resize']>();
 
-  @Output('scroll') s_scroll = new EventEmitter<Parameters<SwiperEvents['scroll']>>();
+  @Output('scroll') s_scroll = new EventEmitter<EventsParams['scroll']>();
 
   @Output('scrollbarDragEnd') s_scrollbarDragEnd = new EventEmitter<
-    Parameters<SwiperEvents['scrollbarDragEnd']>
+    EventsParams['scrollbarDragEnd']
   >();
 
   @Output('scrollbarDragMove') s_scrollbarDragMove = new EventEmitter<
-    Parameters<SwiperEvents['scrollbarDragMove']>
+    EventsParams['scrollbarDragMove']
   >();
 
   @Output('scrollbarDragStart') s_scrollbarDragStart = new EventEmitter<
-    Parameters<SwiperEvents['scrollbarDragStart']>
+    EventsParams['scrollbarDragStart']
   >();
 
-  @Output('setTransition') s_setTransition = new EventEmitter<
-    Parameters<SwiperEvents['setTransition']>
-  >();
+  @Output('setTransition') s_setTransition = new EventEmitter<EventsParams['setTransition']>();
 
-  @Output('setTranslate') s_setTranslate = new EventEmitter<
-    Parameters<SwiperEvents['setTranslate']>
-  >();
+  @Output('setTranslate') s_setTranslate = new EventEmitter<EventsParams['setTranslate']>();
 
-  @Output('slideChange') s_slideChange = new EventEmitter<
-    Parameters<SwiperEvents['slideChange']>
-  >();
+  @Output('slideChange') s_slideChange = new EventEmitter<EventsParams['slideChange']>();
 
   @Output('slideChangeTransitionEnd') s_slideChangeTransitionEnd = new EventEmitter<
-    Parameters<SwiperEvents['slideChangeTransitionEnd']>
+    EventsParams['slideChangeTransitionEnd']
   >();
 
   @Output('slideChangeTransitionStart') s_slideChangeTransitionStart = new EventEmitter<
-    Parameters<SwiperEvents['slideChangeTransitionStart']>
+    EventsParams['slideChangeTransitionStart']
   >();
 
   @Output('slideNextTransitionEnd') s_slideNextTransitionEnd = new EventEmitter<
-    Parameters<SwiperEvents['slideNextTransitionEnd']>
+    EventsParams['slideNextTransitionEnd']
   >();
 
   @Output('slideNextTransitionStart') s_slideNextTransitionStart = new EventEmitter<
-    Parameters<SwiperEvents['slideNextTransitionStart']>
+    EventsParams['slideNextTransitionStart']
   >();
 
   @Output('slidePrevTransitionEnd') s_slidePrevTransitionEnd = new EventEmitter<
-    Parameters<SwiperEvents['slidePrevTransitionEnd']>
+    EventsParams['slidePrevTransitionEnd']
   >();
 
   @Output('slidePrevTransitionStart') s_slidePrevTransitionStart = new EventEmitter<
-    Parameters<SwiperEvents['slidePrevTransitionStart']>
+    EventsParams['slidePrevTransitionStart']
   >();
 
   @Output('slideResetTransitionStart') s_slideResetTransitionStart = new EventEmitter<
-    Parameters<SwiperEvents['slideResetTransitionStart']>
+    EventsParams['slideResetTransitionStart']
   >();
 
   @Output('slideResetTransitionEnd') s_slideResetTransitionEnd = new EventEmitter<
-    Parameters<SwiperEvents['slideResetTransitionEnd']>
+    EventsParams['slideResetTransitionEnd']
   >();
 
-  @Output('sliderMove') s_sliderMove = new EventEmitter<Parameters<SwiperEvents['sliderMove']>>();
+  @Output('sliderMove') s_sliderMove = new EventEmitter<EventsParams['sliderMove']>();
 
   @Output('sliderFirstMove') s_sliderFirstMove = new EventEmitter<
-    Parameters<SwiperEvents['sliderFirstMove']>
+    EventsParams['sliderFirstMove']
   >();
 
   @Output('slidesLengthChange') s_slidesLengthChange = new EventEmitter<
-    Parameters<SwiperEvents['slidesLengthChange']>
+    EventsParams['slidesLengthChange']
   >();
 
   @Output('slidesGridLengthChange') s_slidesGridLengthChange = new EventEmitter<
-    Parameters<SwiperEvents['slidesGridLengthChange']>
+    EventsParams['slidesGridLengthChange']
   >();
 
   @Output('snapGridLengthChange') s_snapGridLengthChange = new EventEmitter<
-    Parameters<SwiperEvents['snapGridLengthChange']>
+    EventsParams['snapGridLengthChange']
   >();
 
   @Output('snapIndexChange') s_snapIndexChange = new EventEmitter<
-    Parameters<SwiperEvents['snapIndexChange']>
+    EventsParams['snapIndexChange']
   >();
 
-  @Output('tap') s_tap = new EventEmitter<Parameters<SwiperEvents['tap']>>();
+  @Output('tap') s_tap = new EventEmitter<EventsParams['tap']>();
 
-  @Output('toEdge') s_toEdge = new EventEmitter<Parameters<SwiperEvents['toEdge']>>();
+  @Output('toEdge') s_toEdge = new EventEmitter<EventsParams['toEdge']>();
 
-  @Output('touchEnd') s_touchEnd = new EventEmitter<Parameters<SwiperEvents['touchEnd']>>();
+  @Output('touchEnd') s_touchEnd = new EventEmitter<EventsParams['touchEnd']>();
 
-  @Output('touchMove') s_touchMove = new EventEmitter<Parameters<SwiperEvents['touchMove']>>();
+  @Output('touchMove') s_touchMove = new EventEmitter<EventsParams['touchMove']>();
 
   @Output('touchMoveOpposite') s_touchMoveOpposite = new EventEmitter<
-    Parameters<SwiperEvents['touchMoveOpposite']>
+    EventsParams['touchMoveOpposite']
   >();
 
-  @Output('touchStart') s_touchStart = new EventEmitter<Parameters<SwiperEvents['touchStart']>>();
+  @Output('touchStart') s_touchStart = new EventEmitter<EventsParams['touchStart']>();
 
-  @Output('transitionEnd') s_transitionEnd = new EventEmitter<
-    Parameters<SwiperEvents['transitionEnd']>
-  >();
+  @Output('transitionEnd') s_transitionEnd = new EventEmitter<EventsParams['transitionEnd']>();
 
   @Output('transitionStart') s_transitionStart = new EventEmitter<
-    Parameters<SwiperEvents['transitionStart']>
+    EventsParams['transitionStart']
   >();
 
-  @Output('update') s_update = new EventEmitter<Parameters<SwiperEvents['update']>>();
+  @Output('update') s_update = new EventEmitter<EventsParams['update']>();
 
-  @Output('zoomChange') s_zoomChange = new EventEmitter<Parameters<SwiperEvents['zoomChange']>>();
+  @Output('zoomChange') s_zoomChange = new EventEmitter<EventsParams['zoomChange']>();
 
   @Output('swiper') s_swiper = new EventEmitter<any>();
 
-  @Output('unlock') s_unlock = new EventEmitter<Parameters<SwiperEvents['unlock']>>();
+  @Output('unlock') s_unlock = new EventEmitter<EventsParams['unlock']>();
 
   @ViewChild('prevElRef', { static: false })
   set prevElRef(el: ElementRef) {
