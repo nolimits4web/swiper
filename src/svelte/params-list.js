@@ -96,7 +96,7 @@ const paramsList = [
 
   // modules
   'a11y',
-  'autoplay',
+  '_autoplay',
   '_controller',
   'coverflowEffect',
   'cubeEffect',
