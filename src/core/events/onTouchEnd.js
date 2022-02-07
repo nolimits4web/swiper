@@ -72,21 +72,6 @@ export default function onTouchEnd(event) {
     currentPos = -data.currentTranslate;
   }
 
-  if (params.rewind) {
-    if (swiper.isBeginning) {
-      const lastIndex =
-        swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual
-          ? swiper.virtual.slides.length - 1
-          : swiper.slides.length - 1;
-      swiper.slideTo(lastIndex);
-      return;
-    }
-
-    if (swiper.isEnd) {
-      swiper.slideTo(0);
-      return;
-    }
-  }
   if (params.cssMode) {
     return;
   }
@@ -116,10 +101,21 @@ export default function onTouchEnd(event) {
     }
   }
 
+  if (params.rewind) {
+    if (swiper.isBeginning) {
+      const lastIndex =
+        swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual
+          ? swiper.virtual.slides.length - 1
+          : swiper.slides.length - 1;
+      stopIndex = lastIndex;
+    } else if (swiper.isEnd) {
+      stopIndex = -1;
+    }
+  }
   // Find current slide size
   const ratio = (currentPos - slidesGrid[stopIndex]) / groupSize;
   const increment = stopIndex < params.slidesPerGroupSkip - 1 ? 1 : params.slidesPerGroup;
-
+  console.log(stopIndex);
   if (timeDiff > params.longSwipesMs) {
     // Long touches
     if (!params.longSwipes) {
