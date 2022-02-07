@@ -78,13 +78,11 @@ export default function onTouchEnd(event) {
         swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual
           ? swiper.virtual.slides.length - 1
           : swiper.slides.length - 1;
-      console.log('slide to last');
       swiper.slideTo(lastIndex);
       return;
     }
 
     if (swiper.isEnd) {
-      console.log('slide to first');
       swiper.slideTo(0);
       return;
     }
