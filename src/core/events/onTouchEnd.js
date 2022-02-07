@@ -72,7 +72,7 @@ export default function onTouchEnd(event) {
     currentPos = -data.currentTranslate;
   }
 
-  if (params.rewind && params.rewindOnSwipe) {
+  if (params.rewind) {
     if (swiper.isBeginning) {
       const lastIndex =
         swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual

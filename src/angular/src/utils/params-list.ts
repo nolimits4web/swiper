@@ -68,7 +68,6 @@ export const paramsList = [
   '_loopFillGroupWithBlank',
   'loopPreventsSlide',
   '_rewind',
-  '_rewindOnSwipe',
   '_allowSlidePrev',
   '_allowSlideNext',
   '_swipeHandler',

@@ -619,13 +619,6 @@ export interface SwiperOptions {
   rewind?: boolean;
 
   /**
-   * When enabled in "rewind" swiping on the last slide will navigate to the first and vice-versa
-   * @default true
-   *
-   */
-  rewindOnSwipe?: boolean;
-
-  /**
    * Addition number of slides that will be cloned after creating of loop
    *
    * @default 0
