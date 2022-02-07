@@ -223,7 +223,6 @@ export default function onTouchMove(event) {
   if (swiper.params.freeMode && params.freeMode.enabled && swiper.freeMode) {
     swiper.freeMode.onTouchMove();
   }
-
   // Update progress
   swiper.updateProgress(data.currentTranslate);
   // Update translate
