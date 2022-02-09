@@ -455,6 +455,8 @@ export class SwiperComponent implements OnInit {
 
   @Output('swiper') s_swiper = new EventEmitter<any>();
 
+  @Output('lock') s_lock = new EventEmitter<EventsParams['lock']>();
+
   @Output('unlock') s_unlock = new EventEmitter<EventsParams['unlock']>();
 
   @ViewChild('prevElRef', { static: false })
