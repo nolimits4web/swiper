@@ -6,7 +6,7 @@ export default function onContainerScroll(event) {
   if (!enabled) return;
   swiper.previousTranslate = swiper.translate;
   const pxDiff = swiper.isHorizontal() ? deltaX : deltaY;
-  swiper.translate -= pxDiff / 2.5;
+  swiper.translate -= pxDiff / 1.6;
   console.log(pxDiff);
   // eslint-disable-next-line
   if (swiper.translate === -0) swiper.translate = 0;
