@@ -10,6 +10,12 @@
   padding: 0;
   /* Fix of Webkit flickering */
   z-index: 1;
+  overflow: auto;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 .swiper-vertical > .swiper-wrapper {
   flex-direction: column;

@@ -6,6 +6,7 @@ import onTouchEnd from './onTouchEnd.js';
 import onResize from './onResize.js';
 import onClick from './onClick.js';
 import onScroll from './onScroll.js';
+import onContainerScroll from './onContainerScroll.js';
 
 let dummyEventAttached = false;
 function dummyEventListener() {}
@@ -45,6 +46,9 @@ const events = (swiper, method) => {
   if (params.cssMode) {
     wrapperEl[domMethod]('scroll', swiper.onScroll);
   }
+  // el[domMethod]('wheel', swiper.onContainerScroll);
+  el.addEventListener('wheel', swiper.onContainerScroll);
+  console.log({ el, domMethod });
 
   // Resize handler
   if (params.updateOnWindowResize) {
@@ -68,6 +72,7 @@ function attachEvents() {
   swiper.onTouchStart = onTouchStart.bind(swiper);
   swiper.onTouchMove = onTouchMove.bind(swiper);
   swiper.onTouchEnd = onTouchEnd.bind(swiper);
+  swiper.onContainerScroll = onContainerScroll.bind(swiper);
 
   if (params.cssMode) {
     swiper.onScroll = onScroll.bind(swiper);
