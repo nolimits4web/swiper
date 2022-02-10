@@ -1,5 +1,18 @@
 # Changelog
 
+# [8.0.4](https://github.com/nolimits4web/Swiper/compare/v8.0.3...v8.0.4) (2022-02-10)
+
+### Bug Fixes
+
+- **core:** wrap resize observer callback in requestAnimationFrame ([#5441](https://github.com/nolimits4web/Swiper/issues/5441)) ([0567641](https://github.com/nolimits4web/Swiper/commit/0567641fbe4bdbea54b5de0bcc2c937dfb52e088)), closes [#5440](https://github.com/nolimits4web/Swiper/issues/5440)
+
+### Features
+
+- **angular:** events types ([#5424](https://github.com/nolimits4web/Swiper/issues/5424)) ([d8631d8](https://github.com/nolimits4web/Swiper/commit/d8631d831333e3879bb42a3e91ccb23dde94b14d))
+- **angular:** lock output ([#5442](https://github.com/nolimits4web/Swiper/issues/5442)) ([3bc27a4](https://github.com/nolimits4web/Swiper/commit/3bc27a4f191e54a579c39dfdf70c39e05ce56342))
+- **core:** allow nesting of styles in SASS ([#5438](https://github.com/nolimits4web/Swiper/issues/5438)) ([c973bc8](https://github.com/nolimits4web/Swiper/commit/c973bc83f9a117e0ee5585d5495a7492d646ac6b))
+- **core:** rewind on swipes ([#5422](https://github.com/nolimits4web/Swiper/issues/5422)) ([1a2f83b](https://github.com/nolimits4web/Swiper/commit/1a2f83b1e0ec1330d9a004c81451f7db71a9186f))
+
 # [8.0.3](https://github.com/nolimits4web/Swiper/compare/v8.0.2...v8.0.3) (2022-02-03)
 
 ### Bug Fixes
