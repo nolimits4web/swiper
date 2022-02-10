@@ -1,5 +1,11 @@
 # Changelog
 
+# [8.0.5](https://github.com/nolimits4web/Swiper/compare/v8.0.4...v8.0.5) (2022-02-10)
+
+### Bug Fixes
+
+- **core:** fix short swipes ([8e1c12e](https://github.com/nolimits4web/Swiper/commit/8e1c12e036e39034e6c627cf54105f9259862de5))
+
 # [8.0.4](https://github.com/nolimits4web/Swiper/compare/v8.0.3...v8.0.4) (2022-02-10)
 
 ### Bug Fixes
