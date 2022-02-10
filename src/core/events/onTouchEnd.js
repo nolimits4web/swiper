@@ -101,15 +101,14 @@ export default function onTouchEnd(event) {
     }
   }
 
-  let rewindFirstIndex;
-  let rewindLastIndex;
+  let rewindFirstIndex = null;
+  let rewindLastIndex = null;
   if (params.rewind) {
     if (swiper.isBeginning) {
-      const lastIndex =
+      rewindLastIndex =
         swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual
           ? swiper.virtual.slides.length - 1
           : swiper.slides.length - 1;
-      rewindLastIndex = lastIndex;
     } else if (swiper.isEnd) {
       rewindFirstIndex = 0;
     }
