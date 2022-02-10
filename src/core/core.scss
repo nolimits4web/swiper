@@ -1,5 +1,7 @@
-:root {
-  --swiper-theme-color: #{$themeColor};
+@at-root {
+  :root {
+    --swiper-theme-color: #{$themeColor};
+  }
 }
 .swiper {
   margin-left: auto;

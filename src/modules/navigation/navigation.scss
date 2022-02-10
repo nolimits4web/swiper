@@ -1,10 +1,11 @@
 @import '../../swiper-vars.scss';
-
-:root {
-  --swiper-navigation-size: 44px;
-  /*
+@at-root {
+  :root {
+    --swiper-navigation-size: 44px;
+    /*
   --swiper-navigation-color: var(--swiper-theme-color);
   */
+  }
 }
 .swiper-button-prev,
 .swiper-button-next {

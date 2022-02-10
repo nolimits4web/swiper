@@ -1,7 +1,7 @@
 @import '../../swiper-vars.scss';
-
-:root {
-  /*
+@at-root {
+  :root {
+    /*
   --swiper-pagination-color: var(--swiper-theme-color);
   --swiper-pagination-bullet-size: 8px;
   --swiper-pagination-bullet-width: 8px;
@@ -12,6 +12,7 @@
   --swiper-pagination-bullet-horizontal-gap: 4px;
   --swiper-pagination-bullet-vertical-gap: 6px;
   */
+  }
 }
 .swiper-pagination {
   position: absolute;
