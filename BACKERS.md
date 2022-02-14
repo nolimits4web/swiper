@@ -741,6 +741,10 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 
 ### \$5+ Thank You
 
+<!-- https://www.patreon.com/user?u=67523502 -->
+
+[Instagram Services](https://insta4likes.com)<br>
+
 <!-- https://opencollective.com/insta4likes -->
 
 [Instagram likes](https://insta4likes.com/buy-instagram-followers-likes.html)<br>
