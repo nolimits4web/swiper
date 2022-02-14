@@ -1,5 +1,12 @@
 # Changelog
 
+# [8.0.6](https://github.com/nolimits4web/Swiper/compare/v8.0.5...v8.0.6) (2022-02-14)
+
+### Bug Fixes
+
+- **angular:** swiper angular event ([#5462](https://github.com/nolimits4web/Swiper/issues/5462)) ([adc99a5](https://github.com/nolimits4web/Swiper/commit/adc99a5c114abbe3a84fd1f235dd6230fddf8dc9))
+- **vue:** HMR error ([#5460](https://github.com/nolimits4web/Swiper/issues/5460)) ([0374228](https://github.com/nolimits4web/Swiper/commit/0374228c2761201cf9895d30b34ea869cbc773ea))
+
 # [8.0.5](https://github.com/nolimits4web/Swiper/compare/v8.0.4...v8.0.5) (2022-02-10)
 
 ### Bug Fixes
