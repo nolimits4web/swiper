@@ -300,7 +300,8 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     }
 
     $el.addClass(params.modifierClass + params.type);
-    $el.addClass(params.modifierClass + swiper.params.direction);
+    swiper.params.direction === 'horizontal' && $el.addClass(params.horizontalClass);
+    swiper.params.direction === 'vertical' && $el.addClass(params.verticalClass);
 
     if (params.type === 'bullets' && params.dynamicBullets) {
       $el.addClass(`${params.modifierClass}${params.type}-dynamic`);
@@ -338,7 +339,8 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
 
     $el.removeClass(params.hiddenClass);
     $el.removeClass(params.modifierClass + params.type);
-    $el.removeClass(params.modifierClass + swiper.params.direction);
+    swiper.params.direction === 'horizontal' && $el.removeClass(params.horizontalClass);
+    swiper.params.direction === 'vertical' && $el.removeClass(params.verticalClass);
     if (swiper.pagination.bullets && swiper.pagination.bullets.removeClass)
       swiper.pagination.bullets.removeClass(params.bulletActiveClass);
     if (params.clickable) {
