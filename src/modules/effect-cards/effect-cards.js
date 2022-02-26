@@ -35,18 +35,22 @@ export default function EffectCards({ swiper, extendParams, on }) {
 
       let tXAdd = 8 - Math.abs(progress) * 0.75;
 
+      const slideIndex =
+        swiper.virtual && swiper.params.virtual.enabled ? swiper.virtual.from + i : i;
+
       const isSwipeToNext =
-        (i === activeIndex || i === activeIndex - 1) &&
+        (slideIndex === activeIndex || slideIndex === activeIndex - 1) &&
         progress > 0 &&
         progress < 1 &&
         (isTouched || swiper.params.cssMode) &&
         currentTranslate < startTranslate;
       const isSwipeToPrev =
-        (i === activeIndex || i === activeIndex + 1) &&
+        (slideIndex === activeIndex || slideIndex === activeIndex + 1) &&
         progress < 0 &&
         progress > -1 &&
         (isTouched || swiper.params.cssMode) &&
         currentTranslate > startTranslate;
+
       if (isSwipeToNext || isSwipeToPrev) {
         const subProgress = (1 - Math.abs((Math.abs(progress) - 0.5) / 0.5)) ** 0.5;
         rotate += -28 * progress * subProgress;
