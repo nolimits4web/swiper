@@ -21,4 +21,17 @@ export default function effectInit(params) {
     if (swiper.params.effect !== effect) return;
     setTransition(duration);
   });
+
+  let requireUpdateOnVirtual;
+  on('virtualUpdate', () => {
+    if (!swiper.slides.length) {
+      requireUpdateOnVirtual = true;
+    }
+    requestAnimationFrame(() => {
+      if (requireUpdateOnVirtual && swiper.slides.length) {
+        setTranslate();
+        requireUpdateOnVirtual = false;
+      }
+    });
+  });
 }

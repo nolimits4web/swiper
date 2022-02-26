@@ -1,7 +1,7 @@
 import $ from '../../shared/dom.js';
 import { setCSSProperty } from '../../shared/utils.js';
 
-export default function Virtual({ swiper, extendParams, on }) {
+export default function Virtual({ swiper, extendParams, on, emit }) {
   extendParams({
     virtual: {
       enabled: false,
@@ -88,6 +88,7 @@ export default function Virtual({ swiper, extendParams, on }) {
       if (swiper.lazy && swiper.params.lazy.enabled) {
         swiper.lazy.load();
       }
+      emit('virtualUpdate');
     }
 
     if (previousFrom === from && previousTo === to && !force) {
@@ -95,6 +96,7 @@ export default function Virtual({ swiper, extendParams, on }) {
         swiper.slides.css(offsetProp, `${offset}px`);
       }
       swiper.updateProgress();
+      emit('virtualUpdate');
       return;
     }
     if (swiper.params.virtual.renderExternal) {
@@ -112,6 +114,8 @@ export default function Virtual({ swiper, extendParams, on }) {
       });
       if (swiper.params.virtual.renderExternalUpdate) {
         onRendered();
+      } else {
+        emit('virtualUpdate');
       }
       return;
     }
