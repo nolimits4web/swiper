@@ -28,8 +28,11 @@ export default function EffectCoverflow({ swiper, extendParams, on }) {
       const $slideEl = slides.eq(i);
       const slideSize = slidesSizesGrid[i];
       const slideOffset = $slideEl[0].swiperSlideOffset;
-      const offsetMultiplier =
-        ((center - slideOffset - slideSize / 2) / slideSize) * params.modifier;
+      const centerOffset = (center - slideOffset - slideSize / 2) / slideSize
+      const offsetMultiplier = 
+            typeof params.modifier === 'function' ?
+            params.modifier(centerOffset) :
+            centerOffset * params.modifier;
 
       let rotateY = isHorizontal ? rotate * offsetMultiplier : 0;
       let rotateX = isHorizontal ? 0 : rotate * offsetMultiplier;
