@@ -1,5 +1,16 @@
 # Changelog
 
+# [8.0.7](https://github.com/nolimits4web/Swiper/compare/v8.0.6...v8.0.7) (2022-03-04)
+
+### Bug Fixes
+
+- **pagination:** use direction classes ([95c882c](https://github.com/nolimits4web/Swiper/commit/95c882c50a798ebe7adc20fcb61765aace0edbfc)), closes [#5489](https://github.com/nolimits4web/Swiper/issues/5489)
+
+### Features
+
+- **effect-cards:** support for use with Virtual Slides ([69a8870](https://github.com/nolimits4web/Swiper/commit/69a887094514555800fe588cf5643a76cd5c7a0e))
+- **virtual:** better support for other effects rather than `slide` ([2dae84f](https://github.com/nolimits4web/Swiper/commit/2dae84fa4d65c4a9d319a6fe086877ab7a2724c5))
+
 # [8.0.6](https://github.com/nolimits4web/Swiper/compare/v8.0.5...v8.0.6) (2022-02-14)
 
 ### Bug Fixes
