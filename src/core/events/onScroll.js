@@ -9,7 +9,7 @@ export default function onScroll() {
     swiper.translate = -wrapperEl.scrollTop;
   }
   // eslint-disable-next-line
-  if (swiper.translate === -0) swiper.translate = 0;
+  if (swiper.translate === 0) swiper.translate = 0;
 
   swiper.updateActiveIndex();
   swiper.updateSlidesClasses();
