@@ -2,7 +2,8 @@
   <h6>Initial value true</h6>
   <button (click)="p1 = !p1">{{ p1 ? 'hide' : 'show' }}</button>
   <swiper [pagination]="p1" class="mySwiper">
-    <ng-template swiperSlide>Slide 1</ng-template><ng-template swiperSlide>Slide 2</ng-template
+    <ng-template swiperSlide class="testClass1">Slide 1</ng-template
+    ><ng-template swiperSlide [ngClass]="example">Slide 2</ng-template
     ><ng-template swiperSlide>Slide 3</ng-template><ng-template swiperSlide>Slide 4</ng-template
     ><ng-template swiperSlide>Slide 5</ng-template><ng-template swiperSlide>Slide 6</ng-template
     ><ng-template swiperSlide>Slide 7</ng-template><ng-template swiperSlide>Slide 8</ng-template

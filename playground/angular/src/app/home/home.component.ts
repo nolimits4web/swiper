@@ -33,6 +33,7 @@ SwiperCore.use([
 export class HomePage {
   p1 = true;
   p2 = false;
+  example = 'testClass2';
   @ViewChild('swiperRef', { static: false }) swiperRef?: SwiperComponent;
 
   show: boolean;
