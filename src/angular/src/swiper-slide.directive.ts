@@ -6,6 +6,10 @@ import { coerceBooleanProperty } from './utils/utils';
 export class SwiperSlideDirective {
   @Input() virtualIndex: number;
   @Input() class: string = '';
+  @Input()
+  set ngClass(val: string) {
+    this.class = [this.class || '', val].join(' ');
+  }
   @Input('data-swiper-autoplay') autoplayDelay: string | null = null;
   @Input()
   set zoom(val: boolean) {
