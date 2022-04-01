@@ -9,7 +9,5 @@ export default function setGrabCursor(moving) {
     return;
   const el = swiper.params.touchEventsTarget === 'container' ? swiper.el : swiper.wrapperEl;
   el.style.cursor = 'move';
-  el.style.cursor = moving ? '-webkit-grabbing' : '-webkit-grab';
-  el.style.cursor = moving ? '-moz-grabbin' : '-moz-grab';
   el.style.cursor = moving ? 'grabbing' : 'grab';
 }
