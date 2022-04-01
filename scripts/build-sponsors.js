@@ -1,21 +1,27 @@
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 
-const getSponsor = (item) => {
-  const { createdAt } = item.sys;
-  const { title, link, plan, ref, image, imageHorizontal } = item.fields;
+const getSponsors = () => {
+  return new Promise((resolve, reject) => {
+    https
+      .get('https://swiperjs.com/sponsors-list.json', (resp) => {
+        let data = '';
 
-  const sponsor = {
-    createdAt,
-    title,
-    link,
-    plan,
-    ref,
-    image: image ? image.fields.file.fileName : '',
-    image_h: imageHorizontal ? image.fields.file.fileName : '',
-  };
+        // A chunk of data has been received.
+        resp.on('data', (chunk) => {
+          data += chunk;
+        });
 
-  return sponsor;
+        // The whole response has been received. Print out the result.
+        resp.on('end', () => {
+          resolve(JSON.parse(data));
+        });
+      })
+      .on('error', (err) => {
+        reject(err);
+      });
+  });
 };
 
 const buildTables = (sponsors) => {
@@ -111,38 +117,11 @@ const buildSponsorsList = async (sponsors) => {
 };
 
 const buildSponsors = async () => {
-  let spaceId;
-  let accessToken;
-
-  try {
-    fs.readFileSync(path.resolve(__dirname, '../.env.local'), 'utf-8')
-      .trim()
-      .split('\n')
-      .forEach((line) => {
-        const [key, value] = line.split('=');
-        if (key === 'CONTENTFUL_SPACE_ID') spaceId = value;
-        if (key === 'CONTENTFUL_ACCESS_TOKEN') accessToken = value;
-      });
-  } catch (err) {
-    spaceId = process.env.CONTENTFUL_SPACE_ID;
-    accessToken = process.env.CONTENTFUL_ACCESS_TOKEN;
-  }
-
-  if (!spaceId || !accessToken) {
-    return;
-  }
-
-  // eslint-disable-next-line
-  const client = require('contentful').createClient({
-    space: spaceId,
-    accessToken,
-  });
-
-  const entries = await client.getEntries({ limit: 1000 });
-
+  const entries = await getSponsors();
   const sponsors = {};
-  if (entries.items) {
-    const items = entries.items.map((item) => getSponsor(item));
+
+  if (entries) {
+    const items = [...entries];
     items.sort((a, b) => {
       return new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1;
     });
