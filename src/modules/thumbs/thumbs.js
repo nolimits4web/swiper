@@ -21,7 +21,8 @@ export default function Thumb({ swiper, extendParams, on }) {
 
   function onThumbClick() {
     const thumbsSwiper = swiper.thumbs.swiper;
-    if (!thumbsSwiper) return;
+    if (!thumbsSwiper || thumbsSwiper.destroyed) return;
+
     const clickedIndex = thumbsSwiper.clickedIndex;
     const clickedSlide = thumbsSwiper.clickedSlide;
     if (clickedSlide && $(clickedSlide).hasClass(swiper.params.thumbs.slideThumbActiveClass))
@@ -90,7 +91,7 @@ export default function Thumb({ swiper, extendParams, on }) {
 
   function update(initial) {
     const thumbsSwiper = swiper.thumbs.swiper;
-    if (!thumbsSwiper) return;
+    if (!thumbsSwiper || thumbsSwiper.destroyed) return;
 
     const slidesPerView =
       thumbsSwiper.params.slidesPerView === 'auto'
@@ -204,18 +205,17 @@ export default function Thumb({ swiper, extendParams, on }) {
     update(true);
   });
   on('slideChange update resize observerUpdate', () => {
-    if (!swiper.thumbs.swiper) return;
     update();
   });
   on('setTransition', (_s, duration) => {
     const thumbsSwiper = swiper.thumbs.swiper;
-    if (!thumbsSwiper) return;
+    if (!thumbsSwiper || thumbsSwiper.destroyed) return;
     thumbsSwiper.setTransition(duration);
   });
   on('beforeDestroy', () => {
     const thumbsSwiper = swiper.thumbs.swiper;
-    if (!thumbsSwiper) return;
-    if (swiperCreated && thumbsSwiper) {
+    if (!thumbsSwiper || thumbsSwiper.destroyed) return;
+    if (swiperCreated) {
       thumbsSwiper.destroy();
     }
   });
