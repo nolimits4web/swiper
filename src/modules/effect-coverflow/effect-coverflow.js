@@ -57,7 +57,7 @@ export default function EffectCoverflow({ swiper, extendParams, on }) {
       if (Math.abs(rotateX) < 0.001) rotateX = 0;
       if (Math.abs(scale) < 0.001) scale = 0;
 
-      const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
+      const slideTransform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
       const $targetEl = effectTarget(params, $slideEl);
       $targetEl.transform(slideTransform);
 
