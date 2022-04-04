@@ -16,3 +16,6 @@ cypress/screenshots
 .env.test.local
 .env.production.local
 .eslintcache
+
+yarn.lock
+
