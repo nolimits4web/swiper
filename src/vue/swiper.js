@@ -138,6 +138,7 @@ const Swiper = {
     zoom: { type: [Boolean, Object], default: undefined },
     grid: { type: [Object], default: undefined },
     freeMode: { type: [Boolean, Object], default: undefined },
+    enabled: { type: Boolean, default: undefined },
   },
   emits: [
     '_beforeBreakpoint',
