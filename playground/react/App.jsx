@@ -1,30 +1,72 @@
 /* eslint-disable no-restricted-globals */
 import React from 'react';
 // eslint-disable-next-line
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+import { EffectCoverflow } from 'swiper';
 // eslint-disable-next-line
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 
+import './styled.scss';
+
 const App = () => {
   return (
-    <main>
-      <Swiper
-        modules={[Navigation, Pagination, Scrollbar, A11y]}
-        onSwiper={(swiper) => (window.swiper = swiper)}
-        slidesPerView={3}
-        spaceBetween={50}
-        navigation
-        loop
-        scrollbar={{ draggable: true }}
-        pagination={{ clickable: true }}
-      >
-        <SwiperSlide>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        <SwiperSlide>Slide 5</SwiperSlide>
-      </Swiper>
-    </main>
+    <div className="swiperWrapper">
+      <div className="swiperContainer">
+        <Swiper
+          className="swiperContent"
+          effect="coverflow"
+          modules={[EffectCoverflow]}
+          coverflowEffect={{
+            depth: 160,
+            modifier: 1,
+            rotate: 12,
+            scale: 1,
+            slideShadows: false,
+            stretch: -20,
+          }}
+          slidesPerView={7}
+          centeredSlides
+          loop
+          freeMode
+          grabCursor
+        >
+          <SwiperSlide>
+            <div className="swiperSlideItem">
+              <img alt="" src="https://cheongmac.blob.core.windows.net/temp/magazine.png" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="swiperSlideItem">
+              <img alt="" src="https://cheongmac.blob.core.windows.net/temp/magazine.png" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="swiperSlideItem">
+              <img alt="" src="https://cheongmac.blob.core.windows.net/temp/magazine.png" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="swiperSlideItem">
+              <img alt="" src="https://cheongmac.blob.core.windows.net/temp/magazine.png" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="swiperSlideItem">
+              <img alt="" src="https://cheongmac.blob.core.windows.net/temp/magazine.png" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="swiperSlideItem">
+              <img alt="" src="https://cheongmac.blob.core.windows.net/temp/magazine.png" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="swiperSlideItem">
+              <img alt="" src="https://cheongmac.blob.core.windows.net/temp/magazine.png" />
+            </div>
+          </SwiperSlide>
+        </Swiper>
+      </div>
+    </div>
   );
 };
 
