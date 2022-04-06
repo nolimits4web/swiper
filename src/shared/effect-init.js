@@ -28,7 +28,7 @@ export default function effectInit(params) {
       requireUpdateOnVirtual = true;
     }
     requestAnimationFrame(() => {
-      if (requireUpdateOnVirtual && swiper.slides.length) {
+      if (requireUpdateOnVirtual && swiper.slides && swiper.slides.length) {
         setTranslate();
         requireUpdateOnVirtual = false;
       }
