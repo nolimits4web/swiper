@@ -86,4 +86,11 @@ export interface A11yOptions {
    * @default 'group'
    */
   slideRole?: string;
+
+  /**
+   * Value of `id` attribute to be set on swiper-wrapper. If `null` will be generated automatically
+   *
+   * @default null
+   */
+  id?: string | number | null;
 }

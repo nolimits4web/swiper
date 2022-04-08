@@ -16,6 +16,7 @@ export default function A11y({ swiper, extendParams, on }) {
       containerRoleDescriptionMessage: null,
       itemRoleDescriptionMessage: null,
       slideRole: 'group',
+      id: null,
     },
   });
 
@@ -189,7 +190,7 @@ export default function A11y({ swiper, extendParams, on }) {
 
     // Wrapper
     const $wrapperEl = swiper.$wrapperEl;
-    const wrapperId = $wrapperEl.attr('id') || `swiper-wrapper-${getRandomNumber(16)}`;
+    const wrapperId = params.id || $wrapperEl.attr('id') || `swiper-wrapper-${getRandomNumber(16)}`;
     const live = swiper.params.autoplay && swiper.params.autoplay.enabled ? 'off' : 'polite';
     addElId($wrapperEl, wrapperId);
     addElLive($wrapperEl, live);
