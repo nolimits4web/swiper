@@ -1,5 +1,19 @@
 # Changelog
 
+# [8.1.0](https://github.com/nolimits4web/Swiper/compare/v8.0.7...v8.1.0) (2022-04-08)
+
+### Bug Fixes
+
+- **pagination:** formatter functions now accept strings as return values ([#5610](https://github.com/nolimits4web/Swiper/issues/5610)) ([629c1c4](https://github.com/nolimits4web/Swiper/commit/629c1c4526f6c324a33118a22faaa8bf47c1a028))
+- **vue:** add missing event ([bda673f](https://github.com/nolimits4web/Swiper/commit/bda673f6a78b4c5cbc8f72ab3a302ef237dfecf2)), closes [#5558](https://github.com/nolimits4web/Swiper/issues/5558)
+- enabled not working (fix [#5611](https://github.com/nolimits4web/Swiper/issues/5611)) ([#5612](https://github.com/nolimits4web/Swiper/issues/5612)) ([6a0554b](https://github.com/nolimits4web/Swiper/commit/6a0554ba6f6c7ecf3715934b217797dd3a2a0f3a))
+
+### Features
+
+- **a11y:** add `id` parameter ([213c8fe](https://github.com/nolimits4web/Swiper/commit/213c8fe7cd7d5696909b19fdfa79dad600d24b3f)), closes [#5586](https://github.com/nolimits4web/Swiper/issues/5586)
+- **angular:** support `[ngClass]` in swiperSlide ([#5562](https://github.com/nolimits4web/Swiper/issues/5562)) ([5d4ffdc](https://github.com/nolimits4web/Swiper/commit/5d4ffdc4fa7d7a40b3c7cf620a5a8411138c5951))
+- **effect-cards:** add `rotate` parameter ([5f4ca8a](https://github.com/nolimits4web/Swiper/commit/5f4ca8a4e63b2487d49084e171012a8a6485bba5)), closes [#5575](https://github.com/nolimits4web/Swiper/issues/5575)
+
 # [8.0.7](https://github.com/nolimits4web/Swiper/compare/v8.0.6...v8.0.7) (2022-03-04)
 
 ### Bug Fixes
