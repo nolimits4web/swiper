@@ -146,6 +146,7 @@ const Swiper = {
     '_slideClass',
     '_slideClasses',
     '_swiper',
+    '_freeModeNoMomentumRelease',
     'activeIndexChange',
     'afterInit',
     'autoplay',
