@@ -33,14 +33,14 @@ body:
     id: expected
     attributes:
       label: Expected Behavior
-      description: A concise description of what you're experiencing
+      description: A concise description of what you expected to happen
     validations:
       required: false
   - type: textarea
     id: actual
     attributes:
       label: Actual Behavior
-      description: A concise description of what you expected to happen.
+      description: A concise description of what you're experiencing
     validations:
       required: false
   - type: input
