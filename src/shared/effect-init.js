@@ -24,6 +24,7 @@ export default function effectInit(params) {
 
   let requireUpdateOnVirtual;
   on('virtualUpdate', () => {
+    if (swiper.params.effect !== effect) return;
     if (!swiper.slides.length) {
       requireUpdateOnVirtual = true;
     }
