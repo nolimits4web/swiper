@@ -1,5 +1,12 @@
 # Changelog
 
+# [8.1.1](https://github.com/nolimits4web/Swiper/compare/v8.1.0...v8.1.1) (2022-04-15)
+
+### Bug Fixes
+
+- **lazy:** fix lazy preloader in iOS 15 ([794a625](https://github.com/nolimits4web/Swiper/commit/794a625804aac037a8c3d17bbdf1a59d9f074475))
+- **virtual:** fix leaked effects translate when Virtual enabled ([a0e8dd4](https://github.com/nolimits4web/Swiper/commit/a0e8dd464b478746e0023d10f7ab3fe47148e977)), closes [#5588](https://github.com/nolimits4web/Swiper/issues/5588)
+
 # [8.1.0](https://github.com/nolimits4web/Swiper/compare/v8.0.7...v8.1.0) (2022-04-08)
 
 ### Bug Fixes
