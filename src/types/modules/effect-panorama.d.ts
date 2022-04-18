@@ -10,7 +10,7 @@ export interface PanoramaEffectOptions {
    *
    * @default 200
    */
-  delpth?: number;
+  depth?: number;
 
   /**
    * Slide rotate in degrees
