@@ -24,5 +24,6 @@ module.exports = {
     'effect-coverflow',
     'effect-creative',
     'effect-cards',
+    'effect-panorama',
   ],
 };

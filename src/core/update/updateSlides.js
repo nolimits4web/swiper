@@ -177,7 +177,11 @@ export default function updateSlides() {
   }
   swiper.virtualSize = Math.max(swiper.virtualSize, swiperSize) + offsetAfter;
 
-  if (rtl && wrongRTL && (params.effect === 'slide' || params.effect === 'coverflow')) {
+  if (
+    rtl &&
+    wrongRTL &&
+    (params.effect === 'slide' || params.effect === 'coverflow' || params.effect === 'panorama')
+  ) {
     $wrapperEl.css({ width: `${swiper.virtualSize + params.spaceBetween}px` });
   }
   if (params.setWrapperSize) {

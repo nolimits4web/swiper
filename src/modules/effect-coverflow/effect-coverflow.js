@@ -34,29 +34,30 @@ export default function EffectCoverflow({ swiper, extendParams, on }) {
           ? params.modifier(centerOffset)
           : centerOffset * params.modifier;
 
-      let rotateY = isHorizontal ? rotate * offsetMultiplier * (translate / 200) : 0;
+      let rotateY = isHorizontal ? rotate * offsetMultiplier : 0;
       let rotateX = isHorizontal ? 0 : rotate * offsetMultiplier;
       // var rotateZ = 0
+      let translateZ = -translate * Math.abs(offsetMultiplier);
 
-      console.log(i, $slideEl);
-      let translateZ = -translate - 100 * -Math.abs(offsetMultiplier);
-      // let translateZ = -translate * Math.abs(offsetMultiplier);
       let stretch = params.stretch;
       // Allow percentage to make a relative stretch for responsive sliders
       if (typeof stretch === 'string' && stretch.indexOf('%') !== -1) {
         stretch = (parseFloat(params.stretch) / 100) * slideSize;
       }
-      let translateX = isHorizontal ? stretch * offsetMultiplier * 2 : 0;
+      let translateY = isHorizontal ? 0 : stretch * offsetMultiplier;
+      let translateX = isHorizontal ? stretch * offsetMultiplier : 0;
+
       let scale = 1 - (1 - params.scale) * Math.abs(offsetMultiplier);
 
       // Fix for ultra small values
       if (Math.abs(translateX) < 0.001) translateX = 0;
+      if (Math.abs(translateY) < 0.001) translateY = 0;
       if (Math.abs(translateZ) < 0.001) translateZ = 0;
       if (Math.abs(rotateY) < 0.001) rotateY = 0;
       if (Math.abs(rotateX) < 0.001) rotateX = 0;
       if (Math.abs(scale) < 0.001) scale = 0;
 
-      const slideTransform = `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`;
+      const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
       const $targetEl = effectTarget(params, $slideEl);
       $targetEl.transform(slideTransform);
 

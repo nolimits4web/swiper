@@ -124,6 +124,7 @@ const Swiper = {
     flipEffect: { type: Object, default: undefined },
     creativeEffect: { type: Object, default: undefined },
     cardsEffect: { type: Object, default: undefined },
+    panoramaEffect: { type: Object, default: undefined },
     hashNavigation: { type: [Boolean, Object], default: undefined },
     history: { type: [Boolean, Object], default: undefined },
     keyboard: { type: [Boolean, Object], default: undefined },

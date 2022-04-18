@@ -8,6 +8,7 @@ import {
   FlipEffectOptions,
   CreativeEffectOptions,
   CardsEffectOptions,
+  PanoramaEffectOptions,
   HashNavigationOptions,
   HistoryOptions,
   KeyboardOptions,
@@ -397,6 +398,10 @@ declare const Swiper: DefineComponent<
     };
     cardsEffect: {
       type: PropType<CardsEffectOptions>;
+      default: undefined;
+    };
+    panoramaEffect: {
+      type: PropType<PanoramaEffectOptions>;
       default: undefined;
     };
     hashNavigation: {

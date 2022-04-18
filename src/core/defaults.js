@@ -37,7 +37,7 @@ export default {
   virtualTranslate: false,
 
   // Effects
-  effect: 'slide', // 'slide' or 'fade' or 'cube' or 'coverflow' or 'flip'
+  effect: 'slide', // 'slide' or 'fade' or 'cube' or 'coverflow' or 'flip' or 'panorama'
 
   // Breakpoints
   breakpoints: undefined,

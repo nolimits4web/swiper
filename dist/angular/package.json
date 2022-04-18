@@ -1,0 +1,32 @@
+{
+  "name": "swiper_angular",
+  "version": "0.0.1",
+  "private": "true",
+  "peerDependencies": {
+    "@angular/common": "^12.2.0",
+    "@angular/core": "^12.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "module": "fesm2015/swiper_angular.mjs",
+  "es2020": "fesm2020/swiper_angular.mjs",
+  "esm2020": "esm2020/swiper_angular.mjs",
+  "fesm2020": "fesm2020/swiper_angular.mjs",
+  "fesm2015": "fesm2015/swiper_angular.mjs",
+  "typings": "swiper_angular.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./swiper_angular.d.ts",
+      "esm2020": "./esm2020/swiper_angular.mjs",
+      "es2020": "./fesm2020/swiper_angular.mjs",
+      "es2015": "./fesm2015/swiper_angular.mjs",
+      "node": "./fesm2015/swiper_angular.mjs",
+      "default": "./fesm2020/swiper_angular.mjs"
+    }
+  },
+  "sideEffects": false
+}
