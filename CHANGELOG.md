@@ -1,5 +1,11 @@
 # Changelog
 
+# [8.1.3](https://github.com/nolimits4web/Swiper/compare/v8.1.2...v8.1.3) (2022-04-20)
+
+### Bug Fixes
+
+- **effects:** improve dynamic slide shadows re-creation for Cube and Flip effects ([98b8a3e](https://github.com/nolimits4web/Swiper/commit/98b8a3eddafe1b1d1456a61fcaac2cc477c6197f))
+
 # [8.1.2](https://github.com/nolimits4web/Swiper/compare/v8.1.1...v8.1.2) (2022-04-20)
 
 ### Bug Fixes
