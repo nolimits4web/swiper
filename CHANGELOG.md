@@ -1,5 +1,15 @@
 # Changelog
 
+# [8.1.2](https://github.com/nolimits4web/Swiper/compare/v8.1.1...v8.1.2) (2022-04-20)
+
+### Bug Fixes
+
+- **effects:** fix slide shadows flickering in Safari for Cube and Flip effects ([52f5ef7](https://github.com/nolimits4web/Swiper/commit/52f5ef75eed2f9c11950bee94a6b4060c366c7a7))
+
+### Features
+
+- **cube-effect:** set `--swiper-cube-translate-z` CSS property on swiper-wrapper ([758ad28](https://github.com/nolimits4web/Swiper/commit/758ad28fce90def8ba681219f7625a18e7fbac54))
+
 # [8.1.1](https://github.com/nolimits4web/Swiper/compare/v8.1.0...v8.1.1) (2022-04-15)
 
 ### Bug Fixes
