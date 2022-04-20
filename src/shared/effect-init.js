@@ -7,7 +7,8 @@ export default function effectInit(params) {
     setTransition,
     overwriteParams,
     perspective,
-    shouldRecreateShadows,
+    recreateShadows,
+    getEffectParams,
   } = params;
 
   on('beforeInit', () => {
@@ -31,20 +32,23 @@ export default function effectInit(params) {
     setTransition(duration);
   });
 
-  const recreateShadows = () => {
-    swiper.slides.each((slideEl) => {
-      const $slideEl = swiper.$(slideEl);
-      $slideEl
-        .find(
-          '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
-        )
-        .remove();
-    });
-  };
-
-  if (shouldRecreateShadows) {
-    on('transitionEnd', recreateShadows);
-  }
+  on('transitionEnd', () => {
+    if (swiper.params.effect !== effect) return;
+    if (recreateShadows) {
+      if (!getEffectParams || !getEffectParams().slideShadows) return;
+      // remove shadows
+      swiper.slides.each((slideEl) => {
+        const $slideEl = swiper.$(slideEl);
+        $slideEl
+          .find(
+            '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
+          )
+          .remove();
+      });
+      // create new one
+      recreateShadows();
+    }
+  });
 
   let requireUpdateOnVirtual;
   on('virtualUpdate', () => {
