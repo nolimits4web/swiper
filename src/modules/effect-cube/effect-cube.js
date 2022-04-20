@@ -147,6 +147,7 @@ export default function EffectCube({ swiper, extendParams, on }) {
         swiper.isHorizontal() ? 0 : wrapperRotate
       }deg) rotateY(${swiper.isHorizontal() ? -wrapperRotate : 0}deg)`,
     );
+    $wrapperEl[0].style.setProperty('--swiper-cube-translate-z', `${zFactor}px`);
   };
   const setTransition = (duration) => {
     const { $el, slides } = swiper;
