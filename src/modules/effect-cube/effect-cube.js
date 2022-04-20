@@ -167,6 +167,7 @@ export default function EffectCube({ swiper, extendParams, on }) {
     on,
     setTranslate,
     setTransition,
+    shouldRecreateShadows: true,
     perspective: () => true,
     overwriteParams: () => ({
       slidesPerView: 1,

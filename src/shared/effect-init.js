@@ -1,5 +1,14 @@
 export default function effectInit(params) {
-  const { effect, swiper, on, setTranslate, setTransition, overwriteParams, perspective } = params;
+  const {
+    effect,
+    swiper,
+    on,
+    setTranslate,
+    setTransition,
+    overwriteParams,
+    perspective,
+    shouldRecreateShadows,
+  } = params;
 
   on('beforeInit', () => {
     if (swiper.params.effect !== effect) return;
@@ -21,6 +30,21 @@ export default function effectInit(params) {
     if (swiper.params.effect !== effect) return;
     setTransition(duration);
   });
+
+  const recreateShadows = () => {
+    swiper.slides.each((slideEl) => {
+      const $slideEl = swiper.$(slideEl);
+      $slideEl
+        .find(
+          '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
+        )
+        .remove();
+    });
+  };
+
+  if (shouldRecreateShadows) {
+    on('transitionEnd', recreateShadows);
+  }
 
   let requireUpdateOnVirtual;
   on('virtualUpdate', () => {
