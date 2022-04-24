@@ -18,9 +18,13 @@
   border: 4px solid var(--swiper-preloader-color, var(--swiper-theme-color));
   border-radius: 50%;
   border-top-color: transparent;
-  animation: swiper-preloader-spin 1s infinite linear;
 }
-
+.swiper:not(.swiper-watch-progress),
+.swiper-watch-progress .swiper-slide-visible {
+  .swiper-lazy-preloader {
+    animation: swiper-preloader-spin 1s infinite linear;
+  }
+}
 .swiper-lazy-preloader-white {
   --swiper-preloader-color: #fff;
 }

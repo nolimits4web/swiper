@@ -31,6 +31,7 @@ export default function addClasses() {
     { 'ios': device.ios },
     { 'css-mode': params.cssMode },
     { 'centered': params.cssMode && params.centeredSlides },
+    { 'watch-progress': params.watchSlidesProgress },
   ], params.containerModifierClass);
   classNames.push(...suffixes);
   $el.addClass([...classNames].join(' '));
