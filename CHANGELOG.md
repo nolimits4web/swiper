@@ -1,5 +1,13 @@
 # Changelog
 
+# [8.1.4](https://github.com/nolimits4web/Swiper/compare/v8.1.3...v8.1.4) (2022-04-24)
+
+### Bug Fixes
+
+- **core:** animate preloader in visible slides if watchSlidesProgress is enabled ([8174b5a](https://github.com/nolimits4web/Swiper/commit/8174b5a5fcc5078b9164ee0577387ca352fd7af9))
+- **core:** more checks for when swiper is destroyed ([de47f09](https://github.com/nolimits4web/Swiper/commit/de47f09f165653eccc682d5b4a51da705d6b6d0d)), closes [#5656](https://github.com/nolimits4web/Swiper/issues/5656) [#5635](https://github.com/nolimits4web/Swiper/issues/5635)
+- **lazy:** animate preloader in not visible slides ([865529b](https://github.com/nolimits4web/Swiper/commit/865529b0cd7d41a18e3bccf5ec511a1158c3e56f))
+
 # [8.1.3](https://github.com/nolimits4web/Swiper/compare/v8.1.2...v8.1.3) (2022-04-20)
 
 ### Bug Fixes
