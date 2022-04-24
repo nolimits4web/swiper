@@ -36,7 +36,7 @@ const SwiperSlide = forwardRef(
       };
     });
     useIsomorphicLayoutEffect(() => {
-      if (swiper && slideElRef.current) {
+      if (swiper && slideElRef.current && !swiper.destroyed) {
         setSlideClasses(swiper.getSlideClasses(slideElRef.current));
       }
     }, [swiper]);

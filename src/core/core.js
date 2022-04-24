@@ -275,6 +275,7 @@ class Swiper {
 
   getSlideClasses(slideEl) {
     const swiper = this;
+    if (swiper.destroyed) return '';
 
     return slideEl.className
       .split(' ')

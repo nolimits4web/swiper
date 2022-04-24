@@ -3,6 +3,7 @@
 export default {
   on(events, handler, priority) {
     const self = this;
+    if (!self.eventsListeners || self.destroyed) return self;
     if (typeof handler !== 'function') return self;
     const method = priority ? 'unshift' : 'push';
     events.split(' ').forEach((event) => {
@@ -14,6 +15,7 @@ export default {
 
   once(events, handler, priority) {
     const self = this;
+    if (!self.eventsListeners || self.destroyed) return self;
     if (typeof handler !== 'function') return self;
     function onceHandler(...args) {
       self.off(events, onceHandler);
@@ -28,6 +30,7 @@ export default {
 
   onAny(handler, priority) {
     const self = this;
+    if (!self.eventsListeners || self.destroyed) return self;
     if (typeof handler !== 'function') return self;
     const method = priority ? 'unshift' : 'push';
     if (self.eventsAnyListeners.indexOf(handler) < 0) {
@@ -38,6 +41,7 @@ export default {
 
   offAny(handler) {
     const self = this;
+    if (!self.eventsListeners || self.destroyed) return self;
     if (!self.eventsAnyListeners) return self;
     const index = self.eventsAnyListeners.indexOf(handler);
     if (index >= 0) {
@@ -48,6 +52,7 @@ export default {
 
   off(events, handler) {
     const self = this;
+    if (!self.eventsListeners || self.destroyed) return self;
     if (!self.eventsListeners) return self;
     events.split(' ').forEach((event) => {
       if (typeof handler === 'undefined') {
@@ -68,6 +73,7 @@ export default {
 
   emit(...args) {
     const self = this;
+    if (!self.eventsListeners || self.destroyed) return self;
     if (!self.eventsListeners) return self;
     let events;
     let data;
