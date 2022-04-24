@@ -7,7 +7,7 @@ export default function History({ swiper, extendParams, on }) {
       root: '',
       replaceState: false,
       key: 'slides',
-      keepQuery: true,
+      keepQuery: false,
     },
   });
 
