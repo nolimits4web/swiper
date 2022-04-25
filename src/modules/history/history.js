@@ -59,7 +59,7 @@ export default function History({ swiper, extendParams, on }) {
     } else if (!location.pathname.includes(key)) {
       value = `${key}/${value}`;
     }
-    if (swiper.params.h.keepQuery) {
+    if (swiper.params.history.keepQuery) {
       value += location.search;
     }
     const currentState = window.history.state;
