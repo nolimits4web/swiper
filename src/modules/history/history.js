@@ -7,6 +7,7 @@ export default function History({ swiper, extendParams, on }) {
       root: '',
       replaceState: false,
       key: 'slides',
+      keepQuery: false,
     },
   });
 
@@ -58,6 +59,9 @@ export default function History({ swiper, extendParams, on }) {
     } else if (!location.pathname.includes(key)) {
       value = `${key}/${value}`;
     }
+    if (swiper.params.history.keepQuery) {
+      value += location.search;
+    }
     const currentState = window.history.state;
     if (currentState && currentState.value === value) {
       return;
@@ -86,7 +90,7 @@ export default function History({ swiper, extendParams, on }) {
 
   const setHistoryPopState = () => {
     paths = getPathValues(swiper.params.url);
-    scrollToSlide(swiper.params.speed, swiper.paths.value, false);
+    scrollToSlide(swiper.params.speed, paths.value, false);
   };
 
   const init = () => {
