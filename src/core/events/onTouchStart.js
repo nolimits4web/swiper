@@ -8,6 +8,9 @@ function closestElement(selector, base = this) {
     if (!el || el === getDocument() || el === getWindow()) return null;
     if (el.assignedSlot) el = el.assignedSlot;
     const found = el.closest(selector);
+    if (!found && !el.getRootNode) {
+      return null;
+    }
     return found || __closestFrom(el.getRootNode().host);
   }
   return __closestFrom(base);
@@ -55,7 +58,7 @@ export default function onTouchStart(event) {
   if (
     params.noSwiping &&
     (isTargetShadow
-      ? closestElement(noSwipingSelector, e.target)
+      ? closestElement(noSwipingSelector, $targetEl[0])
       : $targetEl.closest(noSwipingSelector)[0])
   ) {
     swiper.allowClick = true;
