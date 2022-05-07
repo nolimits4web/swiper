@@ -29,6 +29,8 @@ export interface LazyEvents {
 export interface LazyOptions {
   /**
    * Whether the lazy loading images is enabled
+   *
+   * @default false
    */
   enabled?: boolean;
   /**
@@ -39,48 +41,48 @@ export interface LazyOptions {
   checkInView?: boolean;
   /**
    * Element to check scrolling on for `checkInView`. Defaults to `window`
-   * */
+   */
   scrollingElement?: CSSSelector | null | Dom7Array | HTMLElement;
   /**
    * Set to `true` to enable lazy loading for the closest slides images (for previous and next slide images)
    *
    * @default false
-   * */
+   */
   loadPrevNext?: boolean;
   /**
    * Amount of next/prev slides to preload lazy images in. Can't be less than `slidesPerView`
    *
    * @default 1
-   * */
+   */
   loadPrevNextAmount?: number;
   /**
    * By default, Swiper will load lazy images after transition to this slide, so you may enable this parameter if you need it to start loading of new image in the beginning of transition
    *
    * @default false
-   * */
+   */
   loadOnTransitionStart?: boolean;
   /**
    * CSS class name of lazy element
    *
    * @default 'swiper-lazy'
-   * */
+   */
   elementClass?: string;
   /**
    * CSS class name of lazy loading element
    *
    * @default 'swiper-lazy-loading'
-   * */
+   */
   loadingClass?: string;
   /**
    * CSS class name of lazy loaded element
    *
    * @default 'swiper-lazy-loaded'
-   * */
+   */
   loadedClass?: string;
   /**
    * CSS class name of lazy preloader
    *
    * @default 'swiper-lazy-preloader'
-   * */
+   */
   preloaderClass?: string;
 }
