@@ -6,6 +6,11 @@ export interface FreeModeMethods {
 export interface FreeModeEvents {}
 
 export interface FreeModeOptions {
+  /**
+   * Whether the free mode is enabled
+   *
+   * @default false
+   */
   enabled?: boolean;
 
   /**
