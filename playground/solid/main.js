@@ -1,4 +1,4 @@
-import '@tiagotrindade/swiper/swiper-bundle.css';
+import 'swiper/swiper-bundle.css';
 
 import { render } from 'solid-js/web';
 
