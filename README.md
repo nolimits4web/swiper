@@ -32,6 +32,10 @@
 </a>
 </p>
 
+# @tiagotrindade/swiper
+
+This is a fork of SwiperJS that add support to SolidJS, everything else is the same and I already created a PR (that I hope be merged soon) on the official SwiperJS repository.
+
 # Swiper
 
 Swiper - is the free and most modern mobile touch slider with hardware accelerated transitions and amazing native behavior. It is intended to be used in mobile websites, mobile web apps, and mobile native/hybrid apps.

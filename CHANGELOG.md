@@ -992,7 +992,7 @@
     import Navigation from 'swiper/components/navigation';
 
     // and styles (Less or SCSS only)
-    import 'swiper/components/navigation/navigation.less';
+    import '@tiagotrindade/swiper/components/navigation/navigation.less';
     ```
 
 - Full server-side rendering support (SSR) with new parameters:

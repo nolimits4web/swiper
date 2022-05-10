@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 // eslint-disable-next-line
-import 'swiper/swiper-bundle.css';
+import '@tiagotrindade/swiper/swiper-bundle.css';
 
 import App from './App.jsx';
 
