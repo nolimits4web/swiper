@@ -7,6 +7,7 @@ const buildTypes = require('./build-types');
 const buildStyles = require('./build-styles');
 const buildReact = require('./build-react');
 const buildVue = require('./build-vue');
+const buildSolid = require('./build-solid');
 const buildSvelte = require('./build-svelte');
 
 console.log(chalk.cyan('Watching file changes ...'));
@@ -32,6 +33,11 @@ const watchFunction = async (fileName) => {
   if (fileName.includes('vue')) {
     console.log('Building Vue');
     buildVue('build');
+    return;
+  }
+  if (fileName.includes('solid')) {
+    console.log('Building Solid');
+    buildSolid('build');
     return;
   }
   if (fileName.includes('svelte')) {

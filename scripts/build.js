@@ -7,6 +7,7 @@ const buildJsBundle = require('./build-js-bundle');
 const buildTypes = require('./build-types');
 const buildReact = require('./build-react');
 const buildVue = require('./build-vue');
+const buildSolid = require('./build-solid');
 const buildSvelte = require('./build-svelte');
 const buildStyles = require('./build-styles');
 const buildAngular = require('./build-angular');
@@ -67,6 +68,7 @@ class Build {
     .add('bundle', buildJsBundle)
     .add('react', buildReact)
     .add('vue', buildVue)
+    .add('solid', buildSolid)
     .add('svelte', buildSvelte)
     .add('angular', buildAngular)
     .run();

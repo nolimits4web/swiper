@@ -90,6 +90,7 @@
     "./angular": "./angular/fesm2015/swiper_angular.mjs",
     "./react": "./react/swiper-react.js",
     "./vue": "./vue/swiper-vue.js",
+    "./solid": "./solid/swiper-solid.js",
     "./svelte": "./svelte/swiper-svelte.js",
     "./types": "./types/index.d.ts",
     "./package.json": "./package.json"
@@ -104,6 +105,9 @@
       ],
       "svelte": [
         "svelte/swiper-svelte.d.ts"
+      ],
+      "solid": [
+        "solid/swiper-solid.d.ts"
       ],
       "vue": [
         "vue/swiper-vue.d.ts"
@@ -133,6 +137,7 @@
     "gallery",
     "plugin",
     "react",
+    "solid-js",
     "vue",
     "angular",
     "svelte",
