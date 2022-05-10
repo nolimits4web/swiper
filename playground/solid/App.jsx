@@ -1,7 +1,7 @@
 /** @jsxImportSource solid-js */
 /* eslint-disable no-restricted-globals */
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
+import { Swiper, SwiperSlide } from 'swiper/solid/swiper-solid';
 
 const App = () => {
   return (

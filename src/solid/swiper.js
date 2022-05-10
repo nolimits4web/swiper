@@ -1,5 +1,5 @@
 import SwiperCore from 'swiper';
-import { createEffect, createSignal, onCleanup, Show, splitProps } from 'solid-js';
+import { createEffect, createSignal, mergeProps, onCleanup, Show, splitProps } from 'solid-js';
 import { getParams } from './get-params.js';
 import { mountSwiper } from './mount-swiper.js';
 import {
@@ -16,11 +16,11 @@ import { updateSwiper } from './update-swiper.js';
 import { renderVirtual, updateOnVirtualData } from './virtual.js';
 import { SwiperContext } from './context.js';
 
-const Swiper = (props) => {
+const Swiper = (baseProps) => {
   let eventsAssigned = false;
   const [containerClasses, setContainerClasses] = createSignal('swiper');
   const [virtualData, setVirtualData] = createSignal(null);
-  const [breakpointChanged, setBreakpointChanged] = createSignal(false);
+  const [, setBreakpointChanged] = createSignal(false);
 
   // The variables bellow are mofied by SolidJS and can't be const
   let initializedRef = false; // eslint-disable-line prefer-const
@@ -33,6 +33,8 @@ const Swiper = (props) => {
   let prevElRef = null; // eslint-disable-line prefer-const
   let paginationElRef = null; // eslint-disable-line prefer-const
   let scrollbarElRef = null; // eslint-disable-line prefer-const
+
+  const props = mergeProps({ Tag: () => null, WrapperTag: () => null }, baseProps);
 
   const [local, rest] = splitProps(props, [
     'children',
@@ -205,6 +207,12 @@ const Swiper = (props) => {
       <SwiperContext.Provider value={swiperRef}>
         {slots['container-start']}
 
+        <local.WrapperTag class="swiper-wrapper">
+          {slots['wrapper-start']}
+          {renderSlides()}
+          {slots['wrapper-end']}
+        </local.WrapperTag>
+
         <Show when={needsNavigation(swiperParams)}>
           <div ref={prevElRef} class="swiper-button-prev" />
           <div ref={nextElRef} class="swiper-button-next" />
@@ -216,11 +224,6 @@ const Swiper = (props) => {
           <div ref={paginationElRef} class="swiper-pagination" />
         </Show>
 
-        <local.WrapperTag class="swiper-wrapper">
-          {slots['wrapper-start']}
-          {renderSlides()}
-          {slots['wrapper-end']}
-        </local.WrapperTag>
         {slots['container-end']}
       </SwiperContext.Provider>
     </local.Tag>
