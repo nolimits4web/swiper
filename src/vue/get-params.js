@@ -1,6 +1,6 @@
-import Swiper from 'swiper';
-import { isObject, extend } from './utils.js';
+import Swiper from '@tiagotrindade/swiper';
 import { paramsList } from './params-list.js';
+import { extend, isObject } from './utils.js';
 
 function getParams(obj = {}) {
   const params = {

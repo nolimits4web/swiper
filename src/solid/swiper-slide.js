@@ -1,8 +1,10 @@
-import { createEffect, createSignal, onCleanup, splitProps } from 'solid-js';
+import { createEffect, createSignal, mergeProps, onCleanup, splitProps } from 'solid-js';
 import { uniqueClasses } from './utils.js';
 import { SwiperSlideContext } from './context.js';
 
-const SwiperSlide = (props) => {
+const SwiperSlide = (baseProps) => {
+  const props = mergeProps({ Tag: () => null }, baseProps);
+
   const [local, rest] = splitProps(props, [
     'children',
     'class',
@@ -15,18 +17,20 @@ const SwiperSlide = (props) => {
 
   const [slideClasses, setSlideClasses] = createSignal('swiper-slide');
 
+  let ref = null;
+
   function updateClasses(_s, el, classNames) {
-    if (el === local.ref) {
-      setSlideClasses(classNames);
+    if (el === ref) {
+      setSlideClasses(() => classNames);
     }
   }
   createEffect(() => {
-    if (!local.ref || !local.swiper) {
+    if (!ref || !local.swiper) {
       return;
     }
     if (local.swiper.destroyed) {
-      if (slideClasses !== 'swiper-slide') {
-        setSlideClasses('swiper-slide');
+      if (slideClasses() !== 'swiper-slide') {
+        setSlideClasses(() => 'swiper-slide');
       }
       return;
     }
@@ -38,27 +42,27 @@ const SwiperSlide = (props) => {
     });
   });
   createEffect(() => {
-    if (local.swiper && local.ref && !local.swiper.destroyed) {
-      setSlideClasses(local.swiper.getSlideClasses(local.ref));
+    if (local.swiper && ref && !local.swiper.destroyed) {
+      setSlideClasses(() => local.swiper.getSlideClasses(ref));
     }
   });
 
-  const slideData = {
+  const slideData = () => ({
     isActive:
-      slideClasses.indexOf('swiper-slide-active') >= 0 ||
-      slideClasses.indexOf('swiper-slide-duplicate-active') >= 0,
-    isVisible: slideClasses.indexOf('swiper-slide-visible') >= 0,
-    isDuplicate: slideClasses.indexOf('swiper-slide-duplicate') >= 0,
+      slideClasses().indexOf('swiper-slide-active') >= 0 ||
+      slideClasses().indexOf('swiper-slide-duplicate-active') >= 0,
+    isVisible: slideClasses().indexOf('swiper-slide-visible') >= 0,
+    isDuplicate: slideClasses().indexOf('swiper-slide-duplicate') >= 0,
     isPrev:
-      slideClasses.indexOf('swiper-slide-prev') >= 0 ||
-      slideClasses.indexOf('swiper-slide-duplicate-prev') >= 0,
+      slideClasses().indexOf('swiper-slide-prev') >= 0 ||
+      slideClasses().indexOf('swiper-slide-duplicate-prev') >= 0,
     isNext:
-      slideClasses.indexOf('swiper-slide-next') >= 0 ||
-      slideClasses.indexOf('swiper-slide-duplicate-next') >= 0,
-  };
+      slideClasses().indexOf('swiper-slide-next') >= 0 ||
+      slideClasses().indexOf('swiper-slide-duplicate-next') >= 0,
+  });
 
   const renderChildren = () => {
-    return typeof local.children === 'function' ? local.children(slideData) : local.children;
+    return typeof local.children === 'function' ? local.children(slideData()) : local.children;
   };
 
   /* eslint-disable react/react-in-jsx-scope */
@@ -66,12 +70,19 @@ const SwiperSlide = (props) => {
 
   return (
     <local.Tag
-      ref={local.ref}
-      class={uniqueClasses(`${slideClasses}${local.class ? ` ${local.class}` : ''}`)}
+      ref={(el) => {
+        ref = el;
+        if (typeof local.ref === 'function') {
+          local.ref(el);
+        } else {
+          local.ref = el;
+        }
+      }}
+      class={uniqueClasses(`${slideClasses()}${local.class ? ` ${local.class}` : ''}`)}
       data-swiper-slide-index={local.virtualIndex}
       {...rest}
     >
-      <SwiperSlideContext.Provider value={slideData}>
+      <SwiperSlideContext.Provider value={slideData()}>
         {local.zoom ? (
           <div
             className="swiper-zoom-container"

@@ -10,6 +10,8 @@ function processChildren(c) {
   const slides = [];
 
   childrenAsArray(c).forEach((child) => {
+    if (!child) return;
+
     if (child.type && child.type.displayName === 'SwiperSlide') {
       slides.push(child);
     } else if (child.props && child.props.children) {
@@ -31,6 +33,8 @@ function getChildren(c) {
   };
 
   childrenAsArray(c).forEach((child) => {
+    if (!child) return;
+
     if (child.type && child.type.displayName === 'SwiperSlide') {
       slides.push(child);
     } else if (child.props && child.props.slot && slots[child.props.slot]) {

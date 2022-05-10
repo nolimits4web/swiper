@@ -7,7 +7,7 @@
     A11y,
     Virtual,
     // eslint-disable-next-line
-  } from 'swiper';
+  } from '@tiagotrindade/swiper';
   // eslint-disable-next-line
   import { Swiper, SwiperSlide } from 'swiper/svelte/swiper-svelte.js';
 

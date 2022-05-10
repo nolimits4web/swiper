@@ -1,5 +1,5 @@
+import Swiper from '@tiagotrindade/swiper';
 import React from 'react';
-import Swiper from 'swiper';
 
 function calcLoopedSlides(slides, swiperParams) {
   let slidesPerViewParams = swiperParams.slidesPerView;

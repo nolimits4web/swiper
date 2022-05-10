@@ -1,21 +1,21 @@
-import React, { useRef, useState, useEffect, forwardRef } from 'react';
-import SwiperCore from 'swiper';
-import { getParams } from './get-params.js';
-import { mountSwiper } from './mount-swiper.js';
-import {
-  needsScrollbar,
-  needsNavigation,
-  needsPagination,
-  uniqueClasses,
-  extend,
-} from './utils.js';
-import { renderLoop, calcLoopedSlides } from './loop.js';
+import SwiperCore from '@tiagotrindade/swiper';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import { SwiperContext } from './context.js';
 import { getChangedParams } from './get-changed-params.js';
 import { getChildren } from './get-children.js';
+import { getParams } from './get-params.js';
+import { calcLoopedSlides, renderLoop } from './loop.js';
+import { mountSwiper } from './mount-swiper.js';
 import { updateSwiper } from './update-swiper.js';
-import { renderVirtual, updateOnVirtualData } from './virtual.js';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.js';
-import { SwiperContext } from './context.js';
+import {
+  extend,
+  needsNavigation,
+  needsPagination,
+  needsScrollbar,
+  uniqueClasses,
+} from './utils.js';
+import { renderVirtual, updateOnVirtualData } from './virtual.js';
 
 const Swiper = forwardRef(
   (

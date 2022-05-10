@@ -48,12 +48,12 @@ const Swiper = (props) => {
   const { slides, slots } = getChildren(local.children);
 
   const onBeforeBreakpoint = () => {
-    setBreakpointChanged(!breakpointChanged);
+    setBreakpointChanged((state) => !state);
   };
 
   Object.assign(swiperParams.on, {
     _containerClasses(swiper, classes) {
-      setContainerClasses(classes);
+      setContainerClasses(() => classes);
     },
   });
 
@@ -61,69 +61,73 @@ const Swiper = (props) => {
     // init swiper
     Object.assign(swiperParams.on, events);
     eventsAssigned = true;
-    swiperRef.current = new SwiperCore(swiperParams);
-    swiperRef.current.loopCreate = () => {};
-    swiperRef.current.loopDestroy = () => {};
+    swiperRef = new SwiperCore(swiperParams);
+    swiperRef.loopCreate = () => { };
+    swiperRef.loopDestroy = () => { };
     if (swiperParams.loop) {
-      swiperRef.current.loopedSlides = calcLoopedSlides(slides, swiperParams);
+      swiperRef.loopedSlides = calcLoopedSlides(slides, swiperParams);
     }
-    if (swiperRef.current.virtual && swiperRef.current.params.virtual.enabled) {
-      swiperRef.current.virtual.slides = slides;
+    if (swiperRef.virtual && swiperRef.params.virtual.enabled) {
+      swiperRef.virtual.slides = slides;
       const extendWith = {
         cache: false,
         slides,
-        renderExternal: setVirtualData,
+        renderExternal: (data) => setVirtualData(() => data),
         renderExternalUpdate: false,
       };
-      extend(swiperRef.current.params.virtual, extendWith);
-      extend(swiperRef.current.originalParams.virtual, extendWith);
+      extend(swiperRef.params.virtual, extendWith);
+      extend(swiperRef.originalParams.virtual, extendWith);
     }
   };
 
-  if (!swiperElRef.current) {
+  if (!swiperElRef) {
     initSwiper();
   }
 
   // Listen for breakpoints change
-  if (swiperRef.current) {
-    swiperRef.current.on('_beforeBreakpoint', onBeforeBreakpoint);
+  if (swiperRef) {
+    swiperRef.on('_beforeBreakpoint', onBeforeBreakpoint);
   }
 
   const attachEvents = () => {
-    if (eventsAssigned || !events || !swiperRef.current) return;
+    if (eventsAssigned || !events || !swiperRef) return;
     Object.keys(events).forEach((eventName) => {
-      swiperRef.current.on(eventName, events[eventName]);
+      swiperRef.on(eventName, events[eventName]);
     });
   };
 
   const detachEvents = () => {
-    if (!events || !swiperRef.current) return;
+    if (!events || !swiperRef) return;
     Object.keys(events).forEach((eventName) => {
-      swiperRef.current.off(eventName, events[eventName]);
+      swiperRef.off(eventName, events[eventName]);
     });
   };
 
   createEffect(() => {
     return () => {
-      if (swiperRef.current) swiperRef.current.off('_beforeBreakpoint', onBeforeBreakpoint);
+      if (swiperRef) swiperRef.off('_beforeBreakpoint', onBeforeBreakpoint);
     };
   });
 
   // set initialized flag
   createEffect(() => {
-    if (!initializedRef.current && swiperRef.current) {
-      swiperRef.current.emitSlidesClasses();
-      initializedRef.current = true;
+    if (!initializedRef && swiperRef) {
+      swiperRef.emitSlidesClasses();
+      initializedRef = true;
     }
   });
 
   // mount swiper
   createEffect(() => {
     if (local.ref) {
-      local.ref = swiperElRef.current;
+      if (typeof local.ref === 'function') {
+        local.ref(swiperElRef);
+      } else {
+        local.ref = swiperElRef;
+      }
     }
-    if (!swiperElRef.current) return;
-    if (swiperRef.current.destroyed) {
+    if (!swiperElRef) return;
+    if (swiperRef.destroyed) {
       initSwiper();
     }
 
@@ -142,8 +146,8 @@ const Swiper = (props) => {
     if (local.onSwiper) local.onSwiper(swiperRef);
     // eslint-disable-next-line
     return () => {
-      if (swiperRef.current && !swiperRef.current.destroyed) {
-        swiperRef.current.destroy(true, false);
+      if (swiperRef && !swiperRef.destroyed) {
+        swiperRef.destroy(true, false);
       }
     };
   });
@@ -151,24 +155,19 @@ const Swiper = (props) => {
   // watch for params change
   createEffect(() => {
     attachEvents();
-    const changedParams = getChangedParams(
-      passedParams,
-      oldPassedParamsRef.current,
-      slides,
-      oldSlides.current,
-    );
-    oldPassedParamsRef.current = passedParams;
-    oldSlides.current = slides;
-    if (changedParams.length && swiperRef.current && !swiperRef.current.destroyed) {
+    const changedParams = getChangedParams(passedParams, oldPassedParamsRef, slides, oldSlides);
+    oldPassedParamsRef = passedParams;
+    oldSlides = slides;
+    if (changedParams.length && swiperRef && !swiperRef.destroyed) {
       updateSwiper({
-        swiper: swiperRef.current,
+        swiper: swiperRef,
         slides,
         passedParams,
         changedParams,
-        nextEl: nextElRef.current,
-        prevEl: prevElRef.current,
-        scrollbarEl: scrollbarElRef.current,
-        paginationEl: paginationElRef.current,
+        nextEl: nextElRef,
+        prevEl: prevElRef,
+        scrollbarEl: scrollbarElRef,
+        paginationEl: paginationElRef,
       });
     }
     onCleanup(detachEvents);
@@ -176,22 +175,22 @@ const Swiper = (props) => {
 
   // update on virtual update
   createEffect(() => {
-    updateOnVirtualData(swiperRef.current);
+    updateOnVirtualData(swiperRef);
   });
 
   // bypass swiper instance to slides
   function renderSlides() {
     if (swiperParams.virtual) {
-      return renderVirtual(swiperRef.current, slides, virtualData);
+      return renderVirtual(swiperRef, slides, virtualData());
     }
-    if (!swiperParams.loop || (swiperRef.current && swiperRef.current.destroyed)) {
+    if (!swiperParams.loop || (swiperRef && swiperRef.destroyed)) {
       return slides.map((child) => {
         const node = child.cloneElement();
         node.swiper = swiperRef;
         return node;
       });
     }
-    return renderLoop(swiperRef.current, slides, swiperParams);
+    return renderLoop(swiperRef, slides, swiperParams);
   }
 
   /* eslint-disable react/react-in-jsx-scope */
@@ -200,17 +199,11 @@ const Swiper = (props) => {
   return (
     <local.Tag
       ref={swiperElRef}
-      class={uniqueClasses(`${containerClasses}${local.class ? ` ${local.class}` : ''}`)}
+      class={uniqueClasses(`${containerClasses()}${local.class ? ` ${local.class}` : ''}`)}
       {...restProps}
     >
       <SwiperContext.Provider value={swiperRef}>
         {slots['container-start']}
-
-        <local.WrapperTag class="swiper-wrapper">
-          {slots['wrapper-start']}
-          {renderSlides()}
-          {slots['wrapper-end']}
-        </local.WrapperTag>
 
         <Show when={needsNavigation(swiperParams)}>
           <div ref={prevElRef} class="swiper-button-prev" />
@@ -223,6 +216,11 @@ const Swiper = (props) => {
           <div ref={paginationElRef} class="swiper-pagination" />
         </Show>
 
+        <local.WrapperTag class="swiper-wrapper">
+          {slots['wrapper-start']}
+          {renderSlides()}
+          {slots['wrapper-end']}
+        </local.WrapperTag>
         {slots['container-end']}
       </SwiperContext.Provider>
     </local.Tag>

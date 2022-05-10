@@ -1,18 +1,17 @@
-import { SwiperEvents } from 'src/types/swiper-events.d';
 import { ChangeDetectorRef, Component, NgZone, ViewChild } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { SwiperComponent, EventsParams } from 'src/angular/src/public-api';
 import SwiperCore, {
+  A11y,
+  Autoplay,
+  Controller,
   Navigation,
   Pagination,
   Scrollbar,
-  A11y,
+  Thumbs,
   Virtual,
   Zoom,
-  Autoplay,
-  Thumbs,
-  Controller,
-} from 'swiper';
+} from '@tiagotrindade/swiper';
+import { BehaviorSubject } from 'rxjs';
+import { EventsParams, SwiperComponent } from 'src/angular/src/public-api';
 
 SwiperCore.use([
   Navigation,
