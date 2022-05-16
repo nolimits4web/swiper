@@ -1,5 +1,22 @@
 # Changelog
 
+# [8.1.5](https://github.com/nolimits4web/Swiper/compare/v8.1.4...v8.1.5) (2022-05-16)
+
+### Bug Fixes
+
+- **core:** add missing types comments ([340f716](https://github.com/nolimits4web/Swiper/commit/340f716e78875ee21276bacb3625979bed17a4d5)), closes [/github.com/nolimits4web/swiper/issues/5688#issuecomment-1118316055](https://github.com//github.com/nolimits4web/swiper/issues/5688/issues/issuecomment-1118316055)
+- **core:** check for visibleSlides presence in updateAutoHeight ([3909c45](https://github.com/nolimits4web/Swiper/commit/3909c453616400803f3814ccc1deb94d94811887))
+- **core:** fix getWrapper $el check ([7702178](https://github.com/nolimits4web/Swiper/commit/77021780f8c1adf84eb5f9f62f89b0bddc74643b)), closes [#5711](https://github.com/nolimits4web/Swiper/issues/5711)
+- **navigation:** remove duplicated rules ([#5657](https://github.com/nolimits4web/Swiper/issues/5657)) ([333a3ae](https://github.com/nolimits4web/Swiper/commit/333a3ae0f827b33ce16c6c36a572e5e2b4c5d4ed))
+- **react:** move navigation, pagination, scrollbar to the end of container ([2d3255f](https://github.com/nolimits4web/Swiper/commit/2d3255fe3fdc12344fbac6b6979473258f9c66a8))
+- **svelte:** fix incorrect parameters in event dispatching ([#5716](https://github.com/nolimits4web/Swiper/issues/5716)) ([b7961a3](https://github.com/nolimits4web/Swiper/commit/b7961a34648834030d65ad04cf80eaab13685d23))
+- **svelte:** move navigation, pagination, scrollbar to the end of container ([c8a4f67](https://github.com/nolimits4web/Swiper/commit/c8a4f671ccc9dff9fc2241ada3fe3f8096a5c0de))
+- **vue:** move navigation, pagination, scrollbar to the end of container ([0d219f4](https://github.com/nolimits4web/Swiper/commit/0d219f4205807c2ddab3c37e449448366eed9b23))
+
+### Features
+
+- **history:** plugin fixes and new option adding ([#5665](https://github.com/nolimits4web/Swiper/issues/5665)) ([798c7c0](https://github.com/nolimits4web/Swiper/commit/798c7c068cbe785308e15a64dcfbb7ec4193b057))
+
 # [8.1.4](https://github.com/nolimits4web/Swiper/compare/v8.1.3...v8.1.4) (2022-04-24)
 
 ### Bug Fixes
