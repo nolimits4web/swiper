@@ -77,7 +77,7 @@
   };
 
   swiperParams.onAny = (event, ...args) => {
-    dispatch(event, [args]);
+    dispatch(event, args);
   };
   Object.assign(swiperParams.on, {
     _beforeBreakpoint: onBeforeBreakpoint,
