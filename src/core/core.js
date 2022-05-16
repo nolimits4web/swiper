@@ -454,6 +454,9 @@ class Swiper {
         res.children = (options) => $el.children(options);
         return res;
       }
+      if (!$el.children) {
+        return $($el).children(getWrapperSelector());
+      }
       return $el.children(getWrapperSelector());
     };
     // Find Wrapper
