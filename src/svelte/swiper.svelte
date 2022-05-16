@@ -77,7 +77,7 @@
   };
 
   swiperParams.onAny = (event, ...args) => {
-    dispatch(event, [args]);
+    dispatch(event, args);
   };
   Object.assign(swiperParams.on, {
     _beforeBreakpoint: onBeforeBreakpoint,
@@ -161,6 +161,11 @@
   {...restProps}
 >
   <slot name="container-start" />
+  <div class="swiper-wrapper">
+    <slot name="wrapper-start" />
+    <slot {virtualData} />
+    <slot name="wrapper-end" />
+  </div>
   {#if needsNavigation(swiperParams)}
     <div bind:this={prevEl} class="swiper-button-prev" />
     <div bind:this={nextEl} class="swiper-button-next" />
@@ -171,10 +176,5 @@
   {#if needsPagination(swiperParams)}
     <div bind:this={paginationEl} class="swiper-pagination" />
   {/if}
-  <div class="swiper-wrapper">
-    <slot name="wrapper-start" />
-    <slot {virtualData} />
-    <slot name="wrapper-end" />
-  </div>
   <slot name="container-end" />
 </div>

@@ -203,6 +203,11 @@ const Swiper = forwardRef(
       >
         <SwiperContext.Provider value={swiperRef.current}>
           {slots['container-start']}
+          <WrapperTag className="swiper-wrapper">
+            {slots['wrapper-start']}
+            {renderSlides()}
+            {slots['wrapper-end']}
+          </WrapperTag>
           {needsNavigation(swiperParams) && (
             <>
               <div ref={prevElRef} className="swiper-button-prev" />
@@ -215,11 +220,6 @@ const Swiper = forwardRef(
           {needsPagination(swiperParams) && (
             <div ref={paginationElRef} className="swiper-pagination" />
           )}
-          <WrapperTag className="swiper-wrapper">
-            {slots['wrapper-start']}
-            {renderSlides()}
-            {slots['wrapper-end']}
-          </WrapperTag>
           {slots['container-end']}
         </SwiperContext.Provider>
       </Tag>

@@ -381,17 +381,17 @@ const Swiper = {
         },
         [
           slots['container-start'],
+          h(WrapperTag, { class: 'swiper-wrapper' }, [
+            slots['wrapper-start'],
+            renderSlides(slides),
+            slots['wrapper-end'],
+          ]),
           needsNavigation(props) && [
             h('div', { ref: prevElRef, class: 'swiper-button-prev' }),
             h('div', { ref: nextElRef, class: 'swiper-button-next' }),
           ],
           needsScrollbar(props) && h('div', { ref: scrollbarElRef, class: 'swiper-scrollbar' }),
           needsPagination(props) && h('div', { ref: paginationElRef, class: 'swiper-pagination' }),
-          h(WrapperTag, { class: 'swiper-wrapper' }, [
-            slots['wrapper-start'],
-            renderSlides(slides),
-            slots['wrapper-end'],
-          ]),
           slots['container-end'],
         ],
       );

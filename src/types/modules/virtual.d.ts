@@ -80,7 +80,7 @@ export interface VirtualData {
 
 export interface VirtualOptions {
   /**
-   * Whether the virtual slides is enabled
+   * Whether the virtual slides are enabled
    *
    * @default false
    */
