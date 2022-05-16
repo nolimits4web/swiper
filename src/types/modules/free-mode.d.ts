@@ -9,7 +9,7 @@ export interface FreeModeOptions {
   /**
    * Whether the free mode is enabled
    *
-   * @default undefined
+   * @default false
    */
   enabled?: boolean;
 
