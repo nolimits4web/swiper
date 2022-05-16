@@ -29,6 +29,8 @@ export interface LazyEvents {
 export interface LazyOptions {
   /**
    * Whether the lazy loading images is enabled
+   *
+   * @default undefined
    */
   enabled?: boolean;
   /**
