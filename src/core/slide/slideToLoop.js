@@ -28,7 +28,7 @@ export default function slideToLoop(
     // we can update the original argument's value.
     index = indexAsNumber;
   }
-  
+
   const swiper = this;
   let newIndex = index;
   if (swiper.params.loop) {
