@@ -25,6 +25,11 @@
     cursor: auto;
     pointer-events: none;
   }
+  &.swiper-button-hidden {
+    opacity: 0;
+    cursor: auto;
+    pointer-events: none;
+  }
   &:after {
     font-family: swiper-icons;
     font-size: var(--swiper-navigation-size);
