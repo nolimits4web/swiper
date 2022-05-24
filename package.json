@@ -44,7 +44,8 @@
     "test:e2e:dev": "cypress open",
     "test:e2e:prod": "cypress run",
     "changelog": "npx conventional-changelog -p angular -i CHANGELOG.md -u -s",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build-sponsors": "node scripts/build-sponsors.js"
   },
   "repository": {
     "type": "git",
