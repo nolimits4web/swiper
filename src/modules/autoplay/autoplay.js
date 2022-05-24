@@ -29,8 +29,8 @@ export default function Autoplay({ swiper, extendParams, on, emit }) {
     if ($activeSlideEl.attr('data-swiper-autoplay')) {
       delay = $activeSlideEl.attr('data-swiper-autoplay') || swiper.params.autoplay.delay;
     }
-    clearTimeout(timeout);
-    timeout = nextTick(() => {
+
+    const proceed = () => {
       let autoplayResult;
       if (swiper.params.autoplay.reverseDirection) {
         if (swiper.params.loop) {
@@ -68,6 +68,14 @@ export default function Autoplay({ swiper, extendParams, on, emit }) {
       else if (autoplayResult === false) {
         run();
       }
+    };
+    clearTimeout(timeout);
+    if (delay === 0) {
+      proceed();
+      return;
+    }
+    timeout = nextTick(() => {
+      proceed();
     }, delay);
   }
   function start() {
