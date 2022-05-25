@@ -1,5 +1,19 @@
 # Changelog
 
+# [8.1.6](https://github.com/nolimits4web/Swiper/compare/v8.1.5...v8.1.6) (2022-05-25)
+
+### Bug Fixes
+
+- **a11y:** update slides a11y on slides amount change ([31e2005](https://github.com/nolimits4web/Swiper/commit/31e200514392df6ebb7632a778d544edf8e43bda)), closes [#5692](https://github.com/nolimits4web/Swiper/issues/5692)
+- **autoplay:** immediate proceed autoplay when `autoplay.delay = 0` ([81a4cc8](https://github.com/nolimits4web/Swiper/commit/81a4cc83064c5e49a831afedf67251e754986c75))
+- **lazy:** `loadPrevNext` fix when `slidesPerView` is fractional ([94d4c9e](https://github.com/nolimits4web/Swiper/commit/94d4c9e66fe48f1bd88cdc4998947a7de5ad77b5)), closes [#5712](https://github.com/nolimits4web/Swiper/issues/5712)
+- **lazy:** unset lazy-loading class on swiper destroy ([81d7fc4](https://github.com/nolimits4web/Swiper/commit/81d7fc406c1c33b8d2635ed475188e105b596495)), closes [#5737](https://github.com/nolimits4web/Swiper/issues/5737)
+- **types:** add `snapIndex` and `snapGrid` props ([ee3d2dc](https://github.com/nolimits4web/Swiper/commit/ee3d2dcf717b09e7b0c622854480d82f5766c253)), closes [#5733](https://github.com/nolimits4web/Swiper/issues/5733)
+
+### Features
+
+- **navigation:** default `opacity: 0` styles for hidden navigation buttons ([85f72f4](https://github.com/nolimits4web/Swiper/commit/85f72f42711175a0f14ff49d6cf49e16715f1821))
+
 # [8.1.5](https://github.com/nolimits4web/Swiper/compare/v8.1.4...v8.1.5) (2022-05-16)
 
 ### Bug Fixes
