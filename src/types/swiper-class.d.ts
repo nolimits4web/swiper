@@ -119,6 +119,16 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   previousIndex: number;
 
   /**
+   * Index number of current snap in `snapGrid`
+   */
+  snapIndex: number;
+
+  /**
+   * Slides snap grid
+   */
+  snapGrid: number[];
+
+  /**
    * `true` if slider on most "left"/"top" position
    */
   isBeginning: boolean;
