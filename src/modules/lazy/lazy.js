@@ -301,6 +301,13 @@ export default function Lazy({ swiper, extendParams, on, emit }) {
     }
   });
 
+  on('destroy', () => {
+    if (!swiper.$el) return;
+    swiper.$el
+      .find(`.${swiper.params.lazy.loadingClass}`)
+      .removeClass(swiper.params.lazy.loadingClass);
+  });
+
   Object.assign(swiper.lazy, {
     load,
     loadInSlide,
