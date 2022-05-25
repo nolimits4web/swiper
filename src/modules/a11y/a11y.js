@@ -174,7 +174,30 @@ export default function A11y({ swiper, extendParams, on }) {
     swiper.slideTo(swiper.slides.indexOf(slideEl), 0);
   };
 
-  function init() {
+  const initSlides = () => {
+    const params = swiper.params.a11y;
+    if (params.itemRoleDescriptionMessage) {
+      addElRoleDescription($(swiper.slides), params.itemRoleDescriptionMessage);
+    }
+    addElRole($(swiper.slides), params.slideRole);
+
+    const slidesLength = swiper.params.loop
+      ? swiper.slides.filter((el) => !el.classList.contains(swiper.params.slideDuplicateClass))
+          .length
+      : swiper.slides.length;
+    swiper.slides.each((slideEl, index) => {
+      const $slideEl = $(slideEl);
+      const slideIndex = swiper.params.loop
+        ? parseInt($slideEl.attr('data-swiper-slide-index'), 10)
+        : index;
+      const ariaLabelMessage = params.slideLabelMessage
+        .replace(/\{\{index\}\}/, slideIndex + 1)
+        .replace(/\{\{slidesLength\}\}/, slidesLength);
+      addElLabel($slideEl, ariaLabelMessage);
+    });
+  };
+
+  const init = () => {
     const params = swiper.params.a11y;
 
     swiper.$el.append(liveRegion);
@@ -196,25 +219,7 @@ export default function A11y({ swiper, extendParams, on }) {
     addElLive($wrapperEl, live);
 
     // Slide
-    if (params.itemRoleDescriptionMessage) {
-      addElRoleDescription($(swiper.slides), params.itemRoleDescriptionMessage);
-    }
-    addElRole($(swiper.slides), params.slideRole);
-
-    const slidesLength = swiper.params.loop
-      ? swiper.slides.filter((el) => !el.classList.contains(swiper.params.slideDuplicateClass))
-          .length
-      : swiper.slides.length;
-    swiper.slides.each((slideEl, index) => {
-      const $slideEl = $(slideEl);
-      const slideIndex = swiper.params.loop
-        ? parseInt($slideEl.attr('data-swiper-slide-index'), 10)
-        : index;
-      const ariaLabelMessage = params.slideLabelMessage
-        .replace(/\{\{index\}\}/, slideIndex + 1)
-        .replace(/\{\{slidesLength\}\}/, slidesLength);
-      addElLabel($slideEl, ariaLabelMessage);
-    });
+    initSlides();
 
     // Navigation
     let $nextEl;
@@ -244,7 +249,7 @@ export default function A11y({ swiper, extendParams, on }) {
 
     // Tab focus
     swiper.$el.on('focus', handleFocus, true);
-  }
+  };
   function destroy() {
     if (liveRegion && liveRegion.length > 0) liveRegion.remove();
 
@@ -285,6 +290,10 @@ export default function A11y({ swiper, extendParams, on }) {
   on('afterInit', () => {
     if (!swiper.params.a11y.enabled) return;
     init();
+  });
+  on('slidesLengthChange snapGridLengthChange slidesGridLengthChange', () => {
+    if (!swiper.params.a11y.enabled) return;
+    initSlides();
   });
   on('fromEdge toEdge afterInit lock unlock', () => {
     if (!swiper.params.a11y.enabled) return;
