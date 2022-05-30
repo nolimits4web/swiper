@@ -160,5 +160,13 @@
   "dependencies": {
     "dom7": "^4.0.4",
     "ssr-window": "^4.0.2"
+  },
+  "peerDependencies": {
+    "react": "^17 || ^18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
   }
 }
