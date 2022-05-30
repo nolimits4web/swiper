@@ -131,6 +131,10 @@ export default function Autoplay({ swiper, extendParams, on, emit }) {
     swiper.autoplay.paused = false;
     if (!swiper.autoplay.running) {
       stop();
+    } else if (swiper.params.autoplay.delay === 0 && swiper.animating) {
+      swiper.once('transitionEnd', () => {
+        run();
+      });
     } else {
       run();
     }
