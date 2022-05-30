@@ -23,6 +23,10 @@
   &.swiper-pagination-hidden {
     opacity: 0;
   }
+  .swiper-pagination-disabled > &,
+  &.swiper-pagination-disabled {
+    display: none !important;
+  }
 }
 /* Common Styles */
 .swiper-pagination-fraction,

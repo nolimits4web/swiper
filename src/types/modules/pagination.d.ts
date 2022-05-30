@@ -282,4 +282,11 @@ export interface PaginationOptions {
    * @default 'swiper-pagination-vertical'
    */
   verticalClass?: string;
+
+  /**
+   * CSS class name added on swiper container and pagination element when pagination is disabled by breakpoint
+   *
+   * @default 'swiper-pagination-disabled'
+   */
+  paginationDisabledClass?: string;
 }

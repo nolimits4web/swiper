@@ -32,6 +32,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       lockClass: `${pfx}-lock`,
       horizontalClass: `${pfx}-horizontal`,
       verticalClass: `${pfx}-vertical`,
+      paginationDisabledClass: `${pfx}-disabled`,
     },
   });
 
@@ -347,9 +348,14 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
   }
 
   on('init', () => {
-    init();
-    render();
-    update();
+    if (swiper.params.navigation.enabled === false) {
+      // eslint-disable-next-line
+      disable();
+    } else {
+      init();
+      render();
+      update();
+    }
   });
   on('activeIndexChange', () => {
     if (swiper.params.loop) {
@@ -412,7 +418,27 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     }
   });
 
+  const enable = () => {
+    swiper.$el.removeClass(swiper.params.pagination.paginationDisabledClass);
+    if (swiper.pagination.$el) {
+      swiper.pagination.$el.removeClass(swiper.params.pagination.paginationDisabledClass);
+    }
+    init();
+    render();
+    update();
+  };
+
+  const disable = () => {
+    swiper.$el.addClass(swiper.params.pagination.paginationDisabledClass);
+    if (swiper.pagination.$el) {
+      swiper.pagination.$el.addClass(swiper.params.pagination.paginationDisabledClass);
+    }
+    destroy();
+  };
+
   Object.assign(swiper.pagination, {
+    enable,
+    disable,
     render,
     update,
     init,

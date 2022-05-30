@@ -174,14 +174,14 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
   });
 
   const enable = () => {
+    swiper.$el.removeClass(swiper.params.navigation.navigationDisabledClass);
     init();
     update();
-    swiper.$el.removeClass(swiper.params.navigation.navigationDisabledClass);
   };
 
   const disable = () => {
-    destroy();
     swiper.$el.addClass(swiper.params.navigation.navigationDisabledClass);
+    destroy();
   };
 
   Object.assign(swiper.navigation, {

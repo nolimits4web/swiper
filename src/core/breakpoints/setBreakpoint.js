@@ -38,15 +38,17 @@ export default function setBreakpoint() {
     swiper.emitContainerClasses();
   }
 
-  // Toggle navigation
-  const wasNavigationEnabled = params.navigation && params.navigation.enabled;
-  const isNavigationEnabled = breakpointParams.navigation && breakpointParams.navigation.enabled;
-  if (wasNavigationEnabled && !isNavigationEnabled) {
-    swiper.navigation.disable();
-  }
-  if (!wasNavigationEnabled && isNavigationEnabled) {
-    swiper.navigation.enable();
-  }
+  // Toggle navigation, pagination, scrollbar
+  ['navigation', 'pagination', 'scrollbar'].forEach((prop) => {
+    const wasModuleEnabled = params[prop] && params[prop].enabled;
+    const isModuleEnabled = breakpointParams[prop] && breakpointParams[prop].enabled;
+    if (wasModuleEnabled && !isModuleEnabled) {
+      swiper[prop].disable();
+    }
+    if (!wasModuleEnabled && isModuleEnabled) {
+      swiper[prop].enable();
+    }
+  });
 
   const directionChanged =
     breakpointParams.direction && breakpointParams.direction !== params.direction;
