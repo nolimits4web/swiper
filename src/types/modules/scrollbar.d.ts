@@ -112,4 +112,11 @@ export interface ScrollbarOptions {
    * @default 'swiper-scrollbar-drag'
    */
   dragClass?: string;
+
+  /**
+   * CSS class name added on swiper container and scrollbar element when scrollbar is disabled by breakpoint
+   *
+   * @default 'swiper-scrollbar-disabled'
+   */
+  scrollbarDisabledClass?: string;
 }

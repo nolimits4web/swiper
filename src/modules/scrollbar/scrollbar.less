@@ -4,6 +4,10 @@
   position: relative;
   -ms-touch-action: none;
   background: rgba(0, 0, 0, 0.1);
+  .swiper-scrollbar-disabled > &,
+  &.swiper-scrollbar-disabled {
+    display: none !important;
+  }
   .swiper-horizontal > & {
     position: absolute;
     left: 1%;
