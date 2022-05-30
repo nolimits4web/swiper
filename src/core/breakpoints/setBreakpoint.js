@@ -38,6 +38,16 @@ export default function setBreakpoint() {
     swiper.emitContainerClasses();
   }
 
+  // Toggle navigation
+  const wasNavigationEnabled = params.navigation && params.navigation.enabled;
+  const isNavigationEnabled = breakpointParams.navigation && breakpointParams.navigation.enabled;
+  if (wasNavigationEnabled && !isNavigationEnabled) {
+    swiper.navigation.disable();
+  }
+  if (!wasNavigationEnabled && isNavigationEnabled) {
+    swiper.navigation.enable();
+  }
+
   const directionChanged =
     breakpointParams.direction && breakpointParams.direction !== params.direction;
   const needsReLoop =

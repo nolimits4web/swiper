@@ -83,4 +83,11 @@ export interface NavigationOptions {
    * @default 'swiper-button-lock'
    */
   lockClass?: string;
+
+  /**
+   * CSS class name added on swiper container when navigation is disabled by breakpoint
+   *
+   * @default 'swiper-navigation-disabled'
+   */
+  navigationDisabledClass?: string;
 }
