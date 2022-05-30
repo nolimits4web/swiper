@@ -60,6 +60,10 @@ export interface PaginationEvents {
 
 export interface PaginationOptions {
   /**
+   * Boolean property to use with breakpoints to enable/disable pagination on certain breakpoints
+   */
+  enabled?: boolean;
+  /**
    * String with CSS selector or HTML element of the container with pagination
    *
    * @default null

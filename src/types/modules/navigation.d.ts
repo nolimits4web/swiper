@@ -41,6 +41,10 @@ export interface NavigationEvents {
 
 export interface NavigationOptions {
   /**
+   * Boolean property to use with breakpoints to enable/disable navigation on certain breakpoints
+   */
+  enabled?: boolean;
+  /**
    * String with CSS selector or HTML element of the element that will work
    * like "next" button after click on it
    *

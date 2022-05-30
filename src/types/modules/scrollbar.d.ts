@@ -65,6 +65,10 @@ export interface ScrollbarEvents {
  */
 export interface ScrollbarOptions {
   /**
+   * Boolean property to use with breakpoints to enable/disable scrollbar on certain breakpoints
+   */
+  enabled?: boolean;
+  /**
    * String with CSS selector or HTML element of the container with scrollbar.
    *
    * @default null
