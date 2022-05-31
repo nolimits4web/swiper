@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Swiper Playground</title>
-    <meta name="viewport" content="width=device-width" />
-  </head>
 
-  <body>
-    <section class="swiper">
-      <div class="swiper-pagination"></div>
+<head>
+  <meta charset="UTF-8" />
+  <title>Swiper Playground</title>
+  <meta name="viewport" content="width=device-width" />
+</head>
+
+<body>
+  <section class="swiper">
+    <div class="swiper-pagination"></div>
+    <div class="swiper-scrollbar"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-wrapper">
       <div class="swiper-slide">Slide 1</div>
       <div class="swiper-slide">Slide 2</div>
       <div class="swiper-slide">Slide 3</div>
@@ -19,51 +24,85 @@
       <div class="swiper-slide">Slide 8</div>
       <div class="swiper-slide">Slide 9</div>
       <div class="swiper-slide">Slide 10</div>
-    </section>
-    <style>
-      body,
-      html {
-        padding: 0;
-        margin: 0;
-        position: relative;
-        height: 100%;
-      }
+    </div>
+  </section>
+  <style>
+    body,
+    html {
+      padding: 0;
+      margin: 0;
+      position: relative;
+      height: 100%;
+    }
 
-      .swiper {
-        width: 100%;
-        height: 300px;
-        margin: 50px auto;
-      }
+    .swiper {
+      width: 100%;
+      height: 300px;
+      margin: 50px auto;
+    }
 
-      .swiper-slide {
-        background: #f1f1f1;
-        color: #000;
-        text-align: center;
-        line-height: 300px;
-      }
-    </style>
-    <script type="module">
-      // eslint-disable-next-line
-      import 'swiper/swiper-bundle.css';
+    .swiper-slide {
+      background: #f1f1f1;
+      color: #000;
+      text-align: center;
+      line-height: 300px;
+    }
+  </style>
+  <script type="module">
+    // eslint-disable-next-line
+    import 'swiper/swiper-bundle.css';
 
-      // eslint-disable-next-line
-      import Swiper from 'swiper/swiper-bundle.esm.js';
+    // eslint-disable-next-line
+    import Swiper from 'swiper/swiper-bundle.esm.js';
 
-      // eslint-disable-next-line
-      window.swiper = new Swiper({
-        el: '.swiper',
-        createElements: true,
-        speed: 300,
-        // cssMode: true,
-        rewind: true,
-        slidesPerView: 1,
-        navigation: true,
-        pagination: {
-          el: '.swiper-pagination',
-          dynamicBullets: true,
-          // dynamicMainBullets: 3,
+    // eslint-disable-next-line
+    window.swiper = new Swiper({
+      el: '.swiper',
+      speed: 300,
+      // cssMode: true,
+      // rewind: true,
+      slidesPerView: 1,
+      scrollbar: {
+        enabled: false,
+        el: '.swiper-scrollbar',
+      },
+      navigation: {
+        enabled: false,
+        prevEl: '.swiper-button-prev',
+        nextEl: '.swiper-button-next',
+      },
+      pagination: {
+        enabled: false,
+        el: '.swiper-pagination',
+        // dynamicBullets: true,
+        // dynamicMainBullets: 3,
+      },
+      breakpoints: {
+        600: {
+          navigation: {
+            enabled: true,
+          },
+          pagination: {
+            enabled: true,
+          },
+          scrollbar: {
+            enabled: true,
+          },
         },
-      });
-    </script>
-  </body>
+        800: {
+          navigation: {
+            enabled: false,
+          },
+          pagination: {
+            enabled: false,
+          },
+          scrollbar: {
+            enabled: false,
+          },
+        }
+      }
+    });
+  </script>
+</body>
+
 </html>

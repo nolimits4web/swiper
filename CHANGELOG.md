@@ -1,5 +1,18 @@
 # Changelog
 
+# [8.2.0](https://github.com/nolimits4web/Swiper/compare/v8.1.6...v8.2.0) (2022-05-31)
+
+### Bug Fixes
+
+- **autoplay:** fix swiper getting stuck with `0` autoplay delay ([61db26f](https://github.com/nolimits4web/Swiper/commit/61db26fdde129afc77bb56c302790c8af6f35c44))
+- **core:** fix type Number in slideToLoop ([#5732](https://github.com/nolimits4web/Swiper/issues/5732)) ([1e1336b](https://github.com/nolimits4web/Swiper/commit/1e1336b5eabe331b212790a238d5993ca49e4abf))
+
+### Features
+
+- **navigation:** allow navigation to be enabled/disabled in breakpoints ([052f863](https://github.com/nolimits4web/Swiper/commit/052f863444a4891fa7803a43914de808038e5a06))
+- **pagination:** allow pagination to be enabled/disabled in breakpoints ([d748d49](https://github.com/nolimits4web/Swiper/commit/d748d49c86903acc39eac1c4512c2daff929c52b))
+- **scrollbar:** allow scrollbar to be enabled/disabled in breakpoints ([3f09fc7](https://github.com/nolimits4web/Swiper/commit/3f09fc7ecc13a643fc88e0d2cc434a5b7915eab7))
+
 # [8.1.6](https://github.com/nolimits4web/Swiper/compare/v8.1.5...v8.1.6) (2022-05-25)
 
 ### Bug Fixes
