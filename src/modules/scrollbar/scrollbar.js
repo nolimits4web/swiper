@@ -297,7 +297,7 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
   }
 
   on('init', () => {
-    if (swiper.params.navigation.enabled === false) {
+    if (swiper.params.scrollbar.enabled === false) {
       // eslint-disable-next-line
       disable();
     } else {

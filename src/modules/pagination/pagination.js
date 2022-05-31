@@ -348,7 +348,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
   }
 
   on('init', () => {
-    if (swiper.params.navigation.enabled === false) {
+    if (swiper.params.pagination.enabled === false) {
       // eslint-disable-next-line
       disable();
     } else {
