@@ -5,6 +5,7 @@ import { nextTick } from '../../shared/utils.js';
 
 export default function Autoplay({ swiper, extendParams, on, emit }) {
   let timeout;
+  let firstRun = true;
 
   swiper.autoplay = {
     running: false,
@@ -70,7 +71,9 @@ export default function Autoplay({ swiper, extendParams, on, emit }) {
       }
     };
     clearTimeout(timeout);
-    if (delay === 0) {
+    if (delay === 0 && firstRun) {
+      // fix "Maximum call stack size exceeded" in vue
+      firstRun = false;
       proceed();
       return;
     }
