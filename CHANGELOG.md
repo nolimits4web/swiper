@@ -1,5 +1,11 @@
 # Changelog
 
+# [8.2.1](https://github.com/nolimits4web/Swiper/compare/v8.2.0...v8.2.1) (2022-05-31)
+
+### Bug Fixes
+
+- **core:** fix issues with navigation/pagination `enabled` prop ([af9ed85](https://github.com/nolimits4web/Swiper/commit/af9ed85d451148fd2e6af6aadc4436f1b2c2a3b5))
+
 # [8.2.0](https://github.com/nolimits4web/Swiper/compare/v8.1.6...v8.2.0) (2022-05-31)
 
 ### Bug Fixes
