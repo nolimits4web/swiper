@@ -38,7 +38,7 @@ export default function onTouchStart(event) {
   if (params.touchEventsTarget === 'wrapper') {
     if (!$targetEl.closest(swiper.wrapperEl).length) return;
   }
-  data.isTouchEvent = e.type === 'touchstart';
+  data.isTouchEvent = e.type === 'touchstart' || e.type === 'pointerdown';
   if (!data.isTouchEvent && 'which' in e && e.which === 3) return;
   if (!data.isTouchEvent && 'button' in e && e.button > 0) return;
   if (data.isTouched && data.isMoved) return;
