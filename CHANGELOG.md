@@ -1,5 +1,16 @@
 # Changelog
 
+# [8.2.2](https://github.com/nolimits4web/Swiper/compare/v8.2.1...v8.2.2) (2022-06-01)
+
+### Bug Fixes
+
+- **scrollbar:** fix draggable scrollbar ([28cd6c2](https://github.com/nolimits4web/Swiper/commit/28cd6c243555f7132d7db1df899f3182e935f834)), closes [#5759](https://github.com/nolimits4web/Swiper/issues/5759)
+
+### Reverts
+
+- Revert "fix(autoplay): immediate proceed autoplay when `autoplay.delay = 0`" ([d942e83](https://github.com/nolimits4web/Swiper/commit/d942e834c58b3291425038325ab5ff009fb5d87d))
+- Revert "fix(autoplay): fix swiper getting stuck with `0` autoplay delay" ([56e050b](https://github.com/nolimits4web/Swiper/commit/56e050bcdbcc00db7af02ccb32e0725265dd242a))
+
 # [8.2.1](https://github.com/nolimits4web/Swiper/compare/v8.2.0...v8.2.1) (2022-05-31)
 
 ### Bug Fixes
