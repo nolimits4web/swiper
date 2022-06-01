@@ -243,11 +243,11 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
   }
 
   function enableDraggable() {
-    if (!swiper.params.scrollbar.el || swiper.scrollbar.el) return;
+    if (!swiper.params.scrollbar.el || !swiper.scrollbar.el) return;
     events('on');
   }
   function disableDraggable() {
-    if (!swiper.params.scrollbar.el || swiper.scrollbar.el) return;
+    if (!swiper.params.scrollbar.el || !swiper.scrollbar.el) return;
     events('off');
   }
   function init() {
