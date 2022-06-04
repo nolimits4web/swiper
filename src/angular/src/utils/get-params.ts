@@ -1,7 +1,7 @@
+// @ts-ignore
+import Swiper from 'swiper';
 import { paramsList } from './params-list';
 import { extend, isObject } from './utils';
-// @ts-ignore
-import Swiper from '@tiagotrindade/swiper';
 type KeyValueType = { [x: string]: any };
 export const allowedParams = paramsList.map((key) => key.replace(/_/, ''));
 export function getParams(obj: any = {}) {

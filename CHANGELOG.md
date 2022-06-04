@@ -981,18 +981,18 @@
     - `swiper.cjs.js` - Swiper core JavaScript in CommonJS format
     - `swiper.esm.js` - Swiper core JavaScript in ESM format
   - Following imports are now available
-    - `import Swiper from '@tiagotrindade/swiper'` - imports core version
+    - `import Swiper from 'swiper'` - imports core version
     - `import Swiper from 'swiper/bundle'` - imports bundle version
     - `import Swiper from 'swiper/core'` - imports core version
   - Components can be imported from core version using named imports, or using direct import:
 
     ```js
-    import { Navigation } from '@tiagotrindade/swiper';
+    import { Navigation } from 'swiper';
     // or
     import Navigation from 'swiper/components/navigation';
 
     // and styles (Less or SCSS only)
-    import '@tiagotrindade/swiper/components/navigation/navigation.less';
+    import 'swiper/components/navigation/navigation.less';
     ```
 
 - Full server-side rendering support (SSR) with new parameters:
@@ -1441,7 +1441,7 @@
 - Virtual Slides - new module that keeps in DOM just required amount of slides
 - Source code has been fully rewritten in ES-next syntax
 - Dist package contains additional ES-next modules:
-  - `swiper.module.js` - swiper bundle for `import Swiper from '@tiagotrindade/swiper'`
+  - `swiper.module.js` - swiper bundle for `import Swiper from 'swiper'`
   - `swiper.modular.js` - modular version for using Swiper with required components only
 - New `scripts/build-config.js` for creating custom Swiper build with required components and custom color theme
 - jQuery version of Swiper has been removed

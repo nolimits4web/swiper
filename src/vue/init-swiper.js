@@ -1,4 +1,4 @@
-import Swiper from '@tiagotrindade/swiper';
+import Swiper from 'swiper';
 import { needsNavigation, needsPagination, needsScrollbar } from './utils.js';
 
 function initSwiper(swiperParams) {

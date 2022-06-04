@@ -1,4 +1,4 @@
-import Swiper from '@tiagotrindade/swiper';
+import Swiper from 'swiper';
 import { h } from 'vue';
 
 function calcLoopedSlides(slides, swiperParams) {

@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 // eslint-disable-next-line
-import { A11y, Navigation, Pagination, Scrollbar } from '@tiagotrindade/swiper';
+import { A11y, Navigation, Pagination, Scrollbar } from 'swiper';
 // eslint-disable-next-line
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 

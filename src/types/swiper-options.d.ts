@@ -21,9 +21,9 @@ import { ScrollbarOptions } from './modules/scrollbar';
 import { ThumbsOptions } from './modules/thumbs';
 import { VirtualOptions } from './modules/virtual';
 import { ZoomOptions } from './modules/zoom';
-
 import { CSSSelector, SwiperModule } from './shared';
 import { SwiperEvents } from './swiper-events';
+
 
 export interface SwiperOptions {
   /**
@@ -31,7 +31,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * import Swiper, { Navigation, Pagination } from '@tiagotrindade/swiper';
+   * import Swiper, { Navigation, Pagination } from 'swiper';
    *
    * const swiper = new Swiper('.swiper', {
    *    modules: [ Navigation, Pagination ],

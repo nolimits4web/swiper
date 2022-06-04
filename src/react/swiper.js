@@ -1,5 +1,5 @@
-import SwiperCore from '@tiagotrindade/swiper';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import SwiperCore from 'swiper';
 import { SwiperContext } from './context.js';
 import { getChangedParams } from './get-changed-params.js';
 import { getChildren } from './get-children.js';

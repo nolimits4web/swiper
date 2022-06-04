@@ -1,4 +1,4 @@
-import Swiper from '@tiagotrindade/swiper';
+import Swiper from 'swiper';
 import { paramsList } from './params-list.js';
 import { extend, isObject } from './utils.js';
 

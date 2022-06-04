@@ -29,7 +29,7 @@
       },
       "root": "src/angular",
       "sourceRoot": "src/angular/src",
-      "prefix": "@tiagotrindade/swiper",
+      "prefix": "swiper",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",

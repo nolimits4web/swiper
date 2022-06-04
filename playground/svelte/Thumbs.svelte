@@ -7,7 +7,7 @@
     A11y,
     Thumbs,
     // eslint-disable-next-line
-  } from '@tiagotrindade/swiper';
+  } from 'swiper';
   // eslint-disable-next-line
   import { Swiper, SwiperSlide } from 'swiper/svelte/swiper-svelte.js';
 

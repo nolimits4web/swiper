@@ -64,8 +64,8 @@ const Swiper = (baseProps) => {
     Object.assign(swiperParams.on, events);
     eventsAssigned = true;
     swiperRef = new SwiperCore(swiperParams);
-    swiperRef.loopCreate = () => { };
-    swiperRef.loopDestroy = () => { };
+    swiperRef.loopCreate = () => {};
+    swiperRef.loopDestroy = () => {};
     if (swiperParams.loop) {
       swiperRef.loopedSlides = calcLoopedSlides(slides, swiperParams);
     }
