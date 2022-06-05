@@ -69,7 +69,7 @@ interface SwiperProps
   | 'onProgress'
   | 'onClick'
   | 'onTouchEnd'
-  | 'onTouchMove'@tiagotrindade/swiper
+  | 'onTouchMove'
   | 'onTouchStart'
   | 'onTransitionEnd'
   | 'onKeyPress'

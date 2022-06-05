@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: 14
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: npm install
       - name: Run build dev
         run: npm run build
       - name: Run build prod
