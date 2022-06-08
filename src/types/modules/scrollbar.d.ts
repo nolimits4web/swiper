@@ -123,4 +123,18 @@ export interface ScrollbarOptions {
    * @default 'swiper-scrollbar-disabled'
    */
   scrollbarDisabledClass?: string;
+
+  /**
+   * CSS class name set to scrollbar in horizontal Swiper
+   *
+   * @default 'swiper-scrollbar-horizontal'
+   */
+  horizontalClass?: string;
+
+  /**
+   * CSS class name set to scrollbar in vertical Swiper
+   *
+   * @default 'swiper-scrollbar-vertical'
+   */
+  verticalClass?: string;
 }

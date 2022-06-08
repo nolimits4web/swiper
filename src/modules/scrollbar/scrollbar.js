@@ -24,6 +24,8 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
       lockClass: 'swiper-scrollbar-lock',
       dragClass: 'swiper-scrollbar-drag',
       scrollbarDisabledClass: 'swiper-scrollbar-disabled',
+      horizontalClass: `swiper-scrollbar-horizontal`,
+      verticalClass: `swiper-scrollbar-vertical`,
     },
   });
 
@@ -271,6 +273,8 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
       $el = $swiperEl.find(params.el);
     }
 
+    $el.addClass(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
+
     let $dragEl = $el.find(`.${swiper.params.scrollbar.dragClass}`);
     if ($dragEl.length === 0) {
       $dragEl = $(`<div class="${swiper.params.scrollbar.dragClass}"></div>`);
@@ -293,6 +297,12 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     }
   }
   function destroy() {
+    const params = swiper.params.scrollbar;
+    const $el = swiper.scrollbar.$el;
+    if ($el) {
+      $el.removeClass(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
+    }
+
     disableDraggable();
   }
 
