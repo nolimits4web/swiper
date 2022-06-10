@@ -1,6 +1,6 @@
 import Swiper from 'swiper';
-import { paramsList } from './params-list.js';
 import { extend, isObject } from './utils.js';
+import { paramsList } from './params-list.js';
 
 function getParams(obj = {}) {
   const params = {

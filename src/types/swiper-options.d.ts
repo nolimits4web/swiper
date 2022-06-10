@@ -1,14 +1,12 @@
 import { A11yOptions } from './modules/a11y';
 import { AutoplayOptions } from './modules/autoplay';
 import { ControllerOptions } from './modules/controller';
-import { CardsEffectOptions } from './modules/effect-cards';
 import { CoverflowEffectOptions } from './modules/effect-coverflow';
-import { CreativeEffectOptions } from './modules/effect-creative';
 import { CubeEffectOptions } from './modules/effect-cube';
 import { FadeEffectOptions } from './modules/effect-fade';
 import { FlipEffectOptions } from './modules/effect-flip';
-import { FreeModeOptions } from './modules/free-mode';
-import { GridOptions } from './modules/grid';
+import { CreativeEffectOptions } from './modules/effect-creative';
+import { CardsEffectOptions } from './modules/effect-cards';
 import { HashNavigationOptions } from './modules/hash-navigation';
 import { HistoryOptions } from './modules/history';
 import { KeyboardOptions } from './modules/keyboard';
@@ -21,9 +19,11 @@ import { ScrollbarOptions } from './modules/scrollbar';
 import { ThumbsOptions } from './modules/thumbs';
 import { VirtualOptions } from './modules/virtual';
 import { ZoomOptions } from './modules/zoom';
+import { FreeModeOptions } from './modules/free-mode';
+import { GridOptions } from './modules/grid';
+
 import { CSSSelector, SwiperModule } from './shared';
 import { SwiperEvents } from './swiper-events';
-
 
 export interface SwiperOptions {
   /**
