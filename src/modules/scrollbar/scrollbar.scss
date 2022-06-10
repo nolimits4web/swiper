@@ -8,7 +8,8 @@
   &.swiper-scrollbar-disabled {
     display: none !important;
   }
-  .swiper-horizontal > & {
+  .swiper-horizontal > &,
+  &.swiper-scrollbar-horizontal {
     position: absolute;
     left: 1%;
     bottom: 3px;
@@ -16,7 +17,8 @@
     height: 5px;
     width: 98%;
   }
-  .swiper-vertical > & {
+  .swiper-vertical > &,
+  &.swiper-scrollbar-vertical {
     position: absolute;
     right: 3px;
     top: 1%;
