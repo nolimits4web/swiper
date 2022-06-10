@@ -1,4 +1,5 @@
 /* eslint-disable no-restricted-globals */
+import React from 'react';
 // eslint-disable-next-line
 import { A11y, Navigation, Pagination, Scrollbar } from 'swiper';
 // eslint-disable-next-line

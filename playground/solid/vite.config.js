@@ -1,3 +1,4 @@
+import solidPlugin from 'vite-plugin-solid';
 import path from 'path';
 
 export default {
@@ -6,4 +7,5 @@ export default {
       swiper: path.resolve(__dirname, '../../dist/'),
     },
   },
+  plugins: [solidPlugin()],
 };

@@ -117,8 +117,8 @@
     "@rollup/plugin-replace": "^2.4.2",
     "@types/express": "^4.17.12",
     "@types/node": "^14.14.37",
-    "@vitejs/plugin-vue": "^1.2.3",
-    "@vue/compiler-sfc": "^3.1.1",
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/compiler-sfc": "^3.2.37",
     "all-contributors-cli": "^6.20.0",
     "autoprefixer": "^10.2.6",
     "babel-preset-solid": "^1.4.4",
@@ -168,8 +168,9 @@
     "tslib": "^2.3.0",
     "tslint": "~6.1.0",
     "typescript": "^4.7.3",
-    "vite": "^2.3.8",
-    "vue": "^3.0.5",
+    "vite": "^2.9.11",
+    "vite-plugin-solid": "^2.2.6",
+    "vue": "^3.2.37",
     "zone.js": "~0.11.4"
   },
   "dependencies": {
