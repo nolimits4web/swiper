@@ -1,20 +1,20 @@
-import SwiperCore from 'swiper';
 import { createEffect, createSignal, mergeProps, onCleanup, Show, splitProps } from 'solid-js';
-import { getParams } from './get-params.js';
-import { mountSwiper } from './mount-swiper.js';
-import {
-  needsScrollbar,
-  needsNavigation,
-  needsPagination,
-  uniqueClasses,
-  extend,
-} from './utils.js';
-import { renderLoop, calcLoopedSlides } from './loop.js';
+import SwiperCore from 'swiper';
+import { SwiperContext } from './context.js';
 import { getChangedParams } from './get-changed-params.js';
 import { getChildren } from './get-children.js';
+import { getParams } from './get-params.js';
+import { calcLoopedSlides, renderLoop } from './loop.js';
+import { mountSwiper } from './mount-swiper.js';
 import { updateSwiper } from './update-swiper.js';
+import {
+  extend,
+  needsNavigation,
+  needsPagination,
+  needsScrollbar,
+  uniqueClasses,
+} from './utils.js';
 import { renderVirtual, updateOnVirtualData } from './virtual.js';
-import { SwiperContext } from './context.js';
 
 const Swiper = (baseProps) => {
   let eventsAssigned = false;
@@ -34,7 +34,15 @@ const Swiper = (baseProps) => {
   let paginationElRef = null; // eslint-disable-line prefer-const
   let scrollbarElRef = null; // eslint-disable-line prefer-const
 
-  const props = mergeProps({ Tag: () => null, WrapperTag: () => null }, baseProps);
+  const props = mergeProps(
+    {
+      // eslint-disable-next-line react/react-in-jsx-scope
+      Tag: (innerProps) => <div>{innerProps.children}</div>,
+      // eslint-disable-next-line react/react-in-jsx-scope
+      WrapperTag: (innerProps) => <div>{innerProps.children}</div>,
+    },
+    baseProps,
+  );
 
   const [local, rest] = splitProps(props, [
     'children',
@@ -55,7 +63,7 @@ const Swiper = (baseProps) => {
 
   Object.assign(swiperParams.on, {
     _containerClasses(swiper, classes) {
-      setContainerClasses(() => classes);
+      setContainerClasses(classes);
     },
   });
 
@@ -74,7 +82,7 @@ const Swiper = (baseProps) => {
       const extendWith = {
         cache: false,
         slides,
-        renderExternal: (data) => setVirtualData(() => data),
+        renderExternal: (data) => setVirtualData(data),
         renderExternalUpdate: false,
       };
       extend(swiperRef.params.virtual, extendWith);

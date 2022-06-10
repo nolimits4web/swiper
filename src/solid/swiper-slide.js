@@ -1,9 +1,10 @@
 import { createEffect, createSignal, mergeProps, onCleanup, splitProps } from 'solid-js';
-import { uniqueClasses } from './utils.js';
 import { SwiperSlideContext } from './context.js';
+import { uniqueClasses } from './utils.js';
 
 const SwiperSlide = (baseProps) => {
-  const props = mergeProps({ Tag: () => null }, baseProps);
+  // eslint-disable-next-line react/react-in-jsx-scope
+  const props = mergeProps({ Tag: (innerProps) => <div>{innerProps.children}</div> }, baseProps);
 
   const [local, rest] = splitProps(props, [
     'children',
@@ -21,7 +22,7 @@ const SwiperSlide = (baseProps) => {
 
   function updateClasses(_s, el, classNames) {
     if (el === ref) {
-      setSlideClasses(() => classNames);
+      setSlideClasses(classNames);
     }
   }
   createEffect(() => {
@@ -30,7 +31,7 @@ const SwiperSlide = (baseProps) => {
     }
     if (local.swiper.destroyed) {
       if (slideClasses() !== 'swiper-slide') {
-        setSlideClasses(() => 'swiper-slide');
+        setSlideClasses('swiper-slide');
       }
       return;
     }
@@ -43,7 +44,7 @@ const SwiperSlide = (baseProps) => {
   });
   createEffect(() => {
     if (local.swiper && ref && !local.swiper.destroyed) {
-      setSlideClasses(() => local.swiper.getSlideClasses(ref));
+      setSlideClasses(local.swiper.getSlideClasses(ref));
     }
   });
 
