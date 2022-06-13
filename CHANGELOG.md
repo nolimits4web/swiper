@@ -1,5 +1,11 @@
 # Changelog
 
+# [8.2.4](https://github.com/nolimits4web/Swiper/compare/v8.2.3...v8.2.4) (2022-06-13)
+
+### Bug Fixes
+
+- **angular:** rollback build to Angular 13 ([3f14d67](https://github.com/nolimits4web/Swiper/commit/3f14d675b30c39085a375ac8d161576034192bd0)), closes [#5792](https://github.com/nolimits4web/Swiper/issues/5792) [#5791](https://github.com/nolimits4web/Swiper/issues/5791)
+
 # [8.2.3](https://github.com/nolimits4web/Swiper/compare/v8.2.2...v8.2.3) (2022-06-10)
 
 ### Features
