@@ -78,8 +78,9 @@ interface SwiperProps
     | 'onScroll'
   > {}
 interface SwiperSlideProps extends React.HTMLAttributes<HTMLElement> {}
+interface SwiperInstance = typeof SwiperClass
 
-declare const Swiper: React.FunctionComponent<SwiperProps>;
+declare const Swiper: React.ForwardRefExoticComponent<SwiperProps & React.RefAttributes<SwiperClass>>;
 declare const SwiperSlide: React.VoidFunctionComponent<SwiperSlideProps>;
 
 declare const useSwiper: () => SwiperClass;
