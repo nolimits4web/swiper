@@ -1,5 +1,11 @@
 # Changelog
 
+# [8.2.5](https://github.com/nolimits4web/Swiper/compare/v8.2.4...v8.2.5) (2022-06-27)
+
+### Bug Fixes
+
+- **pagination:** double check for $el ([baafb55](https://github.com/nolimits4web/Swiper/commit/baafb553213dc772821f6c06dfbaa6894a1917e5))
+
 # [8.2.4](https://github.com/nolimits4web/Swiper/compare/v8.2.3...v8.2.4) (2022-06-13)
 
 ### Bug Fixes
