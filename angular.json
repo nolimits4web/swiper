@@ -218,5 +218,6 @@
         }
       }
     }
-  }
+  },
+  "defaultProject": "angular"
 }

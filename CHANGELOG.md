@@ -1,5 +1,19 @@
 # Changelog
 
+# [8.2.4](https://github.com/nolimits4web/Swiper/compare/v8.2.3...v8.2.4) (2022-06-13)
+
+### Bug Fixes
+
+- **angular:** rollback build to Angular 13 ([3f14d67](https://github.com/nolimits4web/Swiper/commit/3f14d675b30c39085a375ac8d161576034192bd0)), closes [#5792](https://github.com/nolimits4web/Swiper/issues/5792) [#5791](https://github.com/nolimits4web/Swiper/issues/5791)
+
+# [8.2.3](https://github.com/nolimits4web/Swiper/compare/v8.2.2...v8.2.3) (2022-06-10)
+
+### Features
+
+- **a11y:** allow slideLabelMessage: null ([#5783](https://github.com/nolimits4web/Swiper/issues/5783)) ([78a8d90](https://github.com/nolimits4web/Swiper/commit/78a8d902008b31671bcc66f3a6706d3630a98b37))
+- **angular:** update to angular v14 ([097390d](https://github.com/nolimits4web/Swiper/commit/097390db6456c1d26ad45ff19fda976bd93d02fc))
+- **scrollbar:** add directional classes to scrollbar container ([083a83f](https://github.com/nolimits4web/Swiper/commit/083a83f0b80c53ce9fac5ae4f67730172f91e736))
+
 # [8.2.2](https://github.com/nolimits4web/Swiper/compare/v8.2.1...v8.2.2) (2022-06-01)
 
 ### Bug Fixes
