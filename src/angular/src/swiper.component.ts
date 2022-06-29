@@ -325,6 +325,10 @@ export class SwiperComponent implements OnInit {
 
   @Output('navigationShow') s_navigationShow = new EventEmitter<EventsParams['navigationShow']>();
 
+  @Output('navigationPrev') s_navigationPrev = new EventEmitter<EventsParams['navigationPrev']>();
+
+  @Output('navigationNext') s_navigationNext = new EventEmitter<EventsParams['navigationNext']>();
+
   @Output('observerUpdate') s_observerUpdate = new EventEmitter<EventsParams['observerUpdate']>();
 
   @Output('orientationchange') s_orientationchange = new EventEmitter<

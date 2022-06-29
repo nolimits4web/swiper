@@ -181,6 +181,8 @@ const Swiper = {
     'momentumBounce',
     'navigationHide',
     'navigationShow',
+    'navigationPrev',
+    'navigationNext',
     'observerUpdate',
     'orientationchange',
     'paginationHide',
