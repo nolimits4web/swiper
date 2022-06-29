@@ -1,17 +1,15 @@
-import { createEffect, createSignal, mergeProps, onCleanup, splitProps } from 'solid-js';
+import { createEffect, createSignal, onCleanup, splitProps } from 'solid-js';
+import { Dynamic } from 'solid-js/web';
 import { SwiperSlideContext } from './context.js';
 import { uniqueClasses } from './utils.js';
 
-const SwiperSlide = (baseProps) => {
-  // eslint-disable-next-line react/react-in-jsx-scope
-  const props = mergeProps({ Tag: (innerProps) => <div>{innerProps.children}</div> }, baseProps);
-
+const SwiperSlide = (props) => {
   const [local, rest] = splitProps(props, [
     'children',
     'class',
     'ref',
     'swiper',
-    'Tag',
+    'tag',
     'virtualIndex',
     'zoom',
   ]);
@@ -70,7 +68,8 @@ const SwiperSlide = (baseProps) => {
   /* eslint-disable react/no-unknown-property */
 
   return (
-    <local.Tag
+    <Dynamic
+      component={local.tag || 'div'}
       ref={(el) => {
         ref = el;
         if (typeof local.ref === 'function') {
@@ -95,7 +94,7 @@ const SwiperSlide = (baseProps) => {
           renderChildren()
         )}
       </SwiperSlideContext.Provider>
-    </local.Tag>
+    </Dynamic>
   );
 };
 

@@ -1,4 +1,5 @@
-import { createEffect, createSignal, mergeProps, onCleanup, Show, splitProps } from 'solid-js';
+import { createEffect, createSignal, onCleanup, Show, splitProps } from 'solid-js';
+import { Dynamic } from 'solid-js/web';
 import SwiperCore from 'swiper';
 import { SwiperContext } from './context.js';
 import { getChangedParams } from './get-changed-params.js';
@@ -16,7 +17,7 @@ import {
 } from './utils.js';
 import { renderVirtual, updateOnVirtualData } from './virtual.js';
 
-const Swiper = (baseProps) => {
+const Swiper = (props) => {
   let eventsAssigned = false;
   const [containerClasses, setContainerClasses] = createSignal('swiper');
   const [virtualData, setVirtualData] = createSignal(null);
@@ -34,23 +35,13 @@ const Swiper = (baseProps) => {
   let paginationElRef = null; // eslint-disable-line prefer-const
   let scrollbarElRef = null; // eslint-disable-line prefer-const
 
-  const props = mergeProps(
-    {
-      // eslint-disable-next-line react/react-in-jsx-scope
-      Tag: (innerProps) => <div>{innerProps.children}</div>,
-      // eslint-disable-next-line react/react-in-jsx-scope
-      WrapperTag: (innerProps) => <div>{innerProps.children}</div>,
-    },
-    baseProps,
-  );
-
   const [local, rest] = splitProps(props, [
     'children',
     'class',
     'onSwiper',
     'ref',
-    'Tag',
-    'WrapperTag',
+    'tag',
+    'wrapperTag',
   ]);
 
   const { params: swiperParams, passedParams, rest: restProps, events } = getParams(rest);
@@ -207,7 +198,8 @@ const Swiper = (baseProps) => {
   /* eslint-disable react/no-unknown-property */
 
   return (
-    <local.Tag
+    <Dynamic
+      component={local.tag || 'div'}
       ref={swiperElRef}
       class={uniqueClasses(`${containerClasses()}${local.class ? ` ${local.class}` : ''}`)}
       {...restProps}
@@ -215,11 +207,11 @@ const Swiper = (baseProps) => {
       <SwiperContext.Provider value={swiperRef}>
         {slots['container-start']}
 
-        <local.WrapperTag class="swiper-wrapper">
+        <Dynamic component={local.wrapperTag || 'div'} class="swiper-wrapper">
           {slots['wrapper-start']}
           {renderSlides()}
           {slots['wrapper-end']}
-        </local.WrapperTag>
+        </Dynamic>
 
         <Show when={needsNavigation(swiperParams)}>
           <div ref={prevElRef} class="swiper-button-prev" />
@@ -234,7 +226,7 @@ const Swiper = (baseProps) => {
 
         {slots['container-end']}
       </SwiperContext.Provider>
-    </local.Tag>
+    </Dynamic>
   );
 };
 

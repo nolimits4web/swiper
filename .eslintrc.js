@@ -67,7 +67,7 @@ module.exports = {
       files: ['src/**/*.*'],
       rules: {
         ...rules,
-        'import/extensions': [2, { js: 'always' }],
+        'import/extensions': [2, 'ignorePackages', { js: 'always' }],
       },
     },
   ],
