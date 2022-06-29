@@ -67,6 +67,7 @@ const paramsList = [
   '_loop',
   '_loopAdditionalSlides',
   '_loopedSlides',
+  '_loopedSlidesLimit',
   '_loopFillGroupWithBlank',
   'loopPreventsSlide',
   '_rewind',

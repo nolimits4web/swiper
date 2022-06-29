@@ -120,6 +120,7 @@ export class SwiperComponent implements OnInit {
   @Input() loop: SwiperOptions['loop'];
   @Input() loopAdditionalSlides: SwiperOptions['loopAdditionalSlides'];
   @Input() loopedSlides: SwiperOptions['loopedSlides'];
+  @Input() loopedSlidesLimit: SwiperOptions['loopedSlidesLimit'];
   @Input() loopFillGroupWithBlank: SwiperOptions['loopFillGroupWithBlank'];
   @Input() loopPreventsSlide: SwiperOptions['loopPreventsSlide'];
   @Input() rewind: SwiperOptions['rewind'];
