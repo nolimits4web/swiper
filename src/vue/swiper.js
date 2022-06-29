@@ -224,6 +224,7 @@ const Swiper = {
     'transitionStart',
     'unlock',
     'update',
+    'virtualUpdate',
     'zoomChange',
   ],
   setup(props, { slots: originalSlots, emit }) {
