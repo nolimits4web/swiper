@@ -65,18 +65,18 @@ interface SwiperSlideProps {
 
 interface SwiperProps
   extends Omit<
-  JSX.HTMLAttributes<HTMLElement>,
-  | 'onProgress'
-  | 'onClick'
-  | 'onTouchEnd'
-  | 'onTouchMove'
-  | 'onTouchStart'
-  | 'onTransitionEnd'
-  | 'onKeyPress'
-  | 'onDoubleClick'
-  | 'onScroll'
-  > { }
-interface SwiperSlideProps extends Omit<JSX.HTMLAttributes<HTMLElement>, 'children'> { }
+    JSX.HTMLAttributes<HTMLElement>,
+    | 'onProgress'
+    | 'onClick'
+    | 'onTouchEnd'
+    | 'onTouchMove'
+    | 'onTouchStart'
+    | 'onTransitionEnd'
+    | 'onKeyPress'
+    | 'onDoubleClick'
+    | 'onScroll'
+  > {}
+interface SwiperSlideProps extends Omit<JSX.HTMLAttributes<HTMLElement>, 'children'> {}
 
 declare const Swiper: Component<SwiperProps>;
 declare const SwiperSlide: Component<SwiperSlideProps>;

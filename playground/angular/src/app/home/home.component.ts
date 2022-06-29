@@ -2,15 +2,15 @@ import { ChangeDetectorRef, Component, NgZone, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { EventsParams, SwiperComponent } from 'src/angular/src/public-api';
 import SwiperCore, {
-    A11y,
-    Autoplay,
-    Controller,
-    Navigation,
-    Pagination,
-    Scrollbar,
-    Thumbs,
-    Virtual,
-    Zoom
+  A11y,
+  Autoplay,
+  Controller,
+  Navigation,
+  Pagination,
+  Scrollbar,
+  Thumbs,
+  Virtual,
+  Zoom,
 } from 'swiper';
 
 SwiperCore.use([
