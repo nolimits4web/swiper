@@ -85,7 +85,7 @@ const SwiperSlide = (props) => {
       <SwiperSlideContext.Provider value={slideData()}>
         {local.zoom ? (
           <div
-            className="swiper-zoom-container"
+            class="swiper-zoom-container"
             data-swiper-zoom={typeof local.zoom === 'number' ? local.zoom : undefined}
           >
             {renderChildren()}
@@ -97,7 +97,5 @@ const SwiperSlide = (props) => {
     </Dynamic>
   );
 };
-
-SwiperSlide.displayName = 'SwiperSlide';
 
 export { SwiperSlide };

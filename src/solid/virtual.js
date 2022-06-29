@@ -29,7 +29,7 @@ function renderVirtual(swiper, slides, virtualData) {
   return slides
     .filter((child, index) => index >= virtualData.from && index <= virtualData.to)
     .map((child) => {
-      const node = child.cloneElement();
+      const node = child.cloneNode(true);
       node.swiper = swiper;
       node.style = style;
       return node;

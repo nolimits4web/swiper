@@ -22,16 +22,16 @@ function calcLoopedSlides(slides, swiperParams) {
 
 function renderLoop(swiper, slides, swiperParams) {
   const modifiedSlides = slides.map((child, index) => {
-    const node = child.cloneNode();
+    const node = child.cloneNode(true);
     node.swiper = swiper;
     node['data-swiper-slide-index'] = index;
     return node;
   });
 
   function duplicateSlide(child, index, position) {
-    const node = child.cloneNode();
+    const node = child.cloneNode(true);
     node.key = `${child.key}-duplicate-${index}-${position}`;
-    node.class = `${child.props.className || ''} ${swiperParams.slideDuplicateClass}`;
+    node.className = `${child.className || ''} ${swiperParams.slideDuplicateClass}`;
     return node;
   }
 

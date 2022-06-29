@@ -12,10 +12,10 @@ function processChildren(c) {
   childrenAsArray(c).forEach((child) => {
     if (!child) return;
 
-    if (child.type && child.type.displayName === 'SwiperSlide') {
+    if (child.className && child.className.indexOf('swiper-slide') >= 0) {
       slides.push(child);
-    } else if (child.props && child.props.children) {
-      processChildren(child.props.children).forEach((slide) => slides.push(slide));
+    } else if (child.children) {
+      processChildren(child.children).forEach((slide) => slides.push(slide));
     }
   });
 
@@ -35,12 +35,12 @@ function getChildren(c) {
   childrenAsArray(c).forEach((child) => {
     if (!child) return;
 
-    if (child.type && child.type.displayName === 'SwiperSlide') {
+    if (child.className && child.className.indexOf('swiper-slide') >= 0) {
       slides.push(child);
-    } else if (child.props && child.props.slot && slots[child.props.slot]) {
-      slots[child.props.slot].push(child);
-    } else if (child.props && child.props.children) {
-      const foundSlides = processChildren(child.props.children);
+    } else if (child.slot && slots[child.slot]) {
+      slots[child.slot].push(child);
+    } else if (child.children) {
+      const foundSlides = processChildren(child.children);
       if (foundSlides.length > 0) {
         foundSlides.forEach((slide) => slides.push(slide));
       } else {

@@ -186,7 +186,7 @@ const Swiper = (props) => {
     }
     if (!swiperParams.loop || (swiperRef && swiperRef.destroyed)) {
       return slides.map((child) => {
-        const node = child.cloneElement();
+        const node = child.cloneNode(true);
         node.swiper = swiperRef;
         return node;
       });
@@ -229,7 +229,5 @@ const Swiper = (props) => {
     </Dynamic>
   );
 };
-
-Swiper.displayName = 'Swiper';
 
 export { Swiper };
