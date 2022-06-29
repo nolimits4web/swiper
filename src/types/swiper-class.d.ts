@@ -315,6 +315,13 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   changeDirection(direction?: 'horizontal' | 'vertical', needUpdate?: boolean): void;
 
   /**
+   * Changes slider language
+   *
+   * @param direction New direction. Should be `rtl` or `ltr`
+   */
+  changeLanguageDirection(direction: 'rtl' | 'ltr'): void;
+
+  /**
    * Detach all events listeners
    */
   detachEvents(): void;
