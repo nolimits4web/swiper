@@ -98,6 +98,36 @@ export default function Thumb({ swiper, extendParams, on }) {
         ? thumbsSwiper.slidesPerViewDynamic()
         : thumbsSwiper.params.slidesPerView;
 
+    // Activate thumbs
+    let thumbsToActivate = 1;
+    const thumbActiveClass = swiper.params.thumbs.slideThumbActiveClass;
+
+    if (swiper.params.slidesPerView > 1 && !swiper.params.centeredSlides) {
+      thumbsToActivate = swiper.params.slidesPerView;
+    }
+
+    if (!swiper.params.thumbs.multipleActiveThumbs) {
+      thumbsToActivate = 1;
+    }
+
+    thumbsToActivate = Math.floor(thumbsToActivate);
+
+    thumbsSwiper.slides.removeClass(thumbActiveClass);
+    if (
+      thumbsSwiper.params.loop ||
+      (thumbsSwiper.params.virtual && thumbsSwiper.params.virtual.enabled)
+    ) {
+      for (let i = 0; i < thumbsToActivate; i += 1) {
+        thumbsSwiper.$wrapperEl
+          .children(`[data-swiper-slide-index="${swiper.realIndex + i}"]`)
+          .addClass(thumbActiveClass);
+      }
+    } else {
+      for (let i = 0; i < thumbsToActivate; i += 1) {
+        thumbsSwiper.slides.eq(swiper.realIndex + i).addClass(thumbActiveClass);
+      }
+    }
+
     const autoScrollOffset = swiper.params.thumbs.autoScrollOffset;
     const useOffset = autoScrollOffset && !thumbsSwiper.params.loop;
     if (swiper.realIndex !== thumbsSwiper.realIndex || useOffset) {
@@ -164,36 +194,6 @@ export default function Thumb({ swiper, extendParams, on }) {
           // newThumbsIndex = newThumbsIndex - slidesPerView + 1;
         }
         thumbsSwiper.slideTo(newThumbsIndex, initial ? 0 : undefined);
-      }
-    }
-
-    // Activate thumbs
-    let thumbsToActivate = 1;
-    const thumbActiveClass = swiper.params.thumbs.slideThumbActiveClass;
-
-    if (swiper.params.slidesPerView > 1 && !swiper.params.centeredSlides) {
-      thumbsToActivate = swiper.params.slidesPerView;
-    }
-
-    if (!swiper.params.thumbs.multipleActiveThumbs) {
-      thumbsToActivate = 1;
-    }
-
-    thumbsToActivate = Math.floor(thumbsToActivate);
-
-    thumbsSwiper.slides.removeClass(thumbActiveClass);
-    if (
-      thumbsSwiper.params.loop ||
-      (thumbsSwiper.params.virtual && thumbsSwiper.params.virtual.enabled)
-    ) {
-      for (let i = 0; i < thumbsToActivate; i += 1) {
-        thumbsSwiper.$wrapperEl
-          .children(`[data-swiper-slide-index="${swiper.realIndex + i}"]`)
-          .addClass(thumbActiveClass);
-      }
-    } else {
-      for (let i = 0; i < thumbsToActivate; i += 1) {
-        thumbsSwiper.slides.eq(swiper.realIndex + i).addClass(thumbActiveClass);
       }
     }
   }

@@ -399,6 +399,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     if (
       swiper.params.pagination.el &&
       swiper.params.pagination.hideOnClick &&
+      $el &&
       $el.length > 0 &&
       !$(targetEl).hasClass(swiper.params.pagination.bulletClass)
     ) {
