@@ -99,7 +99,10 @@ async function buildStyles() {
       files.map(async (file) => {
         const distFilePath = path.resolve(__dirname, `../${outputDir}`, file);
         const srcFilePath = path.resolve(__dirname, '../src', file);
-        const distFileContent = await readSwiperFile(srcFilePath);
+        let distFileContent = await readSwiperFile(srcFilePath);
+        if (file === 'swiper.scss' || file === 'swiper.less') {
+          distFileContent = `${banner()}\n${distFileContent}`;
+        }
         await fs.ensureDir(path.dirname(distFilePath));
         await fs.writeFile(distFilePath, distFileContent);
       }),
