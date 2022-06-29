@@ -3,6 +3,7 @@ const exec = require('exec-sh');
 const inquirer = require('inquirer');
 const fs = require('fs');
 const path = require('path');
+const rimraf = require('rimraf');
 const pkg = require('../package.json');
 const childPkg = require('../src/copy/package.json');
 
@@ -77,37 +78,37 @@ async function release() {
   );
 
   const cleanPackage = [
-    "find *.js -type f -not -name 'postinstall.js' -print0 | xargs -0  -I {} rm -v {}",
-    'rm -rf angular',
-    'rm -rf components',
-    'rm -rf core',
-    'rm -rf modules',
-    'rm -rf react',
-    'rm -rf shared',
-    'rm -rf svelte',
-    'rm -rf types',
-    'rm -rf vue',
-    'rm -rf **/*.ts',
-    'rm -rf *.ts',
-    'rm -rf **/*.css',
-    'rm -rf *.css',
-    'rm -rf **/*.map',
-    'rm -rf *.map',
-    'rm -rf **/*.less',
-    'rm -rf *.less',
-    'rm -rf **/*.scss',
-    'rm -rf *.scss',
-    'rm -rf **/*.svelte',
-    'rm -rf *.svelte',
+    'angular',
+    'components',
+    'core',
+    'modules',
+    'react',
+    'shared',
+    'svelte',
+    'types',
+    'vue',
+    '**/*.js',
+    '*.js',
+    '**/*.ts',
+    '*.ts',
+    '**/*.css',
+    '*.css',
+    '**/*.map',
+    '*.map',
+    '**/*.less',
+    '*.less',
+    '**/*.scss',
+    '*.scss',
+    '**/*.svelte',
+    '*.svelte',
   ];
-  await exec.promise(`cd ./dist && ${cleanPackage.join(' && ')}`);
 
   await exec.promise('git pull');
   await exec.promise('npm i');
-  await exec.promise(`cd ./dist && ${cleanPackage.join(' && ')}`);
+  cleanPackage.map((p) => rimraf.sync(`./dist/${p}`));
   await exec.promise(`npm run build:prod`);
   await exec.promise('git add .');
-  await exec.promise(`git commit -m "${pkg.version} release"`);
+  await exec.promise(`git commit -m "${pkg.version} release" --no-verify`);
   await exec.promise('git push');
   await exec.promise(`git tag v${pkg.version}`);
   await exec.promise('git push origin --tags');
