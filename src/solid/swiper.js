@@ -1,4 +1,4 @@
-import { createEffect, createSignal, onCleanup, Show, splitProps } from 'solid-js';
+import { createEffect, createMemo, createSignal, onCleanup, Show, splitProps } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import SwiperCore from 'swiper';
 import { SwiperContext } from './context.js';
@@ -44,7 +44,7 @@ const Swiper = (props) => {
     'wrapperTag',
   ]);
 
-  const { params: swiperParams, passedParams, rest: restProps, events } = getParams(rest);
+  const params = createMemo(() => getParams(rest));
 
   const { slides, slots } = getChildren(local.children);
 
@@ -52,7 +52,7 @@ const Swiper = (props) => {
     setBreakpointChanged((state) => !state);
   };
 
-  Object.assign(swiperParams.on, {
+  Object.assign(params().params.on, {
     _containerClasses(swiper, classes) {
       setContainerClasses(classes);
     },
@@ -60,13 +60,13 @@ const Swiper = (props) => {
 
   const initSwiper = () => {
     // init swiper
-    Object.assign(swiperParams.on, events);
+    Object.assign(params().params.on, params().events);
     eventsAssigned = true;
-    swiperRef = new SwiperCore(swiperParams);
+    swiperRef = new SwiperCore(params().params);
     swiperRef.loopCreate = () => {};
     swiperRef.loopDestroy = () => {};
-    if (swiperParams.loop) {
-      swiperRef.loopedSlides = calcLoopedSlides(slides, swiperParams);
+    if (params().params.loop) {
+      swiperRef.loopedSlides = calcLoopedSlides(slides, params().params);
     }
     if (swiperRef.virtual && swiperRef.params.virtual.enabled) {
       swiperRef.virtual.slides = slides;
@@ -91,23 +91,21 @@ const Swiper = (props) => {
   }
 
   const attachEvents = () => {
-    if (eventsAssigned || !events || !swiperRef) return;
-    Object.keys(events).forEach((eventName) => {
-      swiperRef.on(eventName, events[eventName]);
+    if (eventsAssigned || !params().events || !swiperRef) return;
+    Object.keys(params().events).forEach((eventName) => {
+      swiperRef.on(eventName, params().events[eventName]);
     });
   };
 
   const detachEvents = () => {
-    if (!events || !swiperRef) return;
-    Object.keys(events).forEach((eventName) => {
-      swiperRef.off(eventName, events[eventName]);
+    if (!params().events || !swiperRef) return;
+    Object.keys(params().events).forEach((eventName) => {
+      swiperRef.off(eventName, params().events[eventName]);
     });
   };
 
-  createEffect(() => {
-    return () => {
-      if (swiperRef) swiperRef.off('_beforeBreakpoint', onBeforeBreakpoint);
-    };
+  onCleanup(() => {
+    if (swiperRef) swiperRef.off('_beforeBreakpoint', onBeforeBreakpoint);
   });
 
   // set initialized flag
@@ -141,21 +139,22 @@ const Swiper = (props) => {
         scrollbarEl: scrollbarElRef,
         swiper: swiperRef,
       },
-      swiperParams,
+      params().params,
     );
 
     if (local.onSwiper) local.onSwiper(swiperRef);
-    // eslint-disable-next-line
-    return () => {
+
+    onCleanup(() => {
       if (swiperRef && !swiperRef.destroyed) {
         swiperRef.destroy(true, false);
       }
-    };
+    });
   });
 
   // watch for params change
   createEffect(() => {
     attachEvents();
+    const { passedParams } = params();
     const changedParams = getChangedParams(passedParams, oldPassedParamsRef, slides, oldSlides);
     oldPassedParamsRef = passedParams;
     oldSlides = slides;
@@ -181,17 +180,17 @@ const Swiper = (props) => {
 
   // bypass swiper instance to slides
   function renderSlides() {
-    if (swiperParams.virtual) {
+    if (params().params.virtual) {
       return renderVirtual(swiperRef, slides, virtualData());
     }
-    if (!swiperParams.loop || (swiperRef && swiperRef.destroyed)) {
+    if (!params().params.loop || (swiperRef && swiperRef.destroyed)) {
       return slides.map((child) => {
         const node = child.cloneNode(true);
         node.swiper = swiperRef;
         return node;
       });
     }
-    return renderLoop(swiperRef, slides, swiperParams);
+    return renderLoop(swiperRef, slides, params().params);
   }
 
   /* eslint-disable react/react-in-jsx-scope */
@@ -202,7 +201,7 @@ const Swiper = (props) => {
       component={local.tag || 'div'}
       ref={swiperElRef}
       class={uniqueClasses(`${containerClasses()}${local.class ? ` ${local.class}` : ''}`)}
-      {...restProps}
+      {...params().rest}
     >
       <SwiperContext.Provider value={swiperRef}>
         {slots['container-start']}
@@ -213,14 +212,14 @@ const Swiper = (props) => {
           {slots['wrapper-end']}
         </Dynamic>
 
-        <Show when={needsNavigation(swiperParams)}>
+        <Show when={needsNavigation(params().params)}>
           <div ref={prevElRef} class="swiper-button-prev" />
           <div ref={nextElRef} class="swiper-button-next" />
         </Show>
-        <Show when={needsScrollbar(swiperParams)}>
+        <Show when={needsScrollbar(params().params)}>
           <div ref={scrollbarElRef} class="swiper-scrollbar" />
         </Show>
-        <Show when={needsPagination(swiperParams)}>
+        <Show when={needsPagination(params().params)}>
           <div ref={paginationElRef} class="swiper-pagination" />
         </Show>
 
