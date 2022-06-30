@@ -60,11 +60,13 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     e.preventDefault();
     if (swiper.isBeginning && !swiper.params.loop && !swiper.params.rewind) return;
     swiper.slidePrev();
+    emit('navigationPrev');
   }
   function onNextClick(e) {
     e.preventDefault();
     if (swiper.isEnd && !swiper.params.loop && !swiper.params.rewind) return;
     swiper.slideNext();
+    emit('navigationNext');
   }
   function init() {
     const params = swiper.params.navigation;

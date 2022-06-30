@@ -37,6 +37,14 @@ export interface NavigationEvents {
    * Event will be fired on navigation show
    */
   navigationShow: (swiper: Swiper) => void;
+  /**
+   * Event will be fired on navigation prev button click
+   */
+  navigationPrev: (swiper: Swiper) => void;
+  /**
+   * Event will be fired on navigation next button click
+   */
+  navigationNext: (swiper: Swiper) => void;
 }
 
 export interface NavigationOptions {

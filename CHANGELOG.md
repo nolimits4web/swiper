@@ -1,5 +1,23 @@
 # Changelog
 
+# [8.2.6](https://github.com/nolimits4web/Swiper/compare/v8.2.5...v8.2.6) (2022-06-29)
+
+### Bug Fixes
+
+- **thumbs:** active class gets removed ([#5826](https://github.com/nolimits4web/Swiper/issues/5826)) ([3267616](https://github.com/nolimits4web/Swiper/commit/3267616d53d8e943b690a20ac327024cd3b2fff8))
+- **vue:** virtualUpdate event is not declared ([#5830](https://github.com/nolimits4web/Swiper/issues/5830)) ([8b00333](https://github.com/nolimits4web/Swiper/commit/8b003333d5684e00fc4919e6aef992ae4ae447f8))
+
+### Features
+
+- **core:** add `changeLanguageDirection` method to change it to RTL/LTR after init ([f5bb7af](https://github.com/nolimits4web/Swiper/commit/f5bb7af0e1039cc52068909159943d6302d819ba)), closes [#3279](https://github.com/nolimits4web/Swiper/issues/3279)
+- **navigation:** add `navigationPrev` and `navigationNext` events ([d0c6365](https://github.com/nolimits4web/Swiper/commit/d0c636572387e0ec94538cb00877de646a36736a)), closes [#5832](https://github.com/nolimits4web/Swiper/issues/5832)
+
+# [8.2.5](https://github.com/nolimits4web/Swiper/compare/v8.2.4...v8.2.5) (2022-06-27)
+
+### Bug Fixes
+
+- **pagination:** double check for $el ([baafb55](https://github.com/nolimits4web/Swiper/commit/baafb553213dc772821f6c06dfbaa6894a1917e5))
+
 # [8.2.4](https://github.com/nolimits4web/Swiper/compare/v8.2.3...v8.2.4) (2022-06-13)
 
 ### Bug Fixes

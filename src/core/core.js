@@ -429,6 +429,21 @@ class Swiper {
     return swiper;
   }
 
+  changeLanguageDirection(direction) {
+    const swiper = this;
+    if ((swiper.rtl && direction === 'rtl') || (!swiper.rtl && direction === 'ltr')) return;
+    swiper.rtl = direction === 'rtl';
+    swiper.rtlTranslate = swiper.params.direction === 'horizontal' && swiper.rtl;
+    if (swiper.rtl) {
+      swiper.$el.addClass(`${swiper.params.containerModifierClass}rtl`);
+      swiper.el.dir = 'rtl';
+    } else {
+      swiper.$el.removeClass(`${swiper.params.containerModifierClass}rtl`);
+      swiper.el.dir = 'ltr';
+    }
+    swiper.update();
+  }
+
   mount(el) {
     const swiper = this;
     if (swiper.mounted) return true;

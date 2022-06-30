@@ -181,6 +181,8 @@ const Swiper = {
     'momentumBounce',
     'navigationHide',
     'navigationShow',
+    'navigationPrev',
+    'navigationNext',
     'observerUpdate',
     'orientationchange',
     'paginationHide',
@@ -224,6 +226,7 @@ const Swiper = {
     'transitionStart',
     'unlock',
     'update',
+    'virtualUpdate',
     'zoomChange',
   ],
   setup(props, { slots: originalSlots, emit }) {
