@@ -31,7 +31,7 @@ function renderVirtual(swiper, slides, virtualData) {
     .map((child) => {
       const node = child.cloneNode(true);
       node.swiper = swiper;
-      node.style = style;
+      Object.assign(node.style, style);
       return node;
     });
 }

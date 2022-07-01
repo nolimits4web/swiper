@@ -1,30 +1,26 @@
 /** @jsxImportSource solid-js */
 /* eslint-disable no-restricted-globals */
 import { createSignal } from 'solid-js';
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+import { Navigation, Pagination, Scrollbar, A11y, Virtual } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/solid/swiper-solid';
 
 const App = () => {
-  const [enabled, toggle] = createSignal(true);
   return (
     <main>
-      <button onClick={() => toggle(!enabled())}>Toggle</button>
-      <p>Enabled: {String(enabled())}</p>
       <Swiper
-        modules={[Navigation, Pagination, Scrollbar, A11y]}
+        modules={[Navigation, Pagination, Scrollbar, A11y, Virtual]}
         onSwiper={(swiper) => (window.swiper = swiper)}
-        slidesPerView={enabled() ? 3 : 1}
-        spaceBetween={enabled() ? 50 : 16}
-        navigation={enabled()}
-        loop
-        scrollbar={enabled()}
-        pagination={enabled()}
+        slidesPerView={3}
+        spaceBetween={50}
+        navigation={true}
+        pagination={true}
+        virtual
       >
-        <SwiperSlide>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        <SwiperSlide>Slide 5</SwiperSlide>
+        <SwiperSlide virtualIndex={0}>Slide 1</SwiperSlide>
+        <SwiperSlide virtualIndex={1}>Slide 2</SwiperSlide>
+        <SwiperSlide virtualIndex={2}>Slide 3</SwiperSlide>
+        <SwiperSlide virtualIndex={3}>Slide 4</SwiperSlide>
+        <SwiperSlide virtualIndex={4}>Slide 5</SwiperSlide>
       </Swiper>
     </main>
   );

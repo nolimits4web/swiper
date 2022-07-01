@@ -74,7 +74,7 @@ const Swiper = (props) => {
         cache: false,
         slides,
         renderExternal: (data) => setVirtualData(data),
-        renderExternalUpdate: false,
+        renderExternalUpdate: true,
       };
       extend(swiperRef.params.virtual, extendWith);
       extend(swiperRef.originalParams.virtual, extendWith);
