@@ -179,7 +179,9 @@ export default function A11y({ swiper, extendParams, on }) {
     if (params.itemRoleDescriptionMessage) {
       addElRoleDescription($(swiper.slides), params.itemRoleDescriptionMessage);
     }
-    addElRole($(swiper.slides), params.slideRole);
+    if (params.slideRole) {
+      addElRole($(swiper.slides), params.slideRole);
+    }
 
     const slidesLength = swiper.params.loop
       ? swiper.slides.filter((el) => !el.classList.contains(swiper.params.slideDuplicateClass))
