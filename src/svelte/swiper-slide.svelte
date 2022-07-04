@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy, beforeUpdate, afterUpdate, setContext, getContext } from 'svelte';
-  import { uniqueClasses } from './utils.js';
+  import { uniqueClasses } from '../components-shared/utils.js';
 
   export let zoom = undefined;
   export let virtualIndex = undefined;

@@ -1,18 +1,20 @@
 import { h, ref, onMounted, onUpdated, onBeforeUnmount, watch, nextTick, provide } from 'vue';
-import { getParams } from './get-params.js';
-import { initSwiper, mountSwiper } from './init-swiper.js';
+import SwiperCore from 'swiper';
+import { getParams } from '../components-shared/get-params.js';
+import { mountSwiper } from '../components-shared/mount-swiper.js';
 import {
   needsScrollbar,
   needsNavigation,
   needsPagination,
   uniqueClasses,
   extend,
-} from './utils.js';
+} from '../components-shared/utils.js';
 import { renderLoop, calcLoopedSlides } from './loop.js';
-import { getChangedParams } from './get-changed-params.js';
+import { getChangedParams } from '../components-shared/get-changed-params.js';
 import { getChildren } from './get-children.js';
-import { updateSwiper } from './update-swiper.js';
-import { renderVirtual, updateOnVirtualData } from './virtual.js';
+import { updateSwiper } from '../components-shared/update-swiper.js';
+import { renderVirtual } from './virtual.js';
+import { updateOnVirtualData } from '../components-shared/update-on-virtual-data.js';
 
 const Swiper = {
   name: 'Swiper',
@@ -247,7 +249,7 @@ const Swiper = {
     const paginationElRef = ref(null);
     const scrollbarElRef = ref(null);
 
-    const { params: swiperParams, passedParams } = getParams(props);
+    const { params: swiperParams, passedParams } = getParams(props, false);
 
     getChildren(originalSlots, slidesRef, oldSlidesRef);
 
@@ -271,7 +273,7 @@ const Swiper = {
     });
 
     // init Swiper
-    swiperRef.value = initSwiper(swiperParams);
+    swiperRef.value = new SwiperCore(swiperParams);
     swiperRef.value.loopCreate = () => {};
     swiperRef.value.loopDestroy = () => {};
     if (swiperParams.loop) {
@@ -298,13 +300,14 @@ const Swiper = {
         initializedRef.value = true;
       }
       // watch for params change
-      const { passedParams: newPassedParams } = getParams(props);
+      const { passedParams: newPassedParams } = getParams(props, false);
 
       const changedParams = getChangedParams(
         newPassedParams,
         oldPassedParamsRef.value,
         slidesRef.value,
         oldSlidesRef.value,
+        (c) => c.props && c.props.key,
       );
       oldPassedParamsRef.value = newPassedParams;
 

@@ -1,19 +1,20 @@
 import React, { useRef, useState, useEffect, forwardRef } from 'react';
 import SwiperCore from 'swiper';
-import { getParams } from './get-params.js';
-import { mountSwiper } from './mount-swiper.js';
+import { getParams } from '../components-shared/get-params.js';
+import { mountSwiper } from '../components-shared/mount-swiper.js';
 import {
   needsScrollbar,
   needsNavigation,
   needsPagination,
   uniqueClasses,
   extend,
-} from './utils.js';
+} from '../components-shared/utils.js';
 import { renderLoop, calcLoopedSlides } from './loop.js';
-import { getChangedParams } from './get-changed-params.js';
+import { getChangedParams } from '../components-shared/get-changed-params.js';
 import { getChildren } from './get-children.js';
-import { updateSwiper } from './update-swiper.js';
-import { renderVirtual, updateOnVirtualData } from './virtual.js';
+import { updateSwiper } from '../components-shared/update-swiper.js';
+import { renderVirtual } from './virtual.js';
+import { updateOnVirtualData } from '../components-shared/update-on-virtual-data.js';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.js';
 import { SwiperContext } from './context.js';
 
@@ -157,6 +158,7 @@ const Swiper = forwardRef(
         oldPassedParamsRef.current,
         slides,
         oldSlides.current,
+        (c) => c.key,
       );
       oldPassedParamsRef.current = passedParams;
       oldSlides.current = slides;

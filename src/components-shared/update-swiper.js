@@ -2,6 +2,7 @@ import { isObject, extend } from './utils.js';
 
 function updateSwiper({
   swiper,
+  slides,
   passedParams,
   changedParams,
   nextEl,
@@ -10,12 +11,13 @@ function updateSwiper({
   paginationEl,
 }) {
   const updateParams = changedParams.filter((key) => key !== 'children' && key !== 'direction');
-  const { params: currentParams, pagination, navigation, scrollbar, thumbs } = swiper;
+  const { params: currentParams, pagination, navigation, scrollbar, virtual, thumbs } = swiper;
   let needThumbsInit;
   let needControllerInit;
   let needPaginationInit;
   let needScrollbarInit;
   let needNavigationInit;
+
   if (
     changedParams.includes('thumbs') &&
     passedParams.thumbs &&
@@ -55,7 +57,6 @@ function updateSwiper({
   ) {
     needScrollbarInit = true;
   }
-
   if (
     changedParams.includes('navigation') &&
     passedParams.navigation &&
@@ -67,12 +68,6 @@ function updateSwiper({
     !navigation.nextEl
   ) {
     needNavigationInit = true;
-  }
-  if (changedParams.includes('virtual')) {
-    if (passedParams.virtual && passedParams.virtual.slides && swiper.virtual) {
-      swiper.virtual.slides = passedParams.virtual.slides;
-      swiper.virtual.update();
-    }
   }
 
   const destroyModule = (mod) => {
@@ -107,11 +102,27 @@ function updateSwiper({
     }
   });
 
+  if (
+    updateParams.includes('controller') &&
+    !needControllerInit &&
+    swiper.controller &&
+    swiper.controller.control &&
+    currentParams.controller &&
+    currentParams.controller.control
+  ) {
+    swiper.controller.control = currentParams.controller.control;
+  }
+
+  if (changedParams.includes('children') && slides && virtual && currentParams.virtual.enabled) {
+    virtual.slides = slides;
+    virtual.update(true);
+  } else if (changedParams.includes('children') && swiper.lazy && swiper.params.lazy.enabled) {
+    swiper.lazy.load();
+  }
+
   if (needThumbsInit) {
     const initialized = thumbs.init();
-    if (initialized) {
-      thumbs.update(true);
-    }
+    if (initialized) thumbs.update(true);
   }
 
   if (needControllerInit) {

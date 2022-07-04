@@ -1,7 +1,7 @@
 import { createEffect, createSignal, onCleanup, splitProps } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import { SwiperSlideContext } from './context.js';
-import { uniqueClasses } from './utils.js';
+import { uniqueClasses } from '../components-shared/utils.js';
 
 const SwiperSlide = (props) => {
   const [local, rest] = splitProps(props, [

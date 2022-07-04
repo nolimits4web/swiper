@@ -1,5 +1,5 @@
 import React, { useRef, useState, forwardRef } from 'react';
-import { uniqueClasses } from './utils.js';
+import { uniqueClasses } from '../components-shared/utils.js';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.js';
 import { SwiperSlideContext } from './context.js';
 

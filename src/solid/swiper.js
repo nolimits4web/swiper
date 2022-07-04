@@ -2,20 +2,21 @@ import { createEffect, createMemo, createSignal, onCleanup, Show, splitProps } f
 import { Dynamic } from 'solid-js/web';
 import SwiperCore from 'swiper';
 import { SwiperContext } from './context.js';
-import { getChangedParams } from './get-changed-params.js';
+import { getChangedParams } from '../components-shared/get-changed-params.js';
 import { getChildren } from './get-children.js';
-import { getParams } from './get-params.js';
+import { getParams } from '../components-shared/get-params.js';
 import { calcLoopedSlides, renderLoop } from './loop.js';
-import { mountSwiper } from './mount-swiper.js';
-import { updateSwiper } from './update-swiper.js';
+import { mountSwiper } from '../components-shared/mount-swiper.js';
+import { updateSwiper } from '../components-shared/update-swiper.js';
 import {
   extend,
   needsNavigation,
   needsPagination,
   needsScrollbar,
   uniqueClasses,
-} from './utils.js';
-import { renderVirtual, updateOnVirtualData } from './virtual.js';
+} from '../components-shared/utils.js';
+import { renderVirtual } from './virtual.js';
+import { updateOnVirtualData } from '../components-shared/update-on-virtual-data.js';
 
 const Swiper = (props) => {
   let eventsAssigned = false;
@@ -155,7 +156,13 @@ const Swiper = (props) => {
   createEffect(() => {
     attachEvents();
     const { passedParams } = params();
-    const changedParams = getChangedParams(passedParams, oldPassedParamsRef, slides, oldSlides);
+    const changedParams = getChangedParams(
+      passedParams,
+      oldPassedParamsRef,
+      slides,
+      oldSlides,
+      (c) => c.key,
+    );
     oldPassedParamsRef = passedParams;
     oldSlides = slides;
     if (changedParams.length && swiperRef && !swiperRef.destroyed) {
