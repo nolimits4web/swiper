@@ -761,12 +761,13 @@ The result is available in `dist/` folder.
 
 ### Running demos:
 
-All demos located in `./playground` folder. There you will find Core (HTML, JS), React, Vue, Svelte and Angular versions.
+All demos located in `./playground` folder. There you will find Core (HTML, JS), React, Vue, Solid, Svelte and Angular versions.
 To open demo, run:
 
 - **Core**: `npm run core`
 - **React**: `npm run react`
 - **Vue**: `npm run vue`
+- **Solid**: `npm run solid`
 - **Svelte**: `npm run svelte`
 - **Angular**: first run `npm run build:prod` and then `npm run angular`
 
