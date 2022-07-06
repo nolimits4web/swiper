@@ -1,5 +1,13 @@
 # Changelog
 
+# [8.3.0](https://github.com/nolimits4web/Swiper/compare/v8.2.6...v8.3.0) (2022-07-06)
+
+### Features
+
+- all new Swiper SolidJS components thanks to @TiagoCavalcante 🎉
+- move common helpers for React/Vue/Svelte/Solid to single files ([90e8da1](https://github.com/nolimits4web/Swiper/commit/90e8da1da94549ee827d0fd2b3cc3c0b0d9dd3a3))
+- **a11y:** allow disabling slideRole ([#5838](https://github.com/nolimits4web/Swiper/issues/5838)) ([b376aa1](https://github.com/nolimits4web/Swiper/commit/b376aa1f68b29560168cff5418715dfe3312ba39))
+
 # [8.2.6](https://github.com/nolimits4web/Swiper/compare/v8.2.5...v8.2.6) (2022-06-29)
 
 ### Bug Fixes

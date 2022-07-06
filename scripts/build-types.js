@@ -11,9 +11,11 @@ const { outputDir } = require('./utils/output-dir');
 async function buildTypes() {
   elapsed.start('types');
   let coreEventsReact = '';
+  let coreEventsSolid = '';
   let coreEventsVue = '';
   let coreEventsSvelte = '';
   let modulesEventsReact = '';
+  let modulesEventsSolid = '';
   let modulesEventsVue = '';
   let modulesEventsSvelte = '';
 
@@ -33,6 +35,11 @@ async function buildTypes() {
       .split('// CORE_EVENTS_START')[1]
       .split('// CORE_EVENTS_END')[0];
     coreEventsReact = replaceInstances(
+      coreEventsContent.replace(/ ([a-zA-Z]*): \(/g, (string, name) => {
+        return ` on${name[0].toUpperCase()}${name.substr(1)}?: (`;
+      }),
+    );
+    coreEventsSolid = replaceInstances(
       coreEventsContent.replace(/ ([a-zA-Z]*): \(/g, (string, name) => {
         return ` on${name[0].toUpperCase()}${name.substr(1)}?: (`;
       }),
@@ -63,6 +70,11 @@ async function buildTypes() {
         eventsContent = eventsContent.split('Events {')[1].split('}')[0].trim();
         if (eventsContent.length) {
           modulesEventsReact += replaceInstances(
+            eventsContent.replace(/ ([a-zA-Z]*): \(/g, (string, name) => {
+              return ` on${name[0].toUpperCase()}${name.substr(1)}?: (`;
+            }),
+          );
+          modulesEventsSolid += replaceInstances(
             eventsContent.replace(/ ([a-zA-Z]*): \(/g, (string, name) => {
               return ` on${name[0].toUpperCase()}${name.substr(1)}?: (`;
             }),
@@ -108,6 +120,9 @@ async function buildTypes() {
       };
       if (file.includes('swiper-react.d.ts')) {
         return processTypingFile(coreEventsReact, modulesEventsReact);
+      }
+      if (file.includes('swiper-solid.d.ts')) {
+        return processTypingFile(coreEventsSolid, modulesEventsSolid);
       }
       if (file.includes('swiper-vue.d.ts')) {
         return processTypingFile(coreEventsVue, modulesEventsVue);

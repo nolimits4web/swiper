@@ -83,6 +83,7 @@ async function release() {
     'core',
     'modules',
     'react',
+    'solid',
     'shared',
     'svelte',
     'types',
