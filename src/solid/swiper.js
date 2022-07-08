@@ -191,11 +191,7 @@ const Swiper = (props) => {
       return renderVirtual(swiperRef, slides, virtualData());
     }
     if (!params().params.loop || (swiperRef && swiperRef.destroyed)) {
-      return slides.map((child) => {
-        const node = child.cloneNode(true);
-        node.swiper = swiperRef;
-        return node;
-      });
+      return slides;
     }
     return renderLoop(swiperRef, slides, params().params);
   }
