@@ -22,18 +22,10 @@ function calcLoopedSlides(slides, swiperParams) {
 
 function renderLoop(swiper, slides, swiperParams) {
   const modifiedSlides = slides.map((child, index) => {
-    const node = child.cloneNode(true);
-    node.swiper = swiper;
-    node['data-swiper-slide-index'] = index;
-    return node;
+    child.swiper = swiper;
+    child['data-swiper-slide-index'] = index;
+    return child;
   });
-
-  function duplicateSlide(child, index, position) {
-    const node = child.cloneNode(true);
-    node.key = `${child.key}-duplicate-${index}-${position}`;
-    node.className = `${child.className || ''} ${swiperParams.slideDuplicateClass}`;
-    return node;
-  }
 
   if (swiperParams.loopFillGroupWithBlank) {
     const blankSlidesNum =
@@ -59,10 +51,10 @@ function renderLoop(swiper, slides, swiperParams) {
   const appendSlides = [];
   modifiedSlides.forEach((child, index) => {
     if (index < loopedSlides) {
-      appendSlides.push(duplicateSlide(child, index, 'prepend'));
+      appendSlides.push(child);
     }
     if (index < modifiedSlides.length && index >= modifiedSlides.length - loopedSlides) {
-      prependSlides.push(duplicateSlide(child, index, 'append'));
+      prependSlides.push(child);
     }
   });
   if (swiper) {
