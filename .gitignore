@@ -6,7 +6,8 @@ custom
 .versions
 .idea
 dist
-
+.vscode
+.nova
 
 cypress/screenshots
 .angular
