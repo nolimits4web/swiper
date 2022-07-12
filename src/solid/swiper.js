@@ -1,5 +1,12 @@
-import { createEffect, createMemo, createSignal, onCleanup, Show, splitProps } from 'solid-js';
-import { Dynamic } from 'solid-js/web';
+import {
+  createEffect,
+  createMemo,
+  createSignal,
+  onCleanup,
+  onMount,
+  Show,
+  splitProps,
+} from 'solid-js';
 import SwiperCore from 'swiper';
 import { SwiperContext } from './context.js';
 import { getChangedParams } from '../components-shared/get-changed-params.js';
@@ -118,7 +125,7 @@ const Swiper = (props) => {
   });
 
   // mount swiper
-  createEffect(() => {
+  onMount(() => {
     if (local.ref) {
       if (typeof local.ref === 'function') {
         local.ref(swiperElRef);
@@ -144,12 +151,12 @@ const Swiper = (props) => {
     );
 
     if (local.onSwiper) local.onSwiper(swiperRef);
+  });
 
-    onCleanup(() => {
-      if (swiperRef && !swiperRef.destroyed) {
-        swiperRef.destroy(true, false);
-      }
-    });
+  onCleanup(() => {
+    if (swiperRef && !swiperRef.destroyed) {
+      swiperRef.destroy(true, false);
+    }
   });
 
   // watch for params change
@@ -200,8 +207,7 @@ const Swiper = (props) => {
   /* eslint-disable react/no-unknown-property */
 
   return (
-    <Dynamic
-      component={local.tag || 'div'}
+    <div
       ref={swiperElRef}
       class={uniqueClasses(`${containerClasses()}${local.class ? ` ${local.class}` : ''}`)}
       {...params().rest}
@@ -209,11 +215,11 @@ const Swiper = (props) => {
       <SwiperContext.Provider value={swiperRef}>
         {slots['container-start']}
 
-        <Dynamic component={local.wrapperTag || 'div'} class="swiper-wrapper">
+        <div class="swiper-wrapper">
           {slots['wrapper-start']}
           {renderSlides()}
           {slots['wrapper-end']}
-        </Dynamic>
+        </div>
 
         <Show when={needsNavigation(params().params)}>
           <div ref={prevElRef} class="swiper-button-prev" />
@@ -228,7 +234,7 @@ const Swiper = (props) => {
 
         {slots['container-end']}
       </SwiperContext.Provider>
-    </Dynamic>
+    </div>
   );
 };
 
