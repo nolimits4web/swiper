@@ -1,5 +1,13 @@
 # Changelog
 
+# [8.3.1](https://github.com/nolimits4web/Swiper/compare/v8.3.0...v8.3.1) (2022-07-13)
+
+### Bug Fixes
+
+- **packages:** add index.js in /solid and /react ([#5863](https://github.com/nolimits4web/Swiper/issues/5863)) ([6e94701](https://github.com/nolimits4web/Swiper/commit/6e947010f065dbaedf3fd00b936a95926d414503))
+- **solid:** fix reactivity ([502c152](https://github.com/nolimits4web/Swiper/commit/502c152270ef0f528bbb05ccc10f00668286fb67)), closes [#5862](https://github.com/nolimits4web/Swiper/issues/5862)
+- **solid:** stop using cloneNode in sliders without loops in SolidJS ([#5860](https://github.com/nolimits4web/Swiper/issues/5860)) ([d14c432](https://github.com/nolimits4web/Swiper/commit/d14c432956b0d61711ea2c7ddf5620c6fbb10578))
+
 # [8.3.0](https://github.com/nolimits4web/Swiper/compare/v8.2.6...v8.3.0) (2022-07-06)
 
 ### Features

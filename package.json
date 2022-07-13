@@ -1,6 +1,6 @@
 {
   "name": "swiper-src",
-  "version": "8.3.0",
+  "version": "8.3.1",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "scripts": {
     "build": "node scripts/build",
@@ -127,6 +127,7 @@
     "codelyzer": "^6.0.2",
     "concurrently": "^6.2.0",
     "contentful": "^8.4.2",
+    "conventional-changelog-cli": "^2.2.2",
     "cross-env": "^7.0.3",
     "cypress": "^7.5.0",
     "elapsed-time-logger": "^1.1.7",
@@ -168,10 +169,10 @@
     "ts-node": "~10.0.0",
     "tslib": "^2.3.0",
     "tslint": "~6.1.0",
+    "typescript": "^4.4.4",
     "vite": "^2.9.11",
     "vite-plugin-solid": "^2.2.6",
     "vue": "^3.2.37",
-    "typescript": "^4.4.4",
     "zone.js": "~0.11.4"
   },
   "dependencies": {
