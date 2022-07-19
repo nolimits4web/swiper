@@ -410,7 +410,7 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
 - **Library Agnostic**: Swiper doesn't require any JavaScript libraries like jQuery, which makes Swiper much smaller and faster. It can be safely used with libraries such as jQuery, Zepto, jQuery Mobile, etc
 - **1:1 Touch movement**: By default, Swiper provides 1:1 touch movement interaction, but this ratio can be configured through Swiper settings
 - **Mutation Observer**: Swiper has an option to enable Mutation Observer, with this feature Swiper will be automatically reinitialized and recalculate all required parameters if you make dynamic changes to the DOM, or in Swiper styles itself
-- **Rich API**: Swiper comes with a very rich API. It allows creating your own pagination, navigation buttons, parallax effects and many more
+- [**Rich API**](https://swiper6.vercel.app/swiper-api): Swiper comes with a very rich API. It allows creating your own pagination, navigation buttons, parallax effects and many more
 - **RTL**: Swiper is the only slider that provides 100% RTL support with correct layout
 - **Multi Row Slides Layout**: Swiper allows a multiple row slides layout, with a few slides per column
 - **Transition Effects**: Fade, Flip, 3D Cube, 3D Coverflow
