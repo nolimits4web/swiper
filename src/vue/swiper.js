@@ -91,6 +91,7 @@ const Swiper = {
     loop: { type: Boolean, default: undefined },
     loopAdditionalSlides: { type: Number, default: undefined },
     loopedSlides: { type: Number, default: undefined },
+    loopedSlidesLimit: { type: Boolean, default: true },
     loopFillGroupWithBlank: { type: Boolean, default: undefined },
     loopPreventsSlide: { type: Boolean, default: undefined },
     rewind: { type: Boolean, default: undefined },

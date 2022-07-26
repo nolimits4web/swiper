@@ -633,6 +633,13 @@ export interface SwiperOptions {
   loopedSlides?: number | null;
 
   /**
+   * When enabled then amount of duplicated slides will not exceed amount of original slides. Useful to disable and increase `loopedSlides` when you have a lot of slides per view and not sufficient amount of original slides
+   *
+   * @default true
+   */
+  loopedSlidesLimit?: boolean;
+
+  /**
    * Enable and loop mode will fill groups with insufficient number of slides with blank slides. Good to be used with `slidesPerGroup` parameter
    *
    * @default false

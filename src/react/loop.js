@@ -15,7 +15,7 @@ function calcLoopedSlides(slides, swiperParams) {
 
   loopedSlides += swiperParams.loopAdditionalSlides;
 
-  if (loopedSlides > slides.length) {
+  if (loopedSlides > slides.length && swiperParams.loopedSlidesLimit) {
     loopedSlides = slides.length;
   }
   return loopedSlides;
@@ -54,14 +54,13 @@ function renderLoop(swiper, slides, swiperParams) {
 
   const prependSlides = [];
   const appendSlides = [];
-  modifiedSlides.forEach((child, index) => {
-    if (index < loopedSlides) {
-      appendSlides.push(duplicateSlide(child, index, 'prepend'));
-    }
-    if (index < modifiedSlides.length && index >= modifiedSlides.length - loopedSlides) {
-      prependSlides.push(duplicateSlide(child, index, 'append'));
-    }
-  });
+  for (let i = 0; i < loopedSlides; i += 1) {
+    const index = i - Math.floor(i / modifiedSlides.length) * modifiedSlides.length;
+    appendSlides.push(duplicateSlide(modifiedSlides[index], i, 'append'));
+    prependSlides.unshift(
+      duplicateSlide(modifiedSlides[modifiedSlides.length - index - 1], i, 'prepend'),
+    );
+  }
   if (swiper) {
     swiper.loopedSlides = loopedSlides;
   }

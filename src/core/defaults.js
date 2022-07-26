@@ -104,6 +104,7 @@ export default {
   loop: false,
   loopAdditionalSlides: 0,
   loopedSlides: null,
+  loopedSlidesLimit: true,
   loopFillGroupWithBlank: false,
   loopPreventsSlide: true,
 
