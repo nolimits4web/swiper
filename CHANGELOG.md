@@ -1,5 +1,16 @@
 # Changelog
 
+# [8.3.2](https://github.com/nolimits4web/Swiper/compare/v8.3.1...v8.3.2) (2022-07-26)
+
+### Bug Fixes
+
+- **a11y:** fix `focus` handling ([8a3dfee](https://github.com/nolimits4web/Swiper/commit/8a3dfee2a3b26c56d6cd173094a08db8846f2fe6)), closes [#5905](https://github.com/nolimits4web/Swiper/issues/5905)
+- **autoplay:** don't run autoplay if swiper is hidden ([4f2e30f](https://github.com/nolimits4web/Swiper/commit/4f2e30f7a1607eb134d62153e9870bd6a9e26692)), closes [#5907](https://github.com/nolimits4web/Swiper/issues/5907)
+
+### Features
+
+- **core:** new loopedSlidesLimit paramter and new functionality to increase duplicated slides ([5156071](https://github.com/nolimits4web/Swiper/commit/5156071299fd7e1dc6041dcdfa7f127f7bbcf0c3))
+
 # [8.3.1](https://github.com/nolimits4web/Swiper/compare/v8.3.0...v8.3.1) (2022-07-13)
 
 ### Bug Fixes
