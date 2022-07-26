@@ -171,6 +171,11 @@ export default function A11y({ swiper, extendParams, on }) {
       swiper.visibleSlides &&
       swiper.visibleSlides.includes(slideEl);
     if (isActive || isVisible) return;
+    if (swiper.isHorizontal()) {
+      swiper.el.scrollLeft = 0;
+    } else {
+      swiper.el.scrollTop = 0;
+    }
     swiper.slideTo(swiper.slides.indexOf(slideEl), 0);
   };
 
