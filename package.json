@@ -125,7 +125,7 @@
     "babel-preset-solid": "^1.4.8",
     "chalk": "^5.0.1",
     "clean-css": "^5.3.1",
-    "codelyzer": "^0.0.28",
+    "codelyzer": "^6.0.2",
     "concurrently": "^7.3.0",
     "contentful": "^9.1.33",
     "conventional-changelog-cli": "^2.2.2",
