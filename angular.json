@@ -219,5 +219,7 @@
       }
     }
   },
-  "defaultProject": "angular"
+  "cli": {
+    "analytics": false
+  }
 }
