@@ -70,5 +70,16 @@ module.exports = {
         'import/extensions': [2, 'ignorePackages', { js: 'always' }],
       },
     },
+    {
+      files: ['scripts/**/*.*'],
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+      },
+      rules: {
+        ...rules,
+        'import/extensions': [2, 'ignorePackages', { js: 'always' }],
+      },
+    },
   ],
 };

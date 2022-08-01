@@ -1,9 +1,7 @@
-/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-/* eslint no-console: "off" */
-const postcss = require('postcss');
-const autoprefixer = require('autoprefixer');
+import postcss from 'postcss';
+import autoprefixer from 'autoprefixer';
 
-module.exports = async (content, { from = undefined, to = undefined } = {}) =>
+export default async (content, { from = undefined, to = undefined } = {}) =>
   new Promise((resolve, reject) => {
     postcss([autoprefixer])
       .process(content, { from, to })

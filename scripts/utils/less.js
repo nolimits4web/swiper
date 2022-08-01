@@ -1,8 +1,10 @@
-/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-const less = require('less');
-const path = require('path');
+import less from 'less';
+import path from 'path';
+import * as url from 'url';
 
-module.exports = (content, resolvePath = path.resolve(__dirname, '../../src/core')) =>
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+export default (content, resolvePath = path.resolve(__dirname, '../../src/core')) =>
   new Promise((resolve, reject) => {
     less
       .render(content, { paths: [resolvePath] })

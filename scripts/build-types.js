@@ -1,14 +1,14 @@
-/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-/* eslint no-console: "off" */
-const path = require('path');
-const globby = require('globby');
-const elapsed = require('elapsed-time-logger');
-const chalk = require('chalk');
-const fs = require('fs-extra');
+import path from 'path';
+import { globby } from 'globby';
+import elapsed from 'elapsed-time-logger';
+import chalk from 'chalk';
+import fs from 'fs-extra';
+import * as url from 'url';
+import { outputDir } from './utils/output-dir.js';
 
-const { outputDir } = require('./utils/output-dir');
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-async function buildTypes() {
+export default async function buildTypes() {
   elapsed.start('types');
   let coreEventsReact = '';
   let coreEventsSolid = '';
@@ -25,7 +25,6 @@ async function buildTypes() {
       .replace(/this: Swiper/g, '')
       .replace(/swiper: Swiper/g, 'swiper: SwiperClass');
   };
-
   const getCoreEventsContent = async () => {
     let coreEventsContent = await fs.readFile(
       path.resolve(__dirname, '../src/types/swiper-events.d.ts'),
@@ -58,7 +57,6 @@ async function buildTypes() {
         .replace(/\) => any;/g, ']>;'),
     );
   };
-
   const getModulesEventsContent = async () => {
     const eventsFiles = await globby('src/types/modules/*.d.ts');
     await Promise.all(
@@ -111,7 +109,6 @@ async function buildTypes() {
       const fileContent = await fs.readFile(path.resolve(__dirname, '../src', file), 'utf-8');
       const destPath = path.resolve(__dirname, `../${outputDir}`, file);
       await fs.ensureDir(path.dirname(destPath));
-
       const processTypingFile = async (eventsCode, modulesCode) => {
         const content = fileContent
           .replace('// MODULES_EVENTS', eventsCode)
@@ -135,5 +132,3 @@ async function buildTypes() {
   );
   elapsed.end('types', chalk.green('Types build completed!'));
 }
-
-module.exports = buildTypes;

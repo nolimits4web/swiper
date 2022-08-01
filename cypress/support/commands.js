@@ -139,7 +139,7 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'reinitSwiper',
   { prevSubject: 'optional' },
-  (subject, config = {}, options) => {
+  (subject, config = {}, options = {}) => {
     return cy.window().then((_window) => {
       _window.swiperRef.destroy();
       cy.initSwiper(config, options);

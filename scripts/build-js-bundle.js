@@ -1,19 +1,15 @@
-/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-/* eslint no-console: "off" */
-
-const fs = require('fs-extra');
-const chalk = require('chalk');
-const elapsed = require('elapsed-time-logger');
-const { rollup } = require('rollup');
-const { default: babel } = require('@rollup/plugin-babel');
-const replace = require('@rollup/plugin-replace');
-const { default: resolve } = require('@rollup/plugin-node-resolve');
-const Terser = require('terser');
-
-const config = require('./build-config');
-const { outputDir } = require('./utils/output-dir');
-const { banner } = require('./utils/banner');
-const isProd = require('./utils/isProd')();
+import fs from 'fs-extra';
+import chalk from 'chalk';
+import elapsed from 'elapsed-time-logger';
+import { rollup } from 'rollup';
+import { babel } from '@rollup/plugin-babel';
+import replace from '@rollup/plugin-replace';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import { minify } from 'terser';
+import { modules as configModules } from './build-config.js';
+import { outputDir } from './utils/output-dir.js';
+import { banner } from './utils/banner.js';
+import isProd from './utils/isProd.js';
 
 async function buildEntry(modules, format, browser = false) {
   const isUMD = format === 'umd';
@@ -38,7 +34,7 @@ async function buildEntry(modules, format, browser = false) {
         '//INSTALL_MODULES': modules.map((mod) => `${mod.capitalized}`).join(',\n  '),
         '//EXPORT': isUMD ? 'export default Swiper;' : 'export default Swiper; export { Swiper }',
       }),
-      resolve({ mainFields: ['module', 'main', 'jsnext'] }),
+      nodeResolve({ mainFields: ['module', 'main', 'jsnext'], rootDir: './src' }),
       babel({ babelHelpers: 'bundled' }),
     ],
     onwarn() {},
@@ -59,7 +55,7 @@ async function buildEntry(modules, format, browser = false) {
         return;
       }
       const result = bundle.output[0];
-      const { code, map } = await Terser.minify(result.code, {
+      const { code, map } = await minify(result.code, {
         sourceMap: {
           content: needSourceMap ? result.map : undefined,
           filename: needSourceMap ? `${filename}.min.js` : undefined,
@@ -71,7 +67,6 @@ async function buildEntry(modules, format, browser = false) {
       }).catch((err) => {
         console.error(`Terser failed on file ${filename}: ${err.toString()}`);
       });
-
       await fs.writeFile(`./${outputDir}/${filename}.min.js`, code);
       await fs.writeFile(`./${outputDir}/${filename}.min.js.map`, map);
     })
@@ -84,10 +79,10 @@ async function buildEntry(modules, format, browser = false) {
     });
 }
 
-async function buildJsBundle() {
+export default async function buildJsBundle() {
   elapsed.start('bundle');
   const modules = [];
-  config.modules.forEach((name) => {
+  configModules.forEach((name) => {
     // eslint-disable-next-line
     const capitalized = name
       .split('-')
@@ -110,5 +105,3 @@ async function buildJsBundle() {
     elapsed.end('bundle', chalk.green('\nBundle build completed!'));
   });
 }
-
-module.exports = buildJsBundle;

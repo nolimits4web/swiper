@@ -1,24 +1,24 @@
-const chalk = require('chalk');
-const fs = require('fs-extra');
-const elapsed = require('elapsed-time-logger');
-
-const buildJsCore = require('./build-js-core');
-const buildJsBundle = require('./build-js-bundle');
-const buildTypes = require('./build-types');
-const buildReact = require('./build-react');
-const buildVue = require('./build-vue');
-const buildSolid = require('./build-solid');
-const buildSvelte = require('./build-svelte');
-const buildStyles = require('./build-styles');
-const buildAngular = require('./build-angular');
-const outputCheckSize = require('./check-size');
-const { outputDir } = require('./utils/output-dir');
+import chalk from 'chalk';
+import fs from 'fs-extra';
+import elapsed from 'elapsed-time-logger';
+import buildJsCore from './build-js-core.js';
+import buildJsBundle from './build-js-bundle.js';
+import buildTypes from './build-types.js';
+import buildReact from './build-react.js';
+import buildVue from './build-vue.js';
+import buildSolid from './build-solid.js';
+import buildSvelte from './build-svelte.js';
+import buildStyles from './build-styles.js';
+import buildAngular from './build-angular.js';
+import outputCheckSize from './check-size.js';
+import { outputDir } from './utils/output-dir.js';
 
 class Build {
   constructor() {
     this.argv = process.argv.slice(2).map((v) => v.toLowerCase());
     this.size = this.argv.includes('--size');
     this.tasks = [];
+    // eslint-disable-next-line no-constructor-return
     return this;
   }
 
@@ -40,7 +40,6 @@ class Build {
     if (this.size) {
       start = outputCheckSize();
     }
-
     const res = await Promise.all(this.tasks.map((buildFn) => buildFn())).catch((err) => {
       console.error(err);
       process.exit(1);
@@ -48,16 +47,13 @@ class Build {
     if (this.size) {
       const sizeMessage = (value, label = '') =>
         `difference ${label}: ${value > 0 ? chalk.red(`+${value}`) : chalk.green(value)} bytes`;
-
       end = outputCheckSize();
-
       console.log(sizeMessage(end.size - start.size));
       console.log(sizeMessage(end.gzippedSize - start.gzippedSize, 'gzipped'));
     }
     return res;
   }
 }
-
 (async () => {
   elapsed.start('build');
   const build = new Build();
