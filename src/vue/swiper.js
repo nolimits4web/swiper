@@ -113,7 +113,7 @@ const Swiper = {
     slideDuplicateNextClass: { type: String, default: undefined },
     slidePrevClass: { type: String, default: undefined },
     slideDuplicatePrevClass: { type: String, default: undefined },
-    wrapperClass: { type: String, default: undefined },
+    wrapperClass: { type: String, default: 'swiper-wrapper' },
     runCallbacksOnInit: { type: Boolean, default: undefined },
     observer: { type: Boolean, default: undefined },
     observeParents: { type: Boolean, default: undefined },
@@ -233,7 +233,7 @@ const Swiper = {
     'zoomChange',
   ],
   setup(props, { slots: originalSlots, emit }) {
-    const { tag: Tag, wrapperTag: WrapperTag } = props;
+    const { tag: Tag, wrapperTag: WrapperTag, wrapperClass: WrapperClass } = props;
 
     const containerClasses = ref('swiper');
     const virtualData = ref(null);
@@ -388,7 +388,7 @@ const Swiper = {
         },
         [
           slots['container-start'],
-          h(WrapperTag, { class: 'swiper-wrapper' }, [
+          h(WrapperTag, { class: uniqueClasses(WrapperClass) }, [
             slots['wrapper-start'],
             renderSlides(slides),
             slots['wrapper-end'],
