@@ -139,6 +139,11 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   isEnd: boolean;
 
   /**
+   * `true` if slide is "locked" (by `watchOverflow`) and slides can not be, e.g. when amount of slides is less that slides per view
+   */
+  isLocked: boolean;
+
+  /**
    * `true` if swiper is in transition
    */
   animating: boolean;
