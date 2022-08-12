@@ -7,6 +7,21 @@ export interface AutoplayMethods {
   running: boolean;
 
   /**
+   * Whether autoplay is paused
+   */
+  paused: boolean;
+
+  /**
+   * Pause autoplay
+   */
+  pause(speed?: number): void;
+
+  /**
+   * Run the autoplay logic
+   */
+  run(): void;
+
+  /**
    * Start autoplay
    */
   start(): boolean;
