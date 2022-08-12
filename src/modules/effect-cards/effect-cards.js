@@ -9,6 +9,8 @@ export default function EffectCards({ swiper, extendParams, on }) {
       slideShadows: true,
       transformEl: null,
       rotate: true,
+      perSlideRotate: 2,
+      perSlideOffset: 8,
     },
   });
 
@@ -32,9 +34,9 @@ export default function EffectCards({ swiper, extendParams, on }) {
       let tY = 0;
       const tZ = -100 * Math.abs(progress);
       let scale = 1;
-      let rotate = -2 * progress;
+      let rotate = -params.perSlideRotate * progress;
 
-      let tXAdd = 8 - Math.abs(progress) * 0.75;
+      let tXAdd = params.perSlideOffset - Math.abs(progress) * 0.75;
 
       const slideIndex =
         swiper.virtual && swiper.params.virtual.enabled ? swiper.virtual.from + i : i;
