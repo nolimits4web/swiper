@@ -37,7 +37,7 @@ const SwiperSlide = {
     }
 
     onMounted(() => {
-      if (!swiperRef.value) return;
+      if (!swiperRef || !swiperRef.value) return;
       swiperRef.value.on('_slideClass', updateClasses);
       eventAttached = true;
     });
