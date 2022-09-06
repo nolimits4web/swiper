@@ -67,6 +67,7 @@ class Swiper {
         const newParams = extend({}, params, { el: containerEl });
         swipers.push(new Swiper(newParams));
       });
+      // eslint-disable-next-line no-constructor-return
       return swipers;
     }
 
@@ -227,6 +228,7 @@ class Swiper {
     }
 
     // Return app instance
+    // eslint-disable-next-line no-constructor-return
     return swiper;
   }
 

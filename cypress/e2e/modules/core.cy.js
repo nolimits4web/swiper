@@ -83,9 +83,9 @@ context('Core', () => {
     cy.initSwiper();
     cy.getSlides().should('not.have.class', 'swiper-slide-prev');
     cy.reinitSwiper({
-      initialSlide: 1,
+      initialSlide: 2,
     });
-    cy.getSlide(0).should('have.class', 'swiper-slide-prev');
+    cy.getSlide(1).should('have.class', 'swiper-slide-prev');
   });
 
   it('slidesPerView', () => {
@@ -308,8 +308,9 @@ context('Core', () => {
       allowSlidePrev: false,
     });
     cy.swipeLeft();
+    cy.swipeLeft();
     cy.swipeRight();
-    cy.getSlide(3).expectToBeActiveSlide();
+    cy.getSlide(4).expectToBeActiveSlide();
   });
 
   it('direction horizontal', () => {
