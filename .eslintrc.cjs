@@ -3,6 +3,7 @@ const rules = {
   'no-underscore-dangle': 'off',
   'prefer-object-spread': 'off',
   'prefer-destructuring': 'off',
+  'default-param-last': 'off',
   'import/prefer-default-export': 'off',
   'guard-for-in': 'off',
   'no-restricted-syntax': 'off',
