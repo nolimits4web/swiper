@@ -10,6 +10,7 @@ import { modules as configModules } from './build-config.js';
 import { outputDir } from './utils/output-dir.js';
 import { banner } from './utils/banner.js';
 import isProd from './utils/isProd.js';
+import { capitalizeString } from './utils/helper.js';
 
 async function buildEntry(modules, format, browser = false) {
   const isUMD = format === 'umd';
@@ -83,19 +84,7 @@ export default async function buildJsBundle() {
   elapsed.start('bundle');
   const modules = [];
   configModules.forEach((name) => {
-    // eslint-disable-next-line
-    const capitalized = name
-      .split('-')
-      .map((word) => {
-        return word
-          .split('')
-          .map((char, index) => {
-            if (index === 0) return char.toUpperCase();
-            return char;
-          })
-          .join('');
-      })
-      .join('');
+    const capitalized = capitalizeString(name);
     const jsFilePath = `./src/modules/${name}/${name}.js`;
     if (fs.existsSync(jsFilePath)) {
       modules.push({ name, capitalized });
