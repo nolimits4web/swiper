@@ -18,6 +18,7 @@ function calcLoopedSlides(slides, swiperParams) {
   if (loopedSlides > slides.length && swiperParams.loopedSlidesLimit) {
     loopedSlides = slides.length;
   }
+
   return loopedSlides;
 }
 

@@ -37,7 +37,8 @@ export default function loopCreate() {
   const appendSlides = [];
 
   slides.each((el, index) => {
-    $(el).attr('data-swiper-slide-index', index);
+    const slide = $(el);
+    slide.attr('data-swiper-slide-index', index);
   });
 
   for (let i = 0; i < swiper.loopedSlides; i += 1) {
