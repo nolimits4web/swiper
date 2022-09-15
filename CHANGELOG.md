@@ -1,5 +1,11 @@
 # Changelog
 
+# [8.4.2](https://github.com/nolimits4web/Swiper/compare/v8.4.1...8.4.2) (2022-09-15)
+
+### Bug Fixes
+
+- **onTouchStart.js:** Fix target element assignment ([#6065](https://github.com/nolimits4web/Swiper/issues/6065)) ([cb46a9a](https://github.com/nolimits4web/Swiper/commit/cb46a9a56b05b415bc5dbe69e84ef263f6766437))
+
 # [8.4.1](https://github.com/nolimits4web/Swiper/compare/v8.4.0...v8.4.1) (2022-09-15)
 
 ### Bug Fixes
