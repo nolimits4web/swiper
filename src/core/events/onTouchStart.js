@@ -48,11 +48,9 @@ export default function onTouchStart(event) {
   // eslint-disable-next-line
   const eventPath = event.composedPath
     ? event.composedPath()
-    : event.path
-    ? event.path[0]
-    : undefined;
+    : event.path;
   if (swipingClassHasValue && e.target && e.target.shadowRoot && eventPath) {
-    $targetEl = $(event.path[0]);
+    $targetEl = $(eventPath[0]);
   }
 
   const noSwipingSelector = params.noSwipingSelector
