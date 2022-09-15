@@ -1,5 +1,12 @@
 # Changelog
 
+# [8.4.1](https://github.com/nolimits4web/Swiper/compare/v8.4.0...v8.4.1) (2022-09-15)
+
+### Bug Fixes
+
+- **core:** fix swiping over nested shadow doms ([7d09ab0](https://github.com/nolimits4web/Swiper/commit/7d09ab006666c5e102d5249d2c66fd2565e5acaf)), closes [#6063](https://github.com/nolimits4web/Swiper/issues/6063)
+- **react:** fix issue with checking children ([37a94ea](https://github.com/nolimits4web/Swiper/commit/37a94eaa123b73ae09fa820f6bafda877f4df864)), closes [#6064](https://github.com/nolimits4web/Swiper/issues/6064)
+
 # [8.4.0](https://github.com/nolimits4web/Swiper/compare/v8.3.2...v8.4.0) (2022-09-14)
 
 ### Bug Fixes
