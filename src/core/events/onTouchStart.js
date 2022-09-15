@@ -52,7 +52,7 @@ export default function onTouchStart(event) {
     ? event.path[0]
     : undefined;
   if (swipingClassHasValue && e.target && e.target.shadowRoot && eventPath) {
-    $targetEl = $(event.path[0]);
+    $targetEl = $(eventPath);
   }
 
   const noSwipingSelector = params.noSwipingSelector
