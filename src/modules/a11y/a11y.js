@@ -169,7 +169,11 @@ export default function A11y({ swiper, extendParams, on }) {
     swiper.a11y.clicked = true;
   };
   const handlePointerUp = () => {
-    swiper.a11y.clicked = false;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        swiper.a11y.clicked = false;
+      });
+    });
   };
 
   const handleFocus = (e) => {
