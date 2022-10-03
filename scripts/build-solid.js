@@ -10,7 +10,7 @@ async function buildSolid() {
     `npx babel --config-file ./scripts/babel/babel.config.solid.json src/solid --out-dir ${outputDir}/solid`,
   );
   await addBannerToFile(`./${outputDir}/solid/swiper-solid.js`, 'SolidJS');
-  await fs.copyFile('./src/solid/swiper.js', `./${outputDir}/solid/swiper.js`);
-  await fs.copyFile('./src/solid/swiper-slide.js', `./${outputDir}/solid/swiper-slide.js`);
+  await fs.copyFile('./src/solid/swiper.jsx', `./${outputDir}/solid/swiper.jsx`);
+  await fs.copyFile('./src/solid/swiper-slide.jsx', `./${outputDir}/solid/swiper-slide.jsx`);
 }
 export default buildSolid;
