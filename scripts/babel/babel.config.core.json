@@ -7,6 +7,7 @@
     "../../src/*-vue.js",
     "../../src/copy/*",
     "../../src/solid/**/*.js",
+    "../../src/solid/**/*.jsx",
     "../../src/svelte/**/*.js",
     "../../src/*-svelte.js"
   ]
