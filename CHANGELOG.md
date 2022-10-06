@@ -1,5 +1,17 @@
 # Changelog
 
+# [8.4.3](https://github.com/nolimits4web/Swiper/compare/v8.4.2...v8.4.3) (2022-10-06)
+
+### Bug Fixes
+
+- **a11y:** don't focus slide on slide inner elements clicks ([c8e22f7](https://github.com/nolimits4web/Swiper/commit/c8e22f7a3e2aa2aa5f2f1a6b1e131473d63c1c46)), closes [#6116](https://github.com/nolimits4web/Swiper/issues/6116)
+
+### Features
+
+- **build-config:** allow to custom modules by process.env.SWIPER_BUILD_MODULES ([#6043](https://github.com/nolimits4web/Swiper/issues/6043)) ([b3c51c5](https://github.com/nolimits4web/Swiper/commit/b3c51c5ff7663bee10dc09dbda0d41f64ff0fdfa))
+- **solid:** fix handling dynamic slides ([708133d](https://github.com/nolimits4web/Swiper/commit/708133d90c7be8163f3101530f61f0d855d80773)), closes [#6031](https://github.com/nolimits4web/Swiper/issues/6031)
+- **solid:** keep solid components in `.jsx` ([d7f7f65](https://github.com/nolimits4web/Swiper/commit/d7f7f65052cde0d5d7b15239b5bc3762ac3b8911))
+
 # [8.4.2](https://github.com/nolimits4web/Swiper/compare/v8.4.1...8.4.2) (2022-09-15)
 
 ### Bug Fixes
