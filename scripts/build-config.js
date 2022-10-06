@@ -1,4 +1,8 @@
-export const modules = [
+import { parseSwiperBuildModulesEnv } from './utils/helper.js';
+
+const envBuildModules = parseSwiperBuildModulesEnv();
+
+export const modules = envBuildModules || [
   'virtual',
   'keyboard',
   'mousewheel',
