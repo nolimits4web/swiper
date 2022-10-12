@@ -1,5 +1,11 @@
 # Changelog
 
+# [8.4.4](https://github.com/nolimits4web/Swiper/compare/v8.4.3...v8.4.4) (2022-10-12)
+
+### Features
+
+- add direct JS/CSS core and bundle exports ([f519f80](https://github.com/nolimits4web/Swiper/commit/f519f80f1fb9e3dab9b8b57c2550c83d550f07ac))
+
 # [8.4.3](https://github.com/nolimits4web/Swiper/compare/v8.4.2...v8.4.3) (2022-10-06)
 
 ### Bug Fixes
