@@ -186,6 +186,7 @@ export default function A11y({ swiper, extendParams, on }) {
       swiper.visibleSlides &&
       swiper.visibleSlides.includes(slideEl);
     if (isActive || isVisible) return;
+    if (e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
     if (swiper.isHorizontal()) {
       swiper.el.scrollLeft = 0;
     } else {
