@@ -230,6 +230,8 @@ This project follows the [all-contributors](https://github.com/all-contributors/
     <td align="center"><a href="https://github.com/aPalenov"><img src="https://avatars.githubusercontent.com/u/20544542?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Андрей</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=aPalenov" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/beomy"><img src="https://avatars.githubusercontent.com/u/6986479?v=4?s=100" width="100px;" alt=""/><br /><sub><b>이효범</b></sub></a><br /><a href="https://github.com/nolimits4web/swiper/commits?author=beomy" title="Code">💻</a></td>
     <td align="center"><a href="https://wolstenhol.me/"><img src="https://avatars.githubusercontent.com/u/6339853?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Phil Wolstenholme</b></sub></a><br /><a href="#a11y-philwolstenholme" title="Accessibility">️️️️♿️</a></td>
+    
+    <td align="center"><a href="https://github.com/shahjehan-wpbrigade"><img src="https://avatars.githubusercontent.com/u/6339853?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Shahjehan Ali</b></sub></a><br /><a href="#a11y-philwolstenholme" title="Accessibility">️️️️💻</a></td>
   </tr>
 </table>
 
