@@ -79,10 +79,14 @@ interface SwiperProps
   > {}
 interface SwiperSlideProps extends React.HTMLAttributes<HTMLElement> {}
 
-declare const Swiper: React.FunctionComponent<SwiperProps>;
-declare const SwiperSlide: React.VoidFunctionComponent<SwiperSlideProps>;
+interface SwiperRef extends React.HTMLAttributes<HTMLElement> {
+  swiper: SwiperClass;
+}
+
+declare const Swiper: React.FunctionComponent<React.RefAttributes<SwiperRef> & SwiperProps>;
+declare const SwiperSlide: React.FunctionComponent<SwiperSlideProps>;
 
 declare const useSwiper: () => SwiperClass;
 declare const useSwiperSlide: () => SlideData;
 
-export { Swiper, SwiperSlide, SwiperProps, SwiperSlideProps, useSwiper, useSwiperSlide };
+export { Swiper, SwiperSlide, SwiperProps, SwiperSlideProps, SwiperRef, useSwiper, useSwiperSlide };
