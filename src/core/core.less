@@ -1,7 +1,8 @@
 :root {
   --swiper-theme-color: @themeColor;
 }
-.swiper {
+.swiper,
+swiper-container {
   margin-left: auto;
   margin-right: auto;
   position: relative;
@@ -10,6 +11,7 @@
   padding: 0;
   /* Fix of Webkit flickering */
   z-index: 1;
+  display: block;
 }
 .swiper-vertical > .swiper-wrapper {
   flex-direction: column;
@@ -24,6 +26,7 @@
   box-sizing: content-box;
 }
 .swiper-android .swiper-slide,
+.swiper-android swiper-slide,
 .swiper-wrapper {
   transform: translate3d(0px, 0, 0);
 }
@@ -34,26 +37,30 @@
     touch-action: pan-x;
   }
 }
-.swiper-slide {
+.swiper-slide,
+swiper-slide {
   flex-shrink: 0;
   width: 100%;
   height: 100%;
   position: relative;
   transition-property: transform;
+  display: block;
 }
 .swiper-slide-invisible-blank {
   visibility: hidden;
 }
 /* Auto Height */
 .swiper-autoheight,
-.swiper-autoheight .swiper-slide {
+.swiper-autoheight .swiper-slide,
+.swiper-autoheight swiper-slide {
   height: auto;
 }
 .swiper-autoheight .swiper-wrapper {
   align-items: flex-start;
   transition-property: transform, height;
 }
-.swiper-backface-hidden .swiper-slide {
+.swiper-backface-hidden .swiper-slide,
+.swiper-backface-hidden swiper-slide {
   transform: translateZ(0);
   backface-visibility: hidden;
 }
@@ -65,6 +72,7 @@
   }
   .swiper-wrapper,
   .swiper-slide,
+  swiper-slide,
   .swiper-slide-shadow,
   .swiper-slide-shadow-left,
   .swiper-slide-shadow-right,
@@ -113,7 +121,8 @@
       display: none;
     }
   }
-  > .swiper-wrapper > .swiper-slide {
+  > .swiper-wrapper > .swiper-slide,
+  > .swiper-wrapper > slot > swiper-slide {
     scroll-snap-align: start start;
   }
 }
@@ -134,7 +143,8 @@
     order: 9999;
   }
   &.swiper-horizontal {
-    > .swiper-wrapper > .swiper-slide:first-child {
+    > .swiper-wrapper > .swiper-slide:first-child,
+    > .swiper-wrapper > slot > swiper-slide:first-child {
       margin-inline-start: var(--swiper-centered-offset-before);
     }
     > .swiper-wrapper::before {
@@ -144,7 +154,8 @@
     }
   }
   &.swiper-vertical {
-    > .swiper-wrapper > .swiper-slide:first-child {
+    > .swiper-wrapper > .swiper-slide:first-child,
+    > .swiper-wrapper > slot > swiper-slide:first-child {
       margin-block-start: var(--swiper-centered-offset-before);
     }
     > .swiper-wrapper::before {
@@ -154,7 +165,8 @@
     }
   }
 
-  > .swiper-wrapper > .swiper-slide {
+  > .swiper-wrapper > .swiper-slide,
+  > .swiper-wrapper > slot > swiper-slide {
     scroll-snap-align: center center;
   }
 }

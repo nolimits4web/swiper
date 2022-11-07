@@ -27,7 +27,7 @@ export default function updateSlides() {
   const { $wrapperEl, size: swiperSize, rtlTranslate: rtl, wrongRTL } = swiper;
   const isVirtual = swiper.virtual && params.virtual.enabled;
   const previousSlidesLength = isVirtual ? swiper.virtual.slides.length : swiper.slides.length;
-  const slides = $wrapperEl.children(`.${swiper.params.slideClass}`);
+  const slides = $wrapperEl.children(`.${swiper.params.slideClass}, swiper-slide`);
   const slidesLength = isVirtual ? swiper.virtual.slides.length : slides.length;
   let snapGrid = [];
   const slidesGrid = [];
