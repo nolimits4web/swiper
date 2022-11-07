@@ -281,8 +281,16 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     );
     const params = swiper.params.pagination;
     if (!params.el) return;
-
-    let $el = $(params.el);
+    let $el;
+    if (
+      typeof params.el === 'string' &&
+      swiper.el.shadowRoot &&
+      swiper.el.shadowRoot.querySelector
+    ) {
+      $el = $(swiper.el.shadowRoot.querySelector(params.el));
+    } else {
+      $el = $(params.el);
+    }
     if ($el.length === 0) return;
 
     if (swiper.params.uniqueNavElements && typeof params.el === 'string' && $el.length > 1) {

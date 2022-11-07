@@ -263,7 +263,17 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     const params = swiper.params.scrollbar;
     if (!params.el) return;
 
-    let $el = $(params.el);
+    let $el;
+    if (
+      typeof params.el === 'string' &&
+      swiper.el.shadowRoot &&
+      swiper.el.shadowRoot.querySelector
+    ) {
+      $el = $(swiper.el.shadowRoot.querySelector(params.el));
+    } else {
+      $el = $(params.el);
+    }
+
     if (
       swiper.params.uniqueNavElements &&
       typeof params.el === 'string' &&

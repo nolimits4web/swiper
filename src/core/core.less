@@ -122,7 +122,7 @@ swiper-slide {
     }
   }
   > .swiper-wrapper > .swiper-slide,
-  > .swiper-wrapper > slot > swiper-slide {
+  > swiper-slide {
     scroll-snap-align: start start;
   }
 }
@@ -144,7 +144,7 @@ swiper-slide {
   }
   &.swiper-horizontal {
     > .swiper-wrapper > .swiper-slide:first-child,
-    > .swiper-wrapper > slot > swiper-slide:first-child {
+    > swiper-slide:first-child {
       margin-inline-start: var(--swiper-centered-offset-before);
     }
     > .swiper-wrapper::before {
@@ -155,7 +155,7 @@ swiper-slide {
   }
   &.swiper-vertical {
     > .swiper-wrapper > .swiper-slide:first-child,
-    > .swiper-wrapper > slot > swiper-slide:first-child {
+    > swiper-slide:first-child {
       margin-block-start: var(--swiper-centered-offset-before);
     }
     > .swiper-wrapper::before {
@@ -166,7 +166,7 @@ swiper-slide {
   }
 
   > .swiper-wrapper > .swiper-slide,
-  > .swiper-wrapper > slot > swiper-slide {
+  > swiper-slide {
     scroll-snap-align: center center;
   }
 }

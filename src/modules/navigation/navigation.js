@@ -24,6 +24,14 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
 
   function getEl(el) {
     let $el;
+    if (
+      el &&
+      typeof el === 'string' &&
+      swiper.el.shadowRoot &&
+      swiper.el.shadowRoot.querySelector
+    ) {
+      return $(swiper.el.shadowRoot.querySelector(el));
+    }
     if (el) {
       $el = $(el);
       if (
