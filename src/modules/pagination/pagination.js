@@ -282,13 +282,10 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     const params = swiper.params.pagination;
     if (!params.el) return;
     let $el;
-    if (
-      typeof params.el === 'string' &&
-      swiper.el.shadowRoot &&
-      swiper.el.shadowRoot.querySelector
-    ) {
+    if (typeof params.el === 'string' && swiper.isElement) {
       $el = $(swiper.el.shadowRoot.querySelector(params.el));
-    } else {
+    }
+    if (!$el || !$el.length) {
       $el = $(params.el);
     }
     if ($el.length === 0) return;

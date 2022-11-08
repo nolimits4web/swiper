@@ -9,6 +9,7 @@ export default function slideToClickedSlide() {
     params.slidesPerView === 'auto' ? swiper.slidesPerViewDynamic() : params.slidesPerView;
   let slideToIndex = swiper.clickedIndex;
   let realIndex;
+  const slideSelector = swiper.isElement ? `swiper-slide` : `.${params.slideClass}`;
   if (params.loop) {
     if (swiper.animating) return;
     realIndex = parseInt($(swiper.clickedSlide).attr('data-swiper-slide-index'), 10);
@@ -20,7 +21,7 @@ export default function slideToClickedSlide() {
         swiper.loopFix();
         slideToIndex = $wrapperEl
           .children(
-            `.${params.slideClass}[data-swiper-slide-index="${realIndex}"]:not(.${params.slideDuplicateClass})`,
+            `${slideSelector}[data-swiper-slide-index="${realIndex}"]:not(.${params.slideDuplicateClass})`,
           )
           .eq(0)
           .index();
@@ -35,7 +36,7 @@ export default function slideToClickedSlide() {
       swiper.loopFix();
       slideToIndex = $wrapperEl
         .children(
-          `.${params.slideClass}[data-swiper-slide-index="${realIndex}"]:not(.${params.slideDuplicateClass})`,
+          `${slideSelector}[data-swiper-slide-index="${realIndex}"]:not(.${params.slideDuplicateClass})`,
         )
         .eq(0)
         .index();

@@ -201,6 +201,23 @@ export default function Thumb({ swiper, extendParams, on }) {
   on('beforeInit', () => {
     const { thumbs } = swiper.params;
     if (!thumbs || !thumbs.swiper) return;
+    if (typeof thumbs.swiper === 'string' || thumbs.swiper instanceof HTMLElement) {
+      const thumbsElement = $(thumbs.swiper)[0];
+      if (thumbsElement.swiper) {
+        thumbs.swiper = swiper;
+      } else {
+        const onThumbsSwiper = (e) => {
+          thumbs.swiper = e.detail[0];
+          thumbsElement.removeEventListener('init', onThumbsSwiper);
+          init();
+          update(true);
+          thumbs.swiper.update();
+          swiper.update();
+        };
+        thumbsElement.addEventListener('init', onThumbsSwiper);
+        return;
+      }
+    }
     init();
     update(true);
   });

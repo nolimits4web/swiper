@@ -24,13 +24,9 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
 
   function getEl(el) {
     let $el;
-    if (
-      el &&
-      typeof el === 'string' &&
-      swiper.el.shadowRoot &&
-      swiper.el.shadowRoot.querySelector
-    ) {
-      return $(swiper.el.shadowRoot.querySelector(el));
+    if (el && typeof el === 'string' && swiper.isElement) {
+      $el = $(swiper.el.shadowRoot.querySelector(el));
+      if ($el.length > 0) return $el;
     }
     if (el) {
       $el = $(el);
@@ -58,8 +54,12 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
   }
   function update() {
     // Update Navigation Buttons
-    if (swiper.params.loop) return;
     const { $nextEl, $prevEl } = swiper.navigation;
+    if (swiper.params.loop) {
+      toggleEl($prevEl, false);
+      toggleEl($nextEl, false);
+      return;
+    }
 
     toggleEl($prevEl, swiper.isBeginning && !swiper.params.rewind);
     toggleEl($nextEl, swiper.isEnd && !swiper.params.rewind);

@@ -22,6 +22,7 @@ export default function Lazy({ swiper, extendParams, on, emit }) {
 
   let scrollHandlerAttached = false;
   let initialImageLoaded = false;
+  const slideSelector = () => (swiper.isElement ? `swiper-slide` : `.${swiper.params.slideClass}`);
 
   function loadInSlide(index, loadInDuplicate = true) {
     const params = swiper.params.lazy;
@@ -30,9 +31,7 @@ export default function Lazy({ swiper, extendParams, on, emit }) {
     const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
 
     const $slideEl = isVirtual
-      ? swiper.$wrapperEl.children(
-          `.${swiper.params.slideClass}[data-swiper-slide-index="${index}"]`,
-        )
+      ? swiper.$wrapperEl.children(`${slideSelector()}[data-swiper-slide-index="${index}"]`)
       : swiper.slides.eq(index);
 
     const $images = $slideEl.find(
@@ -132,10 +131,7 @@ export default function Lazy({ swiper, extendParams, on, emit }) {
 
     function slideExist(index) {
       if (isVirtual) {
-        if (
-          $wrapperEl.children(`.${swiperParams.slideClass}[data-swiper-slide-index="${index}"]`)
-            .length
-        ) {
+        if ($wrapperEl.children(`${slideSelector()}[data-swiper-slide-index="${index}"]`).length) {
           return true;
         }
       } else if (slides[index]) return true;

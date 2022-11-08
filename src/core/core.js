@@ -459,6 +459,9 @@ class Swiper {
     }
 
     el.swiper = swiper;
+    if (el.shadowEl) {
+      swiper.isElement = true;
+    }
 
     const getWrapperSelector = () => {
       return `.${(swiper.params.wrapperClass || '').trim().split(' ').join('.')}`;

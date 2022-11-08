@@ -31,8 +31,11 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     if (params.cache && swiper.virtual.cache[index]) {
       return swiper.virtual.cache[index];
     }
+    // eslint-disable-next-line
     const $slideEl = params.renderSlide
       ? $(params.renderSlide.call(swiper, slide, index))
+      : swiper.isElement
+      ? $(`<swiper-slide data-swiper-slide-index="${index}">${slide}</swiper-slide>`)
       : $(
           `<div class="${swiper.params.slideClass}" data-swiper-slide-index="${index}">${slide}</div>`,
         );

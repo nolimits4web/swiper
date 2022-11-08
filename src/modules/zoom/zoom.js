@@ -95,7 +95,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       gesture.scaleStart = getDistanceBetweenTouches(e);
     }
     if (!gesture.$slideEl || !gesture.$slideEl.length) {
-      gesture.$slideEl = $(e.target).closest(`.${swiper.params.slideClass}`);
+      gesture.$slideEl = $(e.target).closest(`.${swiper.params.slideClass}, swiper-slide`);
       if (gesture.$slideEl.length === 0) gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
       gesture.$imageEl = gesture.$slideEl
         .find(`.${params.containerClass}`)
@@ -335,7 +335,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
 
     if (!gesture.$slideEl) {
       if (e && e.target) {
-        gesture.$slideEl = $(e.target).closest(`.${swiper.params.slideClass}`);
+        gesture.$slideEl = $(e.target).closest(`.${swiper.params.slideClass}, swiper-slide`);
       }
       if (!gesture.$slideEl) {
         if (swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual) {
@@ -502,7 +502,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
   }
 
   function getSlideSelector() {
-    return `.${swiper.params.slideClass}`;
+    return swiper.isElement ? `swiper-slide` : `.${swiper.params.slideClass}`;
   }
 
   function toggleGestures(method) {

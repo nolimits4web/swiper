@@ -63,7 +63,7 @@ export default function Keyboard({ swiper, extendParams, on, emit }) {
       let inView = false;
       // Check that swiper should be inside of visible area of window
       if (
-        swiper.$el.parents(`.${swiper.params.slideClass}`).length > 0 &&
+        swiper.$el.parents(`.${swiper.params.slideClass}, swiper-slide`).length > 0 &&
         swiper.$el.parents(`.${swiper.params.slideActiveClass}`).length === 0
       ) {
         return undefined;

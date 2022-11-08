@@ -178,7 +178,7 @@ export default function A11y({ swiper, extendParams, on }) {
 
   const handleFocus = (e) => {
     if (swiper.a11y.clicked) return;
-    const slideEl = e.target.closest(`.${swiper.params.slideClass}`);
+    const slideEl = e.target.closest(`.${swiper.params.slideClass}, swiper-slide`);
     if (!slideEl || !swiper.slides.includes(slideEl)) return;
     const isActive = swiper.slides.indexOf(slideEl) === swiper.activeIndex;
     const isVisible =
@@ -311,7 +311,11 @@ export default function A11y({ swiper, extendParams, on }) {
 
   on('beforeInit', () => {
     liveRegion = $(
-      `<span class="${swiper.params.a11y.notificationClass}" aria-live="assertive" aria-atomic="true"></span>`,
+      `<span class="${
+        swiper.params.a11y.notificationClass
+      }" aria-live="assertive" aria-atomic="true" ${
+        swiper.isElement ? 'slot="container-end"' : ''
+      }></span>`,
     );
   });
 

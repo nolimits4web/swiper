@@ -79,13 +79,13 @@ export default function Grid({ swiper, extendParams }) {
       [getDirectionLabel('width')]: `${swiper.virtualSize + spaceBetween}px`,
     });
     if (centeredSlides) {
-      snapGrid.splice(0, snapGrid.length);
       const newSlidesGrid = [];
       for (let i = 0; i < snapGrid.length; i += 1) {
         let slidesGridItem = snapGrid[i];
         if (roundLengths) slidesGridItem = Math.floor(slidesGridItem);
         if (snapGrid[i] < swiper.virtualSize + snapGrid[0]) newSlidesGrid.push(slidesGridItem);
       }
+      snapGrid.splice(0, snapGrid.length);
       snapGrid.push(...newSlidesGrid);
     }
   };

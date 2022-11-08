@@ -57,12 +57,19 @@ export default function EffectCube({ swiper, extendParams, on }) {
     const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
     let wrapperRotate = 0;
     let $cubeShadowEl;
+
     if (params.shadow) {
       if (isHorizontal) {
-        $cubeShadowEl = $wrapperEl.find('.swiper-cube-shadow');
+        $cubeShadowEl = swiper.isElement
+          ? swiper.$el.find('.swiper-cube-shadow')
+          : $wrapperEl.find('.swiper-cube-shadow');
         if ($cubeShadowEl.length === 0) {
           $cubeShadowEl = $('<div class="swiper-cube-shadow"></div>');
-          $wrapperEl.append($cubeShadowEl);
+          if (swiper.isElement) {
+            swiper.$el.append($cubeShadowEl);
+          } else {
+            $wrapperEl.append($cubeShadowEl);
+          }
         }
         $cubeShadowEl.css({ height: `${swiperWidth}px` });
       } else {

@@ -36,6 +36,7 @@ export default function onTouchStart(event) {
   let $targetEl = $(e.target);
 
   if (params.touchEventsTarget === 'wrapper') {
+    window.target = $targetEl;
     if (!$targetEl.closest(swiper.wrapperEl).length) return;
   }
   data.isTouchEvent = e.type === 'touchstart';

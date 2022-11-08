@@ -5,7 +5,7 @@ export default function addSlide(index, slides) {
   if (params.loop) {
     activeIndexBuffer -= swiper.loopedSlides;
     swiper.loopDestroy();
-    swiper.slides = $wrapperEl.children(`.${params.slideClass}`);
+    swiper.slides = $wrapperEl.children(`.${params.slideClass}, swiper-slide`);
   }
   const baseLength = swiper.slides.length;
   if (index <= 0) {

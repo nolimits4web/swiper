@@ -6,7 +6,7 @@ export default function removeSlide(slidesIndexes) {
   if (params.loop) {
     activeIndexBuffer -= swiper.loopedSlides;
     swiper.loopDestroy();
-    swiper.slides = $wrapperEl.children(`.${params.slideClass}`);
+    swiper.slides = $wrapperEl.children(`.${params.slideClass}, swiper-slide`);
   }
   let newActiveIndex = activeIndexBuffer;
   let indexToRemove;

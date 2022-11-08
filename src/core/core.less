@@ -13,7 +13,8 @@ swiper-container {
   z-index: 1;
   display: block;
 }
-.swiper-vertical > .swiper-wrapper {
+.swiper-vertical > .swiper-wrapper,
+:host(.swiper-vertical) > .swiper-wrapper {
   flex-direction: column;
 }
 .swiper-wrapper {
@@ -55,7 +56,8 @@ swiper-slide {
 .swiper-autoheight swiper-slide {
   height: auto;
 }
-.swiper-autoheight .swiper-wrapper {
+.swiper-autoheight .swiper-wrapper,
+:host(.swiper-autoheight) .swiper-wrapper {
   align-items: flex-start;
   transition-property: transform, height;
 }
@@ -65,6 +67,12 @@ swiper-slide {
   backface-visibility: hidden;
 }
 /* 3D Effects */
+:host(.swiper-3d.swiper-css-mode) .swiper-wrapper {
+  perspective: 1200px;
+}
+:host(.swiper-3d) .swiper-wrapper {
+  transform-style: preserve-3d;
+}
 .swiper-3d {
   &,
   &.swiper-css-mode .swiper-wrapper {
@@ -112,7 +120,8 @@ swiper-slide {
 }
 
 /* CSS Mode */
-.swiper-css-mode {
+.swiper-css-mode,
+:host(.swiper-css-mode) {
   > .swiper-wrapper {
     overflow: auto;
     scrollbar-width: none; /* For Firefox */
@@ -126,47 +135,52 @@ swiper-slide {
     scroll-snap-align: start start;
   }
 }
-.swiper-horizontal.swiper-css-mode {
+.swiper-horizontal.swiper-css-mode,
+:host(.swiper-horizontal.swiper-css-mode) {
   > .swiper-wrapper {
     scroll-snap-type: x mandatory;
   }
 }
-.swiper-vertical.swiper-css-mode {
+.swiper-vertical.swiper-css-mode,
+:host(.swiper-vertical.swiper-css-mode) {
   > .swiper-wrapper {
     scroll-snap-type: y mandatory;
   }
 }
-.swiper-centered {
+.swiper-centered,
+:host(.swiper-centered) {
   > .swiper-wrapper::before {
     content: '';
     flex-shrink: 0;
     order: 9999;
   }
-  &.swiper-horizontal {
-    > .swiper-wrapper > .swiper-slide:first-child,
-    > swiper-slide:first-child {
-      margin-inline-start: var(--swiper-centered-offset-before);
-    }
-    > .swiper-wrapper::before {
-      height: 100%;
-      min-height: 1px;
-      width: var(--swiper-centered-offset-after);
-    }
-  }
-  &.swiper-vertical {
-    > .swiper-wrapper > .swiper-slide:first-child,
-    > swiper-slide:first-child {
-      margin-block-start: var(--swiper-centered-offset-before);
-    }
-    > .swiper-wrapper::before {
-      width: 100%;
-      min-width: 1px;
-      height: var(--swiper-centered-offset-after);
-    }
-  }
-
   > .swiper-wrapper > .swiper-slide,
   > swiper-slide {
     scroll-snap-align: center center;
+  }
+}
+.swiper-centered.swiper-horizontal,
+:host(.swiper-centered.swiper-horizontal) {
+  > .swiper-wrapper > .swiper-slide:first-child,
+  > swiper-slide:first-child {
+    margin-inline-start: var(--swiper-centered-offset-before);
+  }
+  > .swiper-wrapper::before {
+    height: 100%;
+    min-height: 1px;
+    width: var(--swiper-centered-offset-after);
+  }
+}
+
+.swiper-centered.swiper-vertical,
+:host(.swiper-centered.swiper-vertical) {
+  > .swiper-wrapper > .swiper-slide:first-child,
+  > swiper-slide:first-child {
+    margin-block-start: var(--swiper-centered-offset-before);
+  }
+  > .swiper-wrapper::before {
+    width: 100%;
+    min-width: 1px;
+    height: var(--swiper-centered-offset-after);
   }
 }

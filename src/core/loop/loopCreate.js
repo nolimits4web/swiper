@@ -8,20 +8,31 @@ export default function loopCreate() {
   // Remove duplicated slides
   const $selector =
     $wrapperEl.children().length > 0 ? $($wrapperEl.children()[0].parentNode) : $wrapperEl;
-  $selector.children(`.${params.slideClass}.${params.slideDuplicateClass}`).remove();
+  $selector
+    .children(
+      `.${params.slideClass}.${params.slideDuplicateClass}, swiper-slide.${params.slideDuplicateClass}`,
+    )
+    .remove();
 
-  let slides = $selector.children(`.${params.slideClass}`);
+  let slides = $selector.children(`.${params.slideClass}, swiper-slide`);
 
   if (params.loopFillGroupWithBlank) {
     const blankSlidesNum = params.slidesPerGroup - (slides.length % params.slidesPerGroup);
     if (blankSlidesNum !== params.slidesPerGroup) {
       for (let i = 0; i < blankSlidesNum; i += 1) {
-        const blankNode = $(document.createElement('div')).addClass(
-          `${params.slideClass} ${params.slideBlankClass}`,
-        );
+        let blankNode;
+        if (swiper.isElement) {
+          blankNode = $(document.createElement('swiper-slide')).addClass(
+            `${params.slideBlankClass}`,
+          );
+        } else {
+          blankNode = $(document.createElement('div')).addClass(
+            `${params.slideClass} ${params.slideBlankClass}`,
+          );
+        }
         $selector.append(blankNode);
       }
-      slides = $selector.children(`.${params.slideClass}`);
+      slides = $selector.children(`.${params.slideClass}, swiper-slide`);
     }
   }
 
