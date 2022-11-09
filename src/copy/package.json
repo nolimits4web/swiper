@@ -93,27 +93,19 @@
     "./scss/thumbs": "./modules/thumbs/thumbs.scss",
     "./scss/virtual": "./modules/virtual/virtual.scss",
     "./scss/zoom": "./modules/zoom/zoom.scss",
-    "./angular": "./angular/fesm2015/swiper_angular.mjs",
     "./react": "./react/swiper-react.js",
     "./vue": "./vue/swiper-vue.js",
-    "./solid": "./solid/swiper-solid.js",
     "./svelte": "./svelte/swiper-svelte.js",
     "./types": "./types/index.d.ts",
     "./package.json": "./package.json"
   },
   "typesVersions": {
     "*": {
-      "angular": [
-        "angular/swiper_angular.d.ts"
-      ],
       "react": [
         "react/swiper-react.d.ts"
       ],
       "svelte": [
         "svelte/swiper-svelte.d.ts"
-      ],
-      "solid": [
-        "solid/swiper-solid.d.ts"
       ],
       "vue": [
         "vue/swiper-vue.d.ts"
@@ -143,9 +135,7 @@
     "gallery",
     "plugin",
     "react",
-    "solid-js",
     "vue",
-    "angular",
     "svelte",
     "slideshow"
   ],

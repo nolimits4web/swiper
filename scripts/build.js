@@ -6,10 +6,8 @@ import buildJsBundle from './build-js-bundle.js';
 import buildTypes from './build-types.js';
 import buildReact from './build-react.js';
 import buildVue from './build-vue.js';
-import buildSolid from './build-solid.js';
 import buildSvelte from './build-svelte.js';
 import buildStyles from './build-styles.js';
-import buildAngular from './build-angular.js';
 import outputCheckSize from './check-size.js';
 import { outputDir } from './utils/output-dir.js';
 
@@ -64,9 +62,7 @@ class Build {
     .add('bundle', buildJsBundle)
     .add('react', buildReact)
     .add('vue', buildVue)
-    .add('solid', buildSolid)
     .add('svelte', buildSvelte)
-    .add('angular', buildAngular)
     .run();
   elapsed.end('build', chalk.bold.green('Build completed'));
 })();

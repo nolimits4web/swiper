@@ -47,4 +47,16 @@ function uniqueClasses(classNames = '') {
   return unique.join(' ');
 }
 
-export { isObject, extend, needsNavigation, needsPagination, needsScrollbar, uniqueClasses };
+function attrToProp(attrName = '') {
+  return attrName.replace(/-[a-z]/g, (l) => l.toUpperCase().replace('-', ''));
+}
+
+export {
+  isObject,
+  extend,
+  needsNavigation,
+  needsPagination,
+  needsScrollbar,
+  uniqueClasses,
+  attrToProp,
+};

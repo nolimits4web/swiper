@@ -1,8 +1,6 @@
 build
 playground/index.html
-playground/angular
 node_modules
 dist
 src/swiper.js
-src/angular
 postinstall.js

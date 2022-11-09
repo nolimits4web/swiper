@@ -9,7 +9,6 @@ dist
 
 
 cypress/screenshots
-.angular
 # local env files
 .env.local
 .env.development.local

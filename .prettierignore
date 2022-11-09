@@ -3,4 +3,3 @@ node_modules
 dist
 .nova
 postinstall.js
-.angular

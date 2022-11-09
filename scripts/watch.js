@@ -8,7 +8,6 @@ import buildTypes from './build-types.js';
 import buildStyles from './build-styles.js';
 import buildReact from './build-react.js';
 import buildVue from './build-vue.js';
-import buildSolid from './build-solid.js';
 import buildSvelte from './build-svelte.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -33,11 +32,6 @@ const watchFunction = async (fileName) => {
   if (fileName.includes('vue')) {
     console.log('Building Vue');
     buildVue('build');
-    return;
-  }
-  if (fileName.includes('solid')) {
-    console.log('Building Solid');
-    buildSolid('build');
     return;
   }
   if (fileName.includes('svelte')) {

@@ -77,12 +77,10 @@ async function release() {
     `${JSON.stringify(childPkg, null, 2)}\n`,
   );
   const cleanPackage = [
-    'angular',
     'components',
     'core',
     'modules',
     'react',
-    'solid',
     'shared',
     'svelte',
     'types',

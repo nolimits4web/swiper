@@ -76,14 +76,7 @@ export default async function buildStyles() {
   if (isProd) {
     // Copy less & scss
     const files = await globby(
-      [
-        '**/**.scss',
-        '**/**.less',
-        '!**/mixins.less',
-        '!**/icons/**',
-        '!**/angular/**',
-        '!**/core/**',
-      ],
+      ['**/**.scss', '**/**.less', '!**/mixins.less', '!**/icons/**', '!**/core/**'],
       {
         cwd: path.resolve(__dirname, '../src'),
       },
