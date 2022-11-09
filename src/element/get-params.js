@@ -36,25 +36,29 @@ function getParams(element) {
 
   extend(params, passedParams);
 
-  if (params.navigation === true) {
+  if (params.navigation) {
     params.navigation = {
       prevEl: '.swiper-button-prev',
       nextEl: '.swiper-button-next',
+      ...(params.navigation !== true ? params.navigation : {}),
     };
   } else if (params.navigation === false) {
     delete params.navigation;
   }
 
-  if (params.scrollbar === true) {
+  if (params.scrollbar) {
     params.scrollbar = {
       el: '.swiper-scrollbar',
+      ...(params.scrollbar !== true ? params.scrollbar : {}),
     };
   } else if (params.scrollbar === false) {
     delete params.scrollbar;
   }
-  if (params.pagination === true) {
+
+  if (params.pagination) {
     params.pagination = {
       el: '.swiper-pagination',
+      ...(params.pagination !== true ? params.pagination : {}),
     };
   } else if (params.pagination === false) {
     delete params.pagination;

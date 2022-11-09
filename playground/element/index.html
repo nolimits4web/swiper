@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <swiper-container navigation="true" pagination="true" scrollbar="true" effect="cube">
+  <swiper-container init="false">
     <swiper-slide>Slide 1</swiper-slide>
     <swiper-slide>Slide 2</swiper-slide>
     <swiper-slide>Slide 3</swiper-slide>
@@ -45,6 +45,8 @@
   <script type="module">
     import { register } from 'swiper/element/bundle';
     register();
+
+    document.querySelector('swiper-container').initialize();
   </script>
 </body>
 

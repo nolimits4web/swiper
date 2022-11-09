@@ -34,7 +34,7 @@ class SwiperContainer extends HTMLElement {
       globalStyles = document.createElement('style');
       globalStyles.textContent = [SwiperFontCSS, this.cssStyles()].join('\n'); // eslint-disable-line
       globalStyles.id = 'swiper-element-styles';
-      document.head.appendChild(globalStyles);
+      document.head.prepend(globalStyles);
     }
     // local styles
     this.stylesEl = document.createElement('style');
