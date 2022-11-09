@@ -1,4 +1,5 @@
-.swiper-free-mode > .swiper-wrapper {
+.swiper-free-mode > .swiper-wrapper,
+:host(.swiper-free-mode) > .swiper-wrapper {
   transition-timing-function: ease-out;
   margin: 0 auto;
 }

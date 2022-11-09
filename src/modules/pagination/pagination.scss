@@ -24,6 +24,7 @@
     opacity: 0;
   }
   .swiper-pagination-disabled > &,
+  :host(.swiper-pagination-disabled) &,
   &.swiper-pagination-disabled {
     display: none !important;
   }
@@ -32,6 +33,7 @@
 .swiper-pagination-fraction,
 .swiper-pagination-custom,
 .swiper-horizontal > .swiper-pagination-bullets,
+:host(.swiper-horizontal) .swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal {
   bottom: 10px;
   left: 0;
@@ -71,14 +73,15 @@
   border-radius: 50%;
   background: var(--swiper-pagination-bullet-inactive-color, #000);
   opacity: var(--swiper-pagination-bullet-inactive-opacity, 0.2);
-  @at-root button#{&} {
+  button& {
     border: none;
     margin: 0;
     padding: 0;
     box-shadow: none;
     appearance: none;
   }
-  .swiper-pagination-clickable & {
+  .swiper-pagination-clickable &,
+  :host(.swiper-pagination-clickable) & {
     cursor: pointer;
   }
 
@@ -92,6 +95,7 @@
 }
 
 .swiper-vertical > .swiper-pagination-bullets,
+:host(.swiper-vertical) .swiper-pagination-bullets,
 .swiper-pagination-vertical.swiper-pagination-bullets {
   right: 10px;
   top: 50%;
@@ -111,6 +115,7 @@
   }
 }
 .swiper-horizontal > .swiper-pagination-bullets,
+:host(.swiper-horizontal) > .swiper-pagination-bullets,
 .swiper-pagination-horizontal.swiper-pagination-bullets {
   .swiper-pagination-bullet {
     margin: 0 var(--swiper-pagination-bullet-horizontal-gap, 4px);
@@ -124,7 +129,8 @@
     }
   }
 }
-.swiper-horizontal.swiper-rtl > .swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
+.swiper-horizontal.swiper-rtl > .swiper-pagination-bullets-dynamic .swiper-pagination-bullet,
+:host(.swiper-horizontal.swiper-rtl) .swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
   transition: 200ms transform, 200ms right;
 }
 /* Progress */
@@ -141,7 +147,8 @@
     transform: scale(0);
     transform-origin: left top;
   }
-  .swiper-rtl & .swiper-pagination-progressbar-fill {
+  .swiper-rtl & .swiper-pagination-progressbar-fill,
+  :host(.swiper-rtl) & .swiper-pagination-progressbar-fill {
     transform-origin: right top;
   }
   .swiper-horizontal > &,
