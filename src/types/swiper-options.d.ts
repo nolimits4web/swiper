@@ -715,7 +715,7 @@ export interface SwiperOptions {
    *
    * @default 'window'
    *
-   * @note Currently in beta and not supported by Swiper React, Svelte and Vue components
+   * @note Currently in beta and not supported by Swiper React and Vue components
    */
   breakpointsBase?: string;
 
@@ -754,7 +754,7 @@ export interface SwiperOptions {
    *
    * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
    *
-   * @note Not supported in Swiper React/Svelte/Vue components
+   * @note Not supported in Swiper React/Vue components
    */
   slideClass?: string;
 
@@ -765,7 +765,7 @@ export interface SwiperOptions {
    *
    * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
    *
-   * @note Not supported in Swiper React/Svelte/Vue components
+   * @note Not supported in Swiper React/Vue components
    */
   slideActiveClass?: string;
 
@@ -776,7 +776,7 @@ export interface SwiperOptions {
    *
    * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
    *
-   * @note Not supported in Swiper React/Svelte/Vue components
+   * @note Not supported in Swiper React/Vue components
    */
   slideDuplicateActiveClass?: string;
 
@@ -787,7 +787,7 @@ export interface SwiperOptions {
    *
    * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
    *
-   * @note Not supported in Swiper React/Svelte/Vue
+   * @note Not supported in Swiper React/Vue
    */
   slideVisibleClass?: string;
 
@@ -798,7 +798,7 @@ export interface SwiperOptions {
    *
    * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
    *
-   * @note Not supported in Swiper React/Svelte/Vue
+   * @note Not supported in Swiper React/Vue
    */
   slideDuplicateClass?: string;
 
@@ -809,7 +809,7 @@ export interface SwiperOptions {
    *
    * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
    *
-   * @note Not supported in Swiper React/Svelte/Vue
+   * @note Not supported in Swiper React/Vue
    */
   slideNextClass?: string;
 
@@ -820,7 +820,7 @@ export interface SwiperOptions {
    *
    * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
    *
-   * @note Not supported in Swiper React/Svelte/Vue
+   * @note Not supported in Swiper React/Vue
    */
   slideDuplicateNextClass?: string;
 
@@ -831,7 +831,7 @@ export interface SwiperOptions {
    *
    * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
    *
-   * @note Not supported in Swiper React/Svelte/Vue
+   * @note Not supported in Swiper React/Vue
    */
   slidePrevClass?: string;
 
@@ -842,7 +842,7 @@ export interface SwiperOptions {
    *
    * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
    *
-   * @note Not supported in Swiper React/Svelte/Vue
+   * @note Not supported in Swiper React/Vue
    */
   slideDuplicatePrevClass?: string;
 
@@ -853,7 +853,7 @@ export interface SwiperOptions {
    *
    * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
    *
-   * @note Not supported in Swiper React/Svelte/Vue
+   * @note Not supported in Swiper React/Vue
    */
   slideBlankClass?: string;
 
@@ -864,7 +864,7 @@ export interface SwiperOptions {
    *
    * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
    *
-   * @note Not supported in Swiper React/Svelte/Vue
+   * @note Not supported in Swiper React/Vue
    *
    */
   wrapperClass?: string;

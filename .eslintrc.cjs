@@ -48,15 +48,7 @@ module.exports = {
       plugins: ['react'],
       rules,
     },
-    {
-      files: ['**/*.svelte'],
-      plugins: ['svelte3'],
-      processor: 'svelte3/svelte3',
-      rules: {
-        ...rules,
-        'no-restricted-globals': 'off',
-      },
-    },
+
     {
       files: ['src/**/*.*'],
       rules: {

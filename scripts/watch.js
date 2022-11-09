@@ -8,7 +8,6 @@ import buildTypes from './build-types.js';
 import buildStyles from './build-styles.js';
 import buildReact from './build-react.js';
 import buildVue from './build-vue.js';
-import buildSvelte from './build-svelte.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 console.log(chalk.cyan('Watching file changes ...'));
@@ -34,11 +33,7 @@ const watchFunction = async (fileName) => {
     buildVue('build');
     return;
   }
-  if (fileName.includes('svelte')) {
-    console.log('Building Svelte');
-    buildSvelte('build');
-    return;
-  }
+
   if (fileName.includes('.js')) {
     console.log('Building JS');
     buildJsCore();

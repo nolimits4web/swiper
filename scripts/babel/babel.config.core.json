@@ -6,8 +6,6 @@
     "../../src/*-vue.js",
     "../../src/copy/*",
     "../../src/element/**/*.js",
-    "../../src/element/*.js",
-    "../../src/svelte/**/*.js",
-    "../../src/*-svelte.js"
+    "../../src/element/*.js"
   ]
 }

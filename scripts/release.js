@@ -83,7 +83,6 @@ async function release() {
     'element',
     'react',
     'shared',
-    'svelte',
     'types',
     'vue',
     '**/*.js',
@@ -98,8 +97,6 @@ async function release() {
     '*.less',
     '**/*.scss',
     '*.scss',
-    '**/*.svelte',
-    '*.svelte',
   ];
   await exec.promise('git pull');
   await exec.promise('npm i');

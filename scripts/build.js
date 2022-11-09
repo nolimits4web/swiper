@@ -7,7 +7,6 @@ import buildTypes from './build-types.js';
 import buildReact from './build-react.js';
 import buildVue from './build-vue.js';
 import buildElement from './build-element.js';
-import buildSvelte from './build-svelte.js';
 import buildStyles from './build-styles.js';
 import outputCheckSize from './check-size.js';
 import { outputDir } from './utils/output-dir.js';
@@ -69,7 +68,6 @@ class Build {
     .add('element', buildElement)
     .add('react', buildReact)
     .add('vue', buildVue)
-    .add('svelte', buildSvelte)
     .run();
   elapsed.end('build', chalk.bold.green('Build completed'));
 })();

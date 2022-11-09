@@ -8,7 +8,6 @@
     "build:core": "node scripts/build --only core",
     "build:bundle": "node scripts/build --only bundle styles",
     "build:element": "node scripts/build --only element",
-    "build:svelte": "node scripts/build --only svelte",
     "build:react": "node scripts/build --only react",
     "build:vue": "node scripts/build --only vue",
     "build:types": "node scripts/build --only types",
@@ -16,7 +15,6 @@
     "build:prod:core": "npm run build:core -- --prod",
     "build:prod:element": "npm run build:element -- --prod",
     "build:prod:bundle": "npm run build:bundle -- --prod",
-    "build:prod:svelte": "npm run build:svelte -- --prod",
     "build:prod:react": "npm run build:react -- --prod",
     "build:prod:vue": "npm run build:vue -- --prod",
     "build:prod:types": "npm run build:types -- --prod",
@@ -27,12 +25,11 @@
     "core": "npm run build:core && npm run build:bundle && concurrently --kill-others \"vite ./playground/core\" \"npm run watch\" ",
     "react": "npm run build:react && concurrently --kill-others \"vite ./playground/react\" \"npm run watch\"",
     "vue": "npm run build:vue && concurrently --kill-others \"vite ./playground/vue\" \"npm run watch\"",
-    "svelte": "npm run build:svelte && concurrently --kill-others \"vite ./playground/svelte\" \"npm run watch\"",
-    "prettier": "prettier \"**/*.+(js|json|scss|css|less|ts|svelte|jsx)\"",
+    "prettier": "prettier \"**/*.+(js|json|scss|css|less|ts|jsx)\"",
     "format": "npm run prettier -- --write",
     "check-format": "npm run prettier -- --list-different",
     "size": "node scripts/exec-check-size.js",
-    "lint": "eslint --ext .js,.svelte,.jsx .",
+    "lint": "eslint --ext .js,.jsx .",
     "validate": "npm-run-all --parallel check-format lint",
     "release": "npm run validate && node ./scripts/release",
     "test": "npm run validate && npm run build:prod",
@@ -59,7 +56,6 @@
     "gallery",
     "plugin",
     "vue",
-    "svelte",
     "slideshow"
   ],
   "author": "Vladimir Kharlampidi",
@@ -108,7 +104,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-svelte3": "^4.0.0",
     "exec-sh": "^0.4.0",
     "fs-extra": "^10.1.0",
     "glob": "^8.0.3",
@@ -120,13 +115,10 @@
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.14",
     "prettier": "^2.7.1",
-    "prettier-plugin-svelte": "^2.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.77.2",
-    "rollup-plugin-svelte": "^7.1.0",
-    "svelte": "^3.49.0",
     "terser": "^5.14.2",
     "vite": "^3.0.4",
     "vue": "^3.2.37"
@@ -136,6 +128,6 @@
     "ssr-window": "^4.0.2"
   },
   "lint-staged": {
-    "*.{js,svelte,jsx}": "eslint --cache --fix"
+    "*.{js,jsx}": "eslint --cache --fix"
   }
 }

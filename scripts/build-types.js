@@ -12,10 +12,8 @@ export default async function buildTypes() {
   elapsed.start('types');
   let coreEventsReact = '';
   let coreEventsVue = '';
-  let coreEventsSvelte = '';
   let modulesEventsReact = '';
   let modulesEventsVue = '';
-  let modulesEventsSvelte = '';
 
   const replaceInstances = (content) => {
     return content
@@ -41,14 +39,6 @@ export default async function buildTypes() {
         return ` ${name.replace('?', '')}: (`;
       }),
     );
-    coreEventsSvelte = replaceInstances(
-      coreEventsContent
-        .replace(/ ([a-zA-Z_?]*): \(/g, (string, name) => {
-          return ` ${name.replace('?', '')}: CustomEvent<[`;
-        })
-        .replace(/\) => void;/g, ']>;')
-        .replace(/\) => any;/g, ']>;'),
-    );
   };
   const getModulesEventsContent = async () => {
     const eventsFiles = await globby('src/types/modules/*.d.ts');
@@ -69,14 +59,6 @@ export default async function buildTypes() {
             eventsContent.replace(/ ([a-zA-Z_?]*): \(/g, (string, name) => {
               return ` ${name.replace('?', '')}: (`;
             }),
-          );
-          modulesEventsSvelte += replaceInstances(
-            eventsContent
-              .replace(/ ([a-zA-Z_?]*): \(/g, (string, name) => {
-                return ` ${name.replace('?', '')}: CustomEvent<[`;
-              })
-              .replace(/\) => void;/g, ']>;')
-              .replace(/\) => any;/g, ']>;'),
           );
         }
       }),
@@ -111,9 +93,6 @@ export default async function buildTypes() {
       }
       if (file.includes('swiper-vue.d.ts')) {
         return processTypingFile(coreEventsVue, modulesEventsVue);
-      }
-      if (file.includes('swiper-svelte.d.ts')) {
-        return processTypingFile(coreEventsSvelte, modulesEventsSvelte);
       }
       return fs.writeFile(destPath, fileContent);
     }),

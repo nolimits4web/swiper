@@ -6,7 +6,6 @@
   "type": "module",
   "main": "./swiper.esm.js",
   "module": "./swiper.esm.js",
-  "svelte": "./swiper.esm.js",
   "exports": {
     ".": "./swiper.esm.js",
     "./core": "./swiper.esm.js",
@@ -97,7 +96,6 @@
     "./element/bundle": "./element/swiper-element-bundle.js",
     "./react": "./react/swiper-react.js",
     "./vue": "./vue/swiper-vue.js",
-    "./svelte": "./svelte/swiper-svelte.js",
     "./types": "./types/index.d.ts",
     "./package.json": "./package.json"
   },
@@ -111,9 +109,6 @@
       ],
       "react": [
         "react/swiper-react.d.ts"
-      ],
-      "svelte": [
-        "svelte/swiper-svelte.d.ts"
       ],
       "vue": [
         "vue/swiper-vue.d.ts"
@@ -144,7 +139,6 @@
     "plugin",
     "react",
     "vue",
-    "svelte",
     "slideshow"
   ],
   "author": "Vladimir Kharlampidi",
