@@ -18,13 +18,28 @@ class SwiperContainer extends HTMLElement {
 
     this.tempDiv = document.createElement('div');
     this.shadowEl = this.attachShadow({ mode: 'open' });
+  }
 
-    this.stylesEl = document.createElement('style');
-    this.stylesEl.textContent = SwiperCSS; // eslint-disable-line
-    this.shadowEl.appendChild(this.stylesEl);
+  cssStyles() {
+    return [
+      SwiperCSS, // eslint-disable-line
+      ...(this.modulesStyles && Array.isArray(this.modulesStyles) ? this.modulesStyles : []),
+    ].join('\n');
   }
 
   render() {
+    // global styles
+    let globalStyles = document.querySelector('link#swiper-element-styles');
+    if (!globalStyles) {
+      globalStyles = document.createElement('style');
+      globalStyles.textContent = [SwiperFontCSS, this.cssStyles()].join('\n'); // eslint-disable-line
+      globalStyles.id = 'swiper-element-styles';
+      document.head.appendChild(globalStyles);
+    }
+    // local styles
+    this.stylesEl = document.createElement('style');
+    this.stylesEl.textContent = this.cssStyles();
+    this.shadowEl.appendChild(this.stylesEl);
     // prettier-ignore
     this.tempDiv.innerHTML = `
       <slot name="container-start"></slot>

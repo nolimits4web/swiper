@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Swiper Playground</title>
+  <meta name="viewport" content="width=device-width" />
+</head>
+
+<body>
+  <swiper-container navigation="true" pagination="true" scrollbar="true" effect="cube">
+    <swiper-slide>Slide 1</swiper-slide>
+    <swiper-slide>Slide 2</swiper-slide>
+    <swiper-slide>Slide 3</swiper-slide>
+    <swiper-slide>Slide 4</swiper-slide>
+    <swiper-slide>Slide 5</swiper-slide>
+    <swiper-slide>Slide 6</swiper-slide>
+    <swiper-slide>Slide 7</swiper-slide>
+    <swiper-slide>Slide 8</swiper-slide>
+    <swiper-slide>Slide 9</swiper-slide>
+    <swiper-slide>Slide 10</swiper-slide>
+  </swiper-container>
+  <style>
+    body,
+    html {
+      padding: 0;
+      margin: 0;
+      position: relative;
+      height: 100%;
+    }
+
+    swiper-container {
+      width: 100%;
+      height: 300px;
+      margin: 50px auto;
+    }
+
+    swiper-slide {
+      background: #f1f1f1;
+      color: #000;
+      text-align: center;
+      line-height: 300px;
+    }
+  </style>
+  <script type="module">
+    import { register } from 'swiper/element/bundle';
+    register();
+  </script>
+</body>
+
+</html>

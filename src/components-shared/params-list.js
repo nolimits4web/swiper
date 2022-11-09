@@ -118,5 +118,6 @@ const paramsList = [
   'virtual',
   'zoom',
   'control',
+  'modulesStyles',
 ];
 export { paramsList };

@@ -56,10 +56,10 @@ const buildCSS = async ({ isBundle, modules, minified }) => {
   const fileName = isBundle ? 'swiper-bundle' : 'swiper';
   // Write file
   await fs.ensureDir(`./${outputDir}`);
-  if (isBundle) {
-    await fs.writeFile(`./${outputDir}/${fileName}.css`, `${banner()}\n${cssContent}`);
-  }
-  if (minified || !isBundle) {
+
+  await fs.writeFile(`./${outputDir}/${fileName}.css`, `${banner()}\n${cssContent}`);
+
+  if (minified) {
     const minifiedContent = await minifyCSS(cssContent);
     await fs.writeFile(`./${outputDir}/${fileName}.min.css`, `${banner()}\n${minifiedContent}`);
   }
