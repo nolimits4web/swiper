@@ -6,6 +6,7 @@ import buildJsBundle from './build-js-bundle.js';
 import buildTypes from './build-types.js';
 import buildReact from './build-react.js';
 import buildVue from './build-vue.js';
+import buildElement from './build-element.js';
 import buildSvelte from './build-svelte.js';
 import buildStyles from './build-styles.js';
 import outputCheckSize from './check-size.js';
@@ -38,10 +39,15 @@ class Build {
     if (this.size) {
       start = outputCheckSize();
     }
-    const res = await Promise.all(this.tasks.map((buildFn) => buildFn())).catch((err) => {
+    try {
+      for (const buildFn of this.tasks) {
+        await buildFn(); // eslint-disable-line
+      }
+    } catch (err) {
       console.error(err);
       process.exit(1);
-    });
+    }
+
     if (this.size) {
       const sizeMessage = (value, label = '') =>
         `difference ${label}: ${value > 0 ? chalk.red(`+${value}`) : chalk.green(value)} bytes`;
@@ -49,7 +55,7 @@ class Build {
       console.log(sizeMessage(end.size - start.size));
       console.log(sizeMessage(end.gzippedSize - start.gzippedSize, 'gzipped'));
     }
-    return res;
+    return true;
   }
 }
 (async () => {
@@ -60,6 +66,7 @@ class Build {
     .add('styles', buildStyles)
     .add('core', buildJsCore)
     .add('bundle', buildJsBundle)
+    .add('element', buildElement)
     .add('react', buildReact)
     .add('vue', buildVue)
     .add('svelte', buildSvelte)

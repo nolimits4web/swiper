@@ -103,6 +103,9 @@ export default async function buildTypes() {
           .replace('// CORE_EVENTS', modulesCode);
         return fs.writeFile(destPath, content);
       };
+      if (file.includes('swiper-element.d.ts')) {
+        return processTypingFile('', '');
+      }
       if (file.includes('swiper-react.d.ts')) {
         return processTypingFile(coreEventsReact, modulesEventsReact);
       }

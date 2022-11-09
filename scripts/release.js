@@ -80,6 +80,7 @@ async function release() {
     'components',
     'core',
     'modules',
+    'element',
     'react',
     'shared',
     'svelte',

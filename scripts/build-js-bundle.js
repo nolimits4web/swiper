@@ -28,7 +28,6 @@ async function buildEntry(modules, format, browser = false) {
     plugins: [
       replace({
         delimiters: ['', ''],
-        'process.env.NODE_ENV': JSON.stringify(isProd ? 'production' : 'development'),
         '//IMPORT_MODULES': modules
           .map((mod) => `import ${mod.capitalized} from './modules/${mod.name}/${mod.name}.js';`)
           .join('\n'),

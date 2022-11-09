@@ -1,7 +1,5 @@
 /* eslint-disable spaced-comment */
 //IMPORT_SWIPER
-//SWIPER_STYLES
-
 import { paramsList } from '../components-shared/params-list.js';
 import { getParams } from './get-params.js';
 import {
@@ -11,6 +9,8 @@ import {
   attrToProp,
 } from '../components-shared/utils.js';
 import { updateSwiper } from '../components-shared/update-swiper.js';
+
+//SWIPER_STYLES
 
 class SwiperContainer extends HTMLElement {
   constructor() {
@@ -168,6 +168,7 @@ class SwiperSlide extends HTMLElement {
   }
 }
 
+// eslint-disable-next-line
 const register = () => {
   if (typeof window === 'undefined') return;
   if (!window.customElements.get('swiper-container'))
@@ -177,6 +178,5 @@ const register = () => {
 };
 
 //BROWSER_REGISTER
-//EXPORT
 
-export { SwiperContainer, SwiperSlide, register };
+//EXPORT
