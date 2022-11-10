@@ -19,6 +19,7 @@ const SwiperSlide = {
     },
     swiperRef: { type: Object, required: false },
     zoom: { type: Boolean, default: undefined },
+    lazy: { type: Boolean, default: false },
     virtualIndex: {
       type: [String, Number],
       default: undefined,
@@ -29,6 +30,7 @@ const SwiperSlide = {
     const { swiperRef } = props;
     const slideElRef = ref(null);
     const slideClasses = ref('swiper-slide');
+    const lazyLoaded = ref(false);
 
     function updateClasses(swiper, el, classNames) {
       if (el === slideElRef.value) {
@@ -76,6 +78,11 @@ const SwiperSlide = {
         slideClasses.value.indexOf('swiper-slide-duplicate-next') >= 0,
     }));
     provide('swiperSlide', slideData);
+
+    const onLoad = () => {
+      lazyLoaded.value = true;
+    };
+
     return () => {
       return h(
         props.tag,
@@ -83,6 +90,7 @@ const SwiperSlide = {
           class: uniqueClasses(`${slideClasses.value}`),
           ref: slideElRef,
           'data-swiper-slide-index': props.virtualIndex,
+          onLoadCapture: onLoad,
         },
         props.zoom
           ? h(
@@ -91,9 +99,15 @@ const SwiperSlide = {
                 class: 'swiper-zoom-container',
                 'data-swiper-zoom': typeof props.zoom === 'number' ? props.zoom : undefined,
               },
-              slots.default && slots.default(slideData.value),
+              [
+                slots.default && slots.default(slideData.value),
+                props.lazy && !lazyLoaded.value && h('div', { class: 'swiper-lazy-preloader' }),
+              ],
             )
-          : slots.default && slots.default(slideData.value),
+          : [
+              slots.default && slots.default(slideData.value),
+              props.lazy && !lazyLoaded.value && h('div', { class: 'swiper-lazy-preloader' }),
+            ],
       );
     };
   },
