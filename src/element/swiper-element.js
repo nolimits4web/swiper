@@ -12,6 +12,26 @@ import { updateSwiper } from '../components-shared/update-swiper.js';
 
 //SWIPER_STYLES
 
+const addGlobalStyles = (preInit, swiper) => {
+  let globalStyles = document.querySelector('style#swiper-element-styles');
+  const shouldOverwrite = globalStyles && globalStyles.preInit && !preInit;
+  if (!preInit && swiper) {
+    swiper.cssLinks().forEach((url) => {
+      const linkEl = document.createElement('link');
+      linkEl.rel = 'stylesheet';
+      linkEl.href = url;
+      document.head.prepend(linkEl);
+    });
+  }
+  if (!globalStyles || shouldOverwrite) {
+    globalStyles = globalStyles || document.createElement('style');
+    globalStyles.textContent = [SwiperFontCSS, swiper ? swiper.cssStyles() : ''].join('\n'); // eslint-disable-line
+    globalStyles.id = 'swiper-element-styles';
+    globalStyles.preInit = preInit;
+    document.head.prepend(globalStyles);
+  }
+};
+
 class SwiperContainer extends HTMLElement {
   constructor() {
     super();
@@ -27,19 +47,25 @@ class SwiperContainer extends HTMLElement {
     ].join('\n');
   }
 
+  cssLinks() {
+    return this.modulesStylesUrls || [];
+  }
+
   render() {
     // global styles
-    let globalStyles = document.querySelector('link#swiper-element-styles');
-    if (!globalStyles) {
-      globalStyles = document.createElement('style');
-      globalStyles.textContent = [SwiperFontCSS, this.cssStyles()].join('\n'); // eslint-disable-line
-      globalStyles.id = 'swiper-element-styles';
-      document.head.prepend(globalStyles);
-    }
+    addGlobalStyles(false, this);
     // local styles
     this.stylesEl = document.createElement('style');
     this.stylesEl.textContent = this.cssStyles();
     this.shadowEl.appendChild(this.stylesEl);
+    this.cssLinks().forEach((url) => {
+      const linkExists = document.querySelector(`link[href="${url}"]`);
+      if (linkExists) return;
+      const linkEl = document.createElement('link');
+      linkEl.rel = 'stylesheet';
+      linkEl.href = url;
+      this.shadowEl.appendChild(linkEl);
+    });
     // prettier-ignore
     this.tempDiv.innerHTML = `
       <slot name="container-start"></slot>
@@ -90,7 +116,10 @@ class SwiperContainer extends HTMLElement {
   }
 
   connectedCallback() {
-    if (this.init === false || this.getAttribute('init') === 'false') return;
+    if (this.init === false || this.getAttribute('init') === 'false') {
+      addGlobalStyles(true, this);
+      return;
+    }
     this.initialize();
   }
 
@@ -194,6 +223,7 @@ class SwiperSlide extends HTMLElement {
 // eslint-disable-next-line
 const register = () => {
   if (typeof window === 'undefined') return;
+  addGlobalStyles(true);
   if (!window.customElements.get('swiper-container'))
     window.customElements.define('swiper-container', SwiperContainer);
   if (!window.customElements.get('swiper-slide'))
