@@ -248,14 +248,6 @@ declare const Swiper: DefineComponent<
       type: BooleanConstructor;
       default: undefined;
     };
-    preloadImages: {
-      type: BooleanConstructor;
-      default: undefined;
-    };
-    updateOnImagesReady: {
-      type: BooleanConstructor;
-      default: undefined;
-    };
     loop: { type: BooleanConstructor; default: undefined };
     loopAdditionalSlides: {
       type: NumberConstructor;

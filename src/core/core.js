@@ -20,7 +20,6 @@ import grabCursor from './grab-cursor/index.js';
 import events from './events/index.js';
 import breakpoints from './breakpoints/index.js';
 import classes from './classes/index.js';
-import images from './images/index.js';
 import checkOverflow from './check-overflow/index.js';
 
 import defaults from './defaults.js';
@@ -38,7 +37,6 @@ const prototypes = {
   breakpoints,
   checkOverflow,
   classes,
-  images,
 };
 
 const extendedDefaults = {};
@@ -545,10 +543,6 @@ class Swiper {
     // Set Grab Cursor
     if (swiper.params.grabCursor && swiper.enabled) {
       swiper.setGrabCursor();
-    }
-
-    if (swiper.params.preloadImages) {
-      swiper.preloadImages();
     }
 
     // Slide To Initial Slide

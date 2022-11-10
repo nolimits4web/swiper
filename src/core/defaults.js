@@ -96,10 +96,6 @@ export default {
   preventClicksPropagation: true,
   slideToClickedSlide: false,
 
-  // Images
-  preloadImages: true,
-  updateOnImagesReady: true,
-
   // loop
   loop: false,
   loopAdditionalSlides: 0,

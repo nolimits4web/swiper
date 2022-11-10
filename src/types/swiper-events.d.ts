@@ -150,11 +150,6 @@ export interface SwiperEvents {
   doubleTap: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired right after all inner images are loaded. updateOnImagesReady should be also enabled
-   */
-  imagesReady: (swiper: Swiper) => void;
-
-  /**
    * Event will be fired when Swiper progress is changed, as an arguments it receives progress that is always from 0 to 1
    */
   progress: (swiper: Swiper, progress: number) => void;

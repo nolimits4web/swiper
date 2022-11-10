@@ -62,8 +62,6 @@ const paramsList = [
   'preventClicks',
   'preventClicksPropagation',
   '_slideToClickedSlide',
-  '_preloadImages',
-  'updateOnImagesReady',
   '_loop',
   '_loopAdditionalSlides',
   '_loopedSlides',

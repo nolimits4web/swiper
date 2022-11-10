@@ -579,21 +579,6 @@ export interface SwiperOptions {
    */
   watchSlidesProgress?: boolean;
 
-  // Images
-  /**
-   * When enabled Swiper will force to load all images
-   *
-   * @default true
-   */
-  preloadImages?: boolean;
-
-  /**
-   * When enabled Swiper will be reinitialized after all inner images (<img> tags) are loaded. Required `preloadImages: true`
-   *
-   * @default true
-   */
-  updateOnImagesReady?: boolean;
-
   /**
    * Set to `true` to enable continuous loop mode
    *
@@ -1069,7 +1054,7 @@ export interface SwiperOptions {
    * ```js
    * const swiper = new Swiper('.swiper', {
    *   lazy: {
-   *     loadPrevNext: true,
+   *     preloaderClass: 'swiper-lazy-preloader',
    *   },
    * });
    * ```
