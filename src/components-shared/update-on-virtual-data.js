@@ -9,9 +9,6 @@ export const updateOnVirtualData = (swiper) => {
   swiper.updateSlides();
   swiper.updateProgress();
   swiper.updateSlidesClasses();
-  if (swiper.lazy && swiper.params.lazy.enabled) {
-    swiper.lazy.load();
-  }
   if (swiper.parallax && swiper.params.parallax && swiper.params.parallax.enabled) {
     swiper.parallax.setTranslate();
   }

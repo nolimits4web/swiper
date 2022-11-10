@@ -88,9 +88,6 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
       swiper.updateSlides();
       swiper.updateProgress();
       swiper.updateSlidesClasses();
-      if (swiper.lazy && swiper.params.lazy.enabled) {
-        swiper.lazy.load();
-      }
       emit('virtualUpdate');
     }
 

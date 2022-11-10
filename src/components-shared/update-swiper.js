@@ -136,8 +136,6 @@ function updateSwiper({
   if (changedParams.includes('children') && slides && virtual && currentParams.virtual.enabled) {
     virtual.slides = slides;
     virtual.update(true);
-  } else if (changedParams.includes('children') && swiper.lazy && swiper.params.lazy.enabled) {
-    swiper.lazy.load();
   }
 
   if (needThumbsInit) {

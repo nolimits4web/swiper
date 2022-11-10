@@ -170,12 +170,20 @@ class SwiperSlide extends HTMLElement {
   }
 
   initialize() {
+    const lazy =
+      this.lazy || this.getAttribute('lazy') === '' || this.getAttribute('lazy') === 'true';
+
     this.tempDiv.innerHTML = `
       <slot />
     `;
     [...this.tempDiv.children].forEach((el) => {
       this.shadowEl.appendChild(el);
     });
+    if (lazy) {
+      const lazyDiv = document.createElement('div');
+      lazyDiv.classList.add('swiper-lazy-preloader');
+      this.appendChild(lazyDiv);
+    }
   }
 
   connectedCallback() {
