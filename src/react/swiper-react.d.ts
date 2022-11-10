@@ -50,6 +50,13 @@ interface SwiperSlideProps {
   zoom?: boolean;
 
   /**
+   * Adds lazy preloader to the slide
+   *
+   * @default false
+   */
+  lazy?: boolean;
+
+  /**
    * Slide's index in slides array/collection
    *
    * @default false

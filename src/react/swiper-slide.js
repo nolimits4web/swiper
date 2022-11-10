@@ -5,11 +5,12 @@ import { SwiperSlideContext } from './context.js';
 
 const SwiperSlide = forwardRef(
   (
-    { tag: Tag = 'div', children, className = '', swiper, zoom, virtualIndex, ...rest } = {},
+    { tag: Tag = 'div', children, className = '', swiper, zoom, lazy, virtualIndex, ...rest } = {},
     externalRef,
   ) => {
     const slideElRef = useRef(null);
     const [slideClasses, setSlideClasses] = useState('swiper-slide');
+    const [lazyLoaded, setLazyLoaded] = useState(false);
     function updateClasses(_s, el, classNames) {
       if (el === slideElRef.current) {
         setSlideClasses(classNames);
@@ -59,25 +60,35 @@ const SwiperSlide = forwardRef(
       return typeof children === 'function' ? children(slideData) : children;
     };
 
+    const onLoad = () => {
+      setLazyLoaded(true);
+    };
+
     return (
       <Tag
         ref={slideElRef}
         className={uniqueClasses(`${slideClasses}${className ? ` ${className}` : ''}`)}
         data-swiper-slide-index={virtualIndex}
+        onLoad={onLoad}
         {...rest}
       >
-        <SwiperSlideContext.Provider value={slideData}>
-          {zoom ? (
+        {zoom && (
+          <SwiperSlideContext.Provider value={slideData}>
             <div
               className="swiper-zoom-container"
               data-swiper-zoom={typeof zoom === 'number' ? zoom : undefined}
             >
               {renderChildren()}
+              {lazy && !lazyLoaded && <div className="swiper-lazy-preloader" />}
             </div>
-          ) : (
-            renderChildren()
-          )}
-        </SwiperSlideContext.Provider>
+          </SwiperSlideContext.Provider>
+        )}
+        {!zoom && (
+          <SwiperSlideContext.Provider value={slideData}>
+            {renderChildren()}
+            {lazy && !lazyLoaded && <div className="swiper-lazy-preloader" />}
+          </SwiperSlideContext.Provider>
+        )}
       </Tag>
     );
   },
