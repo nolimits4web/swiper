@@ -18,11 +18,11 @@ const events = (swiper, method) => {
   const swiperMethod = method;
 
   // Touch Events
-  if (!support.touch) {
+  if (!support.touch && params.simulateTouch) {
     el[domMethod](touchEvents.start, swiper.onTouchStart, false);
     document[domMethod](touchEvents.move, swiper.onTouchMove, capture);
     document[domMethod](touchEvents.end, swiper.onTouchEnd, false);
-  } else {
+  } else if (support.touch) {
     const passiveListener =
       touchEvents.start === 'touchstart' && support.passiveListener && params.passiveListeners
         ? { passive: true, capture: false }
