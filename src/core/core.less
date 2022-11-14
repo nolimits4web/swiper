@@ -69,17 +69,16 @@ swiper-slide {
   backface-visibility: hidden;
 }
 /* 3D Effects */
+.swiper-3d.swiper-css-mode .swiper-wrapper,
 :host(.swiper-3d.swiper-css-mode) .swiper-wrapper {
   perspective: 1200px;
 }
+.swiper-3d .swiper-wrapper,
 :host(.swiper-3d) .swiper-wrapper {
   transform-style: preserve-3d;
 }
 .swiper-3d {
-  &,
-  &.swiper-css-mode .swiper-wrapper {
-    perspective: 1200px;
-  }
+  perspective: 1200px;
   .swiper-wrapper,
   .swiper-slide,
   swiper-slide,
