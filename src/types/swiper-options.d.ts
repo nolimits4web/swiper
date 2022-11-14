@@ -427,12 +427,12 @@ export interface SwiperOptions {
   /**
    * Threshold value in px. If "touch distance" will be lower than this value then swiper will not move
    *
-   * @default 0
+   * @default 5
    */
   threshold?: number;
 
   /**
-   * If disabled, `touchstart` (`pointerdown`) event won't be prevented
+   * If disabled, `pointerdown` event won't be prevented
    *
    * @default true
    */
