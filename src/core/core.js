@@ -159,25 +159,6 @@ class Swiper {
       allowSlidePrev: swiper.params.allowSlidePrev,
 
       // Touch Events
-      touchEvents: (function touchEvents() {
-        const touch = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
-        const desktop = ['pointerdown', 'pointermove', 'pointerup'];
-
-        swiper.touchEventsTouch = {
-          start: touch[0],
-          move: touch[1],
-          end: touch[2],
-          cancel: touch[3],
-        };
-        swiper.touchEventsDesktop = {
-          start: desktop[0],
-          move: desktop[1],
-          end: desktop[2],
-        };
-        return swiper.support.touch || !swiper.params.simulateTouch
-          ? swiper.touchEventsTouch
-          : swiper.touchEventsDesktop;
-      })(),
       touchEventsData: {
         isTouched: undefined,
         isMoved: undefined,
@@ -195,8 +176,8 @@ class Swiper {
         // Velocities
         velocities: [],
         allowMomentumBounce: undefined,
-        isTouchEvent: undefined,
         startMoving: undefined,
+        evCache: [],
       },
 
       // Clicks

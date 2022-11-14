@@ -13,32 +13,19 @@ function dummyEventListener() {}
 
 const events = (swiper, method) => {
   const document = getDocument();
-  const { params, touchEvents, el, wrapperEl, device, support } = swiper;
+  const { params, el, wrapperEl, device } = swiper;
   const capture = !!params.nested;
   const domMethod = method === 'on' ? 'addEventListener' : 'removeEventListener';
   const swiperMethod = method;
 
   // Touch Events
-  if (!support.touch) {
-    el[domMethod](touchEvents.start, swiper.onTouchStart, false);
-    document[domMethod](touchEvents.move, swiper.onTouchMove, capture);
-    document[domMethod](touchEvents.end, swiper.onTouchEnd, false);
-  } else {
-    const passiveListener =
-      touchEvents.start === 'touchstart' && support.passiveListener && params.passiveListeners
-        ? { passive: true, capture: false }
-        : false;
-    el[domMethod](touchEvents.start, swiper.onTouchStart, passiveListener);
-    el[domMethod](
-      touchEvents.move,
-      swiper.onTouchMove,
-      support.passiveListener ? { passive: false, capture } : capture,
-    );
-    el[domMethod](touchEvents.end, swiper.onTouchEnd, passiveListener);
-    if (touchEvents.cancel) {
-      el[domMethod](touchEvents.cancel, swiper.onTouchEnd, passiveListener);
-    }
-  }
+  el[domMethod]('pointerdown', swiper.onTouchStart, { passive: false });
+  document[domMethod]('pointermove', swiper.onTouchMove, { passive: false, capture });
+  document[domMethod]('pointerup', swiper.onTouchEnd, { passive: true });
+  document[domMethod]('pointercancel', swiper.onTouchEnd, { passive: true });
+  document[domMethod]('pointerout', swiper.onTouchEnd, { passive: true });
+  document[domMethod]('pointerleave', swiper.onTouchEnd, { passive: true });
+
   // Prevent Links Clicks
   if (params.preventClicks || params.preventClicksPropagation) {
     el[domMethod]('click', swiper.onClick, true);
@@ -67,7 +54,7 @@ const events = (swiper, method) => {
 function attachEvents() {
   const swiper = this;
   const document = getDocument();
-  const { params, support } = swiper;
+  const { params } = swiper;
 
   swiper.onTouchStart = onTouchStart.bind(swiper);
   swiper.onTouchMove = onTouchMove.bind(swiper);
@@ -80,7 +67,7 @@ function attachEvents() {
   swiper.onClick = onClick.bind(swiper);
   swiper.onLoad = onLoad.bind(swiper);
 
-  if (support.touch && !dummyEventAttached) {
+  if (!dummyEventAttached) {
     document.addEventListener('touchstart', dummyEventListener);
     dummyEventAttached = true;
   }

@@ -13,26 +13,6 @@ function calcSupport() {
       'ontouchstart' in window ||
       (window.DocumentTouch && document instanceof window.DocumentTouch)
     ),
-
-    passiveListener: (function checkPassiveListener() {
-      let supportsPassive = false;
-      try {
-        const opts = Object.defineProperty({}, 'passive', {
-          // eslint-disable-next-line
-          get() {
-            supportsPassive = true;
-          },
-        });
-        window.addEventListener('testPassiveListener', null, opts);
-      } catch (e) {
-        // No support
-      }
-      return supportsPassive;
-    })(),
-
-    gestures: (function checkGestures() {
-      return 'ongesturestart' in window;
-    })(),
   };
 }
 

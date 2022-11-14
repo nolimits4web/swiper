@@ -72,7 +72,7 @@ export default {
   longSwipesMs: 300,
   followFinger: true,
   allowTouchMove: true,
-  threshold: 0,
+  threshold: 5,
   touchMoveStopPropagation: false,
   touchStartPreventDefault: true,
   touchStartForcePreventDefault: false,

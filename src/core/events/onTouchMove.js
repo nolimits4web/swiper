@@ -16,11 +16,13 @@ export default function onTouchMove(event) {
     }
     return;
   }
-  if (data.isTouchEvent && e.type !== 'touchmove') return;
-  const targetTouch =
-    e.type === 'touchmove' && e.targetTouches && (e.targetTouches[0] || e.changedTouches[0]);
-  const pageX = e.type === 'touchmove' ? targetTouch.pageX : e.pageX;
-  const pageY = e.type === 'touchmove' ? targetTouch.pageY : e.pageY;
+
+  const pointerIndex = data.evCache.findIndex((cachedEv) => cachedEv.pointerId === e.pointerId);
+  if (pointerIndex >= 0) data.evCache[pointerIndex] = e;
+  const targetTouch = data.evCache.length > 1 ? data.evCache[0] : e;
+  const pageX = targetTouch.pageX;
+  const pageY = targetTouch.pageY;
+
   if (e.preventedByNestedSwiper) {
     touches.startX = pageX;
     touches.startY = pageY;
@@ -41,7 +43,7 @@ export default function onTouchMove(event) {
     }
     return;
   }
-  if (data.isTouchEvent && params.touchReleaseOnEdges && !params.loop) {
+  if (params.touchReleaseOnEdges && !params.loop) {
     if (swiper.isVertical()) {
       // Vertical
       if (
@@ -59,7 +61,7 @@ export default function onTouchMove(event) {
       return;
     }
   }
-  if (data.isTouchEvent && document.activeElement) {
+  if (document.activeElement) {
     if (e.target === document.activeElement && $(e.target).is(data.focusableElements)) {
       data.isMoved = true;
       swiper.allowClick = false;
@@ -104,7 +106,10 @@ export default function onTouchMove(event) {
       data.startMoving = true;
     }
   }
-  if (data.isScrolling) {
+  if (
+    data.isScrolling ||
+    (swiper.zoom && swiper.params.zoom && swiper.params.zoom.enabled && data.evCache.length > 1)
+  ) {
     data.isTouched = false;
     return;
   }

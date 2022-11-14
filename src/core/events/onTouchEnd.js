@@ -3,6 +3,11 @@ import { now, nextTick } from '../../shared/utils.js';
 export default function onTouchEnd(event) {
   const swiper = this;
   const data = swiper.touchEventsData;
+  const pointerIndex = data.evCache.findIndex((cachedEv) => cachedEv.pointerId === event.pointerId);
+  if (pointerIndex >= 0) {
+    data.evCache.splice(pointerIndex, 1);
+  }
+  if (['pointercancel', 'pointerout', 'pointerleave'].includes(event.type)) return;
 
   const { params, touches, rtlTranslate: rtl, slidesGrid, enabled } = swiper;
   if (!enabled) return;

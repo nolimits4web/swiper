@@ -37,12 +37,13 @@ swiper-container {
   transform: translate3d(0px, 0, 0);
 }
 
-.swiper-pointer-events {
+.swiper-horizontal {
   touch-action: pan-y;
-  &.swiper-vertical {
-    touch-action: pan-x;
-  }
 }
+.swiper-vertical {
+  touch-action: pan-x;
+}
+
 .swiper-slide,
 swiper-slide {
   flex-shrink: 0;

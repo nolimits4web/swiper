@@ -22,6 +22,7 @@ export default function onTouchStart(event) {
   const window = getWindow();
 
   const data = swiper.touchEventsData;
+  data.evCache.push(event);
   const { params, touches, enabled } = swiper;
   if (!enabled) return;
 
@@ -39,9 +40,8 @@ export default function onTouchStart(event) {
     window.target = $targetEl;
     if (!$targetEl.closest(swiper.wrapperEl).length) return;
   }
-  data.isTouchEvent = e.type === 'touchstart';
-  if (!data.isTouchEvent && 'which' in e && e.which === 3) return;
-  if (!data.isTouchEvent && 'button' in e && e.button > 0) return;
+  if ('which' in e && e.which === 3) return;
+  if ('button' in e && e.button > 0) return;
   if (data.isTouched && data.isMoved) return;
 
   // change target el for shadow root component
@@ -72,8 +72,8 @@ export default function onTouchStart(event) {
     if (!$targetEl.closest(params.swipeHandler)[0]) return;
   }
 
-  touches.currentX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
-  touches.currentY = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
+  touches.currentX = e.pageX;
+  touches.currentY = e.pageY;
   const startX = touches.currentX;
   const startY = touches.currentY;
 
@@ -107,30 +107,28 @@ export default function onTouchStart(event) {
   swiper.updateSize();
   swiper.swipeDirection = undefined;
   if (params.threshold > 0) data.allowThresholdMove = false;
-  if (e.type !== 'touchstart') {
-    let preventDefault = true;
-    if ($targetEl.is(data.focusableElements)) {
-      preventDefault = false;
-      if ($targetEl[0].nodeName === 'SELECT') {
-        data.isTouched = false;
-      }
+  let preventDefault = true;
+  if ($targetEl.is(data.focusableElements)) {
+    preventDefault = false;
+    if ($targetEl[0].nodeName === 'SELECT') {
+      data.isTouched = false;
     }
-    if (
-      document.activeElement &&
-      $(document.activeElement).is(data.focusableElements) &&
-      document.activeElement !== $targetEl[0]
-    ) {
-      document.activeElement.blur();
-    }
+  }
+  if (
+    document.activeElement &&
+    $(document.activeElement).is(data.focusableElements) &&
+    document.activeElement !== $targetEl[0]
+  ) {
+    document.activeElement.blur();
+  }
 
-    const shouldPreventDefault =
-      preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault;
-    if (
-      (params.touchStartForcePreventDefault || shouldPreventDefault) &&
-      !$targetEl[0].isContentEditable
-    ) {
-      e.preventDefault();
-    }
+  const shouldPreventDefault =
+    preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault;
+  if (
+    (params.touchStartForcePreventDefault || shouldPreventDefault) &&
+    !$targetEl[0].isContentEditable
+  ) {
+    e.preventDefault();
   }
   if (
     swiper.params.freeMode &&

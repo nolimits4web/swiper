@@ -121,14 +121,7 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     }
   }
   function getPointerPosition(e) {
-    if (swiper.isHorizontal()) {
-      return e.type === 'touchstart' || e.type === 'touchmove'
-        ? e.targetTouches[0].clientX
-        : e.clientX;
-    }
-    return e.type === 'touchstart' || e.type === 'touchmove'
-      ? e.targetTouches[0].clientY
-      : e.clientY;
+    return swiper.isHorizontal() ? e.clientX : e.clientY;
   }
   function setDragPosition(e) {
     const { scrollbar, rtlTranslate: rtl } = swiper;
@@ -219,29 +212,17 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
   }
 
   function events(method) {
-    const { scrollbar, touchEventsTouch, touchEventsDesktop, params, support } = swiper;
+    const { scrollbar, params } = swiper;
     const $el = scrollbar.$el;
     if (!$el) return;
     const target = $el[0];
-    const activeListener =
-      support.passiveListener && params.passiveListeners
-        ? { passive: false, capture: false }
-        : false;
-    const passiveListener =
-      support.passiveListener && params.passiveListeners
-        ? { passive: true, capture: false }
-        : false;
+    const activeListener = params.passiveListeners ? { passive: false, capture: false } : false;
+    const passiveListener = params.passiveListeners ? { passive: true, capture: false } : false;
     if (!target) return;
     const eventMethod = method === 'on' ? 'addEventListener' : 'removeEventListener';
-    if (!support.touch) {
-      target[eventMethod](touchEventsDesktop.start, onDragStart, activeListener);
-      document[eventMethod](touchEventsDesktop.move, onDragMove, activeListener);
-      document[eventMethod](touchEventsDesktop.end, onDragEnd, passiveListener);
-    } else {
-      target[eventMethod](touchEventsTouch.start, onDragStart, activeListener);
-      target[eventMethod](touchEventsTouch.move, onDragMove, activeListener);
-      target[eventMethod](touchEventsTouch.end, onDragEnd, passiveListener);
-    }
+    target[eventMethod]('pointerdown', onDragStart, activeListener);
+    document[eventMethod]('pointermove', onDragMove, activeListener);
+    document[eventMethod]('pointerup', onDragEnd, passiveListener);
   }
 
   function enableDraggable() {

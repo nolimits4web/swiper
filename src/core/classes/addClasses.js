@@ -16,12 +16,11 @@ function prepareClasses(entries, prefix) {
 
 export default function addClasses() {
   const swiper = this;
-  const { classNames, params, rtl, $el, device, support } = swiper;
+  const { classNames, params, rtl, $el, device } = swiper;
   // prettier-ignore
   const suffixes = prepareClasses([
     'initialized',
     params.direction,
-    { 'pointer-events': !support.touch },
     { 'free-mode': swiper.params.freeMode && params.freeMode.enabled },
     { 'autoheight': params.autoHeight },
     { 'rtl': rtl },
