@@ -13,7 +13,6 @@ import { CardsEffectEvents } from './modules/effect-cards';
 import { HashNavigationEvents } from './modules/hash-navigation';
 import { HistoryEvents } from './modules/history';
 import { KeyboardEvents } from './modules/keyboard';
-import { LazyEvents } from './modules/lazy';
 import { MousewheelEvents } from './modules/mousewheel';
 import { NavigationEvents } from './modules/navigation';
 import { PaginationEvents } from './modules/pagination';
@@ -345,7 +344,6 @@ interface SwiperEvents extends CardsEffectEvents {}
 interface SwiperEvents extends HashNavigationEvents {}
 interface SwiperEvents extends HistoryEvents {}
 interface SwiperEvents extends KeyboardEvents {}
-interface SwiperEvents extends LazyEvents {}
 interface SwiperEvents extends MousewheelEvents {}
 interface SwiperEvents extends NavigationEvents {}
 interface SwiperEvents extends PaginationEvents {}

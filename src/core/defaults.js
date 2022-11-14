@@ -133,6 +133,7 @@ export default {
   slidePrevClass: 'swiper-slide-prev',
   slideDuplicatePrevClass: 'swiper-slide-duplicate-prev',
   wrapperClass: 'swiper-wrapper',
+  lazyPreloaderClass: 'swiper-lazy-preloader',
 
   // Callbacks
   runCallbacksOnInit: true,

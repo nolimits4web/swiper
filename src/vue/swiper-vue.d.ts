@@ -11,7 +11,6 @@ import {
   HashNavigationOptions,
   HistoryOptions,
   KeyboardOptions,
-  LazyOptions,
   MousewheelOptions,
   NavigationOptions,
   PaginationOptions,
@@ -342,6 +341,10 @@ declare const Swiper: DefineComponent<
       type: StringConstructor;
       default: undefined;
     };
+    lazyPreloaderClass: {
+      type: StringConstructor;
+      default: undefined;
+    };
     runCallbacksOnInit: {
       type: BooleanConstructor;
       default: undefined;
@@ -401,10 +404,6 @@ declare const Swiper: DefineComponent<
     };
     keyboard: {
       type: PropType<KeyboardOptions | boolean>;
-      default: undefined;
-    };
-    lazy: {
-      type: PropType<LazyOptions | boolean>;
       default: undefined;
     };
     mousewheel: {

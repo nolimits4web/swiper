@@ -10,7 +10,6 @@ import { CardsEffectOptions } from './modules/effect-cards';
 import { HashNavigationOptions } from './modules/hash-navigation';
 import { HistoryOptions } from './modules/history';
 import { KeyboardOptions } from './modules/keyboard';
-import { LazyOptions } from './modules/lazy';
 import { MousewheelOptions } from './modules/mousewheel';
 import { NavigationOptions } from './modules/navigation';
 import { PaginationOptions } from './modules/pagination';
@@ -855,6 +854,13 @@ export interface SwiperOptions {
   wrapperClass?: string;
 
   /**
+   * CSS class name of lazy preloader
+   *
+   * @default 'swiper-lazy-preloader'
+   */
+  lazyPreloaderClass?: string;
+
+  /**
    * Object with a11y parameters or boolean `true` to enable with default settings.
    *
    * @example
@@ -1046,20 +1052,6 @@ export interface SwiperOptions {
    * ```
    */
   keyboard?: KeyboardOptions | boolean;
-
-  /**
-   * Enables images lazy loading. Object with lazy loading parameters or boolean `true` to enable with default settings
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   lazy: {
-   *     preloaderClass: 'swiper-lazy-preloader',
-   *   },
-   * });
-   * ```
-   */
-  lazy?: LazyOptions | boolean;
 
   /**
    * Enables navigation through slides using mouse wheel. Object with mousewheel parameters or boolean `true` to enable with default settings

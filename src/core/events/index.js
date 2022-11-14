@@ -6,6 +6,7 @@ import onTouchEnd from './onTouchEnd.js';
 import onResize from './onResize.js';
 import onClick from './onClick.js';
 import onScroll from './onScroll.js';
+import onLoad from './onLoad.js';
 
 let dummyEventAttached = false;
 function dummyEventListener() {}
@@ -58,6 +59,9 @@ const events = (swiper, method) => {
   } else {
     swiper[swiperMethod]('observerUpdate', onResize, true);
   }
+
+  // Images loader
+  el[domMethod]('load', swiper.onLoad, { capture: true });
 };
 
 function attachEvents() {
@@ -74,6 +78,7 @@ function attachEvents() {
   }
 
   swiper.onClick = onClick.bind(swiper);
+  swiper.onLoad = onLoad.bind(swiper);
 
   if (support.touch && !dummyEventAttached) {
     document.addEventListener('touchstart', dummyEventListener);
