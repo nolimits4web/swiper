@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "8.3.2",
+  "version": "8.4.4",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "typings": "swiper.d.ts",
   "type": "module",
@@ -10,9 +10,15 @@
   "exports": {
     ".": "./swiper.esm.js",
     "./core": "./swiper.esm.js",
+    "./swiper.esm.js": "./swiper.esm.js",
     "./bundle": "./swiper-bundle.esm.js",
+    "./swiper-bundle.esm.js": "./swiper-bundle.esm.js",
     "./css": "./swiper.min.css",
+    "./swiper.min.css": "./swiper.min.css",
+    "./swiper.css": "./swiper.css",
     "./css/bundle": "./swiper-bundle.min.css",
+    "./swiper-bundle.min.css": "./swiper-bundle.min.css",
+    "./swiper-bundle.css": "./swiper-bundle.css",
     "./css/a11y": "./modules/a11y/a11y.min.css",
     "./css/autoplay": "./modules/autoplay/autoplay.min.css",
     "./css/controller": "./modules/controller/controller.min.css",

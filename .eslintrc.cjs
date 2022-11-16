@@ -3,6 +3,7 @@ const rules = {
   'no-underscore-dangle': 'off',
   'prefer-object-spread': 'off',
   'prefer-destructuring': 'off',
+  'default-param-last': 'off',
   'import/prefer-default-export': 'off',
   'guard-for-in': 'off',
   'no-restricted-syntax': 'off',
@@ -65,6 +66,17 @@ module.exports = {
     },
     {
       files: ['src/**/*.*'],
+      rules: {
+        ...rules,
+        'import/extensions': [2, 'ignorePackages', { js: 'always' }],
+      },
+    },
+    {
+      files: ['scripts/**/*.*'],
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+      },
       rules: {
         ...rules,
         'import/extensions': [2, 'ignorePackages', { js: 'always' }],

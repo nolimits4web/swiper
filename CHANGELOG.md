@@ -1,5 +1,60 @@
 # Changelog
 
+# [8.4.4](https://github.com/nolimits4web/Swiper/compare/v8.4.3...v8.4.4) (2022-10-12)
+
+### Features
+
+- add direct JS/CSS core and bundle exports ([f519f80](https://github.com/nolimits4web/Swiper/commit/f519f80f1fb9e3dab9b8b57c2550c83d550f07ac))
+
+# [8.4.3](https://github.com/nolimits4web/Swiper/compare/v8.4.2...v8.4.3) (2022-10-06)
+
+### Bug Fixes
+
+- **a11y:** don't focus slide on slide inner elements clicks ([c8e22f7](https://github.com/nolimits4web/Swiper/commit/c8e22f7a3e2aa2aa5f2f1a6b1e131473d63c1c46)), closes [#6116](https://github.com/nolimits4web/Swiper/issues/6116)
+
+### Features
+
+- **build-config:** allow to custom modules by process.env.SWIPER_BUILD_MODULES ([#6043](https://github.com/nolimits4web/Swiper/issues/6043)) ([b3c51c5](https://github.com/nolimits4web/Swiper/commit/b3c51c5ff7663bee10dc09dbda0d41f64ff0fdfa))
+- **solid:** fix handling dynamic slides ([708133d](https://github.com/nolimits4web/Swiper/commit/708133d90c7be8163f3101530f61f0d855d80773)), closes [#6031](https://github.com/nolimits4web/Swiper/issues/6031)
+- **solid:** keep solid components in `.jsx` ([d7f7f65](https://github.com/nolimits4web/Swiper/commit/d7f7f65052cde0d5d7b15239b5bc3762ac3b8911))
+
+# [8.4.2](https://github.com/nolimits4web/Swiper/compare/v8.4.1...8.4.2) (2022-09-15)
+
+### Bug Fixes
+
+- **onTouchStart.js:** Fix target element assignment ([#6065](https://github.com/nolimits4web/Swiper/issues/6065)) ([cb46a9a](https://github.com/nolimits4web/Swiper/commit/cb46a9a56b05b415bc5dbe69e84ef263f6766437))
+
+# [8.4.1](https://github.com/nolimits4web/Swiper/compare/v8.4.0...v8.4.1) (2022-09-15)
+
+### Bug Fixes
+
+- **core:** fix swiping over nested shadow doms ([7d09ab0](https://github.com/nolimits4web/Swiper/commit/7d09ab006666c5e102d5249d2c66fd2565e5acaf)), closes [#6063](https://github.com/nolimits4web/Swiper/issues/6063)
+- **react:** fix issue with checking children ([37a94ea](https://github.com/nolimits4web/Swiper/commit/37a94eaa123b73ae09fa820f6bafda877f4df864)), closes [#6064](https://github.com/nolimits4web/Swiper/issues/6064)
+
+# [8.4.0](https://github.com/nolimits4web/Swiper/compare/v8.3.2...v8.4.0) (2022-09-14)
+
+### Bug Fixes
+
+- **a11y:** don't handle focus on pointer events ([b251601](https://github.com/nolimits4web/Swiper/commit/b2516014b293bfc2cfc02ea07f5e888973787295)), closes [#5962](https://github.com/nolimits4web/Swiper/issues/5962) [#5814](https://github.com/nolimits4web/Swiper/issues/5814) [#5524](https://github.com/nolimits4web/Swiper/issues/5524) [#5490](https://github.com/nolimits4web/Swiper/issues/5490) [#5437](https://github.com/nolimits4web/Swiper/issues/5437)
+- **angular:** slidesPerGroupAuto is missing in params list for angular ([#5933](https://github.com/nolimits4web/Swiper/issues/5933)) ([b80352a](https://github.com/nolimits4web/Swiper/commit/b80352a22746d52cd53beea3e31350ef0e4c4dbf))
+- **core:** fix `beforeSlideChangeStart` event routing ([0e8a8b8](https://github.com/nolimits4web/Swiper/commit/0e8a8b85f757f4bea39f60418c52cadce7a44e57)), closes [#5913](https://github.com/nolimits4web/Swiper/issues/5913)
+- event.path => event.composedPath ([8df7edf](https://github.com/nolimits4web/Swiper/commit/8df7edffb8a30250298f5b5978f5b833f08ee4f4)), closes [#5925](https://github.com/nolimits4web/Swiper/issues/5925)
+- **types:** add isLocked definition ([f2bbae6](https://github.com/nolimits4web/Swiper/commit/f2bbae60ce129650713da25f568741679ebf2b66)), closes [#5941](https://github.com/nolimits4web/Swiper/issues/5941)
+- **types:** add missing AutoplayMethods members ([#5956](https://github.com/nolimits4web/Swiper/issues/5956)) ([6220c22](https://github.com/nolimits4web/Swiper/commit/6220c2270afe927f8a914386c76a0788a45de052))
+- **vue:** fix swiperRef for Vue swiperSlide ([#5994](https://github.com/nolimits4web/Swiper/issues/5994)) ([a2bcbb1](https://github.com/nolimits4web/Swiper/commit/a2bcbb1790145d8cd8c76af22dea9ece89d206dc))
+
+### Features
+
+- **build:** upgrade deps & cjs to esm ([#5927](https://github.com/nolimits4web/Swiper/issues/5927)) ([921809b](https://github.com/nolimits4web/Swiper/commit/921809b963d03a76999df0c93e7158646d2a48ef))
+- **cards-effect:** add `perSlideRotate` and `perSlideOffset` parameters ([db08a70](https://github.com/nolimits4web/Swiper/commit/db08a70fcde1c8a33c3dba29e2b4193f10fcbb98)), closes [#5939](https://github.com/nolimits4web/Swiper/issues/5939)
+- **core:** new `loopedSlidesLimit` parameter to re-duplicate slides ([1afa4b8](https://github.com/nolimits4web/Swiper/commit/1afa4b84b980f8f5de0218ca66064a1c12216839))
+- **react:** Allow SwiperSlide children as long as displayName includes SwiperSlide ([#5954](https://github.com/nolimits4web/Swiper/issues/5954)) ([d1f7582](https://github.com/nolimits4web/Swiper/commit/d1f7582633827b53612746096d738b33697999de))
+- **solid:** keep solid components incompiled ([18c6670](https://github.com/nolimits4web/Swiper/commit/18c66709a0e0119b7dd0dbb01a268e502bfc28c7)), closes [#5943](https://github.com/nolimits4web/Swiper/issues/5943)
+
+### Reverts
+
+- Revert "chore(deps): upgrade angular to v14 (#5926)" (#5929) ([ae429c4](https://github.com/nolimits4web/Swiper/commit/ae429c4d4d2e4401733d4bf576da94cb3c8a34e2)), closes [#5926](https://github.com/nolimits4web/Swiper/issues/5926) [#5929](https://github.com/nolimits4web/Swiper/issues/5929)
+
 # [8.3.2](https://github.com/nolimits4web/Swiper/compare/v8.3.1...v8.3.2) (2022-07-26)
 
 ### Bug Fixes

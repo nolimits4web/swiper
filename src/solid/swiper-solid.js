@@ -1,4 +1,4 @@
-export { Swiper } from './swiper.js';
-export { SwiperSlide } from './swiper-slide.js';
+export { Swiper } from './swiper.jsx';
+export { SwiperSlide } from './swiper-slide.jsx';
 
 export { useSwiperSlide, useSwiper } from './context.js';

@@ -1,9 +1,13 @@
 import React from 'react';
 
+function isChildSwiperSlide(child) {
+  return child.type && child.type.displayName && child.type.displayName.includes('SwiperSlide');
+}
+
 function processChildren(c) {
   const slides = [];
   React.Children.toArray(c).forEach((child) => {
-    if (child.type && child.type.displayName === 'SwiperSlide') {
+    if (isChildSwiperSlide(child)) {
       slides.push(child);
     } else if (child.props && child.props.children) {
       processChildren(child.props.children).forEach((slide) => slides.push(slide));
@@ -23,7 +27,7 @@ function getChildren(c) {
   };
 
   React.Children.toArray(c).forEach((child) => {
-    if (child.type && child.type.displayName === 'SwiperSlide') {
+    if (isChildSwiperSlide(child)) {
       slides.push(child);
     } else if (child.props && child.props.slot && slots[child.props.slot]) {
       slots[child.props.slot].push(child);

@@ -6,6 +6,7 @@ import {
   onMount,
   Show,
   splitProps,
+  children,
 } from 'solid-js';
 import SwiperCore from 'swiper';
 import { SwiperContext } from './context.js';
@@ -54,7 +55,7 @@ const Swiper = (props) => {
 
   const params = createMemo(() => getParams(rest));
 
-  const { slides, slots } = getChildren(local.children);
+  const slidesSlots = children(() => getChildren(local.children));
 
   const onBeforeBreakpoint = () => {
     setBreakpointChanged((state) => !state);
@@ -74,14 +75,16 @@ const Swiper = (props) => {
     swiperRef.loopCreate = () => {};
     swiperRef.loopDestroy = () => {};
     if (params().params.loop) {
-      swiperRef.loopedSlides = calcLoopedSlides(slides, params().params);
+      swiperRef.loopedSlides = calcLoopedSlides(slidesSlots().slides, params().params);
     }
     if (swiperRef.virtual && swiperRef.params.virtual.enabled) {
-      swiperRef.virtual.slides = slides;
+      swiperRef.virtual.slides = slidesSlots().slides;
       const extendWith = {
         cache: false,
-        slides,
-        renderExternal: (data) => setVirtualData(data),
+        slides: slidesSlots().slides,
+        renderExternal: (data) => {
+          setVirtualData(data);
+        },
         renderExternalUpdate: true,
       };
       extend(swiperRef.params.virtual, extendWith);
@@ -166,16 +169,16 @@ const Swiper = (props) => {
     const changedParams = getChangedParams(
       passedParams,
       oldPassedParamsRef,
-      slides,
+      slidesSlots().slides,
       oldSlides,
       (c) => c.key,
     );
     oldPassedParamsRef = passedParams;
-    oldSlides = slides;
+    oldSlides = slidesSlots().slides;
     if (changedParams.length && swiperRef && !swiperRef.destroyed) {
       updateSwiper({
         swiper: swiperRef,
-        slides,
+        slides: slidesSlots().slides,
         passedParams,
         changedParams,
         nextEl: nextElRef,
@@ -190,17 +193,20 @@ const Swiper = (props) => {
   // update on virtual update
   createEffect(() => {
     updateOnVirtualData(swiperRef);
+    setTimeout(() => {
+      updateOnVirtualData(swiperRef);
+    });
   });
 
   // bypass swiper instance to slides
   function renderSlides() {
     if (params().params.virtual) {
-      return renderVirtual(swiperRef, slides, virtualData());
+      return renderVirtual(swiperRef, slidesSlots().slides, virtualData());
     }
     if (!params().params.loop || (swiperRef && swiperRef.destroyed)) {
-      return slides;
+      return slidesSlots().slides;
     }
-    return renderLoop(swiperRef, slides, params().params);
+    return renderLoop(swiperRef, slidesSlots().slides, params().params);
   }
 
   /* eslint-disable react/react-in-jsx-scope */
@@ -213,12 +219,12 @@ const Swiper = (props) => {
       {...params().rest}
     >
       <SwiperContext.Provider value={swiperRef}>
-        {slots['container-start']}
+        {slidesSlots().slots['container-start']}
 
         <div class="swiper-wrapper">
-          {slots['wrapper-start']}
+          {slidesSlots().slots['wrapper-start']}
           {renderSlides()}
-          {slots['wrapper-end']}
+          {slidesSlots().slots['wrapper-end']}
         </div>
 
         <Show when={needsNavigation(params().params)}>
@@ -232,7 +238,7 @@ const Swiper = (props) => {
           <div ref={paginationElRef} class="swiper-pagination" />
         </Show>
 
-        {slots['container-end']}
+        {slidesSlots().slots['container-end']}
       </SwiperContext.Provider>
     </div>
   );

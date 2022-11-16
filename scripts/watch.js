@@ -1,17 +1,18 @@
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
-const buildJsCore = require('./build-js-core');
-const buildJsBundle = require('./build-js-bundle');
-const buildTypes = require('./build-types');
-const buildStyles = require('./build-styles');
-const buildReact = require('./build-react');
-const buildVue = require('./build-vue');
-const buildSolid = require('./build-solid');
-const buildSvelte = require('./build-svelte');
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import * as url from 'url';
+import buildJsCore from './build-js-core.js';
+import buildJsBundle from './build-js-bundle.js';
+import buildTypes from './build-types.js';
+import buildStyles from './build-styles.js';
+import buildReact from './build-react.js';
+import buildVue from './build-vue.js';
+import buildSolid from './build-solid.js';
+import buildSvelte from './build-svelte.js';
 
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 console.log(chalk.cyan('Watching file changes ...'));
-
 const watchFunction = async (fileName) => {
   if (fileName.includes('.less') || fileName.includes('.css') || fileName.includes('.scss')) {
     console.log('Building styles');
@@ -24,7 +25,6 @@ const watchFunction = async (fileName) => {
     await buildTypes();
     return;
   }
-
   if (fileName.includes('react')) {
     console.log('Building React');
     buildReact('build');
@@ -53,7 +53,6 @@ const watchFunction = async (fileName) => {
   }
   console.log('something wrong...');
 };
-
 let watchTimeout;
 fs.watch(path.resolve(__dirname, '../src'), { recursive: true }, (eventType, fileName) => {
   clearTimeout(watchTimeout);

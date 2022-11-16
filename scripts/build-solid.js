@@ -1,14 +1,16 @@
+import execSh from 'exec-sh';
+import fs from 'fs-extra';
+import { outputDir } from './utils/output-dir.js';
+import { addBannerToFile } from './utils/banner.js';
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 /* eslint no-console: "off" */
-const exec = require('exec-sh').promise;
-const { outputDir } = require('./utils/output-dir');
-const { addBannerToFile } = require('./utils/banner');
-
+const exec = execSh.promise;
 async function buildSolid() {
   await exec(
-    `npx babel --config-file ./scripts/babel/babel.config.solid.js src/solid --out-dir ${outputDir}/solid`,
+    `npx babel --config-file ./scripts/babel/babel.config.solid.json src/solid --out-dir ${outputDir}/solid`,
   );
   await addBannerToFile(`./${outputDir}/solid/swiper-solid.js`, 'SolidJS');
+  await fs.copyFile('./src/solid/swiper.jsx', `./${outputDir}/solid/swiper.jsx`);
+  await fs.copyFile('./src/solid/swiper-slide.jsx', `./${outputDir}/solid/swiper-slide.jsx`);
 }
-
-module.exports = buildSolid;
+export default buildSolid;

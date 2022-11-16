@@ -1,8 +1,11 @@
-const fs = require('fs');
-const path = require('path');
-const gzipSize = require('gzip-size');
+import fs from 'fs';
+import path from 'path';
+import { gzipSizeFromFileSync } from 'gzip-size';
+import * as url from 'url';
 
-module.exports = () => {
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+export default function checkSize() {
   return [
     'swiper-bundle.min.js',
     //  'swiper-bundle.esm.js'
@@ -10,7 +13,7 @@ module.exports = () => {
     .map((name) => {
       const filePath = path.join(__dirname, '../dist/', name);
       if (fs.existsSync(filePath)) {
-        const gzippedSize = gzipSize.fileSync(filePath);
+        const gzippedSize = gzipSizeFromFileSync(filePath);
         const { size } = fs.statSync(filePath);
         console.log(`${name}: ${size} (${gzippedSize} gziped) bytes`);
         return { gzippedSize, size };
@@ -22,4 +25,4 @@ module.exports = () => {
       gzippedSize: total.gzippedSize + num.gzippedSize,
       size: total.size + num.size,
     }));
-};
+}

@@ -1,3 +1,0 @@
-module.exports = {
-  presets: ['solid', ['@babel/preset-env', { modules: false, loose: true }]],
-};

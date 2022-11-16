@@ -1,7 +1,6 @@
-/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-const CleanCSS = require('clean-css');
+import CleanCSS from 'clean-css';
 
-module.exports = (content, options = {}) => {
+export default (content, options = {}) => {
   // eslint-disable-next-line
   options = Object.assign(
     {
@@ -9,7 +8,6 @@ module.exports = (content, options = {}) => {
     },
     options,
   );
-
   return new Promise((resolve, reject) => {
     if (content instanceof Promise) {
       content

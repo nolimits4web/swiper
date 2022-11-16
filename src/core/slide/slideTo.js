@@ -64,14 +64,7 @@ export default function slideTo(
   let snapIndex = skip + Math.floor((slideIndex - skip) / swiper.params.slidesPerGroup);
   if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
 
-  if ((activeIndex || params.initialSlide || 0) === (previousIndex || 0) && runCallbacks) {
-    swiper.emit('beforeSlideChangeStart');
-  }
-
   const translate = -snapGrid[snapIndex];
-
-  // Update progress
-  swiper.updateProgress(translate);
 
   // Normalize slideIndex
   if (params.normalizeSlideIndex) {
@@ -113,6 +106,13 @@ export default function slideTo(
       if ((activeIndex || 0) !== slideIndex) return false;
     }
   }
+
+  if (slideIndex !== (previousIndex || 0) && runCallbacks) {
+    swiper.emit('beforeSlideChangeStart');
+  }
+
+  // Update progress
+  swiper.updateProgress(translate);
 
   let direction;
   if (slideIndex > activeIndex) direction = 'next';
