@@ -5,7 +5,17 @@ import { SwiperSlideContext } from './context.js';
 
 const SwiperSlide = forwardRef(
   (
-    { tag: Tag = 'div', children, className = '', swiper, zoom, lazy, virtualIndex, ...rest } = {},
+    {
+      tag: Tag = 'div',
+      children,
+      className = '',
+      swiper,
+      zoom,
+      lazy,
+      virtualIndex,
+      swiperSlideIndex,
+      ...rest
+    } = {},
     externalRef,
   ) => {
     const slideElRef = useRef(null);
@@ -17,6 +27,9 @@ const SwiperSlide = forwardRef(
       }
     }
     useIsomorphicLayoutEffect(() => {
+      if (typeof swiperSlideIndex !== 'undefined') {
+        slideElRef.current.swiperSlideIndex = swiperSlideIndex;
+      }
       if (externalRef) {
         externalRef.current = slideElRef.current;
       }

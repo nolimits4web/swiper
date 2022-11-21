@@ -38,9 +38,10 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
 
   function setTranslate() {
     if (!swiper.params.scrollbar.el || !swiper.scrollbar.el) return;
-    const { scrollbar, rtlTranslate: rtl, progress } = swiper;
+    const { scrollbar, rtlTranslate: rtl } = swiper;
     const { $dragEl, $el } = scrollbar;
     const params = swiper.params.scrollbar;
+    const progress = swiper.params.loop ? swiper.progressLoop : swiper.progress;
 
     let newSize = dragSize;
     let newPos = (trackSize - dragSize) * progress;

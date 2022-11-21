@@ -9,7 +9,6 @@ import {
   uniqueClasses,
   extend,
 } from '../components-shared/utils.js';
-import { renderLoop, calcLoopedSlides } from './loop.js';
 import { getChangedParams } from '../components-shared/get-changed-params.js';
 import { getChildren } from './get-children.js';
 import { updateSwiper } from '../components-shared/update-swiper.js';
@@ -64,11 +63,6 @@ const Swiper = forwardRef(
       Object.assign(swiperParams.on, events);
       eventsAssigned = true;
       swiperRef.current = new SwiperCore(swiperParams);
-      swiperRef.current.loopCreate = () => {};
-      swiperRef.current.loopDestroy = () => {};
-      if (swiperParams.loop) {
-        swiperRef.current.loopedSlides = calcLoopedSlides(slides, swiperParams);
-      }
       if (swiperRef.current.virtual && swiperRef.current.params.virtual.enabled) {
         swiperRef.current.virtual.slides = slides;
         const extendWith = {
@@ -189,12 +183,9 @@ const Swiper = forwardRef(
       if (swiperParams.virtual) {
         return renderVirtual(swiperRef.current, slides, virtualData);
       }
-      if (!swiperParams.loop || (swiperRef.current && swiperRef.current.destroyed)) {
-        return slides.map((child) => {
-          return React.cloneElement(child, { swiper: swiperRef.current });
-        });
-      }
-      return renderLoop(swiperRef.current, slides, swiperParams);
+      return slides.map((child, index) => {
+        return React.cloneElement(child, { swiper: swiperRef.current, swiperSlideIndex: index });
+      });
     }
 
     return (

@@ -248,22 +248,6 @@ declare const Swiper: DefineComponent<
       default: undefined;
     };
     loop: { type: BooleanConstructor; default: undefined };
-    loopAdditionalSlides: {
-      type: NumberConstructor;
-      default: undefined;
-    };
-    loopedSlides: {
-      type: NumberConstructor;
-      default: undefined;
-    };
-    loopFillGroupWithBlank: {
-      type: BooleanConstructor;
-      default: undefined;
-    };
-    loopPreventsSlide: {
-      type: BooleanConstructor;
-      default: undefined;
-    };
     rewind: { type: BooleanConstructor; default: undefined };
     allowSlidePrev: {
       type: BooleanConstructor;
@@ -298,10 +282,6 @@ declare const Swiper: DefineComponent<
       default: undefined;
     };
     slideClass: {
-      type: StringConstructor;
-      default: undefined;
-    };
-    slideBlankClass: {
       type: StringConstructor;
       default: undefined;
     };

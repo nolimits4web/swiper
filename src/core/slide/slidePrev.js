@@ -5,7 +5,7 @@ export default function slidePrev(speed = this.params.speed, runCallbacks = true
   if (!enabled) return swiper;
 
   if (params.loop) {
-    if (animating && params.loopPreventsSlide) return false;
+    if (animating) return false;
     swiper.loopFix();
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;

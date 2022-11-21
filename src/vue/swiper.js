@@ -9,7 +9,6 @@ import {
   uniqueClasses,
   extend,
 } from '../components-shared/utils.js';
-import { renderLoop, calcLoopedSlides } from './loop.js';
 import { getChangedParams } from '../components-shared/get-changed-params.js';
 import { getChildren } from './get-children.js';
 import { updateSwiper } from '../components-shared/update-swiper.js';
@@ -87,11 +86,6 @@ const Swiper = {
     preventClicksPropagation: { type: Boolean, default: undefined },
     slideToClickedSlide: { type: Boolean, default: undefined },
     loop: { type: Boolean, default: undefined },
-    loopAdditionalSlides: { type: Number, default: undefined },
-    loopedSlides: { type: Number, default: undefined },
-    loopedSlidesLimit: { type: Boolean, default: true },
-    loopFillGroupWithBlank: { type: Boolean, default: undefined },
-    loopPreventsSlide: { type: Boolean, default: undefined },
     rewind: { type: Boolean, default: undefined },
     allowSlidePrev: { type: Boolean, default: undefined },
     allowSlideNext: { type: Boolean, default: undefined },
@@ -102,7 +96,6 @@ const Swiper = {
     passiveListeners: { type: Boolean, default: undefined },
     containerModifierClass: { type: String, default: undefined },
     slideClass: { type: String, default: undefined },
-    slideBlankClass: { type: String, default: undefined },
     slideActiveClass: { type: String, default: undefined },
     slideDuplicateActiveClass: { type: String, default: undefined },
     slideVisibleClass: { type: String, default: undefined },
@@ -270,11 +263,6 @@ const Swiper = {
 
     // init Swiper
     swiperRef.value = new SwiperCore(swiperParams);
-    swiperRef.value.loopCreate = () => {};
-    swiperRef.value.loopDestroy = () => {};
-    if (swiperParams.loop) {
-      swiperRef.value.loopedSlides = calcLoopedSlides(slidesRef.value, swiperParams);
-    }
     if (swiperRef.value.virtual && swiperRef.value.params.virtual.enabled) {
       swiperRef.value.virtual.slides = slidesRef.value;
       const extendWith = {
@@ -363,14 +351,12 @@ const Swiper = {
       if (swiperParams.virtual) {
         return renderVirtual(swiperRef, slides, virtualData.value);
       }
-      if (!swiperParams.loop || (swiperRef.value && swiperRef.value.destroyed)) {
-        slides.forEach((slide) => {
-          if (!slide.props) slide.props = {};
-          slide.props.swiperRef = swiperRef;
-        });
-        return slides;
-      }
-      return renderLoop(swiperRef, slides, swiperParams);
+      slides.forEach((slide, index) => {
+        if (!slide.props) slide.props = {};
+        slide.props.swiperRef = swiperRef;
+        slide.props.swiperSlideIndex = index;
+      });
+      return slides;
     }
 
     return () => {

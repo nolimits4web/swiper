@@ -1,12 +1,11 @@
 export default function removeSlide(slidesIndexes) {
   const swiper = this;
-  const { params, $wrapperEl, activeIndex } = swiper;
+  const { params, activeIndex } = swiper;
 
   let activeIndexBuffer = activeIndex;
   if (params.loop) {
     activeIndexBuffer -= swiper.loopedSlides;
     swiper.loopDestroy();
-    swiper.slides = $wrapperEl.children(`.${params.slideClass}, swiper-slide`);
   }
   let newActiveIndex = activeIndexBuffer;
   let indexToRemove;
@@ -25,6 +24,7 @@ export default function removeSlide(slidesIndexes) {
     newActiveIndex = Math.max(newActiveIndex, 0);
   }
 
+  swiper.recalcSlides();
   if (params.loop) {
     swiper.loopCreate();
   }

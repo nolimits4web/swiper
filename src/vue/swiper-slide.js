@@ -18,8 +18,9 @@ const SwiperSlide = {
       default: 'div',
     },
     swiperRef: { type: Object, required: false },
-    zoom: { type: Boolean, default: undefined },
-    lazy: { type: Boolean, default: false },
+    swiperSlideIndex: { type: Number, default: undefined, required: false },
+    zoom: { type: Boolean, default: undefined, required: false },
+    lazy: { type: Boolean, default: false, required: false },
     virtualIndex: {
       type: [String, Number],
       default: undefined,
@@ -52,6 +53,9 @@ const SwiperSlide = {
 
     onUpdated(() => {
       if (!slideElRef.value || !swiperRef || !swiperRef.value) return;
+      if (typeof props.swiperSlideIndex !== 'undefined') {
+        slideElRef.value.swiperSlideIndex = props.swiperSlideIndex;
+      }
       if (swiperRef.value.destroyed) {
         if (slideClasses.value !== 'swiper-slide') {
           slideClasses.value = 'swiper-slide';
@@ -89,7 +93,13 @@ const SwiperSlide = {
         {
           class: uniqueClasses(`${slideClasses.value}`),
           ref: slideElRef,
-          'data-swiper-slide-index': props.virtualIndex,
+          'data-swiper-slide-index':
+            typeof props.virtualIndex === 'undefined' &&
+            swiperRef &&
+            swiperRef.value &&
+            swiperRef.value.params.loop
+              ? props.swiperSlideIndex
+              : props.virtualIndex,
           onLoadCapture: onLoad,
         },
         props.zoom

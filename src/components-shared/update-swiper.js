@@ -137,6 +137,9 @@ function updateSwiper({
     virtual.slides = slides;
     virtual.update(true);
   }
+  if (changedParams.includes('children') && slides && currentParams.loop) {
+    loopNeedReloop = true;
+  }
 
   if (needThumbsInit) {
     const initialized = thumbs.init();

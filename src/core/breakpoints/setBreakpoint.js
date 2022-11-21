@@ -6,7 +6,7 @@ const isGridEnabled = (swiper, params) => {
 
 export default function setBreakpoint() {
   const swiper = this;
-  const { activeIndex, initialized, loopedSlides = 0, params, $el } = swiper;
+  const { realIndex, initialized, params, $el } = swiper;
   const breakpoints = params.breakpoints;
   if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) return;
 
@@ -80,9 +80,8 @@ export default function setBreakpoint() {
 
   if (needsReLoop && initialized) {
     swiper.loopDestroy();
-    swiper.loopCreate();
+    swiper.loopCreate(realIndex);
     swiper.updateSlides();
-    swiper.slideTo(activeIndex - loopedSlides + swiper.loopedSlides, 0, false);
   }
 
   swiper.emit('breakpoint', breakpointParams);

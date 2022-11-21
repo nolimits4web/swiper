@@ -67,25 +67,22 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     const rtl = swiper.rtl;
     const params = swiper.params.pagination;
     if (isPaginationDisabled()) return;
+
+    const $el = swiper.pagination.$el;
+    // Current/Total
+    let current;
     const slidesLength =
       swiper.virtual && swiper.params.virtual.enabled
         ? swiper.virtual.slides.length
         : swiper.slides.length;
-    const $el = swiper.pagination.$el;
-    // Current/Total
-    let current;
     const total = swiper.params.loop
-      ? Math.ceil((slidesLength - swiper.loopedSlides * 2) / swiper.params.slidesPerGroup)
+      ? Math.ceil(slidesLength / swiper.params.slidesPerGroup)
       : swiper.snapGrid.length;
     if (swiper.params.loop) {
-      current = Math.ceil(
-        (swiper.activeIndex - swiper.loopedSlides) / swiper.params.slidesPerGroup,
-      );
-      if (current > slidesLength - 1 - swiper.loopedSlides * 2) {
-        current -= slidesLength - swiper.loopedSlides * 2;
-      }
-      if (current > total - 1) current -= total;
-      if (current < 0 && swiper.params.paginationType !== 'bullets') current = total + current;
+      current =
+        swiper.params.slidesPerGroup > 1
+          ? Math.floor(swiper.realIndex / swiper.params.slidesPerGroup)
+          : swiper.realIndex;
     } else if (typeof swiper.snapIndex !== 'undefined') {
       current = swiper.snapIndex;
     } else {
@@ -108,7 +105,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
           `${bulletSize * (params.dynamicMainBullets + 4)}px`,
         );
         if (params.dynamicMainBullets > 1 && swiper.previousIndex !== undefined) {
-          dynamicBulletIndex += current - (swiper.previousIndex - swiper.loopedSlides || 0);
+          dynamicBulletIndex += current - (swiper.previousIndex || 0);
           if (dynamicBulletIndex > params.dynamicMainBullets - 1) {
             dynamicBulletIndex = params.dynamicMainBullets - 1;
           } else if (dynamicBulletIndex < 0) {
@@ -145,7 +142,6 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
         });
       } else {
         const $bullet = bullets.eq(current);
-        const bulletIndex = $bullet.index();
         $bullet.addClass(params.bulletActiveClass);
         if (params.dynamicBullets) {
           const $firstDisplayedBullet = bullets.eq(firstIndex);
@@ -153,22 +149,9 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
           for (let i = firstIndex; i <= lastIndex; i += 1) {
             bullets.eq(i).addClass(`${params.bulletActiveClass}-main`);
           }
-          if (swiper.params.loop) {
-            if (bulletIndex >= bullets.length) {
-              for (let i = params.dynamicMainBullets; i >= 0; i -= 1) {
-                bullets.eq(bullets.length - i).addClass(`${params.bulletActiveClass}-main`);
-              }
-              bullets
-                .eq(bullets.length - params.dynamicMainBullets - 1)
-                .addClass(`${params.bulletActiveClass}-prev`);
-            } else {
-              setSideBullets($firstDisplayedBullet, 'prev');
-              setSideBullets($lastDisplayedBullet, 'next');
-            }
-          } else {
-            setSideBullets($firstDisplayedBullet, 'prev');
-            setSideBullets($lastDisplayedBullet, 'next');
-          }
+
+          setSideBullets($firstDisplayedBullet, 'prev');
+          setSideBullets($lastDisplayedBullet, 'next');
         }
       }
       if (params.dynamicBullets) {
@@ -228,12 +211,11 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     let paginationHTML = '';
     if (params.type === 'bullets') {
       let numberOfBullets = swiper.params.loop
-        ? Math.ceil((slidesLength - swiper.loopedSlides * 2) / swiper.params.slidesPerGroup)
+        ? Math.ceil(slidesLength / swiper.params.slidesPerGroup)
         : swiper.snapGrid.length;
       if (
         swiper.params.freeMode &&
         swiper.params.freeMode.enabled &&
-        !swiper.params.loop &&
         numberOfBullets > slidesLength
       ) {
         numberOfBullets = slidesLength;
@@ -322,9 +304,12 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     if (params.clickable) {
       $el.on('click', classesToSelector(params.bulletClass), function onClick(e) {
         e.preventDefault();
-        let index = $(this).index() * swiper.params.slidesPerGroup;
-        if (swiper.params.loop) index += swiper.loopedSlides;
-        swiper.slideTo(index);
+        const index = $(this).index() * swiper.params.slidesPerGroup;
+        if (swiper.params.loop) {
+          swiper.slideToLoop(index);
+        } else {
+          swiper.slideTo(index);
+        }
       });
     }
 
@@ -363,28 +348,16 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     }
   });
   on('activeIndexChange', () => {
-    if (swiper.params.loop) {
-      update();
-    } else if (typeof swiper.snapIndex === 'undefined') {
+    if (typeof swiper.snapIndex === 'undefined') {
       update();
     }
   });
   on('snapIndexChange', () => {
-    if (!swiper.params.loop) {
-      update();
-    }
-  });
-  on('slidesLengthChange', () => {
-    if (swiper.params.loop) {
-      render();
-      update();
-    }
+    update();
   });
   on('snapGridLengthChange', () => {
-    if (!swiper.params.loop) {
-      render();
-      update();
-    }
+    render();
+    update();
   });
   on('destroy', () => {
     destroy();

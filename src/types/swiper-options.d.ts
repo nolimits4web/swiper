@@ -264,7 +264,6 @@ export interface SwiperOptions {
 
   /**
    * Number of slides per view (slides visible at the same time on slider's container).
-   * @note If you use it with "auto" value and along with `loop: true` then you need to specify `loopedSlides` parameter with amount of slides to loop (duplicate)
    * @note `slidesPerView: 'auto'` is currently not compatible with multirow mode, when `grid.rows` > 1
    *
    * @default 1
@@ -589,7 +588,6 @@ export interface SwiperOptions {
    *
    * @default false
    *
-   * @note If you use it along with `slidesPerView: 'auto'` then you need to specify `loopedSlides` parameter with amount of slides to loop (duplicate). Should not be used together with `rewind` mode
    */
   loop?: boolean;
 
@@ -601,40 +599,6 @@ export interface SwiperOptions {
    * @note Should not be used together with `loop` mode
    */
   rewind?: boolean;
-
-  /**
-   * Addition number of slides that will be cloned after creating of loop
-   *
-   * @default 0
-   */
-  loopAdditionalSlides?: number;
-
-  /**
-   * If you use `slidesPerView:'auto'` with loop mode you should tell to Swiper how many slides it should loop (duplicate) using this parameter
-   *
-   * @default null
-   */
-  loopedSlides?: number | null;
-
-  /**
-   * When enabled then amount of duplicated slides will not exceed amount of original slides. Useful to disable and increase `loopedSlides` when you have a lot of slides per view and not sufficient amount of original slides
-   *
-   * @default true
-   */
-  loopedSlidesLimit?: boolean;
-
-  /**
-   * Enable and loop mode will fill groups with insufficient number of slides with blank slides. Good to be used with `slidesPerGroup` parameter
-   *
-   * @default false
-   */
-  loopFillGroupWithBlank?: boolean;
-  /**
-   * When enabled it prevents Swiper slide prev/next transitions when transitions is already in progress (has effect when `loop` enabled)
-   *
-   * @default true
-   */
-  loopPreventsSlide?: boolean;
 
   /**
    * Allows to set different parameter for different responsive breakpoints (screen sizes). Not all parameters can be changed in breakpoints, only those which do not require different layout and logic, like `slidesPerView`, `slidesPerGroup`, `spaceBetween`, `grid.rows`. Such parameters like `loop` and `effect` won't work
@@ -829,17 +793,6 @@ export interface SwiperOptions {
    * @note Not supported in Swiper React/Vue
    */
   slideDuplicatePrevClass?: string;
-
-  /**
-   * CSS class name of blank slide append to fill groups in loop mode when `loopFillGroupWithBlank` is also enabled
-   *
-   * @default 'swiper-slide-invisible-blank'
-   *
-   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
-   *
-   * @note Not supported in Swiper React/Vue
-   */
-  slideBlankClass?: string;
 
   /**
    * CSS class name of slides' wrapper

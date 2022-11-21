@@ -211,6 +211,12 @@ class Swiper {
     return swiper;
   }
 
+  recalcSlides() {
+    const swiper = this;
+    const { $slidesEl, params } = swiper;
+    swiper.slides = $slidesEl.children(`.${params.slideClass}, swiper-slide`);
+  }
+
   enable() {
     const swiper = this;
     if (swiper.enabled) return;
@@ -476,6 +482,7 @@ class Swiper {
       el,
       $wrapperEl,
       wrapperEl: $wrapperEl[0],
+      $slidesEl: swiper.isElement ? $el : $wrapperEl,
       mounted: true,
 
       // RTL
@@ -506,11 +513,6 @@ class Swiper {
     // Add Classes
     swiper.addClasses();
 
-    // Create loop
-    if (swiper.params.loop) {
-      swiper.loopCreate();
-    }
-
     // Update size
     swiper.updateSize();
 
@@ -527,16 +529,11 @@ class Swiper {
     }
 
     // Slide To Initial Slide
+    swiper.slideTo(swiper.params.initialSlide, 0, swiper.params.runCallbacksOnInit, false, true);
+
+    // Create loop
     if (swiper.params.loop) {
-      swiper.slideTo(
-        swiper.params.initialSlide + swiper.loopedSlides,
-        0,
-        swiper.params.runCallbacksOnInit,
-        false,
-        true,
-      );
-    } else {
-      swiper.slideTo(swiper.params.initialSlide, 0, swiper.params.runCallbacksOnInit, false, true);
+      swiper.loopCreate();
     }
 
     // Attach events

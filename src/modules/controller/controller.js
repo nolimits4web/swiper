@@ -123,6 +123,7 @@ export default function Controller({ swiper, extendParams, on }) {
         }
         c.$wrapperEl.transitionEnd(() => {
           if (!controlled) return;
+          if (swiper.params.loop) swiper.loopFix(undefined, false);
           if (c.params.loop && swiper.params.controller.by === 'slide') {
             c.loopFix();
           }

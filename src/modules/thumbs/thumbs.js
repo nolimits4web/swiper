@@ -75,6 +75,7 @@ export default function Thumb({ swiper, extendParams, on }) {
         watchSlidesProgress: true,
         slideToClickedSlide: false,
       });
+      swiper.thumbs.swiper.update();
     } else if (isObject(thumbsParams.swiper)) {
       const thumbsSwiperParams = Object.assign({}, thumbsParams.swiper);
       Object.assign(thumbsSwiperParams, {

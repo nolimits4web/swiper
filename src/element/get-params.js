@@ -5,6 +5,7 @@ import defaults from '../core/defaults.js';
 const formatValue = (val) => {
   if (parseFloat(val) === Number(val)) return Number(val);
   if (val === 'true') return true;
+  if (val === '') return true;
   if (val === 'false') return false;
   if (val === 'null') return null;
   if (val === 'undefined') return undefined;

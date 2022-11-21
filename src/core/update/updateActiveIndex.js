@@ -1,8 +1,31 @@
+export function getActiveIndexByTranslate(swiper) {
+  const { slidesGrid, params } = swiper;
+  const translate = swiper.rtlTranslate ? swiper.translate : -swiper.translate;
+  let activeIndex;
+  for (let i = 0; i < slidesGrid.length; i += 1) {
+    if (typeof slidesGrid[i + 1] !== 'undefined') {
+      if (
+        translate >= slidesGrid[i] &&
+        translate < slidesGrid[i + 1] - (slidesGrid[i + 1] - slidesGrid[i]) / 2
+      ) {
+        activeIndex = i;
+      } else if (translate >= slidesGrid[i] && translate < slidesGrid[i + 1]) {
+        activeIndex = i + 1;
+      }
+    } else if (translate >= slidesGrid[i]) {
+      activeIndex = i;
+    }
+  }
+  // Normalize slideIndex
+  if (params.normalizeSlideIndex) {
+    if (activeIndex < 0 || typeof activeIndex === 'undefined') activeIndex = 0;
+  }
+  return activeIndex;
+}
 export default function updateActiveIndex(newActiveIndex) {
   const swiper = this;
   const translate = swiper.rtlTranslate ? swiper.translate : -swiper.translate;
   const {
-    slidesGrid,
     snapGrid,
     params,
     activeIndex: previousIndex,
@@ -12,24 +35,7 @@ export default function updateActiveIndex(newActiveIndex) {
   let activeIndex = newActiveIndex;
   let snapIndex;
   if (typeof activeIndex === 'undefined') {
-    for (let i = 0; i < slidesGrid.length; i += 1) {
-      if (typeof slidesGrid[i + 1] !== 'undefined') {
-        if (
-          translate >= slidesGrid[i] &&
-          translate < slidesGrid[i + 1] - (slidesGrid[i + 1] - slidesGrid[i]) / 2
-        ) {
-          activeIndex = i;
-        } else if (translate >= slidesGrid[i] && translate < slidesGrid[i + 1]) {
-          activeIndex = i + 1;
-        }
-      } else if (translate >= slidesGrid[i]) {
-        activeIndex = i;
-      }
-    }
-    // Normalize slideIndex
-    if (params.normalizeSlideIndex) {
-      if (activeIndex < 0 || typeof activeIndex === 'undefined') activeIndex = 0;
-    }
+    activeIndex = getActiveIndexByTranslate(swiper);
   }
   if (snapGrid.indexOf(translate) >= 0) {
     snapIndex = snapGrid.indexOf(translate);

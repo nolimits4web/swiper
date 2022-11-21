@@ -29,7 +29,11 @@ export default function onResize() {
   ) {
     swiper.slideTo(swiper.slides.length - 1, 0, false, true);
   } else {
-    swiper.slideTo(swiper.activeIndex, 0, false, true);
+    if (swiper.params.loop) {
+      swiper.slideToLoop(swiper.realIndex, 0, false, true);
+    } else {
+      swiper.slideTo(swiper.activeIndex, 0, false, true);
+    }
   }
 
   if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {

@@ -98,11 +98,6 @@ export default {
 
   // loop
   loop: false,
-  loopAdditionalSlides: 0,
-  loopedSlides: null,
-  loopedSlidesLimit: true,
-  loopFillGroupWithBlank: false,
-  loopPreventsSlide: true,
 
   // rewind
   rewind: false,
@@ -123,7 +118,6 @@ export default {
   // NS
   containerModifierClass: 'swiper-', // NEW
   slideClass: 'swiper-slide',
-  slideBlankClass: 'swiper-slide-invisible-blank',
   slideActiveClass: 'swiper-slide-active',
   slideDuplicateActiveClass: 'swiper-slide-duplicate-active',
   slideVisibleClass: 'swiper-slide-visible',
