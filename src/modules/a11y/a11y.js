@@ -171,7 +171,9 @@ export default function A11y({ swiper, extendParams, on }) {
   const handlePointerUp = () => {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        swiper.a11y.clicked = false;
+        if (!swiper.destroyed) {
+          swiper.a11y.clicked = false;
+        }
       });
     });
   };
