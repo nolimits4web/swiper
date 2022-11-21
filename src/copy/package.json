@@ -112,9 +112,6 @@
       ]
     }
   },
-  "scripts": {
-    "postinstall": "node -e \"try{require('./postinstall')}catch(e){}\""
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/nolimits4web/Swiper.git"

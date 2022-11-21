@@ -2,4 +2,3 @@ build
 node_modules
 dist
 .nova
-postinstall.js
