@@ -12,14 +12,19 @@ export interface AutoplayMethods {
   paused: boolean;
 
   /**
-   * Pause autoplay
+   * If autoplay is paused, it contains time left (in ms) before transition to next slide
    */
-  pause(speed?: number): void;
+  timeLeft: number;
 
   /**
-   * Run the autoplay logic
+   * Pause autoplay
    */
-  run(): void;
+  pause(): void;
+
+  /**
+   * Resume autoplay
+   */
+  resume(): void;
 
   /**
    * Start autoplay
@@ -42,13 +47,17 @@ export interface AutoplayEvents {
    */
   autoplayStop: (swiper: Swiper) => void;
   /**
-   * Event will be fired on autoplay pause (on mouse/pointer enter), when `pauseOnMouseEnter` enabled
+   * Event will be fired on autoplay pause
    */
   autoplayPause: (swiper: Swiper) => void;
   /**
-   * Event will be fired on autoplay resume (on mouse/pointer leave), when `pauseOnMouseEnter` enabled
+   * Event will be fired on autoplay resume
    */
   autoplayResume: (swiper: Swiper) => void;
+  /**
+   * Event triggers continuously while autoplay is enabled. It contains time left (in ms) before transition to next slide and percentage of that time related to autoplay delay
+   */
+  autoplayTimeLeft: (swiper: Swiper, timeLeft: number, percentage: number) => void;
   /**
    * Event will be fired when slide changed with autoplay
    */
@@ -116,9 +125,9 @@ export interface AutoplayOptions {
   waitForTransition?: boolean;
 
   /**
-   * When enabled autoplay will be paused on mouse enter over Swiper container. If `disableOnInteraction` is also enabled, it will stop autoplay instead of pause
+   * When enabled autoplay will be paused on pointer (mouse) enter over Swiper container.
    *
    * @default false
    */
-  pauseOnMouseEnter?: boolean;
+  pauseOnPointerEnter?: boolean;
 }

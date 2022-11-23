@@ -1,14 +1,12 @@
 /* eslint no-underscore-dangle: "off" */
 /* eslint no-use-before-define: "off" */
 import { getDocument } from 'ssr-window';
-import { nextTick } from '../../shared/utils.js';
 
-export default function Autoplay({ swiper, extendParams, on, emit }) {
-  let timeout;
-
+export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   swiper.autoplay = {
     running: false,
     paused: false,
+    timeLeft: 0,
   };
 
   extendParams({
@@ -19,198 +17,281 @@ export default function Autoplay({ swiper, extendParams, on, emit }) {
       disableOnInteraction: true,
       stopOnLastSlide: false,
       reverseDirection: false,
-      pauseOnMouseEnter: false,
+      pauseOnPointerEnter: true,
     },
   });
+  let timeout;
+  let raf;
+  let autoplayDelay = params && params.autoplay ? params.autoplay.delay : 3000;
+  let autoplayTimeLeft;
+  let autoplayStartTime = new Date().getTime;
+  let isTouched;
+  let pausedByTouch;
+  let touchStartTimeout;
+  let slideChanged;
+  let pausedByInteraction;
 
-  function run() {
-    if (!swiper.size) {
-      swiper.autoplay.running = false;
-      swiper.autoplay.paused = false;
-      return;
-    }
-    const $activeSlideEl = swiper.slides.eq(swiper.activeIndex);
-    let delay = swiper.params.autoplay.delay;
-    if ($activeSlideEl.attr('data-swiper-autoplay')) {
-      delay = $activeSlideEl.attr('data-swiper-autoplay') || swiper.params.autoplay.delay;
-    }
-    clearTimeout(timeout);
-    timeout = nextTick(() => {
-      let autoplayResult;
-      if (swiper.params.autoplay.reverseDirection) {
-        if (swiper.params.loop) {
-          swiper.loopFix();
-          autoplayResult = swiper.slidePrev(swiper.params.speed, true, true);
-          emit('autoplay');
-        } else if (!swiper.isBeginning) {
-          autoplayResult = swiper.slidePrev(swiper.params.speed, true, true);
-          emit('autoplay');
-        } else if (!swiper.params.autoplay.stopOnLastSlide) {
-          autoplayResult = swiper.slideTo(
-            swiper.slides.length - 1,
-            swiper.params.speed,
-            true,
-            true,
-          );
-          emit('autoplay');
-        } else {
-          stop();
-        }
-      } else if (swiper.params.loop) {
-        swiper.loopFix();
-        autoplayResult = swiper.slideNext(swiper.params.speed, true, true);
-        emit('autoplay');
-      } else if (!swiper.isEnd) {
-        autoplayResult = swiper.slideNext(swiper.params.speed, true, true);
-        emit('autoplay');
-      } else if (!swiper.params.autoplay.stopOnLastSlide) {
-        autoplayResult = swiper.slideTo(0, swiper.params.speed, true, true);
-        emit('autoplay');
-      } else {
-        stop();
-      }
-      if (swiper.params.cssMode && swiper.autoplay.running) run();
-      else if (autoplayResult === false) {
-        run();
-      }
-    }, delay);
-  }
-  function start() {
-    if (typeof timeout !== 'undefined') return false;
-    if (swiper.autoplay.running) return false;
-    swiper.autoplay.running = true;
-    emit('autoplayStart');
-    run();
-    return true;
-  }
-  function stop() {
-    if (!swiper.autoplay.running) return false;
-    if (typeof timeout === 'undefined') return false;
-
-    if (timeout) {
-      clearTimeout(timeout);
-      timeout = undefined;
-    }
-    swiper.autoplay.running = false;
-    emit('autoplayStop');
-    return true;
-  }
-  function pause(speed) {
-    if (!swiper.autoplay.running) return;
-    if (swiper.autoplay.paused) return;
-    if (timeout) clearTimeout(timeout);
-    swiper.autoplay.paused = true;
-    if (speed === 0 || !swiper.params.autoplay.waitForTransition) {
-      swiper.autoplay.paused = false;
-      run();
-    } else {
-      ['transitionend', 'webkitTransitionEnd'].forEach((event) => {
-        swiper.$wrapperEl[0].addEventListener(event, onTransitionEnd);
-      });
-    }
-  }
-  function onVisibilityChange() {
-    const document = getDocument();
-    if (document.visibilityState === 'hidden' && swiper.autoplay.running) {
-      pause();
-    }
-    if (document.visibilityState === 'visible' && swiper.autoplay.paused) {
-      run();
-      swiper.autoplay.paused = false;
-    }
-  }
   function onTransitionEnd(e) {
     if (!swiper || swiper.destroyed || !swiper.$wrapperEl) return;
     if (e.target !== swiper.$wrapperEl[0]) return;
-    ['transitionend', 'webkitTransitionEnd'].forEach((event) => {
-      swiper.$wrapperEl[0].removeEventListener(event, onTransitionEnd);
-    });
-    swiper.autoplay.paused = false;
-    if (!swiper.autoplay.running) {
-      stop();
-    } else {
-      run();
-    }
+    swiper.$wrapperEl[0].removeEventListener('transitionend', onTransitionEnd);
+    resume();
   }
-  function onMouseEnter() {
-    if (swiper.params.autoplay.disableOnInteraction) {
-      stop();
+
+  const calcTimeLeft = () => {
+    if (swiper.destroyed || !swiper.autoplay.running) return;
+    const timeLeft = swiper.autoplay.paused
+      ? autoplayTimeLeft
+      : autoplayStartTime + autoplayDelay - new Date().getTime();
+    swiper.autoplay.timeLeft = timeLeft;
+    emit('autoplayTimeLeft', timeLeft, timeLeft / autoplayDelay);
+    raf = requestAnimationFrame(() => {
+      calcTimeLeft();
+    });
+  };
+
+  const getSlideDelay = () => {
+    const currentSlideDelay = parseInt(
+      swiper.slides[swiper.activeIndex].getAttribute('data-swiper-autoplay'),
+      10,
+    );
+    return currentSlideDelay;
+  };
+
+  const run = (delayForce) => {
+    if (swiper.destroyed || !swiper.autoplay.running) return;
+    cancelAnimationFrame(raf);
+    calcTimeLeft();
+
+    let delay = typeof delayForce === 'undefined' ? swiper.params.autoplay.delay : delayForce;
+    autoplayDelay = swiper.params.autoplay.delay;
+    const currentSlideDelay = getSlideDelay();
+    if (
+      !Number.isNaN(currentSlideDelay) &&
+      currentSlideDelay > 0 &&
+      typeof delayForce === 'undefined'
+    ) {
+      delay = currentSlideDelay;
+      autoplayDelay = currentSlideDelay;
+    }
+    autoplayTimeLeft = delay;
+
+    const speed = swiper.params.speed;
+    const proceed = () => {
+      if (swiper.params.autoplay.reverseDirection) {
+        if (!swiper.isBeginning || swiper.params.loop || swiper.params.rewind) {
+          swiper.slidePrev(speed, true, true);
+          emit('autoplay');
+        } else if (!swiper.params.autoplay.stopOnLastSlide) {
+          swiper.slideTo(swiper.slides.length - 1, speed, true, true);
+          emit('autoplay');
+        }
+      } else {
+        if (!swiper.isEnd || swiper.params.loop || swiper.params.rewind) {
+          swiper.slideNext(speed, true, true);
+          emit('autoplay');
+        } else if (!swiper.params.autoplay.stopOnLastSlide) {
+          swiper.slideTo(0, speed, true, true);
+          emit('autoplay');
+        }
+      }
+      if (swiper.params.cssMode) {
+        autoplayStartTime = new Date().getTime();
+        requestAnimationFrame(() => {
+          run();
+        });
+      }
+    };
+    if (delay > 0) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        proceed();
+      }, delay);
     } else {
-      emit('autoplayPause');
-      pause();
+      requestAnimationFrame(() => {
+        proceed();
+      });
     }
 
-    ['transitionend', 'webkitTransitionEnd'].forEach((event) => {
-      swiper.$wrapperEl[0].removeEventListener(event, onTransitionEnd);
-    });
-  }
-  function onMouseLeave() {
-    if (swiper.params.autoplay.disableOnInteraction) {
+    // eslint-disable-next-line
+    return delay;
+  };
+
+  const start = () => {
+    swiper.autoplay.running = true;
+    run();
+    emit('autoplayStart');
+  };
+
+  const stop = () => {
+    swiper.autoplay.running = false;
+    clearTimeout(timeout);
+    cancelAnimationFrame(raf);
+    emit('autoplayStop');
+  };
+  const pause = (internal, reset) => {
+    if (swiper.destroyed || !swiper.autoplay.running) return;
+    clearTimeout(timeout);
+    if (!internal) {
+      pausedByInteraction = true;
+    }
+
+    const proceed = () => {
+      emit('autoplayPause');
+      if (swiper.params.autoplay.waitForTransition) {
+        swiper.$wrapperEl[0].addEventListener('transitionend', onTransitionEnd);
+      } else {
+        resume();
+      }
+    };
+
+    swiper.autoplay.paused = true;
+    if (reset) {
+      if (slideChanged) {
+        autoplayTimeLeft = swiper.params.autoplay.delay;
+      }
+      slideChanged = false;
+      proceed();
       return;
+    }
+    const delay = autoplayTimeLeft || swiper.params.autoplay.delay;
+    autoplayTimeLeft = delay - (new Date().getTime() - autoplayStartTime);
+    if (swiper.isEnd && autoplayTimeLeft < 0 && !swiper.params.loop) return;
+    if (autoplayTimeLeft < 0) autoplayTimeLeft = 0;
+    proceed();
+  };
+
+  const resume = () => {
+    if (
+      (swiper.isEnd && autoplayTimeLeft < 0 && !swiper.params.loop) ||
+      swiper.destroyed ||
+      !swiper.autoplay.running
+    )
+      return;
+    autoplayStartTime = new Date().getTime();
+    if (pausedByInteraction) {
+      pausedByInteraction = false;
+      run(autoplayTimeLeft);
+    } else {
+      run();
     }
     swiper.autoplay.paused = false;
     emit('autoplayResume');
-    run();
-  }
-  function attachMouseEvents() {
-    if (swiper.params.autoplay.pauseOnMouseEnter) {
-      swiper.$el.on('mouseenter', onMouseEnter);
-      swiper.$el.on('mouseleave', onMouseLeave);
+  };
+
+  const onVisibilityChange = () => {
+    if (swiper.destroyed || !swiper.autoplay.running) return;
+    const document = getDocument();
+    if (document.visibilityState === 'hidden') {
+      pausedByInteraction = true;
+      pause(true);
     }
-  }
-  function detachMouseEvents() {
-    swiper.$el.off('mouseenter', onMouseEnter);
-    swiper.$el.off('mouseleave', onMouseLeave);
-  }
+    if (document.visibilityState === 'visible') {
+      resume();
+    }
+  };
+
+  const onPointerEnter = () => {
+    pausedByInteraction = true;
+    pause(true);
+  };
+
+  const onPointerLeave = () => {
+    if (swiper.autoplay.paused) {
+      resume();
+    }
+  };
+
+  const attachMouseEvents = () => {
+    if (swiper.params.autoplay.pauseOnPointerEnter) {
+      swiper.$el.on('pointerenter', onPointerEnter);
+      swiper.$el.on('pointerleave', onPointerLeave);
+    }
+  };
+
+  const detachMouseEvents = () => {
+    swiper.$el.off('pointerenter', onPointerEnter);
+    swiper.$el.off('pointerleave', onPointerLeave);
+  };
+
+  const attachDocumentEvents = () => {
+    const document = getDocument();
+    document.addEventListener('visibilitychange', onVisibilityChange);
+  };
+
+  const detachDocumentEvents = () => {
+    const document = getDocument();
+    document.removeEventListener('visibilitychange', onVisibilityChange);
+  };
 
   on('init', () => {
     if (swiper.params.autoplay.enabled) {
-      start();
-      const document = getDocument();
-      document.addEventListener('visibilitychange', onVisibilityChange);
       attachMouseEvents();
+      attachDocumentEvents();
+      autoplayStartTime = new Date().getTime();
+      start();
     }
   });
-  on('beforeTransitionStart', (_s, speed, internal) => {
-    if (swiper.autoplay.running) {
-      if (internal || !swiper.params.autoplay.disableOnInteraction) {
-        swiper.autoplay.pause(speed);
-      } else {
-        stop();
-      }
-    }
-  });
-  on('sliderFirstMove', () => {
-    if (swiper.autoplay.running) {
-      if (swiper.params.autoplay.disableOnInteraction) {
-        stop();
-      } else {
-        pause();
-      }
-    }
-  });
-  on('touchEnd', () => {
-    if (
-      swiper.params.cssMode &&
-      swiper.autoplay.paused &&
-      !swiper.params.autoplay.disableOnInteraction
-    ) {
-      run();
-    }
-  });
+
   on('destroy', () => {
     detachMouseEvents();
+    detachDocumentEvents();
     if (swiper.autoplay.running) {
       stop();
     }
-    const document = getDocument();
-    document.removeEventListener('visibilitychange', onVisibilityChange);
+  });
+
+  on('beforeTransitionStart', (_s, speed, internal) => {
+    if (swiper.destroyed || !swiper.autoplay.running) return;
+    if (internal || !swiper.params.autoplay.disableOnInteraction) {
+      pause(true, true);
+    } else {
+      stop();
+    }
+  });
+
+  on('sliderFirstMove', () => {
+    if (swiper.destroyed || !swiper.autoplay.running) return;
+
+    if (swiper.params.autoplay.disableOnInteraction) {
+      stop();
+      return;
+    }
+    isTouched = true;
+    pausedByTouch = false;
+    pausedByInteraction = false;
+    touchStartTimeout = setTimeout(() => {
+      pausedByInteraction = true;
+      pausedByTouch = true;
+      pause(true);
+    }, 200);
+  });
+
+  on('touchEnd', () => {
+    if (swiper.destroyed || !swiper.autoplay.running) return;
+    clearTimeout(touchStartTimeout);
+    clearTimeout(timeout);
+
+    if (!isTouched || swiper.params.autoplay.disableOnInteraction) {
+      pausedByTouch = false;
+      isTouched = false;
+      return;
+    }
+
+    if (pausedByTouch && swiper.params.cssMode) resume();
+    pausedByTouch = false;
+    isTouched = false;
+  });
+
+  on('slideChange', () => {
+    if (swiper.destroyed || !swiper.autoplay.running) return;
+    slideChanged = true;
   });
 
   Object.assign(swiper.autoplay, {
-    pause,
-    run,
     start,
     stop,
+    pause,
+    resume,
   });
 }

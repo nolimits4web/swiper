@@ -103,12 +103,12 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   /**
    * Index number of currently active slide
    *
-   * @note Note, that in loop mode active index value will be always shifted on a number of looped/duplicated slides
+   * @note Note, that in loop mode active index value will be always shifted on a number of looped slides
    */
   activeIndex: number;
 
   /**
-   * Index number of currently active slide considering duplicated slides in loop mode
+   * Index number of currently active slide considering rearranged slides in loop mode
    */
   realIndex: number;
 
