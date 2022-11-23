@@ -35,13 +35,8 @@ export default function Thumb({ swiper, extendParams, on }) {
       slideToIndex = clickedIndex;
     }
     if (swiper.params.loop) {
-      let currentIndex = swiper.activeIndex;
-      if (swiper.slides.eq(currentIndex).hasClass(swiper.params.slideDuplicateClass)) {
-        swiper.loopFix();
-        // eslint-disable-next-line
-        swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
-        currentIndex = swiper.activeIndex;
-      }
+      const currentIndex = swiper.activeIndex;
+
       const prevIndex = swiper.slides
         .eq(currentIndex)
         .prevAll(`[data-swiper-slide-index="${slideToIndex}"]`)
@@ -132,20 +127,10 @@ export default function Thumb({ swiper, extendParams, on }) {
     const autoScrollOffset = swiper.params.thumbs.autoScrollOffset;
     const useOffset = autoScrollOffset && !thumbsSwiper.params.loop;
     if (swiper.realIndex !== thumbsSwiper.realIndex || useOffset) {
-      let currentThumbsIndex = thumbsSwiper.activeIndex;
+      const currentThumbsIndex = thumbsSwiper.activeIndex;
       let newThumbsIndex;
       let direction;
       if (thumbsSwiper.params.loop) {
-        if (
-          thumbsSwiper.slides
-            .eq(currentThumbsIndex)
-            .hasClass(thumbsSwiper.params.slideDuplicateClass)
-        ) {
-          thumbsSwiper.loopFix();
-          // eslint-disable-next-line
-          thumbsSwiper._clientLeft = thumbsSwiper.$wrapperEl[0].clientLeft;
-          currentThumbsIndex = thumbsSwiper.activeIndex;
-        }
         // Find actual thumbs index to slide to
         const prevThumbsIndex = thumbsSwiper.slides
           .eq(currentThumbsIndex)

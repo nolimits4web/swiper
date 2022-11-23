@@ -78,7 +78,7 @@ export default function History({ swiper, extendParams, on }) {
       for (let i = 0, length = swiper.slides.length; i < length; i += 1) {
         const slide = swiper.slides.eq(i);
         const slideHistory = slugify(slide.attr('data-history'));
-        if (slideHistory === value && !slide.hasClass(swiper.params.slideDuplicateClass)) {
+        if (slideHistory === value) {
           const index = slide.index();
           swiper.slideTo(index, speed, runCallbacks);
         }

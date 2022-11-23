@@ -1,7 +1,7 @@
 export default function updateSlidesClasses() {
   const swiper = this;
 
-  const { slides, params, $wrapperEl, activeIndex, realIndex } = swiper;
+  const { slides, params, $wrapperEl, activeIndex } = swiper;
   const isVirtual = swiper.virtual && params.virtual.enabled;
 
   const getFilteredSlides = (selector) => {
@@ -9,7 +9,7 @@ export default function updateSlidesClasses() {
   };
 
   slides.removeClass(
-    `${params.slideActiveClass} ${params.slideNextClass} ${params.slidePrevClass} ${params.slideDuplicateActiveClass} ${params.slideDuplicateNextClass} ${params.slideDuplicatePrevClass}`,
+    `${params.slideActiveClass} ${params.slideNextClass} ${params.slidePrevClass}`,
   );
 
   let activeSlide;
@@ -22,18 +22,6 @@ export default function updateSlidesClasses() {
   // Active classes
   activeSlide.addClass(params.slideActiveClass);
 
-  if (params.loop) {
-    // Duplicate to all looped slides
-    if (activeSlide.hasClass(params.slideDuplicateClass)) {
-      getFilteredSlides(
-        `:not(.${params.slideDuplicateClass})[data-swiper-slide-index="${realIndex}"]`,
-      ).addClass(params.slideDuplicateActiveClass);
-    } else {
-      getFilteredSlides(
-        `.${params.slideDuplicateClass}[data-swiper-slide-index="${realIndex}"]`,
-      ).addClass(params.slideDuplicateActiveClass);
-    }
-  }
   // Next Slide
   let nextSlide = activeSlide
     .nextAll(`.${params.slideClass}, swiper-slide`)
@@ -51,35 +39,6 @@ export default function updateSlidesClasses() {
   if (params.loop && prevSlide.length === 0) {
     prevSlide = slides.eq(-1);
     prevSlide.addClass(params.slidePrevClass);
-  }
-  if (params.loop) {
-    // Duplicate to all looped slides
-    if (nextSlide.hasClass(params.slideDuplicateClass)) {
-      getFilteredSlides(
-        `:not(.${params.slideDuplicateClass})[data-swiper-slide-index="${nextSlide.attr(
-          'data-swiper-slide-index',
-        )}"]`,
-      ).addClass(params.slideDuplicateNextClass);
-    } else {
-      getFilteredSlides(
-        `.${params.slideDuplicateClass}[data-swiper-slide-index="${nextSlide.attr(
-          'data-swiper-slide-index',
-        )}"]`,
-      ).addClass(params.slideDuplicateNextClass);
-    }
-    if (prevSlide.hasClass(params.slideDuplicateClass)) {
-      getFilteredSlides(
-        `:not(.${params.slideDuplicateClass})[data-swiper-slide-index="${prevSlide.attr(
-          'data-swiper-slide-index',
-        )}"]`,
-      ).addClass(params.slideDuplicatePrevClass);
-    } else {
-      getFilteredSlides(
-        `.${params.slideDuplicateClass}[data-swiper-slide-index="${prevSlide.attr(
-          'data-swiper-slide-index',
-        )}"]`,
-      ).addClass(params.slideDuplicatePrevClass);
-    }
   }
   swiper.emitSlidesClasses();
 }

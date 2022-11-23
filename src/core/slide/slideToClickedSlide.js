@@ -20,9 +20,7 @@ export default function slideToClickedSlide() {
       ) {
         swiper.loopFix();
         slideToIndex = $wrapperEl
-          .children(
-            `${slideSelector}[data-swiper-slide-index="${realIndex}"]:not(.${params.slideDuplicateClass})`,
-          )
+          .children(`${slideSelector}[data-swiper-slide-index="${realIndex}"]`)
           .eq(0)
           .index();
 
@@ -35,9 +33,7 @@ export default function slideToClickedSlide() {
     } else if (slideToIndex > swiper.slides.length - slidesPerView) {
       swiper.loopFix();
       slideToIndex = $wrapperEl
-        .children(
-          `${slideSelector}[data-swiper-slide-index="${realIndex}"]:not(.${params.slideDuplicateClass})`,
-        )
+        .children(`${slideSelector}[data-swiper-slide-index="${realIndex}"]`)
         .eq(0)
         .index();
 

@@ -29,7 +29,6 @@ interface SwiperProps extends SwiperOptions {
 interface SlideData {
   isActive: boolean;
   isVisible: boolean;
-  isDuplicate: boolean;
   isPrev: boolean;
   isNext: boolean;
 }

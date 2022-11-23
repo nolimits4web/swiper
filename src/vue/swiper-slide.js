@@ -69,17 +69,10 @@ const SwiperSlide = {
     });
 
     const slideData = computed(() => ({
-      isActive:
-        slideClasses.value.indexOf('swiper-slide-active') >= 0 ||
-        slideClasses.value.indexOf('swiper-slide-duplicate-active') >= 0,
+      isActive: slideClasses.value.indexOf('swiper-slide-active') >= 0,
       isVisible: slideClasses.value.indexOf('swiper-slide-visible') >= 0,
-      isDuplicate: slideClasses.value.indexOf('swiper-slide-duplicate') >= 0,
-      isPrev:
-        slideClasses.value.indexOf('swiper-slide-prev') >= 0 ||
-        slideClasses.value.indexOf('swiper-slide-duplicate-prev') >= 0,
-      isNext:
-        slideClasses.value.indexOf('swiper-slide-next') >= 0 ||
-        slideClasses.value.indexOf('swiper-slide-duplicate-next') >= 0,
+      isPrev: slideClasses.value.indexOf('swiper-slide-prev') >= 0,
+      isNext: slideClasses.value.indexOf('swiper-slide-next') >= 0,
     }));
     provide('swiperSlide', slideData);
 

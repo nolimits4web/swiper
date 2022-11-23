@@ -59,7 +59,7 @@ export default function HashNavigation({ swiper, extendParams, emit, on }) {
       for (let i = 0, length = swiper.slides.length; i < length; i += 1) {
         const slide = swiper.slides.eq(i);
         const slideHash = slide.attr('data-hash') || slide.attr('data-history');
-        if (slideHash === hash && !slide.hasClass(swiper.params.slideDuplicateClass)) {
+        if (slideHash === hash) {
           const index = slide.index();
           swiper.slideTo(index, speed, swiper.params.runCallbacksOnInit, true);
         }

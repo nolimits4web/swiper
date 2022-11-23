@@ -289,15 +289,7 @@ declare const Swiper: DefineComponent<
       type: StringConstructor;
       default: undefined;
     };
-    slideDuplicateActiveClass: {
-      type: StringConstructor;
-      default: undefined;
-    };
     slideVisibleClass: {
-      type: StringConstructor;
-      default: undefined;
-    };
-    slideDuplicateClass: {
       type: StringConstructor;
       default: undefined;
     };
@@ -305,15 +297,7 @@ declare const Swiper: DefineComponent<
       type: StringConstructor;
       default: undefined;
     };
-    slideDuplicateNextClass: {
-      type: StringConstructor;
-      default: undefined;
-    };
     slidePrevClass: {
-      type: StringConstructor;
-      default: undefined;
-    };
-    slideDuplicatePrevClass: {
       type: StringConstructor;
       default: undefined;
     };
@@ -455,7 +439,6 @@ declare const useSwiper: () => Ref<SwiperClass>;
 declare const useSwiperSlide: () => Ref<{
   isActive: boolean;
   isVisible: boolean;
-  isDuplicate: boolean;
   isPrev: boolean;
   isNext: boolean;
 }>;

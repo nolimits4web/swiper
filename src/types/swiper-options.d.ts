@@ -580,11 +580,7 @@ export interface SwiperOptions {
   /**
    * Set to `true` to enable continuous loop mode
    *
-   * Because of nature of how the loop mode works, it will add duplicated slides. Such duplicated slides will have additional classes:
-   * - `swiper-slide-duplicate` - represents duplicated slide
-   * - `swiper-slide-duplicate-active` - represents slide duplicated to the currently active slide
-   * - `swiper-slide-duplicate-next` - represents slide duplicated to the slide next to active
-   * - `swiper-slide-duplicate-prev` - represents slide duplicated to the slide previous to active
+   * Because of nature of how the loop mode works, it will add rearrange slides
    *
    * @default false
    *
@@ -718,17 +714,6 @@ export interface SwiperOptions {
   slideActiveClass?: string;
 
   /**
-   * CSS class name of duplicated slide which represents the currently active slide
-   *
-   * @default 'swiper-slide-duplicate-active'
-   *
-   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
-   *
-   * @note Not supported in Swiper React/Vue components
-   */
-  slideDuplicateActiveClass?: string;
-
-  /**
    * CSS class name of currently visible slide
    *
    * @default 'swiper-slide-visible'
@@ -738,17 +723,6 @@ export interface SwiperOptions {
    * @note Not supported in Swiper React/Vue
    */
   slideVisibleClass?: string;
-
-  /**
-   * CSS class name of slide duplicated by loop mode
-   *
-   * @default 'swiper-slide-duplicate'
-   *
-   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
-   *
-   * @note Not supported in Swiper React/Vue
-   */
-  slideDuplicateClass?: string;
 
   /**
    * CSS class name of slide which is right after currently active slide
@@ -762,17 +736,6 @@ export interface SwiperOptions {
   slideNextClass?: string;
 
   /**
-   * CSS class name of duplicated slide which represents the slide next to active slide
-   *
-   * @default 'swiper-slide-duplicate-next'
-   *
-   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
-   *
-   * @note Not supported in Swiper React/Vue
-   */
-  slideDuplicateNextClass?: string;
-
-  /**
    * CSS class name of slide which is right before currently active slide
    *
    * @default 'swiper-slide-prev'
@@ -782,17 +745,6 @@ export interface SwiperOptions {
    * @note Not supported in Swiper React/Vue
    */
   slidePrevClass?: string;
-
-  /**
-   * CSS class name of duplicated slide which represents the slide previous to active slide
-   *
-   * @default 'swiper-slide-duplicate-prev'
-   *
-   * @note By changing classes you will also need to change Swiper's CSS to reflect changed classes
-   *
-   * @note Not supported in Swiper React/Vue
-   */
-  slideDuplicatePrevClass?: string;
 
   /**
    * CSS class name of slides' wrapper
