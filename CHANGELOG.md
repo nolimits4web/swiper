@@ -1,5 +1,16 @@
 # Changelog
 
+# [8.4.5](https://github.com/nolimits4web/Swiper/compare/v8.4.4...v8.4.5) (2022-11-21)
+
+### Bug Fixes
+
+- **a11y:** fix JS error "swiper.a11y is undefined" ([#6226](https://github.com/nolimits4web/Swiper/issues/6226)) ([02c1502](https://github.com/nolimits4web/Swiper/commit/02c1502d40c3cad52592030c122df26295547b3b))
+- touch focusableElements jumps element ([#6139](https://github.com/nolimits4web/Swiper/issues/6139)) ([339f52e](https://github.com/nolimits4web/Swiper/commit/339f52ee2fd728cfd18c25fda890714a20aec6f0))
+
+### Features
+
+- **svelte:** add tag and wrapperTag props ([71e7f5a](https://github.com/nolimits4web/Swiper/commit/71e7f5a88a2131eb5a0a916a9513498dfdfc8091)), closes [#6181](https://github.com/nolimits4web/Swiper/issues/6181)
+
 # [8.4.4](https://github.com/nolimits4web/Swiper/compare/v8.4.3...v8.4.4) (2022-10-12)
 
 ### Features
