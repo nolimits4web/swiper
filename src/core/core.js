@@ -84,9 +84,9 @@ class Swiper {
     }
 
     const allModulesParams = {};
-
     swiper.modules.forEach((mod) => {
       mod({
+        params,
         swiper,
         extendParams: moduleExtendParams(params, allModulesParams),
         on: swiper.on.bind(swiper),
