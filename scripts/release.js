@@ -87,7 +87,6 @@ async function release() {
   await exec.promise('git push');
   await exec.promise(`git tag v${pkg.version}`);
   await exec.promise('git push origin --tags');
-  // eslint-disable-next-line
   if (options.beta) {
     await exec.promise('cd ./dist && npm publish --tag beta');
   } else if (options.alpha || options.next) {
