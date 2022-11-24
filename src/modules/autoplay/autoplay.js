@@ -17,14 +17,16 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
       disableOnInteraction: true,
       stopOnLastSlide: false,
       reverseDirection: false,
-      pauseOnPointerEnter: true,
+      pauseOnMouseEnter: false,
     },
   });
   let timeout;
   let raf;
-  let autoplayDelay = params && params.autoplay ? params.autoplay.delay : 3000;
+  let autoplayDelayTotal = params && params.autoplay ? params.autoplay.delay : 3000;
+  let autoplayDelayCurrent = params && params.autoplay ? params.autoplay.delay : 3000;
   let autoplayTimeLeft;
   let autoplayStartTime = new Date().getTime;
+  let wasPaused;
   let isTouched;
   let pausedByTouch;
   let touchStartTimeout;
@@ -40,11 +42,17 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
 
   const calcTimeLeft = () => {
     if (swiper.destroyed || !swiper.autoplay.running) return;
+    if (swiper.autoplay.paused) {
+      wasPaused = true;
+    } else if (wasPaused) {
+      autoplayDelayCurrent = autoplayTimeLeft;
+      wasPaused = false;
+    }
     const timeLeft = swiper.autoplay.paused
       ? autoplayTimeLeft
-      : autoplayStartTime + autoplayDelay - new Date().getTime();
+      : autoplayStartTime + autoplayDelayCurrent - new Date().getTime();
     swiper.autoplay.timeLeft = timeLeft;
-    emit('autoplayTimeLeft', timeLeft, timeLeft / autoplayDelay);
+    emit('autoplayTimeLeft', timeLeft, timeLeft / autoplayDelayTotal);
     raf = requestAnimationFrame(() => {
       calcTimeLeft();
     });
@@ -64,7 +72,8 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
     calcTimeLeft();
 
     let delay = typeof delayForce === 'undefined' ? swiper.params.autoplay.delay : delayForce;
-    autoplayDelay = swiper.params.autoplay.delay;
+    autoplayDelayTotal = swiper.params.autoplay.delay;
+    autoplayDelayCurrent = swiper.params.autoplay.delay;
     const currentSlideDelay = getSlideDelay();
     if (
       !Number.isNaN(currentSlideDelay) &&
@@ -72,10 +81,10 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
       typeof delayForce === 'undefined'
     ) {
       delay = currentSlideDelay;
-      autoplayDelay = currentSlideDelay;
+      autoplayDelayTotal = currentSlideDelay;
+      autoplayDelayCurrent = currentSlideDelay;
     }
     autoplayTimeLeft = delay;
-
     const speed = swiper.params.speed;
     const proceed = () => {
       if (swiper.params.autoplay.reverseDirection) {
@@ -191,19 +200,21 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
     }
   };
 
-  const onPointerEnter = () => {
+  const onPointerEnter = (e) => {
+    if (e.pointerType !== 'mouse') return;
     pausedByInteraction = true;
     pause(true);
   };
 
-  const onPointerLeave = () => {
+  const onPointerLeave = (e) => {
+    if (e.pointerType !== 'mouse') return;
     if (swiper.autoplay.paused) {
       resume();
     }
   };
 
   const attachMouseEvents = () => {
-    if (swiper.params.autoplay.pauseOnPointerEnter) {
+    if (swiper.params.autoplay.pauseOnMouseEnter) {
       swiper.$el.on('pointerenter', onPointerEnter);
       swiper.$el.on('pointerleave', onPointerLeave);
     }

@@ -129,5 +129,5 @@ export interface AutoplayOptions {
    *
    * @default false
    */
-  pauseOnPointerEnter?: boolean;
+  pauseOnMouseEnter?: boolean;
 }
