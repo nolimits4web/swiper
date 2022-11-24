@@ -11,6 +11,8 @@ export default function onTouchEnd(event) {
 
   const { params, touches, rtlTranslate: rtl, slidesGrid, enabled } = swiper;
   if (!enabled) return;
+  if (!params.simulateTouch && event.pointerType === 'mouse') return;
+
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
   if (data.allowTouchCallbacks) {

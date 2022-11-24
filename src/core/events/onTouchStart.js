@@ -25,6 +25,7 @@ export default function onTouchStart(event) {
   data.evCache.push(event);
   const { params, touches, enabled } = swiper;
   if (!enabled) return;
+  if (!params.simulateTouch && event.pointerType === 'mouse') return;
 
   if (swiper.animating && params.preventInteractionOnTransition) {
     return;
