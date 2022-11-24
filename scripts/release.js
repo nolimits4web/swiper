@@ -76,31 +76,11 @@ async function release() {
     path.resolve(__dirname, '../src/copy/package.json'),
     `${JSON.stringify(childPkg, null, 2)}\n`,
   );
-  const cleanPackage = [
-    'components',
-    'core',
-    'modules',
-    'element',
-    'react',
-    'shared',
-    'types',
-    'vue',
-    '**/*.js',
-    '*.js',
-    '**/*.ts',
-    '*.ts',
-    '**/*.css',
-    '*.css',
-    '**/*.map',
-    '*.map',
-    '**/*.less',
-    '*.less',
-    '**/*.scss',
-    '*.scss',
-  ];
+
   await exec.promise('git pull');
   await exec.promise('npm i');
-  cleanPackage.map((p) => rimraf.sync(`./dist/${p}`));
+  rimraf.sync(path.resolve(__dirname, 'dir'));
+  fs.mkdirSync(path.resolve(__dirname, 'dir'));
   await exec.promise(`npm run build:prod`);
   await exec.promise('git add .');
   await exec.promise(`git commit -m "${pkg.version} release" --no-verify`);
