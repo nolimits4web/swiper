@@ -44,6 +44,11 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
 <table>
   <tr>
     <td align="center" valign="middle">
+      <a href="https://www.gambleonlineaustralia.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/gambleonlineaustralia.png" alt="Gamble Online Australia | Best Online Gambling Sites List 2022" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
       <a href="https://www.nettikasinot.org/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/nettikasinot.png" alt="Nettikasinot | Tässä parhaat nettikasinot 2022 - Katso lista" width="160">
       </a>
@@ -78,13 +83,13 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
         <img src="https://swiperjs.com/images/sponsors/nongamstopodds.png" alt="NonGamStopOdds casino sites" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://www.vpnunlimited.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/keepsolid.png" alt="VPN Unlimited – Encrypted, Secure & Private online VPN service" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.casinotest.de" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casinotest.png" alt="Online Casino Test 2022 » 90+ Casinos von Experten geprüft!" width="160">
@@ -120,13 +125,13 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
         <img src="https://swiperjs.com/images/sponsors/nongamstopwager-com.png" alt="Casinos not on GamStop UK 🏆 NonGamStopWager.com" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://casinoutankonto.net/casino-utan-svensk-licens/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casinoutankonto.png" alt="Casino utan spelpaus" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.casinot.net" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casinot-net.png" alt="Casinot | Tässä parhaat netticasinot 2021 - Katso lista" width="160">
@@ -162,9 +167,46 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
         <img src="https://swiperjs.com/images/sponsors/hex.png" alt="#1 Aussie Gambling Guide" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://papersowl.com/pay-for-research-paper" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/papersowl.png" alt="Pay Someone to Write My Research Paper" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://pillarwm.com/financial-advisor/top-financial-advisors-near-me/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/pillarwm.png" alt="Financial Advisors Near Me – Find The Best" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.nodeposit.guide/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/nodeposit-guide.png" alt="Best No Deposit Bonus Guide 2022" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.nzcasinoclub.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/nzcasinoclub.png" alt="Discover the Best Online Casinos in New Zealand in 2022" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://asian-bookies.net/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/asian-bookies.svg" alt="Best Asian Bookies" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.wisergamblers.com/de/casino-bonus-ohne-einzahlung/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/wisergamblers.png" alt="WiserGamblers | Best Online Gambling Guide" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://casino-ohne-lizenz.net/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/casino-ohne-lizenz.svg" alt="casinos ohne lizenz" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://cryptocasinos360.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/cryptocasinos360.png" alt="new crypto casinos 2023" width="160">
       </a>
     </td>
   </tr>
