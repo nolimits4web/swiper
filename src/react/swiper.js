@@ -24,6 +24,7 @@ const Swiper = forwardRef(
       className,
       tag: Tag = 'div',
       wrapperTag: WrapperTag = 'div',
+      wrapperClass = 'swiper-wrapper',
       children,
       onSwiper,
       ...rest
@@ -205,7 +206,7 @@ const Swiper = forwardRef(
       >
         <SwiperContext.Provider value={swiperRef.current}>
           {slots['container-start']}
-          <WrapperTag className="swiper-wrapper">
+          <WrapperTag className={uniqueClasses(wrapperClass)}>
             {slots['wrapper-start']}
             {renderSlides()}
             {slots['wrapper-end']}
