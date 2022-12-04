@@ -20,6 +20,7 @@
 
   export let tag = 'div';
   export let wrapperTag = 'div';
+  export let wrapperClass = 'swiper-wrapper';
 
   let containerClasses = 'swiper';
   let breakpointChanged = false;
@@ -158,7 +159,7 @@
   {...restProps}
 >
   <slot name="container-start" />
-  <svelte:element this={wrapperTag} class="swiper-wrapper">
+  <svelte:element this={wrapperTag} class={uniqueClasses(wrapperClass)}>
     <slot name="wrapper-start" />
     <slot {virtualData} />
     <slot name="wrapper-end" />
