@@ -17,6 +17,13 @@ interface SwiperProps extends SwiperOptions {
   wrapperTag?: string;
 
   /**
+   * CSS class name of slides' wrapper
+   *
+   * @default 'swiper-wrapper'
+   */
+  wrapperClass?: string;
+
+  /**
    * Get Swiper instance
    */
   onSwiper?: (swiper: SwiperClass) => void;

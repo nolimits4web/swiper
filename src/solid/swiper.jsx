@@ -51,6 +51,7 @@ const Swiper = (props) => {
     'ref',
     'tag',
     'wrapperTag',
+    'wrapperClass',
   ]);
 
   const params = createMemo(() => getParams(rest));
@@ -221,7 +222,7 @@ const Swiper = (props) => {
       <SwiperContext.Provider value={swiperRef}>
         {slidesSlots().slots['container-start']}
 
-        <div class="swiper-wrapper">
+        <div class={uniqueClasses(local.wrapperClass)}>
           {slidesSlots().slots['wrapper-start']}
           {renderSlides()}
           {slidesSlots().slots['wrapper-end']}
