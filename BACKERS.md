@@ -6,6 +6,11 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 <table>
   <tr>
     <td align="center" valign="middle">
+      <a href="https://www.gambleonlineaustralia.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/gambleonlineaustralia.png" alt="Gamble Online Australia | Best Online Gambling Sites List 2022" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
       <a href="https://www.nettikasinot.org/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/nettikasinot.png" alt="Nettikasinot | Tässä parhaat nettikasinot 2022 - Katso lista" width="160">
       </a>
@@ -40,13 +45,13 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/nongamstopodds.png" alt="NonGamStopOdds casino sites" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://www.vpnunlimited.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/keepsolid.png" alt="VPN Unlimited – Encrypted, Secure & Private online VPN service" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.casinotest.de" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casinotest.png" alt="Online Casino Test 2022 » 90+ Casinos von Experten geprüft!" width="160">
@@ -82,13 +87,13 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/nongamstopwager-com.png" alt="Casinos not on GamStop UK 🏆 NonGamStopWager.com" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://casinoutankonto.net/casino-utan-svensk-licens/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casinoutankonto.png" alt="Casino utan spelpaus" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.casinot.net" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casinot-net.png" alt="Casinot | Tässä parhaat netticasinot 2021 - Katso lista" width="160">
@@ -124,9 +129,46 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
         <img src="https://swiperjs.com/images/sponsors/hex.png" alt="#1 Aussie Gambling Guide" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://papersowl.com/pay-for-research-paper" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/papersowl.png" alt="Pay Someone to Write My Research Paper" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://pillarwm.com/financial-advisor/top-financial-advisors-near-me/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/pillarwm.png" alt="Financial Advisors Near Me – Find The Best" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.nodeposit.guide/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/nodeposit-guide.png" alt="Best No Deposit Bonus Guide 2022" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.nzcasinoclub.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/nzcasinoclub.png" alt="Discover the Best Online Casinos in New Zealand in 2022" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://asian-bookies.net/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/asian-bookies.svg" alt="Best Asian Bookies" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.wisergamblers.com/de/casino-bonus-ohne-einzahlung/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/wisergamblers.png" alt="WiserGamblers | Best Online Gambling Guide" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://casino-ohne-lizenz.net/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/casino-ohne-lizenz.svg" alt="casinos ohne lizenz" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://cryptocasinos360.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/cryptocasinos360.png" alt="new crypto casinos 2023" width="160">
       </a>
     </td>
   </tr>
@@ -854,6 +896,8 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 ### \$100 Silver Sponsor
 
 <!-- SILVER_SPONSOR -->
+
+- [Gamble Online Australia | Best Online Gambling Sites List 2022](https://www.gambleonlineaustralia.com/)
 - [Nettikasinot | Tässä parhaat nettikasinot 2022 - Katso lista](https://www.nettikasinot.org/)
 - [Nettikasinot 2022 | Löydä Luotettava & Turvallinen Nettikasino!](https://www.kasinohai.com/nettikasinot)
 - [Buy Youtube Views](https://buyyoutubviews.com/)
@@ -887,6 +931,14 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 ### \$50+ Sponsor
 
 <!-- SPONSOR -->
+
+- [Financial Advisors Near Me – Find The Best](https://pillarwm.com/financial-advisor/top-financial-advisors-near-me/)
+- [Best No Deposit Bonus Guide 2022](https://www.nodeposit.guide/)
+- [Discover the Best Online Casinos in New Zealand in 2022](https://www.nzcasinoclub.com/)
+- [Best Asian Bookies](https://asian-bookies.net/)
+- [WiserGamblers | Best Online Gambling Guide](https://www.wisergamblers.com/de/casino-bonus-ohne-einzahlung/)
+- [casinos ohne lizenz](https://casino-ohne-lizenz.net/)
+- [new crypto casinos 2023](https://cryptocasinos360.com/)
 - [utländska casino med låg insättning](https://utansvensklicens.casino/casino-minsta-insattning/)
 - [Daily Contributors: The Art Of Publishing - Write For Us | Business](https://dailycontributors.com/)
 - [Togel Online | Togel Hongkong | Togel Singapore Resmi](https://falbergsaws.com/)
@@ -1041,6 +1093,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 
 ### \$10+ Supporter
 
+[Ethan Brackstone](https://www.patreon.com/user/creators?u=16947923)<br>
 [Will Myers](https://opencollective.com/will-myers)<br>
 
 [Join here!](https://opencollective.com/swiper/contribute/supporter-23766/checkout)
