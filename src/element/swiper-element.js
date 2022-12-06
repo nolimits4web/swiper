@@ -32,7 +32,11 @@ const addGlobalStyles = (preInit, swiper) => {
   }
 };
 
-class SwiperContainer extends HTMLElement {
+class DummyHTMLElement {}
+
+const ClassToExtend = typeof window === 'undefined' ? DummyHTMLElement : HTMLElement;
+
+class SwiperContainer extends ClassToExtend {
   constructor() {
     super();
 
@@ -190,7 +194,7 @@ paramsList.forEach((paramName) => {
   });
 });
 
-class SwiperSlide extends HTMLElement {
+class SwiperSlide extends ClassToExtend {
   constructor() {
     super();
 
