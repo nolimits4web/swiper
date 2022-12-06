@@ -529,7 +529,17 @@ class Swiper {
     }
 
     // Slide To Initial Slide
-    swiper.slideTo(swiper.params.initialSlide, 0, swiper.params.runCallbacksOnInit, false, true);
+    if (swiper.params.loop && swiper.virtual && swiper.params.virtual.enabled) {
+      swiper.slideTo(
+        swiper.params.initialSlide + swiper.virtual.slidesBefore,
+        0,
+        swiper.params.runCallbacksOnInit,
+        false,
+        true,
+      );
+    } else {
+      swiper.slideTo(swiper.params.initialSlide, 0, swiper.params.runCallbacksOnInit, false, true);
+    }
 
     // Create loop
     if (swiper.params.loop) {

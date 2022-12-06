@@ -34,6 +34,14 @@ export default function updateActiveIndex(newActiveIndex) {
   } = swiper;
   let activeIndex = newActiveIndex;
   let snapIndex;
+
+  const getVirtualRealIndex = (aIndex) => {
+    let realIndex = aIndex - swiper.virtual.slidesBefore;
+    if (realIndex < 0) {
+      realIndex = swiper.virtual.slides.length - 1;
+    }
+    return realIndex;
+  };
   if (typeof activeIndex === 'undefined') {
     activeIndex = getActiveIndexByTranslate(swiper);
   }
@@ -50,21 +58,20 @@ export default function updateActiveIndex(newActiveIndex) {
       swiper.emit('snapIndexChange');
     }
     if (swiper.params.loop && swiper.virtual && swiper.params.virtual.enabled) {
-      const realIndex = parseInt(
-        swiper.slides.eq(activeIndex).attr('data-swiper-slide-index') || activeIndex,
-        10,
-      );
-      Object.assign(swiper, {
-        realIndex,
-      });
+      swiper.realIndex = getVirtualRealIndex(activeIndex);
     }
     return;
   }
   // Get real index
-  const realIndex = parseInt(
-    swiper.slides.eq(activeIndex).attr('data-swiper-slide-index') || activeIndex,
-    10,
-  );
+  let realIndex;
+  if (swiper.virtual && params.virtual.enabled && params.loop) {
+    realIndex = getVirtualRealIndex(activeIndex);
+  } else {
+    realIndex = parseInt(
+      swiper.slides.eq(activeIndex).attr('data-swiper-slide-index') || activeIndex,
+      10,
+    );
+  }
 
   Object.assign(swiper, {
     snapIndex,

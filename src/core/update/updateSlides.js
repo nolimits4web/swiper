@@ -210,7 +210,11 @@ export default function updateSlides() {
     }
   }
   if (isVirtual && params.loop) {
-    snapGrid.push(snapGrid[snapGrid.length - 1] + swiperSize);
+    snapGrid.push(
+      snapGrid[snapGrid.length - 1] + slidesSizesGrid[0] + spaceBetween,
+      snapGrid[snapGrid.length - 1] + (slidesSizesGrid[0] + spaceBetween) * 2,
+    );
+    slidesGrid.push(slidesGrid[slidesGrid.length - 1] + slidesSizesGrid[0] + spaceBetween);
   }
   if (snapGrid.length === 0) snapGrid = [0];
 

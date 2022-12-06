@@ -14,7 +14,13 @@ export default function updateSlidesClasses() {
 
   let activeSlide;
   if (isVirtual) {
-    activeSlide = getFilteredSlides(`[data-swiper-slide-index="${activeIndex}"]`);
+    if (params.loop) {
+      activeSlide = getFilteredSlides(
+        `[data-swiper-slide-index="${activeIndex - swiper.virtual.slidesBefore}"]`,
+      );
+    } else {
+      activeSlide = getFilteredSlides(`[data-swiper-slide-index="${activeIndex}"]`);
+    }
   } else {
     activeSlide = slides.eq(activeIndex);
   }

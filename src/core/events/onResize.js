@@ -14,6 +14,8 @@ export default function onResize() {
   // Save locks
   const { allowSlideNext, allowSlidePrev, snapGrid } = swiper;
 
+  const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
+
   // Disable locks on resize
   swiper.allowSlideNext = true;
   swiper.allowSlidePrev = true;
@@ -30,7 +32,7 @@ export default function onResize() {
   ) {
     swiper.slideTo(swiper.slides.length - 1, 0, false, true);
   } else {
-    if (swiper.params.loop) {
+    if (swiper.params.loop && !isVirtual) {
       swiper.slideToLoop(swiper.realIndex, 0, false, true);
     } else {
       swiper.slideTo(swiper.activeIndex, 0, false, true);

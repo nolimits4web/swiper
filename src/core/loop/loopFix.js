@@ -13,7 +13,7 @@ export default function loopFix(slideRealIndex, slideTo = true) {
       if (swiper.snapIndex === 0) {
         swiper.slideTo(swiper.virtual.slides.length, 0, false, true);
       } else if (swiper.snapIndex === swiper.snapGrid.length - 1) {
-        swiper.slideTo(0, 0, false, true);
+        swiper.slideTo(swiper.virtual.slidesBefore, 0, false, true);
       }
     }
     swiper.allowSlidePrev = allowSlidePrev;
