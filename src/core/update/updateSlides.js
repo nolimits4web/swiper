@@ -209,6 +209,9 @@ export default function updateSlides() {
       snapGrid.push(swiper.virtualSize - swiperSize);
     }
   }
+  if (isVirtual && params.loop) {
+    snapGrid.push(snapGrid[snapGrid.length - 1] + swiperSize);
+  }
   if (snapGrid.length === 0) snapGrid = [0];
 
   if (params.spaceBetween !== 0) {

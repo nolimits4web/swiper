@@ -13,9 +13,14 @@ export default function slideToLoop(
   const swiper = this;
   let newIndex = index;
   if (swiper.params.loop) {
-    newIndex = swiper.slides
-      .filter((slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === newIndex)
-      .index();
+    if (swiper.virtual && swiper.params.virtual.enabled) {
+      // eslint-disable-next-line
+      newIndex = newIndex + swiper.virtual.slidesBefore;
+    } else {
+      newIndex = swiper.slides
+        .filter((slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === newIndex)
+        .index();
+    }
   }
 
   return swiper.slideTo(newIndex, speed, runCallbacks, internal);

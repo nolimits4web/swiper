@@ -45,7 +45,7 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
   }
 
   function update(force) {
-    const { slidesPerView, slidesPerGroup, centeredSlides } = swiper.params;
+    const { slidesPerView, slidesPerGroup, centeredSlides, loop: isLoop } = swiper.params;
     const { addSlidesBefore, addSlidesAfter } = swiper.params.virtual;
     const {
       from: previousFrom,
@@ -73,15 +73,30 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
       slidesAfter = slidesPerView + (slidesPerGroup - 1) + addSlidesAfter;
       slidesBefore = slidesPerGroup + addSlidesBefore;
     }
-    const from = Math.max((activeIndex || 0) - slidesBefore, 0);
-    const to = Math.min((activeIndex || 0) + slidesAfter, slides.length - 1);
-    const offset = (swiper.slidesGrid[from] || 0) - (swiper.slidesGrid[0] || 0);
+    let from = activeIndex - slidesBefore;
+    if (!isLoop) {
+      from = Math.max(from, 0);
+    }
+    if (activeIndex >= slidesBefore) {
+      // from -= 1;
+    }
+    let to = activeIndex + slidesAfter;
+    if (!isLoop) {
+      to = Math.min(to, slides.length - 1);
+    }
+    let offset = (swiper.slidesGrid[from] || 0) - (swiper.slidesGrid[0] || 0);
+    if (activeIndex >= slidesBefore) {
+      from -= slidesBefore;
+      offset += swiper.slidesGrid[0];
+    }
 
     Object.assign(swiper.virtual, {
       from,
       to,
       offset,
       slidesGrid: swiper.slidesGrid,
+      slidesBefore,
+      slidesAfter,
     });
 
     function onRendered() {
@@ -121,35 +136,58 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     }
     const prependIndexes = [];
     const appendIndexes = [];
+
+    const getSlideIndex = (index) => {
+      let slideIndex = index;
+      if (index < 0) {
+        slideIndex = slides.length + index;
+      } else if (slideIndex >= slides.length) {
+        // eslint-disable-next-line
+        slideIndex = slideIndex - slides.length;
+      }
+      return slideIndex;
+    };
+
     if (force) {
       swiper.$wrapperEl.find(`.${swiper.params.slideClass}`).remove();
     } else {
       for (let i = previousFrom; i <= previousTo; i += 1) {
         if (i < from || i > to) {
+          const slideIndex = getSlideIndex(i);
           swiper.$wrapperEl
-            .find(`.${swiper.params.slideClass}[data-swiper-slide-index="${i}"]`)
+            .find(`.${swiper.params.slideClass}[data-swiper-slide-index="${slideIndex}"]`)
             .remove();
         }
       }
     }
-    for (let i = 0; i < slides.length; i += 1) {
+    const loopFrom = isLoop ? -slides.length : 0;
+    const loopTo = isLoop ? slides.length * 2 : slides.length;
+    for (let i = loopFrom; i < loopTo; i += 1) {
       if (i >= from && i <= to) {
+        const slideIndex = getSlideIndex(i);
         if (typeof previousTo === 'undefined' || force) {
-          appendIndexes.push(i);
+          appendIndexes.push(slideIndex);
         } else {
-          if (i > previousTo) appendIndexes.push(i);
-          if (i < previousFrom) prependIndexes.push(i);
+          if (i > previousTo) appendIndexes.push(slideIndex);
+          if (i < previousFrom) prependIndexes.push(slideIndex);
         }
       }
     }
     appendIndexes.forEach((index) => {
       swiper.$wrapperEl.append(renderSlide(slides[index], index));
     });
-    prependIndexes
-      .sort((a, b) => b - a)
-      .forEach((index) => {
+    if (isLoop) {
+      for (let i = prependIndexes.length - 1; i >= 0; i -= 1) {
+        const index = prependIndexes[i];
+        swiper.$wrapperEl.prepend(renderSlide(slides[index], index));
+      }
+    } else {
+      prependIndexes.sort((a, b) => b - a);
+      prependIndexes.forEach((index) => {
         swiper.$wrapperEl.prepend(renderSlide(slides[index], index));
       });
+    }
+
     swiper.$wrapperEl.children('.swiper-slide').css(offsetProp, `${offset}px`);
     onRendered();
   }

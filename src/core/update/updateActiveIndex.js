@@ -49,9 +49,17 @@ export default function updateActiveIndex(newActiveIndex) {
       swiper.snapIndex = snapIndex;
       swiper.emit('snapIndexChange');
     }
+    if (swiper.params.loop && swiper.virtual && swiper.params.virtual.enabled) {
+      const realIndex = parseInt(
+        swiper.slides.eq(activeIndex).attr('data-swiper-slide-index') || activeIndex,
+        10,
+      );
+      Object.assign(swiper, {
+        realIndex,
+      });
+    }
     return;
   }
-
   // Get real index
   const realIndex = parseInt(
     swiper.slides.eq(activeIndex).attr('data-swiper-slide-index') || activeIndex,

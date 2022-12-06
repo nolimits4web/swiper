@@ -1,14 +1,26 @@
 export default function loopFix(slideRealIndex, slideTo = true) {
   const swiper = this;
-
-  if (!swiper.params.loop || (swiper.virtual && swiper.params.virtual.enabled)) return;
-
+  if (!swiper.params.loop) return;
   swiper.emit('beforeLoopFix');
 
   const { slides, allowSlidePrev, allowSlideNext, $slidesEl } = swiper;
 
   swiper.allowSlidePrev = true;
   swiper.allowSlideNext = true;
+
+  if (swiper.virtual && swiper.params.virtual.enabled) {
+    if (slideTo) {
+      if (swiper.snapIndex === 0) {
+        swiper.slideTo(swiper.virtual.slides.length, 0, false, true);
+      } else if (swiper.snapIndex === swiper.snapGrid.length - 1) {
+        swiper.slideTo(0, 0, false, true);
+      }
+    }
+    swiper.allowSlidePrev = allowSlidePrev;
+    swiper.allowSlideNext = allowSlideNext;
+    swiper.emit('loopFix');
+    return;
+  }
 
   const slidesPerView =
     swiper.params.slidesPerView === 'auto'
