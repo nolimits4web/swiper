@@ -34,7 +34,10 @@ const addGlobalStyles = (preInit, swiper) => {
 
 class DummyHTMLElement {}
 
-const ClassToExtend = typeof window === 'undefined' ? DummyHTMLElement : HTMLElement;
+const ClassToExtend =
+  typeof window === 'undefined' || typeof HTMLElement === 'undefined'
+    ? DummyHTMLElement
+    : HTMLElement;
 
 class SwiperContainer extends ClassToExtend {
   constructor() {
