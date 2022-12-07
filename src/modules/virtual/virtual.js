@@ -71,23 +71,21 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
       slidesBefore = Math.floor(slidesPerView / 2) + slidesPerGroup + addSlidesBefore;
     } else {
       slidesAfter = slidesPerView + (slidesPerGroup - 1) + addSlidesAfter;
-      slidesBefore = slidesPerGroup + addSlidesBefore;
+      slidesBefore = (isLoop ? slidesPerView : slidesPerGroup) + addSlidesBefore;
     }
     let from = activeIndex - slidesBefore;
-    if (!isLoop) {
-      from = Math.max(from, 0);
-    }
-    if (activeIndex >= slidesBefore) {
-      // from -= 1;
-    }
     let to = activeIndex + slidesAfter;
     if (!isLoop) {
+      from = Math.max(from, 0);
       to = Math.min(to, slides.length - 1);
     }
     let offset = (swiper.slidesGrid[from] || 0) - (swiper.slidesGrid[0] || 0);
-    if (activeIndex >= slidesBefore) {
+    if (isLoop && activeIndex >= slidesBefore) {
       from -= slidesBefore;
-      offset += swiper.slidesGrid[0];
+      if (!centeredSlides) offset += swiper.slidesGrid[0];
+    } else if (isLoop && activeIndex < slidesBefore) {
+      from = -slidesBefore;
+      if (centeredSlides) offset += swiper.slidesGrid[0];
     }
 
     Object.assign(swiper.virtual, {

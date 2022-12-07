@@ -210,11 +210,23 @@ export default function updateSlides() {
     }
   }
   if (isVirtual && params.loop) {
-    snapGrid.push(
-      snapGrid[snapGrid.length - 1] + slidesSizesGrid[0] + spaceBetween,
-      snapGrid[snapGrid.length - 1] + (slidesSizesGrid[0] + spaceBetween) * 2,
-    );
-    slidesGrid.push(slidesGrid[slidesGrid.length - 1] + slidesSizesGrid[0] + spaceBetween);
+    const size = slidesSizesGrid[0] + spaceBetween;
+    if (params.slidesPerGroup > 1) {
+      const groups = Math.ceil(
+        (swiper.virtual.slidesBefore + swiper.virtual.slidesAfter) / params.slidesPerGroup,
+      );
+      const groupSize = size * params.slidesPerGroup;
+      for (let i = 0; i < groups; i += 1) {
+        snapGrid.push(snapGrid[snapGrid.length - 1] + groupSize);
+      }
+    }
+    for (let i = 0; i < swiper.virtual.slidesBefore + swiper.virtual.slidesAfter; i += 1) {
+      if (params.slidesPerGroup === 1) {
+        snapGrid.push(snapGrid[snapGrid.length - 1] + size);
+      }
+      slidesGrid.push(slidesGrid[slidesGrid.length - 1] + size);
+      swiper.virtualSize += size;
+    }
   }
   if (snapGrid.length === 0) snapGrid = [0];
 

@@ -38,7 +38,6 @@ export default function slideTo(
   if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
 
   const translate = -snapGrid[snapIndex];
-
   // Normalize slideIndex
   if (params.normalizeSlideIndex) {
     for (let i = 0; i < slidesGrid.length; i += 1) {

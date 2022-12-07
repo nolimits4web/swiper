@@ -38,7 +38,10 @@ export default function updateActiveIndex(newActiveIndex) {
   const getVirtualRealIndex = (aIndex) => {
     let realIndex = aIndex - swiper.virtual.slidesBefore;
     if (realIndex < 0) {
-      realIndex = swiper.virtual.slides.length - 1;
+      realIndex = swiper.virtual.slides.length + realIndex;
+    }
+    if (realIndex >= swiper.virtual.slides.length) {
+      realIndex -= swiper.virtual.slides.length;
     }
     return realIndex;
   };

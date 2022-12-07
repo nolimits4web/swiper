@@ -2,6 +2,18 @@ import React from 'react';
 
 function renderVirtual(swiper, slides, virtualData) {
   if (!virtualData) return null;
+
+  const getSlideIndex = (index) => {
+    let slideIndex = index;
+    if (index < 0) {
+      slideIndex = slides.length + index;
+    } else if (slideIndex >= slides.length) {
+      // eslint-disable-next-line
+      slideIndex = slideIndex - slides.length;
+    }
+    return slideIndex;
+  };
+
   const style = swiper.isHorizontal()
     ? {
         [swiper.rtlTranslate ? 'right' : 'left']: `${virtualData.offset}px`,
@@ -9,14 +21,21 @@ function renderVirtual(swiper, slides, virtualData) {
     : {
         top: `${virtualData.offset}px`,
       };
-  return slides
-    .filter((child, index) => index >= virtualData.from && index <= virtualData.to)
-    .map((child) => {
-      return React.cloneElement(child, {
-        swiper,
-        style,
-      });
+  const { from, to } = virtualData;
+  const loopFrom = swiper.params.loop ? -slides.length : 0;
+  const loopTo = swiper.params.loop ? slides.length * 2 : slides.length;
+  const slidesToRender = [];
+  for (let i = loopFrom; i < loopTo; i += 1) {
+    if (i >= from && i <= to) {
+      slidesToRender.push(slides[getSlideIndex(i)]);
+    }
+  }
+  return slidesToRender.map((child) => {
+    return React.cloneElement(child, {
+      swiper,
+      style,
     });
+  });
 }
 
 export { renderVirtual };

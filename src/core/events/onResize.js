@@ -24,11 +24,13 @@ export default function onResize() {
   swiper.updateSlides();
 
   swiper.updateSlidesClasses();
+  const isVirtualLoop = isVirtual && params.loop;
   if (
     (params.slidesPerView === 'auto' || params.slidesPerView > 1) &&
     swiper.isEnd &&
     !swiper.isBeginning &&
-    !swiper.params.centeredSlides
+    !swiper.params.centeredSlides &&
+    !isVirtualLoop
   ) {
     swiper.slideTo(swiper.slides.length - 1, 0, false, true);
   } else {

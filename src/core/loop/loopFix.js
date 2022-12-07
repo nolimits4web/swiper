@@ -3,15 +3,17 @@ export default function loopFix(slideRealIndex, slideTo = true) {
   if (!swiper.params.loop) return;
   swiper.emit('beforeLoopFix');
 
-  const { slides, allowSlidePrev, allowSlideNext, $slidesEl } = swiper;
+  const { slides, allowSlidePrev, allowSlideNext, $slidesEl, params } = swiper;
 
   swiper.allowSlidePrev = true;
   swiper.allowSlideNext = true;
 
-  if (swiper.virtual && swiper.params.virtual.enabled) {
+  if (swiper.virtual && params.virtual.enabled) {
     if (slideTo) {
-      if (swiper.snapIndex === 0) {
+      if (!params.centeredSlides && swiper.snapIndex === 0) {
         swiper.slideTo(swiper.virtual.slides.length, 0, false, true);
+      } else if (params.centeredSlides && swiper.snapIndex < params.slidesPerView) {
+        swiper.slideTo(swiper.virtual.slides.length + swiper.snapIndex, 0, false, true);
       } else if (swiper.snapIndex === swiper.snapGrid.length - 1) {
         swiper.slideTo(swiper.virtual.slidesBefore, 0, false, true);
       }
@@ -23,12 +25,12 @@ export default function loopFix(slideRealIndex, slideTo = true) {
   }
 
   const slidesPerView =
-    swiper.params.slidesPerView === 'auto'
+    params.slidesPerView === 'auto'
       ? swiper.slidesPerViewDynamic()
-      : Math.ceil(parseFloat(swiper.params.slidesPerView, 10));
+      : Math.ceil(parseFloat(params.slidesPerView, 10));
   let loopedSlides = slidesPerView;
-  if (loopedSlides % swiper.params.slidesPerGroup !== 0) {
-    loopedSlides += swiper.params.slidesPerGroup - (loopedSlides % swiper.params.slidesPerGroup);
+  if (loopedSlides % params.slidesPerGroup !== 0) {
+    loopedSlides += params.slidesPerGroup - (loopedSlides % params.slidesPerGroup);
   }
   swiper.loopedSlides = loopedSlides;
 
