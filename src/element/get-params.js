@@ -12,6 +12,31 @@ const formatValue = (val) => {
   return val;
 };
 
+const modulesParamsList = [
+  'a11y',
+  'autoplay',
+  'controller',
+  'cards-effect',
+  'coverflow-effect',
+  'creative-effect',
+  'cube-effect',
+  'fade-effect',
+  'flip-effect',
+  'free-mode',
+  'grid',
+  'hash-navigation',
+  'history',
+  'keyboard',
+  'mousewheel',
+  'navigation',
+  'pagination',
+  'parallax',
+  'scrollbar',
+  'thumbs',
+  'virtual',
+  'zoom',
+];
+
 function getParams(element) {
   const params = {};
   const passedParams = {};
@@ -29,10 +54,27 @@ function getParams(element) {
 
   // Attributes
   [...element.attributes].forEach((attr) => {
-    const name = attrToProp(attr.name);
-    if (!allowedParams.includes(name)) return;
-    const value = formatValue(attr.value);
-    passedParams[name] = value;
+    const moduleParam = modulesParamsList.filter(
+      (mParam) => attr.name.indexOf(`${mParam}-`) === 0,
+    )[0];
+    if (moduleParam) {
+      const parentObjName = attrToProp(moduleParam);
+      const subObjName = attrToProp(attr.name.split(`${moduleParam}-`)[1]);
+      if (!passedParams[parentObjName]) passedParams[parentObjName] = {};
+      if (passedParams[parentObjName] === true) {
+        passedParams[parentObjName] = { enabled: true };
+      }
+      passedParams[parentObjName][subObjName] = formatValue(attr.value);
+    } else {
+      const name = attrToProp(attr.name);
+      if (!allowedParams.includes(name)) return;
+      const value = formatValue(attr.value);
+      if (passedParams[name] && modulesParamsList.includes(attr.name)) {
+        passedParams[name].enabled = value;
+      } else {
+        passedParams[name] = value;
+      }
+    }
   });
 
   extend(params, passedParams);
