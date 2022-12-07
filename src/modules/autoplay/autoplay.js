@@ -59,10 +59,16 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   };
 
   const getSlideDelay = () => {
-    const currentSlideDelay = parseInt(
-      swiper.slides[swiper.activeIndex].getAttribute('data-swiper-autoplay'),
-      10,
-    );
+    let activeSlideEl;
+    if (swiper.virtual && swiper.params.virtual.enabled) {
+      activeSlideEl = swiper.slides.filter((slideEl) =>
+        slideEl.classList.contains('swiper-slide-active'),
+      )[0];
+    } else {
+      activeSlideEl = swiper.slides[swiper.activeIndex];
+    }
+    if (!activeSlideEl) return undefined;
+    const currentSlideDelay = parseInt(activeSlideEl.getAttribute('data-swiper-autoplay'), 10);
     return currentSlideDelay;
   };
 
@@ -279,11 +285,11 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   });
 
   on('touchEnd', () => {
-    if (swiper.destroyed || !swiper.autoplay.running) return;
+    if (swiper.destroyed || !swiper.autoplay.running || !isTouched) return;
     clearTimeout(touchStartTimeout);
     clearTimeout(timeout);
 
-    if (!isTouched || swiper.params.autoplay.disableOnInteraction) {
+    if (swiper.params.autoplay.disableOnInteraction) {
       pausedByTouch = false;
       isTouched = false;
       return;
