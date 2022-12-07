@@ -86,11 +86,12 @@ export default function updateSlides() {
 
   for (let i = 0; i < slidesLength; i += 1) {
     slideSize = 0;
-    const slide = slides.eq(i);
+    let slide;
+    if (slides[i]) slide = slides.eq(i);
     if (gridEnabled) {
       swiper.grid.updateSlide(i, slide, slidesLength, getDirectionLabel);
     }
-    if (slide.css('display') === 'none') continue; // eslint-disable-line
+    if (slides[i] && slide.css('display') === 'none') continue; // eslint-disable-line
 
     if (params.slidesPerView === 'auto') {
       if (shouldResetSlideSize) {
@@ -175,6 +176,7 @@ export default function updateSlides() {
 
     index += 1;
   }
+
   swiper.virtualSize = Math.max(swiper.virtualSize, swiperSize) + offsetAfter;
 
   if (rtl && wrongRTL && (params.effect === 'slide' || params.effect === 'coverflow')) {

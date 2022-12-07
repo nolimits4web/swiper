@@ -147,17 +147,20 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     };
 
     if (force) {
-      swiper.$wrapperEl.find(`.${swiper.params.slideClass}`).remove();
+      swiper.$slidesEl.find(`.${swiper.params.slideClass}, swiper-slide`).remove();
     } else {
       for (let i = previousFrom; i <= previousTo; i += 1) {
         if (i < from || i > to) {
           const slideIndex = getSlideIndex(i);
-          swiper.$wrapperEl
-            .find(`.${swiper.params.slideClass}[data-swiper-slide-index="${slideIndex}"]`)
+          swiper.$slidesEl
+            .find(
+              `.${swiper.params.slideClass}[data-swiper-slide-index="${slideIndex}"], swiper-slide[data-swiper-slide-index="${slideIndex}"]`,
+            )
             .remove();
         }
       }
     }
+
     const loopFrom = isLoop ? -slides.length : 0;
     const loopTo = isLoop ? slides.length * 2 : slides.length;
     for (let i = loopFrom; i < loopTo; i += 1) {
@@ -172,21 +175,21 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
       }
     }
     appendIndexes.forEach((index) => {
-      swiper.$wrapperEl.append(renderSlide(slides[index], index));
+      swiper.$slidesEl.append(renderSlide(slides[index], index));
     });
     if (isLoop) {
       for (let i = prependIndexes.length - 1; i >= 0; i -= 1) {
         const index = prependIndexes[i];
-        swiper.$wrapperEl.prepend(renderSlide(slides[index], index));
+        swiper.$slidesEl.prepend(renderSlide(slides[index], index));
       }
     } else {
       prependIndexes.sort((a, b) => b - a);
       prependIndexes.forEach((index) => {
-        swiper.$wrapperEl.prepend(renderSlide(slides[index], index));
+        swiper.$slidesEl.prepend(renderSlide(slides[index], index));
       });
     }
 
-    swiper.$wrapperEl.children('.swiper-slide').css(offsetProp, `${offset}px`);
+    swiper.$slidesEl.children('.swiper-slide, swiper-slide').css(offsetProp, `${offset}px`);
     onRendered();
   }
 
@@ -267,7 +270,23 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
 
   on('beforeInit', () => {
     if (!swiper.params.virtual.enabled) return;
-    swiper.virtual.slides = swiper.params.virtual.slides;
+    let domSlidesAssigned;
+    if (typeof swiper.passedParams.virtual.slides === 'undefined') {
+      const $slides = swiper.$slidesEl.children(`.${swiper.params.slideClass}, swiper-slide`);
+      if ($slides && $slides.length) {
+        swiper.virtual.slides = [...$slides];
+        domSlidesAssigned = true;
+        $slides.forEach((slideEl, slideIndex) => {
+          $(slideEl).attr('data-swiper-slide-index', slideIndex);
+          swiper.virtual.cache[slideIndex] = $(slideEl);
+        });
+        $slides.remove();
+      }
+    }
+    if (!domSlidesAssigned) {
+      swiper.virtual.slides = swiper.params.virtual.slides;
+    }
+
     swiper.classNames.push(`${swiper.params.containerModifierClass}virtual`);
 
     swiper.params.watchSlidesProgress = true;

@@ -8,8 +8,9 @@ export default function slideNext(speed = this.params.speed, runCallbacks = true
     perGroup = Math.max(swiper.slidesPerViewDynamic('current', true), 1);
   }
   const increment = swiper.activeIndex < params.slidesPerGroupSkip ? 1 : perGroup;
+  const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
   if (params.loop) {
-    if (animating) return false;
+    if (animating && !isVirtual) return false;
     swiper.loopFix();
     // eslint-disable-next-line
     swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;

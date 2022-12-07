@@ -108,7 +108,7 @@ class SwiperContainer extends ClassToExtend {
     this.swiper = new Swiper(this, {
       ...swiperParams,
       touchEventsTarget: 'container',
-      observer: true,
+      ...(swiperParams.virtual ? {} : { observer: true }),
       onAny: (name, ...args) => {
         const event = new CustomEvent(name.toLowerCase(), {
           detail: args,
