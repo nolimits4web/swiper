@@ -14,7 +14,16 @@
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
     <div class="swiper-wrapper">
-
+      <div class="swiper-slide">Slide 1</div>
+      <div class="swiper-slide">Slide 2</div>
+      <div class="swiper-slide">Slide 3</div>
+      <div class="swiper-slide">Slide 4</div>
+      <div class="swiper-slide">Slide 5</div>
+      <div class="swiper-slide">Slide 6</div>
+      <div class="swiper-slide">Slide 7</div>
+      <div class="swiper-slide">Slide 8</div>
+      <div class="swiper-slide">Slide 9</div>
+      <div class="swiper-slide">Slide 10</div>
     </div>
   </section>
   <style>
@@ -50,8 +59,6 @@
     window.swiper = new Swiper({
       el: '.swiper',
       speed: 300,
-      // cssMode: true,
-      // rewind: true,
       slidesPerView: 1,
       scrollbar: {
         el: '.swiper-scrollbar',
@@ -62,13 +69,7 @@
       },
       pagination: {
         el: '.swiper-pagination',
-        // dynamicBullets: true,
-        // dynamicMainBullets: 3,
       },
-      loop: true,
-      virtual: {
-        slides: Array.from({ length: 10 }).map((i, index) => `Slide ${index}`)
-      }
     });
   </script>
 </body>
