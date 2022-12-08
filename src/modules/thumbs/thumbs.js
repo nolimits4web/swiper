@@ -1,5 +1,4 @@
-import { isObject } from '../../shared/utils.js';
-import $ from '../../shared/dom.js';
+import { elementChildren, isObject, nextSiblings, prevSiblings } from '../../shared/utils.js';
 
 export default function Thumb({ swiper, extendParams, on }) {
   extendParams({
@@ -25,28 +24,28 @@ export default function Thumb({ swiper, extendParams, on }) {
 
     const clickedIndex = thumbsSwiper.clickedIndex;
     const clickedSlide = thumbsSwiper.clickedSlide;
-    if (clickedSlide && $(clickedSlide).hasClass(swiper.params.thumbs.slideThumbActiveClass))
+    if (clickedSlide && clickedSlide.classList.contains(swiper.params.thumbs.slideThumbActiveClass))
       return;
     if (typeof clickedIndex === 'undefined' || clickedIndex === null) return;
     let slideToIndex;
     if (thumbsSwiper.params.loop) {
-      slideToIndex = parseInt($(thumbsSwiper.clickedSlide).attr('data-swiper-slide-index'), 10);
+      slideToIndex = parseInt(
+        thumbsSwiper.clickedSlide.getAttribute('data-swiper-slide-index'),
+        10,
+      );
     } else {
       slideToIndex = clickedIndex;
     }
     if (swiper.params.loop) {
       const currentIndex = swiper.activeIndex;
 
-      const prevIndex = swiper.slides
-        .eq(currentIndex)
-        .prevAll(`[data-swiper-slide-index="${slideToIndex}"]`)
-        .eq(0)
-        .index();
-      const nextIndex = swiper.slides
-        .eq(currentIndex)
-        .nextAll(`[data-swiper-slide-index="${slideToIndex}"]`)
-        .eq(0)
-        .index();
+      const prevIndex = swiper.slides.indexOf(
+        prevSiblings(swiper.slides[currentIndex], `[data-swiper-slide-index="${slideToIndex}"]`)[0],
+      );
+      const nextIndex = swiper.slides.indexOf(
+        nextSiblings(swiper.slides[currentIndex], `[data-swiper-slide-index="${slideToIndex}"]`)[0],
+      );
+
       if (typeof prevIndex === 'undefined') slideToIndex = nextIndex;
       else if (typeof nextIndex === 'undefined') slideToIndex = prevIndex;
       else if (nextIndex - currentIndex < currentIndex - prevIndex) slideToIndex = nextIndex;
@@ -80,7 +79,7 @@ export default function Thumb({ swiper, extendParams, on }) {
       swiper.thumbs.swiper = new SwiperClass(thumbsSwiperParams);
       swiperCreated = true;
     }
-    swiper.thumbs.swiper.$el.addClass(swiper.params.thumbs.thumbsContainerClass);
+    swiper.thumbs.swiper.el.classList.add(swiper.params.thumbs.thumbsContainerClass);
     swiper.thumbs.swiper.on('tap', onThumbClick);
     return true;
   }
@@ -114,13 +113,16 @@ export default function Thumb({ swiper, extendParams, on }) {
       (thumbsSwiper.params.virtual && thumbsSwiper.params.virtual.enabled)
     ) {
       for (let i = 0; i < thumbsToActivate; i += 1) {
-        thumbsSwiper.$wrapperEl
-          .children(`[data-swiper-slide-index="${swiper.realIndex + i}"]`)
-          .addClass(thumbActiveClass);
+        elementChildren(
+          thumbsSwiper.wrapperEl,
+          `[data-swiper-slide-index="${swiper.realIndex + i}"]`,
+        ).forEach((slideEl) => {
+          slideEl.classList.add(thumbActiveClass);
+        });
       }
     } else {
       for (let i = 0; i < thumbsToActivate; i += 1) {
-        thumbsSwiper.slides.eq(swiper.realIndex + i).addClass(thumbActiveClass);
+        thumbsSwiper.slides[swiper.realIndex + i].classList.add(thumbActiveClass);
       }
     }
 
@@ -132,16 +134,19 @@ export default function Thumb({ swiper, extendParams, on }) {
       let direction;
       if (thumbsSwiper.params.loop) {
         // Find actual thumbs index to slide to
-        const prevThumbsIndex = thumbsSwiper.slides
-          .eq(currentThumbsIndex)
-          .prevAll(`[data-swiper-slide-index="${swiper.realIndex}"]`)
-          .eq(0)
-          .index();
-        const nextThumbsIndex = thumbsSwiper.slides
-          .eq(currentThumbsIndex)
-          .nextAll(`[data-swiper-slide-index="${swiper.realIndex}"]`)
-          .eq(0)
-          .index();
+        const prevThumbsIndex = thumbsSwiper.slides.indexOf(
+          prevSiblings(
+            thumbsSwiper.slides[currentThumbsIndex],
+            `[data-swiper-slide-index="${swiper.realIndex}"]`,
+          )[0],
+        );
+        const nextThumbsIndex = thumbsSwiper.slides.indexOf(
+          nextSiblings(
+            thumbsSwiper.slides[currentThumbsIndex],
+            `[data-swiper-slide-index="${swiper.realIndex}"]`,
+          )[0],
+        );
+
         if (typeof prevThumbsIndex === 'undefined') {
           newThumbsIndex = nextThumbsIndex;
         } else if (typeof nextThumbsIndex === 'undefined') {
@@ -188,7 +193,7 @@ export default function Thumb({ swiper, extendParams, on }) {
     const { thumbs } = swiper.params;
     if (!thumbs || !thumbs.swiper) return;
     if (typeof thumbs.swiper === 'string' || thumbs.swiper instanceof HTMLElement) {
-      const thumbsElement = $(thumbs.swiper)[0];
+      const thumbsElement = thumbs.swiper;
       if (thumbsElement.swiper) {
         thumbs.swiper = swiper;
       } else {

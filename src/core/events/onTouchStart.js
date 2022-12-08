@@ -1,5 +1,4 @@
 import { getWindow, getDocument } from 'ssr-window';
-import $ from '../../shared/dom.js';
 import { now } from '../../shared/utils.js';
 
 // Modified from https://stackoverflow.com/questions/54520554/custom-element-getrootnode-closest-function-crossing-multiple-parent-shadowd
@@ -35,11 +34,10 @@ export default function onTouchStart(event) {
   }
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
-  let $targetEl = $(e.target);
+  let targetEl = e.target;
 
   if (params.touchEventsTarget === 'wrapper') {
-    window.target = $targetEl;
-    if (!$targetEl.closest(swiper.wrapperEl).length) return;
+    if (!targetEl.closest(swiper.wrapperEl)) return;
   }
   if ('which' in e && e.which === 3) return;
   if ('button' in e && e.button > 0) return;
@@ -50,7 +48,7 @@ export default function onTouchStart(event) {
   // eslint-disable-next-line
   const eventPath = event.composedPath ? event.composedPath() : event.path;
   if (swipingClassHasValue && e.target && e.target.shadowRoot && eventPath) {
-    $targetEl = $(eventPath[0]);
+    targetEl = eventPath[0];
   }
 
   const noSwipingSelector = params.noSwipingSelector
@@ -62,15 +60,15 @@ export default function onTouchStart(event) {
   if (
     params.noSwiping &&
     (isTargetShadow
-      ? closestElement(noSwipingSelector, $targetEl[0])
-      : $targetEl.closest(noSwipingSelector)[0])
+      ? closestElement(noSwipingSelector, targetEl)
+      : targetEl.closest(noSwipingSelector))
   ) {
     swiper.allowClick = true;
     return;
   }
 
   if (params.swipeHandler) {
-    if (!$targetEl.closest(params.swipeHandler)[0]) return;
+    if (!targetEl.closest(params.swipeHandler)) return;
   }
 
   touches.currentX = e.pageX;
@@ -109,16 +107,16 @@ export default function onTouchStart(event) {
   swiper.swipeDirection = undefined;
   if (params.threshold > 0) data.allowThresholdMove = false;
   let preventDefault = true;
-  if ($targetEl.is(data.focusableElements)) {
+  if (targetEl.matches(data.focusableElements)) {
     preventDefault = false;
-    if ($targetEl[0].nodeName === 'SELECT') {
+    if (targetEl.nodeName === 'SELECT') {
       data.isTouched = false;
     }
   }
   if (
     document.activeElement &&
-    $(document.activeElement).is(data.focusableElements) &&
-    document.activeElement !== $targetEl[0]
+    document.activeElement.matches(data.focusableElements) &&
+    document.activeElement !== targetEl
   ) {
     document.activeElement.blur();
   }
@@ -127,7 +125,7 @@ export default function onTouchStart(event) {
     preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault;
   if (
     (params.touchStartForcePreventDefault || shouldPreventDefault) &&
-    !$targetEl[0].isContentEditable
+    !targetEl.isContentEditable
   ) {
     e.preventDefault();
   }

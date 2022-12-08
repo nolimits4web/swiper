@@ -37,13 +37,12 @@ export default function effectInit(params) {
     if (recreateShadows) {
       if (!getEffectParams || !getEffectParams().slideShadows) return;
       // remove shadows
-      swiper.slides.each((slideEl) => {
-        const $slideEl = swiper.$(slideEl);
-        $slideEl
-          .find(
+      swiper.slides.forEach((slideEl) => {
+        slideEl
+          .querySelectorAll(
             '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
           )
-          .remove();
+          .forEach((shadowEl) => shadowEl.remove());
       });
       // create new one
       recreateShadows();

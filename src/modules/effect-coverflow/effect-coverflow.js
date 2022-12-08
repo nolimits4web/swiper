@@ -1,6 +1,7 @@
 import createShadow from '../../shared/create-shadow.js';
 import effectInit from '../../shared/effect-init.js';
 import effectTarget from '../../shared/effect-target.js';
+import { findElementsInElements } from '../../shared/utils.js';
 
 export default function EffectCoverflow({ swiper, extendParams, on }) {
   extendParams({
@@ -25,9 +26,9 @@ export default function EffectCoverflow({ swiper, extendParams, on }) {
     const translate = params.depth;
     // Each slide offset from center
     for (let i = 0, length = slides.length; i < length; i += 1) {
-      const $slideEl = slides.eq(i);
+      const slideEl = slides[i];
       const slideSize = slidesSizesGrid[i];
-      const slideOffset = $slideEl[0].swiperSlideOffset;
+      const slideOffset = slideEl.swiperSlideOffset;
       const centerOffset = (center - slideOffset - slideSize / 2) / slideSize;
       const offsetMultiplier =
         typeof params.modifier === 'function'
@@ -58,41 +59,45 @@ export default function EffectCoverflow({ swiper, extendParams, on }) {
       if (Math.abs(scale) < 0.001) scale = 0;
 
       const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
-      const $targetEl = effectTarget(params, $slideEl);
-      $targetEl.transform(slideTransform);
+      const targetEl = effectTarget(params, slideEl);
+      targetEl.style.transform = slideTransform;
 
-      $slideEl[0].style.zIndex = -Math.abs(Math.round(offsetMultiplier)) + 1;
+      slideEl.style.zIndex = -Math.abs(Math.round(offsetMultiplier)) + 1;
 
       if (params.slideShadows) {
         // Set shadows
-        let $shadowBeforeEl = isHorizontal
-          ? $slideEl.find('.swiper-slide-shadow-left')
-          : $slideEl.find('.swiper-slide-shadow-top');
-        let $shadowAfterEl = isHorizontal
-          ? $slideEl.find('.swiper-slide-shadow-right')
-          : $slideEl.find('.swiper-slide-shadow-bottom');
-        if ($shadowBeforeEl.length === 0) {
-          $shadowBeforeEl = createShadow(params, $slideEl, isHorizontal ? 'left' : 'top');
+        let shadowBeforeEl = isHorizontal
+          ? slideEl.querySelector('.swiper-slide-shadow-left')
+          : slideEl.querySelector('.swiper-slide-shadow-top');
+        let shadowAfterEl = isHorizontal
+          ? slideEl.querySelector('.swiper-slide-shadow-right')
+          : slideEl.querySelector('.swiper-slide-shadow-bottom');
+        if (!shadowBeforeEl) {
+          shadowBeforeEl = createShadow(params, slideEl, isHorizontal ? 'left' : 'top');
         }
-        if ($shadowAfterEl.length === 0) {
-          $shadowAfterEl = createShadow(params, $slideEl, isHorizontal ? 'right' : 'bottom');
+        if (!shadowAfterEl) {
+          shadowAfterEl = createShadow(params, slideEl, isHorizontal ? 'right' : 'bottom');
         }
-        if ($shadowBeforeEl.length)
-          $shadowBeforeEl[0].style.opacity = offsetMultiplier > 0 ? offsetMultiplier : 0;
-        if ($shadowAfterEl.length)
-          $shadowAfterEl[0].style.opacity = -offsetMultiplier > 0 ? -offsetMultiplier : 0;
+        if (shadowBeforeEl)
+          shadowBeforeEl.style.opacity = offsetMultiplier > 0 ? offsetMultiplier : 0;
+        if (shadowAfterEl)
+          shadowAfterEl.style.opacity = -offsetMultiplier > 0 ? -offsetMultiplier : 0;
       }
     }
   };
   const setTransition = (duration) => {
     const { transformEl } = swiper.params.coverflowEffect;
-    const $transitionElements = transformEl ? swiper.slides.find(transformEl) : swiper.slides;
-    $transitionElements
-      .transition(duration)
-      .find(
+    const transitionElements = transformEl
+      ? findElementsInElements(swiper.slides, transformEl)
+      : swiper.slides;
+    transitionElements.forEach((el) => {
+      el.style.transition = `${duration}ms`;
+      el.querySelectorAll(
         '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
-      )
-      .transition(duration);
+      ).forEach((shadowEl) => {
+        shadowEl.style.transition = `${duration}ms`;
+      });
+    });
   };
 
   effectInit({

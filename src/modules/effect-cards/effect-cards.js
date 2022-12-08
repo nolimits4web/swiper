@@ -2,6 +2,7 @@ import createShadow from '../../shared/create-shadow.js';
 import effectInit from '../../shared/effect-init.js';
 import effectTarget from '../../shared/effect-target.js';
 import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end.js';
+import { findElementsInElements } from '../../shared/utils.js';
 
 export default function EffectCards({ swiper, extendParams, on }) {
   extendParams({
@@ -20,10 +21,10 @@ export default function EffectCards({ swiper, extendParams, on }) {
     const { startTranslate, isTouched } = swiper.touchEventsData;
     const currentTranslate = swiper.translate;
     for (let i = 0; i < slides.length; i += 1) {
-      const $slideEl = slides.eq(i);
-      const slideProgress = $slideEl[0].progress;
+      const slideEl = slides[i];
+      const slideProgress = slideEl.progress;
       const progress = Math.min(Math.max(slideProgress, -4), 4);
-      let offset = $slideEl[0].swiperSlideOffset;
+      let offset = slideEl.swiperSlideOffset;
       if (swiper.params.centeredSlides && !swiper.params.cssMode) {
         swiper.$wrapperEl.transform(`translateX(${swiper.minTranslate()}px)`);
       }
@@ -88,24 +89,32 @@ export default function EffectCards({ swiper, extendParams, on }) {
 
       if (params.slideShadows) {
         // Set shadows
-        let $shadowEl = $slideEl.find('.swiper-slide-shadow');
-        if ($shadowEl.length === 0) {
-          $shadowEl = createShadow(params, $slideEl);
+        let shadowEl = slideEl.querySelector('.swiper-slide-shadow');
+        if (!shadowEl) {
+          shadowEl = createShadow(params, slideEl);
         }
-        if ($shadowEl.length)
-          $shadowEl[0].style.opacity = Math.min(Math.max((Math.abs(progress) - 0.5) / 0.5, 0), 1);
+        if (shadowEl)
+          shadowEl.style.opacity = Math.min(Math.max((Math.abs(progress) - 0.5) / 0.5, 0), 1);
       }
 
-      $slideEl[0].style.zIndex = -Math.abs(Math.round(slideProgress)) + slides.length;
-      const $targetEl = effectTarget(params, $slideEl);
-      $targetEl.transform(transform);
+      slideEl.style.zIndex = -Math.abs(Math.round(slideProgress)) + slides.length;
+      const targetEl = effectTarget(params, slideEl);
+      targetEl.style.transform = transform;
     }
   };
 
   const setTransition = (duration) => {
     const { transformEl } = swiper.params.cardsEffect;
-    const $transitionElements = transformEl ? swiper.slides.find(transformEl) : swiper.slides;
-    $transitionElements.transition(duration).find('.swiper-slide-shadow').transition(duration);
+
+    const transitionElements = transformEl
+      ? findElementsInElements(swiper.slides, transformEl)
+      : swiper.slides;
+    transitionElements.forEach((el) => {
+      el.style.transition = `${duration}ms`;
+      el.querySelectorAll('.swiper-slide-shadow').forEach((shadowEl) => {
+        shadowEl.style.transition = `${duration}ms`;
+      });
+    });
 
     effectVirtualTransitionEnd({ swiper, duration, transformEl });
   };

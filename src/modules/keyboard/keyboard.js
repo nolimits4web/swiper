@@ -1,6 +1,5 @@
 /* eslint-disable consistent-return */
 import { getWindow, getDocument } from 'ssr-window';
-import $ from '../../shared/dom.js';
 
 export default function Keyboard({ swiper, extendParams, on, emit }) {
   const document = getDocument();
@@ -113,12 +112,12 @@ export default function Keyboard({ swiper, extendParams, on, emit }) {
   }
   function enable() {
     if (swiper.keyboard.enabled) return;
-    $(document).on('keydown', handle);
+    document.addEventListener('keydown', handle);
     swiper.keyboard.enabled = true;
   }
   function disable() {
     if (!swiper.keyboard.enabled) return;
-    $(document).off('keydown', handle);
+    document.removeEventListener('keydown', handle);
     swiper.keyboard.enabled = false;
   }
 

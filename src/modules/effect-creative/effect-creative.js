@@ -2,6 +2,7 @@ import createShadow from '../../shared/create-shadow.js';
 import effectInit from '../../shared/effect-init.js';
 import effectTarget from '../../shared/effect-target.js';
 import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end.js';
+import { findElementsInElements } from '../../shared/utils.js';
 
 export default function EffectCreative({ swiper, extendParams, on }) {
   extendParams({
@@ -44,22 +45,22 @@ export default function EffectCreative({ swiper, extendParams, on }) {
     }
 
     for (let i = 0; i < slides.length; i += 1) {
-      const $slideEl = slides.eq(i);
-      const slideProgress = $slideEl[0].progress;
+      const slideEl = slides[i];
+      const slideProgress = slideEl.progress;
       const progress = Math.min(
-        Math.max($slideEl[0].progress, -params.limitProgress),
+        Math.max(slideEl.progress, -params.limitProgress),
         params.limitProgress,
       );
       let originalProgress = progress;
 
       if (!isCenteredSlides) {
         originalProgress = Math.min(
-          Math.max($slideEl[0].originalProgress, -params.limitProgress),
+          Math.max(slideEl.originalProgress, -params.limitProgress),
           params.limitProgress,
         );
       }
 
-      const offset = $slideEl[0].swiperSlideOffset;
+      const offset = slideEl.swiperSlideOffset;
       const t = [swiper.params.cssMode ? -offset - swiper.translate : -offset, 0, 0];
       const r = [0, 0, 0];
       let custom = false;
@@ -91,7 +92,7 @@ export default function EffectCreative({ swiper, extendParams, on }) {
         r[index] = data.rotate[index] * Math.abs(progress * multiplier);
       });
 
-      $slideEl[0].style.zIndex = -Math.abs(Math.round(slideProgress)) + slides.length;
+      slideEl.style.zIndex = -Math.abs(Math.round(slideProgress)) + slides.length;
 
       const translateString = t.join(', ');
       const rotateString = `rotateX(${r[0]}deg) rotateY(${r[1]}deg) rotateZ(${r[2]}deg)`;
@@ -107,30 +108,39 @@ export default function EffectCreative({ swiper, extendParams, on }) {
 
       // Set shadows
       if ((custom && data.shadow) || !custom) {
-        let $shadowEl = $slideEl.children('.swiper-slide-shadow');
-        if ($shadowEl.length === 0 && data.shadow) {
-          $shadowEl = createShadow(params, $slideEl);
+        let shadowEl = slideEl.querySelector('.swiper-slide-shadow');
+        if (!shadowEl && data.shadow) {
+          shadowEl = createShadow(params, slideEl);
         }
-        if ($shadowEl.length) {
+        if (shadowEl) {
           const shadowOpacity = params.shadowPerProgress
             ? progress * (1 / params.limitProgress)
             : progress;
-          $shadowEl[0].style.opacity = Math.min(Math.max(Math.abs(shadowOpacity), 0), 1);
+          shadowEl.style.opacity = Math.min(Math.max(Math.abs(shadowOpacity), 0), 1);
         }
       }
 
-      const $targetEl = effectTarget(params, $slideEl);
-      $targetEl.transform(transform).css({ opacity: opacityString });
+      const targetEl = effectTarget(params, slideEl);
+      targetEl.style.transform = transform;
+      targetEl.style.opacity = opacityString;
       if (data.origin) {
-        $targetEl.css('transform-origin', data.origin);
+        targetEl.style.transformOrigin = opacityString;
       }
     }
   };
 
   const setTransition = (duration) => {
     const { transformEl } = swiper.params.creativeEffect;
-    const $transitionElements = transformEl ? swiper.slides.find(transformEl) : swiper.slides;
-    $transitionElements.transition(duration).find('.swiper-slide-shadow').transition(duration);
+
+    const transitionElements = transformEl
+      ? findElementsInElements(swiper.slides, transformEl)
+      : swiper.slides;
+    transitionElements.forEach((el) => {
+      el.style.transition = `${duration}ms`;
+      el.querySelectorAll('.swiper-slide-shadow').forEach((shadowEl) => {
+        shadowEl.style.transition = `${duration}ms`;
+      });
+    });
 
     effectVirtualTransitionEnd({ swiper, duration, transformEl, allSlides: true });
   };

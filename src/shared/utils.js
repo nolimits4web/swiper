@@ -1,4 +1,4 @@
-import { getWindow } from 'ssr-window';
+import { getWindow, getDocument } from 'ssr-window';
 
 function deleteProps(obj) {
   const object = obj;
@@ -186,6 +186,63 @@ function animateCSSModeScroll({ swiper, targetPosition, side }) {
   animate();
 }
 
+function findElementsInElements(elements = [], selector = '') {
+  const found = [];
+  elements.forEach((el) => {
+    found.push(...el.querySelectorAll(selector));
+  });
+  return found;
+}
+function elementChildren(element, selector = '') {
+  return [...element.children].filter((el) => el.matches(selector));
+}
+
+function createElement(tag, classes = []) {
+  const el = document.createElement(tag);
+  el.classList.add(...(Array.isArray(classes) ? classes : [classes]));
+  return el;
+}
+function elementOffset(el) {
+  const window = getWindow();
+  const document = getDocument();
+  const box = el.getBoundingClientRect();
+  const body = document.body;
+  const clientTop = el.clientTop || body.clientTop || 0;
+  const clientLeft = el.clientLeft || body.clientLeft || 0;
+  const scrollTop = el === window ? window.scrollY : el.scrollTop;
+  const scrollLeft = el === window ? window.scrollX : el.scrollLeft;
+  return {
+    top: box.top + scrollTop - clientTop,
+    left: box.left + scrollLeft - clientLeft,
+  };
+}
+function prevSiblings(el, selector) {
+  const prevEls = [];
+  while (el.previousElementSibling) {
+    const prev = el.previousElementSibling; // eslint-disable-line
+    if (selector) {
+      if (prev.matches(selector)) prevEls.push(prev);
+    } else prevEls.push(prev);
+    el = prev;
+  }
+  return prevEls;
+}
+function nextSiblings(el, selector) {
+  const nextEls = [];
+  while (el.nextElementSibling) {
+    const next = el.nextElementSibling; // eslint-disable-line
+    if (selector) {
+      if (next.matches(selector)) nextEls.push(next);
+    } else nextEls.push(next);
+    el = next;
+  }
+  return nextEls;
+}
+function getElementStyle(el, prop) {
+  const window = getWindow();
+  return window.getComputedStyle(el, null).getPropertyValue(prop);
+}
+
 export {
   animateCSSModeScroll,
   deleteProps,
@@ -196,4 +253,11 @@ export {
   extend,
   getComputedStyle,
   setCSSProperty,
+  findElementsInElements,
+  createElement,
+  elementChildren,
+  elementOffset,
+  prevSiblings,
+  nextSiblings,
+  getElementStyle,
 };

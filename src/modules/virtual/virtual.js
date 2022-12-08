@@ -1,5 +1,4 @@
-import $ from '../../shared/dom.js';
-import { setCSSProperty } from '../../shared/utils.js';
+import { createElement, elementChildren, setCSSProperty } from '../../shared/utils.js';
 
 export default function Virtual({ swiper, extendParams, on, emit }) {
   extendParams({
@@ -32,16 +31,22 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
       return swiper.virtual.cache[index];
     }
     // eslint-disable-next-line
-    const $slideEl = params.renderSlide
-      ? $(params.renderSlide.call(swiper, slide, index))
-      : swiper.isElement
-      ? $(`<swiper-slide data-swiper-slide-index="${index}">${slide}</swiper-slide>`)
-      : $(
-          `<div class="${swiper.params.slideClass}" data-swiper-slide-index="${index}">${slide}</div>`,
-        );
-    if (!$slideEl.attr('data-swiper-slide-index')) $slideEl.attr('data-swiper-slide-index', index);
-    if (params.cache) swiper.virtual.cache[index] = $slideEl[0];
-    return $slideEl;
+    let slideEl;
+    if (params.renderSlide) slideEl = params.renderSlide.call(swiper, slide, index);
+    else if (swiper.isElement) {
+      slideEl = createElement('swiper-slide');
+    } else {
+      slideEl = createElement('div', swiper.params.slideClass);
+    }
+    if (!params.renderSlide) {
+      slideEl.setAttribute('data-swiper-slide-index', index);
+      slideEl.textContent = slide;
+    }
+
+    if (!slideEl.getAttribute('data-swiper-slide-index'))
+      slideEl.setAttribute('data-swiper-slide-index', index);
+    if (params.cache) swiper.virtual.cache[index] = slideEl;
+    return slideEl;
   }
 
   function update(force) {
@@ -147,16 +152,22 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     };
 
     if (force) {
-      swiper.$slidesEl.find(`.${swiper.params.slideClass}, swiper-slide`).remove();
+      swiper.slidesEl
+        .querySelectorAll(`.${swiper.params.slideClass}, swiper-slide`)
+        .forEach((slideEl) => {
+          slideEl.remove();
+        });
     } else {
       for (let i = previousFrom; i <= previousTo; i += 1) {
         if (i < from || i > to) {
           const slideIndex = getSlideIndex(i);
-          swiper.$slidesEl
-            .find(
+          swiper.slidesEl
+            .querySelectorAll(
               `.${swiper.params.slideClass}[data-swiper-slide-index="${slideIndex}"], swiper-slide[data-swiper-slide-index="${slideIndex}"]`,
             )
-            .remove();
+            .forEach((slideEl) => {
+              slideEl.remove();
+            });
         }
       }
     }
@@ -175,21 +186,22 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
       }
     }
     appendIndexes.forEach((index) => {
-      swiper.$slidesEl.append(renderSlide(slides[index], index));
+      swiper.slidesEl.append(renderSlide(slides[index], index));
     });
     if (isLoop) {
       for (let i = prependIndexes.length - 1; i >= 0; i -= 1) {
         const index = prependIndexes[i];
-        swiper.$slidesEl.prepend(renderSlide(slides[index], index));
+        swiper.slidesEl.prepend(renderSlide(slides[index], index));
       }
     } else {
       prependIndexes.sort((a, b) => b - a);
       prependIndexes.forEach((index) => {
-        swiper.$slidesEl.prepend(renderSlide(slides[index], index));
+        swiper.slidesEl.prepend(renderSlide(slides[index], index));
       });
     }
-
-    swiper.$slidesEl.children('.swiper-slide, swiper-slide').css(offsetProp, `${offset}px`);
+    elementChildren(swiper.slidesEl, '.swiper-slide, swiper-slide').forEach((slideEl) => {
+      slideEl.style[offsetProp] = `${offset}px`;
+    });
     onRendered();
   }
 
@@ -272,9 +284,7 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     if (!swiper.params.virtual.enabled) return;
     let domSlidesAssigned;
     if (typeof swiper.passedParams.virtual.slides === 'undefined') {
-      const slides = swiper.$slidesEl[0].querySelectorAll(
-        `.${swiper.params.slideClass}, swiper-slide`,
-      );
+      const slides = swiper.slidesEl.querySelectorAll(`.${swiper.params.slideClass}, swiper-slide`);
       if (slides && slides.length) {
         swiper.virtual.slides = [...slides];
         domSlidesAssigned = true;

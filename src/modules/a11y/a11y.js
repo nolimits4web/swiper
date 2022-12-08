@@ -136,7 +136,7 @@ export default function A11y({ swiper, extendParams, on }) {
   function updatePagination() {
     const params = swiper.params.a11y;
     if (!hasPagination()) return;
-    swiper.pagination.bullets.each((bulletEl) => {
+    swiper.pagination.bullets.forEach((bulletEl) => {
       const $bulletEl = $(bulletEl);
       if (swiper.params.pagination.clickable) {
         makeElFocusable($bulletEl);
@@ -208,7 +208,7 @@ export default function A11y({ swiper, extendParams, on }) {
 
     const slidesLength = swiper.slides.length;
     if (params.slideLabelMessage) {
-      swiper.slides.each((slideEl, index) => {
+      swiper.slides.forEach((slideEl, index) => {
         const $slideEl = $(slideEl);
         const slideIndex = swiper.params.loop
           ? parseInt($slideEl.attr('data-swiper-slide-index'), 10)

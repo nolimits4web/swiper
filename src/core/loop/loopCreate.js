@@ -1,5 +1,3 @@
-import $ from '../../shared/dom.js';
-
 export default function loopCreate(slideRealIndex) {
   const swiper = this;
   const { params, $slidesEl } = swiper;
@@ -7,9 +5,8 @@ export default function loopCreate(slideRealIndex) {
 
   const slides = $slidesEl.children(`.${params.slideClass}, swiper-slide`);
 
-  slides.each((el, index) => {
-    const slide = $(el);
-    slide.attr('data-swiper-slide-index', index);
+  slides.forEach((el, index) => {
+    el.setAttribute('data-swiper-slide-index', index);
   });
 
   swiper.loopFix(slideRealIndex);

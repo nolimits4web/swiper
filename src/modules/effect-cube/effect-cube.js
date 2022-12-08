@@ -1,5 +1,5 @@
-import $ from '../../shared/dom.js';
 import effectInit from '../../shared/effect-init.js';
+import { createElement } from '../../shared/utils.js';
 
 export default function EffectCube({ swiper, extendParams, on }) {
   extendParams({
@@ -11,40 +11,41 @@ export default function EffectCube({ swiper, extendParams, on }) {
     },
   });
 
-  const createSlideShadows = ($slideEl, progress, isHorizontal) => {
+  const createSlideShadows = (slideEl, progress, isHorizontal) => {
     let shadowBefore = isHorizontal
-      ? $slideEl.find('.swiper-slide-shadow-left')
-      : $slideEl.find('.swiper-slide-shadow-top');
+      ? slideEl.querySelector('.swiper-slide-shadow-left')
+      : slideEl.querySelector('.swiper-slide-shadow-top');
     let shadowAfter = isHorizontal
-      ? $slideEl.find('.swiper-slide-shadow-right')
-      : $slideEl.find('.swiper-slide-shadow-bottom');
-    if (shadowBefore.length === 0) {
-      shadowBefore = $(`<div class="swiper-slide-shadow-${isHorizontal ? 'left' : 'top'}"></div>`);
-      $slideEl.append(shadowBefore);
+      ? slideEl.querySelector('.swiper-slide-shadow-right')
+      : slideEl.querySelector('.swiper-slide-shadow-bottom');
+    if (!shadowBefore) {
+      shadowBefore = createElement('div', `swiper-slide-shadow-${isHorizontal ? 'left' : 'top'}`);
+      slideEl.append(shadowBefore);
     }
-    if (shadowAfter.length === 0) {
-      shadowAfter = $(
-        `<div class="swiper-slide-shadow-${isHorizontal ? 'right' : 'bottom'}"></div>`,
+    if (!shadowAfter) {
+      shadowAfter = createElement(
+        'div',
+        `swiper-slide-shadow-${isHorizontal ? 'right' : 'bottom'}`,
       );
-      $slideEl.append(shadowAfter);
+      slideEl.append(shadowAfter);
     }
-    if (shadowBefore.length) shadowBefore[0].style.opacity = Math.max(-progress, 0);
-    if (shadowAfter.length) shadowAfter[0].style.opacity = Math.max(progress, 0);
+    if (shadowBefore) shadowBefore.style.opacity = Math.max(-progress, 0);
+    if (shadowAfter) shadowAfter.style.opacity = Math.max(progress, 0);
   };
 
   const recreateShadows = () => {
     // create new ones
     const isHorizontal = swiper.isHorizontal();
-    swiper.slides.each((slideEl) => {
+    swiper.slides.forEach((slideEl) => {
       const progress = Math.max(Math.min(slideEl.progress, 1), -1);
-      createSlideShadows($(slideEl), progress, isHorizontal);
+      createSlideShadows(slideEl, progress, isHorizontal);
     });
   };
 
   const setTranslate = () => {
     const {
-      $el,
-      $wrapperEl,
+      el,
+      wrapperEl,
       slides,
       width: swiperWidth,
       height: swiperHeight,
@@ -56,35 +57,35 @@ export default function EffectCube({ swiper, extendParams, on }) {
     const isHorizontal = swiper.isHorizontal();
     const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
     let wrapperRotate = 0;
-    let $cubeShadowEl;
+    let cubeShadowEl;
 
     if (params.shadow) {
       if (isHorizontal) {
-        $cubeShadowEl = swiper.isElement
-          ? swiper.$el.find('.swiper-cube-shadow')
-          : $wrapperEl.find('.swiper-cube-shadow');
-        if ($cubeShadowEl.length === 0) {
-          $cubeShadowEl = $('<div class="swiper-cube-shadow"></div>');
+        cubeShadowEl = swiper.isElement
+          ? swiper.el.querySelector('.swiper-cube-shadow')
+          : wrapperEl.querySelector('.swiper-cube-shadow');
+        if (!cubeShadowEl) {
+          cubeShadowEl = createElement('div', 'swiper-cube-shadow');
           if (swiper.isElement) {
-            swiper.$el.append($cubeShadowEl);
+            swiper.el.append(cubeShadowEl);
           } else {
-            $wrapperEl.append($cubeShadowEl);
+            wrapperEl.append(cubeShadowEl);
           }
         }
-        $cubeShadowEl.css({ height: `${swiperWidth}px` });
+        cubeShadowEl.style.height = `${swiperWidth}px`;
       } else {
-        $cubeShadowEl = $el.find('.swiper-cube-shadow');
-        if ($cubeShadowEl.length === 0) {
-          $cubeShadowEl = $('<div class="swiper-cube-shadow"></div>');
-          $el.append($cubeShadowEl);
+        cubeShadowEl = el.querySelector('.swiper-cube-shadow');
+        if (!cubeShadowEl) {
+          cubeShadowEl = createElement('div', 'swiper-cube-shadow');
+          el.append(cubeShadowEl);
         }
       }
     }
     for (let i = 0; i < slides.length; i += 1) {
-      const $slideEl = slides.eq(i);
+      const slideEl = slides[i];
       let slideIndex = i;
       if (isVirtual) {
-        slideIndex = parseInt($slideEl.attr('data-swiper-slide-index'), 10);
+        slideIndex = parseInt(slideEl.getAttribute('data-swiper-slide-index'), 10);
       }
       let slideAngle = slideIndex * 90;
       let round = Math.floor(slideAngle / 360);
@@ -92,7 +93,7 @@ export default function EffectCube({ swiper, extendParams, on }) {
         slideAngle = -slideAngle;
         round = Math.floor(-slideAngle / 360);
       }
-      const progress = Math.max(Math.min($slideEl[0].progress, 1), -1);
+      const progress = Math.max(Math.min(slideEl.progress, 1), -1);
       let tx = 0;
       let ty = 0;
       let tz = 0;
@@ -125,23 +126,19 @@ export default function EffectCube({ swiper, extendParams, on }) {
         wrapperRotate = slideIndex * 90 + progress * 90;
         if (rtl) wrapperRotate = -slideIndex * 90 - progress * 90;
       }
-      $slideEl.transform(transform);
+      slideEl.style.transform = transform;
       if (params.slideShadows) {
-        createSlideShadows($slideEl, progress, isHorizontal);
+        createSlideShadows(slideEl, progress, isHorizontal);
       }
     }
-    $wrapperEl.css({
-      '-webkit-transform-origin': `50% 50% -${swiperSize / 2}px`,
-      'transform-origin': `50% 50% -${swiperSize / 2}px`,
-    });
+    wrapperEl.style.transformOrigin = `50% 50% -${swiperSize / 2}px`;
+    wrapperEl.style['-webkit-transform-origin'] = `50% 50% -${swiperSize / 2}px`;
 
     if (params.shadow) {
       if (isHorizontal) {
-        $cubeShadowEl.transform(
-          `translate3d(0px, ${swiperWidth / 2 + params.shadowOffset}px, ${
-            -swiperWidth / 2
-          }px) rotateX(90deg) rotateZ(0deg) scale(${params.shadowScale})`,
-        );
+        cubeShadowEl.transform = `translate3d(0px, ${swiperWidth / 2 + params.shadowOffset}px, ${
+          -swiperWidth / 2
+        }px) rotateX(90deg) rotateZ(0deg) scale(${params.shadowScale})`;
       } else {
         const shadowAngle = Math.abs(wrapperRotate) - Math.floor(Math.abs(wrapperRotate) / 90) * 90;
         const multiplier =
@@ -151,23 +148,20 @@ export default function EffectCube({ swiper, extendParams, on }) {
         const scale1 = params.shadowScale;
         const scale2 = params.shadowScale / multiplier;
         const offset = params.shadowOffset;
-        $cubeShadowEl.transform(
-          `scale3d(${scale1}, 1, ${scale2}) translate3d(0px, ${swiperHeight / 2 + offset}px, ${
-            -swiperHeight / 2 / scale2
-          }px) rotateX(-90deg)`,
-        );
+        cubeShadowEl.style.transform = `scale3d(${scale1}, 1, ${scale2}) translate3d(0px, ${
+          swiperHeight / 2 + offset
+        }px, ${-swiperHeight / 2 / scale2}px) rotateX(-90deg)`;
       }
     }
     const zFactor = browser.isSafari || browser.isWebView ? -swiperSize / 2 : 0;
-    $wrapperEl.transform(
-      `translate3d(0px,0,${zFactor}px) rotateX(${
-        swiper.isHorizontal() ? 0 : wrapperRotate
-      }deg) rotateY(${swiper.isHorizontal() ? -wrapperRotate : 0}deg)`,
-    );
-    $wrapperEl[0].style.setProperty('--swiper-cube-translate-z', `${zFactor}px`);
+    wrapperEl.style.transform = `translate3d(0px,0,${zFactor}px) rotateX(${
+      swiper.isHorizontal() ? 0 : wrapperRotate
+    }deg) rotateY(${swiper.isHorizontal() ? -wrapperRotate : 0}deg)`;
+
+    wrapperEl.style.setProperty('--swiper-cube-translate-z', `${zFactor}px`);
   };
   const setTransition = (duration) => {
-    const { $el, slides } = swiper;
+    const { el, slides } = swiper;
     slides
       .transition(duration)
       .find(
@@ -175,7 +169,8 @@ export default function EffectCube({ swiper, extendParams, on }) {
       )
       .transition(duration);
     if (swiper.params.cubeEffect.shadow && !swiper.isHorizontal()) {
-      $el.find('.swiper-cube-shadow').transition(duration);
+      const shadowEl = el.querySelector('.swiper-cube-shadow');
+      if (shadowEl) shadowEl.style.transitionDuration = `${duration}ms`;
     }
   };
 

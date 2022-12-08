@@ -1,13 +1,13 @@
-import $ from './dom.js';
+import { createElement } from './utils.js';
 
-export default function createShadow(params, $slideEl, side) {
+export default function createShadow(params, slideEl, side) {
   const shadowClass = `swiper-slide-shadow${side ? `-${side}` : ''}`;
-  const $shadowContainer = params.transformEl ? $slideEl.find(params.transformEl) : $slideEl;
-  let $shadowEl = $shadowContainer.children(`.${shadowClass}`);
+  const shadowContainer = params.transformEl ? slideEl.querySelector(params.transformEl) : slideEl;
+  let shadowEl = shadowContainer.querySelectorAll(`.${shadowClass}`);
 
-  if (!$shadowEl.length) {
-    $shadowEl = $(`<div class="swiper-slide-shadow${side ? `-${side}` : ''}"></div>`);
-    $shadowContainer.append($shadowEl);
+  if (!shadowEl) {
+    shadowEl = createElement('div', `swiper-slide-shadow${side ? `-${side}` : ''}`);
+    shadowContainer.append(shadowEl);
   }
-  return $shadowEl;
+  return shadowEl;
 }

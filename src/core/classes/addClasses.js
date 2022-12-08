@@ -16,7 +16,7 @@ function prepareClasses(entries, prefix) {
 
 export default function addClasses() {
   const swiper = this;
-  const { classNames, params, rtl, $el, device } = swiper;
+  const { classNames, params, rtl, el, device } = swiper;
   // prettier-ignore
   const suffixes = prepareClasses([
     'initialized',
@@ -33,6 +33,6 @@ export default function addClasses() {
     { 'watch-progress': params.watchSlidesProgress },
   ], params.containerModifierClass);
   classNames.push(...suffixes);
-  $el.addClass([...classNames].join(' '));
+  el.classList.add(...classNames);
   swiper.emitContainerClasses();
 }

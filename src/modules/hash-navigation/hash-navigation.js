@@ -1,5 +1,4 @@
 import { getWindow, getDocument } from 'ssr-window';
-import $ from '../../shared/dom.js';
 
 export default function HashNavigation({ swiper, extendParams, emit, on }) {
   let initialized = false;
@@ -66,12 +65,12 @@ export default function HashNavigation({ swiper, extendParams, emit, on }) {
       }
     }
     if (swiper.params.hashNavigation.watchState) {
-      $(window).on('hashchange', onHashChange);
+      window.addEventListener('hashchange', onHashChange);
     }
   };
   const destroy = () => {
     if (swiper.params.hashNavigation.watchState) {
-      $(window).off('hashchange', onHashChange);
+      window.removeEventListener('hashchange', onHashChange);
     }
   };
 

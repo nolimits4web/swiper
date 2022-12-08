@@ -122,7 +122,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
           .join(' '),
       );
       if ($el.length > 1) {
-        bullets.each((bullet) => {
+        bullets.forEach((bullet) => {
           const $bullet = $(bullet);
           const bulletIndex = $bullet.index();
           if (bulletIndex === current) {

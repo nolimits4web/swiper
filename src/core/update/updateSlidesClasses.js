@@ -1,32 +1,36 @@
+import { elementChildren } from '../../shared/utils.js';
+
 export default function updateSlidesClasses() {
   const swiper = this;
 
-  const { slides, params, $wrapperEl, activeIndex } = swiper;
+  const { slides, params, slidesEl, activeIndex } = swiper;
   const isVirtual = swiper.virtual && params.virtual.enabled;
 
-  const getFilteredSlides = (selector) => {
-    return $wrapperEl.children(`.${params.slideClass}${selector}, swiper-slide${selector}`);
+  const getFilteredSlide = (selector) => {
+    return elementChildren(
+      slidesEl,
+      `.${params.slideClass}${selector}, swiper-slide${selector}`,
+    )[0];
   };
-
-  slides.removeClass(
-    `${params.slideActiveClass} ${params.slideNextClass} ${params.slidePrevClass}`,
-  );
+  slides.forEach((slideEl) => {
+    slideEl.classList.remove(params.slideActiveClass, params.slideNextClass, params.slidePrevClass);
+  });
 
   let activeSlide;
   if (isVirtual) {
     if (params.loop) {
-      activeSlide = getFilteredSlides(
+      activeSlide = getFilteredSlide(
         `[data-swiper-slide-index="${activeIndex - swiper.virtual.slidesBefore}"]`,
       );
     } else {
-      activeSlide = getFilteredSlides(`[data-swiper-slide-index="${activeIndex}"]`);
+      activeSlide = getFilteredSlide(`[data-swiper-slide-index="${activeIndex}"]`);
     }
   } else {
-    activeSlide = slides.eq(activeIndex);
+    activeSlide = slides[activeIndex];
   }
 
   // Active classes
-  activeSlide.addClass(params.slideActiveClass);
+  activeSlide.classList.add(params.slideActiveClass);
 
   // Next Slide
   let nextSlide = activeSlide

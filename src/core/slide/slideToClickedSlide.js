@@ -1,4 +1,3 @@
-import $ from '../../shared/dom.js';
 import { nextTick } from '../../shared/utils.js';
 
 export default function slideToClickedSlide() {
@@ -12,7 +11,7 @@ export default function slideToClickedSlide() {
   const slideSelector = swiper.isElement ? `swiper-slide` : `.${params.slideClass}`;
   if (params.loop) {
     if (swiper.animating) return;
-    realIndex = parseInt($(swiper.clickedSlide).attr('data-swiper-slide-index'), 10);
+    realIndex = parseInt(swiper.clickedSlide.getAttribute('data-swiper-slide-index'), 10);
     if (params.centeredSlides) {
       if (
         slideToIndex < swiper.loopedSlides - slidesPerView / 2 ||

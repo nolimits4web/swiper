@@ -1,9 +1,11 @@
-export default function effectTarget(effectParams, $slideEl) {
+export default function effectTarget(effectParams, slideEl) {
   if (effectParams.transformEl) {
-    return $slideEl.find(effectParams.transformEl).css({
-      'backface-visibility': 'hidden',
-      '-webkit-backface-visibility': 'hidden',
-    });
+    const transformEl = slideEl.querySelector(effectParams.transformEl);
+    if (transformEl) {
+      transformEl.style.backfaceVisibility = 'hidden';
+      transformEl.style['-webkit-backface-visibility'] = 'hidden';
+    }
+    return transformEl;
   }
-  return $slideEl;
+  return slideEl;
 }

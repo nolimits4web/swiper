@@ -1,6 +1,5 @@
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
 import { nextTick } from '../../shared/utils.js';
-import $ from '../../shared/dom.js';
 
 export default function Controller({ swiper, extendParams, on }) {
   extendParams({
@@ -155,16 +154,16 @@ export default function Controller({ swiper, extendParams, on }) {
       (typeof swiper.params.controller.control === 'string' ||
         swiper.params.controller.control instanceof HTMLElement)
     ) {
-      const controlElement = $(swiper.params.controller.control);
-      if (controlElement[0].swiper) {
-        swiper.controller.control = controlElement[0].swiper;
-      } else {
+      const controlElement = document.querySelector(swiper.params.controller.control);
+      if (controlElement && controlElement.swiper) {
+        swiper.controller.control = controlElement.swiper;
+      } else if (controlElement) {
         const onControllerSwiper = (e) => {
           swiper.controller.control = e.detail[0];
           swiper.update();
-          controlElement[0].removeEventListener('init', onControllerSwiper);
+          controlElement.removeEventListener('init', onControllerSwiper);
         };
-        controlElement[0].addEventListener('init', onControllerSwiper);
+        controlElement.addEventListener('init', onControllerSwiper);
       }
       return;
     }

@@ -1,5 +1,3 @@
-import $ from '../../shared/dom.js';
-
 export default function updateSlidesProgress(translate = (this && this.translate) || 0) {
   const swiper = this;
   const params = swiper.params;
@@ -13,7 +11,9 @@ export default function updateSlidesProgress(translate = (this && this.translate
   if (rtl) offsetCenter = translate;
 
   // Visible Slides
-  slides.removeClass(params.slideVisibleClass);
+  slides.forEach((slideEl) => {
+    slideEl.classList.remove(params.slideVisibleClass);
+  });
 
   swiper.visibleSlidesIndexes = [];
   swiper.visibleSlides = [];
@@ -43,10 +43,9 @@ export default function updateSlidesProgress(translate = (this && this.translate
     if (isVisible) {
       swiper.visibleSlides.push(slide);
       swiper.visibleSlidesIndexes.push(i);
-      slides.eq(i).addClass(params.slideVisibleClass);
+      slides[i].classList.add(params.slideVisibleClass);
     }
     slide.progress = rtl ? -slideProgress : slideProgress;
     slide.originalProgress = rtl ? -originalSlideProgress : originalSlideProgress;
   }
-  swiper.visibleSlides = $(swiper.visibleSlides);
 }

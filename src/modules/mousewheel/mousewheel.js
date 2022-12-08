@@ -1,6 +1,5 @@
 /* eslint-disable consistent-return */
 import { getWindow } from 'ssr-window';
-import $ from '../../shared/dom.js';
 import { now, nextTick } from '../../shared/utils.js';
 
 export default function Mousewheel({ swiper, extendParams, on, emit }) {
@@ -183,12 +182,12 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
       e.preventDefault();
     }
 
-    let target = swiper.$el;
+    let targetEl = swiper.el;
     if (swiper.params.mousewheel.eventsTarget !== 'container') {
-      target = $(swiper.params.mousewheel.eventsTarget);
+      targetEl = document.querySelector(swiper.params.mousewheel.eventsTarget);
     }
-    if (!swiper.mouseEntered && !target[0].contains(e.target) && !params.releaseOnEdges)
-      return true;
+    const targetElContainsTarget = targetEl && targetEl.contains(e.target);
+    if (!swiper.mouseEntered && !targetElContainsTarget && !params.releaseOnEdges) return true;
 
     if (e.originalEvent) e = e.originalEvent; // jquery fix
     let delta = 0;
@@ -388,13 +387,13 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
   }
 
   function events(method) {
-    let target = swiper.$el;
+    let targetEl = swiper.el;
     if (swiper.params.mousewheel.eventsTarget !== 'container') {
-      target = $(swiper.params.mousewheel.eventsTarget);
+      targetEl = document.querySelector(swiper.params.mousewheel.eventsTarget);
     }
-    target[method]('mouseenter', handleMouseEnter);
-    target[method]('mouseleave', handleMouseLeave);
-    target[method]('wheel', handle);
+    targetEl[method]('mouseenter', handleMouseEnter);
+    targetEl[method]('mouseleave', handleMouseLeave);
+    targetEl[method]('wheel', handle);
   }
 
   function enable() {
@@ -403,7 +402,7 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
       return true;
     }
     if (swiper.mousewheel.enabled) return false;
-    events('on');
+    events('addEventListener');
     swiper.mousewheel.enabled = true;
     return true;
   }
@@ -413,7 +412,7 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
       return true;
     }
     if (!swiper.mousewheel.enabled) return false;
-    events('off');
+    events('removeEventListener');
     swiper.mousewheel.enabled = false;
     return true;
   }

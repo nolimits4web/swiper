@@ -1,5 +1,4 @@
 import { getDocument } from 'ssr-window';
-import $ from '../../shared/dom.js';
 import { now } from '../../shared/utils.js';
 
 export default function onTouchMove(event) {
@@ -31,7 +30,7 @@ export default function onTouchMove(event) {
     return;
   }
   if (!swiper.allowTouchMove) {
-    if (!$(e.target).is(data.focusableElements)) {
+    if (!e.target.matches(data.focusableElements)) {
       swiper.allowClick = false;
     }
     if (data.isTouched) {
@@ -64,7 +63,7 @@ export default function onTouchMove(event) {
     }
   }
   if (document.activeElement) {
-    if (e.target === document.activeElement && $(e.target).is(data.focusableElements)) {
+    if (e.target === document.activeElement && e.target.matches(data.focusableElements)) {
       data.isMoved = true;
       swiper.allowClick = false;
       return;
