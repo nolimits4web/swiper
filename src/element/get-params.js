@@ -107,17 +107,6 @@ function getParams(element) {
     delete params.pagination;
   }
 
-  if (params.control) {
-    params.controller = { control: params.control };
-    delete params.control;
-  } else {
-    delete params.controller;
-  }
-
-  if (typeof params.thumbs === 'string' || params.thumbs instanceof HTMLElement) {
-    params.thumbs = { swiper: params.thumbs };
-  }
-
   return { params, passedParams };
 }
 

@@ -157,7 +157,7 @@ export default function Controller({ swiper, extendParams, on }) {
     ) {
       const controlElement = $(swiper.params.controller.control);
       if (controlElement[0].swiper) {
-        swiper.controller.control = swiper;
+        swiper.controller.control = controlElement[0].swiper;
       } else {
         const onControllerSwiper = (e) => {
           swiper.controller.control = e.detail[0];
