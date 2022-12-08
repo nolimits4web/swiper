@@ -26,7 +26,7 @@ export default function EffectCards({ swiper, extendParams, on }) {
       const progress = Math.min(Math.max(slideProgress, -4), 4);
       let offset = slideEl.swiperSlideOffset;
       if (swiper.params.centeredSlides && !swiper.params.cssMode) {
-        swiper.$wrapperEl.transform(`translateX(${swiper.minTranslate()}px)`);
+        swiper.wrapperEl.style.transform = `translateX(${swiper.minTranslate()}px)`;
       }
       if (swiper.params.centeredSlides && swiper.params.cssMode) {
         offset -= slides[0].swiperSlideOffset;

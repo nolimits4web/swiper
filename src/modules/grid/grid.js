@@ -75,9 +75,7 @@ export default function Grid({ swiper, extendParams }) {
     const { rows } = swiper.params.grid;
     swiper.virtualSize = (slideSize + spaceBetween) * slidesNumberEvenToRows;
     swiper.virtualSize = Math.ceil(swiper.virtualSize / rows) - spaceBetween;
-    swiper.$wrapperEl.css({
-      [getDirectionLabel('width')]: `${swiper.virtualSize + spaceBetween}px`,
-    });
+    swiper.wrapperEl.style[getDirectionLabel('width')] = `${swiper.virtualSize + spaceBetween}px`;
     if (centeredSlides) {
       const newSlidesGrid = [];
       for (let i = 0; i < snapGrid.length; i += 1) {

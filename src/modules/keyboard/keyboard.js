@@ -1,5 +1,6 @@
 /* eslint-disable consistent-return */
 import { getWindow, getDocument } from 'ssr-window';
+import { elementOffset, elementParents } from '../../shared/utils.js';
 
 export default function Keyboard({ swiper, extendParams, on, emit }) {
   const document = getDocument();
@@ -62,19 +63,19 @@ export default function Keyboard({ swiper, extendParams, on, emit }) {
       let inView = false;
       // Check that swiper should be inside of visible area of window
       if (
-        swiper.$el.parents(`.${swiper.params.slideClass}, swiper-slide`).length > 0 &&
-        swiper.$el.parents(`.${swiper.params.slideActiveClass}`).length === 0
+        elementParents(swiper.el, `.${swiper.params.slideClass}, swiper-slide`).length > 0 &&
+        elementParents(swiper.el, `.${swiper.params.slideActiveClass}`).length === 0
       ) {
         return undefined;
       }
 
-      const $el = swiper.$el;
-      const swiperWidth = $el[0].clientWidth;
-      const swiperHeight = $el[0].clientHeight;
+      const el = swiper.el;
+      const swiperWidth = el.clientWidth;
+      const swiperHeight = el.clientHeight;
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
-      const swiperOffset = swiper.$el.offset();
-      if (rtl) swiperOffset.left -= swiper.$el[0].scrollLeft;
+      const swiperOffset = elementOffset(el);
+      if (rtl) swiperOffset.left -= el.scrollLeft;
       const swiperCoord = [
         [swiperOffset.left, swiperOffset.top],
         [swiperOffset.left + swiperWidth, swiperOffset.top],

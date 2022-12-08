@@ -62,11 +62,11 @@ export default function translateTo(
         swiper.onTranslateToWrapperTransitionEnd = function transitionEnd(e) {
           if (!swiper || swiper.destroyed) return;
           if (e.target !== this) return;
-          swiper.$wrapperEl[0].removeEventListener(
+          swiper.wrapperEl.removeEventListener(
             'transitionend',
             swiper.onTranslateToWrapperTransitionEnd,
           );
-          swiper.$wrapperEl[0].removeEventListener(
+          swiper.wrapperEl.removeEventListener(
             'webkitTransitionEnd',
             swiper.onTranslateToWrapperTransitionEnd,
           );
@@ -77,11 +77,8 @@ export default function translateTo(
           }
         };
       }
-      swiper.$wrapperEl[0].addEventListener(
-        'transitionend',
-        swiper.onTranslateToWrapperTransitionEnd,
-      );
-      swiper.$wrapperEl[0].addEventListener(
+      swiper.wrapperEl.addEventListener('transitionend', swiper.onTranslateToWrapperTransitionEnd);
+      swiper.wrapperEl.addEventListener(
         'webkitTransitionEnd',
         swiper.onTranslateToWrapperTransitionEnd,
       );

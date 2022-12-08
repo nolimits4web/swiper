@@ -1,4 +1,4 @@
-import { now } from '../../shared/utils.js';
+import { elementTransitionEnd, now } from '../../shared/utils.js';
 
 export default function freeMode({ swiper, extendParams, emit, once }) {
   extendParams({
@@ -38,7 +38,7 @@ export default function freeMode({ swiper, extendParams, emit, once }) {
   }
 
   function onTouchEnd({ currentPos }) {
-    const { params, $wrapperEl, rtlTranslate: rtl, snapGrid, touchEventsData: data } = swiper;
+    const { params, wrapperEl, rtlTranslate: rtl, snapGrid, touchEventsData: data } = swiper;
     // Time diff
     const touchEndTime = now();
     const timeDiff = touchEndTime - data.touchStartTime;
@@ -174,13 +174,13 @@ export default function freeMode({ swiper, extendParams, emit, once }) {
         swiper.setTranslate(newPosition);
         swiper.transitionStart(true, swiper.swipeDirection);
         swiper.animating = true;
-        $wrapperEl.transitionEnd(() => {
+        elementTransitionEnd(wrapperEl, () => {
           if (!swiper || swiper.destroyed || !data.allowMomentumBounce) return;
           emit('momentumBounce');
           swiper.setTransition(params.speed);
           setTimeout(() => {
             swiper.setTranslate(afterBouncePosition);
-            $wrapperEl.transitionEnd(() => {
+            elementTransitionEnd(wrapperEl, () => {
               if (!swiper || swiper.destroyed) return;
               swiper.transitionEnd();
             });
@@ -194,7 +194,7 @@ export default function freeMode({ swiper, extendParams, emit, once }) {
         swiper.transitionStart(true, swiper.swipeDirection);
         if (!swiper.animating) {
           swiper.animating = true;
-          $wrapperEl.transitionEnd(() => {
+          elementTransitionEnd(wrapperEl, () => {
             if (!swiper || swiper.destroyed) return;
             swiper.transitionEnd();
           });

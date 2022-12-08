@@ -1,4 +1,4 @@
-import { elementChildren } from '../../shared/utils.js';
+import { elementChildren, elementNextAll, elementPrevAll } from '../../shared/utils.js';
 
 export default function updateSlidesClasses() {
   const swiper = this;
@@ -33,22 +33,20 @@ export default function updateSlidesClasses() {
   activeSlide.classList.add(params.slideActiveClass);
 
   // Next Slide
-  let nextSlide = activeSlide
-    .nextAll(`.${params.slideClass}, swiper-slide`)
-    .eq(0)
-    .addClass(params.slideNextClass);
-  if (params.loop && nextSlide.length === 0) {
-    nextSlide = slides.eq(0);
-    nextSlide.addClass(params.slideNextClass);
+  let nextSlide = elementNextAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
+  if (params.loop && !nextSlide) {
+    nextSlide = slides[0];
+  }
+  if (nextSlide) {
+    nextSlide.classList.add(params.slideNextClass);
   }
   // Prev Slide
-  let prevSlide = activeSlide
-    .prevAll(`.${params.slideClass}, swiper-slide`)
-    .eq(0)
-    .addClass(params.slidePrevClass);
+  let prevSlide = elementPrevAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
   if (params.loop && prevSlide.length === 0) {
-    prevSlide = slides.eq(-1);
-    prevSlide.addClass(params.slidePrevClass);
+    prevSlide = slides[slides.length - 1];
+  }
+  if (prevSlide) {
+    prevSlide.classList.add(params.slidePrevClass);
   }
   swiper.emitSlidesClasses();
 }

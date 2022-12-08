@@ -1,4 +1,5 @@
 import { getWindow, getDocument } from 'ssr-window';
+import { elementChildren } from '../../shared/utils.js';
 
 export default function HashNavigation({ swiper, extendParams, emit, on }) {
   let initialized = false;
@@ -16,11 +17,10 @@ export default function HashNavigation({ swiper, extendParams, emit, on }) {
     const newHash = document.location.hash.replace('#', '');
     const activeSlideHash = swiper.slides.eq(swiper.activeIndex).attr('data-hash');
     if (newHash !== activeSlideHash) {
-      const newIndex = swiper.$wrapperEl
-        .children(
-          `.${swiper.params.slideClass}[data-hash="${newHash}"], swiper-slide[data-hash="${newHash}"]`,
-        )
-        .index();
+      const newIndex = elementChildren(
+        swiper.wrapperEl,
+        `.${swiper.params.slideClass}[data-hash="${newHash}"], swiper-slide[data-hash="${newHash}"]`,
+      ).index();
       if (typeof newIndex === 'undefined') return;
       swiper.slideTo(newIndex);
     }

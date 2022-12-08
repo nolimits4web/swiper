@@ -1,4 +1,4 @@
-import { getElementStyle } from '../../shared/utils.js';
+import { elementStyle } from '../../shared/utils.js';
 
 export default function updateSize() {
   const swiper = this;
@@ -22,12 +22,12 @@ export default function updateSize() {
   // Subtract paddings
   width =
     width -
-    parseInt(getElementStyle(el, 'padding-left') || 0, 10) -
-    parseInt(getElementStyle(el, 'padding-right') || 0, 10);
+    parseInt(elementStyle(el, 'padding-left') || 0, 10) -
+    parseInt(elementStyle(el, 'padding-right') || 0, 10);
   height =
     height -
-    parseInt(getElementStyle(el, 'padding-top') || 0, 10) -
-    parseInt(getElementStyle(el, 'padding-bottom') || 0, 10);
+    parseInt(elementStyle(el, 'padding-top') || 0, 10) -
+    parseInt(elementStyle(el, 'padding-bottom') || 0, 10);
 
   if (Number.isNaN(width)) width = 0;
   if (Number.isNaN(height)) height = 0;

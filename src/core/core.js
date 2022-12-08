@@ -6,7 +6,7 @@ import {
   deleteProps,
   createElement,
   elementChildren,
-  getElementStyle,
+  elementStyle,
 } from '../shared/utils.js';
 import { getSupport } from '../shared/get-support.js';
 import { getDevice } from '../shared/get-device.js';
@@ -486,11 +486,11 @@ class Swiper {
       mounted: true,
 
       // RTL
-      rtl: el.dir.toLowerCase() === 'rtl' || getElementStyle(el, 'direction') === 'rtl',
+      rtl: el.dir.toLowerCase() === 'rtl' || elementStyle(el, 'direction') === 'rtl',
       rtlTranslate:
         swiper.params.direction === 'horizontal' &&
-        (el.dir.toLowerCase() === 'rtl' || getElementStyle(el, 'direction') === 'rtl'),
-      wrongRTL: getElementStyle(wrapperEl, 'display') === '-webkit-box',
+        (el.dir.toLowerCase() === 'rtl' || elementStyle(el, 'direction') === 'rtl'),
+      wrongRTL: elementStyle(wrapperEl, 'display') === '-webkit-box',
     });
 
     return true;

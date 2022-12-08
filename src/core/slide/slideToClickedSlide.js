@@ -1,8 +1,8 @@
-import { nextTick } from '../../shared/utils.js';
+import { elementChildren, elementIndex, nextTick } from '../../shared/utils.js';
 
 export default function slideToClickedSlide() {
   const swiper = this;
-  const { params, $wrapperEl } = swiper;
+  const { params, wrapperEl } = swiper;
 
   const slidesPerView =
     params.slidesPerView === 'auto' ? swiper.slidesPerViewDynamic() : params.slidesPerView;
@@ -18,10 +18,9 @@ export default function slideToClickedSlide() {
         slideToIndex > swiper.slides.length - swiper.loopedSlides + slidesPerView / 2
       ) {
         swiper.loopFix();
-        slideToIndex = $wrapperEl
-          .children(`${slideSelector}[data-swiper-slide-index="${realIndex}"]`)
-          .eq(0)
-          .index();
+        slideToIndex = elementIndex(
+          elementChildren(wrapperEl, `${slideSelector}[data-swiper-slide-index="${realIndex}"]`)[0],
+        );
 
         nextTick(() => {
           swiper.slideTo(slideToIndex);
@@ -31,10 +30,9 @@ export default function slideToClickedSlide() {
       }
     } else if (slideToIndex > swiper.slides.length - slidesPerView) {
       swiper.loopFix();
-      slideToIndex = $wrapperEl
-        .children(`${slideSelector}[data-swiper-slide-index="${realIndex}"]`)
-        .eq(0)
-        .index();
+      slideToIndex = elementIndex(
+        elementChildren(wrapperEl, `${slideSelector}[data-swiper-slide-index="${realIndex}"]`)[0],
+      );
 
       nextTick(() => {
         swiper.slideTo(slideToIndex);

@@ -1,6 +1,6 @@
 import { getWindow } from 'ssr-window';
 import $ from '../../shared/dom.js';
-import { getTranslate } from '../../shared/utils.js';
+import { elementChildren, getTranslate } from '../../shared/utils.js';
 
 export default function Zoom({ swiper, extendParams, on, emit }) {
   const window = getWindow();
@@ -326,7 +326,10 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       }
       if (!gesture.$slideEl) {
         if (swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual) {
-          gesture.$slideEl = swiper.$wrapperEl.children(`.${swiper.params.slideActiveClass}`);
+          gesture.$slideEl = elementChildren(
+            swiper.wrapperEl,
+            `.${swiper.params.slideActiveClass}`,
+          );
         } else {
           gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
         }
@@ -498,12 +501,27 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
 
     // Scale image
 
-    swiper.$wrapperEl.on('pointerdown', slideSelector, onGestureStart, passiveListener);
-    swiper.$wrapperEl.on('pointermove', slideSelector, onGestureChange, activeListenerWithCapture);
-    swiper.$wrapperEl.on(`pointerup pointercancel`, slideSelector, onGestureEnd, passiveListener);
+    swiper.wrapperEl.addEventListener(
+      'pointerdown',
+      slideSelector,
+      onGestureStart,
+      passiveListener,
+    );
+    swiper.wrapperEl.addEventListener(
+      'pointermove',
+      slideSelector,
+      onGestureChange,
+      activeListenerWithCapture,
+    );
+    swiper.wrapperEl.addEventListener(
+      `pointerup pointercancel`,
+      slideSelector,
+      onGestureEnd,
+      passiveListener,
+    );
 
     // Move image
-    swiper.$wrapperEl.on(
+    swiper.wrapperEl.addEventListener(
       'pointermove',
       `.${swiper.params.zoom.containerClass}`,
       onTouchMove,
@@ -520,12 +538,27 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
 
     // Scale image
 
-    swiper.$wrapperEl.off('pointerdown', slideSelector, onGestureStart, passiveListener);
-    swiper.$wrapperEl.off('pointermove', slideSelector, onGestureChange, activeListenerWithCapture);
-    swiper.$wrapperEl.off(`pointerup pointercancel`, slideSelector, onGestureEnd, passiveListener);
+    swiper.wrapperEl.removeEventListener(
+      'pointerdown',
+      slideSelector,
+      onGestureStart,
+      passiveListener,
+    );
+    swiper.wrapperEl.removeEventListener(
+      'pointermove',
+      slideSelector,
+      onGestureChange,
+      activeListenerWithCapture,
+    );
+    swiper.wrapperEl.removeEventListener(
+      `pointerup pointercancel`,
+      slideSelector,
+      onGestureEnd,
+      passiveListener,
+    );
 
     // Move image
-    swiper.$wrapperEl.off(
+    swiper.wrapperEl.removeEventListener(
       'pointermove',
       `.${swiper.params.zoom.containerClass}`,
       onTouchMove,

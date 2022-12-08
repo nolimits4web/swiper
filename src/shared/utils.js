@@ -216,7 +216,7 @@ function elementOffset(el) {
     left: box.left + scrollLeft - clientLeft,
   };
 }
-function prevSiblings(el, selector) {
+function elementPrevAll(el, selector) {
   const prevEls = [];
   while (el.previousElementSibling) {
     const prev = el.previousElementSibling; // eslint-disable-line
@@ -227,7 +227,7 @@ function prevSiblings(el, selector) {
   }
   return prevEls;
 }
-function nextSiblings(el, selector) {
+function elementNextAll(el, selector) {
   const nextEls = [];
   while (el.nextElementSibling) {
     const next = el.nextElementSibling; // eslint-disable-line
@@ -238,9 +238,47 @@ function nextSiblings(el, selector) {
   }
   return nextEls;
 }
-function getElementStyle(el, prop) {
+function elementStyle(el, prop) {
   const window = getWindow();
   return window.getComputedStyle(el, null).getPropertyValue(prop);
+}
+function elementIndex(el) {
+  let child = el;
+  let i;
+  if (child) {
+    i = 0;
+    // eslint-disable-next-line
+    while ((child = child.previousSibling) !== null) {
+      if (child.nodeType === 1) i += 1;
+    }
+    return i;
+  }
+  return undefined;
+}
+
+function elementParents(el, selector) {
+  const parents = []; // eslint-disable-line
+  let parent = el.parentNode; // eslint-disable-line
+  while (parent) {
+    if (selector) {
+      if (parent.matches(selector)) parents.push(parent);
+    } else {
+      parents.push(parent);
+    }
+    parent = parent.parentNode;
+  }
+  return parents;
+}
+
+function elementTransitionEnd(el, callback) {
+  function fireCallBack(e) {
+    if (e.target !== el) return;
+    callback.call(el, e);
+    el.removeEventListener('transitionend', fireCallBack);
+  }
+  if (callback) {
+    el.addEventListener('transitionend', fireCallBack);
+  }
 }
 
 export {
@@ -253,11 +291,15 @@ export {
   extend,
   getComputedStyle,
   setCSSProperty,
+  // dom
   findElementsInElements,
   createElement,
   elementChildren,
   elementOffset,
-  prevSiblings,
-  nextSiblings,
-  getElementStyle,
+  elementPrevAll,
+  elementNextAll,
+  elementStyle,
+  elementIndex,
+  elementParents,
+  elementTransitionEnd,
 };

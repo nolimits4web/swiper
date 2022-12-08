@@ -34,9 +34,9 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   let pausedByInteraction;
 
   function onTransitionEnd(e) {
-    if (!swiper || swiper.destroyed || !swiper.$wrapperEl) return;
-    if (e.target !== swiper.$wrapperEl[0]) return;
-    swiper.$wrapperEl[0].removeEventListener('transitionend', onTransitionEnd);
+    if (!swiper || swiper.destroyed || !swiper.wrapperEl) return;
+    if (e.target !== swiper.wrapperEl) return;
+    swiper.wrapperEl.removeEventListener('transitionend', onTransitionEnd);
     resume();
   }
 
@@ -154,7 +154,7 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
     const proceed = () => {
       emit('autoplayPause');
       if (swiper.params.autoplay.waitForTransition) {
-        swiper.$wrapperEl[0].addEventListener('transitionend', onTransitionEnd);
+        swiper.wrapperEl.addEventListener('transitionend', onTransitionEnd);
       } else {
         resume();
       }
@@ -221,14 +221,14 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
 
   const attachMouseEvents = () => {
     if (swiper.params.autoplay.pauseOnMouseEnter) {
-      swiper.$el.on('pointerenter', onPointerEnter);
-      swiper.$el.on('pointerleave', onPointerLeave);
+      swiper.el.addEventListener('pointerenter', onPointerEnter);
+      swiper.el.addEventListener('pointerleave', onPointerLeave);
     }
   };
 
   const detachMouseEvents = () => {
-    swiper.$el.off('pointerenter', onPointerEnter);
-    swiper.$el.off('pointerleave', onPointerLeave);
+    swiper.el.removeEventListener('pointerenter', onPointerEnter);
+    swiper.el.removeEventListener('pointerleave', onPointerLeave);
   };
 
   const attachDocumentEvents = () => {

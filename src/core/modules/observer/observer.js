@@ -1,4 +1,5 @@
 import { getWindow } from 'ssr-window';
+import { elementParents } from '../../../shared/utils.js';
 
 export default function Observer({ swiper, extendParams, on, emit }) {
   const observers = [];
@@ -35,18 +36,18 @@ export default function Observer({ swiper, extendParams, on, emit }) {
   const init = () => {
     if (!swiper.params.observer) return;
     if (swiper.params.observeParents) {
-      const containerParents = swiper.$el.parents();
+      const containerParents = elementParents(swiper.el);
       for (let i = 0; i < containerParents.length; i += 1) {
         attach(containerParents[i]);
       }
     }
     // Observe container
-    attach(swiper.$el[0], {
+    attach(swiper.el, {
       childList: swiper.params.observeSlideChildren,
     });
 
     // Observe wrapper
-    attach(swiper.$wrapperEl[0], { attributes: false });
+    attach(swiper.wrapperEl, { attributes: false });
   };
   const destroy = () => {
     observers.forEach((observer) => {

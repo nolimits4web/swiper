@@ -1,4 +1,4 @@
-import { elementChildren, getElementStyle, setCSSProperty } from '../../shared/utils.js';
+import { elementChildren, elementStyle, setCSSProperty } from '../../shared/utils.js';
 
 export default function updateSlides() {
   const swiper = this;
@@ -98,7 +98,7 @@ export default function updateSlides() {
     if (gridEnabled) {
       swiper.grid.updateSlide(i, slide, slidesLength, getDirectionLabel);
     }
-    if (slides[i] && getElementStyle(slide, 'display') === 'none') continue; // eslint-disable-line
+    if (slides[i] && elementStyle(slide, 'display') === 'none') continue; // eslint-disable-line
 
     if (params.slidesPerView === 'auto') {
       if (shouldResetSlideSize) {

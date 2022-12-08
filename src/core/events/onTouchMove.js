@@ -132,7 +132,13 @@ export default function onTouchMove(event) {
     data.startTranslate = swiper.getTranslate();
     swiper.setTransition(0);
     if (swiper.animating) {
-      swiper.$wrapperEl.trigger('webkitTransitionEnd transitionend');
+      ['webkitTransitionEnd', 'transitionend'].forEach((eventName) => {
+        const evt = new window.CustomEvent(eventName, {
+          bubbles: true,
+          cancelable: true,
+        });
+        swiper.wrapperEl.dispatchEvent(evt);
+      });
     }
     data.allowMomentumBounce = false;
     // Grab Cursor

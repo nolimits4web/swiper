@@ -7,7 +7,7 @@ export default function slidePrev(speed = this.params.speed, runCallbacks = true
   if (params.loop) {
     swiper.loopFix();
     // eslint-disable-next-line
-    swiper._clientLeft = swiper.$wrapperEl[0].clientLeft;
+    swiper._clientLeft = swiper.wrapperEl.clientLeft;
   }
   const translate = rtlTranslate ? swiper.translate : -swiper.translate;
 

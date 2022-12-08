@@ -1,4 +1,4 @@
-import { elementChildren, isObject, nextSiblings, prevSiblings } from '../../shared/utils.js';
+import { elementChildren, isObject, elementNextAll, elementPrevAll } from '../../shared/utils.js';
 
 export default function Thumb({ swiper, extendParams, on }) {
   extendParams({
@@ -40,10 +40,16 @@ export default function Thumb({ swiper, extendParams, on }) {
       const currentIndex = swiper.activeIndex;
 
       const prevIndex = swiper.slides.indexOf(
-        prevSiblings(swiper.slides[currentIndex], `[data-swiper-slide-index="${slideToIndex}"]`)[0],
+        elementPrevAll(
+          swiper.slides[currentIndex],
+          `[data-swiper-slide-index="${slideToIndex}"]`,
+        )[0],
       );
       const nextIndex = swiper.slides.indexOf(
-        nextSiblings(swiper.slides[currentIndex], `[data-swiper-slide-index="${slideToIndex}"]`)[0],
+        elementNextAll(
+          swiper.slides[currentIndex],
+          `[data-swiper-slide-index="${slideToIndex}"]`,
+        )[0],
       );
 
       if (typeof prevIndex === 'undefined') slideToIndex = nextIndex;
@@ -135,13 +141,13 @@ export default function Thumb({ swiper, extendParams, on }) {
       if (thumbsSwiper.params.loop) {
         // Find actual thumbs index to slide to
         const prevThumbsIndex = thumbsSwiper.slides.indexOf(
-          prevSiblings(
+          elementPrevAll(
             thumbsSwiper.slides[currentThumbsIndex],
             `[data-swiper-slide-index="${swiper.realIndex}"]`,
           )[0],
         );
         const nextThumbsIndex = thumbsSwiper.slides.indexOf(
-          nextSiblings(
+          elementNextAll(
             thumbsSwiper.slides[currentThumbsIndex],
             `[data-swiper-slide-index="${swiper.realIndex}"]`,
           )[0],

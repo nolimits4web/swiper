@@ -153,11 +153,8 @@ export default function slideTo(
       swiper.onSlideToWrapperTransitionEnd = function transitionEnd(e) {
         if (!swiper || swiper.destroyed) return;
         if (e.target !== this) return;
-        swiper.$wrapperEl[0].removeEventListener(
-          'transitionend',
-          swiper.onSlideToWrapperTransitionEnd,
-        );
-        swiper.$wrapperEl[0].removeEventListener(
+        swiper.wrapperEl.removeEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
+        swiper.wrapperEl.removeEventListener(
           'webkitTransitionEnd',
           swiper.onSlideToWrapperTransitionEnd,
         );
@@ -166,11 +163,8 @@ export default function slideTo(
         swiper.transitionEnd(runCallbacks, direction);
       };
     }
-    swiper.$wrapperEl[0].addEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
-    swiper.$wrapperEl[0].addEventListener(
-      'webkitTransitionEnd',
-      swiper.onSlideToWrapperTransitionEnd,
-    );
+    swiper.wrapperEl.addEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
+    swiper.wrapperEl.addEventListener('webkitTransitionEnd', swiper.onSlideToWrapperTransitionEnd);
   }
 
   return true;

@@ -37,7 +37,7 @@ export default function onTouchStart(event) {
   let targetEl = e.target;
 
   if (params.touchEventsTarget === 'wrapper') {
-    if (!targetEl.closest(swiper.wrapperEl)) return;
+    if (!swiper.wrapperEl.contains(targetEl)) return;
   }
   if ('which' in e && e.which === 3) return;
   if ('button' in e && e.button > 0) return;

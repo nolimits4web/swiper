@@ -6,7 +6,7 @@ const isGridEnabled = (swiper, params) => {
 
 export default function setBreakpoint() {
   const swiper = this;
-  const { realIndex, initialized, params, $el } = swiper;
+  const { realIndex, initialized, params, el } = swiper;
   const breakpoints = params.breakpoints;
   if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) return;
 
@@ -23,17 +23,17 @@ export default function setBreakpoint() {
   const wasEnabled = params.enabled;
 
   if (wasMultiRow && !isMultiRow) {
-    $el.removeClass(
+    el.classList.remove(
       `${params.containerModifierClass}grid ${params.containerModifierClass}grid-column`,
     );
     swiper.emitContainerClasses();
   } else if (!wasMultiRow && isMultiRow) {
-    $el.addClass(`${params.containerModifierClass}grid`);
+    el.classList.add(`${params.containerModifierClass}grid`);
     if (
       (breakpointParams.grid.fill && breakpointParams.grid.fill === 'column') ||
       (!breakpointParams.grid.fill && params.grid.fill === 'column')
     ) {
-      $el.addClass(`${params.containerModifierClass}grid-column`);
+      el.classList.add(`${params.containerModifierClass}grid-column`);
     }
     swiper.emitContainerClasses();
   }

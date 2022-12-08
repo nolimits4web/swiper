@@ -1,5 +1,5 @@
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
-import { nextTick } from '../../shared/utils.js';
+import { elementTransitionEnd, nextTick } from '../../shared/utils.js';
 
 export default function Controller({ swiper, extendParams, on }) {
   extendParams({
@@ -120,7 +120,7 @@ export default function Controller({ swiper, extendParams, on }) {
             c.updateAutoHeight();
           });
         }
-        c.$wrapperEl.transitionEnd(() => {
+        elementTransitionEnd(c.wrapperEl, () => {
           if (!controlled) return;
           if (swiper.params.loop) swiper.loopFix(undefined, false);
           if (c.params.loop && swiper.params.controller.by === 'slide') {
