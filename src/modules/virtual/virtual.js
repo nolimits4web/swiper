@@ -40,7 +40,7 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
           `<div class="${swiper.params.slideClass}" data-swiper-slide-index="${index}">${slide}</div>`,
         );
     if (!$slideEl.attr('data-swiper-slide-index')) $slideEl.attr('data-swiper-slide-index', index);
-    if (params.cache) swiper.virtual.cache[index] = $slideEl;
+    if (params.cache) swiper.virtual.cache[index] = $slideEl[0];
     return $slideEl;
   }
 
@@ -221,15 +221,15 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
       const cache = swiper.virtual.cache;
       const newCache = {};
       Object.keys(cache).forEach((cachedIndex) => {
-        const $cachedEl = cache[cachedIndex];
-        const cachedElIndex = $cachedEl.attr('data-swiper-slide-index');
+        const cachedEl = cache[cachedIndex];
+        const cachedElIndex = cachedEl.getAttribute('data-swiper-slide-index');
         if (cachedElIndex) {
-          $cachedEl.attr(
+          cachedEl.setAttribute(
             'data-swiper-slide-index',
             parseInt(cachedElIndex, 10) + numberOfNewSlides,
           );
         }
-        newCache[parseInt(cachedIndex, 10) + numberOfNewSlides] = $cachedEl;
+        newCache[parseInt(cachedIndex, 10) + numberOfNewSlides] = cachedEl;
       });
       swiper.virtual.cache = newCache;
     }
@@ -272,15 +272,17 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     if (!swiper.params.virtual.enabled) return;
     let domSlidesAssigned;
     if (typeof swiper.passedParams.virtual.slides === 'undefined') {
-      const $slides = swiper.$slidesEl.children(`.${swiper.params.slideClass}, swiper-slide`);
-      if ($slides && $slides.length) {
-        swiper.virtual.slides = [...$slides];
+      const slides = swiper.$slidesEl[0].querySelectorAll(
+        `.${swiper.params.slideClass}, swiper-slide`,
+      );
+      if (slides && slides.length) {
+        swiper.virtual.slides = [...slides];
         domSlidesAssigned = true;
-        $slides.forEach((slideEl, slideIndex) => {
-          $(slideEl).attr('data-swiper-slide-index', slideIndex);
-          swiper.virtual.cache[slideIndex] = $(slideEl);
+        slides.forEach((slideEl, slideIndex) => {
+          slideEl.setAttribute('data-swiper-slide-index', slideIndex);
+          swiper.virtual.cache[slideIndex] = slideEl;
+          slideEl.remove();
         });
-        $slides.remove();
       }
     }
     if (!domSlidesAssigned) {
