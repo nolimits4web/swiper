@@ -1,4 +1,5 @@
 import { getWindow } from 'ssr-window';
+import { elementIndex } from '../../shared/utils.js';
 
 export default function History({ swiper, extendParams, on }) {
   extendParams({
@@ -50,8 +51,8 @@ export default function History({ swiper, extendParams, on }) {
     } else {
       location = window.location;
     }
-    const slide = swiper.slides.eq(index);
-    let value = slugify(slide.attr('data-history'));
+    const slide = swiper.slides[index];
+    let value = slugify(slide.getAttribute('data-history'));
     if (swiper.params.history.root.length > 0) {
       let root = swiper.params.history.root;
       if (root[root.length - 1] === '/') root = root.slice(0, root.length - 1);
@@ -76,10 +77,10 @@ export default function History({ swiper, extendParams, on }) {
   const scrollToSlide = (speed, value, runCallbacks) => {
     if (value) {
       for (let i = 0, length = swiper.slides.length; i < length; i += 1) {
-        const slide = swiper.slides.eq(i);
-        const slideHistory = slugify(slide.attr('data-history'));
+        const slide = swiper.slides[i];
+        const slideHistory = slugify(slide.getAttribute('data-history'));
         if (slideHistory === value) {
-          const index = slide.index();
+          const index = elementIndex(slide);
           swiper.slideTo(index, speed, runCallbacks);
         }
       }

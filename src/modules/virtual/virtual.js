@@ -111,7 +111,9 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
 
     if (previousFrom === from && previousTo === to && !force) {
       if (swiper.slidesGrid !== previousSlidesGrid && offset !== previousOffset) {
-        swiper.slides.css(offsetProp, `${offset}px`);
+        swiper.slides.forEach((slideEl) => {
+          slideEl.style[offsetProp] = `${offset}px`;
+        });
       }
       swiper.updateProgress();
       emit('virtualUpdate');

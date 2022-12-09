@@ -1,4 +1,9 @@
-import { elementChildren, elementStyle, setCSSProperty } from '../../shared/utils.js';
+import {
+  elementChildren,
+  elementOuterSize,
+  elementStyle,
+  setCSSProperty,
+} from '../../shared/utils.js';
 
 export default function updateSlides() {
   const swiper = this;
@@ -114,7 +119,9 @@ export default function updateSlides() {
         slide[0].style.webkitTransform = 'none';
       }
       if (params.roundLengths) {
-        slideSize = swiper.isHorizontal() ? slide.outerWidth(true) : slide.outerHeight(true);
+        slideSize = swiper.isHorizontal()
+          ? elementOuterSize(slide, 'width', true)
+          : elementOuterSize(slide, 'height', true);
       } else {
         // eslint-disable-next-line
         const width = getDirectionPropertyValue(slideStyles, 'width');

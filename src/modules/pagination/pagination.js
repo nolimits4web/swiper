@@ -134,11 +134,14 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
         lastIndex = firstIndex + (Math.min(bullets.length, params.dynamicMainBullets) - 1);
         midIndex = (lastIndex + firstIndex) / 2;
       }
-      bullets.removeClass(
-        ['', '-next', '-next-next', '-prev', '-prev-prev', '-main']
-          .map((suffix) => `${params.bulletActiveClass}${suffix}`)
-          .join(' '),
-      );
+      bullets.forEach((bulletEl) => {
+        bulletEl.classList.remove(
+          ...['', '-next', '-next-next', '-prev', '-prev-prev', '-main'].map(
+            (suffix) => `${params.bulletActiveClass}${suffix}`,
+          ),
+        );
+      });
+
       if (el.length > 1) {
         bullets.forEach((bullet) => {
           const bulletIndex = elementIndex(bullet);
@@ -376,7 +379,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       });
     }
 
-    if (swiper.pagination.bullets && swiper.pagination.bullets.removeClass)
+    if (swiper.pagination.bullets)
       swiper.pagination.bullets.forEach((subEl) =>
         subEl.classList.remove(params.bulletActiveClass),
       );

@@ -1,6 +1,10 @@
 import { getWindow } from 'ssr-window';
-import $ from '../../shared/dom.js';
-import { elementChildren, getTranslate } from '../../shared/utils.js';
+import {
+  elementChildren,
+  elementOffset,
+  elementParents,
+  getTranslate,
+} from '../../shared/utils.js';
 
 export default function Zoom({ swiper, extendParams, on, emit }) {
   const window = getWindow();
@@ -25,11 +29,11 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
   let fakeGestureMoved;
   const evCache = [];
   const gesture = {
-    $slideEl: undefined,
+    slideEl: undefined,
     slideWidth: undefined,
     slideHeight: undefined,
-    $imageEl: undefined,
-    $imageWrapEl: undefined,
+    imageEl: undefined,
+    imageWrapEl: undefined,
     maxRatio: 3,
   };
   const image = {
@@ -63,8 +67,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     },
     set(value) {
       if (scale !== value) {
-        const imageEl = gesture.$imageEl ? gesture.$imageEl[0] : undefined;
-        const slideEl = gesture.$slideEl ? gesture.$slideEl[0] : undefined;
+        const imageEl = gesture.imageEl;
+        const slideEl = gesture.slideEl;
         emit('zoomChange', value, imageEl, slideEl);
       }
       scale = value;
@@ -92,23 +96,30 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     }
     fakeGestureTouched = true;
     gesture.scaleStart = getDistanceBetweenTouches();
-    if (!gesture.$slideEl || !gesture.$slideEl.length) {
-      gesture.$slideEl = $(e.target).closest(`.${swiper.params.slideClass}, swiper-slide`);
-      if (gesture.$slideEl.length === 0) gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
-      gesture.$imageEl = gesture.$slideEl
-        .find(`.${params.containerClass}`)
-        .eq(0)
-        .find('picture, img, svg, canvas, .swiper-zoom-target')
-        .eq(0);
-      gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
-      gesture.maxRatio = gesture.$imageWrapEl.attr('data-swiper-zoom') || params.maxRatio;
-      if (gesture.$imageWrapEl.length === 0) {
-        gesture.$imageEl = undefined;
+    if (!gesture.slideEl) {
+      gesture.slideEl = e.target.closest(`.${swiper.params.slideClass}, swiper-slide`);
+      if (!gesture.slideEl) gesture.slideEl = swiper.slides[swiper.activeIndex];
+
+      let imageEl = gesture.slideEl.querySelector(`.${params.containerClass}`);
+      if (imageEl) {
+        imageEl = imageEl.querySelectorAll('picture, img, svg, canvas, .swiper-zoom-target')[0];
+      }
+      gesture.imageEl = imageEl;
+      if (imageEl) {
+        gesture.imageWrapEl = elementParents(gesture.imageEl, `.${params.containerClass}`)[0];
+      } else {
+        gesture.imageWrapEl = undefined;
+      }
+
+      if (!gesture.imageWrapEl) {
+        gesture.imageEl = undefined;
         return;
       }
+
+      gesture.maxRatio = gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
     }
-    if (gesture.$imageEl) {
-      gesture.$imageEl.transition(0);
+    if (gesture.imageEl) {
+      gesture.imageEl.style.transitionDuration = '0ms';
     }
     isScaling = true;
   }
@@ -124,7 +135,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     fakeGestureMoved = true;
     gesture.scaleMove = getDistanceBetweenTouches();
 
-    if (!gesture.$imageEl || gesture.$imageEl.length === 0) {
+    if (!gesture.imageEl) {
       return;
     }
 
@@ -136,7 +147,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       zoom.scale = params.minRatio + 1 - (params.minRatio - zoom.scale + 1) ** 0.5;
     }
 
-    gesture.$imageEl.transform(`translate3d(0,0,0) scale(${zoom.scale})`);
+    gesture.imageEl.style.transform = `translate3d(0,0,0) scale(${zoom.scale})`;
   }
   function onGestureEnd(e) {
     const params = swiper.params.zoom;
@@ -148,18 +159,17 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     }
     fakeGestureTouched = false;
     fakeGestureMoved = false;
-    if (!gesture.$imageEl || gesture.$imageEl.length === 0) return;
+    if (!gesture.imageE) return;
     zoom.scale = Math.max(Math.min(zoom.scale, gesture.maxRatio), params.minRatio);
-    gesture.$imageEl
-      .transition(swiper.params.speed)
-      .transform(`translate3d(0,0,0) scale(${zoom.scale})`);
+    gesture.imageEl.style.transitionDuration = `${swiper.params.speed}ms`;
+    gesture.imageEl.style.transform = `translate3d(0,0,0) scale(${zoom.scale})`;
     currentScale = zoom.scale;
     isScaling = false;
-    if (zoom.scale === 1) gesture.$slideEl = undefined;
+    if (zoom.scale === 1) gesture.slideEl = undefined;
   }
   function onTouchStart(e) {
     const device = swiper.device;
-    if (!gesture.$imageEl || gesture.$imageEl.length === 0) return;
+    if (!gesture.imageEl) return;
     if (image.isTouched) return;
     if (device.android && e.cancelable) e.preventDefault();
     image.isTouched = true;
@@ -168,18 +178,18 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
   }
   function onTouchMove(e) {
     const zoom = swiper.zoom;
-    if (!gesture.$imageEl || gesture.$imageEl.length === 0) return;
+    if (!gesture.imageEl) return;
     swiper.allowClick = false;
     if (!image.isTouched || !gesture.$slideEl) return;
 
     if (!image.isMoved) {
-      image.width = gesture.$imageEl[0].offsetWidth;
-      image.height = gesture.$imageEl[0].offsetHeight;
-      image.startX = getTranslate(gesture.$imageWrapEl[0], 'x') || 0;
-      image.startY = getTranslate(gesture.$imageWrapEl[0], 'y') || 0;
-      gesture.slideWidth = gesture.$slideEl[0].offsetWidth;
-      gesture.slideHeight = gesture.$slideEl[0].offsetHeight;
-      gesture.$imageWrapEl.transition(0);
+      image.width = gesture.imageEl.offsetWidth;
+      image.height = gesture.imageEl.offsetHeight;
+      image.startX = getTranslate(gesture.imageWrapEl, 'x') || 0;
+      image.startY = getTranslate(gesture.imageWrapEl, 'y') || 0;
+      gesture.slideWidth = gesture.slideEl.offsetWidth;
+      gesture.slideHeight = gesture.slideEl.offsetHeight;
+      gesture.imageWrapEl.style.transitionDuration = '0ms';
     }
     // Define if we need image drag
     const scaledWidth = image.width * zoom.scale;
@@ -254,11 +264,11 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     velocity.prevPositionY = image.touchesCurrent.y;
     velocity.prevTime = Date.now();
 
-    gesture.$imageWrapEl.transform(`translate3d(${image.currentX}px, ${image.currentY}px,0)`);
+    gesture.imageWrapEl.style.transform = `translate3d(${image.currentX}px, ${image.currentY}px,0)`;
   }
   function onTouchEnd() {
     const zoom = swiper.zoom;
-    if (!gesture.$imageEl || gesture.$imageEl.length === 0) return;
+    if (!gesture.imageEl) return;
     if (!image.isTouched || !image.isMoved) {
       image.isTouched = false;
       image.isMoved = false;
@@ -293,26 +303,25 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     image.currentX = Math.max(Math.min(image.currentX, image.maxX), image.minX);
     image.currentY = Math.max(Math.min(image.currentY, image.maxY), image.minY);
 
-    gesture.$imageWrapEl
-      .transition(momentumDuration)
-      .transform(`translate3d(${image.currentX}px, ${image.currentY}px,0)`);
+    gesture.imageWrapEl.style.transitionDuration = `${momentumDuration}ms`;
+    gesture.imageWrapEl.style.transform = `translate3d(${image.currentX}px, ${image.currentY}px,0)`;
   }
   function onTransitionEnd() {
     const zoom = swiper.zoom;
-    if (gesture.$slideEl && swiper.previousIndex !== swiper.activeIndex) {
-      if (gesture.$imageEl) {
-        gesture.$imageEl.transform('translate3d(0,0,0) scale(1)');
+    if (gesture.slideEl && swiper.previousIndex !== swiper.activeIndex) {
+      if (gesture.imageEl) {
+        gesture.imageEl.style.transform = 'translate3d(0,0,0) scale(1)';
       }
-      if (gesture.$imageWrapEl) {
-        gesture.$imageWrapEl.transform('translate3d(0,0,0)');
+      if (gesture.imageWrapEl) {
+        gesture.imageWrapEl.style.transform = 'translate3d(0,0,0)';
       }
 
       zoom.scale = 1;
       currentScale = 1;
 
-      gesture.$slideEl = undefined;
-      gesture.$imageEl = undefined;
-      gesture.$imageWrapEl = undefined;
+      gesture.slideEl = undefined;
+      gesture.imageEl = undefined;
+      gesture.imageWrapEl = undefined;
     }
   }
 
@@ -320,41 +329,38 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     const zoom = swiper.zoom;
     const params = swiper.params.zoom;
 
-    if (!gesture.$slideEl) {
+    if (!gesture.slideEl) {
       if (e && e.target) {
-        gesture.$slideEl = $(e.target).closest(`.${swiper.params.slideClass}, swiper-slide`);
+        gesture.slideEl = e.target.closest(`.${swiper.params.slideClass}, swiper-slide`);
       }
-      if (!gesture.$slideEl) {
+      if (!gesture.slideEl) {
         if (swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual) {
-          gesture.$slideEl = elementChildren(
+          gesture.slideEl = elementChildren(
             swiper.wrapperEl,
             `.${swiper.params.slideActiveClass}`,
-          );
+          )[0];
         } else {
-          gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
+          gesture.slideEl = swiper.slides[swiper.activeIndex];
         }
       }
-
-      gesture.$imageEl = gesture.$slideEl
-        .find(`.${params.containerClass}`)
-        .eq(0)
-        .find('picture, img, svg, canvas, .swiper-zoom-target')
-        .eq(0);
-      gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
+      let imageEl = gesture.slideEl.querySelector(`.${params.containerClass}`);
+      if (imageEl) {
+        imageEl = imageEl.querySelectorAll('picture, img, svg, canvas, .swiper-zoom-target')[0];
+      }
+      gesture.imageEl = imageEl;
+      if (imageEl) {
+        gesture.imageWrapEl = elementParents(gesture.imageEl, `.${params.containerClass}`)[0];
+      } else {
+        gesture.imageWrapEl = undefined;
+      }
     }
-    if (
-      !gesture.$imageEl ||
-      gesture.$imageEl.length === 0 ||
-      !gesture.$imageWrapEl ||
-      gesture.$imageWrapEl.length === 0
-    )
-      return;
+    if (!gesture.imageEl || !gesture.imageWrapEl) return;
     if (swiper.params.cssMode) {
       swiper.wrapperEl.style.overflow = 'hidden';
       swiper.wrapperEl.style.touchAction = 'none';
     }
 
-    gesture.$slideEl.addClass(`${params.zoomedSlideClass}`);
+    gesture.slideEl.classList.add(`${params.zoomedSlideClass}`);
 
     let touchX;
     let touchY;
@@ -383,18 +389,18 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       touchY = image.touchesStart.y;
     }
 
-    zoom.scale = gesture.$imageWrapEl.attr('data-swiper-zoom') || params.maxRatio;
-    currentScale = gesture.$imageWrapEl.attr('data-swiper-zoom') || params.maxRatio;
+    zoom.scale = gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
+    currentScale = gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
     if (e) {
-      slideWidth = gesture.$slideEl[0].offsetWidth;
-      slideHeight = gesture.$slideEl[0].offsetHeight;
-      offsetX = gesture.$slideEl.offset().left + window.scrollX;
-      offsetY = gesture.$slideEl.offset().top + window.scrollY;
+      slideWidth = gesture.slideEl.offsetWidth;
+      slideHeight = gesture.slideEl.offsetHeight;
+      offsetX = elementOffset(gesture.slideEl).left + window.scrollX;
+      offsetY = elementOffset(gesture.slideEl).top + window.scrollY;
       diffX = offsetX + slideWidth / 2 - touchX;
       diffY = offsetY + slideHeight / 2 - touchY;
 
-      imageWidth = gesture.$imageEl[0].offsetWidth;
-      imageHeight = gesture.$imageEl[0].offsetHeight;
+      imageWidth = gesture.imageEl.offsetWidth;
+      imageHeight = gesture.imageEl.offsetHeight;
       scaledWidth = imageWidth * zoom.scale;
       scaledHeight = imageHeight * zoom.scale;
 
@@ -423,45 +429,46 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       translateX = 0;
       translateY = 0;
     }
-    gesture.$imageWrapEl
-      .transition(300)
-      .transform(`translate3d(${translateX}px, ${translateY}px,0)`);
-    gesture.$imageEl.transition(300).transform(`translate3d(0,0,0) scale(${zoom.scale})`);
+    gesture.imageWrapEl.style.transitionDuration = '300ms';
+    gesture.imageWrapEl.style.transform = `translate3d(${translateX}px, ${translateY}px,0)`;
+    gesture.imageEl.style.transitionDuration = '300ms';
+    gesture.imageEl.style.transform = `translate3d(0,0,0) scale(${zoom.scale})`;
   }
   function zoomOut() {
     const zoom = swiper.zoom;
     const params = swiper.params.zoom;
 
-    if (!gesture.$slideEl) {
+    if (!gesture.slideEl) {
       if (swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual) {
-        gesture.$slideEl = swiper.$wrapperEl.children(`.${swiper.params.slideActiveClass}`);
+        gesture.slideEl = elementChildren(swiper.slidesEl, `.${swiper.params.slideActiveClass}`)[0];
       } else {
-        gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
+        gesture.slideEl = swiper.slides[swiper.activeIndex];
       }
-      gesture.$imageEl = gesture.$slideEl
-        .find(`.${params.containerClass}`)
-        .eq(0)
-        .find('picture, img, svg, canvas, .swiper-zoom-target')
-        .eq(0);
-      gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
+      let imageEl = gesture.slideEl.querySelector(`.${params.containerClass}`);
+      if (imageEl) {
+        imageEl = imageEl.querySelectorAll('picture, img, svg, canvas, .swiper-zoom-target')[0];
+      }
+      gesture.imageEl = imageEl;
+      if (imageEl) {
+        gesture.imageWrapEl = elementParents(gesture.imageEl, `.${params.containerClass}`)[0];
+      } else {
+        gesture.imageWrapEl = undefined;
+      }
     }
-    if (
-      !gesture.$imageEl ||
-      gesture.$imageEl.length === 0 ||
-      !gesture.$imageWrapEl ||
-      gesture.$imageWrapEl.length === 0
-    )
-      return;
+    if (!gesture.imageEl || !gesture.imageWrapEl) return;
     if (swiper.params.cssMode) {
       swiper.wrapperEl.style.overflow = '';
       swiper.wrapperEl.style.touchAction = '';
     }
     zoom.scale = 1;
     currentScale = 1;
-    gesture.$imageWrapEl.transition(300).transform('translate3d(0,0,0)');
-    gesture.$imageEl.transition(300).transform('translate3d(0,0,0) scale(1)');
-    gesture.$slideEl.removeClass(`${params.zoomedSlideClass}`);
-    gesture.$slideEl = undefined;
+    gesture.imageWrapEl.style.transitionDuration = '300ms';
+    gesture.imageWrapEl.style.transform = 'translate3d(0,0,0)';
+    gesture.imageEl.style.transitionDuration = '300ms';
+    gesture.imageEl.style.transform = 'translate3d(0,0,0) scale(1)';
+
+    gesture.slideEl.classList.remove(`${params.zoomedSlideClass}`);
+    gesture.slideEl = undefined;
   }
 
   // Toggle Zoom
@@ -513,12 +520,9 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       onGestureChange,
       activeListenerWithCapture,
     );
-    swiper.wrapperEl.addEventListener(
-      `pointerup pointercancel`,
-      slideSelector,
-      onGestureEnd,
-      passiveListener,
-    );
+    ['pointerup pointercancel'].forEach((eventName) => {
+      swiper.wrapperEl.addEventListener(eventName, slideSelector, onGestureEnd, passiveListener);
+    });
 
     // Move image
     swiper.wrapperEl.addEventListener(
@@ -550,12 +554,9 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       onGestureChange,
       activeListenerWithCapture,
     );
-    swiper.wrapperEl.removeEventListener(
-      `pointerup pointercancel`,
-      slideSelector,
-      onGestureEnd,
-      passiveListener,
-    );
+    ['pointerup pointercancel'].forEach((eventName) => {
+      swiper.wrapperEl.removeEventListener(eventName, slideSelector, onGestureEnd, passiveListener);
+    });
 
     // Move image
     swiper.wrapperEl.removeEventListener(

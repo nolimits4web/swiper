@@ -1,6 +1,6 @@
 export default function loopDestroy() {
   const swiper = this;
-  const { slides, params, $slidesEl } = swiper;
+  const { slides, params, slidesEl } = swiper;
   if (!params.loop || (swiper.virtual && swiper.params.virtual.enabled)) return;
   swiper.recalcSlides();
 
@@ -14,7 +14,7 @@ export default function loopDestroy() {
   });
   slides.removeAttr('data-swiper-slide-index');
   newSlidesOrder.forEach((slideEl) => {
-    $slidesEl.append(slideEl);
+    slidesEl.append(slideEl);
   });
   swiper.recalcSlides();
   swiper.slideTo(swiper.realIndex, 0);

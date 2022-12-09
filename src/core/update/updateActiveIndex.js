@@ -71,7 +71,7 @@ export default function updateActiveIndex(newActiveIndex) {
     realIndex = getVirtualRealIndex(activeIndex);
   } else {
     realIndex = parseInt(
-      swiper.slides.eq(activeIndex).attr('data-swiper-slide-index') || activeIndex,
+      swiper.slides[activeIndex].getAttribute('data-swiper-slide-index') || activeIndex,
       10,
     );
   }

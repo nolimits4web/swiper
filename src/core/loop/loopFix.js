@@ -1,9 +1,11 @@
+import { elementIndex } from '../../shared/utils.js';
+
 export default function loopFix(slideRealIndex, slideTo = true) {
   const swiper = this;
   if (!swiper.params.loop) return;
   swiper.emit('beforeLoopFix');
 
-  const { slides, allowSlidePrev, allowSlideNext, $slidesEl, params } = swiper;
+  const { slides, allowSlidePrev, allowSlideNext, slidesEl, params } = swiper;
 
   swiper.allowSlidePrev = true;
   swiper.allowSlideNext = true;
@@ -37,9 +39,9 @@ export default function loopFix(slideRealIndex, slideTo = true) {
   const prependSlidesIndexes = [];
   const appendSlidesIndexes = [];
 
-  const activeSlideIndex = swiper.slides
-    .filter((el) => el.classList.contains('swiper-slide-active'))
-    .index();
+  const activeSlideIndex = elementIndex(
+    swiper.slides.filter((el) => el.classList.contains('swiper-slide-active'))[0],
+  );
 
   let slidesPrepended = 0;
   let slidesAppended = 0;
@@ -59,10 +61,10 @@ export default function loopFix(slideRealIndex, slideTo = true) {
   }
 
   prependSlidesIndexes.forEach((index) => {
-    $slidesEl.prepend(swiper.slides.eq(index));
+    slidesEl.prepend(swiper.slides[index]);
   });
   appendSlidesIndexes.forEach((index) => {
-    $slidesEl.append(swiper.slides.eq(index));
+    slidesEl.append(swiper.slides[index]);
   });
   swiper.recalcSlides();
 

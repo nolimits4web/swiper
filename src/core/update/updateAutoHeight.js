@@ -16,7 +16,7 @@ export default function updateAutoHeight(speed) {
         (el) => parseInt(el.getAttribute('data-swiper-slide-index'), 10) === index,
       )[0];
     }
-    return swiper.slides.eq(index)[0];
+    return swiper.slides[index];
   };
   // Find slides currently in view
   if (swiper.params.slidesPerView !== 'auto' && swiper.params.slidesPerView > 1) {

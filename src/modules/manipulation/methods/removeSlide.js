@@ -13,13 +13,13 @@ export default function removeSlide(slidesIndexes) {
   if (typeof slidesIndexes === 'object' && 'length' in slidesIndexes) {
     for (let i = 0; i < slidesIndexes.length; i += 1) {
       indexToRemove = slidesIndexes[i];
-      if (swiper.slides[indexToRemove]) swiper.slides.eq(indexToRemove).remove();
+      if (swiper.slides[indexToRemove]) swiper.slides[indexToRemove].remove();
       if (indexToRemove < newActiveIndex) newActiveIndex -= 1;
     }
     newActiveIndex = Math.max(newActiveIndex, 0);
   } else {
     indexToRemove = slidesIndexes;
-    if (swiper.slides[indexToRemove]) swiper.slides.eq(indexToRemove).remove();
+    if (swiper.slides[indexToRemove]) swiper.slides[indexToRemove].remove();
     if (indexToRemove < newActiveIndex) newActiveIndex -= 1;
     newActiveIndex = Math.max(newActiveIndex, 0);
   }

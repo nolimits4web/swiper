@@ -281,6 +281,26 @@ function elementTransitionEnd(el, callback) {
   }
 }
 
+function elementOuterSize(el, size, includeMargins) {
+  const window = getWindow();
+  if (includeMargins) {
+    return (
+      el[size === 'width' ? 'offsetWidth' : 'offsetHeight'] +
+      parseFloat(
+        window
+          .getComputedStyle(el, null)
+          .getPropertyValue(size === 'width' ? 'margin-right' : 'margin-top'),
+      ) +
+      parseFloat(
+        window
+          .getComputedStyle(el, null)
+          .getPropertyValue(size === 'width' ? 'margin-left' : 'margin-bottom'),
+      )
+    );
+  }
+  return el.offsetWidth;
+}
+
 export {
   animateCSSModeScroll,
   deleteProps,
@@ -302,4 +322,5 @@ export {
   elementIndex,
   elementParents,
   elementTransitionEnd,
+  elementOuterSize,
 };

@@ -162,12 +162,17 @@ export default function EffectCube({ swiper, extendParams, on }) {
   };
   const setTransition = (duration) => {
     const { el, slides } = swiper;
-    slides
-      .transition(duration)
-      .find(
-        '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
-      )
-      .transition(duration);
+    slides.forEach((slideEl) => {
+      slideEl.style.transitionDuration = `${duration}ms`;
+      slideEl
+        .querySelectorAll(
+          '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
+        )
+        .forEach((subEl) => {
+          subEl.style.transitionDuration = `${duration}ms`;
+        });
+    });
+
     if (swiper.params.cubeEffect.shadow && !swiper.isHorizontal()) {
       const shadowEl = el.querySelector('.swiper-cube-shadow');
       if (shadowEl) shadowEl.style.transitionDuration = `${duration}ms`;

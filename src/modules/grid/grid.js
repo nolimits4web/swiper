@@ -46,10 +46,7 @@ export default function Grid({ swiper, extendParams }) {
       column = slideIndexInGroup - row * columnsInGroup + groupIndex * slidesPerGroup;
 
       newSlideOrderIndex = column + (row * slidesNumberEvenToRows) / rows;
-      slide.css({
-        '-webkit-order': newSlideOrderIndex,
-        order: newSlideOrderIndex,
-      });
+      slide.style.order = newSlideOrderIndex;
     } else if (fill === 'column') {
       column = Math.floor(i / rows);
       row = i - column * rows;
@@ -64,10 +61,8 @@ export default function Grid({ swiper, extendParams }) {
       row = Math.floor(i / slidesPerRow);
       column = i - row * slidesPerRow;
     }
-    slide.css(
-      getDirectionLabel('margin-top'),
-      row !== 0 ? spaceBetween && `${spaceBetween}px` : '',
-    );
+    slide.style[getDirectionLabel('margin-top')] =
+      row !== 0 ? spaceBetween && `${spaceBetween}px` : '';
   };
 
   const updateWrapperSize = (slideSize, snapGrid, getDirectionLabel) => {
