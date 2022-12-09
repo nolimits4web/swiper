@@ -1,6 +1,6 @@
 {
   "name": "swiper-src",
-  "version": "9.0.0-beta.9",
+  "version": "9.0.0-beta.10",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "type": "module",
   "scripts": {
