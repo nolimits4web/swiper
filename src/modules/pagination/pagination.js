@@ -1,6 +1,6 @@
 import classesToSelector from '../../shared/classes-to-selector.js';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined.js';
-import { elementIndex, elementParents } from '../../shared/utils.js';
+import { elementIndex, elementOuterSize, elementParents } from '../../shared/utils.js';
 
 export default function Pagination({ swiper, extendParams, on, emit }) {
   const pfx = 'swiper-pagination';
@@ -114,8 +114,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       let lastIndex;
       let midIndex;
       if (params.dynamicBullets) {
-        // TODO OUTERWIDTH/HEIGHT
-        bulletSize = bullets[0][swiper.isHorizontal() ? 'offsetWidth' : 'offsetHeight'](true);
+        bulletSize = elementOuterSize(bullets[0], swiper.isHorizontal() ? 'width' : 'height', true);
         el.forEach((subEl) => {
           subEl.style[swiper.isHorizontal() ? 'width' : 'height'] = `${
             bulletSize * (params.dynamicMainBullets + 4)
@@ -326,6 +325,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
         })[0];
       }
     }
+    if (Array.isArray(el) && el.length === 1) el = el[0];
 
     Object.assign(swiper.pagination, {
       el,

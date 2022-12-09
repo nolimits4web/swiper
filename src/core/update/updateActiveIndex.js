@@ -69,11 +69,13 @@ export default function updateActiveIndex(newActiveIndex) {
   let realIndex;
   if (swiper.virtual && params.virtual.enabled && params.loop) {
     realIndex = getVirtualRealIndex(activeIndex);
-  } else {
+  } else if (swiper.slides[activeIndex]) {
     realIndex = parseInt(
       swiper.slides[activeIndex].getAttribute('data-swiper-slide-index') || activeIndex,
       10,
     );
+  } else {
+    realIndex = activeIndex;
   }
 
   Object.assign(swiper, {

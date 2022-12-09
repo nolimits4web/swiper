@@ -1,4 +1,3 @@
-import { Dom7Array } from 'dom7';
 import { CSSSelector } from '../shared';
 import Swiper from '../swiper-class';
 
@@ -9,11 +8,11 @@ export interface PaginationMethods {
   el: HTMLElement;
 
   /**
-   * Dom7 array-like collection of pagination bullets
+   * Array of pagination bullets
    * HTML elements. To get specific slide HTMLElement
    * use `swiper.pagination.bullets[1]`.
    */
-  bullets: Dom7Array;
+  bullets: HTMLElement[];
 
   /**
    * Render pagination layout

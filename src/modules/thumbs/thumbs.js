@@ -113,14 +113,14 @@ export default function Thumb({ swiper, extendParams, on }) {
 
     thumbsToActivate = Math.floor(thumbsToActivate);
 
-    thumbsSwiper.slides.removeClass(thumbActiveClass);
+    thumbsSwiper.slides.forEach((slideEl) => slideEl.classList.remove(thumbActiveClass));
     if (
       thumbsSwiper.params.loop ||
       (thumbsSwiper.params.virtual && thumbsSwiper.params.virtual.enabled)
     ) {
       for (let i = 0; i < thumbsToActivate; i += 1) {
         elementChildren(
-          thumbsSwiper.wrapperEl,
+          thumbsSwiper.slidesEl,
           `[data-swiper-slide-index="${swiper.realIndex + i}"]`,
         ).forEach((slideEl) => {
           slideEl.classList.add(thumbActiveClass);

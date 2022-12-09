@@ -258,14 +258,14 @@ function elementIndex(el) {
 
 function elementParents(el, selector) {
   const parents = []; // eslint-disable-line
-  let parent = el.parentNode; // eslint-disable-line
+  let parent = el.parentElement; // eslint-disable-line
   while (parent) {
     if (selector) {
       if (parent.matches(selector)) parents.push(parent);
     } else {
       parents.push(parent);
     }
-    parent = parent.parentNode;
+    parent = parent.parentElement;
   }
   return parents;
 }

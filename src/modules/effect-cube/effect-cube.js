@@ -61,16 +61,10 @@ export default function EffectCube({ swiper, extendParams, on }) {
 
     if (params.shadow) {
       if (isHorizontal) {
-        cubeShadowEl = swiper.isElement
-          ? swiper.el.querySelector('.swiper-cube-shadow')
-          : wrapperEl.querySelector('.swiper-cube-shadow');
+        cubeShadowEl = swiper.slidesEl.querySelector('.swiper-cube-shadow');
         if (!cubeShadowEl) {
           cubeShadowEl = createElement('div', 'swiper-cube-shadow');
-          if (swiper.isElement) {
-            swiper.el.append(cubeShadowEl);
-          } else {
-            wrapperEl.append(cubeShadowEl);
-          }
+          swiper.slidesEl.append(cubeShadowEl);
         }
         cubeShadowEl.style.height = `${swiperWidth}px`;
       } else {
@@ -136,9 +130,9 @@ export default function EffectCube({ swiper, extendParams, on }) {
 
     if (params.shadow) {
       if (isHorizontal) {
-        cubeShadowEl.transform = `translate3d(0px, ${swiperWidth / 2 + params.shadowOffset}px, ${
-          -swiperWidth / 2
-        }px) rotateX(90deg) rotateZ(0deg) scale(${params.shadowScale})`;
+        cubeShadowEl.style.transform = `translate3d(0px, ${
+          swiperWidth / 2 + params.shadowOffset
+        }px, ${-swiperWidth / 2}px) rotateX(90deg) rotateZ(0deg) scale(${params.shadowScale})`;
       } else {
         const shadowAngle = Math.abs(wrapperRotate) - Math.floor(Math.abs(wrapperRotate) / 90) * 90;
         const multiplier =

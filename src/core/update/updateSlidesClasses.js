@@ -19,9 +19,10 @@ export default function updateSlidesClasses() {
   let activeSlide;
   if (isVirtual) {
     if (params.loop) {
-      activeSlide = getFilteredSlide(
-        `[data-swiper-slide-index="${activeIndex - swiper.virtual.slidesBefore}"]`,
-      );
+      let slideIndex = activeIndex - swiper.virtual.slidesBefore;
+      if (slideIndex < 0) slideIndex = swiper.virtual.slides.length + slideIndex;
+      if (slideIndex >= swiper.virtual.slides.length) slideIndex -= swiper.virtual.slides.length;
+      activeSlide = getFilteredSlide(`[data-swiper-slide-index="${slideIndex}"]`);
     } else {
       activeSlide = getFilteredSlide(`[data-swiper-slide-index="${activeIndex}"]`);
     }
@@ -42,7 +43,7 @@ export default function updateSlidesClasses() {
   }
   // Prev Slide
   let prevSlide = elementPrevAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
-  if (params.loop && prevSlide.length === 0) {
+  if (params.loop && !prevSlide === 0) {
     prevSlide = slides[slides.length - 1];
   }
   if (prevSlide) {

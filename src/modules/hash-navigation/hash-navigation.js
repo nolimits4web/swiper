@@ -19,7 +19,7 @@ export default function HashNavigation({ swiper, extendParams, emit, on }) {
     if (newHash !== activeSlideHash) {
       const newIndex = elementIndex(
         elementChildren(
-          swiper.wrapperEl,
+          swiper.slidesEl,
           `.${swiper.params.slideClass}[data-hash="${newHash}"], swiper-slide[data-hash="${newHash}"]`,
         )[0],
       );

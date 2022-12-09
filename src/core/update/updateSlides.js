@@ -109,14 +109,14 @@ export default function updateSlides() {
       if (shouldResetSlideSize) {
         slides[i].style[getDirectionLabel('width')] = ``;
       }
-      const slideStyles = getComputedStyle(slide[0]);
-      const currentTransform = slide[0].style.transform;
-      const currentWebKitTransform = slide[0].style.webkitTransform;
+      const slideStyles = getComputedStyle(slide);
+      const currentTransform = slide.style.transform;
+      const currentWebKitTransform = slide.style.webkitTransform;
       if (currentTransform) {
-        slide[0].style.transform = 'none';
+        slide.style.transform = 'none';
       }
       if (currentWebKitTransform) {
-        slide[0].style.webkitTransform = 'none';
+        slide.style.webkitTransform = 'none';
       }
       if (params.roundLengths) {
         slideSize = swiper.isHorizontal()
@@ -133,7 +133,7 @@ export default function updateSlides() {
         if (boxSizing && boxSizing === 'border-box') {
           slideSize = width + marginLeft + marginRight;
         } else {
-          const { clientWidth, offsetWidth } = slide[0];
+          const { clientWidth, offsetWidth } = slide;
           slideSize =
             width +
             paddingLeft +
@@ -144,10 +144,10 @@ export default function updateSlides() {
         }
       }
       if (currentTransform) {
-        slide[0].style.transform = currentTransform;
+        slide.style.transform = currentTransform;
       }
       if (currentWebKitTransform) {
-        slide[0].style.webkitTransform = currentWebKitTransform;
+        slide.style.webkitTransform = currentWebKitTransform;
       }
       if (params.roundLengths) slideSize = Math.floor(slideSize);
     } else {
@@ -248,7 +248,7 @@ export default function updateSlides() {
     const key = swiper.isHorizontal() && rtl ? 'marginLeft' : getDirectionLabel('marginRight');
     slides
       .filter((_, slideIndex) => {
-        if (!params.cssMode) return true;
+        if (!params.cssMode || params.loop) return true;
         if (slideIndex === slides.length - 1) {
           return false;
         }

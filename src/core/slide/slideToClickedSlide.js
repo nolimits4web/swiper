@@ -2,7 +2,7 @@ import { elementChildren, elementIndex, nextTick } from '../../shared/utils.js';
 
 export default function slideToClickedSlide() {
   const swiper = this;
-  const { params, wrapperEl } = swiper;
+  const { params, slidesEl } = swiper;
 
   const slidesPerView =
     params.slidesPerView === 'auto' ? swiper.slidesPerViewDynamic() : params.slidesPerView;
@@ -19,7 +19,7 @@ export default function slideToClickedSlide() {
       ) {
         swiper.loopFix();
         slideToIndex = elementIndex(
-          elementChildren(wrapperEl, `${slideSelector}[data-swiper-slide-index="${realIndex}"]`)[0],
+          elementChildren(slidesEl, `${slideSelector}[data-swiper-slide-index="${realIndex}"]`)[0],
         );
 
         nextTick(() => {
@@ -31,7 +31,7 @@ export default function slideToClickedSlide() {
     } else if (slideToIndex > swiper.slides.length - slidesPerView) {
       swiper.loopFix();
       slideToIndex = elementIndex(
-        elementChildren(wrapperEl, `${slideSelector}[data-swiper-slide-index="${realIndex}"]`)[0],
+        elementChildren(slidesEl, `${slideSelector}[data-swiper-slide-index="${realIndex}"]`)[0],
       );
 
       nextTick(() => {

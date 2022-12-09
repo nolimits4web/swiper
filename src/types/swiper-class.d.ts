@@ -1,4 +1,3 @@
-import { Dom7Array } from 'dom7';
 import { SwiperOptions } from './swiper-options';
 import { CSSSelector, SwiperModule } from './shared';
 import { SwiperEvents } from './swiper-events';
@@ -51,19 +50,9 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   originalParams: SwiperOptions;
 
   /**
-   * Dom7 element with slider container HTML element. To get vanilla HTMLElement use `swiper.el`
-   */
-  $el: Dom7Array;
-
-  /**
    * Slider container HTML element
    */
   el: HTMLElement;
-
-  /**
-   * Dom7 element with slider wrapper HTML element. To get vanilla HTMLElement use `swiper.wrapperEl`
-   */
-  $wrapperEl: Dom7Array;
 
   /**
    * Wrapper HTML element
@@ -71,9 +60,9 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   wrapperEl: HTMLElement;
 
   /**
-   * Dom7 array-like collection of slides HTML elements. To get specific slide HTMLElement use `swiper.slides[1]`
+   * Array of slides HTML elements. To get specific slide HTMLElement use `swiper.slides[1]`
    */
-  slides: Dom7Array;
+  slides: HTMLElement[];
 
   /**
    * !INTERNAL

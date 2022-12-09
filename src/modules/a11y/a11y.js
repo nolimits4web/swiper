@@ -102,6 +102,13 @@ export default function A11y({ swiper, extendParams, on }) {
     if (e.keyCode !== 13 && e.keyCode !== 32) return;
     const params = swiper.params.a11y;
     const targetEl = e.target;
+    if (
+      swiper.pagination &&
+      swiper.pagination.el &&
+      (targetEl === swiper.pagination.el || swiper.pagination.el.contains(e.target))
+    ) {
+      if (!e.target.matches(classesToSelector(swiper.params.pagination.bulletClass))) return;
+    }
     if (swiper.navigation && swiper.navigation.nextEl && targetEl === swiper.navigation.nextEl) {
       if (!(swiper.isEnd && !swiper.params.loop)) {
         swiper.slideNext();
@@ -288,11 +295,7 @@ export default function A11y({ swiper, extendParams, on }) {
 
     // Pagination
     if (hasClickablePagination()) {
-      swiper.pagination.el.addEventListener(
-        'keydown',
-        classesToSelector(swiper.params.pagination.bulletClass),
-        onEnterOrSpaceKey,
-      );
+      swiper.pagination.el.addEventListener('keydown', onEnterOrSpaceKey);
     }
 
     // Tab focus
@@ -314,11 +317,7 @@ export default function A11y({ swiper, extendParams, on }) {
 
     // Pagination
     if (hasClickablePagination()) {
-      swiper.pagination.el.off(
-        'keydown',
-        classesToSelector(swiper.params.pagination.bulletClass),
-        onEnterOrSpaceKey,
-      );
+      swiper.pagination.el.off('keydown', onEnterOrSpaceKey);
     }
 
     // Tab focus
