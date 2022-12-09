@@ -53,10 +53,7 @@ export default async function buildElement() {
       replace({
         delimiters: ['', ''],
         '//SWIPER_STYLES': `const SwiperFontCSS = \`${fontStyles}\`; const SwiperCSS = \`${cssBundleStyles}\`;`,
-        [`import Swiper from 'swiper/bundle';`]: `import Swiper from '${path.resolve(
-          outputDir,
-          'swiper-bundle.esm.js',
-        )}';`,
+        [`import Swiper from 'swiper/bundle';`]: `import Swiper from '../swiper-bundle.esm.js';`,
         '//BROWSER_REGISTER': `register()`,
         'export { SwiperContainer, SwiperSlide, register };': ``,
       }),
