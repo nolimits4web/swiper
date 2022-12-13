@@ -2,14 +2,13 @@ import createShadow from '../../shared/create-shadow.js';
 import effectInit from '../../shared/effect-init.js';
 import effectTarget from '../../shared/effect-target.js';
 import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end.js';
-import { findElementsInElements } from '../../shared/utils.js';
+import { getSlideTransformEl } from '../../shared/utils.js';
 
 export default function EffectFlip({ swiper, extendParams, on }) {
   extendParams({
     flipEffect: {
       slideShadows: true,
       limitRotation: true,
-      transformEl: null,
     },
   });
 
@@ -78,11 +77,9 @@ export default function EffectFlip({ swiper, extendParams, on }) {
   };
 
   const setTransition = (duration) => {
-    const { transformEl } = swiper.params.flipEffect;
-    const transitionElements = transformEl
-      ? findElementsInElements(swiper.slides, transformEl)
-      : swiper.slides;
-    transitionElements.forEach((el) => {
+    const transformElements = swiper.slides.map((slideEl) => getSlideTransformEl(slideEl));
+
+    transformElements.forEach((el) => {
       el.style.transition = `${duration}ms`;
       el.querySelectorAll(
         '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
@@ -91,7 +88,7 @@ export default function EffectFlip({ swiper, extendParams, on }) {
       });
     });
 
-    effectVirtualTransitionEnd({ swiper, duration, transformEl });
+    effectVirtualTransitionEnd({ swiper, duration, transformElements });
   };
 
   effectInit({

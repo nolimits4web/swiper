@@ -1,11 +1,10 @@
+import { getSlideTransformEl } from './utils.js';
+
 export default function effectTarget(effectParams, slideEl) {
-  if (effectParams.transformEl) {
-    const transformEl = slideEl.querySelector(effectParams.transformEl);
-    if (transformEl) {
-      transformEl.style.backfaceVisibility = 'hidden';
-      transformEl.style['-webkit-backface-visibility'] = 'hidden';
-    }
-    return transformEl;
+  const transformEl = getSlideTransformEl(slideEl);
+  if (transformEl !== slideEl) {
+    transformEl.style.backfaceVisibility = 'hidden';
+    transformEl.style['-webkit-backface-visibility'] = 'hidden';
   }
-  return slideEl;
+  return transformEl;
 }

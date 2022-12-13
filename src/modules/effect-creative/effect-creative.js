@@ -2,12 +2,11 @@ import createShadow from '../../shared/create-shadow.js';
 import effectInit from '../../shared/effect-init.js';
 import effectTarget from '../../shared/effect-target.js';
 import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end.js';
-import { findElementsInElements } from '../../shared/utils.js';
+import { getSlideTransformEl } from '../../shared/utils.js';
 
 export default function EffectCreative({ swiper, extendParams, on }) {
   extendParams({
     creativeEffect: {
-      transformEl: null,
       limitProgress: 1,
       shadowPerProgress: false,
       progressMultiplier: 1,
@@ -130,19 +129,16 @@ export default function EffectCreative({ swiper, extendParams, on }) {
   };
 
   const setTransition = (duration) => {
-    const { transformEl } = swiper.params.creativeEffect;
+    const transformElements = swiper.slides.map((slideEl) => getSlideTransformEl(slideEl));
 
-    const transitionElements = transformEl
-      ? findElementsInElements(swiper.slides, transformEl)
-      : swiper.slides;
-    transitionElements.forEach((el) => {
+    transformElements.forEach((el) => {
       el.style.transition = `${duration}ms`;
       el.querySelectorAll('.swiper-slide-shadow').forEach((shadowEl) => {
         shadowEl.style.transition = `${duration}ms`;
       });
     });
 
-    effectVirtualTransitionEnd({ swiper, duration, transformEl, allSlides: true });
+    effectVirtualTransitionEnd({ swiper, duration, transformElements, allSlides: true });
   };
 
   effectInit({

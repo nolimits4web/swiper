@@ -186,6 +186,14 @@ function animateCSSModeScroll({ swiper, targetPosition, side }) {
   animate();
 }
 
+function getSlideTransformEl(slideEl) {
+  return (
+    slideEl.querySelector('.swiper-slide-transform') ||
+    (slideEl.shadowEl && slideEl.shadowEl.querySelector('.swiper-slide-transform')) ||
+    slideEl
+  );
+}
+
 function findElementsInElements(elements = [], selector = '') {
   const found = [];
   elements.forEach((el) => {
@@ -311,6 +319,7 @@ export {
   extend,
   getComputedStyle,
   setCSSProperty,
+  getSlideTransformEl,
   // dom
   findElementsInElements,
   createElement,

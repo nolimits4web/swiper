@@ -60,12 +60,7 @@ export interface CreativeEffectOptions {
    *
    */
   next?: CreativeEffectTransform;
-  /**
-   * CSS selector of the element inside of the slide to transform instead of the slide itself. Useful to use with cssMode
-   *
-   * @default null
-   */
-  transformEl?: CSSSelector;
+
   /**
    * Limit progress/offset to amount of side slides. If `1`, then slides all slides after prev/next will have same state. If `2`, then all slides after 2nd before/after active will have same state, etc.
    *
