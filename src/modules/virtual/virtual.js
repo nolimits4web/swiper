@@ -25,6 +25,8 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     slidesGrid: [],
   };
 
+  const tempDOM = document.createElement('div');
+
   function renderSlide(slide, index) {
     const params = swiper.params.virtual;
     if (params.cache && swiper.virtual.cache[index]) {
@@ -32,19 +34,22 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     }
     // eslint-disable-next-line
     let slideEl;
-    if (params.renderSlide) slideEl = params.renderSlide.call(swiper, slide, index);
-    else if (swiper.isElement) {
+    if (params.renderSlide) {
+      slideEl = params.renderSlide.call(swiper, slide, index);
+      if (typeof slideEl === 'string') {
+        tempDOM.innerHTML = slideEl;
+        slideEl = tempDOM.children[0];
+      }
+    } else if (swiper.isElement) {
       slideEl = createElement('swiper-slide');
     } else {
       slideEl = createElement('div', swiper.params.slideClass);
     }
+    slideEl.setAttribute('data-swiper-slide-index', index);
     if (!params.renderSlide) {
-      slideEl.setAttribute('data-swiper-slide-index', index);
       slideEl.textContent = slide;
     }
 
-    if (!slideEl.getAttribute('data-swiper-slide-index'))
-      slideEl.setAttribute('data-swiper-slide-index', index);
     if (params.cache) swiper.virtual.cache[index] = slideEl;
     return slideEl;
   }
