@@ -30,24 +30,27 @@ export default function updateSlidesClasses() {
     activeSlide = slides[activeIndex];
   }
 
-  // Active classes
-  activeSlide.classList.add(params.slideActiveClass);
+  if (activeSlide) {
+    // Active classes
+    activeSlide.classList.add(params.slideActiveClass);
 
-  // Next Slide
-  let nextSlide = elementNextAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
-  if (params.loop && !nextSlide) {
-    nextSlide = slides[0];
+    // Next Slide
+    let nextSlide = elementNextAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
+    if (params.loop && !nextSlide) {
+      nextSlide = slides[0];
+    }
+    if (nextSlide) {
+      nextSlide.classList.add(params.slideNextClass);
+    }
+    // Prev Slide
+    let prevSlide = elementPrevAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
+    if (params.loop && !prevSlide === 0) {
+      prevSlide = slides[slides.length - 1];
+    }
+    if (prevSlide) {
+      prevSlide.classList.add(params.slidePrevClass);
+    }
   }
-  if (nextSlide) {
-    nextSlide.classList.add(params.slideNextClass);
-  }
-  // Prev Slide
-  let prevSlide = elementPrevAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
-  if (params.loop && !prevSlide === 0) {
-    prevSlide = slides[slides.length - 1];
-  }
-  if (prevSlide) {
-    prevSlide.classList.add(params.slidePrevClass);
-  }
+
   swiper.emitSlidesClasses();
 }
