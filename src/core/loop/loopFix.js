@@ -67,6 +67,9 @@ export default function loopFix(slideRealIndex, slideTo = true) {
     slidesEl.append(swiper.slides[index]);
   });
   swiper.recalcSlides();
+  if (params.watchSlidesProgress) {
+    swiper.updateSlidesOffset();
+  }
 
   if (slideTo) {
     if (prependSlidesIndexes.length > 0) {
