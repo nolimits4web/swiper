@@ -1,6 +1,7 @@
 :root {
   --swiper-navigation-size: 44px;
   /*
+  --swiper-navigation-offset: 10px;
   --swiper-navigation-color: var(--swiper-theme-color);
   */
 }
@@ -44,7 +45,7 @@
   &:after {
     content: 'prev';
   }
-  left: 10px;
+  left: var(--swiper-navigation-offset, 10px);
   right: auto;
 }
 .swiper-button-next,
@@ -52,7 +53,7 @@
   &:after {
     content: 'next';
   }
-  right: 10px;
+  right: var(--swiper-navigation-offset, 10px);
   left: auto;
 }
 .swiper-button-lock {
