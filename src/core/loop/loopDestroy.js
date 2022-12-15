@@ -12,7 +12,9 @@ export default function loopDestroy() {
         : slideEl.swiperSlideIndex;
     newSlidesOrder[index] = slideEl;
   });
-  slides.removeAttr('data-swiper-slide-index');
+  slides.forEach((slideEl) => {
+    slideEl.removeAttr('data-swiper-slide-index');
+  });
   newSlidesOrder.forEach((slideEl) => {
     slidesEl.append(slideEl);
   });

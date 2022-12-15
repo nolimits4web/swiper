@@ -166,7 +166,10 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
         });
       } else {
         const bullet = bullets[current];
-        bullet.classList.add(params.bulletActiveClass);
+        if (bullet) {
+          bullet.classList.add(params.bulletActiveClass);
+        }
+
         if (params.dynamicBullets) {
           const firstDisplayedBullet = bullets[firstIndex];
           const lastDisplayedBullet = bullets[lastIndex];
