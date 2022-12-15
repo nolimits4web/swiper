@@ -1,10 +1,8 @@
-.swiper-virtual .swiper-slide,
-.swiper-virtual swiper-slide {
+.swiper-virtual .swiper-slide {
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
 }
-.swiper-virtual.swiper-css-mode,
-:host(.swiper-virtual.swiper-css-mode) {
+.swiper-virtual.swiper-css-mode {
   .swiper-wrapper::after {
     content: '';
     position: absolute;
@@ -13,16 +11,14 @@
     pointer-events: none;
   }
 }
-.swiper-virtual.swiper-css-mode.swiper-horizontal,
-:host(.swiper-virtual.swiper-css-mode.swiper-horizontal) {
+.swiper-virtual.swiper-css-mode.swiper-horizontal {
   .swiper-wrapper::after {
     height: 1px;
     width: var(--swiper-virtual-size);
   }
 }
 
-.swiper-virtual.swiper-css-mode.swiper-vertical,
-:host(.swiper-virtual.swiper-css-mode.swiper-vertical) {
+.swiper-virtual.swiper-css-mode.swiper-vertical {
   .swiper-wrapper::after {
     width: 1px;
     height: var(--swiper-virtual-size);

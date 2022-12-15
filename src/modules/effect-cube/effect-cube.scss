@@ -1,7 +1,6 @@
 .swiper-cube {
   overflow: visible;
-  .swiper-slide,
-  swiper-slide {
+  .swiper-slide {
     pointer-events: none;
     backface-visibility: hidden;
     z-index: 1;
@@ -13,8 +12,7 @@
       pointer-events: none;
     }
   }
-  &.swiper-rtl .swiper-slide,
-  &.swiper-rtl swiper-slide {
+  &.swiper-rtl .swiper-slide {
     transform-origin: 100% 0;
   }
   .swiper-slide-active {
@@ -26,8 +24,7 @@
   .swiper-slide-active,
   .swiper-slide-next,
   .swiper-slide-prev,
-  .swiper-slide-next + .swiper-slide,
-  .swiper-slide-next + swiper-slide {
+  .swiper-slide-next + .swiper-slide {
     pointer-events: auto;
     visibility: visible;
   }

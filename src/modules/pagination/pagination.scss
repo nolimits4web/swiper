@@ -24,7 +24,6 @@
     opacity: 0;
   }
   .swiper-pagination-disabled > &,
-  :host(.swiper-pagination-disabled) &,
   &.swiper-pagination-disabled {
     display: none !important;
   }
@@ -33,7 +32,6 @@
 .swiper-pagination-fraction,
 .swiper-pagination-custom,
 .swiper-horizontal > .swiper-pagination-bullets,
-:host(.swiper-horizontal) .swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal {
   bottom: 10px;
   left: 0;
@@ -80,8 +78,7 @@
     box-shadow: none;
     appearance: none;
   }
-  .swiper-pagination-clickable &,
-  :host(.swiper-pagination-clickable) & {
+  .swiper-pagination-clickable & {
     cursor: pointer;
   }
 
@@ -95,7 +92,6 @@
 }
 
 .swiper-vertical > .swiper-pagination-bullets,
-:host(.swiper-vertical) .swiper-pagination-bullets,
 .swiper-pagination-vertical.swiper-pagination-bullets {
   right: 10px;
   top: 50%;
@@ -115,7 +111,6 @@
   }
 }
 .swiper-horizontal > .swiper-pagination-bullets,
-:host(.swiper-horizontal) > .swiper-pagination-bullets,
 .swiper-pagination-horizontal.swiper-pagination-bullets {
   .swiper-pagination-bullet {
     margin: 0 var(--swiper-pagination-bullet-horizontal-gap, 4px);
@@ -147,8 +142,8 @@
     transform: scale(0);
     transform-origin: left top;
   }
-  .swiper-rtl & .swiper-pagination-progressbar-fill,
-  :host(.swiper-rtl) & .swiper-pagination-progressbar-fill {
+  /*ADD_HOST*/
+  .swiper-rtl & .swiper-pagination-progressbar-fill {
     transform-origin: right top;
   }
   .swiper-horizontal > &,
