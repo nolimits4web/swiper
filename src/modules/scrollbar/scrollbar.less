@@ -1,9 +1,17 @@
-/* Scrollbar */
+:root {
+  /*
+  --swiper-scrollbar-border-radius: 10px;
+  --swiper-scrollbar-offset: 3px;
+  --swiper-scrollbar-bg-color: rgba(0, 0, 0, 0.1);
+  --swiper-scrollbar-drag-bg-color: rgba(0, 0, 0, 0.5);
+  --swiper-scrollbar-size: 5px;
+  */
+}
 .swiper-scrollbar {
-  border-radius: 10px;
+  border-radius: var(--swiper-scrollbar-border-radius, 10px);
   position: relative;
   -ms-touch-action: none;
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--swiper-scrollbar-bg-color, rgba(0, 0, 0, 0.1));
   .swiper-scrollbar-disabled > &,
   &.swiper-scrollbar-disabled {
     display: none !important;
@@ -12,18 +20,18 @@
   &.swiper-scrollbar-horizontal {
     position: absolute;
     left: 1%;
-    bottom: 3px;
+    bottom: var(--swiper-scrollbar-offset, 3px);
     z-index: 50;
-    height: 5px;
+    height: var(--swiper-scrollbar-size, 5px);
     width: 98%;
   }
   .swiper-vertical > &,
   &.swiper-scrollbar-vertical {
     position: absolute;
-    right: 3px;
+    right: var(--swiper-scrollbar-offset, 3px);
     top: 1%;
     z-index: 50;
-    width: 5px;
+    width: var(--swiper-scrollbar-size, 5px);
     height: 98%;
   }
 }
@@ -31,8 +39,8 @@
   height: 100%;
   width: 100%;
   position: relative;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
+  background: var(--swiper-scrollbar-drag-bg-color, rgba(0, 0, 0, 0.5));
+  border-radius: var(--swiper-scrollbar-border-radius, 10px);
   left: 0;
   top: 0;
 }
