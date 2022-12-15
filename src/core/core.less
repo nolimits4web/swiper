@@ -2,6 +2,7 @@
   --swiper-theme-color: @themeColor;
   /*
   --swiper-preloader-color: var(--swiper-theme-color);
+  --swiper-wrapper-transition-timing-function: initial;
   */
 }
 .swiper,
@@ -26,6 +27,7 @@ swiper-container {
   z-index: 1;
   display: flex;
   transition-property: transform;
+  transition-timing-function: var(--swiper-wrapper-transition-timing-function, initial);
   box-sizing: content-box;
 }
 .swiper-android .swiper-slide,
