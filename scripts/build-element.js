@@ -3,6 +3,7 @@ import path from 'path';
 
 import { rollup } from 'rollup';
 import { babel } from '@rollup/plugin-babel';
+import { globby } from 'globby';
 import replace from '@rollup/plugin-replace';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { minify } from 'terser';
@@ -96,6 +97,27 @@ export default async function buildElement() {
   if (!fs.existsSync(path.resolve(outputDir, 'element'))) {
     fs.mkdirSync(path.resolve(outputDir, 'element'));
   }
+
+  // modules styles
+  const modulesLessFiles = await globby(['**/**.less'], {
+    cwd: path.resolve(__dirname, '../dist/modules'),
+    absolute: true,
+  });
+  await Promise.all(
+    modulesLessFiles.map(async (filePath) => {
+      const fileContent = fs.readFileSync(filePath, 'utf-8');
+      const content = fileContent.replace('@themeColor', config.themeColor);
+      const lessContent = await less(content, path.dirname(filePath)).catch((err) => {
+        throw new Error(`${filePath}: ${err}`);
+      });
+      const resultCSS = proceedReplacements(await autoprefixer(lessContent));
+      const resultFilePath = filePath.replace(/\.less$/, '');
+      const minifiedCSS = await cleanCss(resultCSS);
+      // not sure if needed. Possibly can produce a bug cause of the same naming
+      // await fs.writeFile(`${resultFilePath}.css`, resultCSS);
+      fs.writeFileSync(`${resultFilePath}-element.min.css`, minifiedCSS);
+    }),
+  );
 
   // ESM
   fs.copyFileSync('./src/element/get-params.js', path.resolve(outputDir, 'element/get-params.js'));
