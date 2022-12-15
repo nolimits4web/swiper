@@ -33,66 +33,71 @@ export default function A11y({ swiper, extendParams, on }) {
     notification.innerHTML = message;
   }
 
+  const makeElementsArray = (el) => {
+    if (!Array.isArray(el)) el = [el].filter((e) => !!e);
+    return el;
+  };
+
   function getRandomNumber(size = 16) {
     const randomChar = () => Math.round(16 * Math.random()).toString(16);
     return 'x'.repeat(size).replace(/x/g, randomChar);
   }
   function makeElFocusable(el) {
-    if (!Array.isArray(el)) el = [el];
+    el = makeElementsArray(el);
     el.forEach((subEl) => {
       subEl.setAttribute('tabIndex', '0');
     });
   }
   function makeElNotFocusable(el) {
-    if (!Array.isArray(el)) el = [el];
+    el = makeElementsArray(el);
     el.forEach((subEl) => {
       subEl.setAttribute('tabIndex', '-1');
     });
   }
   function addElRole(el, role) {
-    if (!Array.isArray(el)) el = [el];
+    el = makeElementsArray(el);
     el.forEach((subEl) => {
       subEl.setAttribute('role', role);
     });
   }
   function addElRoleDescription(el, description) {
-    if (!Array.isArray(el)) el = [el];
+    el = makeElementsArray(el);
     el.forEach((subEl) => {
       subEl.setAttribute('aria-roledescription', description);
     });
   }
   function addElControls(el, controls) {
-    if (!Array.isArray(el)) el = [el];
+    el = makeElementsArray(el);
     el.forEach((subEl) => {
       subEl.setAttribute('aria-controls', controls);
     });
   }
   function addElLabel(el, label) {
-    if (!Array.isArray(el)) el = [el];
+    el = makeElementsArray(el);
     el.forEach((subEl) => {
       subEl.setAttribute('aria-label', label);
     });
   }
   function addElId(el, id) {
-    if (!Array.isArray(el)) el = [el];
+    el = makeElementsArray(el);
     el.forEach((subEl) => {
       subEl.setAttribute('id', id);
     });
   }
   function addElLive(el, live) {
-    if (!Array.isArray(el)) el = [el];
+    el = makeElementsArray(el);
     el.forEach((subEl) => {
       subEl.setAttribute('aria-live', live);
     });
   }
   function disableEl(el) {
-    if (!Array.isArray(el)) el = [el];
+    el = makeElementsArray(el);
     el.forEach((subEl) => {
       subEl.setAttribute('aria-disabled', true);
     });
   }
   function enableEl(el) {
-    if (!Array.isArray(el)) el = [el];
+    el = makeElementsArray(el);
     el.forEach((subEl) => {
       subEl.setAttribute('aria-disabled', false);
     });
@@ -283,8 +288,8 @@ export default function A11y({ swiper, extendParams, on }) {
 
     // Navigation
     let { nextEl, prevEl } = swiper.navigation ? swiper.navigation : {};
-    if (nextEl && !Array.isArray(nextEl)) nextEl = [nextEl];
-    if (prevEl && !Array.isArray(prevEl)) prevEl = [prevEl];
+    nextEl = makeElementsArray(nextEl);
+    prevEl = makeElementsArray(prevEl);
 
     if (nextEl) {
       nextEl.forEach((el) => initNavEl(el, wrapperId, params.nextSlideMessage));
@@ -306,8 +311,8 @@ export default function A11y({ swiper, extendParams, on }) {
   function destroy() {
     if (liveRegion && liveRegion.length > 0) liveRegion.remove();
     let { nextEl, prevEl } = swiper.navigation ? swiper.navigation : {};
-    if (nextEl && !Array.isArray(nextEl)) nextEl = [nextEl];
-    if (prevEl && !Array.isArray(prevEl)) prevEl = [prevEl];
+    nextEl = makeElementsArray(nextEl);
+    prevEl = makeElementsArray(prevEl);
     if (nextEl) {
       nextEl.forEach((el) => el.removeEventListener('keydown', onEnterOrSpaceKey));
     }

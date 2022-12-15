@@ -44,6 +44,11 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
   let bulletSize;
   let dynamicBulletIndex = 0;
 
+  const makeElementsArray = (el) => {
+    if (!Array.isArray(el)) el = [el].filter((e) => !!e);
+    return el;
+  };
+
   function isPaginationDisabled() {
     return (
       !swiper.params.pagination.el ||
@@ -83,7 +88,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     if (isPaginationDisabled()) return;
 
     let el = swiper.pagination.el;
-    if (!Array.isArray(el)) el = [el];
+    el = makeElementsArray(el);
     // Current/Total
     let current;
     const slidesLength =
@@ -236,7 +241,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
         : swiper.slides.length;
 
     let el = swiper.pagination.el;
-    if (!Array.isArray(el)) el = [el];
+    el = makeElementsArray(el);
     let paginationHTML = '';
     if (params.type === 'bullets') {
       let numberOfBullets = swiper.params.loop
@@ -331,7 +336,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       el,
     });
 
-    if (!Array.isArray(el)) el = [el];
+    el = makeElementsArray(el);
     el.forEach((subEl) => {
       if (params.type === 'bullets' && params.clickable) {
         subEl.classList.add(params.clickableClass);
@@ -366,7 +371,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     if (isPaginationDisabled()) return;
     let el = swiper.pagination.el;
     if (el) {
-      if (!Array.isArray(el)) el = [el];
+      el = makeElementsArray(el);
       el.forEach((subEl) => {
         subEl.classList.remove(params.hiddenClass);
         subEl.classList.remove(params.modifierClass + params.type);
@@ -413,7 +418,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
   on('enable disable', () => {
     let { el } = swiper.pagination;
     if (el) {
-      if (!Array.isArray(el)) el = [el];
+      el = makeElementsArray(el);
       el.forEach((subEl) =>
         subEl.classList[swiper.enabled ? 'remove' : 'add'](swiper.params.pagination.lockClass),
       );
@@ -425,7 +430,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
   on('click', (_s, e) => {
     const targetEl = e.target;
     let { el } = swiper.pagination;
-    if (!Array.isArray(el)) el = [el];
+    if (!Array.isArray(el)) el = [el].filter((element) => !!element);
     if (
       swiper.params.pagination.el &&
       swiper.params.pagination.hideOnClick &&
@@ -453,7 +458,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     swiper.el.classList.remove(swiper.params.pagination.paginationDisabledClass);
     let { el } = swiper.pagination;
     if (el) {
-      if (!Array.isArray(el)) el = [el];
+      el = makeElementsArray(el);
       el.forEach((subEl) =>
         subEl.classList.remove(swiper.params.pagination.paginationDisabledClass),
       );
@@ -467,7 +472,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     swiper.el.classList.add(swiper.params.pagination.paginationDisabledClass);
     let { el } = swiper.pagination;
     if (el) {
-      if (!Array.isArray(el)) el = [el];
+      el = makeElementsArray(el);
       el.forEach((subEl) => subEl.classList.add(swiper.params.pagination.paginationDisabledClass));
     }
     destroy();

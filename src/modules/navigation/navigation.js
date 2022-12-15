@@ -19,6 +19,11 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     prevEl: null,
   };
 
+  const makeElementsArray = (el) => {
+    if (!Array.isArray(el)) el = [el].filter((e) => !!e);
+    return el;
+  };
+
   function getEl(el) {
     let res;
     if (el && typeof el === 'string' && swiper.isElement) {
@@ -42,7 +47,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
 
   function toggleEl(el, disabled) {
     const params = swiper.params.navigation;
-    if (!Array.isArray(el)) el = [el];
+    el = makeElementsArray(el);
     el.forEach((subEl) => {
       if (subEl) {
         subEl.classList[disabled ? 'add' : 'remove'](params.disabledClass);
@@ -98,9 +103,8 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
       nextEl,
       prevEl,
     });
-
-    if (!Array.isArray(nextEl)) nextEl = [nextEl];
-    if (!Array.isArray(prevEl)) prevEl = [prevEl];
+    nextEl = makeElementsArray(nextEl);
+    prevEl = makeElementsArray(prevEl);
 
     const initButton = (el, dir) => {
       if (el) {
@@ -116,8 +120,8 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
   }
   function destroy() {
     let { nextEl, prevEl } = swiper.navigation;
-    if (!Array.isArray(nextEl)) nextEl = [nextEl];
-    if (!Array.isArray(prevEl)) prevEl = [prevEl];
+    nextEl = makeElementsArray(nextEl);
+    prevEl = makeElementsArray(prevEl);
     const destroyButton = (el, dir) => {
       el.removeEventListener('click', dir === 'next' ? onNextClick : onPrevClick);
       el.classList.remove(swiper.params.navigation.disabledClass);
@@ -143,16 +147,18 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
   });
   on('enable disable', () => {
     let { nextEl, prevEl } = swiper.navigation;
-    if (!Array.isArray(nextEl)) nextEl = [nextEl];
-    if (!Array.isArray(prevEl)) prevEl = [prevEl];
-    [...nextEl, ...prevEl].forEach((el) =>
-      el.classList[swiper.enabled ? 'remove' : 'add'](swiper.params.navigation.lockClass),
-    );
+    nextEl = makeElementsArray(nextEl);
+    prevEl = makeElementsArray(prevEl);
+    [...nextEl, ...prevEl]
+      .filter((el) => !!el)
+      .forEach((el) =>
+        el.classList[swiper.enabled ? 'remove' : 'add'](swiper.params.navigation.lockClass),
+      );
   });
   on('click', (_s, e) => {
     let { nextEl, prevEl } = swiper.navigation;
-    if (!Array.isArray(nextEl)) nextEl = [nextEl];
-    if (!Array.isArray(prevEl)) prevEl = [prevEl];
+    nextEl = makeElementsArray(nextEl);
+    prevEl = makeElementsArray(prevEl);
     const targetEl = e.target;
     if (
       swiper.params.navigation.hideOnClick &&
@@ -177,9 +183,9 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
       } else {
         emit('navigationHide');
       }
-      [...nextEl, ...prevEl].forEach((el) =>
-        el.classList.toggle(swiper.params.navigation.hiddenClass),
-      );
+      [...nextEl, ...prevEl]
+        .filter((el) => !!el)
+        .forEach((el) => el.classList.toggle(swiper.params.navigation.hiddenClass));
     }
   });
 

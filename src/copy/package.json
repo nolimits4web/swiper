@@ -91,6 +91,7 @@
     "./scss/zoom": "./modules/zoom/zoom.scss",
     "./element": "./element/swiper-element.js",
     "./element/bundle": "./element/swiper-element-bundle.js",
+    "./element-bundle": "./element/swiper-element-bundle.js",
     "./element/css/a11y": "./modules/a11y/a11y.min.css",
     "./element/css/autoplay": "./modules/autoplay/autoplay-element.min.css",
     "./element/css/controller": "./modules/controller/controller-element.min.css",
