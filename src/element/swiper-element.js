@@ -182,6 +182,7 @@ class SwiperContainer extends ClassToExtend {
 }
 
 paramsList.forEach((paramName) => {
+  if (paramName === 'init') return;
   paramName = paramName.replace('_', '');
   Object.defineProperty(SwiperContainer.prototype, paramName, {
     get() {
