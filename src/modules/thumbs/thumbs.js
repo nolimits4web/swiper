@@ -1,3 +1,4 @@
+import { getDocument } from 'ssr-window';
 import { elementChildren, isObject, elementNextAll, elementPrevAll } from '../../shared/utils.js';
 
 export default function Thumb({ swiper, extendParams, on }) {
@@ -199,10 +200,12 @@ export default function Thumb({ swiper, extendParams, on }) {
     const { thumbs } = swiper.params;
     if (!thumbs || !thumbs.swiper) return;
     if (typeof thumbs.swiper === 'string' || thumbs.swiper instanceof HTMLElement) {
-      const thumbsElement = thumbs.swiper;
-      if (thumbsElement.swiper) {
+      const document = getDocument();
+      const thumbsElement =
+        typeof thumbs.swiper === 'string' ? document.querySelector(thumbs.swiper) : thumbs.swiper;
+      if (thumbsElement && thumbsElement.swiper) {
         thumbs.swiper = swiper;
-      } else {
+      } else if (thumbsElement) {
         const onThumbsSwiper = (e) => {
           thumbs.swiper = e.detail[0];
           thumbsElement.removeEventListener('init', onThumbsSwiper);

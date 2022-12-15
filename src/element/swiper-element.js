@@ -98,6 +98,7 @@ class SwiperContainer extends ClassToExtend {
 
   initialize() {
     if (this.initialized) return;
+    this.initialized = true;
     const { params: swiperParams, passedParams } = getParams(this);
     this.swiperParams = swiperParams;
     this.passedParams = passedParams;
@@ -118,8 +119,6 @@ class SwiperContainer extends ClassToExtend {
         this.dispatchEvent(event);
       },
     });
-
-    this.initialized = true;
   }
 
   connectedCallback() {
