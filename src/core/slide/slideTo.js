@@ -119,11 +119,19 @@ export default function slideTo(
         swiper.wrapperEl.style.scrollSnapType = 'none';
         swiper._immediateVirtual = true;
       }
-      wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = t;
+
+      if (isVirtual && !swiper._cssModeVirtualInitialSet && swiper.params.initialSlide > 0) {
+        swiper._cssModeVirtualInitialSet = true;
+        requestAnimationFrame(() => {
+          wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = t;
+        });
+      } else {
+        wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = t;
+      }
       if (isVirtual) {
         requestAnimationFrame(() => {
           swiper.wrapperEl.style.scrollSnapType = '';
-          swiper._swiperImmediateVirtual = false;
+          swiper._immediateVirtual = false;
         });
       }
     } else {
