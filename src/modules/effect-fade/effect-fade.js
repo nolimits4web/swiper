@@ -35,7 +35,7 @@ export default function EffectFade({ swiper, extendParams, on }) {
   const setTransition = (duration) => {
     const transformElements = swiper.slides.map((slideEl) => getSlideTransformEl(slideEl));
     transformElements.forEach((el) => {
-      el.style.transition = `${duration}ms`;
+      el.style.transitionDuration = `${duration}ms`;
     });
 
     effectVirtualTransitionEnd({ swiper, duration, transformElements, allSlides: true });

@@ -66,10 +66,6 @@ export default function translateTo(
             'transitionend',
             swiper.onTranslateToWrapperTransitionEnd,
           );
-          swiper.wrapperEl.removeEventListener(
-            'webkitTransitionEnd',
-            swiper.onTranslateToWrapperTransitionEnd,
-          );
           swiper.onTranslateToWrapperTransitionEnd = null;
           delete swiper.onTranslateToWrapperTransitionEnd;
           if (runCallbacks) {
@@ -78,10 +74,6 @@ export default function translateTo(
         };
       }
       swiper.wrapperEl.addEventListener('transitionend', swiper.onTranslateToWrapperTransitionEnd);
-      swiper.wrapperEl.addEventListener(
-        'webkitTransitionEnd',
-        swiper.onTranslateToWrapperTransitionEnd,
-      );
     }
   }
 

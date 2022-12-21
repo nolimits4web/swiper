@@ -80,11 +80,11 @@ export default function EffectFlip({ swiper, extendParams, on }) {
     const transformElements = swiper.slides.map((slideEl) => getSlideTransformEl(slideEl));
 
     transformElements.forEach((el) => {
-      el.style.transition = `${duration}ms`;
+      el.style.transitionDuration = `${duration}ms`;
       el.querySelectorAll(
         '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
       ).forEach((shadowEl) => {
-        shadowEl.style.transition = `${duration}ms`;
+        shadowEl.style.transitionDuration = `${duration}ms`;
       });
     });
 

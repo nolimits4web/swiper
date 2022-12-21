@@ -132,9 +132,9 @@ export default function EffectCreative({ swiper, extendParams, on }) {
     const transformElements = swiper.slides.map((slideEl) => getSlideTransformEl(slideEl));
 
     transformElements.forEach((el) => {
-      el.style.transition = `${duration}ms`;
+      el.style.transitionDuration = `${duration}ms`;
       el.querySelectorAll('.swiper-slide-shadow').forEach((shadowEl) => {
-        shadowEl.style.transition = `${duration}ms`;
+        shadowEl.style.transitionDuration = `${duration}ms`;
       });
     });
 

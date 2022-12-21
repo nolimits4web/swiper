@@ -85,7 +85,7 @@ export default function Parallax({ swiper, extendParams, on }) {
       let parallaxDuration =
         parseInt(parallaxEl.getAttribute('data-swiper-parallax-duration'), 10) || duration;
       if (duration === 0) parallaxDuration = 0;
-      parallaxEl.style.transition = `${parallaxDuration}ms`;
+      parallaxEl.style.transitionDuration = `${parallaxDuration}ms`;
     });
   };
 

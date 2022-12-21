@@ -162,17 +162,12 @@ export default function slideTo(
         if (!swiper || swiper.destroyed) return;
         if (e.target !== this) return;
         swiper.wrapperEl.removeEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
-        swiper.wrapperEl.removeEventListener(
-          'webkitTransitionEnd',
-          swiper.onSlideToWrapperTransitionEnd,
-        );
         swiper.onSlideToWrapperTransitionEnd = null;
         delete swiper.onSlideToWrapperTransitionEnd;
         swiper.transitionEnd(runCallbacks, direction);
       };
     }
     swiper.wrapperEl.addEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
-    swiper.wrapperEl.addEventListener('webkitTransitionEnd', swiper.onSlideToWrapperTransitionEnd);
   }
 
   return true;

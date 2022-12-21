@@ -36,14 +36,11 @@ export default function effectVirtualTransitionEnd({
         if (!swiper || swiper.destroyed) return;
         eventTriggered = true;
         swiper.animating = false;
-        const triggerEvents = ['webkitTransitionEnd', 'transitionend'];
-        triggerEvents.forEach((eventName) => {
-          const evt = new window.CustomEvent(eventName, {
-            bubbles: true,
-            cancelable: true,
-          });
-          swiper.wrapperEl.dispatchEvent(evt);
+        const evt = new window.CustomEvent('transitionend', {
+          bubbles: true,
+          cancelable: true,
         });
+        swiper.wrapperEl.dispatchEvent(evt);
       });
     });
   }

@@ -68,13 +68,13 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
       el.style.opacity = 1;
       timeout = setTimeout(() => {
         el.style.opacity = 0;
-        el.style.transition = '400ms';
+        el.style.transitionDuration = '400ms';
       }, 1000);
     }
   }
   function setTransition(duration) {
     if (!swiper.params.scrollbar.el || !swiper.scrollbar.el) return;
-    swiper.scrollbar.dragEl.style.transition = `${duration}ms`;
+    swiper.scrollbar.dragEl.style.transitionDuration = `${duration}ms`;
   }
   function updateSize() {
     if (!swiper.params.scrollbar.el || !swiper.scrollbar.el) return;
@@ -155,13 +155,13 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     e.preventDefault();
     e.stopPropagation();
 
-    wrapperEl.style.transition = '100ms';
-    dragEl.style.transition = '100ms';
+    wrapperEl.style.transitionDuration = '100ms';
+    dragEl.style.transitionDuration = '100ms';
     setDragPosition(e);
 
     clearTimeout(dragTimeout);
 
-    el.style.transition = '0ms';
+    el.style.transitionDuration = '0ms';
     if (params.hide) {
       el.style.opacity = 1;
     }
@@ -178,9 +178,9 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     if (e.preventDefault) e.preventDefault();
     else e.returnValue = false;
     setDragPosition(e);
-    wrapperEl.style.transition = '0ms';
-    el.style.transition = '0ms';
-    dragEl.style.transition = '0ms';
+    wrapperEl.style.transitionDuration = '0ms';
+    el.style.transitionDuration = '0ms';
+    dragEl.style.transitionDuration = '0ms';
     emit('scrollbarDragMove', e);
   }
   function onDragEnd(e) {
@@ -192,13 +192,13 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     isTouched = false;
     if (swiper.params.cssMode) {
       swiper.wrapperEl.style['scroll-snap-type'] = '';
-      wrapperEl.style.transition = '';
+      wrapperEl.style.transitionDuration = '';
     }
     if (params.hide) {
       clearTimeout(dragTimeout);
       dragTimeout = nextTick(() => {
         el.style.opacity = 0;
-        el.style.transition = '400ms';
+        el.style.transitionDuration = '400ms';
       }, 1000);
     }
     emit('scrollbarDragEnd', e);
