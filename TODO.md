@@ -1,0 +1,2 @@
+- carousel slider (issue with loop) (add more images)
+- tripple slider (issue with controller)
