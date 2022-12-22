@@ -37,6 +37,8 @@ export default function onTouchMove(event) {
       Object.assign(touches, {
         startX: pageX,
         startY: pageY,
+        prevX: swiper.touches.currentX,
+        prevY: swiper.touches.currentY,
         currentX: pageX,
         currentY: pageY,
       });
@@ -125,9 +127,28 @@ export default function onTouchMove(event) {
     e.stopPropagation();
   }
 
+  let diff = swiper.isHorizontal() ? diffX : diffY;
+  let touchesDiff = swiper.isHorizontal()
+    ? touches.currentX - touches.previousX
+    : touches.currentY - touches.previousY;
+  touches.diff = diff;
+
+  diff *= params.touchRatio;
+  if (rtl) {
+    diff = -diff;
+    touchesDiff = -touchesDiff;
+  }
+
+  const prevTouchesDirection = swiper.touchesDirection;
+  swiper.swipeDirection = diff > 0 ? 'prev' : 'next';
+  swiper.touchesDirection = touchesDiff > 0 ? 'prev' : 'next';
+
+  const isLoop =
+    swiper.params.loop && !(swiper.virtual && swiper.params.virtual.enabled) && !params.cssMode;
+
   if (!data.isMoved) {
-    if (params.loop && !params.cssMode) {
-      swiper.loopFix();
+    if (isLoop) {
+      swiper.loopFix({ direction: swiper.swipeDirection });
     }
     data.startTranslate = swiper.getTranslate();
     swiper.setTransition(0);
@@ -145,16 +166,20 @@ export default function onTouchMove(event) {
     }
     swiper.emit('sliderFirstMove', e);
   }
+  let loopFixed;
+  if (
+    data.isMoved &&
+    prevTouchesDirection !== swiper.touchesDirection &&
+    isLoop &&
+    Math.abs(diff) >= 1
+  ) {
+    // need another loop fix
+    swiper.loopFix({ direction: swiper.swipeDirection, setTranslate: true });
+    loopFixed = true;
+  }
   swiper.emit('sliderMove', e);
   data.isMoved = true;
 
-  let diff = swiper.isHorizontal() ? diffX : diffY;
-  touches.diff = diff;
-
-  diff *= params.touchRatio;
-  if (rtl) diff = -diff;
-
-  swiper.swipeDirection = diff > 0 ? 'prev' : 'next';
   data.currentTranslate = diff + data.startTranslate;
 
   let disableParentSwiper = true;
@@ -162,20 +187,50 @@ export default function onTouchMove(event) {
   if (params.touchReleaseOnEdges) {
     resistanceRatio = 0;
   }
-  if (diff > 0 && data.currentTranslate > swiper.minTranslate()) {
-    disableParentSwiper = false;
-    if (params.resistance)
-      data.currentTranslate =
-        swiper.minTranslate() -
-        1 +
-        (-swiper.minTranslate() + data.startTranslate + diff) ** resistanceRatio;
-  } else if (diff < 0 && data.currentTranslate < swiper.maxTranslate()) {
-    disableParentSwiper = false;
-    if (params.resistance)
-      data.currentTranslate =
-        swiper.maxTranslate() +
-        1 -
-        (swiper.maxTranslate() - data.startTranslate - diff) ** resistanceRatio;
+  if (diff > 0) {
+    if (
+      isLoop &&
+      !loopFixed &&
+      data.currentTranslate >
+        (params.centeredSlides ? swiper.minTranslate() - swiper.size / 2 : swiper.minTranslate())
+    ) {
+      swiper.loopFix({ direction: 'prev', setTranslate: true, activeSlideIndex: 0 });
+    }
+    if (data.currentTranslate > swiper.minTranslate()) {
+      disableParentSwiper = false;
+      if (params.resistance) {
+        data.currentTranslate =
+          swiper.minTranslate() -
+          1 +
+          (-swiper.minTranslate() + data.startTranslate + diff) ** resistanceRatio;
+      }
+    }
+  } else if (diff < 0) {
+    if (
+      isLoop &&
+      !loopFixed &&
+      data.currentTranslate <
+        (params.centeredSlides ? swiper.maxTranslate() + swiper.size / 2 : swiper.maxTranslate())
+    ) {
+      swiper.loopFix({
+        direction: 'next',
+        setTranslate: true,
+        activeSlideIndex:
+          swiper.slides.length -
+          (params.slidesPerView === 'auto'
+            ? swiper.slidesPerViewDynamic()
+            : Math.ceil(parseFloat(params.slidesPerView, 10))),
+      });
+    }
+    if (data.currentTranslate < swiper.maxTranslate()) {
+      disableParentSwiper = false;
+      if (params.resistance) {
+        data.currentTranslate =
+          swiper.maxTranslate() +
+          1 -
+          (swiper.maxTranslate() - data.startTranslate - diff) ** resistanceRatio;
+      }
+    }
   }
 
   if (disableParentSwiper) {

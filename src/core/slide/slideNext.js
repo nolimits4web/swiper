@@ -9,7 +9,7 @@ export default function slideNext(speed = this.params.speed, runCallbacks = true
   }
   const increment = swiper.activeIndex < params.slidesPerGroupSkip ? 1 : perGroup;
   if (params.loop) {
-    swiper.loopFix();
+    swiper.loopFix({ direction: 'next' });
     // eslint-disable-next-line
     swiper._clientLeft = swiper.wrapperEl.clientLeft;
   }

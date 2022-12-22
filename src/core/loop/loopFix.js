@@ -1,6 +1,13 @@
 import { elementIndex } from '../../shared/utils.js';
 
-export default function loopFix(slideRealIndex, slideTo = true) {
+export default function loopFix({
+  slideRealIndex,
+  slideTo = true,
+  direction,
+  setTranslate,
+  activeSlideIndex,
+  byController,
+} = {}) {
   const swiper = this;
   if (!swiper.params.loop) return;
   swiper.emit('beforeLoopFix');
@@ -39,9 +46,18 @@ export default function loopFix(slideRealIndex, slideTo = true) {
   const prependSlidesIndexes = [];
   const appendSlidesIndexes = [];
 
-  const activeSlideIndex = elementIndex(
-    swiper.slides.filter((el) => el.classList.contains('swiper-slide-active'))[0],
-  );
+  let activeIndex = swiper.activeIndex;
+
+  if (typeof activeSlideIndex === 'undefined') {
+    activeSlideIndex = elementIndex(
+      swiper.slides.filter((el) => el.classList.contains('swiper-slide-active'))[0],
+    );
+  } else {
+    activeIndex = activeSlideIndex;
+  }
+
+  const isNext = direction === 'next' || !direction;
+  const isPrev = direction === 'prev' || !direction;
 
   let slidesPrepended = 0;
   let slidesAppended = 0;
@@ -60,27 +76,47 @@ export default function loopFix(slideRealIndex, slideTo = true) {
     }
   }
 
-  prependSlidesIndexes.forEach((index) => {
-    slidesEl.prepend(swiper.slides[index]);
-  });
-  appendSlidesIndexes.forEach((index) => {
-    slidesEl.append(swiper.slides[index]);
-  });
+  if (isPrev) {
+    prependSlidesIndexes.forEach((index) => {
+      slidesEl.prepend(swiper.slides[index]);
+    });
+  }
+  if (isNext) {
+    appendSlidesIndexes.forEach((index) => {
+      slidesEl.append(swiper.slides[index]);
+    });
+  }
   swiper.recalcSlides();
   if (params.watchSlidesProgress) {
     swiper.updateSlidesOffset();
   }
 
   if (slideTo) {
-    if (prependSlidesIndexes.length > 0) {
+    if (prependSlidesIndexes.length > 0 && isPrev) {
       if (typeof slideRealIndex === 'undefined') {
-        swiper.slideTo(swiper.activeIndex + slidesPrepended, 0, false, true);
+        const currentSlideTranslate = swiper.slidesGrid[activeIndex];
+        const newSlideTranslate = swiper.slidesGrid[activeIndex + slidesPrepended];
+        const diff = newSlideTranslate - currentSlideTranslate;
+
+        swiper.slideTo(activeIndex + slidesPrepended, 0, false, true);
+        if (setTranslate) {
+          swiper.touches[swiper.isHorizontal() ? 'startX' : 'startY'] += diff;
+        }
       } else {
-        swiper.slideToLoop(slideRealIndex, 0, false, true);
+        if (setTranslate) {
+          swiper.slideToLoop(slideRealIndex, 0, false, true);
+        }
       }
-    } else if (appendSlidesIndexes.length > 0) {
+    } else if (appendSlidesIndexes.length > 0 && isNext) {
       if (typeof slideRealIndex === 'undefined') {
-        swiper.slideTo(swiper.activeIndex - slidesAppended, 0, false, true);
+        const currentSlideTranslate = swiper.slidesGrid[activeIndex];
+        const newSlideTranslate = swiper.slidesGrid[activeIndex - slidesAppended];
+        const diff = newSlideTranslate - currentSlideTranslate;
+
+        swiper.slideTo(activeIndex - slidesAppended, 0, false, true);
+        if (setTranslate) {
+          swiper.touches[swiper.isHorizontal() ? 'startX' : 'startY'] += diff;
+        }
       } else {
         swiper.slideToLoop(slideRealIndex, 0, false, true);
       }
@@ -89,6 +125,27 @@ export default function loopFix(slideRealIndex, slideTo = true) {
 
   swiper.allowSlidePrev = allowSlidePrev;
   swiper.allowSlideNext = allowSlideNext;
+
+  if (swiper.controller && swiper.controller.control && !byController) {
+    const loopParams = {
+      slideRealIndex,
+      slideTo: false,
+      direction,
+      setTranslate,
+      activeSlideIndex,
+      byController: true,
+    };
+    if (Array.isArray(swiper.controller.control)) {
+      swiper.controller.control.forEach((c) => {
+        if (c.params.loop) c.loopFix(loopParams);
+      });
+    } else if (
+      swiper.controller.control instanceof swiper.constructor &&
+      swiper.controller.control.params.loop
+    ) {
+      swiper.controller.control.loopFix(loopParams);
+    }
+  }
 
   swiper.emit('loopFix');
 }

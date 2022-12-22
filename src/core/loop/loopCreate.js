@@ -11,5 +11,5 @@ export default function loopCreate(slideRealIndex) {
     el.setAttribute('data-swiper-slide-index', index);
   });
 
-  swiper.loopFix(slideRealIndex);
+  swiper.loopFix({ slideRealIndex, direction: params.centeredSlides ? undefined : 'next' });
 }
