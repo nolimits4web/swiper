@@ -59,10 +59,11 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
 
   function setSideBullets(bulletEl, position) {
     const { bulletActiveClass } = swiper.params.pagination;
-    bulletEl = bulletEl.nextElementSibling;
+    if (!bulletEl) return;
+    bulletEl = bulletEl[`${position === 'prev' ? 'previous' : 'next'}ElementSibling`];
     if (bulletEl) {
       bulletEl.classList.add(`${bulletActiveClass}-${position}`);
-      bulletEl = bulletEl.nextElementSibling;
+      bulletEl = bulletEl[`${position === 'prev' ? 'previous' : 'next'}ElementSibling`];
       if (bulletEl) {
         bulletEl.classList.add(`${bulletActiveClass}-${position}-${position}`);
       }
