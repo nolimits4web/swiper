@@ -1,5 +1,5 @@
 import { getDocument } from 'ssr-window';
-import { elementChildren, isObject, elementNextAll, elementPrevAll } from '../../shared/utils.js';
+import { elementChildren, isObject } from '../../shared/utils.js';
 
 export default function Thumb({ swiper, extendParams, on }) {
   extendParams({
@@ -38,27 +38,10 @@ export default function Thumb({ swiper, extendParams, on }) {
       slideToIndex = clickedIndex;
     }
     if (swiper.params.loop) {
-      const currentIndex = swiper.activeIndex;
-
-      const prevIndex = swiper.slides.indexOf(
-        elementPrevAll(
-          swiper.slides[currentIndex],
-          `[data-swiper-slide-index="${slideToIndex}"]`,
-        )[0],
-      );
-      const nextIndex = swiper.slides.indexOf(
-        elementNextAll(
-          swiper.slides[currentIndex],
-          `[data-swiper-slide-index="${slideToIndex}"]`,
-        )[0],
-      );
-
-      if (typeof prevIndex === 'undefined') slideToIndex = nextIndex;
-      else if (typeof nextIndex === 'undefined') slideToIndex = prevIndex;
-      else if (nextIndex - currentIndex < currentIndex - prevIndex) slideToIndex = nextIndex;
-      else slideToIndex = prevIndex;
+      swiper.slideToLoop(slideToIndex);
+    } else {
+      swiper.slideTo(slideToIndex);
     }
-    swiper.slideTo(slideToIndex);
   }
 
   function init() {
@@ -140,32 +123,11 @@ export default function Thumb({ swiper, extendParams, on }) {
       let newThumbsIndex;
       let direction;
       if (thumbsSwiper.params.loop) {
-        // Find actual thumbs index to slide to
-        const prevThumbsIndex = thumbsSwiper.slides.indexOf(
-          elementPrevAll(
-            thumbsSwiper.slides[currentThumbsIndex],
-            `[data-swiper-slide-index="${swiper.realIndex}"]`,
-          )[0],
-        );
-        const nextThumbsIndex = thumbsSwiper.slides.indexOf(
-          elementNextAll(
-            thumbsSwiper.slides[currentThumbsIndex],
-            `[data-swiper-slide-index="${swiper.realIndex}"]`,
-          )[0],
-        );
+        const newThumbsSlide = thumbsSwiper.slides.filter(
+          (slideEl) => slideEl.getAttribute('data-swiper-slide-index') === `${swiper.realIndex}`,
+        )[0];
+        newThumbsIndex = thumbsSwiper.slides.indexOf(newThumbsSlide);
 
-        if (typeof prevThumbsIndex === 'undefined') {
-          newThumbsIndex = nextThumbsIndex;
-        } else if (typeof nextThumbsIndex === 'undefined') {
-          newThumbsIndex = prevThumbsIndex;
-        } else if (nextThumbsIndex - currentThumbsIndex === currentThumbsIndex - prevThumbsIndex) {
-          newThumbsIndex =
-            thumbsSwiper.params.slidesPerGroup > 1 ? nextThumbsIndex : currentThumbsIndex;
-        } else if (nextThumbsIndex - currentThumbsIndex < currentThumbsIndex - prevThumbsIndex) {
-          newThumbsIndex = nextThumbsIndex;
-        } else {
-          newThumbsIndex = prevThumbsIndex;
-        }
         direction = swiper.activeIndex > swiper.previousIndex ? 'next' : 'prev';
       } else {
         newThumbsIndex = swiper.realIndex;
