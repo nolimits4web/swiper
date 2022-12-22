@@ -122,10 +122,6 @@ export default function Controller({ swiper, extendParams, on }) {
         }
         elementTransitionEnd(c.wrapperEl, () => {
           if (!controlled) return;
-          if (swiper.params.loop) swiper.loopFix(undefined, false);
-          if (c.params.loop && swiper.params.controller.by === 'slide') {
-            c.loopFix();
-          }
           c.transitionEnd();
         });
       }
