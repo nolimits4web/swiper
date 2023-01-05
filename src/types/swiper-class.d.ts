@@ -191,6 +191,11 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   allowTouchMove: boolean;
 
   /**
+   * Direction of sliding
+   */
+  swipeDirection: 'prev' | 'next';
+
+  /**
    * !INTERNAL
    */
   rtlTranslate: boolean;
