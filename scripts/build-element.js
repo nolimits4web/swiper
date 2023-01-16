@@ -90,6 +90,9 @@ export default async function buildElement() {
   cssStylesBundle = proceedReplacements(cssStylesBundle);
   cssStylesCore = proceedReplacements(cssStylesCore);
 
+  const cssStylesBundleStandalone = cssStylesBundle;
+  const cssStylesCoreStandalone = cssStylesCore;
+
   const fontStyles = await cleanCss(cssStylesCore.split('/* FONT_END */')[0]);
   cssStylesBundle = await cleanCss(cssStylesBundle.split('/* FONT_END */')[1]);
   cssStylesCore = await cleanCss(cssStylesCore.split('/* FONT_END */')[1]);
@@ -117,6 +120,18 @@ export default async function buildElement() {
       // await fs.writeFile(`${resultFilePath}.css`, resultCSS);
       fs.writeFileSync(`${resultFilePath}-element.min.css`, minifiedCSS);
     }),
+  );
+
+  // standalone styles
+  fs.writeFileSync(path.resolve(outputDir, 'swiper-element.css'), cssStylesCoreStandalone);
+  fs.writeFileSync(
+    path.resolve(outputDir, 'swiper-element.min.css'),
+    await cleanCss(cssStylesCoreStandalone),
+  );
+  fs.writeFileSync(path.resolve(outputDir, 'swiper-element-bundle.css'), cssStylesBundleStandalone);
+  fs.writeFileSync(
+    path.resolve(outputDir, 'swiper-element-bundle.min.css'),
+    await cleanCss(cssStylesBundleStandalone),
   );
 
   // ESM
