@@ -163,25 +163,39 @@ export default function Thumb({ swiper, extendParams, on }) {
     if (!thumbs || !thumbs.swiper) return;
     if (typeof thumbs.swiper === 'string' || thumbs.swiper instanceof HTMLElement) {
       const document = getDocument();
-      const thumbsElement =
-        typeof thumbs.swiper === 'string' ? document.querySelector(thumbs.swiper) : thumbs.swiper;
-      if (thumbsElement && thumbsElement.swiper) {
-        thumbs.swiper = swiper;
-      } else if (thumbsElement) {
-        const onThumbsSwiper = (e) => {
-          thumbs.swiper = e.detail[0];
-          thumbsElement.removeEventListener('init', onThumbsSwiper);
+      const getThumbsElementAndInit = () => {
+        const thumbsElement =
+          typeof thumbs.swiper === 'string' ? document.querySelector(thumbs.swiper) : thumbs.swiper;
+        if (thumbsElement && thumbsElement.swiper) {
+          thumbs.swiper = thumbsElement.swiper;
           init();
           update(true);
-          thumbs.swiper.update();
-          swiper.update();
-        };
-        thumbsElement.addEventListener('init', onThumbsSwiper);
-        return;
-      }
+        } else if (thumbsElement) {
+          const onThumbsSwiper = (e) => {
+            thumbs.swiper = e.detail[0];
+            thumbsElement.removeEventListener('init', onThumbsSwiper);
+            init();
+            update(true);
+            thumbs.swiper.update();
+            swiper.update();
+          };
+          thumbsElement.addEventListener('init', onThumbsSwiper);
+        }
+        return thumbsElement;
+      };
+
+      const watchForThumbsToAppear = () => {
+        if (swiper.destroyed) return;
+        const thumbsElement = getThumbsElementAndInit();
+        if (!thumbsElement) {
+          requestAnimationFrame(watchForThumbsToAppear);
+        }
+      };
+      requestAnimationFrame(watchForThumbsToAppear);
+    } else {
+      init();
+      update(true);
     }
-    init();
-    update(true);
   });
   on('slideChange update resize observerUpdate', () => {
     update();
