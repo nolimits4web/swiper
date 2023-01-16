@@ -12,6 +12,8 @@ import { updateSwiper } from '../components-shared/update-swiper.js';
 
 //SWIPER_STYLES
 
+let globalInjectStyles = true;
+
 const addGlobalStyles = (preInit, swiper) => {
   let globalStyles = document.querySelector('style#swiper-element-styles');
   const shouldOverwrite = globalStyles && globalStyles.preInit && !preInit;
@@ -49,7 +51,7 @@ class SwiperContainer extends ClassToExtend {
 
   cssStyles() {
     return [
-      SwiperCSS, // eslint-disable-line
+      globalInjectStyles ? SwiperCSS : '', // eslint-disable-line
       ...(this.modulesStyles && Array.isArray(this.modulesStyles) ? this.modulesStyles : []),
     ].join('\n');
   }
@@ -59,12 +61,19 @@ class SwiperContainer extends ClassToExtend {
   }
 
   render() {
-    // global styles
-    addGlobalStyles(false, this);
+    if (globalInjectStyles) {
+      // global styles
+      addGlobalStyles(false, this);
+    }
+
     // local styles
-    this.stylesEl = document.createElement('style');
-    this.stylesEl.textContent = this.cssStyles();
-    this.shadowEl.appendChild(this.stylesEl);
+    const localStyles = this.cssStyles();
+    if (localStyles.length) {
+      this.stylesEl = document.createElement('style');
+      this.stylesEl.textContent = localStyles;
+      this.shadowEl.appendChild(this.stylesEl);
+    }
+
     this.cssLinks().forEach((url) => {
       const linkExists = document.querySelector(`link[href="${url}"]`);
       if (linkExists) return;
@@ -232,9 +241,14 @@ class SwiperSlide extends ClassToExtend {
 }
 
 // eslint-disable-next-line
-const register = () => {
+const register = (injectStyles = true) => {
   if (typeof window === 'undefined') return;
-  addGlobalStyles(true);
+  if (!injectStyles) {
+    globalInjectStyles = false;
+  }
+  if (globalInjectStyles) {
+    addGlobalStyles(true);
+  }
   if (!window.customElements.get('swiper-container'))
     window.customElements.define('swiper-container', SwiperContainer);
   if (!window.customElements.get('swiper-slide'))
