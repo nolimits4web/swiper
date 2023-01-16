@@ -41,6 +41,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
         res = swiper.el.querySelector(el);
       }
     }
+    if (el && !res) return el;
     // if (Array.isArray(res) && res.length === 1) res = res[0];
     return res;
   }
