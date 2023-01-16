@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import React from 'react';
 // eslint-disable-next-line
-import { A11y, Navigation, Pagination, Scrollbar } from 'swiper';
+import { A11y, Navigation, Pagination, Scrollbar, Mousewheel } from 'swiper';
 // eslint-disable-next-line
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 
@@ -9,13 +9,14 @@ const App = () => {
   return (
     <main>
       <Swiper
-        modules={[Navigation, Pagination, Scrollbar, A11y]}
+        modules={[Pagination, Mousewheel, Navigation, Scrollbar]}
         onSwiper={(swiper) => (window.swiper = swiper)}
-        slidesPerView={3}
-        spaceBetween={50}
+        slidesPerView={3.3}
+        threshold={2}
+        spaceBetween={10}
         navigation
-        loop
-        scrollbar={{ draggable: true }}
+        scrollbar
+        mousewheel={{ forceToAxis: true, sensitivity: 0.1, releaseOnEdges: true }}
         pagination={{ clickable: true }}
       >
         <SwiperSlide>Slide 1</SwiperSlide>
