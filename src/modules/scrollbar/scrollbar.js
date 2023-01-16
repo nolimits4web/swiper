@@ -244,8 +244,10 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     if (typeof params.el === 'string' && swiper.isElement) {
       el = swiper.el.shadowRoot.querySelector(params.el);
     }
-    if (!el) {
+    if (typeof el === 'string') {
       el = document.querySelectorAll(params.el);
+    } else {
+      el = params.el;
     }
 
     if (
