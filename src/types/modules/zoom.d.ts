@@ -22,9 +22,9 @@ export interface ZoomMethods {
   disable(): void;
 
   /**
-   * Zoom in image of the currently active slide
+   * Zoom in image of the currently active slide. Optionally accepts custom zoom ratio
    */
-  in(): void;
+  in(ratio?: number): void;
 
   /**
    * Zoom out image of the currently active slide

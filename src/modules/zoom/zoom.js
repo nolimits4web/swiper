@@ -416,9 +416,17 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       touchY = image.touchesStart.y;
     }
 
-    zoom.scale = gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
-    currentScale = gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
-    if (e) {
+    const forceZoomRatio = typeof e === 'number' ? e : null;
+    if (currentScale === 1 && forceZoomRatio) {
+      touchX = undefined;
+      touchY = undefined;
+    }
+
+    zoom.scale =
+      forceZoomRatio || gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
+    currentScale =
+      forceZoomRatio || gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
+    if (e && !(currentScale === 1 && forceZoomRatio)) {
       slideWidth = gesture.slideEl.offsetWidth;
       slideHeight = gesture.slideEl.offsetHeight;
       offsetX = elementOffset(gesture.slideEl).left + window.scrollX;
