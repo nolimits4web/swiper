@@ -163,6 +163,7 @@ export class SwiperComponent implements OnInit {
   @Input() parallax: SwiperOptions['parallax'];
   @Input() thumbs: SwiperOptions['thumbs'];
   @Input() zoom: SwiperOptions['zoom'];
+  @Input() slidesPerGroupAuto: SwiperOptions['slidesPerGroupAuto'];
   @Input() class: string;
   @Input() id: string;
   @Input()
