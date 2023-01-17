@@ -17,6 +17,7 @@ export default function Parallax({ swiper, extendParams, on }) {
     let y = el.getAttribute('data-swiper-parallax-y');
     const scale = el.getAttribute('data-swiper-parallax-scale');
     const opacity = el.getAttribute('data-swiper-parallax-opacity');
+    const rotate = el.getAttribute('data-swiper-parallax-rotate');
 
     if (x || y) {
       x = x || '0';
@@ -44,12 +45,16 @@ export default function Parallax({ swiper, extendParams, on }) {
       const currentOpacity = opacity - (opacity - 1) * (1 - Math.abs(progress));
       el.style.opacity = currentOpacity;
     }
-    if (typeof scale === 'undefined' || scale === null) {
-      el.style.transform = `translate3d(${x}, ${y}, 0px)`;
-    } else {
+    let transform = `translate3d(${x}, ${y}, 0px)`;
+    if (typeof scale !== 'undefined' && scale !== null) {
       const currentScale = scale - (scale - 1) * (1 - Math.abs(progress));
-      el.style.transform = `translate3d(${x}, ${y}, 0px) scale(${currentScale})`;
+      transform += ` scale(${currentScale})`;
     }
+    if (rotate && typeof rotate !== 'undefined' && rotate !== null) {
+      const currentRotate = rotate * progress * -1;
+      transform += ` rotate(${currentRotate}deg)`;
+    }
+    el.style.transform = transform;
   };
 
   const setTranslate = () => {
@@ -69,7 +74,7 @@ export default function Parallax({ swiper, extendParams, on }) {
       slideProgress = Math.min(Math.max(slideProgress, -1), 1);
       slideEl
         .querySelectorAll(
-          '[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y], [data-swiper-parallax-opacity], [data-swiper-parallax-scale]',
+          '[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y], [data-swiper-parallax-opacity], [data-swiper-parallax-scale], [data-swiper-parallax-rotate]',
         )
         .forEach((subEl) => {
           setTransform(subEl, slideProgress);
