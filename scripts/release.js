@@ -10,6 +10,14 @@ const childPkg = JSON.parse(fs.readFileSync(new URL('../src/copy/package.json', 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 async function release() {
+  const date = new Date();
+  const formatter = new Intl.DateTimeFormat('en', {
+    day: 'numeric',
+    year: 'numeric',
+    month: 'long',
+  });
+  const releaseDate = formatter.format(date);
+
   const options = await inquirer.prompt([
     {
       type: 'input',
@@ -69,6 +77,7 @@ async function release() {
   // Set version
   pkg.version = options.version;
   childPkg.version = options.version;
+  childPkg.releaseDate = releaseDate;
   // Copy dependencies
   childPkg.dependencies = pkg.dependencies;
   fs.writeFileSync(path.resolve(__dirname, '../package.json'), `${JSON.stringify(pkg, null, 2)}\n`);
