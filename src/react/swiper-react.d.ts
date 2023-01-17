@@ -82,8 +82,9 @@ interface SwiperProps
     | 'onKeyPress'
     | 'onDoubleClick'
     | 'onScroll'
+    | 'onResize'
   > {}
-interface SwiperSlideProps extends React.HTMLAttributes<HTMLElement> {}
+interface SwiperSlideProps extends Omit<React.HTMLAttributes<HTMLElement>, 'children'> {}
 
 interface SwiperRef extends React.HTMLAttributes<HTMLElement> {
   swiper: SwiperClass;
