@@ -248,6 +248,10 @@ declare const Swiper: DefineComponent<
       default: undefined;
     };
     loop: { type: BooleanConstructor; default: undefined };
+    loopedSlides: {
+      type: NumberConstructor;
+      default: undefined;
+    };
     rewind: { type: BooleanConstructor; default: undefined };
     allowSlidePrev: {
       type: BooleanConstructor;

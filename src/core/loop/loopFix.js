@@ -37,7 +37,7 @@ export default function loopFix({
     params.slidesPerView === 'auto'
       ? swiper.slidesPerViewDynamic()
       : Math.ceil(parseFloat(params.slidesPerView, 10));
-  let loopedSlides = slidesPerView;
+  let loopedSlides = params.loopedSlides || slidesPerView;
   if (loopedSlides % params.slidesPerGroup !== 0) {
     loopedSlides += params.slidesPerGroup - (loopedSlides % params.slidesPerGroup);
   }

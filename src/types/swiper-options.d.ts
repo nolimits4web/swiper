@@ -588,6 +588,13 @@ export interface SwiperOptions {
   loop?: boolean;
 
   /**
+   * Defines how many slides before end/beginning it should rearrange (loop) slides. If not specified, defaults to `slidesPerView`
+   *
+   * @default null
+   */
+  loopedSlides?: number | null;
+
+  /**
    * Set to `true` to enable "rewind" mode. When enabled, clicking "next" navigation button (or calling `.slideNext()`) when on last slide will slide back to the first slide. Clicking "prev" navigation button (or calling `.slidePrev()`) when on first slide will slide forward to the last slide.
    *
    * @default false

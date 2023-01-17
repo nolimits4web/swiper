@@ -98,6 +98,7 @@ export default {
 
   // loop
   loop: false,
+  loopedSlides: null,
 
   // rewind
   rewind: false,
