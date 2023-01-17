@@ -300,7 +300,12 @@ export default function A11y({ swiper, extendParams, on }) {
 
     // Pagination
     if (hasClickablePagination()) {
-      swiper.pagination.el.addEventListener('keydown', onEnterOrSpaceKey);
+      const paginationEl = Array.isArray(swiper.pagination.el)
+        ? swiper.pagination.el
+        : [swiper.pagination.el];
+      paginationEl.forEach((el) => {
+        el.addEventListener('keydown', onEnterOrSpaceKey);
+      });
     }
 
     // Tab focus
@@ -322,7 +327,12 @@ export default function A11y({ swiper, extendParams, on }) {
 
     // Pagination
     if (hasClickablePagination()) {
-      swiper.pagination.el.off('keydown', onEnterOrSpaceKey);
+      const paginationEl = Array.isArray(swiper.pagination.el)
+        ? swiper.pagination.el
+        : [swiper.pagination.el];
+      paginationEl.forEach((el) => {
+        el.removeEventListener('keydown', onEnterOrSpaceKey);
+      });
     }
 
     // Tab focus
