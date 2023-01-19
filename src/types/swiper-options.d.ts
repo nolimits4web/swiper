@@ -39,6 +39,16 @@ export interface SwiperOptions {
    */
   modules?: SwiperModule[];
   /**
+   * Inject text styles to the shadow DOM. Only for usage with Swiper Element
+   *
+   */
+  injectStyles?: string[];
+  /**
+   * Inject styles `<link>`s to the shadow DOM. Only for usage with Swiper Element
+   *
+   */
+  injectStylesUrls?: string[];
+  /**
    * Whether Swiper should be initialised automatically when you create an instance.
    * If disabled, then you need to init it manually by calling `swiper.init()`
    *

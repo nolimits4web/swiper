@@ -52,12 +52,12 @@ class SwiperContainer extends ClassToExtend {
   cssStyles() {
     return [
       globalInjectStyles ? SwiperCSS : '', // eslint-disable-line
-      ...(this.modulesStyles && Array.isArray(this.modulesStyles) ? this.modulesStyles : []),
+      ...(this.injectStyles && Array.isArray(this.injectStyles) ? this.injectStyles : []),
     ].join('\n');
   }
 
   cssLinks() {
-    return this.modulesStylesUrls || [];
+    return this.injectStylesUrls || [];
   }
 
   render() {
