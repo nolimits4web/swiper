@@ -158,44 +158,51 @@ export default async function buildElement() {
   fs.writeFileSync(path.resolve(outputDir, 'element/swiper-element.js'), esmContent);
 
   // Browser
-  const bundle = await rollup({
-    input: `${outputDir}/element/swiper-element-bundle.js`,
-    plugins: [
-      replace({
-        delimiters: ['', ''],
-        '//SWIPER_STYLES': `const SwiperFontCSS = \`${fontStyles}\`; const SwiperCSS = \`${cssStylesBundle}\`;`,
-        [`import Swiper from 'swiper/bundle';`]: `import Swiper from '../swiper-bundle.esm.js';`,
-        '//BROWSER_REGISTER': `register()`,
-        'export { SwiperContainer, SwiperSlide, register };': ``,
-      }),
-      nodeResolve({ mainFields: ['module', 'main', 'jsnext'], rootDir: './src' }),
-      babel({ babelHelpers: 'bundled' }),
-    ],
-    onwarn() {},
-  });
-  const bundleRes = await bundle.write({
-    format: 'iife',
-    name: 'Swiper',
-    strict: true,
-    banner: banner('Custom Element'),
-    file: `./${outputDir}/swiper-element-bundle.js`,
-  });
+  const browser = async (isBundle) => {
+    const suffix = isBundle ? '-bundle' : '';
+    const bundle = await rollup({
+      input: `${outputDir}/element/swiper-element${suffix}.js`,
+      plugins: [
+        replace({
+          delimiters: ['', ''],
+          '//SWIPER_STYLES': `const SwiperFontCSS = \`${fontStyles}\`; const SwiperCSS = \`${cssStylesBundle}\`;`,
+          [`import Swiper from 'swiper/bundle';`]: `import Swiper from '../swiper-bundle.esm.js';`,
+          [`import Swiper from 'swiper';`]: `import Swiper from '../swiper.esm.js';`,
+          '//BROWSER_REGISTER': `register()`,
+          'export { SwiperContainer, SwiperSlide, register };': ``,
+        }),
+        nodeResolve({ mainFields: ['module', 'main', 'jsnext'], rootDir: './src' }),
+        babel({ babelHelpers: 'bundled' }),
+      ],
+      onwarn() {},
+    });
+    const bundleRes = await bundle.write({
+      format: 'iife',
+      name: 'Swiper',
+      strict: true,
+      banner: banner('Custom Element'),
+      file: `./${outputDir}/swiper-element${suffix}.js`,
+    });
 
-  const result = bundleRes.output[0];
-  const { code, map } = await minify(result.code, {
-    sourceMap: {
-      content: result.map,
-      filename: `swiper-element-bundle.min.js`,
-      url: `swiper-element-bundle.min.js.map`,
-    },
-    output: {
-      preamble: banner('Custom Element'),
-    },
-  }).catch((err) => {
-    console.error(`Terser failed on file swiper-element-bundle: ${err.toString()}`);
-  });
-  fs.writeFileSync(`./${outputDir}/swiper-element-bundle.min.js`, code);
-  fs.writeFileSync(`./${outputDir}/swiper-element-bundle.min.js.map`, map);
+    const result = bundleRes.output[0];
+    const { code, map } = await minify(result.code, {
+      sourceMap: {
+        content: result.map,
+        filename: `swiper-element${suffix}.min.js`,
+        url: `swiper-element${suffix}.min.js.map`,
+      },
+      output: {
+        preamble: banner('Custom Element'),
+      },
+    }).catch((err) => {
+      console.error(`Terser failed on file swiper-element${suffix}: ${err.toString()}`);
+    });
+    fs.writeFileSync(`./${outputDir}/swiper-element${suffix}.min.js`, code);
+    fs.writeFileSync(`./${outputDir}/swiper-element${suffix}.min.js.map`, map);
+  };
+
+  await browser();
+  await browser(true);
 
   addBannerToFile(path.resolve(outputDir, 'element/swiper-element-bundle.js'), 'Custom Element');
   addBannerToFile(path.resolve(outputDir, 'element/swiper-element.js'), 'Custom Element');
