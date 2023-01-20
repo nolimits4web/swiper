@@ -2,8 +2,7 @@ import { SvelteComponentTyped } from 'svelte';
 import { SwiperOptions, Swiper as SwiperClass } from '../types/';
 
 // @ts-ignore
-interface SwiperProps extends svelte.JSX.HTMLAttributes<HTMLElementTagNameMap['div']> {}
-interface SwiperProps extends SwiperOptions {}
+interface SwiperProps extends SwiperOptions, svelte.JSX.HTMLAttributes<HTMLElementTagNameMap['div']> {}
 
 // @ts-ignore
 interface SwiperSlideProps extends svelte.JSX.HTMLAttributes<HTMLElementTagNameMap['div']> {
