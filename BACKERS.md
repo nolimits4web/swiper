@@ -900,6 +900,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 ### \$100 Silver Sponsor
 
 <!-- SILVER_SPONSOR -->
+
 - [Buy Youtube Views](https://buyyoutubviews.com/)
 - [Best Broadband Deals in October 2022 | Broadband.Deals](https://broadband.deals/)
 - [Gamble Online Australia | Best Online Gambling Sites List 2022](https://www.gambleonlineaustralia.com/)
@@ -932,6 +933,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 ### \$50+ Sponsor
 
 <!-- SPONSOR -->
+
 - [SlotsUp™ - Best Online Slots + Casino Reviews](https://www.slotsup.com/)
 - [Buy Instagram Followers UK, 100% Real, Active Likes & Views UK](https://buymorefollowers.uk/)
 - [Best Real Money Online Casinos in India 2023 | Skymet Weather Services](https://www.skymetweather.com/content/lifestyle-and-culture/online-casinos-india/)
@@ -1096,7 +1098,6 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 
 ### \$10+ Supporter
 
-[Ethan Brackstone](https://www.patreon.com/user/creators?u=16947923)<br>
 [Will Myers](https://opencollective.com/will-myers)<br>
 
 [Join here!](https://opencollective.com/swiper/contribute/supporter-23766/checkout)
@@ -1105,13 +1106,10 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 
 ### \$5+ Thank You
 
+[ausmalbildtv.com](https://ausmalbildtv.com)<br>
+
 <!-- https://www.patreon.com/user?u=67523502 -->
 
 [Instagram Services](https://insta4likes.com)<br>
-
-<!-- https://opencollective.com/insta4likes -->
-
-[Instagram likes](https://insta4likes.com/buy-instagram-followers-likes.html)<br>
-[Marcel Schulz](https://opencollective.com/marcel-schulz)<br>
 
 [Join here!](https://opencollective.com/swiper/contribute/thank-you-23765/checkout)
