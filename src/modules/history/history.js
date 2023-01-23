@@ -104,7 +104,12 @@ export default function History({ swiper, extendParams, on }) {
     }
     initialized = true;
     paths = getPathValues(swiper.params.url);
-    if (!paths.key && !paths.value) return;
+    if (!paths.key && !paths.value) {
+      if (!swiper.params.history.replaceState) {
+        window.addEventListener('popstate', setHistoryPopState);
+      }
+      return;
+    }
     scrollToSlide(0, paths.value, swiper.params.runCallbacksOnInit);
     if (!swiper.params.history.replaceState) {
       window.addEventListener('popstate', setHistoryPopState);
