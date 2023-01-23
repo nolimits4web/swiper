@@ -29,7 +29,7 @@ export default function removeSlide(slidesIndexes) {
     swiper.loopCreate();
   }
 
-  if (!params.observer) {
+  if (!params.observer || swiper.isElement) {
     swiper.update();
   }
   if (params.loop) {
