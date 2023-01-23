@@ -26,19 +26,20 @@ const proceedReplacements = (content) => {
       const lineSplitted = line.replace('{', '').replace(',', '').trim().split(' ');
       if (
         (lineSplitted.length > 1 &&
-          lineSplitted.filter((part) => part.includes('.swiper-wrapper')).length > 0) ||
+          lineSplitted.filter((part) => part.includes('.swiper-wrapper')).length > 0 &&
+          !line.includes('.swiper-wrapper > .swiper-slide')) ||
         line.includes(
           `.swiper-rtl .swiper-pagination-progressbar .swiper-pagination-progressbar-fill`,
         )
       ) {
         const newRule = [...lineSplitted];
         return line.replace(newRule[0], `:host(${newRule[0]})`);
-        // newRule[0] = `:host(${newRule[0]})`;
-        // return `${newRule.join(' ')},\n${line}`;
       }
       return line;
     })
     .join('\n');
+  // add replacement for RTL
+  content = content.replace(/.swiper-rtl .swiper-button/g, ':host(.swiper-rtl) .swiper-button');
   // add/replace .swiper-slide to swiper-slide
   content = content
     .split('\n')
