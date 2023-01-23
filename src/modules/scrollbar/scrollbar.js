@@ -246,7 +246,7 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     }
     if (typeof el === 'string') {
       el = document.querySelectorAll(params.el);
-    } else {
+    } else if (!el) {
       el = params.el;
     }
 
