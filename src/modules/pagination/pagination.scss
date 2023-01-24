@@ -3,7 +3,11 @@
   :root {
     /*
   --swiper-pagination-color: var(--swiper-theme-color);
-  --swiper-pagination-offset: 10px;
+  --swiper-pagination-left: auto;
+  --swiper-pagination-right: 8px;
+  --swiper-pagination-bottom: 8px;
+  --swiper-pagination-top: auto;
+  --swiper-pagination-fraction-color: inherit;
   --swiper-pagination-progressbar-bg-color: rgba(0,0,0,0.25);
   --swiper-pagination-progressbar-size: 4px;
   --swiper-pagination-bullet-size: 8px;
@@ -36,7 +40,8 @@
 .swiper-pagination-custom,
 .swiper-horizontal > .swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal {
-  bottom: var(--swiper-pagination-offset, 10px);
+  bottom: var(--swiper-pagination-bottom, 8px);
+  top: var(--swiper-pagination-top, auto);
   left: 0;
   width: 100%;
 }
@@ -96,7 +101,8 @@
 
 .swiper-vertical > .swiper-pagination-bullets,
 .swiper-pagination-vertical.swiper-pagination-bullets {
-  right: var(--swiper-pagination-offset, 10px);
+  right: var(--swiper-pagination-right, 8px);
+  left: var(--swiper-pagination-left, auto);
   top: 50%;
   transform: translate3d(0px, -50%, 0);
   .swiper-pagination-bullet {
@@ -130,6 +136,10 @@
 .swiper-horizontal.swiper-rtl > .swiper-pagination-bullets-dynamic .swiper-pagination-bullet,
 :host(.swiper-horizontal.swiper-rtl) .swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
   transition: 200ms transform, 200ms right;
+}
+/* Fraction */
+.swiper-pagination-fraction {
+  color: var(--swiper-pagination-fraction-color, inherit);
 }
 /* Progress */
 .swiper-pagination-progressbar {
