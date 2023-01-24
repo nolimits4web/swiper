@@ -3,7 +3,8 @@
   :root {
     --swiper-navigation-size: 44px;
     /*
-  --swiper-navigation-color: var(--swiper-theme-color);
+  --swiper-navigation-top-offset: 50%;
+  --swiper-navigation-sides-offset: 10px;
   --swiper-navigation-color: var(--swiper-theme-color);
   */
   }
@@ -11,7 +12,7 @@
 .swiper-button-prev,
 .swiper-button-next {
   position: absolute;
-  top: 50%;
+  top: var(--swiper-navigation-top-offset, 50%);
   width: calc(var(--swiper-navigation-size) / 44 * 27);
   height: var(--swiper-navigation-size);
   margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
@@ -48,7 +49,7 @@
   &:after {
     content: 'prev';
   }
-  left: var(--swiper-navigation-offset, 10px);
+  left: var(--swiper-navigation-sides-offset, 10px);
   right: auto;
 }
 .swiper-button-next,
@@ -56,7 +57,7 @@
   &:after {
     content: 'next';
   }
-  right: var(--swiper-navigation-offset, 10px);
+  right: var(--swiper-navigation-sides-offset, 10px);
   left: auto;
 }
 .swiper-button-lock {
