@@ -30,6 +30,7 @@ import checkOverflow from './check-overflow/index.js';
 
 import defaults from './defaults.js';
 import moduleExtendParams from './moduleExtendParams.js';
+import { processLazyPreloader } from '../shared/process-lazy-preloader.js';
 
 const prototypes = {
   eventsEmitter,
@@ -349,6 +350,13 @@ class Swiper {
     if (params.breakpoints) {
       swiper.setBreakpoint();
     }
+
+    [...swiper.el.querySelectorAll('loading="lazy"')].forEach((imageEl) => {
+      if (imageEl.complete) {
+        processLazyPreloader(swiper, imageEl);
+      }
+    });
+
     swiper.updateSize();
     swiper.updateSlides();
     swiper.updateProgress();
@@ -548,6 +556,12 @@ class Swiper {
 
     // Attach events
     swiper.attachEvents();
+
+    [...swiper.el.querySelectorAll('loading="lazy"')].forEach((imageEl) => {
+      if (imageEl.complete) {
+        processLazyPreloader(swiper, imageEl);
+      }
+    });
 
     // Init Flag
     swiper.initialized = true;
