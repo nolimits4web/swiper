@@ -351,7 +351,7 @@ class Swiper {
       swiper.setBreakpoint();
     }
 
-    [...swiper.el.querySelectorAll('loading="lazy"')].forEach((imageEl) => {
+    [...swiper.el.querySelectorAll('[loading="lazy"]')].forEach((imageEl) => {
       if (imageEl.complete) {
         processLazyPreloader(swiper, imageEl);
       }
@@ -557,7 +557,7 @@ class Swiper {
     // Attach events
     swiper.attachEvents();
 
-    [...swiper.el.querySelectorAll('loading="lazy"')].forEach((imageEl) => {
+    [...swiper.el.querySelectorAll('[loading="lazy"]')].forEach((imageEl) => {
       if (imageEl.complete) {
         processLazyPreloader(swiper, imageEl);
       } else {
