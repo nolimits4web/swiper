@@ -560,6 +560,10 @@ class Swiper {
     [...swiper.el.querySelectorAll('loading="lazy"')].forEach((imageEl) => {
       if (imageEl.complete) {
         processLazyPreloader(swiper, imageEl);
+      } else {
+        imageEl.addEventListener('load', (e) => {
+          processLazyPreloader(swiper, e.target);
+        });
       }
     });
 
