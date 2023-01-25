@@ -904,6 +904,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 ### \$100 Silver Sponsor
 
 <!-- SILVER_SPONSOR -->
+
 - [Buy Youtube Views](https://buyyoutubviews.com/)
 - [Best Broadband Deals in October 2022 | Broadband.Deals](https://broadband.deals/)
 - [Gamble Online Australia | Best Online Gambling Sites List 2022](https://www.gambleonlineaustralia.com/)
@@ -936,6 +937,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 ### \$50+ Sponsor
 
 <!-- SPONSOR -->
+
 - [Software Development Company | GoodCore Developers London, UK](https://www.goodcore.co.uk/)
 - [SlotsUp™ - Best Online Slots + Casino Reviews](https://www.slotsup.com/)
 - [Buy Instagram Followers UK, 100% Real, Active Likes & Views UK](https://buymorefollowers.uk/)
@@ -1110,6 +1112,10 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 ### \$5+ Thank You
 
 [ausmalbildtv.com](https://ausmalbildtv.com)<br>
+
+<!-- https://opencollective.com/fresh-engagements -->
+
+[Fresh Engagements](https://freshengagements.com/)<br>
 
 <!-- https://www.patreon.com/user?u=67523502 -->
 
