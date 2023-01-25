@@ -247,7 +247,7 @@ export interface SwiperOptions {
    *
    * This is what is not supported when it is enabled:
    *
-   * - Cube and Cards effects
+   * - Cube effect
    * - `speed` parameter may not have no effect
    * - All transition start/end related events (use `slideChange` instead)
    * - `slidesPerGroup` has limited support
@@ -256,6 +256,29 @@ export interface SwiperOptions {
    * - `allowSlidePrev/Next`
    * - `swipeHandler`
    * - `freeMode` and all relevant features
+   *
+   * In case if you use it with other effects, especially 3D effects, it is required to wrap slide's content with `<div class="swiper-slide-transform">` element. And if you use any custom styles on slides (like background colors, border radius, border, etc.), they should be set on `swiper-slide-transform` element instead.
+   *
+   * * @example
+   * ```html
+   * <div class="swiper">
+   *   <div class="swiper-wrapper">
+   *     <div class="swiper-slide">
+   *       <!-- wrap slide content with transform element -->
+   *       <div class="swiper-slide">
+   *         ... slide content ...
+   *       </div>
+   *     </div>
+   *     ...
+   *   </div>
+   * </div>
+   * <script>
+   * const swiper = new Swiper('.swiper', {
+   *    effect: 'flip',
+   *    cssMode: true,
+   *  });
+   * </script>
+   * ```
    *
    * @default false
    */
