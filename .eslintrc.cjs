@@ -20,6 +20,7 @@ const rules = {
   'import/no-unresolved': [2, { ignore: ['ssr-window', 'dom7', 'swiper'] }],
 };
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es6: true,
