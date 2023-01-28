@@ -1,5 +1,12 @@
 # Changelog
 
+# [8.4.6](https://github.com/nolimits4web/Swiper/compare/v8.4.5...v8.4.6) (2023-01-17)
+
+### Features
+
+- add swipeDirection ([#6290](https://github.com/nolimits4web/Swiper/issues/6290)) ([3774a64](https://github.com/nolimits4web/Swiper/commit/3774a64b2a5922378573f5007d87eaba72e74ecc))
+- **angular:** slidesPerGroupAuto ([#6243](https://github.com/nolimits4web/Swiper/issues/6243)) ([750f41c](https://github.com/nolimits4web/Swiper/commit/750f41c01e255a088cd6e47d79e55aadf995830c))
+
 # [8.4.5](https://github.com/nolimits4web/Swiper/compare/v8.4.4...v8.4.5) (2022-11-21)
 
 ### Bug Fixes
