@@ -29,6 +29,7 @@ const Swiper = {
     modules: { type: Array, default: undefined },
     init: { type: Boolean, default: undefined },
     direction: { type: String, default: undefined },
+    oneWayMovement: { type: Boolean, default: undefined },
     touchEventsTarget: { type: String, default: undefined },
     initialSlide: { type: Number, default: undefined },
     speed: { type: Number, default: undefined },

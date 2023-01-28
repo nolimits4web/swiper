@@ -131,6 +131,11 @@ export default function onTouchMove(event) {
   let touchesDiff = swiper.isHorizontal()
     ? touches.currentX - touches.previousX
     : touches.currentY - touches.previousY;
+
+  if (params.oneWayMovement) {
+    diff = Math.abs(diff) * (rtl ? 1 : -1);
+    touchesDiff = Math.abs(touchesDiff) * (rtl ? 1 : -1);
+  }
   touches.diff = diff;
 
   diff *= params.touchRatio;

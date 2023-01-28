@@ -92,6 +92,14 @@ export interface SwiperOptions {
   direction?: 'horizontal' | 'vertical';
 
   /**
+   * When enabled, will swipe slides only forward (one-way) regardless of swipe direction
+   *
+   * @default false
+   */
+
+  oneWayMovement?: boolean;
+
+  /**
    * Duration of transition between slides (in ms)
    *
    * @default 300

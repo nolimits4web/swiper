@@ -3,6 +3,7 @@ const paramsList = [
   'modules',
   'init',
   '_direction',
+  'oneWayMovement',
   'touchEventsTarget',
   'initialSlide',
   '_speed',
