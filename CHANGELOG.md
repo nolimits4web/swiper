@@ -1,5 +1,11 @@
 # Changelog
 
+# [8.4.7](https://github.com/nolimits4web/Swiper/compare/v8.4.6...v8.4.7) (2023-01-30)
+
+### Bug Fixes
+
+- **svelte:** autoplay options typescript problem ([#6294](https://github.com/nolimits4web/Swiper/issues/6294)) ([3317f5e](https://github.com/nolimits4web/Swiper/commit/3317f5e63a7b3d9f23809c00807b6584c390139c))
+
 # [8.4.6](https://github.com/nolimits4web/Swiper/compare/v8.4.5...v8.4.6) (2023-01-17)
 
 ### Features
