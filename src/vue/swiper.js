@@ -88,6 +88,7 @@ const Swiper = {
     slideToClickedSlide: { type: Boolean, default: undefined },
     loop: { type: Boolean, default: undefined },
     loopedSlides: { type: Number, default: undefined },
+    loopPreventsSliding: { type: Boolean, default: undefined },
     rewind: { type: Boolean, default: undefined },
     allowSlidePrev: { type: Boolean, default: undefined },
     allowSlideNext: { type: Boolean, default: undefined },

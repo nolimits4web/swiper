@@ -636,6 +636,13 @@ export interface SwiperOptions {
   loopedSlides?: number | null;
 
   /**
+   * If enabled then slideNext/Prev will do nothing while slider is animating in loop mode
+   *
+   * @default true
+   */
+  loopPreventsSliding?: boolean;
+
+  /**
    * Set to `true` to enable "rewind" mode. When enabled, clicking "next" navigation button (or calling `.slideNext()`) when on last slide will slide back to the first slide. Clicking "prev" navigation button (or calling `.slidePrev()`) when on first slide will slide forward to the last slide.
    *
    * @default false

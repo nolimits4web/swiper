@@ -100,6 +100,7 @@ export default {
   // loop
   loop: false,
   loopedSlides: null,
+  loopPreventsSliding: true,
 
   // rewind
   rewind: false,

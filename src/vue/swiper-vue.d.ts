@@ -256,6 +256,7 @@ declare const Swiper: DefineComponent<
       type: NumberConstructor;
       default: undefined;
     };
+    loopPreventsSliding: { type: BooleanConstructor; default: undefined };
     rewind: { type: BooleanConstructor; default: undefined };
     allowSlidePrev: {
       type: BooleanConstructor;
