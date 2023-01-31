@@ -2,6 +2,54 @@
 
 # 9.0.0 (WIP)
 
+#### Core
+
+- new `oneWayMovement` parameter
+- removed Dom7 dependency
+- all new Loop mode without slides duplication
+- removed images loading functionality: `preloadImages`, `updateOnImagesReady` parameters
+
+#### Frameworks
+
+- all new Swiper Element (WebComponent)
+- removed Swiper Solid components (in favor of Swiper WebComponent)
+- removed Swiper Angular components (in favor of Swiper WebComponent)
+- removed Swiper Svelte components (in favor of Swiper WebComponent)
+
+#### Autoplay
+
+- all new autoplay module
+
+#### Controller
+
+- now `controller.control` parameter also accepts HTMLElement or CSS string with the selector of swiper to control
+
+#### Lazy
+
+- Lazy module has been moved to core and simplified in favor of native loading="lazy"
+
+#### Navigation
+
+- more CSS variables to control appearance and position
+
+#### Parallax
+
+- support parallax `rotate`
+
+#### Thumbs
+
+- now `thumbs.swiper` parameter also accepts HTMLElement or CSS string with the selector of thumbs swiper
+
+#### Virtual Slides
+
+- added support for loop mode
+- improved performance
+- will work now with slides initially rendered in DOM
+
+#### Zoom
+
+- `swiper.zoom.in(ratio)` method now accepts custom zoom ratio
+
 ### Features
 
 - **core:** new `oneWayMovement` parameter ([ce2ea7f](https://github.com/nolimits4web/Swiper/commit/ce2ea7f4e78cab924c7a6cf3b07c899d8834c201))
