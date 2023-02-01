@@ -1,6 +1,6 @@
 # Changelog
 
-# 9.0.0 (WIP)
+# [9.0.0](https://github.com/nolimits4web/Swiper/compare/v8.4.7...v9.0.0) (2023-02-01)
 
 #### Core
 
@@ -52,6 +52,8 @@
 
 ### Features
 
+* add `wrapperClass` to swiper-wrapper in React & Vue components ([7aaa0d1](https://github.com/nolimits4web/Swiper/commit/7aaa0d1af8a8ba84540563b3ed450885d6905e95)), closes [#6254](https://github.com/nolimits4web/Swiper/issues/6254) [#5942](https://github.com/nolimits4web/Swiper/issues/5942)
+* **core:** add `loopPreventsSliding` parameter ([6533890](https://github.com/nolimits4web/Swiper/commit/6533890699a5f0fbfa4b3c688fe9fc4139bf6e84))
 - **core:** new `oneWayMovement` parameter ([ce2ea7f](https://github.com/nolimits4web/Swiper/commit/ce2ea7f4e78cab924c7a6cf3b07c899d8834c201))
 - **navigation:** more CSS variables to control appearance and position ([6db9439](https://github.com/nolimits4web/Swiper/commit/6db943971772cab4e9943ff853039cff4ae65e51))
 - **pagination:** more CSS variables to control appearance and position ([c8b1228](https://github.com/nolimits4web/Swiper/commit/c8b1228397513745cdec7b2f4577be59da58b4df))
@@ -99,7 +101,7 @@
 - remove Swiper Svelte components ([52433ac](https://github.com/nolimits4web/Swiper/commit/52433ac17822da87bac3effd64a5e2face9fbca7))
 
 ### Bug Fixes
-
+* **effect-cube:** fix for iOS 16.2 fixed perspective ([2f5ed48](https://github.com/nolimits4web/Swiper/commit/2f5ed481b721bc2cfbb3ac1a144b723fb1452215)), closes [#6293](https://github.com/nolimits4web/Swiper/issues/6293)
 - **history:** fix handling `popstate` on init ([483534f](https://github.com/nolimits4web/Swiper/commit/483534f9d05bf353ea26c7597d7e2e4283efce02))
 - **core:** make isBeginning and isEnd true when translate is less than 1px diff ([b2313d5](https://github.com/nolimits4web/Swiper/commit/b2313d5f0496af4f28661493cb01376613e18719)), closes [#6287](https://github.com/nolimits4web/Swiper/issues/6287)
 - **react:** fix React 18 compat types ([4c916d4](https://github.com/nolimits4web/Swiper/commit/4c916d474332d399bb784b4874aa38deb865580f)), closes [#5799](https://github.com/nolimits4web/Swiper/issues/5799)
