@@ -8,6 +8,7 @@ import {
   needsPagination,
   uniqueClasses,
   extend,
+  wrapperClass,
 } from '../components-shared/utils.js';
 import { getChangedParams } from '../components-shared/get-changed-params.js';
 import { getChildren } from './get-children.js';
@@ -261,7 +262,9 @@ const Swiper = {
     });
 
     // init Swiper
-    swiperRef.value = new SwiperCore(swiperParams);
+    const passParams = { ...swiperParams };
+    delete passParams.wrapperClass;
+    swiperRef.value = new SwiperCore(passParams);
     if (swiperRef.value.virtual && swiperRef.value.params.virtual.enabled) {
       swiperRef.value.virtual.slides = slidesRef.value;
       const extendWith = {
@@ -368,7 +371,7 @@ const Swiper = {
         },
         [
           slots['container-start'],
-          h(WrapperTag, { class: 'swiper-wrapper' }, [
+          h(WrapperTag, { class: wrapperClass(swiperParams.wrapperClass) }, [
             slots['wrapper-start'],
             renderSlides(slides),
             slots['wrapper-end'],

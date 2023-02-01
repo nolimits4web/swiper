@@ -10,7 +10,9 @@ function updateSwiper({
   scrollbarEl,
   paginationEl,
 }) {
-  const updateParams = changedParams.filter((key) => key !== 'children' && key !== 'direction');
+  const updateParams = changedParams.filter(
+    (key) => key !== 'children' && key !== 'direction' && key !== 'wrapperClass',
+  );
   const { params: currentParams, pagination, navigation, scrollbar, virtual, thumbs } = swiper;
   let needThumbsInit;
   let needControllerInit;
