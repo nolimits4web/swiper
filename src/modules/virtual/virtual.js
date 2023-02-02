@@ -1,3 +1,4 @@
+import { getDocument } from 'ssr-window';
 import { createElement, elementChildren, setCSSProperty } from '../../shared/utils.js';
 
 export default function Virtual({ swiper, extendParams, on, emit }) {
@@ -15,6 +16,7 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
   });
 
   let cssModeTimeout;
+  const document = getDocument();
 
   swiper.virtual = {
     cache: {},
