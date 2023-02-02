@@ -24,7 +24,8 @@ export default function setBreakpoint() {
 
   if (wasMultiRow && !isMultiRow) {
     el.classList.remove(
-      `${params.containerModifierClass}grid ${params.containerModifierClass}grid-column`,
+      `${params.containerModifierClass}grid`,
+      `${params.containerModifierClass}grid-column`,
     );
     swiper.emitContainerClasses();
   } else if (!wasMultiRow && isMultiRow) {
