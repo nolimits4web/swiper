@@ -282,6 +282,7 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
         delta: Math.abs(delta),
         direction: Math.sign(delta),
       };
+
       const ignoreWheelEvents =
         lastEventBeforeSnap &&
         newEvent.time < lastEventBeforeSnap.time + 500 &&
@@ -290,9 +291,6 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
       if (!ignoreWheelEvents) {
         lastEventBeforeSnap = undefined;
 
-        if (swiper.params.loop) {
-          swiper.loopFix();
-        }
         let position = swiper.getTranslate() + delta * params.sensitivity;
         const wasBeginning = swiper.isBeginning;
         const wasEnd = swiper.isEnd;
@@ -308,6 +306,12 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
 
         if ((!wasBeginning && swiper.isBeginning) || (!wasEnd && swiper.isEnd)) {
           swiper.updateSlidesClasses();
+        }
+        if (swiper.params.loop) {
+          swiper.loopFix({
+            direction: newEvent.direction < 0 ? 'next' : 'prev',
+            byMousewheel: true,
+          });
         }
 
         if (swiper.params.freeMode.sticky) {

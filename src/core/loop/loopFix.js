@@ -7,6 +7,7 @@ export default function loopFix({
   setTranslate,
   activeSlideIndex,
   byController,
+  byMousewheel,
 } = {}) {
   const swiper = this;
   if (!swiper.params.loop) return;
@@ -97,10 +98,13 @@ export default function loopFix({
         const currentSlideTranslate = swiper.slidesGrid[activeIndex];
         const newSlideTranslate = swiper.slidesGrid[activeIndex + slidesPrepended];
         const diff = newSlideTranslate - currentSlideTranslate;
-
-        swiper.slideTo(activeIndex + slidesPrepended, 0, false, true);
-        if (setTranslate) {
-          swiper.touches[swiper.isHorizontal() ? 'startX' : 'startY'] += diff;
+        if (byMousewheel) {
+          swiper.setTranslate(swiper.translate - diff);
+        } else {
+          swiper.slideTo(activeIndex + slidesPrepended, 0, false, true);
+          if (setTranslate) {
+            swiper.touches[swiper.isHorizontal() ? 'startX' : 'startY'] += diff;
+          }
         }
       } else {
         if (setTranslate) {
@@ -112,10 +116,13 @@ export default function loopFix({
         const currentSlideTranslate = swiper.slidesGrid[activeIndex];
         const newSlideTranslate = swiper.slidesGrid[activeIndex - slidesAppended];
         const diff = newSlideTranslate - currentSlideTranslate;
-
-        swiper.slideTo(activeIndex - slidesAppended, 0, false, true);
-        if (setTranslate) {
-          swiper.touches[swiper.isHorizontal() ? 'startX' : 'startY'] += diff;
+        if (byMousewheel) {
+          swiper.setTranslate(swiper.translate - diff);
+        } else {
+          swiper.slideTo(activeIndex - slidesAppended, 0, false, true);
+          if (setTranslate) {
+            swiper.touches[swiper.isHorizontal() ? 'startX' : 'startY'] += diff;
+          }
         }
       } else {
         swiper.slideToLoop(slideRealIndex, 0, false, true);
