@@ -301,7 +301,7 @@ export interface SwiperOptions {
    *
    * @note If you use "margin" css property to the elements which go into Swiper in which you pass "spaceBetween" into, navigation might not work properly.
    */
-  spaceBetween?: number;
+  spaceBetween?: number | string;
 
   /**
    * Number of slides per view (slides visible at the same time on slider's container).

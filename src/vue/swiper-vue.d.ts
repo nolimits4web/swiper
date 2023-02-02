@@ -111,7 +111,7 @@ declare const Swiper: DefineComponent<
       default: undefined;
     };
     spaceBetween: {
-      type: NumberConstructor;
+      type: PropType<SwiperOptions['spaceBetween']>;
       default: undefined;
     };
     slidesPerView: {

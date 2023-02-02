@@ -51,7 +51,7 @@ const Swiper = {
     virtualTranslate: { type: Boolean, default: undefined },
     effect: { type: String, default: undefined },
     breakpoints: { type: Object, default: undefined },
-    spaceBetween: { type: Number, default: undefined },
+    spaceBetween: { type: [Number, String], default: undefined },
     slidesPerView: { type: [Number, String], default: undefined },
     maxBackfaceHiddenSlides: { type: Number, default: undefined },
     slidesPerGroup: { type: Number, default: undefined },
