@@ -148,6 +148,7 @@ const Swiper = {
     'autoplayStop',
     'autoplayPause',
     'autoplayResume',
+    'autoplayTimeLeft',
     'beforeDestroy',
     'beforeInit',
     'beforeLoopFix',
