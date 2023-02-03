@@ -1,5 +1,13 @@
 # Changelog
 
+# [9.0.2](https://github.com/nolimits4web/Swiper/compare/v9.0.1...v9.0.2) (2023-02-03)
+
+### Bug Fixes
+
+- **core:** fixed loop behavior in free mode with mousewheel ([336d908](https://github.com/nolimits4web/Swiper/commit/336d90836284e670018de2caaf2a7f37ac2de2ec)), closes [#6323](https://github.com/nolimits4web/Swiper/issues/6323)
+- **types:** `spaceBetween` can also be a string ([446fb06](https://github.com/nolimits4web/Swiper/commit/446fb068a080e3a774e79606cd51c52afb7e52de)), closes [#6286](https://github.com/nolimits4web/Swiper/issues/6286)
+- **vue:** declaration for `autoplayTimeLeft` event ([8467397](https://github.com/nolimits4web/Swiper/commit/846739705f8bdaa5423a2b24b0c9d42936db4999)), closes [#6333](https://github.com/nolimits4web/Swiper/issues/6333)
+
 # [9.0.1](https://github.com/nolimits4web/Swiper/compare/v9.0.0...v9.0.1) (2023-02-02)
 
 ### Bug Fixes
