@@ -148,8 +148,7 @@ export default function onTouchMove(event) {
   swiper.swipeDirection = diff > 0 ? 'prev' : 'next';
   swiper.touchesDirection = touchesDiff > 0 ? 'prev' : 'next';
 
-  const isLoop =
-    swiper.params.loop && !(swiper.virtual && swiper.params.virtual.enabled) && !params.cssMode;
+  const isLoop = swiper.params.loop && !params.cssMode;
 
   if (!data.isMoved) {
     if (isLoop) {
