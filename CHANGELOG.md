@@ -1,5 +1,19 @@
 # Changelog
 
+# [9.0.3](https://github.com/nolimits4web/Swiper/compare/v9.0.2...v9.0.3) (2023-02-06)
+
+### Bug Fixes
+
+- **core:** don't proceed lazy if swiper destroyed ([4ea0102](https://github.com/nolimits4web/Swiper/commit/4ea0102cfda0be6de5757381b6c0e2aa2649a4e8)), closes [#6322](https://github.com/nolimits4web/Swiper/issues/6322)
+- **core:** fix loop handling with virtual ([69462d2](https://github.com/nolimits4web/Swiper/commit/69462d29e1514b687187b96b5cd2be80362860d9)), closes [#6343](https://github.com/nolimits4web/Swiper/issues/6343)
+- **element:** fix converting boolean/string params to module object ([192e0d4](https://github.com/nolimits4web/Swiper/commit/192e0d4d104705685117cb8cfba8f54f025c7d85)), closes [#6328](https://github.com/nolimits4web/Swiper/issues/6328)
+- **navigation:** allow multiple classes in navigation options ([#6345](https://github.com/nolimits4web/Swiper/issues/6345)) ([ca49b9f](https://github.com/nolimits4web/Swiper/commit/ca49b9f6decc8a678fb47cedb9d9d0c1d03a0d26)), closes [#6344](https://github.com/nolimits4web/Swiper/issues/6344)
+- **thumbs:** ensure there is a slide to add a class ([c6294ad](https://github.com/nolimits4web/Swiper/commit/c6294ada6fd31c840bb3cf8f842ff7ff4ae32bba)), closes [#6335](https://github.com/nolimits4web/Swiper/issues/6335)
+
+### Features
+
+- **history:** allow empty string `key` ([a335b09](https://github.com/nolimits4web/Swiper/commit/a335b09d4048d84d182fe94fd50cb9651ebbb8dd)), closes [#6338](https://github.com/nolimits4web/Swiper/issues/6338)
+
 # [9.0.2](https://github.com/nolimits4web/Swiper/compare/v9.0.1...v9.0.2) (2023-02-03)
 
 ### Bug Fixes
