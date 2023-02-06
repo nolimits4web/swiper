@@ -70,6 +70,9 @@ function getParams(element) {
       if (!allowedParams.includes(name)) return;
       const value = formatValue(attr.value);
       if (passedParams[name] && modulesParamsList.includes(attr.name)) {
+        if (passedParams[name].constructor !== Object) {
+          passedParams[name] = {};
+        }
         passedParams[name].enabled = value;
       } else {
         passedParams[name] = value;
