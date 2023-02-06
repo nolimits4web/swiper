@@ -56,9 +56,9 @@ export default function History({ swiper, extendParams, on }) {
     if (swiper.params.history.root.length > 0) {
       let root = swiper.params.history.root;
       if (root[root.length - 1] === '/') root = root.slice(0, root.length - 1);
-      value = `${root}/${key}/${value}`;
+      value = `${root}/${key ? `${key}/` : ''}${value}`;
     } else if (!location.pathname.includes(key)) {
-      value = `${key}/${value}`;
+      value = `${key ? `${key}/` : ''}${value}`;
     }
     if (swiper.params.history.keepQuery) {
       value += location.search;
