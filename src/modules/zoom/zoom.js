@@ -85,6 +85,16 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     return distance;
   }
 
+  function getScaleOrigin() {
+    if (evCache.length < 2) return { x: null, y: null };
+    const box = gesture.imageEl.getBoundingClientRect();
+    return [
+      (evCache[0].pageX + (evCache[1].pageX - evCache[0].pageX) / 2 - box.x) / currentScale,
+
+      (evCache[0].pageY + (evCache[1].pageY - evCache[0].pageY) / 2 - box.y) / currentScale,
+    ];
+  }
+
   function getSlideSelector() {
     return swiper.isElement ? `swiper-slide` : `.${swiper.params.slideClass}`;
   }
@@ -120,6 +130,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     }
     fakeGestureTouched = true;
     gesture.scaleStart = getDistanceBetweenTouches();
+
     if (!gesture.slideEl) {
       gesture.slideEl = e.target.closest(`.${swiper.params.slideClass}, swiper-slide`);
       if (!gesture.slideEl) gesture.slideEl = swiper.slides[swiper.activeIndex];
@@ -143,6 +154,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       gesture.maxRatio = gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
     }
     if (gesture.imageEl) {
+      const [originX, originY] = getScaleOrigin();
+      gesture.imageEl.style.transformOrigin = `${originX}px ${originY}px`;
       gesture.imageEl.style.transitionDuration = '0ms';
     }
     isScaling = true;
@@ -176,6 +189,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
   }
   function onGestureEnd(e) {
     if (!eventWithinSlide(e)) return;
+
     const params = swiper.params.zoom;
     const zoom = swiper.zoom;
     const pointerIndex = evCache.findIndex((cachedEv) => cachedEv.pointerId === e.pointerId);
@@ -183,9 +197,11 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     if (!fakeGestureTouched || !fakeGestureMoved) {
       return;
     }
+
     fakeGestureTouched = false;
     fakeGestureMoved = false;
-    if (!gesture.imageE) return;
+    if (!gesture.imageEl) return;
+
     zoom.scale = Math.max(Math.min(zoom.scale, gesture.maxRatio), params.minRatio);
     gesture.imageEl.style.transitionDuration = `${swiper.params.speed}ms`;
     gesture.imageEl.style.transform = `translate3d(0,0,0) scale(${zoom.scale})`;
@@ -345,7 +361,6 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
 
       zoom.scale = 1;
       currentScale = 1;
-
       gesture.slideEl = undefined;
       gesture.imageEl = undefined;
       gesture.imageWrapEl = undefined;
