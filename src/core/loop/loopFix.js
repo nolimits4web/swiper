@@ -69,7 +69,8 @@ export default function loopFix({
       const index = i - Math.floor(i / slides.length) * slides.length;
       prependSlidesIndexes.push(slides.length - index - 1);
     }
-  } else if (activeSlideIndex /* + slidesPerView */ > swiper.slides.length - loopedSlides * 2) {
+  }
+  if (activeSlideIndex /* + slidesPerView */ > swiper.slides.length - loopedSlides * 2) {
     slidesAppended = activeSlideIndex - (swiper.slides.length - loopedSlides * 2);
     for (let i = 0; i < slidesAppended; i += 1) {
       const index = i - Math.floor(i / slides.length) * slides.length;
