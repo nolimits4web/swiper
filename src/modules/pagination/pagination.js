@@ -71,10 +71,12 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
   }
 
   function onBulletClick(e) {
-    const isBullet = e.target.matches(classesToSelector(swiper.params.pagination.bulletClass));
-    if (!isBullet) return;
+    const bulletEl = e.target.closest(classesToSelector(swiper.params.pagination.bulletClass));
+    if (!bulletEl) {
+      return;
+    }
     e.preventDefault();
-    const index = elementIndex(e.target) * swiper.params.slidesPerGroup;
+    const index = elementIndex(bulletEl) * swiper.params.slidesPerGroup;
     if (swiper.params.loop) {
       swiper.slideToLoop(index);
     } else {
