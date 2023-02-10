@@ -293,7 +293,9 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     if (!swiper.params.virtual.enabled) return;
     let domSlidesAssigned;
     if (typeof swiper.passedParams.virtual.slides === 'undefined') {
-      const slides = swiper.slidesEl.querySelectorAll(`.${swiper.params.slideClass}, swiper-slide`);
+      const slides = [...swiper.slidesEl.children].filter((el) =>
+        el.matches(`.${swiper.params.slideClass}, swiper-slide`),
+      );
       if (slides && slides.length) {
         swiper.virtual.slides = [...slides];
         domSlidesAssigned = true;
