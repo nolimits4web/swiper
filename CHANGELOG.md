@@ -1,5 +1,14 @@
 # Changelog
 
+# [9.0.4](https://github.com/nolimits4web/Swiper/compare/v9.0.3...v9.0.4) (2023-02-10)
+
+### Bug Fixes
+
+- **autoplay:** fixing autoplay undefined error ([#6366](https://github.com/nolimits4web/Swiper/issues/6366)) ([f2a0572](https://github.com/nolimits4web/Swiper/commit/f2a0572ba72d6740bc30c7295ced205f56b8cb5f))
+- **pagination:** fix pagination bullets children clicks ([8bcff39](https://github.com/nolimits4web/Swiper/commit/8bcff39651e511385d2371c5c1ac5e387d19251b)), closes [#6361](https://github.com/nolimits4web/Swiper/issues/6361)
+- **virtual:** grab DOM slides only from wrapper children ([d59183d](https://github.com/nolimits4web/Swiper/commit/d59183db9cfa6710f7739dada484747a782f9213))
+- **zoom:** fix gesture scale origin ([c89b2dd](https://github.com/nolimits4web/Swiper/commit/c89b2dd3011623fe8f0f57ed44adb6438fb040e7)), closes [#6371](https://github.com/nolimits4web/Swiper/issues/6371)
+
 # [9.0.3](https://github.com/nolimits4web/Swiper/compare/v9.0.2...v9.0.3) (2023-02-06)
 
 ### Bug Fixes
