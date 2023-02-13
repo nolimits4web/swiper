@@ -264,7 +264,7 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
 
     let dragEl;
     if (el) {
-      el.querySelector(`.${swiper.params.scrollbar.dragClass}`);
+      dragEl = el.querySelector(`.${swiper.params.scrollbar.dragClass}`);
       if (!dragEl) {
         dragEl = createElement('div', swiper.params.scrollbar.dragClass);
         el.append(dragEl);
