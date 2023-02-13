@@ -1,5 +1,11 @@
 # Changelog
 
+# [9.0.5](https://github.com/nolimits4web/Swiper/compare/v9.0.4...v9.0.5) (2023-02-13)
+
+### Bug Fixes
+
+- **scrollbar:** fix duplicated scrollbar ([e99361d](https://github.com/nolimits4web/Swiper/commit/e99361d4e94f3b5292c77ee933d6acb4007a1a3f)), closes [#6386](https://github.com/nolimits4web/Swiper/issues/6386)
+
 # [9.0.4](https://github.com/nolimits4web/Swiper/compare/v9.0.3...v9.0.4) (2023-02-10)
 
 ### Bug Fixes
