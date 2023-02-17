@@ -42,10 +42,12 @@ function getParams(element) {
   const passedParams = {};
   extend(params, defaults);
 
-  const allowedParams = paramsList.map((key) => key.replace(/_/, ''));
+  const localParamsList = [...paramsList, 'on'];
+
+  const allowedParams = localParamsList.map((key) => key.replace(/_/, ''));
 
   // First check props
-  paramsList.forEach((paramName) => {
+  localParamsList.forEach((paramName) => {
     paramName = paramName.replace('_', '');
     if (typeof element[paramName] !== 'undefined') {
       passedParams[paramName] = element[paramName];
