@@ -49,7 +49,7 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     }
     slideEl.setAttribute('data-swiper-slide-index', index);
     if (!params.renderSlide) {
-      slideEl.textContent = slide;
+      slideEl.innerHTML = slide;
     }
 
     if (params.cache) swiper.virtual.cache[index] = slideEl;
