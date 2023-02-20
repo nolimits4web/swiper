@@ -100,6 +100,7 @@ const paramsList = [
   'hashNavigation',
   'history',
   'keyboard',
+  'loadPrevNext',
   'mousewheel',
   '_navigation',
   '_pagination',

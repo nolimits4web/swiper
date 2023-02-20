@@ -10,6 +10,7 @@ export * from './effect-cards';
 export * from './hash-navigation';
 export * from './history';
 export * from './keyboard';
+export * from './loadprevnext';
 export * from './mousewheel';
 export * from './navigation';
 export * from './pagination';

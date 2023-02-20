@@ -14,6 +14,7 @@ import { CardsEffectMethods } from './modules/effect-cards';
 import { HashNavigationMethods } from './modules/hash-navigation';
 import { HistoryMethods } from './modules/history';
 import { KeyboardMethods } from './modules/keyboard';
+import { LoadPrevNextMethods } from './modules/loadprevnext';
 import { MousewheelMethods } from './modules/mousewheel';
 import { NavigationMethods } from './modules/navigation';
 import { PaginationMethods } from './modules/pagination';
@@ -441,6 +442,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   hashNavigation: HashNavigationMethods;
   history: HistoryMethods;
   keyboard: KeyboardMethods;
+  loadprevnext: LoadPrevNextMethods;
   mousewheel: MousewheelMethods;
   navigation: NavigationMethods;
   pagination: PaginationMethods;

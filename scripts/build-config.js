@@ -11,6 +11,7 @@ export const modules = envBuildModules || [
   'scrollbar',
   'parallax',
   'zoom',
+  'loadprevnext',
   'controller',
   'a11y',
   'history',

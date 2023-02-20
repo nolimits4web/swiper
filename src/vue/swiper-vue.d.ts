@@ -11,6 +11,7 @@ import {
   HashNavigationOptions,
   HistoryOptions,
   KeyboardOptions,
+  LoadPrevNextOptions,
   MousewheelOptions,
   NavigationOptions,
   PaginationOptions,
@@ -377,6 +378,10 @@ declare const Swiper: DefineComponent<
     };
     keyboard: {
       type: PropType<KeyboardOptions | boolean>;
+      default: undefined;
+    };
+    loadprevnext: {
+      type: PropType<LoadPrevNextOptions | boolean>;
       default: undefined;
     };
     mousewheel: {

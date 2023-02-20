@@ -122,6 +122,7 @@ const Swiper = {
     hashNavigation: { type: [Boolean, Object], default: undefined },
     history: { type: [Boolean, Object], default: undefined },
     keyboard: { type: [Boolean, Object], default: undefined },
+    loadprevnext: { type: [Boolean, Object], default: undefined },
     mousewheel: { type: [Boolean, Object], default: undefined },
     navigation: { type: [Boolean, Object], default: undefined },
     pagination: { type: [Boolean, Object], default: undefined },

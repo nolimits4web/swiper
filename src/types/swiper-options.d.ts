@@ -10,6 +10,7 @@ import { CardsEffectOptions } from './modules/effect-cards';
 import { HashNavigationOptions } from './modules/hash-navigation';
 import { HistoryOptions } from './modules/history';
 import { KeyboardOptions } from './modules/keyboard';
+import { LoadPrevNextOptions } from './modules/loadprevnext';
 import { MousewheelOptions } from './modules/mousewheel';
 import { NavigationOptions } from './modules/navigation';
 import { PaginationOptions } from './modules/pagination';
@@ -1012,6 +1013,21 @@ export interface SwiperOptions {
    * ```
    */
   keyboard?: KeyboardOptions | boolean;
+
+  /**
+   * Preloads next and previous images, when using lazy loading. Object with loadPrevNext parameters or boolean `true` to enable with default settings.
+   *
+   * @example
+   * ```js
+   * const swiper = new Swiper('.swiper', {
+   *   loadPrevNext: {
+   *     enabled: true,
+   *     amount: 2,
+   *   },
+   * });
+   * ```
+   */
+  loadPrevNext?: LoadPrevNextOptions | boolean;
 
   /**
    * Enables navigation through slides using mouse wheel. Object with mousewheel parameters or boolean `true` to enable with default settings
