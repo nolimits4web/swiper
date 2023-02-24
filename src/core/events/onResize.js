@@ -44,7 +44,9 @@ export default function onResize() {
   if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
-      swiper.autoplay.resume();
+      if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {
+        swiper.autoplay.resume();
+      }
     }, 500);
   }
   // Return locks after resize
