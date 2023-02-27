@@ -1,5 +1,3 @@
-import { elementIndex } from '../../shared/utils.js';
-
 export default function updateProgress(translate) {
   const swiper = this;
   if (typeof translate === 'undefined') {
@@ -27,10 +25,10 @@ export default function updateProgress(translate) {
   }
 
   if (params.loop) {
-    const firstSlideIndex = elementIndex(
+    const firstSlideIndex = swiper.getSlideIndex(
       swiper.slides.filter((el) => el.getAttribute('data-swiper-slide-index') === '0')[0],
     );
-    const lastSlideIndex = elementIndex(
+    const lastSlideIndex = swiper.getSlideIndex(
       swiper.slides.filter(
         (el) => el.getAttribute('data-swiper-slide-index') * 1 === swiper.slides.length - 1,
       )[0],

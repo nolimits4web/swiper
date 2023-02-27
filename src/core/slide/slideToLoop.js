@@ -1,5 +1,3 @@
-import { elementIndex } from '../../shared/utils.js';
-
 export default function slideToLoop(
   index = 0,
   speed = this.params.speed,
@@ -19,7 +17,7 @@ export default function slideToLoop(
       // eslint-disable-next-line
       newIndex = newIndex + swiper.virtual.slidesBefore;
     } else {
-      newIndex = elementIndex(
+      newIndex = swiper.getSlideIndex(
         swiper.slides.filter(
           (slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === newIndex,
         )[0],

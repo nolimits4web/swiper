@@ -7,6 +7,7 @@ import {
   createElement,
   elementChildren,
   elementStyle,
+  elementIndex,
 } from '../shared/utils.js';
 import { getSupport } from '../shared/get-support.js';
 import { getDevice } from '../shared/get-device.js';
@@ -219,6 +220,13 @@ class Swiper {
     // Return app instance
     // eslint-disable-next-line no-constructor-return
     return swiper;
+  }
+
+  getSlideIndex(slideEl) {
+    const { slidesEl, params } = this;
+    const slides = elementChildren(slidesEl, `.${params.slideClass}, swiper-slide`);
+    const firstSlideIndex = elementIndex(slides[0]);
+    return elementIndex(slideEl) - firstSlideIndex;
   }
 
   recalcSlides() {

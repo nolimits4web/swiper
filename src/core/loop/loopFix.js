@@ -1,5 +1,3 @@
-import { elementIndex } from '../../shared/utils.js';
-
 export default function loopFix({
   slideRealIndex,
   slideTo = true,
@@ -50,7 +48,7 @@ export default function loopFix({
   let activeIndex = swiper.activeIndex;
 
   if (typeof activeSlideIndex === 'undefined') {
-    activeSlideIndex = elementIndex(
+    activeSlideIndex = swiper.getSlideIndex(
       swiper.slides.filter((el) => el.classList.contains('swiper-slide-active'))[0],
     );
   } else {

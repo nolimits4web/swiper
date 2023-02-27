@@ -1,4 +1,4 @@
-import { elementIndex, elementTransitionEnd } from './utils.js';
+import { elementTransitionEnd } from './utils.js';
 
 export default function effectVirtualTransitionEnd({
   swiper,
@@ -27,7 +27,7 @@ export default function effectVirtualTransitionEnd({
         const el = transformEl.classList.contains('swiper-slide-transform')
           ? getSlide(transformEl)
           : transformEl;
-        return elementIndex(el) === activeIndex;
+        return swiper.getSlideIndex(el) === activeIndex;
       });
     }
     transitionEndTarget.forEach((el) => {
