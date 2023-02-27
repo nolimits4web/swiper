@@ -255,6 +255,12 @@ const register = (injectStyles = true) => {
     window.customElements.define('swiper-slide', SwiperSlide);
 };
 
+if (typeof window !== 'undefined') {
+  window.SwiperElementRegisterParams = (params) => {
+    paramsList.push(...params);
+  };
+}
+
 //BROWSER_REGISTER
 
 //EXPORT
