@@ -7,7 +7,13 @@ export default function onTouchEnd(event) {
   if (pointerIndex >= 0) {
     data.evCache.splice(pointerIndex, 1);
   }
-  if (['pointercancel', 'pointerout', 'pointerleave'].includes(event.type)) return;
+  if (['pointercancel', 'pointerout', 'pointerleave'].includes(event.type)) {
+    const proceed =
+      event.type === 'pointercancel' && (swiper.browser.isSafari || swiper.browser.isWebView);
+    if (!proceed) {
+      return;
+    }
+  }
 
   const { params, touches, rtlTranslate: rtl, slidesGrid, enabled } = swiper;
   if (!enabled) return;
