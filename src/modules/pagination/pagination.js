@@ -186,7 +186,9 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
           const firstDisplayedBullet = bullets[firstIndex];
           const lastDisplayedBullet = bullets[lastIndex];
           for (let i = firstIndex; i <= lastIndex; i += 1) {
-            bullets[i].classList.add(`${params.bulletActiveClass}-main`);
+            if (bullets[i]) {
+              bullets[i].classList.add(`${params.bulletActiveClass}-main`);
+            }
           }
 
           setSideBullets(firstDisplayedBullet, 'prev');
