@@ -621,7 +621,7 @@ export interface SwiperOptions {
   /**
    * Set to `true` to enable continuous loop mode
    *
-   * Because of nature of how the loop mode works, it will add rearrange slides
+   * Because of nature of how the loop mode works (it will rearrange slides), total number of slides must be >= slidesPerView * 2
    *
    * @default false
    *
