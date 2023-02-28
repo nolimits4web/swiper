@@ -1,5 +1,25 @@
 # Changelog
 
+# [9.1.0](https://github.com/nolimits4web/Swiper/compare/v9.0.5...v9.1.0) (2023-02-28)
+
+### Bug Fixes
+
+- **autoplay:** fix a crash with resize when the autoplay has gone away during timeout ([#6431](https://github.com/nolimits4web/Swiper/issues/6431)) ([adb40f4](https://github.com/nolimits4web/Swiper/commit/adb40f439858c604d66dc225f8383d0bf81ec1fc))
+- **core:** correctly calc slide's DOM indexes, actual for Element ([18b1f2b](https://github.com/nolimits4web/Swiper/commit/18b1f2b4ecbdf9986314b7e483b4b7d316b0c1b4))
+- **core:** fix loop when slidesPerGroup is not even to number of slides ([f998115](https://github.com/nolimits4web/Swiper/commit/f998115b91eafcc825d50e4be3b8f91745293406)), closes [#6412](https://github.com/nolimits4web/Swiper/issues/6412)
+- **core:** prevent observer trigger because of grab cursor ([9597442](https://github.com/nolimits4web/Swiper/commit/9597442ef06a0eeb28c96b62d8d022c768caf3f1)), closes [#6423](https://github.com/nolimits4web/Swiper/issues/6423)
+- **core:** proceed iOS's pointercancel as pointerup ([50b65f6](https://github.com/nolimits4web/Swiper/commit/50b65f622966b788bb586ddadc4ccf9c8b4291f3)), closes [#6414](https://github.com/nolimits4web/Swiper/issues/6414) [#6382](https://github.com/nolimits4web/Swiper/issues/6382)
+- **effect-creative:** fix origin ([7883408](https://github.com/nolimits4web/Swiper/commit/788340875d5d1f81b338cbf6045119819a0405c7)), closes [#6439](https://github.com/nolimits4web/Swiper/issues/6439)
+- **element:** fix ignored `on` event handlers ([898f76c](https://github.com/nolimits4web/Swiper/commit/898f76c08f70144add8adc8da114a4a08a75343d)), closes [#6399](https://github.com/nolimits4web/Swiper/issues/6399)
+- **pagination:** double check if bullet exists ([a335a41](https://github.com/nolimits4web/Swiper/commit/a335a41f1f2cd6ef45b5bd03c31a99759b261b1c)), closes [#6422](https://github.com/nolimits4web/Swiper/issues/6422)
+- **pagination:** fix clickable pagination with slidesPerView > 1 and loop ([cf8cdf5](https://github.com/nolimits4web/Swiper/commit/cf8cdf59aad733deccb19f5295fb90ab41b1c372)), closes [#6415](https://github.com/nolimits4web/Swiper/issues/6415)
+- **virtual:** fix escaped HTML in virtual slides content ([a61638a](https://github.com/nolimits4web/Swiper/commit/a61638a540d307be09cf2d2e3952d0103d2ed970)), closes [#6404](https://github.com/nolimits4web/Swiper/issues/6404)
+- **zoom:** fix zoom stick on pointer out ([6700980](https://github.com/nolimits4web/Swiper/commit/670098077d5209b76356486f95b623d3ee22228a)), closes [#6396](https://github.com/nolimits4web/Swiper/issues/6396)
+
+### Features
+
+- **element:** new global `window.SwiperElementRegisterParams` method to register acceptable element props ([fb63358](https://github.com/nolimits4web/Swiper/commit/fb6335826cf6b34d3528069a4ae1ec03cfc6217c))
+
 # [9.0.5](https://github.com/nolimits4web/Swiper/compare/v9.0.4...v9.0.5) (2023-02-13)
 
 ### Bug Fixes
