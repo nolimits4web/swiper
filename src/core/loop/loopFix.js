@@ -62,13 +62,16 @@ export default function loopFix({
   let slidesAppended = 0;
   // prepend last slides before start
   if (activeSlideIndex < loopedSlides) {
-    slidesPrepended = loopedSlides - activeSlideIndex;
+    slidesPrepended = Math.max(loopedSlides - activeSlideIndex, params.slidesPerGroup);
     for (let i = 0; i < loopedSlides - activeSlideIndex; i += 1) {
       const index = i - Math.floor(i / slides.length) * slides.length;
       prependSlidesIndexes.push(slides.length - index - 1);
     }
   } else if (activeSlideIndex /* + slidesPerView */ > swiper.slides.length - loopedSlides * 2) {
-    slidesAppended = activeSlideIndex - (swiper.slides.length - loopedSlides * 2);
+    slidesAppended = Math.max(
+      activeSlideIndex - (swiper.slides.length - loopedSlides * 2),
+      params.slidesPerGroup,
+    );
     for (let i = 0; i < slidesAppended; i += 1) {
       const index = i - Math.floor(i / slides.length) * slides.length;
       appendSlidesIndexes.push(index);
@@ -85,6 +88,7 @@ export default function loopFix({
       slidesEl.append(swiper.slides[index]);
     });
   }
+
   swiper.recalcSlides();
   if (params.watchSlidesProgress) {
     swiper.updateSlidesOffset();
