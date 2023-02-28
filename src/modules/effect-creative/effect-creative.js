@@ -123,7 +123,7 @@ export default function EffectCreative({ swiper, extendParams, on }) {
       targetEl.style.transform = transform;
       targetEl.style.opacity = opacityString;
       if (data.origin) {
-        targetEl.style.transformOrigin = opacityString;
+        targetEl.style.transformOrigin = data.origin;
       }
     }
   };
