@@ -142,6 +142,7 @@ class SwiperContainer extends ClassToExtend {
     if (this.swiper && this.swiper.destroy) {
       this.swiper.destroy();
     }
+    this.initialized = false;
   }
 
   updateSwiperOnPropChange(propName) {
