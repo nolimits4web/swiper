@@ -67,12 +67,12 @@ export default function updateSlides() {
   // reset margins
   slides.forEach((slideEl) => {
     if (rtl) {
-      slideEl.style.marginLeft = '0';
+      slideEl.style.marginLeft = '';
     } else {
-      slideEl.style.marginRight = '0';
+      slideEl.style.marginRight = '';
     }
-    slideEl.style.marginBottom = '0';
-    slideEl.style.marginTop = '0';
+    slideEl.style.marginBottom = '';
+    slideEl.style.marginTop = '';
   });
 
   // reset cssMode offsets
