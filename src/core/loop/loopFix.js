@@ -49,7 +49,7 @@ export default function loopFix({
 
   if (typeof activeSlideIndex === 'undefined') {
     activeSlideIndex = swiper.getSlideIndex(
-      swiper.slides.filter((el) => el.classList.contains('swiper-slide-active'))[0],
+      swiper.slides.filter((el) => el.classList.contains(params.slideActiveClass))[0],
     );
   } else {
     activeIndex = activeSlideIndex;
