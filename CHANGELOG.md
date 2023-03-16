@@ -1,5 +1,23 @@
 # Changelog
 
+# [9.1.1](https://github.com/nolimits4web/Swiper/compare/v9.1.0...v9.1.1) (2023-03-16)
+
+### Bug Fixes
+
+- **core:** fixed loop when using custom `slideActiveClass` ([#6495](https://github.com/nolimits4web/Swiper/issues/6495)) ([756ecdb](https://github.com/nolimits4web/Swiper/commit/756ecdbd3e510a29d298f40a167cbdeb26d72508))
+- **element:** reset initialized flag on disconnectedCallback ([#6474](https://github.com/nolimits4web/Swiper/issues/6474)) ([1e4a235](https://github.com/nolimits4web/Swiper/commit/1e4a235587c32fcd4be5910917cc60a9743193c6))
+- **loop:** fix loopFix for controlled swipers ([d7c0ef7](https://github.com/nolimits4web/Swiper/commit/d7c0ef70625a6306879611ea6f5a756b38c1f78e)), closes [#6491](https://github.com/nolimits4web/Swiper/issues/6491)
+- **loop:** fix slides closure when removing last slide ([1a02271](https://github.com/nolimits4web/Swiper/commit/1a02271005473c65c190f009fe9a5c5987129d18)), closes [#6477](https://github.com/nolimits4web/Swiper/issues/6477)
+- **pagination:** correctly support multiple bullets paginations ([e24bd8c](https://github.com/nolimits4web/Swiper/commit/e24bd8c60eb2cc2af7b0bd25c109f6e150008819)), closes [#6462](https://github.com/nolimits4web/Swiper/issues/6462)
+- **pagination:** escape `+` char in pagination classes ([d0beb9f](https://github.com/nolimits4web/Swiper/commit/d0beb9feb99cc121f0a38ba9f40e1a77d81e9911)), closes [#6486](https://github.com/nolimits4web/Swiper/issues/6486)
+- **pagination:** support bulle multiple classes ([20b05fa](https://github.com/nolimits4web/Swiper/commit/20b05fa498eb86a1cc1fae849fce200233121cf3)), closes [#6447](https://github.com/nolimits4web/Swiper/issues/6447)
+- **react:** fix virtual loop when not enough slides ([57d8eea](https://github.com/nolimits4web/Swiper/commit/57d8eea78df4908051962041c995fb96ec956cfe)), closes [#6487](https://github.com/nolimits4web/Swiper/issues/6487)
+
+### Features
+
+- **element:** add `eventsPrefix` prop to avoid collision with native events ([d5df91f](https://github.com/nolimits4web/Swiper/commit/d5df91f93421676764c916926c258eda5027dead)), closes [#6450](https://github.com/nolimits4web/Swiper/issues/6450)
+- **pagination:** add border-radius variable ([#6476](https://github.com/nolimits4web/Swiper/issues/6476)) ([c912590](https://github.com/nolimits4web/Swiper/commit/c912590af23f1e5190a5c8d6ade5855907288e3f))
+
 # [9.1.0](https://github.com/nolimits4web/Swiper/compare/v9.0.5...v9.1.0) (2023-02-28)
 
 ### Bug Fixes
