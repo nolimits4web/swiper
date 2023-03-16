@@ -11,6 +11,7 @@ export default function slideToLoop(
   }
 
   const swiper = this;
+  const slidesPerView = swiper.passedParams.slidesPerView;
   let newIndex = index;
   if (swiper.params.loop) {
     if (swiper.virtual && swiper.params.virtual.enabled) {
@@ -22,6 +23,9 @@ export default function slideToLoop(
           (slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === newIndex,
         )[0],
       );
+      if (slidesPerView > 1 && swiper.slides.length < newIndex + slidesPerView) {
+        setTimeout(() => swiper.loopFix({ direction: 'next' }), speed);
+      }
     }
   }
 
