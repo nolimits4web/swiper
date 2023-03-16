@@ -146,7 +146,7 @@ export default function loopFix({
     };
     if (Array.isArray(swiper.controller.control)) {
       swiper.controller.control.forEach((c) => {
-        if (c.params.loop) c.loopFix(loopParams);
+        if (!c.destroyed && c.params.loop) c.loopFix(loopParams);
       });
     } else if (
       swiper.controller.control instanceof swiper.constructor &&
