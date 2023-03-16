@@ -1,5 +1,6 @@
 /* underscore in name -> watch for changes */
 const paramsList = [
+  'eventsPrefix',
   'modules',
   'init',
   '_direction',
