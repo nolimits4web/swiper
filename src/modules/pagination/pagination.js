@@ -296,15 +296,15 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
         paginationHTML = `<span class="${params.progressbarFillClass}"></span>`;
       }
     }
-
+    swiper.pagination.bullets = [];
     el.forEach((subEl) => {
       if (params.type !== 'custom') {
         subEl.innerHTML = paginationHTML || '';
       }
       if (params.type === 'bullets') {
-        swiper.pagination.bullets = [
+        swiper.pagination.bullets.push(
           ...subEl.querySelectorAll(classesToSelector(params.bulletClass)),
-        ];
+        );
       }
     });
     if (params.type !== 'custom') {
