@@ -17,11 +17,7 @@ export default function slideToLoop(
       // eslint-disable-next-line
       newIndex = newIndex + swiper.virtual.slidesBefore;
     } else {
-      newIndex = swiper.getSlideIndex(
-        swiper.slides.filter(
-          (slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === newIndex,
-        )[0],
-      );
+      newIndex = swiper.getSlideIndexByData(newIndex);
     }
   }
 

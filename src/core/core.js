@@ -229,6 +229,14 @@ class Swiper {
     return elementIndex(slideEl) - firstSlideIndex;
   }
 
+  getSlideIndexByData(index) {
+    return this.getSlideIndex(
+      this.slides.filter(
+        (slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === index,
+      )[0],
+    );
+  }
+
   recalcSlides() {
     const swiper = this;
     const { slidesEl, params } = swiper;
