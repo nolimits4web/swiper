@@ -71,6 +71,8 @@ export default function Controller({ swiper, extendParams, on }) {
     let controlledTranslate;
     const Swiper = swiper.constructor;
     function setControlledTranslate(c) {
+      if (c.destroyed) return;
+
       // this will create an Interpolate function based on the snapGrids
       // x is the Grid of the scrolled scroller and y will be the controlled scroller
       // it makes sense to create this only once and recall it for the interpolation
@@ -112,6 +114,8 @@ export default function Controller({ swiper, extendParams, on }) {
     const controlled = swiper.controller.control;
     let i;
     function setControlledTransition(c) {
+      if (c.destroyed) return;
+
       c.setTransition(duration, swiper);
       if (duration !== 0) {
         c.transitionStart();
