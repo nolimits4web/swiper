@@ -15,7 +15,7 @@ export interface ControllerOptions {
    * Pass here another Swiper instance or array with Swiper instances that should be controlled
    * by this Swiper. Also accepts string with CSS selector of Swiper element, or HTMLElement of Swiper element
    */
-  control?: Swiper | Swiper[] | string | HTMLElement;
+  control?: Swiper | Swiper[] | string | HTMLElement | null;
 
   /**
    * Set to `true` and controlling will be in inverse direction
