@@ -2,7 +2,6 @@
 import { getDocument } from 'ssr-window';
 import {
   extend,
-  now,
   deleteProps,
   createElement,
   elementChildren,
