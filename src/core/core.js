@@ -182,7 +182,7 @@ class Swiper {
         // Form elements to match
         focusableElements: swiper.params.focusableElements,
         // Last click time
-        lastClickTime: now(),
+        lastClickTime: 0,
         clickTimeout: undefined,
         // Velocities
         velocities: [],
