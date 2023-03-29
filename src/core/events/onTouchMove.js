@@ -155,6 +155,9 @@ export default function onTouchMove(event) {
       swiper.loopFix({ direction: swiper.swipeDirection });
     }
     data.startTranslate = swiper.getTranslate();
+    // Handle abs(translate) > swiper.support.maxPx
+    const adjustment = Math.trunc(swiper.translate / swiper.support.maxPx) * swiper.support.maxPx;
+    data.startTranslate += adjustment;
     swiper.setTransition(0);
     if (swiper.animating) {
       const evt = new window.CustomEvent('transitionend', {

@@ -19,7 +19,9 @@ export default function setTranslate(translate, byController) {
   if (params.cssMode) {
     wrapperEl[swiper.isHorizontal() ? 'scrollLeft' : 'scrollTop'] = swiper.isHorizontal() ? -x : -y;
   } else if (!params.virtualTranslate) {
-    wrapperEl.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
+    // Handle abs(translate) > swiper.support.maxPx
+    const adjustment = Math.trunc(x / swiper.support.maxPx) * swiper.support.maxPx;
+    wrapperEl.style.transform = `translate3d(${x - adjustment}px, ${y}px, ${z}px)`;
   }
   swiper.previousTranslate = swiper.translate;
   swiper.translate = swiper.isHorizontal() ? x : y;

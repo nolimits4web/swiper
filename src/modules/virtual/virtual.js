@@ -119,7 +119,9 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     if (previousFrom === from && previousTo === to && !force) {
       if (swiper.slidesGrid !== previousSlidesGrid && offset !== previousOffset) {
         swiper.slides.forEach((slideEl) => {
-          slideEl.style[offsetProp] = `${offset}px`;
+          // Handle abs(translate) > swiper.support.maxPx
+          const adjustment = Math.trunc(swiper.translate / swiper.support.maxPx) * swiper.support.maxPx;
+          slideEl.style[offsetProp] = `${offset + adjustment}px`;
         });
       }
       swiper.updateProgress();
@@ -209,7 +211,9 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
       });
     }
     elementChildren(swiper.slidesEl, '.swiper-slide, swiper-slide').forEach((slideEl) => {
-      slideEl.style[offsetProp] = `${offset}px`;
+      // Handle abs(translate) > swiper.support.maxPx
+      const adjustment = Math.trunc(swiper.translate / swiper.support.maxPx) * swiper.support.maxPx;
+      slideEl.style[offsetProp] = `${offset + adjustment}px`;
     });
     onRendered();
   }
