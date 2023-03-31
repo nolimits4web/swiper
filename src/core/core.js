@@ -581,10 +581,11 @@ class Swiper {
         });
       }
     });
-    preload(swiper);
 
     // Init Flag
     swiper.initialized = true;
+
+    preload(swiper);
 
     // Emit
     swiper.emit('init');
