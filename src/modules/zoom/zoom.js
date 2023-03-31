@@ -29,6 +29,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
   let fakeGestureMoved;
   const evCache = [];
   const gesture = {
+    originX: 0,
+    originY: 0,
     slideEl: undefined,
     slideWidth: undefined,
     slideHeight: undefined,
@@ -158,7 +160,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     }
     if (gesture.imageEl) {
       const [originX, originY] = getScaleOrigin();
-      gesture.imageEl.style.transformOrigin = `${originX}px ${originY}px`;
+      gesture.originX = originX;
+      gesture.originY = originY;
       gesture.imageEl.style.transitionDuration = '0ms';
     }
     isScaling = true;
@@ -187,7 +190,6 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     if (zoom.scale < params.minRatio) {
       zoom.scale = params.minRatio + 1 - (params.minRatio - zoom.scale + 1) ** 0.5;
     }
-
     gesture.imageEl.style.transform = `translate3d(0,0,0) scale(${zoom.scale})`;
   }
   function onGestureEnd(e) {
@@ -216,9 +218,12 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       gesture.slideEl.classList.add(`${params.zoomedSlideClass}`);
     } else if (zoom.scale <= 1 && gesture.slideEl) {
       gesture.slideEl.classList.remove(`${params.zoomedSlideClass}`);
-      gesture.imageEl.style.transformOrigin = ``;
     }
-    if (zoom.scale === 1) gesture.slideEl = undefined;
+    if (zoom.scale === 1) {
+      gesture.originX = 0;
+      gesture.originY = 0;
+      gesture.slideEl = undefined;
+    }
   }
   function onTouchStart(e) {
     const device = swiper.device;
@@ -226,8 +231,9 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     if (image.isTouched) return;
     if (device.android && e.cancelable) e.preventDefault();
     image.isTouched = true;
-    image.touchesStart.x = e.pageX;
-    image.touchesStart.y = e.pageY;
+    const event = evCache.length > 0 ? evCache[0] : e;
+    image.touchesStart.x = event.pageX;
+    image.touchesStart.y = event.pageY;
   }
   function onTouchMove(e) {
     if (!eventWithinSlide(e) || !eventWithinZoomContainer(e)) return;
@@ -293,8 +299,20 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     e.stopPropagation();
 
     image.isMoved = true;
-    image.currentX = image.touchesCurrent.x - image.touchesStart.x + image.startX;
-    image.currentY = image.touchesCurrent.y - image.touchesStart.y + image.startY;
+    const scaleRatio =
+      (zoom.scale - currentScale) / (gesture.maxRatio - swiper.params.zoom.minRatio);
+    const { originX, originY } = gesture;
+
+    image.currentX =
+      image.touchesCurrent.x -
+      image.touchesStart.x +
+      image.startX +
+      scaleRatio * (image.width - originX * 2);
+    image.currentY =
+      image.touchesCurrent.y -
+      image.touchesStart.y +
+      image.startY +
+      scaleRatio * (image.height - originY * 2);
 
     if (image.currentX < image.minX) {
       image.currentX = image.minX + 1 - (image.minX - image.currentX + 1) ** 0.8;
@@ -381,6 +399,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       gesture.slideEl = undefined;
       gesture.imageEl = undefined;
       gesture.imageWrapEl = undefined;
+      gesture.originX = 0;
+      gesture.originY = 0;
     }
   }
 
@@ -498,7 +518,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       translateY = 0;
     }
     if (forceZoomRatio && zoom.scale === 1) {
-      gesture.imageEl.style.transformOrigin = ``;
+      gesture.originX = 0;
+      gesture.originY = 0;
     }
     gesture.imageWrapEl.style.transitionDuration = '300ms';
     gesture.imageWrapEl.style.transform = `translate3d(${translateX}px, ${translateY}px,0)`;
@@ -537,10 +558,11 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     gesture.imageWrapEl.style.transform = 'translate3d(0,0,0)';
     gesture.imageEl.style.transitionDuration = '300ms';
     gesture.imageEl.style.transform = 'translate3d(0,0,0) scale(1)';
-    gesture.imageEl.style.transformOrigin = ``;
 
     gesture.slideEl.classList.remove(`${params.zoomedSlideClass}`);
     gesture.slideEl = undefined;
+    gesture.originX = 0;
+    gesture.originY = 0;
   }
 
   // Toggle Zoom
