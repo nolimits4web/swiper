@@ -9,7 +9,8 @@ export const processLazyPreloader = (swiper, imageEl) => {
 };
 
 const unlazy = (swiper, index) => {
-  const imageEl = swiper.slides[index].querySelector('loading="lazy"');
+  if (!swiper.slides[index]) return;
+  const imageEl = swiper.slides[index].querySelector('[loading="lazy"]');
   if (imageEl) imageEl.removeAttribute('loading');
 };
 
@@ -19,15 +20,24 @@ export const preload = (swiper) => {
   const len = swiper.slides.length;
   if (!len || !amount || amount < 0) return;
   amount = Math.min(amount, len);
-  const active = swiper.activeSlide;
+  const slidesPerView =
+    swiper.params.slidesPerView === 'auto'
+      ? swiper.slidesPerViewDynamic()
+      : Math.ceil(swiper.params.slidesPerView);
+  const activeIndex = swiper.activeIndex;
+  const slideIndexLastInView = activeIndex + slidesPerView - 1;
   if (swiper.params.rewind) {
-    for (let i = active - amount; i <= active + amount; i += 1) {
-      const reali = ((i % len) + len) % len;
-      if (reali !== active) unlazy(swiper, reali);
+    for (let i = activeIndex - amount; i <= slideIndexLastInView + amount; i += 1) {
+      const realIndex = ((i % len) + len) % len;
+      if (realIndex !== activeIndex && realIndex > slideIndexLastInView) unlazy(swiper, realIndex);
     }
   } else {
-    for (let i = Math.max(active - amount, 0); i <= Math.min(active + amount, len - 1); i += 1) {
-      if (i !== active) unlazy(swiper, i);
+    for (
+      let i = Math.max(slideIndexLastInView - amount, 0);
+      i <= Math.min(slideIndexLastInView + amount, len - 1);
+      i += 1
+    ) {
+      if (i !== activeIndex && i > slideIndexLastInView) unlazy(swiper, i);
     }
   }
 };

@@ -586,6 +586,8 @@ class Swiper {
     // Init Flag
     swiper.initialized = true;
 
+    preload(swiper);
+
     // Emit
     swiper.emit('init');
     swiper.emit('afterInit');
