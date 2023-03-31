@@ -212,6 +212,12 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     gesture.imageEl.style.transform = `translate3d(0,0,0) scale(${zoom.scale})`;
     currentScale = zoom.scale;
     isScaling = false;
+    if (zoom.scale > 1 && gesture.slideEl) {
+      gesture.slideEl.classList.add(`${params.zoomedSlideClass}`);
+    } else if (zoom.scale <= 1 && gesture.slideEl) {
+      gesture.slideEl.classList.remove(`${params.zoomedSlideClass}`);
+      gesture.imageEl.style.transformOrigin = ``;
+    }
     if (zoom.scale === 1) gesture.slideEl = undefined;
   }
   function onTouchStart(e) {
@@ -346,7 +352,6 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
 
     image.currentX = newPositionX;
     image.currentY = newPositionY;
-
     // Define if we need image drag
     const scaledWidth = image.width * zoom.scale;
     const scaledHeight = image.height * zoom.scale;
@@ -362,13 +367,14 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
   }
   function onTransitionEnd() {
     const zoom = swiper.zoom;
-    if (gesture.slideEl && swiper.previousIndex !== swiper.activeIndex) {
+    if (gesture.slideEl && swiper.activeIndex !== swiper.slides.indexOf(gesture.slideEl)) {
       if (gesture.imageEl) {
         gesture.imageEl.style.transform = 'translate3d(0,0,0) scale(1)';
       }
       if (gesture.imageWrapEl) {
         gesture.imageWrapEl.style.transform = 'translate3d(0,0,0)';
       }
+      gesture.slideEl.classList.remove(`${swiper.params.zoom.zoomedSlideClass}`);
 
       zoom.scale = 1;
       currentScale = 1;
@@ -452,6 +458,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       forceZoomRatio || gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
     currentScale =
       forceZoomRatio || gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
+
     if (e && !(currentScale === 1 && forceZoomRatio)) {
       slideWidth = gesture.slideEl.offsetWidth;
       slideHeight = gesture.slideEl.offsetHeight;
@@ -490,6 +497,9 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       translateX = 0;
       translateY = 0;
     }
+    if (forceZoomRatio && zoom.scale === 1) {
+      gesture.imageEl.style.transformOrigin = ``;
+    }
     gesture.imageWrapEl.style.transitionDuration = '300ms';
     gesture.imageWrapEl.style.transform = `translate3d(${translateX}px, ${translateY}px,0)`;
     gesture.imageEl.style.transitionDuration = '300ms';
@@ -527,6 +537,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     gesture.imageWrapEl.style.transform = 'translate3d(0,0,0)';
     gesture.imageEl.style.transitionDuration = '300ms';
     gesture.imageEl.style.transform = 'translate3d(0,0,0) scale(1)';
+    gesture.imageEl.style.transformOrigin = ``;
 
     gesture.slideEl.classList.remove(`${params.zoomedSlideClass}`);
     gesture.slideEl = undefined;
@@ -563,7 +574,6 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     const { passiveListener, activeListenerWithCapture } = getListeners();
 
     // Scale image
-
     swiper.wrapperEl.addEventListener('pointerdown', onGestureStart, passiveListener);
     swiper.wrapperEl.addEventListener('pointermove', onGestureChange, activeListenerWithCapture);
     ['pointerup', 'pointercancel', 'pointerout'].forEach((eventName) => {
