@@ -227,7 +227,6 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     if (!eventWithinSlide(e) || !eventWithinZoomContainer(e)) return;
     const zoom = swiper.zoom;
     if (!gesture.imageEl) return;
-    swiper.allowClick = false;
     if (!image.isTouched || !gesture.slideEl) return;
 
     if (!image.isMoved) {
@@ -252,6 +251,13 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
 
     image.touchesCurrent.x = evCache.length > 0 ? evCache[0].pageX : e.pageX;
     image.touchesCurrent.y = evCache.length > 0 ? evCache[0].pageY : e.pageY;
+    const touchesDiff = Math.max(
+      Math.abs(image.touchesCurrent.x - image.touchesStart.x),
+      Math.abs(image.touchesCurrent.y - image.touchesStart.y),
+    );
+    if (touchesDiff > 5) {
+      swiper.allowClick = false;
+    }
 
     if (!image.isMoved && !isScaling) {
       if (
