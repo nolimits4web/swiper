@@ -821,6 +821,13 @@ export interface SwiperOptions {
   lazyPreloaderClass?: string;
 
   /**
+   * Number of next and previous slides to preload. Only applicable if using lazy loading.
+   *
+   * @default 0
+   */
+  lazyPreloadPrevNext?: number;
+
+  /**
    * Object with a11y parameters or boolean `true` to enable with default settings.
    *
    * @example

@@ -106,6 +106,7 @@ const Swiper = {
     slidePrevClass: { type: String, default: undefined },
     wrapperClass: { type: String, default: undefined },
     lazyPreloaderClass: { type: String, default: undefined },
+    lazyPreloadPrevNext: { type: Number, default: undefined },
     runCallbacksOnInit: { type: Boolean, default: undefined },
     observer: { type: Boolean, default: undefined },
     observeParents: { type: Boolean, default: undefined },
