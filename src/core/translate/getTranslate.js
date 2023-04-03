@@ -13,6 +13,7 @@ export default function getSwiperTranslate(axis = this.isHorizontal() ? 'x' : 'y
   }
 
   let currentTranslate = getTranslate(wrapperEl, axis);
+  currentTranslate += swiper.cssOverflowAdjustment();
   if (rtl) currentTranslate = -currentTranslate;
 
   return currentTranslate || 0;

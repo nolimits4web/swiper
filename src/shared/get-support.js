@@ -13,9 +13,6 @@ function calcSupport() {
       'ontouchstart' in window ||
       (window.DocumentTouch && document instanceof window.DocumentTouch)
     ),
-
-    // Maximum supported CSS position magnitude in px - todo: maybe actually find out somehow?
-    maxPx: 2**23,
   };
 }
 
