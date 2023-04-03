@@ -1,5 +1,22 @@
 # Changelog
 
+# [9.2.0](https://github.com/nolimits4web/Swiper/compare/v9.1.1...v9.2.0) (2023-03-31)
+
+### Bug Fixes
+
+- **controller:** add `null` type ([3177936](https://github.com/nolimits4web/Swiper/commit/3177936a725ece8d076a5f481ae927325f41c0ec)), closes [#6505](https://github.com/nolimits4web/Swiper/issues/6505)
+- **controller:** prevent controlled swipers from being called when destroyed ([#6501](https://github.com/nolimits4web/Swiper/issues/6501)) ([a266b78](https://github.com/nolimits4web/Swiper/commit/a266b78f918babee0850e6e9cce49341052ee94c)), closes [#6491](https://github.com/nolimits4web/Swiper/issues/6491)
+- **mousewheel:** Initialize lastClickTime to very old time ([#6497](https://github.com/nolimits4web/Swiper/issues/6497)) ([0983ded](https://github.com/nolimits4web/Swiper/commit/0983ded1dfc716efacc0c67e047fd0ac9c027439)), closes [#6496](https://github.com/nolimits4web/Swiper/issues/6496)
+- **pagination:** fix pagination.d.ts render functions return types ([#6499](https://github.com/nolimits4web/Swiper/issues/6499)) ([34973a1](https://github.com/nolimits4web/Swiper/commit/34973a1555a38c4588a7f8554bdc983d601dc654))
+- **zoom:** fix zoom out on double tap on sensitive touch screens ([7f5c626](https://github.com/nolimits4web/Swiper/commit/7f5c6264c3b143d87fa939bfb54644bc1858bc27))
+- **zoom:** reset transform origin on zoom out ([7f7f57e](https://github.com/nolimits4web/Swiper/commit/7f7f57e17736219d1856f35a444a1b73b8e2087d))
+
+### Features
+
+- **core:** lazyPreloadPrevNext option to preload prev/next images ([#6544](https://github.com/nolimits4web/Swiper/issues/6544)) ([1cb3233](https://github.com/nolimits4web/Swiper/commit/1cb3233b112d756a111dc8cacb3f37d32b461ca5))
+- lazyPreloadPrevNext option to preload prev/next images ([6d08635](https://github.com/nolimits4web/Swiper/commit/6d086359206ed936b991dde0ce7552ba0e65b6b2))
+- **zoom:** highly improve pinch-zoom gestures handling ([6016a50](https://github.com/nolimits4web/Swiper/commit/6016a50ddc9fb29bb21e2656abea82ba1f6b90bd))
+
 # [9.1.1](https://github.com/nolimits4web/Swiper/compare/v9.1.0...v9.1.1) (2023-03-16)
 
 ### Bug Fixes

@@ -318,6 +318,10 @@ declare const Swiper: DefineComponent<
       type: StringConstructor;
       default: undefined;
     };
+    lazyPreloadPrevNext: {
+      type: NumberConstructor;
+      default: undefined;
+    };
     runCallbacksOnInit: {
       type: BooleanConstructor;
       default: undefined;

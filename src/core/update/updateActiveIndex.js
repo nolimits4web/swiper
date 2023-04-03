@@ -1,3 +1,5 @@
+import { preload } from '../../shared/process-lazy-preloader.js';
+
 export function getActiveIndexByTranslate(swiper) {
   const { slidesGrid, params } = swiper;
   const translate = swiper.rtlTranslate ? swiper.translate : -swiper.translate;
@@ -84,6 +86,10 @@ export default function updateActiveIndex(newActiveIndex) {
     previousIndex,
     activeIndex,
   });
+
+  if (swiper.initialized) {
+    preload(swiper);
+  }
   swiper.emit('activeIndexChange');
   swiper.emit('snapIndexChange');
   if (previousRealIndex !== realIndex) {

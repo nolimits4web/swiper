@@ -83,6 +83,7 @@ const paramsList = [
   'slidePrevClass',
   'wrapperClass',
   'lazyPreloaderClass',
+  'lazyPreloadPrevNext',
   'runCallbacksOnInit',
   'observer',
   'observeParents',
