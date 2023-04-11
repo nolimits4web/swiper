@@ -179,11 +179,11 @@ export default function Controller({ swiper, extendParams, on }) {
     removeSpline();
   });
   on('setTranslate', (_s, translate, byController) => {
-    if (!swiper.controller.control) return;
+    if (!swiper.controller.control || swiper.controller.control.destroyed) return;
     swiper.controller.setTranslate(translate, byController);
   });
   on('setTransition', (_s, duration, byController) => {
-    if (!swiper.controller.control) return;
+    if (!swiper.controller.control || swiper.controller.control.destroyed) return;
     swiper.controller.setTransition(duration, byController);
   });
 
