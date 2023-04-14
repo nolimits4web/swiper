@@ -85,6 +85,9 @@ export default function Controller({ swiper, extendParams, on }) {
       if (!controlledTranslate || swiper.params.controller.by === 'container') {
         multiplier =
           (c.maxTranslate() - c.minTranslate()) / (swiper.maxTranslate() - swiper.minTranslate());
+        if (Number.isNaN(multiplier) || !Number.isFinite(multiplier)) {
+          multiplier = 1;
+        }
         controlledTranslate = (translate - swiper.minTranslate()) * multiplier + c.minTranslate();
       }
 
