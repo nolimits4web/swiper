@@ -57,13 +57,10 @@ export default function Controller({ swiper, extendParams, on }) {
     };
     return this;
   }
-  // xxx: for now i will just save one spline function to to
   function getInterpolateFunction(c) {
-    if (!swiper.controller.spline) {
-      swiper.controller.spline = swiper.params.loop
-        ? new LinearSpline(swiper.slidesGrid, c.slidesGrid)
-        : new LinearSpline(swiper.snapGrid, c.snapGrid);
-    }
+    swiper.controller.spline = swiper.params.loop
+      ? new LinearSpline(swiper.slidesGrid, c.slidesGrid)
+      : new LinearSpline(swiper.snapGrid, c.snapGrid);
   }
   function setTranslate(_t, byController) {
     const controlled = swiper.controller.control;
