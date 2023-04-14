@@ -1,5 +1,11 @@
 # Changelog
 
+# [9.2.2](https://github.com/nolimits4web/Swiper/compare/v9.2.1...v9.2.2) (2023-04-14)
+
+### Bug Fixes
+
+- **element:** fix redefining `injectStyles` ([36ddaf2](https://github.com/nolimits4web/Swiper/commit/36ddaf26e230878bd8da3bd20b86c2b972ae8228)), closes [#6584](https://github.com/nolimits4web/Swiper/issues/6584)
+
 # [9.2.1](https://github.com/nolimits4web/Swiper/compare/v9.2.0...v9.2.1) (2023-04-14)
 
 ### Bug Fixes
