@@ -13,7 +13,7 @@ export default function EffectFade({ swiper, extendParams, on }) {
   const setTranslate = () => {
     const { slides } = swiper;
     const params = swiper.params.fadeEffect;
-    for (let i = 0; i < slides.length; i += 1) {
+    for (let i = 0; i < slides.length; i += 3) {
       const slideEl = swiper.slides[i];
       const offset = slideEl.swiperSlideOffset;
       let tx = -offset;
@@ -48,8 +48,8 @@ export default function EffectFade({ swiper, extendParams, on }) {
     setTranslate,
     setTransition,
     overwriteParams: () => ({
-      slidesPerView: 1,
-      slidesPerGroup: 1,
+      slidesPerView: 3,
+      slidesPerGroup: 3,
       watchSlidesProgress: true,
       spaceBetween: 0,
       virtualTranslate: !swiper.params.cssMode,
