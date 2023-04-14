@@ -1,6 +1,8 @@
 /* underscore in name -> watch for changes */
 const paramsList = [
   'eventsPrefix',
+  'injectStyles',
+  'injectStylesUrls',
   'modules',
   'init',
   '_direction',
