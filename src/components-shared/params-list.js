@@ -113,7 +113,5 @@ const paramsList = [
   'virtual',
   'zoom',
   'control',
-  'injectStyles',
-  'injectStylesUrls',
 ];
 export { paramsList };
