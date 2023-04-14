@@ -16,7 +16,7 @@ function getChildren(originalSlots = {}, slidesRef, oldSlidesRef) {
       const isFragment = typeof vnode.type === 'symbol';
       if (slotName === 'default') slotName = 'container-end';
       if (isFragment && vnode.children) {
-        getSlidesFromElements(vnode.children, 'default');
+        getSlidesFromElements(vnode.children, slotName);
       } else if (
         vnode.type &&
         (vnode.type.name === 'SwiperSlide' || vnode.type.name === 'AsyncComponentWrapper')
