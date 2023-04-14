@@ -16,13 +16,19 @@ export default function setTranslate(translate, byController) {
     y = Math.floor(y);
   }
 
+  swiper.previousTranslate = swiper.translate;
+  swiper.translate = swiper.isHorizontal() ? x : y;
+
   if (params.cssMode) {
     wrapperEl[swiper.isHorizontal() ? 'scrollLeft' : 'scrollTop'] = swiper.isHorizontal() ? -x : -y;
   } else if (!params.virtualTranslate) {
+    if (swiper.isHorizontal()) {
+      x -= swiper.cssOverflowAdjustment();
+    } else {
+      y -= swiper.cssOverflowAdjustment();
+    }
     wrapperEl.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
   }
-  swiper.previousTranslate = swiper.translate;
-  swiper.translate = swiper.isHorizontal() ? x : y;
 
   // Check if we need to update progress
   let newProgress;
