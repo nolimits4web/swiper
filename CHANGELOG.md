@@ -1,5 +1,20 @@
 # Changelog
 
+# [9.2.1](https://github.com/nolimits4web/Swiper/compare/v9.2.0...v9.2.1) (2023-04-14)
+
+### Bug Fixes
+
+- **controller:** add a conditional to early return if the swiper controller is destroyed ([#6555](https://github.com/nolimits4web/Swiper/issues/6555)) ([3fbec6e](https://github.com/nolimits4web/Swiper/commit/3fbec6e5a730f073575f57422262585471eaae5b))
+- **controller:** correct interpolation per slider ([706fdf8](https://github.com/nolimits4web/Swiper/commit/706fdf8a962ccd4750bf018e85a6ab9f9e51cf86)), closes [#6506](https://github.com/nolimits4web/Swiper/issues/6506)
+- **controller:** fix controllers multiplier on 0 translates ([4b8bd02](https://github.com/nolimits4web/Swiper/commit/4b8bd029fb3f63d897860e489c713d5f223df89c)), closes [#6498](https://github.com/nolimits4web/Swiper/issues/6498)
+- **element:** add `injectStyles` to be acceptable as props ([7c1c5d3](https://github.com/nolimits4web/Swiper/commit/7c1c5d35997eba2ba9b6c4d14e11e587b722610b)), closes [#6578](https://github.com/nolimits4web/Swiper/issues/6578)
+- **pagination:** update pagination direction class on direction change ([e6247d9](https://github.com/nolimits4web/Swiper/commit/e6247d98a11e7d9c5a23fbef7d60a70edac8100c)), closes [#6511](https://github.com/nolimits4web/Swiper/issues/6511)
+- **vue:** fix deep slots ([642b455](https://github.com/nolimits4web/Swiper/commit/642b455fc7f02b82d8e534e51405a2bbe70d0b2c)), closes [#6574](https://github.com/nolimits4web/Swiper/issues/6574)
+
+### Features
+
+- **virtual:** patch for very large sliders using virtual slides ([#6533](https://github.com/nolimits4web/Swiper/issues/6533)) ([e48daa5](https://github.com/nolimits4web/Swiper/commit/e48daa51e1d728be1751a7bf5f726a0fc777d36a))
+
 # [9.2.0](https://github.com/nolimits4web/Swiper/compare/v9.1.1...v9.2.0) (2023-03-31)
 
 ### Bug Fixes
