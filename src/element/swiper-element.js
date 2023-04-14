@@ -198,6 +198,7 @@ paramsList.forEach((paramName) => {
   if (paramName === 'init') return;
   paramName = paramName.replace('_', '');
   Object.defineProperty(SwiperContainer.prototype, paramName, {
+    configurable: true,
     get() {
       return (this.passedParams || {})[paramName];
     },
