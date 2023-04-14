@@ -9,8 +9,8 @@ export default function updateSlidesOffset() {
     : 0;
   for (let i = 0; i < slides.length; i += 1) {
     slides[i].swiperSlideOffset =
-      (swiper.isHorizontal() ? slides[i].offsetLeft : slides[i].offsetTop)
-      - minusOffset
-      - swiper.cssOverflowAdjustment();
+      (swiper.isHorizontal() ? slides[i].offsetLeft : slides[i].offsetTop) -
+      minusOffset -
+      swiper.cssOverflowAdjustment();
   }
 }

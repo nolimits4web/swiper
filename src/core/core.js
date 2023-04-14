@@ -167,7 +167,7 @@ class Swiper {
       cssOverflowAdjustment() {
         // Returns 0 unless `translate` is > 2**23
         // Should be subtracted from css values to prevent overflow
-        return Math.trunc(this.translate / 2**23) * 2**23;
+        return Math.trunc(this.translate / 2 ** 23) * 2 ** 23;
       },
 
       // Locks
