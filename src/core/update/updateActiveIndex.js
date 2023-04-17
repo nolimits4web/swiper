@@ -81,7 +81,9 @@ export default function updateActiveIndex(newActiveIndex) {
   }
 
   Object.assign(swiper, {
+    previousSnapIndex,
     snapIndex,
+    previousRealIndex,
     realIndex,
     previousIndex,
     activeIndex,

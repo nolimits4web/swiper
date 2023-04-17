@@ -79,10 +79,12 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     const index = elementIndex(bulletEl) * swiper.params.slidesPerGroup;
     if (swiper.params.loop) {
       if (swiper.realIndex === index) return;
-      if (index < swiper.loopedSlides || index > swiper.slides.length - swiper.loopedSlides) {
+      const newSlideIndex = swiper.getSlideIndexByData(index);
+      const currentSlideIndex = swiper.getSlideIndexByData(swiper.realIndex);
+      if (newSlideIndex > swiper.slides.length - swiper.loopedSlides) {
         swiper.loopFix({
-          direction: index < swiper.loopedSlides ? 'prev' : 'next',
-          activeSlideIndex: index,
+          direction: newSlideIndex > currentSlideIndex ? 'next' : 'prev',
+          activeSlideIndex: newSlideIndex,
           slideTo: false,
         });
       }
@@ -103,6 +105,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     el = makeElementsArray(el);
     // Current/Total
     let current;
+    let previousIndex;
     const slidesLength =
       swiper.virtual && swiper.params.virtual.enabled
         ? swiper.virtual.slides.length
@@ -111,13 +114,16 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       ? Math.ceil(slidesLength / swiper.params.slidesPerGroup)
       : swiper.snapGrid.length;
     if (swiper.params.loop) {
+      previousIndex = swiper.previousRealIndex || 0;
       current =
         swiper.params.slidesPerGroup > 1
           ? Math.floor(swiper.realIndex / swiper.params.slidesPerGroup)
           : swiper.realIndex;
     } else if (typeof swiper.snapIndex !== 'undefined') {
       current = swiper.snapIndex;
+      previousIndex = swiper.previousSnapIndex;
     } else {
+      previousIndex = swiper.previousIndex || 0;
       current = swiper.activeIndex || 0;
     }
     // Types
@@ -137,9 +143,8 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
             bulletSize * (params.dynamicMainBullets + 4)
           }px`;
         });
-
-        if (params.dynamicMainBullets > 1 && swiper.previousIndex !== undefined) {
-          dynamicBulletIndex += current - (swiper.previousIndex || 0);
+        if (params.dynamicMainBullets > 1 && previousIndex !== undefined) {
+          dynamicBulletIndex += current - (previousIndex || 0);
           if (dynamicBulletIndex > params.dynamicMainBullets - 1) {
             dynamicBulletIndex = params.dynamicMainBullets - 1;
           } else if (dynamicBulletIndex < 0) {
