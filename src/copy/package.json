@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "9.2.2",
+  "version": "9.2.3",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "typings": "swiper.d.ts",
   "type": "module",
@@ -186,5 +186,5 @@
   "dependencies": {
     "ssr-window": "^4.0.2"
   },
-  "releaseDate": "April 14, 2023"
+  "releaseDate": "April 17, 2023"
 }

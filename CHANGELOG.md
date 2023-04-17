@@ -1,5 +1,13 @@
 # Changelog
 
+# [9.2.3](https://github.com/nolimits4web/Swiper/compare/v9.2.2...v9.2.3) (2023-04-17)
+
+### Bug Fixes
+
+- **autoplay:** use local scope for autoplay resize timeot ([4f665bd](https://github.com/nolimits4web/Swiper/commit/4f665bde1871ca05780c1666b5b8072a48786e18)), closes [#6590](https://github.com/nolimits4web/Swiper/issues/6590)
+- made defineProperty configurable as it broke when minified. ([#6586](https://github.com/nolimits4web/Swiper/issues/6586)) ([26cfbaa](https://github.com/nolimits4web/Swiper/commit/26cfbaa5a992dc5f4e0f6b12f85e9c7b6308db8c))
+- **pagination:** fix clickable pagination in loop ([479a7f5](https://github.com/nolimits4web/Swiper/commit/479a7f5d042492171af15b1bd1001c7f89341eb0)), closes [#6518](https://github.com/nolimits4web/Swiper/issues/6518) [#6460](https://github.com/nolimits4web/Swiper/issues/6460) [#6587](https://github.com/nolimits4web/Swiper/issues/6587) [#6451](https://github.com/nolimits4web/Swiper/issues/6451)
+
 # [9.2.2](https://github.com/nolimits4web/Swiper/compare/v9.2.1...v9.2.2) (2023-04-14)
 
 ### Bug Fixes
