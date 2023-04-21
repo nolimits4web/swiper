@@ -90,6 +90,9 @@ export default function loopFix({
   }
 
   swiper.recalcSlides();
+  if (params.slidesPerView === 'auto') {
+    swiper.updateSlides();
+  }
   if (params.watchSlidesProgress) {
     swiper.updateSlidesOffset();
   }
