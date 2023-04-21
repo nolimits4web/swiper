@@ -1,5 +1,17 @@
 # Changelog
 
+# [9.2.4](https://github.com/nolimits4web/Swiper/compare/v9.2.3...v9.2.4) (2023-04-21)
+
+### Bug Fixes
+
+- **core:** fix autoHeight in virtual slides ([dd30829](https://github.com/nolimits4web/Swiper/commit/dd308291a46db86bf7b88416587d2d8a1cdcabd5)), closes [#6570](https://github.com/nolimits4web/Swiper/issues/6570)
+- **loop:** update slides grids before loop fix when spv is "auto" ([035e79d](https://github.com/nolimits4web/Swiper/commit/035e79d6eb3e07d78824322bc6412df3d09cafbe)), closes [#6599](https://github.com/nolimits4web/Swiper/issues/6599)
+- **virtual:** fix last slide index check in virtual slides ([154f048](https://github.com/nolimits4web/Swiper/commit/154f048436726a5a3219ace6b00bebc3bb51ab07)), closes [#6595](https://github.com/nolimits4web/Swiper/issues/6595)
+
+### Features
+
+- **hash-navigation:** new `getSlideIndex` to specify slide index by hash ([3eb0ae2](https://github.com/nolimits4web/Swiper/commit/3eb0ae2dfa6911f7c13fe85fd48cac22a91af451)), closes [#6588](https://github.com/nolimits4web/Swiper/issues/6588)
+
 # [9.2.3](https://github.com/nolimits4web/Swiper/compare/v9.2.2...v9.2.3) (2023-04-17)
 
 ### Bug Fixes
