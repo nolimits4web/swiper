@@ -90,14 +90,14 @@ class SwiperContainer extends ClassToExtend {
       </div>
       <slot name="container-end"></slot>
       ${needsNavigation(this.passedParams) ? `
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+        <div part="button-prev" class="swiper-button-prev"></div>
+        <div part="button-next" class="swiper-button-next"></div>
       ` : ''}
       ${needsPagination(this.passedParams) ? `
-        <div class="swiper-pagination"></div>
+        <div part="pagination" class="swiper-pagination"></div>
       ` : '' }
       ${needsScrollbar(this.passedParams) ? `
-        <div class="swiper-scrollbar"></div>
+        <div part="scrollbar" class="swiper-scrollbar"></div>
       ` : '' }
     `;
     [...this.tempDiv.children].forEach((el) => {
