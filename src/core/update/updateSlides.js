@@ -260,12 +260,7 @@ export default function updateSlides() {
   }
 
   if (params.centeredSlides && params.centeredSlidesBounds) {
-    let allSlidesSize = 0;
-    slidesSizesGrid.forEach((slideSizeValue) => {
-      allSlidesSize += slideSizeValue + (params.spaceBetween ? params.spaceBetween : 0);
-    });
-    allSlidesSize -= params.spaceBetween;
-    const maxSnap = allSlidesSize - swiperSize;
+    const maxSnap = swiper.virtualSize - swiperSize;
     snapGrid = snapGrid.map((snap) => {
       if (snap < 0) return -offsetBefore;
       if (snap > maxSnap) return maxSnap + offsetAfter;
