@@ -61,6 +61,7 @@ class SwiperContainer extends ClassToExtend {
   }
 
   render() {
+    if (this.rendered) return;
     if (globalInjectStyles) {
       // global styles
       addGlobalStyles(false, this);
@@ -103,6 +104,7 @@ class SwiperContainer extends ClassToExtend {
     [...this.tempDiv.children].forEach((el) => {
       this.shadowEl.appendChild(el);
     });
+    this.rendered = true;
   }
 
   initialize() {
