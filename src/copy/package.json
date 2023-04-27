@@ -7,8 +7,14 @@
   "main": "./swiper.esm.js",
   "module": "./swiper.esm.js",
   "exports": {
-    ".": "./swiper.esm.js",
-    "./core": "./swiper.esm.js",
+    ".": {
+      "types": "./swiper.d.ts",
+      "default": "./swiper.esm.js"
+    },
+    "./core": {
+      "types": "./swiper.d.ts",
+      "default": "./swiper.esm.js"
+    },
     "./swiper.esm.js": "./swiper.esm.js",
     "./bundle": "./swiper-bundle.esm.js",
     "./swiper-bundle.esm.js": "./swiper-bundle.esm.js",
@@ -89,9 +95,18 @@
     "./scss/thumbs": "./modules/thumbs/thumbs.scss",
     "./scss/virtual": "./modules/virtual/virtual.scss",
     "./scss/zoom": "./modules/zoom/zoom.scss",
-    "./element": "./element/swiper-element.js",
-    "./element/bundle": "./element/swiper-element-bundle.js",
-    "./element-bundle": "./element/swiper-element-bundle.js",
+    "./element": {
+      "types": "./element/swiper-element.d.ts",
+      "default": "./element/swiper-element.js"
+    },
+    "./element/bundle": {
+      "types": "./element/swiper-element.d.ts",
+      "default": "./element/swiper-element-bundle.js"
+    },
+    "./element-bundle": {
+      "types": "./element/swiper-element.d.ts",
+      "default": "./element/swiper-element-bundle.js"
+    },
     "./element/css": "./swiper-element.min.css",
     "./swiper-element.min.css": "./swiper-element.min.css",
     "./element/css/bundle": "./swiper-element-bundle.min.css",
@@ -120,8 +135,14 @@
     "./element/css/thumbs": "./modules/thumbs/thumbs-element.min.css",
     "./element/css/virtual": "./modules/virtual/virtual-element.min.css",
     "./element/css/zoom": "./modules/zoom/zoom-element.min.css",
-    "./react": "./react/swiper-react.js",
-    "./vue": "./vue/swiper-vue.js",
+    "./react": {
+      "types": "./react/swiper-react.d.ts",
+      "default": "./react/swiper-react.js"
+    },
+    "./vue": {
+      "types": "./vue/swiper-vue.d.ts",
+      "default": "./vue/swiper-vue.js"
+    },
     "./types": "./types/index.d.ts",
     "./package.json": "./package.json"
   },
