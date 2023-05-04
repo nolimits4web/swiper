@@ -395,9 +395,13 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
     if (swiper.params.mousewheel.eventsTarget !== 'container') {
       targetEl = document.querySelector(swiper.params.mousewheel.eventsTarget);
     }
+    const activeListener = !swiper.params.passiveListeners
+      ? { passive: false, capture: false }
+      : false;
+
     targetEl[method]('mouseenter', handleMouseEnter);
     targetEl[method]('mouseleave', handleMouseLeave);
-    targetEl[method]('wheel', handle);
+    targetEl[method]('wheel', handle, activeListener);
   }
 
   function enable() {
