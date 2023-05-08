@@ -1,19 +1,21 @@
-import { SwiperOptions } from '../types/swiper-options';
-import Swiper from '../types/swiper-class';
+import { SwiperOptions, Swiper } from '../types/';
 
 declare const register: (injectStyles?: boolean) => void;
 
+// prettier-ignore
 interface SwiperContainerEventMap extends HTMLElementEventMap {
-  slidechange: Event;
+  // CORE_EVENTS
+
+  // MODULES_EVENTS
 }
 
 interface SwiperContainer extends HTMLElement {}
 interface SwiperContainer extends SwiperOptions {
-  swiper?: Swiper;
-  initialize?: () => void;
-  injectStyles?: string[];
-  injectStylesUrls?: string[];
-  eventsPrefix?: string;
+  swiper: Swiper;
+  initialize: () => void;
+  injectStyles: string[];
+  injectStylesUrls: string[];
+  eventsPrefix: string;
   addEventListener<K extends keyof SwiperContainerEventMap>(
     type: K,
     listener: (this: SwiperContainer, ev: SwiperContainerEventMap[K]) => any,
