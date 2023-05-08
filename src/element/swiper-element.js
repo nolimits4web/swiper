@@ -136,6 +136,14 @@ class SwiperContainer extends ClassToExtend {
   }
 
   connectedCallback() {
+    if (
+      this.initialized &&
+      this.nested &&
+      this.closest('swiper-slide') &&
+      this.closest('swiper-slide').swiperLoopMoveDOM
+    ) {
+      return;
+    }
     if (this.init === false || this.getAttribute('init') === 'false') {
       addGlobalStyles(true, this);
       return;
@@ -144,6 +152,13 @@ class SwiperContainer extends ClassToExtend {
   }
 
   disconnectedCallback() {
+    if (
+      this.nested &&
+      this.closest('swiper-slide') &&
+      this.closest('swiper-slide').swiperLoopMoveDOM
+    ) {
+      return;
+    }
     if (this.swiper && this.swiper.destroy) {
       this.swiper.destroy();
     }
