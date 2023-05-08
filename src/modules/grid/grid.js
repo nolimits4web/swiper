@@ -10,6 +10,16 @@ export default function Grid({ swiper, extendParams }) {
   let slidesPerRow;
   let numFullColumns;
 
+  const getSpaceBetween = () => {
+    let spaceBetween = swiper.params.spaceBetween;
+    if (typeof spaceBetween === 'string' && spaceBetween.indexOf('%') >= 0) {
+      spaceBetween = (parseFloat(spaceBetween.replace('%', '')) / 100) * swiper.size;
+    } else if (typeof spaceBetween === 'string') {
+      spaceBetween = parseFloat(spaceBetween);
+    }
+    return spaceBetween;
+  };
+
   const initSlides = (slidesLength) => {
     const { slidesPerView } = swiper.params;
     const { rows, fill } = swiper.params.grid;
@@ -26,7 +36,8 @@ export default function Grid({ swiper, extendParams }) {
   };
 
   const updateSlide = (i, slide, slidesLength, getDirectionLabel) => {
-    const { slidesPerGroup, spaceBetween } = swiper.params;
+    const { slidesPerGroup } = swiper.params;
+    const spaceBetween = getSpaceBetween();
     const { rows, fill } = swiper.params.grid;
     // Set slides order
     let newSlideOrderIndex;
@@ -66,7 +77,8 @@ export default function Grid({ swiper, extendParams }) {
   };
 
   const updateWrapperSize = (slideSize, snapGrid, getDirectionLabel) => {
-    const { spaceBetween, centeredSlides, roundLengths } = swiper.params;
+    const { centeredSlides, roundLengths } = swiper.params;
+    const spaceBetween = getSpaceBetween();
     const { rows } = swiper.params.grid;
     swiper.virtualSize = (slideSize + spaceBetween) * slidesNumberEvenToRows;
     swiper.virtualSize = Math.ceil(swiper.virtualSize / rows) - spaceBetween;
