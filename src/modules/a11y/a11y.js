@@ -264,7 +264,11 @@ export default function A11y({ swiper, extendParams, on }) {
   const init = () => {
     const params = swiper.params.a11y;
 
-    swiper.el.append(liveRegion);
+    if (swiper.isElement) {
+      swiper.el.shadowEl.append(liveRegion);
+    } else {
+      swiper.el.append(liveRegion);
+    }
 
     // Container
     const containerEl = swiper.el;
@@ -314,7 +318,7 @@ export default function A11y({ swiper, extendParams, on }) {
     swiper.el.addEventListener('pointerup', handlePointerUp, true);
   };
   function destroy() {
-    if (liveRegion && liveRegion.length > 0) liveRegion.remove();
+    if (liveRegion) liveRegion.remove();
     let { nextEl, prevEl } = swiper.navigation ? swiper.navigation : {};
     nextEl = makeElementsArray(nextEl);
     prevEl = makeElementsArray(prevEl);
@@ -345,9 +349,6 @@ export default function A11y({ swiper, extendParams, on }) {
     liveRegion = createElement('span', swiper.params.a11y.notificationClass);
     liveRegion.setAttribute('aria-live', 'assertive');
     liveRegion.setAttribute('aria-atomic', 'true');
-    if (swiper.isElement) {
-      liveRegion.setAttribute('slot', 'container-end');
-    }
   });
 
   on('afterInit', () => {
