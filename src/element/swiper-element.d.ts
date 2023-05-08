@@ -39,7 +39,7 @@ interface SwiperContainer extends SwiperOptions {
 }
 
 interface SwiperSlide extends HTMLElement {
-  lazy?: string | boolean;
+  lazy: string | boolean;
 }
 
 export { register, SwiperContainer, SwiperSlide };
