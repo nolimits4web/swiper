@@ -1,5 +1,19 @@
 # Changelog
 
+# [9.3.0-beta.1](https://github.com/nolimits4web/Swiper/compare/v9.2.4...v9.3.0-beta.1) (2023-05-08)
+
+### Bug Fixes
+
+- **a11y:** add notification span to shadow root in Swiper Element ([aa83a03](https://github.com/nolimits4web/Swiper/commit/aa83a03545bb5fbd2469e0e096fb9fb42e57bdd6)), closes [#6634](https://github.com/nolimits4web/Swiper/issues/6634)
+- **core:** fix cases when spaceBetween set in `%` ([446af7e](https://github.com/nolimits4web/Swiper/commit/446af7ece1ec7042f5dad6bc550eb344132c0e88)), closes [#6647](https://github.com/nolimits4web/Swiper/issues/6647)
+- **element:** don't reinit nested swipers rearranged by parent swiper loop ([926828a](https://github.com/nolimits4web/Swiper/commit/926828aa9d1b301b04f2715a17b94971cfc25b42)), closes [#6642](https://github.com/nolimits4web/Swiper/issues/6642)
+- **element:** don't render swiper on every `connected` ([5a5ebb4](https://github.com/nolimits4web/Swiper/commit/5a5ebb4162666eb44c1a3e09893309d734289a98))
+
+### Features
+
+- **element:** add shadow parts ([e4f3def](https://github.com/nolimits4web/Swiper/commit/e4f3defe5bcd3ab7b9e7dad5513bcb68482a4b9e)), closes [#6594](https://github.com/nolimits4web/Swiper/issues/6594)
+- **element:** more complex ts definitions ([4cab52d](https://github.com/nolimits4web/Swiper/commit/4cab52d29b8ca535622d73ddb52c192d282c65fa))
+
 # [9.2.4](https://github.com/nolimits4web/Swiper/compare/v9.2.3...v9.2.4) (2023-04-21)
 
 ### Bug Fixes
