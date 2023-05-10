@@ -3,7 +3,7 @@ import { SwiperOptions, Swiper } from '../types/';
 declare const register: (injectStyles?: boolean) => void;
 
 // prettier-ignore
-interface SwiperContainerEventMap extends HTMLElementEventMap {
+interface SwiperContainerEventMap extends Omit<HTMLElementEventMap, 'click' | 'progress' | 'keypress' | 'resize' | 'touchstart' | 'touchmove' | 'touchend' | 'transitionend' | 'transitionstart'> {
   // CORE_EVENTS
 
   // MODULES_EVENTS
