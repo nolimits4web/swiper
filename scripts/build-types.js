@@ -31,13 +31,24 @@ export default async function buildTypes() {
     coreEventsContent = coreEventsContent
       .split('// CORE_EVENTS_START')[1]
       .split('// CORE_EVENTS_END')[0];
-    coreEventsElement = replaceInstances(
-      coreEventsContent.replace(/ ([a-zA-Z_?]*): ([^;]*);/g, (string, name) => {
-        if (name.includes('_')) {
+    coreEventsElement = coreEventsContent.replace(
+      / ([a-zA-Z_?]*): ([^;]*);/g,
+      (string, name, args) => {
+        if (
+          name.includes('_') ||
+          name.toLowerCase() === 'classnames' ||
+          name.toLowerCase() === 'index'
+        ) {
           return '';
         }
-        return ` ${name.toLowerCase()}: CustomEvent;`;
-      }),
+        args = args
+          .replace('(', '')
+          .replace(')', '')
+          .split('=>')[0]
+          .replace('SwiperClass', 'Swiper')
+          .trim();
+        return ` ${name.toLowerCase()}: CustomEvent<[${args}]>;`;
+      },
     );
     coreEventsReact = replaceInstances(
       coreEventsContent.replace(/ ([a-zA-Z]*): \(/g, (string, name) => {
@@ -60,10 +71,17 @@ export default async function buildTypes() {
         let eventsContent = await fs.readFile(eventsFile, 'utf-8');
         eventsContent = eventsContent.split('Events {')[1].split('}')[0].trim();
         if (eventsContent.length) {
-          modulesEventsElement += replaceInstances(
-            eventsContent.replace(/ ([a-zA-Z]*): ([^;]*);/g, (string, name) => {
-              return ` ${name.toLowerCase()}: CustomEvent;`;
-            }),
+          modulesEventsElement += eventsContent.replace(
+            / ([a-zA-Z]*): ([^;]*);/g,
+            (string, name, args) => {
+              args = args
+                .replace('(', '')
+                .replace(')', '')
+                .split('=>')[0]
+                .replace('SwiperClass', 'Swiper')
+                .trim();
+              return ` ${name.toLowerCase()}: CustomEvent<[${args}]>;`;
+            },
           );
           modulesEventsReact += replaceInstances(
             eventsContent.replace(/ ([a-zA-Z]*): \(/g, (string, name) => {
