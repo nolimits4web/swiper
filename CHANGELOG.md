@@ -1,5 +1,15 @@
 # Changelog
 
+# [9.3.1](https://github.com/nolimits4web/Swiper/compare/v9.3.0...v9.3.1) (2023-05-10)
+
+### Bug Fixes
+
+- **element:** correct extending of HTMLElementEventMap in types ([d6a0aca](https://github.com/nolimits4web/Swiper/commit/d6a0aca0f24f19403a424655b4ceb2a1e81529ea)), closes [#6657](https://github.com/nolimits4web/Swiper/issues/6657)
+
+### Features
+
+- **element:** added all events arguments in TS declarations ([abb0688](https://github.com/nolimits4web/Swiper/commit/abb068845b26ace91ab5b10908a2f1f52cf0929e))
+
 # [9.3.0](https://github.com/nolimits4web/Swiper/compare/v9.3.0...v9.2.4) (2023-05-08)
 
 ### Bug Fixes
