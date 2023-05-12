@@ -176,10 +176,6 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
     let e = event;
     let disableParentSwiper = true;
     if (!swiper.enabled) return;
-
-    // Ignore event if the target or its parents have the swiper-no-mousewheel class
-    if (event.target.closest(".swiper-no-mousewheel")) return;
-    
     const params = swiper.params.mousewheel;
 
     if (swiper.params.cssMode) {
