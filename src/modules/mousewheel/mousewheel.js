@@ -15,6 +15,7 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
       eventsTarget: 'container',
       thresholdDelta: null,
       thresholdTime: null,
+      noMousewheelClass: 'swiper-no-mousewheel',
     },
   });
 
@@ -178,7 +179,7 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
     if (!swiper.enabled) return;
 
     // Ignore event if the target or its parents have the swiper-no-mousewheel class
-    if (event.target.closest(".swiper-no-mousewheel")) return;
+    if (event.target.closest(`.${swiper.params.mousewheel.noMousewheelClass}`)) return;
 
     const params = swiper.params.mousewheel;
 

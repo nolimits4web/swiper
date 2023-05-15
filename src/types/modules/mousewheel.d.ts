@@ -72,4 +72,11 @@ export interface MousewheelOptions {
    * @default null
    */
   thresholdTime?: number | null;
+
+  /**
+   * Scrolling on elements with this class will be ignored
+   *
+   * @default 'swiper-no-mousewheel'
+   */
+  noMousewheelClass?: string;
 }
