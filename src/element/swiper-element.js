@@ -76,7 +76,7 @@ class SwiperContainer extends ClassToExtend {
     }
 
     this.cssLinks().forEach((url) => {
-      const linkExists = document.querySelector(`link[href="${url}"]`);
+      const linkExists = this.shadowEl.querySelector(`link[href="${url}"]`);
       if (linkExists) return;
       const linkEl = document.createElement('link');
       linkEl.rel = 'stylesheet';
