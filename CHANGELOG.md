@@ -1,5 +1,23 @@
 # Changelog
 
+## [9.3.2](https://github.com/nolimits4web/Swiper/compare/v9.3.1...v9.3.2) (2023-05-15)
+
+### Bug Fixes
+
+- **core:** don't call update() on lazy loaded if spv !== auto and no autoHeight ([378a3c6](https://github.com/nolimits4web/Swiper/commit/378a3c627d8e3845c2949d2c4fff506905d8d9cd))
+- **core:** don't call update() on lazy loaded in css mode ([efc294c](https://github.com/nolimits4web/Swiper/commit/efc294c45b0bcd022109e913cd2df165360cfabd))
+- **core:** fix for `smoothScroll` check in Support module ([e0f4ae4](https://github.com/nolimits4web/Swiper/commit/e0f4ae4484d2b305dbee9a437d6ca07fbbe15297))
+- **element:** fix not working correctly `injectStylesUrls` ([6a50d45](https://github.com/nolimits4web/Swiper/commit/6a50d455801e2d925e4591ac75f70a39b93eaabd)), closes [#6662](https://github.com/nolimits4web/Swiper/issues/6662)
+- **element:** remove/re-add navigation, pagination, scrollbar elements based on prop value ([45f8d4a](https://github.com/nolimits4web/Swiper/commit/45f8d4a3dd5b76c8f8426e93696b20aadc74306e)), closes [#6672](https://github.com/nolimits4web/Swiper/issues/6672)
+- **hash-navigation:** handle slide to none existing hash ([#6681](https://github.com/nolimits4web/Swiper/issues/6681)) ([7f3fa96](https://github.com/nolimits4web/Swiper/commit/7f3fa96c502964311a012cf6ecea96536c7b46af))
+
+### Features
+
+- add `string` type for `effect` param ([7340629](https://github.com/nolimits4web/Swiper/commit/734062914c3deaf4baa556d966634f50c870bb28)), closes [#6676](https://github.com/nolimits4web/Swiper/issues/6676)
+- **mousewheel:** add `noMousewheelClass` param ([0fcd210](https://github.com/nolimits4web/Swiper/commit/0fcd21050fb793fdaa7f9b2950a48e8a3986753a))
+- **mousewheel:** support for `swiper-no-mousewheel` ignore class ([#6671](https://github.com/nolimits4web/Swiper/issues/6671)) ([c9130c3](https://github.com/nolimits4web/Swiper/commit/c9130c341c2da0f3bd83a5c688fcd22fc51fb348))
+- **react:** export `SwiperClass` type from 'swiper/react' ([6768efe](https://github.com/nolimits4web/Swiper/commit/6768efe557d9829d51a3265cf6b31cfd75f8ef89)), closes [#5500](https://github.com/nolimits4web/Swiper/issues/5500)
+
 # [9.3.1](https://github.com/nolimits4web/Swiper/compare/v9.3.0...v9.3.1) (2023-05-10)
 
 ### Bug Fixes
