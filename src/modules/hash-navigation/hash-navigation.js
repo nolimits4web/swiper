@@ -38,7 +38,7 @@ export default function HashNavigation({ swiper, extendParams, emit, on }) {
     if (newHash !== activeSlideHash) {
       const newIndex = swiper.params.hashNavigation.getSlideIndex(swiper, newHash);
       console.log(newIndex);
-      if (typeof newIndex === 'undefined') return;
+      if (typeof newIndex === 'undefined' || isNaN(newIndex)) return;
       swiper.slideTo(newIndex);
     }
   };
