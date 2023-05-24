@@ -31,15 +31,11 @@ export default function HashNavigation({ swiper, extendParams, emit, on }) {
   const onHashChange = () => {
     emit('hashChange');
     const newHash = document.location.hash.replace('#', '');
-    let activeSlideHash;
-    if (swiper.virtual && swiper.params.virtual.enabled) {
-      const activeSlideEl = swiper.slidesEl.querySelector(
-        `[data-swiper-slide-index="${swiper.activeIndex}"]`,
-      );
-      activeSlideHash = activeSlideEl ? activeSlideEl.getAttribute('data-hash') : '';
-    } else {
-      activeSlideHash = swiper.slides[swiper.activeIndex].getAttribute('data-hash');
-    }
+    const activeSlideEl =
+      swiper.virtual && swiper.params.virtual.enabled
+        ? swiper.slidesEl.querySelector(`[data-swiper-slide-index="${swiper.activeIndex}"]`)
+        : swiper.slides[swiper.activeIndex];
+    const activeSlideHash = activeSlideEl ? activeSlideEl.getAttribute('data-hash') : '';
     if (newHash !== activeSlideHash) {
       const newIndex = swiper.params.hashNavigation.getSlideIndex(swiper, newHash);
       if (typeof newIndex === 'undefined' || Number.isNaN(newIndex)) return;
@@ -48,17 +44,13 @@ export default function HashNavigation({ swiper, extendParams, emit, on }) {
   };
   const setHash = () => {
     if (!initialized || !swiper.params.hashNavigation.enabled) return;
-    let activeSlideHash;
-    if (swiper.virtual && swiper.params.virtual.enabled) {
-      const activeSlideEl = swiper.slidesEl.querySelector(
-        `[data-swiper-slide-index="${swiper.activeIndex}"]`,
-      );
-      activeSlideHash = activeSlideEl
-        ? activeSlideEl.getAttribute('data-hash') || activeSlideEl.getAttribute('data-history')
-        : '';
-    } else {
-      activeSlideHash = swiper.slides[swiper.activeIndex].getAttribute('data-hash');
-    }
+    const activeSlideEl =
+      swiper.virtual && swiper.params.virtual.enabled
+        ? swiper.slidesEl.querySelector(`[data-swiper-slide-index="${swiper.activeIndex}"]`)
+        : swiper.slides[swiper.activeIndex];
+    const activeSlideHash = activeSlideEl
+      ? activeSlideEl.getAttribute('data-hash') || activeSlideEl.getAttribute('data-history')
+      : '';
     if (
       swiper.params.hashNavigation.replaceState &&
       window.history &&
