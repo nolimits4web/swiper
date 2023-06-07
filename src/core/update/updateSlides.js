@@ -269,7 +269,7 @@ export default function updateSlides() {
     allSlidesSize -= spaceBetween;
     const maxSnap = allSlidesSize - swiperSize;
     snapGrid = snapGrid.map((snap) => {
-      if (snap < 0) return -offsetBefore;
+      if (snap <= 0) return -offsetBefore;
       if (snap > maxSnap) return maxSnap + offsetAfter;
       return snap;
     });
