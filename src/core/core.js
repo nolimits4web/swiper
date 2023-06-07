@@ -322,8 +322,9 @@ class Swiper {
     const swiper = this;
     const { params, slides, slidesGrid, slidesSizesGrid, size: swiperSize, activeIndex } = swiper;
     let spv = 1;
+
     if (params.centeredSlides) {
-      let slideSize = slides[activeIndex].swiperSlideSize;
+      let slideSize = slides[activeIndex] ? slides[activeIndex].swiperSlideSize : 0;
       let breakLoop;
       for (let i = activeIndex + 1; i < slides.length; i += 1) {
         if (slides[i] && !breakLoop) {
