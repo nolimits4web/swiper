@@ -46,11 +46,13 @@ export const preload = (swiper) => {
     }
   } else {
     for (
-      let i = Math.max(slideIndexLastInView - amount, 0);
+      let i = Math.max(activeIndex - amount, 0);
       i <= Math.min(slideIndexLastInView + amount, len - 1);
       i += 1
     ) {
-      if (i !== activeIndex && i > slideIndexLastInView) unlazy(swiper, i);
+      if (i !== activeIndex && (i > slideIndexLastInView || i < activeIndex)) {
+        unlazy(swiper, i);
+      }
     }
   }
 };
