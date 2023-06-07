@@ -23,7 +23,6 @@ export default function Grid({ swiper, extendParams }) {
   const initSlides = (slidesLength) => {
     const { slidesPerView } = swiper.params;
     const { rows, fill } = swiper.params.grid;
-    slidesPerRow = slidesNumberEvenToRows / rows;
     numFullColumns = Math.floor(slidesLength / rows);
     if (Math.floor(slidesLength / rows) === slidesLength / rows) {
       slidesNumberEvenToRows = slidesLength;
@@ -33,6 +32,7 @@ export default function Grid({ swiper, extendParams }) {
     if (slidesPerView !== 'auto' && fill === 'row') {
       slidesNumberEvenToRows = Math.max(slidesNumberEvenToRows, slidesPerView * rows);
     }
+    slidesPerRow = slidesNumberEvenToRows / rows;
   };
 
   const updateSlide = (i, slide, slidesLength, getDirectionLabel) => {
@@ -72,6 +72,8 @@ export default function Grid({ swiper, extendParams }) {
       row = Math.floor(i / slidesPerRow);
       column = i - row * slidesPerRow;
     }
+    slide.row = row;
+    slide.column = column;
     slide.style[getDirectionLabel('margin-top')] =
       row !== 0 ? spaceBetween && `${spaceBetween}px` : '';
   };
