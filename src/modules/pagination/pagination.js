@@ -371,7 +371,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     el = makeElementsArray(el);
     el.forEach((subEl) => {
       if (params.type === 'bullets' && params.clickable) {
-        subEl.classList.add(params.clickableClass);
+        subEl.classList.add(...params.clickableClass.split(' '));
       }
 
       subEl.classList.add(params.modifierClass + params.type);
