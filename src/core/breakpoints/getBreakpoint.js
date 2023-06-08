@@ -1,6 +1,9 @@
 import { getWindow } from 'ssr-window';
 
 export default function getBreakpoint(breakpoints, base = 'window', containerEl) {
+  if ( typeof breakpoints == 'string' ) {
+    breakpoints = JSON.parse(breakpoints);
+  }
   if (!breakpoints || (base === 'container' && !containerEl)) return undefined;
   let breakpoint = false;
 
