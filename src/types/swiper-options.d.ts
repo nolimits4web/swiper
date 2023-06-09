@@ -263,7 +263,6 @@ export interface SwiperOptions {
    * - `resistance` doesn't have any effect
    * - `allowSlidePrev/Next`
    * - `swipeHandler`
-   * - `freeMode` and all relevant features
    *
    * In case if you use it with other effects, especially 3D effects, it is required to wrap slide's content with `<div class="swiper-slide-transform">` element. And if you use any custom styles on slides (like background colors, border radius, border, etc.), they should be set on `swiper-slide-transform` element instead.
    *

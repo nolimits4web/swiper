@@ -395,19 +395,19 @@ class Swiper {
       swiper.updateSlidesClasses();
     }
     let translated;
-    if (swiper.params.freeMode && swiper.params.freeMode.enabled) {
+    if (params.freeMode && params.freeMode.enabled && !params.cssMode) {
       setTranslate();
-      if (swiper.params.autoHeight) {
+      if (params.autoHeight) {
         swiper.updateAutoHeight();
       }
     } else {
       if (
-        (swiper.params.slidesPerView === 'auto' || swiper.params.slidesPerView > 1) &&
+        (params.slidesPerView === 'auto' || params.slidesPerView > 1) &&
         swiper.isEnd &&
-        !swiper.params.centeredSlides
+        !params.centeredSlides
       ) {
         const slides =
-          swiper.virtual && swiper.params.virtual.enabled ? swiper.virtual.slides : swiper.slides;
+          swiper.virtual && params.virtual.enabled ? swiper.virtual.slides : swiper.slides;
         translated = swiper.slideTo(slides.length - 1, 0, false, true);
       } else {
         translated = swiper.slideTo(swiper.activeIndex, 0, false, true);

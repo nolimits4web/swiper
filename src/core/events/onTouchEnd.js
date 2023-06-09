@@ -89,7 +89,7 @@ export default function onTouchEnd(event) {
     return;
   }
 
-  if (swiper.params.freeMode && params.freeMode.enabled) {
+  if (params.freeMode && params.freeMode.enabled) {
     swiper.freeMode.onTouchEnd({ currentPos });
     return;
   }
@@ -119,7 +119,7 @@ export default function onTouchEnd(event) {
   if (params.rewind) {
     if (swiper.isBeginning) {
       rewindLastIndex =
-        swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual
+        params.virtual && params.virtual.enabled && swiper.virtual
           ? swiper.virtual.slides.length - 1
           : swiper.slides.length - 1;
     } else if (swiper.isEnd) {

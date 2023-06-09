@@ -288,8 +288,6 @@ export default function onTouchMove(event) {
   ) {
     swiper.updateActiveIndex();
     swiper.updateSlidesClasses();
-  }
-  if (swiper.params.freeMode && params.freeMode.enabled && swiper.freeMode) {
     swiper.freeMode.onTouchMove();
   }
   // Update progress
