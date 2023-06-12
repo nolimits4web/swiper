@@ -1,5 +1,28 @@
 # Changelog
 
+# [9.4.0](https://github.com/nolimits4web/Swiper/compare/v9.3.2...v9.3.3) (2023-06-12)
+
+
+### Bug Fixes
+
+* **core:** lazyPreloadPrevNext not working with grid ([883f006](https://github.com/nolimits4web/Swiper/commit/883f0066089ed3fccd24424e548c4ebb85d92756)), closes [#6725](https://github.com/nolimits4web/Swiper/issues/6725)
+* **core:** fix case with not enough slides with `centeredSlidesBounds` ([93b4279](https://github.com/nolimits4web/Swiper/commit/93b4279abed90d5f668fd48c9124392fbb516fdb)), closes [#6689](https://github.com/nolimits4web/Swiper/issues/6689)
+* **core:** fix error for `swiperSlideSize` in hidden slider ([36ef2e6](https://github.com/nolimits4web/Swiper/commit/36ef2e608843b4c83a5dc7ecde30aa71794f639e)), closes [#6718](https://github.com/nolimits4web/Swiper/issues/6718)
+* **core:** fix issue with `allowSlideNext` in RTL mode ([d61da52](https://github.com/nolimits4web/Swiper/commit/d61da526a4568f39aa37bdf9ba60078b25d0ee20)), closes [#6737](https://github.com/nolimits4web/Swiper/issues/6737)
+* **core:** fix navigation can be disabled in breakpoints ([1fd36ad](https://github.com/nolimits4web/Swiper/commit/1fd36ad9d33714df6cff9383e156279867137429)), closes [#6746](https://github.com/nolimits4web/Swiper/issues/6746)
+* **core:** fix to preload lazyPreloadPrevNext prior to active slide ([d2f718c](https://github.com/nolimits4web/Swiper/commit/d2f718ce428d0d7c9bbd1c4102f1c4970d4f772b)), closes [#6684](https://github.com/nolimits4web/Swiper/issues/6684)
+* **core:** lazyPreloadPrevNext not working with loop mode [#6724](https://github.com/nolimits4web/Swiper/issues/6724) ([#6726](https://github.com/nolimits4web/Swiper/issues/6726)) ([69acab4](https://github.com/nolimits4web/Swiper/commit/69acab4a9b024af1f164f2388070fec68f906c16))
+* **effect-cards:** fixed in RTL mode ([e402f05](https://github.com/nolimits4web/Swiper/commit/e402f056a4ace5c7a73cebf414659fe40b46c06f)), closes [#5534](https://github.com/nolimits4web/Swiper/issues/5534)
+* **hash-navigation:** get active slide element using the old method if Virtual is not being… ([#6704](https://github.com/nolimits4web/Swiper/issues/6704)) ([db7e72f](https://github.com/nolimits4web/Swiper/commit/db7e72f8f3b67049395302d25f2548062f094d54))
+
+
+### Features
+
+* **core:** cssMode now supports freeMode ([abe1ec7](https://github.com/nolimits4web/Swiper/commit/abe1ec74a4da0e471af8304616af705e3614106e))
+* **element:** add `part="bullet[-active]"` to pagination bullets ([8b4cccd](https://github.com/nolimits4web/Swiper/commit/8b4cccdec6cf75c06cc27117f5f33268da19851c)), closes [#6717](https://github.com/nolimits4web/Swiper/issues/6717)
+
+
+
 ## [9.3.2](https://github.com/nolimits4web/Swiper/compare/v9.3.1...v9.3.2) (2023-05-15)
 
 ### Bug Fixes
