@@ -3,12 +3,24 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Swiper Playground</title>
+  <title>Swiper Playground - Element</title>
   <meta name="viewport" content="width=device-width" />
 </head>
 
 <body>
-  <swiper-container>
+<swiper-container class="content-page-grid-carousel" class navigation="true" pagination="true" scrollbar="false" loop="true" breakpoints='{
+        "576": {
+            "slidesPerView": 1
+        },
+        "768": { 
+            "slidesPerView": 2,
+            "spaceBetween":30
+        },
+        "1200": { 
+            "slidesPerView": 3,
+            "spaceBetween":20
+        }
+    }'>  
     <swiper-slide>Slide 1</swiper-slide>
     <swiper-slide>Slide 2</swiper-slide>
     <swiper-slide>Slide 3</swiper-slide>
