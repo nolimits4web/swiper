@@ -140,6 +140,7 @@ class Swiper {
       slidesGrid: [],
       snapGrid: [],
       slidesSizesGrid: [],
+      activeSlides: [],
 
       // isDirection
       isHorizontal() {

@@ -33,6 +33,10 @@ export default function updateAutoHeight(speed) {
     activeSlides.push(getSlideByIndex(swiper.activeIndex));
   }
 
+  Object.assign(swiper, {
+    activeSlides,
+  });
+
   // Find new height from highest slide in view
   for (i = 0; i < activeSlides.length; i += 1) {
     if (typeof activeSlides[i] !== 'undefined') {
