@@ -11,7 +11,7 @@ export default function effectVirtualTransitionEnd({
     if (!el.parentElement) {
       // assume shadow root
       const slide = swiper.slides.filter(
-        (slideEl) => slideEl.shadowEl && slideEl.shadowEl === el.parentNode,
+        (slideEl) => slideEl.shadowRoot && slideEl.shadowRoot === el.parentNode,
       )[0];
       return slide;
     }

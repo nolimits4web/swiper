@@ -23,18 +23,11 @@
   }
   .swiper-slide-active,
   .swiper-slide-next,
-  .swiper-slide-prev,
-  .swiper-slide-next + .swiper-slide {
+  .swiper-slide-prev {
     pointer-events: auto;
     visibility: visible;
   }
-  .swiper-slide-shadow-top,
-  .swiper-slide-shadow-bottom,
-  .swiper-slide-shadow-left,
-  .swiper-slide-shadow-right {
-    z-index: 0;
-    backface-visibility: hidden;
-  }
+
   .swiper-cube-shadow {
     position: absolute;
     left: 0;
@@ -57,3 +50,20 @@
     }
   }
 }
+.swiper-cube {
+  .swiper-slide-next + .swiper-slide {
+    pointer-events: auto;
+    visibility: visible;
+  }
+}
+/* Cube slide shadows start */
+.swiper-cube {
+  .swiper-slide-shadow-cube.swiper-slide-shadow-top,
+  .swiper-slide-shadow-cube.swiper-slide-shadow-bottom,
+  .swiper-slide-shadow-cube.swiper-slide-shadow-left,
+  .swiper-slide-shadow-cube.swiper-slide-shadow-right {
+    z-index: 0;
+    backface-visibility: hidden;
+  }
+}
+/* Cube slide shadows end */

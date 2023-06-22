@@ -485,7 +485,7 @@ class Swiper {
     }
 
     el.swiper = swiper;
-    if (el.shadowEl) {
+    if (el.parentNode && el.parentNode.host) {
       swiper.isElement = true;
     }
 
@@ -514,7 +514,8 @@ class Swiper {
     Object.assign(swiper, {
       el,
       wrapperEl,
-      slidesEl: swiper.isElement ? el : wrapperEl,
+      slidesEl: swiper.isElement ? el.parentNode.host : wrapperEl,
+      hostEl: swiper.isElement ? el.parentNode.host : el,
       mounted: true,
 
       // RTL

@@ -337,7 +337,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     if (!params.el) return;
     let el;
     if (typeof params.el === 'string' && swiper.isElement) {
-      el = swiper.el.shadowRoot.querySelector(params.el);
+      el = swiper.el.querySelector(params.el);
     }
     if (!el && typeof params.el === 'string') {
       el = [...document.querySelectorAll(params.el)];

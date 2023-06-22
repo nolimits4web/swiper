@@ -27,7 +27,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
   function getEl(el) {
     let res;
     if (el && typeof el === 'string' && swiper.isElement) {
-      res = swiper.el.shadowRoot.querySelector(el);
+      res = swiper.el.querySelector(el);
       if (res) return res;
     }
     if (el) {

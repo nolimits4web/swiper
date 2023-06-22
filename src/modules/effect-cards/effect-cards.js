@@ -91,7 +91,7 @@ export default function EffectCards({ swiper, extendParams, on }) {
         // Set shadows
         let shadowEl = slideEl.querySelector('.swiper-slide-shadow');
         if (!shadowEl) {
-          shadowEl = createShadow(params, slideEl);
+          shadowEl = createShadow('cards', slideEl);
         }
         if (shadowEl)
           shadowEl.style.opacity = Math.min(Math.max((Math.abs(progress) - 0.5) / 0.5, 0), 1);

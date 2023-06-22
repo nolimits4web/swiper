@@ -1,6 +1,6 @@
 import { SwiperOptions, Swiper } from '../types/';
 
-declare const register: (injectStyles?: boolean) => void;
+declare const register: () => void;
 
 // prettier-ignore
 interface SwiperContainerEventMap extends Omit<HTMLElementEventMap, 'click' | 'progress' | 'keypress' | 'resize' | 'touchstart' | 'touchmove' | 'touchend' | 'transitionend' | 'transitionstart'> {

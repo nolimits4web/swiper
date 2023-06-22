@@ -263,12 +263,7 @@ export default function A11y({ swiper, extendParams, on }) {
 
   const init = () => {
     const params = swiper.params.a11y;
-
-    if (swiper.isElement) {
-      swiper.el.shadowEl.append(liveRegion);
-    } else {
-      swiper.el.append(liveRegion);
-    }
+    swiper.el.append(liveRegion);
 
     // Container
     const containerEl = swiper.el;

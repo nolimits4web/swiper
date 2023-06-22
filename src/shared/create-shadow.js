@@ -1,12 +1,14 @@
 import { createElement, getSlideTransformEl } from './utils.js';
 
-export default function createShadow(params, slideEl, side) {
-  const shadowClass = `swiper-slide-shadow${side ? `-${side}` : ''}`;
+export default function createShadow(suffix, slideEl, side) {
+  const shadowClass = `swiper-slide-shadow${side ? `-${side}` : ''}${
+    suffix ? ` swiper-slide-shadow-${suffix}` : ''
+  }`;
   const shadowContainer = getSlideTransformEl(slideEl);
-  let shadowEl = shadowContainer.querySelector(`.${shadowClass}`);
+  let shadowEl = shadowContainer.querySelector(`.${shadowClass.split(' ').join('.')}`);
 
   if (!shadowEl) {
-    shadowEl = createElement('div', `swiper-slide-shadow${side ? `-${side}` : ''}`);
+    shadowEl = createElement('div', shadowClass.split(' '));
     shadowContainer.append(shadowEl);
   }
   return shadowEl;

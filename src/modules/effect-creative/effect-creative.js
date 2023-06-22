@@ -109,7 +109,7 @@ export default function EffectCreative({ swiper, extendParams, on }) {
       if ((custom && data.shadow) || !custom) {
         let shadowEl = slideEl.querySelector('.swiper-slide-shadow');
         if (!shadowEl && data.shadow) {
-          shadowEl = createShadow(params, slideEl);
+          shadowEl = createShadow('creative', slideEl);
         }
         if (shadowEl) {
           const shadowOpacity = params.shadowPerProgress

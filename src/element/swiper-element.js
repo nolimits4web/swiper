@@ -11,28 +11,7 @@ import {
 import { updateSwiper } from '../components-shared/update-swiper.js';
 
 //SWIPER_STYLES
-
-let globalInjectStyles = true;
-
-const addGlobalStyles = (preInit, swiper) => {
-  let globalStyles = document.querySelector('style#swiper-element-styles');
-  const shouldOverwrite = globalStyles && globalStyles.preInit && !preInit;
-  if (!preInit && swiper) {
-    swiper.cssLinks().forEach((url) => {
-      const linkEl = document.createElement('link');
-      linkEl.rel = 'stylesheet';
-      linkEl.href = url;
-      document.head.prepend(linkEl);
-    });
-  }
-  if (!globalStyles || shouldOverwrite) {
-    globalStyles = globalStyles || document.createElement('style');
-    globalStyles.textContent = [SwiperFontCSS, swiper ? swiper.cssStyles() : ''].join('\n'); // eslint-disable-line
-    globalStyles.id = 'swiper-element-styles';
-    globalStyles.preInit = preInit;
-    document.head.prepend(globalStyles);
-  }
-};
+//SWIPER_SLIDE_STYLES
 
 class DummyHTMLElement {}
 
@@ -41,17 +20,30 @@ const ClassToExtend =
     ? DummyHTMLElement
     : HTMLElement;
 
+const arrowSvg = `<svg width="11" height="20" viewBox="0 0 11 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.38296 20.0762C0.111788 19.805 0.111788 19.3654 0.38296 19.0942L9.19758 10.2796L0.38296 1.46497C0.111788 1.19379 0.111788 0.754138 0.38296 0.482966C0.654131 0.211794 1.09379 0.211794 1.36496 0.482966L10.4341 9.55214C10.8359 9.9539 10.8359 10.6053 10.4341 11.007L1.36496 20.0762C1.09379 20.3474 0.654131 20.3474 0.38296 20.0762Z" fill="currentColor"/></svg>
+    `;
+
 class SwiperContainer extends ClassToExtend {
   constructor() {
     super();
 
-    this.tempDiv = document.createElement('div');
-    this.shadowEl = this.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: 'open' });
+  }
+
+  static get nextButtonSvg() {
+    return arrowSvg;
+  }
+
+  static get prevButtonSvg() {
+    return arrowSvg.replace(
+      '/></svg>',
+      ' transform-origin="center" transform="rotate(180)"/></svg>',
+    );
   }
 
   cssStyles() {
     return [
-      globalInjectStyles ? SwiperCSS : '', // eslint-disable-line
+      SwiperCSS, // eslint-disable-line
       ...(this.injectStyles && Array.isArray(this.injectStyles) ? this.injectStyles : []),
     ].join('\n');
   }
@@ -62,37 +54,38 @@ class SwiperContainer extends ClassToExtend {
 
   render() {
     if (this.rendered) return;
-    if (globalInjectStyles) {
-      // global styles
-      addGlobalStyles(false, this);
-    }
 
     // local styles
     const localStyles = this.cssStyles();
     if (localStyles.length) {
-      this.stylesEl = document.createElement('style');
-      this.stylesEl.textContent = localStyles;
-      this.shadowEl.appendChild(this.stylesEl);
+      const styleSheet = new CSSStyleSheet();
+      // eslint-disable-next-line
+      styleSheet.replaceSync(localStyles);
+      this.shadowRoot.adoptedStyleSheets = [styleSheet];
     }
 
     this.cssLinks().forEach((url) => {
-      const linkExists = this.shadowEl.querySelector(`link[href="${url}"]`);
+      const linkExists = this.shadowRoot.querySelector(`link[href="${url}"]`);
       if (linkExists) return;
       const linkEl = document.createElement('link');
       linkEl.rel = 'stylesheet';
       linkEl.href = url;
-      this.shadowEl.appendChild(linkEl);
+      this.shadowRoot.appendChild(linkEl);
     });
     // prettier-ignore
-    this.tempDiv.innerHTML = `
+    const el = document.createElement('div');
+    el.classList.add('swiper');
+    el.part = 'container';
+    // prettier-ignore
+    el.innerHTML = `
       <slot name="container-start"></slot>
-      <div class="swiper-wrapper">
+      <div class="swiper-wrapper" part="wrapper">
         <slot></slot>
       </div>
       <slot name="container-end"></slot>
       ${needsNavigation(this.passedParams) ? `
-        <div part="button-prev" class="swiper-button-prev"></div>
-        <div part="button-next" class="swiper-button-next"></div>
+        <div part="button-prev" class="swiper-button-prev">${this.constructor.prevButtonSvg}</div>
+        <div part="button-next" class="swiper-button-next">${this.constructor.nextButtonSvg}</div>
       ` : ''}
       ${needsPagination(this.passedParams) ? `
         <div part="pagination" class="swiper-pagination"></div>
@@ -101,9 +94,7 @@ class SwiperContainer extends ClassToExtend {
         <div part="scrollbar" class="swiper-scrollbar"></div>
       ` : '' }
     `;
-    [...this.tempDiv.children].forEach((el) => {
-      this.shadowEl.appendChild(el);
-    });
+    this.shadowRoot.appendChild(el);
     this.rendered = true;
   }
 
@@ -117,7 +108,7 @@ class SwiperContainer extends ClassToExtend {
 
     this.render();
     // eslint-disable-next-line
-    this.swiper = new Swiper(this, {
+    this.swiper = new Swiper(this.shadowRoot.querySelector('.swiper'), {
       ...swiperParams,
       touchEventsTarget: 'container',
       ...(swiperParams.virtual ? {} : { observer: true }),
@@ -145,7 +136,6 @@ class SwiperContainer extends ClassToExtend {
       return;
     }
     if (this.init === false || this.getAttribute('init') === 'false') {
-      addGlobalStyles(true, this);
       return;
     }
     this.initialize();
@@ -235,20 +225,17 @@ class SwiperSlide extends ClassToExtend {
   constructor() {
     super();
 
-    this.tempDiv = document.createElement('div');
-    this.shadowEl = this.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: 'open' });
   }
 
   render() {
     const lazy =
       this.lazy || this.getAttribute('lazy') === '' || this.getAttribute('lazy') === 'true';
-
-    this.tempDiv.innerHTML = `<slot />`;
-
-    [...this.tempDiv.children].forEach((el) => {
-      this.shadowEl.appendChild(el);
-    });
-
+    const styleSheet = new CSSStyleSheet();
+    // eslint-disable-next-line
+    styleSheet.replaceSync(SwiperSlideCSS);
+    this.shadowRoot.adoptedStyleSheets = [styleSheet];
+    this.shadowRoot.appendChild(document.createElement('slot'));
     if (lazy) {
       const lazyDiv = document.createElement('div');
       lazyDiv.classList.add('swiper-lazy-preloader');
@@ -266,14 +253,8 @@ class SwiperSlide extends ClassToExtend {
 }
 
 // eslint-disable-next-line
-const register = (injectStyles = true) => {
+const register = () => {
   if (typeof window === 'undefined') return;
-  if (!injectStyles) {
-    globalInjectStyles = false;
-  }
-  if (globalInjectStyles) {
-    addGlobalStyles(true);
-  }
   if (!window.customElements.get('swiper-container'))
     window.customElements.define('swiper-container', SwiperContainer);
   if (!window.customElements.get('swiper-slide'))

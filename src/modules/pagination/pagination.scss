@@ -134,8 +134,7 @@
     }
   }
 }
-.swiper-horizontal.swiper-rtl > .swiper-pagination-bullets-dynamic .swiper-pagination-bullet,
-:host(.swiper-horizontal.swiper-rtl) .swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
+.swiper-horizontal.swiper-rtl > .swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
   transition: 200ms transform, 200ms right;
 }
 /* Fraction */
@@ -156,7 +155,6 @@
     transform: scale(0);
     transform-origin: left top;
   }
-  /*ADD_HOST*/
   .swiper-rtl & .swiper-pagination-progressbar-fill {
     transform-origin: right top;
   }

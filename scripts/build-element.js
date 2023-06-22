@@ -18,48 +18,85 @@ import config from './build-config.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
+const getSplittedCSS = (content) => {
+  const cssStylesSlideCore = content.split(`/* 3D Shadows */`)[1].split(`/* CSS Mode */`)[0];
+  const cssStylesSlideCube = (content.split(`/* Cube slide shadows start */`)[1] || '').split(
+    `/* Cube slide shadows end */`,
+  )[0];
+  const cssStylesSlideFlip = (content.split(`/* Flip slide shadows start */`)[1] || '').split(
+    `/* Flip slide shadows end */`,
+  )[0];
+  const navigationFontStyles = (content.split('/* Navigation font start */')[1] || '').split(
+    '/* Navigation font end */',
+  )[0];
+  content = content
+    .replace(cssStylesSlideCore, '')
+    .replace(cssStylesSlideCube, '')
+    .replace(cssStylesSlideFlip, '')
+    .replace(navigationFontStyles, '')
+    .split('/* FONT_END */')[1];
+
+  return {
+    slides: [cssStylesSlideCore || '', cssStylesSlideCube || '', cssStylesSlideFlip || ''].join(
+      '\n',
+    ),
+    container: content,
+  };
+};
 const proceedReplacements = (content) => {
-  // add :host
+  // eslint-disable-next-line
+  const replace = ['invisible-blank', 'visible', 'zoomed', 'active', 'next', 'prev'];
+
   content = content
-    .split('\n')
-    .map((line) => {
-      const lineSplitted = line.replace('{', '').replace(',', '').trim().split(' ');
-      if (
-        (lineSplitted.length > 1 &&
-          lineSplitted.filter((part) => part.includes('.swiper-wrapper')).length > 0 &&
-          !line.includes('.swiper-wrapper > .swiper-slide')) ||
-        line.includes(
-          `.swiper-rtl .swiper-pagination-progressbar .swiper-pagination-progressbar-fill`,
-        )
-      ) {
-        const newRule = [...lineSplitted];
-        return line.replace(newRule[0], `:host(${newRule[0]})`);
-      }
-      return line;
-    })
-    .join('\n');
-  // add replacement for RTL
-  content = content.replace(/.swiper-rtl .swiper-button/g, ':host(.swiper-rtl) .swiper-button');
-  // add/replace .swiper-slide to swiper-slide
-  content = content
+    .replace(/:root/g, ':host')
     .split('\n')
     .map((line) => {
       if (line.includes('> .swiper-wrapper > .swiper-slide')) {
-        return line.replace('> .swiper-wrapper > .swiper-slide', '> swiper-slide');
+        return line.replace('> .swiper-wrapper > .swiper-slide', '::slotted(swiper-slide)');
       }
-      if (
-        line.includes('.swiper-slide ') ||
-        line.includes('.swiper-slide,') ||
-        line.includes('.swiper-slide:')
-      ) {
-        return line.replace(/\.swiper-slide/g, 'swiper-slide');
+      let replaced = '';
+      if (line.includes('.swiper-slide ')) {
+        replaced = line.replaceAll(/\.swiper-slide /g, '::slotted(swiper-slide) ');
+      }
+      if (line.includes('.swiper-slide,')) {
+        replaced = line.replaceAll(/\.swiper-slide,/g, '::slotted(swiper-slide),');
+      }
+      if (line.includes('.swiper-slide:')) {
+        replaced = line.replaceAll(/\.swiper-slide:/g, '::slotted(swiper-slide):');
+      }
+      replace.forEach((key) => {
+        const l = replaced || line;
+        if (l.includes(`.swiper-slide-${key}`)) {
+          replaced = l.replaceAll(`.swiper-slide-${key}`, `::slotted(.swiper-slide-${key})`);
+        }
+      });
+      if (replaced) {
+        return replaced;
+      }
+
+      return line;
+    })
+    .join('\n');
+  return content;
+};
+const proceedSlideReplacements = (content) => {
+  content = content
+    .split('\n')
+    .map((line) => {
+      if (line.includes('.swiper-3d .swiper-slide-shadow')) {
+        return line.replace('.swiper-3d ', '::slotted(').replace(',', '),').replace(' {', ') {');
+      }
+      if (line.includes('.swiper-cube .swiper-slide-shadow')) {
+        return line.replace('.swiper-cube ', '::slotted(').replace(',', '),').replace(' {', ') {');
+      }
+      if (line.includes('.swiper-flip .swiper-slide-shadow')) {
+        return line.replace('.swiper-flip ', '::slotted(').replace(',', '),').replace(' {', ') {');
       }
       return line;
     })
     .join('\n');
   return content;
 };
-
 export default async function buildElement() {
   // eslint-disable-next-line
   const modules = config.modules.filter((name) => {
@@ -88,15 +125,18 @@ export default async function buildElement() {
   let cssStylesCore = await autoprefixer(
     await less(lessContentCore, path.resolve(__dirname, '../src')),
   );
+  // eslint-disable-next-line
+  let cssStylesSlide = getSplittedCSS(cssStylesBundle).slides;
+  cssStylesBundle = getSplittedCSS(cssStylesBundle).container;
+  cssStylesCore = getSplittedCSS(cssStylesCore).container;
+
   cssStylesBundle = proceedReplacements(cssStylesBundle);
   cssStylesCore = proceedReplacements(cssStylesCore);
+  cssStylesSlide = proceedSlideReplacements(cssStylesSlide);
 
-  const cssStylesBundleStandalone = cssStylesBundle;
-  const cssStylesCoreStandalone = cssStylesCore;
-
-  const fontStyles = await cleanCss(cssStylesCore.split('/* FONT_END */')[0]);
-  cssStylesBundle = await cleanCss(cssStylesBundle.split('/* FONT_END */')[1]);
-  cssStylesCore = await cleanCss(cssStylesCore.split('/* FONT_END */')[1]);
+  cssStylesBundle = await cleanCss(cssStylesBundle);
+  cssStylesCore = await cleanCss(cssStylesCore);
+  cssStylesSlide = await cleanCss(cssStylesSlide);
 
   if (!fs.existsSync(path.resolve(outputDir, 'element'))) {
     fs.mkdirSync(path.resolve(outputDir, 'element'));
@@ -123,37 +163,21 @@ export default async function buildElement() {
     }),
   );
 
-  // standalone styles
-  fs.writeFileSync(path.resolve(outputDir, 'swiper-element.css'), cssStylesCoreStandalone);
-  fs.writeFileSync(
-    path.resolve(outputDir, 'swiper-element.min.css'),
-    await cleanCss(cssStylesCoreStandalone),
-  );
-  fs.writeFileSync(path.resolve(outputDir, 'swiper-element-bundle.css'), cssStylesBundleStandalone);
-  fs.writeFileSync(
-    path.resolve(outputDir, 'swiper-element-bundle.min.css'),
-    await cleanCss(cssStylesBundleStandalone),
-  );
-
   // ESM
   fs.copyFileSync('./src/element/get-params.js', path.resolve(outputDir, 'element/get-params.js'));
   const elementContent = fs.readFileSync('./src/element/swiper-element.js', 'utf-8');
 
   const esmBundleContent = elementContent
-    .replace(
-      '//SWIPER_STYLES',
-      `const SwiperFontCSS = \`${fontStyles}\`; const SwiperCSS = \`${cssStylesBundle}\`;`,
-    )
+    .replace('//SWIPER_STYLES', `const SwiperCSS = \`${cssStylesBundle}\`;`)
+    .replace('//SWIPER_SLIDE_STYLES', `const SwiperSlideCSS = \`${cssStylesSlide}\`;`)
     .replace('//IMPORT_SWIPER', `import Swiper from 'swiper/bundle';`)
     .replace('//EXPORT', `export { SwiperContainer, SwiperSlide, register };`);
 
   fs.writeFileSync(path.resolve(outputDir, 'element/swiper-element-bundle.js'), esmBundleContent);
 
   const esmContent = elementContent
-    .replace(
-      '//SWIPER_STYLES',
-      `const SwiperFontCSS = \`${fontStyles}\`; const SwiperCSS = \`${cssStylesCore}\`;`,
-    )
+    .replace('//SWIPER_STYLES', `const SwiperCSS = \`${cssStylesCore}\`;`)
+    .replace('//SWIPER_SLIDE_STYLES', `const SwiperSlideCSS = \`${cssStylesSlide}\`;`)
     .replace('//IMPORT_SWIPER', `import Swiper from 'swiper';`)
     .replace('//EXPORT', `export { SwiperContainer, SwiperSlide, register };`);
   fs.writeFileSync(path.resolve(outputDir, 'element/swiper-element.js'), esmContent);
@@ -166,7 +190,8 @@ export default async function buildElement() {
       plugins: [
         replace({
           delimiters: ['', ''],
-          '//SWIPER_STYLES': `const SwiperFontCSS = \`${fontStyles}\`; const SwiperCSS = \`${cssStylesBundle}\`;`,
+          '//SWIPER_STYLES': `const SwiperCSS = \`${cssStylesBundle}\`;`,
+          '//SWIPER_SLIDE_STYLES': `const SwiperSlideCSS = \`${cssStylesSlide}\`;`,
           [`import Swiper from 'swiper/bundle';`]: `import Swiper from '../swiper-bundle.esm.js';`,
           [`import Swiper from 'swiper';`]: `import Swiper from '../swiper.esm.js';`,
           '//BROWSER_REGISTER': `register()`,

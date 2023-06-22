@@ -189,7 +189,7 @@ function animateCSSModeScroll({ swiper, targetPosition, side }) {
 function getSlideTransformEl(slideEl) {
   return (
     slideEl.querySelector('.swiper-slide-transform') ||
-    (slideEl.shadowEl && slideEl.shadowEl.querySelector('.swiper-slide-transform')) ||
+    (slideEl.shadowRoot && slideEl.shadowRoot.querySelector('.swiper-slide-transform')) ||
     slideEl
   );
 }

@@ -12,7 +12,7 @@ export default function EffectFlip({ swiper, extendParams, on }) {
     },
   });
 
-  const createSlideShadows = (slideEl, progress, params) => {
+  const createSlideShadows = (slideEl, progress) => {
     let shadowBefore = swiper.isHorizontal()
       ? slideEl.querySelector('.swiper-slide-shadow-left')
       : slideEl.querySelector('.swiper-slide-shadow-top');
@@ -20,10 +20,10 @@ export default function EffectFlip({ swiper, extendParams, on }) {
       ? slideEl.querySelector('.swiper-slide-shadow-right')
       : slideEl.querySelector('.swiper-slide-shadow-bottom');
     if (!shadowBefore) {
-      shadowBefore = createShadow(params, slideEl, swiper.isHorizontal() ? 'left' : 'top');
+      shadowBefore = createShadow('flip', slideEl, swiper.isHorizontal() ? 'left' : 'top');
     }
     if (!shadowAfter) {
-      shadowAfter = createShadow(params, slideEl, swiper.isHorizontal() ? 'right' : 'bottom');
+      shadowAfter = createShadow('flip', slideEl, swiper.isHorizontal() ? 'right' : 'bottom');
     }
     if (shadowBefore) shadowBefore.style.opacity = Math.max(-progress, 0);
     if (shadowAfter) shadowAfter.style.opacity = Math.max(progress, 0);

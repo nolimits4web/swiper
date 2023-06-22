@@ -72,10 +72,10 @@ export default function EffectCoverflow({ swiper, extendParams, on }) {
           ? slideEl.querySelector('.swiper-slide-shadow-right')
           : slideEl.querySelector('.swiper-slide-shadow-bottom');
         if (!shadowBeforeEl) {
-          shadowBeforeEl = createShadow(params, slideEl, isHorizontal ? 'left' : 'top');
+          shadowBeforeEl = createShadow('coverflow', slideEl, isHorizontal ? 'left' : 'top');
         }
         if (!shadowAfterEl) {
-          shadowAfterEl = createShadow(params, slideEl, isHorizontal ? 'right' : 'bottom');
+          shadowAfterEl = createShadow('coverflow', slideEl, isHorizontal ? 'right' : 'bottom');
         }
         if (shadowBeforeEl)
           shadowBeforeEl.style.opacity = offsetMultiplier > 0 ? offsetMultiplier : 0;

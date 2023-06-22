@@ -19,13 +19,18 @@ export default function EffectCube({ swiper, extendParams, on }) {
       ? slideEl.querySelector('.swiper-slide-shadow-right')
       : slideEl.querySelector('.swiper-slide-shadow-bottom');
     if (!shadowBefore) {
-      shadowBefore = createElement('div', `swiper-slide-shadow-${isHorizontal ? 'left' : 'top'}`);
+      shadowBefore = createElement(
+        'div',
+        `swiper-slide-shadow-cube swiper-slide-shadow-${isHorizontal ? 'left' : 'top'}`.split(' '),
+      );
       slideEl.append(shadowBefore);
     }
     if (!shadowAfter) {
       shadowAfter = createElement(
         'div',
-        `swiper-slide-shadow-${isHorizontal ? 'right' : 'bottom'}`,
+        `swiper-slide-shadow-cube swiper-slide-shadow-${isHorizontal ? 'right' : 'bottom'}`.split(
+          ' ',
+        ),
       );
       slideEl.append(shadowAfter);
     }
@@ -61,10 +66,10 @@ export default function EffectCube({ swiper, extendParams, on }) {
 
     if (params.shadow) {
       if (isHorizontal) {
-        cubeShadowEl = swiper.slidesEl.querySelector('.swiper-cube-shadow');
+        cubeShadowEl = swiper.wrapperEl.querySelector('.swiper-cube-shadow');
         if (!cubeShadowEl) {
           cubeShadowEl = createElement('div', 'swiper-cube-shadow');
-          swiper.slidesEl.append(cubeShadowEl);
+          swiper.wrapperEl.append(cubeShadowEl);
         }
         cubeShadowEl.style.height = `${swiperWidth}px`;
       } else {
