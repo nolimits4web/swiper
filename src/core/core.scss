@@ -32,7 +32,7 @@ swiper-container {
   transition-timing-function: var(--swiper-wrapper-transition-timing-function, initial);
   box-sizing: content-box;
 }
-.swiper-android .swiper-slide,
+.swiper-android .swiper-slide, .swiper-ios .swiper-slide,
 .swiper-wrapper {
   transform: translate3d(0px, 0, 0);
 }
