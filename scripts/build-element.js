@@ -19,7 +19,9 @@ import config from './build-config.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const getSplittedCSS = (content) => {
-  const cssStylesSlideCore = content.split(`/* 3D Shadows */`)[1].split(`/* CSS Mode */`)[0];
+  const cssStylesSlideCore = content
+    .split(`/* Slide styles start */`)[1]
+    .split(`/* Slide styles end */`)[0];
   const cssStylesSlideCube = (content.split(`/* Cube slide shadows start */`)[1] || '').split(
     `/* Cube slide shadows end */`,
   )[0];
@@ -51,6 +53,9 @@ const proceedReplacements = (content) => {
     .replace(/:root/g, ':host')
     .split('\n')
     .map((line) => {
+      if (line.includes('.swiper {')) {
+        return line.replace('.swiper {', '.swiper {width: 100%; height: 100%;');
+      }
       if (line.includes('> .swiper-wrapper > .swiper-slide')) {
         return line.replace('> .swiper-wrapper > .swiper-slide', '::slotted(swiper-slide)');
       }
@@ -83,6 +88,16 @@ const proceedSlideReplacements = (content) => {
   content = content
     .split('\n')
     .map((line) => {
+      if (line === '.swiper-lazy-preloader {') {
+        return line.replace(
+          '.swiper-lazy-preloader {',
+          '::slotted(.swiper-lazy-preloader) {animation: swiper-preloader-spin 1s infinite linear;',
+        );
+      }
+      if (line.includes('animation: swiper-preloader-spin 1s infinite linear;')) {
+        return '';
+      }
+      if (line.includes('--swiper-preloader-color:')) return '';
       if (line.includes('.swiper-3d .swiper-slide-shadow')) {
         return line.replace('.swiper-3d ', '::slotted(').replace(',', '),').replace(' {', ') {');
       }
