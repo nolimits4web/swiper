@@ -9,6 +9,15 @@ const formatValue = (val) => {
   if (val === 'false') return false;
   if (val === 'null') return null;
   if (val === 'undefined') return undefined;
+  if (typeof val === 'string' && val.includes('{') && val.includes('}') && val.includes('"')) {
+    let v;
+    try {
+      v = JSON.parse(val);
+    } catch (err) {
+      v = val;
+    }
+    return v;
+  }
   return val;
 };
 
