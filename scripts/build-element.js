@@ -188,27 +188,27 @@ export default async function buildElement() {
     .replace('//IMPORT_SWIPER', `import Swiper from 'swiper/bundle';`)
     .replace('//EXPORT', `export { SwiperContainer, SwiperSlide, register };`);
 
-  fs.writeFileSync(path.resolve(outputDir, 'element/swiper-element-bundle.js'), esmBundleContent);
+  fs.writeFileSync(path.resolve(outputDir, 'element/swiper-element-bundle.mjs'), esmBundleContent);
 
   const esmContent = elementContent
     .replace('//SWIPER_STYLES', `const SwiperCSS = \`${cssStylesCore}\`;`)
     .replace('//SWIPER_SLIDE_STYLES', `const SwiperSlideCSS = \`${cssStylesSlide}\`;`)
     .replace('//IMPORT_SWIPER', `import Swiper from 'swiper';`)
     .replace('//EXPORT', `export { SwiperContainer, SwiperSlide, register };`);
-  fs.writeFileSync(path.resolve(outputDir, 'element/swiper-element.js'), esmContent);
+  fs.writeFileSync(path.resolve(outputDir, 'element/swiper-element.mjs'), esmContent);
 
   // Browser
   const browser = async (isBundle) => {
     const suffix = isBundle ? '-bundle' : '';
     const bundle = await rollup({
-      input: `${outputDir}/element/swiper-element${suffix}.js`,
+      input: `${outputDir}/element/swiper-element${suffix}.mjs`,
       plugins: [
         replace({
           delimiters: ['', ''],
           '//SWIPER_STYLES': `const SwiperCSS = \`${cssStylesBundle}\`;`,
           '//SWIPER_SLIDE_STYLES': `const SwiperSlideCSS = \`${cssStylesSlide}\`;`,
-          [`import Swiper from 'swiper/bundle';`]: `import Swiper from '../swiper-bundle.esm.js';`,
-          [`import Swiper from 'swiper';`]: `import Swiper from '../swiper.esm.js';`,
+          [`import Swiper from 'swiper/bundle';`]: `import Swiper from '../swiper-bundle.mjs';`,
+          [`import Swiper from 'swiper';`]: `import Swiper from '../swiper.mjs';`,
           '//BROWSER_REGISTER': `register()`,
           'export { SwiperContainer, SwiperSlide, register };': ``,
         }),
@@ -245,6 +245,6 @@ export default async function buildElement() {
   await browser();
   await browser(true);
 
-  addBannerToFile(path.resolve(outputDir, 'element/swiper-element-bundle.js'), 'Custom Element');
-  addBannerToFile(path.resolve(outputDir, 'element/swiper-element.js'), 'Custom Element');
+  addBannerToFile(path.resolve(outputDir, 'element/swiper-element-bundle.mjs'), 'Custom Element');
+  addBannerToFile(path.resolve(outputDir, 'element/swiper-element.mjs'), 'Custom Element');
 }

@@ -19,7 +19,8 @@ async function buildEntry(modules, format, browser = false) {
   const needSourceMap = isProd && (isUMD || (isESM && browser));
   const external = isUMD || browser ? [] : () => true;
   let filename = 'swiper-bundle';
-  if (isESM) filename += `.esm`;
+  let fileExt = '.js';
+  if (isESM) fileExt = `.mjs`;
   if (isESM && browser) filename += '.browser';
 
   return rollup({
@@ -45,9 +46,9 @@ async function buildEntry(modules, format, browser = false) {
         name: 'Swiper',
         strict: true,
         sourcemap: needSourceMap,
-        sourcemapFile: `./${outputDir}/${filename}.js.map`,
+        sourcemapFile: `./${outputDir}/${filename}${fileExt}.map`,
         banner: banner(),
-        file: `./${outputDir}/${filename}.js`,
+        file: `./${outputDir}/${filename}${fileExt}`,
       }),
     )
     .then(async (bundle) => {
@@ -58,8 +59,8 @@ async function buildEntry(modules, format, browser = false) {
       const { code, map } = await minify(result.code, {
         sourceMap: {
           content: needSourceMap ? result.map : undefined,
-          filename: needSourceMap ? `${filename}.min.js` : undefined,
-          url: `${filename}.min.js.map`,
+          filename: needSourceMap ? `${filename}.min${fileExt}` : undefined,
+          url: `${filename}.min${fileExt}.map`,
         },
         output: {
           preamble: banner(),
@@ -67,8 +68,8 @@ async function buildEntry(modules, format, browser = false) {
       }).catch((err) => {
         console.error(`Terser failed on file ${filename}: ${err.toString()}`);
       });
-      await fs.writeFile(`./${outputDir}/${filename}.min.js`, code);
-      await fs.writeFile(`./${outputDir}/${filename}.min.js.map`, map);
+      await fs.writeFile(`./${outputDir}/${filename}.min${fileExt}`, code);
+      await fs.writeFile(`./${outputDir}/${filename}.min${fileExt}.map`, map);
     })
     .then(async () => {
       if (isProd && isESM && browser === false) return buildEntry(modules, format, true);

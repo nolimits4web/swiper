@@ -11,7 +11,7 @@ import { capitalizeString } from './utils/helper.js';
 const exec = execSh.promise;
 
 async function buildCore(modules) {
-  const filename = `swiper.esm`;
+  const filename = `swiper`;
   const coreContent = [
     banner(),
     `export { default as Swiper, default } from './core/core.js';`,
@@ -21,7 +21,7 @@ async function buildCore(modules) {
     ),
   ].join('\n');
   await Promise.all([
-    fs.writeFile(`./${outputDir}/${filename}.js`, coreContent),
+    fs.writeFile(`./${outputDir}/${filename}.mjs`, coreContent),
     exec(
       `npx babel src --out-dir ${outputDir} --config-file ./scripts/babel/babel.config.core.json`,
     ),

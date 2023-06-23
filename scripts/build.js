@@ -51,9 +51,9 @@ class Build {
     .add('types', buildTypes)
     .add('styles', buildStyles)
     .add('core', buildJsCore)
-    .add('browser-modules', buildBrowserModules)
     .add('bundle', buildJsBundle)
     .add('element', buildElement)
+    .add('browser-modules', buildBrowserModules)
     .add('react', buildReact)
     .add('vue', buildVue)
     .run();

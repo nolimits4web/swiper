@@ -48,15 +48,15 @@ export default async function buildBrowserModules() {
       code = code
         .replace(/from"\.\//g, 'from"./modules/_chunks/')
         .replace(/import"\.\//g, 'import"./modules/_chunks/');
-      fs.writeFileSync(`./${outputDir}/swiper.esm.browser.js`, code);
+      fs.writeFileSync(`./${outputDir}/swiper.browser.mjs`, code);
     } else if (folders.includes(folder)) {
       code = code
         .replace(/from"\.\//g, 'from"../_chunks/')
         .replace(/import"\.\//g, 'import"../_chunks/');
 
-      fs.writeFileSync(`./${outputDir}/modules/${folder}/${folder}.esm.browser.js`, code);
+      fs.writeFileSync(`./${outputDir}/modules/${folder}/${folder}.browser.mjs`, code);
     } else {
-      fs.writeFileSync(`./${outputDir}/modules/_chunks/${file}`, code);
+      fs.writeFileSync(`./${outputDir}/modules/_chunks/${file.replace('.js', '.mjs')}`, code);
     }
     fs.unlinkSync(`./${outputDir}/browser-modules/${file}`);
   }

@@ -4,28 +4,28 @@
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "typings": "swiper.d.ts",
   "type": "module",
-  "main": "./swiper.esm.js",
-  "module": "./swiper.esm.js",
+  "main": "./swiper.mjs",
+  "module": "./swiper.mjs",
   "exports": {
     ".": {
       "types": "./swiper.d.ts",
-      "default": "./swiper.esm.js"
+      "default": "./swiper.mjs"
     },
     "./core": {
       "types": "./swiper.d.ts",
-      "default": "./swiper.esm.js"
+      "default": "./swiper.mjs"
     },
-    "./swiper.esm.js": {
+    "./swiper.mjs": {
       "types": "./swiper.d.ts",
-      "default": "./swiper.esm.js"
+      "default": "./swiper.mjs"
     },
     "./bundle": {
       "types": "./swiper.d.ts",
-      "default": "./swiper-bundle.esm.js"
+      "default": "./swiper-bundle.mjs"
     },
-    "./swiper-bundle.esm.js": {
+    "./swiper-bundle.mjs": {
       "types": "./swiper.d.ts",
-      "default": "./swiper-bundle.esm.js"
+      "default": "./swiper-bundle.mjs"
     },
     "./css": "./swiper.min.css",
     "./swiper.min.css": "./swiper.min.css",
@@ -106,15 +106,15 @@
     "./scss/zoom": "./modules/zoom/zoom.scss",
     "./element": {
       "types": "./element/swiper-element.d.ts",
-      "default": "./element/swiper-element.js"
+      "default": "./element/swiper-element.mjs"
     },
     "./element/bundle": {
       "types": "./element/swiper-element.d.ts",
-      "default": "./element/swiper-element-bundle.js"
+      "default": "./element/swiper-element-bundle.mjs"
     },
     "./element-bundle": {
       "types": "./element/swiper-element.d.ts",
-      "default": "./element/swiper-element-bundle.js"
+      "default": "./element/swiper-element-bundle.mjs"
     },
     "./element/css": "./swiper-element.min.css",
     "./swiper-element.min.css": "./swiper-element.min.css",
