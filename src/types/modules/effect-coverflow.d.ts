@@ -1,5 +1,3 @@
-import { CSSSelector } from '../shared';
-
 export interface CoverflowEffectMethods {}
 
 export interface CoverflowEffectEvents {}

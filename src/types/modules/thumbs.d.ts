@@ -1,4 +1,4 @@
-import Swiper from '../swiper-class';
+import type Swiper from '../swiper-class.d.ts';
 
 export interface ThumbsMethods {
   /**

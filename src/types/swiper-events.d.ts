@@ -1,27 +1,27 @@
-import { SwiperOptions } from './swiper-options';
-import Swiper from './swiper-class';
+import type { SwiperOptions } from './swiper-options.d.ts';
+import type Swiper from './swiper-class.d.ts';
 
-import { A11yEvents } from './modules/a11y';
-import { AutoplayEvents } from './modules/autoplay';
-import { ControllerEvents } from './modules/controller';
-import { CoverflowEffectEvents } from './modules/effect-coverflow';
-import { CubeEffectEvents } from './modules/effect-cube';
-import { FadeEffectEvents } from './modules/effect-fade';
-import { FlipEffectEvents } from './modules/effect-flip';
-import { CreativeEffectEvents } from './modules/effect-creative';
-import { CardsEffectEvents } from './modules/effect-cards';
-import { HashNavigationEvents } from './modules/hash-navigation';
-import { HistoryEvents } from './modules/history';
-import { KeyboardEvents } from './modules/keyboard';
-import { MousewheelEvents } from './modules/mousewheel';
-import { NavigationEvents } from './modules/navigation';
-import { PaginationEvents } from './modules/pagination';
-import { ParallaxEvents } from './modules/parallax';
-import { ScrollbarEvents } from './modules/scrollbar';
-import { ThumbsEvents } from './modules/thumbs';
-import { VirtualEvents } from './modules/virtual';
-import { ZoomEvents } from './modules/zoom';
-import { FreeModeEvents } from './modules/free-mode';
+import type { A11yEvents } from './modules/a11y.d.ts';
+import type { AutoplayEvents } from './modules/autoplay.d.ts';
+import type { ControllerEvents } from './modules/controller.d.ts';
+import type { CoverflowEffectEvents } from './modules/effect-coverflow.d.ts';
+import type { CubeEffectEvents } from './modules/effect-cube.d.ts';
+import type { FadeEffectEvents } from './modules/effect-fade.d.ts';
+import type { FlipEffectEvents } from './modules/effect-flip.d.ts';
+import type { CreativeEffectEvents } from './modules/effect-creative.d.ts';
+import type { CardsEffectEvents } from './modules/effect-cards.d.ts';
+import type { HashNavigationEvents } from './modules/hash-navigation.d.ts';
+import type { HistoryEvents } from './modules/history.d.ts';
+import type { KeyboardEvents } from './modules/keyboard.d.ts';
+import type { MousewheelEvents } from './modules/mousewheel.d.ts';
+import type { NavigationEvents } from './modules/navigation.d.ts';
+import type { PaginationEvents } from './modules/pagination.d.ts';
+import type { ParallaxEvents } from './modules/parallax.d.ts';
+import type { ScrollbarEvents } from './modules/scrollbar.d.ts';
+import type { ThumbsEvents } from './modules/thumbs.d.ts';
+import type { VirtualEvents } from './modules/virtual.d.ts';
+import type { ZoomEvents } from './modules/zoom.d.ts';
+import type { FreeModeEvents } from './modules/free-mode.d.ts';
 
 export interface SwiperEvents {
   // CORE_EVENTS_START

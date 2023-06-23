@@ -15,9 +15,18 @@
       "types": "./swiper.d.ts",
       "default": "./swiper.esm.js"
     },
-    "./swiper.esm.js": "./swiper.esm.js",
-    "./bundle": "./swiper-bundle.esm.js",
-    "./swiper-bundle.esm.js": "./swiper-bundle.esm.js",
+    "./swiper.esm.js": {
+      "types": "./swiper.d.ts",
+      "default": "./swiper.esm.js"
+    },
+    "./bundle": {
+      "types": "./swiper.d.ts",
+      "default": "./swiper-bundle.esm.js"
+    },
+    "./swiper-bundle.esm.js": {
+      "types": "./swiper.d.ts",
+      "default": "./swiper-bundle.esm.js"
+    },
     "./css": "./swiper.min.css",
     "./swiper.min.css": "./swiper.min.css",
     "./swiper.css": "./swiper.css",

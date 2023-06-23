@@ -1,1 +1,1 @@
-export * from './swiper-react';
+export type * from './swiper-react.d.ts';

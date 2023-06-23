@@ -1,5 +1,3 @@
-import { CSSSelector } from '../shared';
-
 export interface FadeEffectMethods {}
 
 export interface FadeEffectEvents {}
