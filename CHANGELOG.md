@@ -1,5 +1,11 @@
 # Changelog
 
+# [10.0.0-beta.3](https://github.com/nolimits4web/Swiper/compare/v10.0.0-beta.2...v10.0.0-beta.3) (2023-06-23)
+
+### Features
+
+- rework package to use .mjs files and all scripts and styles are minified ([a267785](https://github.com/nolimits4web/Swiper/commit/a267785a09fa228d99ede0173fdbe5506238b19a))
+
 # [10.0.0-beta.2](https://github.com/nolimits4web/Swiper/compare/v10.0.0-beta.1...v10.0.0-beta.2) (2023-06-23)
 
 ### Features

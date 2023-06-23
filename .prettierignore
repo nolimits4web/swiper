@@ -2,3 +2,4 @@ build
 node_modules
 dist
 .nova
+package.json
