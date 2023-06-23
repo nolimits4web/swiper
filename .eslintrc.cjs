@@ -1,4 +1,5 @@
 const rules = {
+  'no-nested-ternary': 'off',
   'no-lonely-if': 'off',
   'no-param-reassign': 'off',
   'no-underscore-dangle': 'off',

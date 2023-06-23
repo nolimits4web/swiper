@@ -105,23 +105,18 @@
     "./scss/virtual": "./modules/virtual/virtual.scss",
     "./scss/zoom": "./modules/zoom/zoom.scss",
     "./element": {
-      "types": "./element/swiper-element.d.ts",
-      "default": "./element/swiper-element.mjs"
+      "types": "./swiper-element.d.ts",
+      "default": "./swiper-element.mjs"
     },
     "./element/bundle": {
-      "types": "./element/swiper-element.d.ts",
-      "default": "./element/swiper-element-bundle.mjs"
+      "types": "./swiper-element.d.ts",
+      "default": "./swiper-element-bundle.mjs"
     },
     "./element-bundle": {
-      "types": "./element/swiper-element.d.ts",
-      "default": "./element/swiper-element-bundle.mjs"
+      "types": "./swiper-element.d.ts",
+      "default": "./swiper-element-bundle.mjs"
     },
-    "./element/css": "./swiper-element.min.css",
-    "./swiper-element.min.css": "./swiper-element.min.css",
-    "./element/css/bundle": "./swiper-element-bundle.min.css",
-    "./element/css-bundle": "./swiper-element-bundle.min.css",
-    "./swiper-element-bundle.min.css": "./swiper-element-bundle.min.css",
-    "./element/css/a11y": "./modules/a11y/a11y.min.css",
+    "./element/css/a11y": "./modules/a11y/a11y-element.min.css",
     "./element/css/autoplay": "./modules/autoplay/autoplay-element.min.css",
     "./element/css/controller": "./modules/controller/controller-element.min.css",
     "./element/css/effect-coverflow": "./modules/effect-coverflow/effect-coverflow-element.min.css",
@@ -145,12 +140,12 @@
     "./element/css/virtual": "./modules/virtual/virtual-element.min.css",
     "./element/css/zoom": "./modules/zoom/zoom-element.min.css",
     "./react": {
-      "types": "./react/swiper-react.d.ts",
-      "default": "./react/swiper-react.js"
+      "types": "./swiper-react.d.ts",
+      "default": "./swiper-react.mjs"
     },
     "./vue": {
-      "types": "./vue/swiper-vue.d.ts",
-      "default": "./vue/swiper-vue.js"
+      "types": "./swiper-vue.d.ts",
+      "default": "./swiper-vue.mjs"
     },
     "./types": "./types/index.d.ts",
     "./package.json": "./package.json"
@@ -158,16 +153,16 @@
   "typesVersions": {
     "*": {
       "element": [
-        "element/swiper-element.d.ts"
+        "./swiper-element.d.ts"
       ],
       "element/bundle": [
-        "element/swiper-element.d.ts"
+        "./swiper-element.d.ts"
       ],
       "react": [
-        "react/swiper-react.d.ts"
+        "./swiper-react.d.ts"
       ],
       "vue": [
-        "vue/swiper-vue.d.ts"
+        "./swiper-vue.d.ts"
       ]
     }
   },

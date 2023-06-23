@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type { SwiperOptions, Swiper as SwiperClass } from '../types/index.d.ts';
+import type { SwiperOptions, Swiper as SwiperClass } from './types/index.js';
 
 interface SwiperProps extends SwiperOptions {
   /**

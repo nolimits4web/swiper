@@ -1,5 +1,5 @@
 import { h, ref, onMounted, onUpdated, onBeforeUnmount, watch, nextTick, provide } from 'vue';
-import SwiperCore from 'swiper';
+import SwiperCore from '../swiper.js';
 import { getParams } from '../components-shared/get-params.js';
 import { mountSwiper } from '../components-shared/mount-swiper.js';
 import {

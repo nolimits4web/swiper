@@ -1,14 +1,14 @@
 /* eslint-disable spaced-comment */
-//IMPORT_SWIPER
-import { paramsList } from '../components-shared/params-list.js';
-import { getParams } from './get-params.js';
+import { Swiper } from './swiper-bundle.js';
+import { paramsList } from './components-shared/params-list.js';
+import { getParams } from './element/get-params.js';
 import {
   needsScrollbar,
   needsNavigation,
   needsPagination,
   attrToProp,
-} from '../components-shared/utils.js';
-import { updateSwiper } from '../components-shared/update-swiper.js';
+} from './components-shared/utils.js';
+import { updateSwiper } from './components-shared/update-swiper.js';
 
 //SWIPER_STYLES
 //SWIPER_SLIDE_STYLES
@@ -269,4 +269,4 @@ if (typeof window !== 'undefined') {
 
 //BROWSER_REGISTER
 
-//EXPORT
+export { SwiperContainer, SwiperSlide, register };

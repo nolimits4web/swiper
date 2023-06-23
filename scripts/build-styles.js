@@ -11,6 +11,7 @@ import { banner } from './utils/banner.js';
 import config from './build-config.js';
 import { outputDir } from './utils/output-dir.js';
 import isProd from './utils/isProd.js';
+import { getSplittedCSS, proceedReplacements } from './utils/get-element-styles.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -105,11 +106,12 @@ export default async function buildStyles() {
           throw new Error(`${filePath}: ${err}`);
         });
         const resultCSS = await autoprefixer(lessContent);
+        const resultCSSElement = proceedReplacements(getSplittedCSS(resultCSS).container);
         const resultFilePath = filePath.replace(/\.less$/, '');
         const minifiedCSS = await minifyCSS(resultCSS);
-        // not sure if needed. Possibly can produce a bug cause of the same naming
-        // await fs.writeFile(`${resultFilePath}.css`, resultCSS);
+        const minifiedCSSElement = await minifyCSS(resultCSSElement);
         await fs.writeFile(`${resultFilePath}.min.css`, minifiedCSS);
+        await fs.writeFile(`${resultFilePath}-element.min.css`, minifiedCSSElement);
       }),
     );
   }
