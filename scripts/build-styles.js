@@ -45,9 +45,7 @@ const buildCSS = async ({ isBundle, modules, minified }) => {
   let lessContent = await fs.readFile(path.resolve(__dirname, '../src/swiper.less'), 'utf8');
   lessContent = lessContent.replace(
     '//IMPORT_MODULES',
-    !isBundle
-      ? ''
-      : modules.map((mod) => `@import url('./modules/${mod}/${mod}.less');`).join('\n'),
+    !isBundle ? '' : modules.map((mod) => `@import url('./modules/${mod}.less');`).join('\n'),
   );
   const cssContent = await autoprefixer(
     await less(lessContent, path.resolve(__dirname, '../src')),
@@ -62,14 +60,14 @@ const buildCSS = async ({ isBundle, modules, minified }) => {
 
   if (minified) {
     const minifiedContent = await minifyCSS(cssContent);
-    await fs.writeFile(`./${outputDir}/${fileName}.min.css`, `${banner()}\n${minifiedContent}`);
+    await fs.writeFile(`./${outputDir}/${fileName}.css`, `${banner()}\n${minifiedContent}`);
   }
 };
 export default async function buildStyles() {
   elapsed.start('styles');
   // eslint-disable-next-line import/no-named-as-default-member
   const modules = config.modules.filter((name) => {
-    const lessFilePath = `./src/modules/${name}/${name}.less`;
+    const lessFilePath = `./src/modules/${name}.less`;
     return fs.existsSync(lessFilePath);
   });
   buildCSS({ isBundle: true, modules, minified: isProd });
@@ -84,11 +82,15 @@ export default async function buildStyles() {
     );
     await Promise.all(
       files.map(async (file) => {
-        const distFilePath = path.resolve(__dirname, `../${outputDir}`, file);
+        let distFilePath = path.resolve(__dirname, `../${outputDir}`, file);
         const srcFilePath = path.resolve(__dirname, '../src', file);
         let distFileContent = await readSwiperFile(srcFilePath);
+        distFileContent = distFileContent.replace('../../swiper-vars', '../swiper-vars');
         if (file === 'swiper.scss' || file === 'swiper.less') {
           distFileContent = `${banner()}\n${distFileContent}`;
+        }
+        if (distFilePath.includes('/modules/')) {
+          distFilePath = distFilePath.replace(/modules\/([a-zA-Z0-9-]*)/, 'modules');
         }
         await fs.ensureDir(path.dirname(distFilePath));
         await fs.writeFile(distFilePath, distFileContent);
@@ -110,8 +112,8 @@ export default async function buildStyles() {
         const resultFilePath = filePath.replace(/\.less$/, '');
         const minifiedCSS = await minifyCSS(resultCSS);
         const minifiedCSSElement = await minifyCSS(resultCSSElement);
-        await fs.writeFile(`${resultFilePath}.min.css`, minifiedCSS);
-        await fs.writeFile(`${resultFilePath}-element.min.css`, minifiedCSSElement);
+        await fs.writeFile(`${resultFilePath}.css`, minifiedCSS);
+        await fs.writeFile(`${resultFilePath}-element.css`, minifiedCSSElement);
       }),
     );
   }

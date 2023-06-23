@@ -14,7 +14,7 @@ export default async function buildModules() {
   const modules = [];
   configModules.forEach((name) => {
     const capitalized = capitalizeString(name);
-    const jsFilePath = `./src/modules/${name}/${name}.js`;
+    const jsFilePath = `./src/modules/${name}/${name}.mjs`;
     if (fs.existsSync(jsFilePath)) {
       modules.push({ name, capitalized });
     }
@@ -22,25 +22,25 @@ export default async function buildModules() {
 
   // eslint-disable-next-line
   const modulesPaths = configModules.map((name) => {
-    return `./src/modules/${name}/${name}.js`;
+    return `./src/modules/${name}/${name}.mjs`;
   });
 
   const output = await rollup({
     external: ['react', 'vue'],
     input: [
-      './src/swiper.js',
-      './src/swiper-bundle.js',
-      './src/swiper-element.js',
-      './src/swiper-element-bundle.js',
-      './src/swiper-vue.js',
-      './src/swiper-react.js',
+      './src/swiper.mjs',
+      './src/swiper-bundle.mjs',
+      './src/swiper-element.mjs',
+      './src/swiper-element-bundle.mjs',
+      './src/swiper-vue.mjs',
+      './src/swiper-react.mjs',
       ...modulesPaths,
     ],
     plugins: [
       replace({
         delimiters: ['', ''],
         '//IMPORT_MODULES': modules
-          .map((mod) => `import ${mod.capitalized} from './modules/${mod.name}/${mod.name}.js';`)
+          .map((mod) => `import ${mod.capitalized} from './modules/${mod.name}/${mod.name}.mjs';`)
           .join('\n'),
         '//INSTALL_MODULES': modules.map((mod) => `${mod.capitalized}`).join(',\n  '),
         '//EXPORT': 'export default Swiper; export { Swiper }',
@@ -54,10 +54,11 @@ export default async function buildModules() {
   await output.write({
     dir: `./dist/tmp`,
     format: 'esm',
+    entryFileNames: '[name].mjs',
     hoistTransitiveImports: false,
     chunkFileNames: (i) => {
-      if (i.name === 'swiper') return `swiper-core.js`;
-      return `[name].js`;
+      if (i.name === 'swiper') return `swiper-core.mjs`;
+      return `[name].mjs`;
     },
   });
 
@@ -67,16 +68,13 @@ export default async function buildModules() {
     fs.mkdirSync(`./dist/modules`);
   }
   files.forEach((fileName) => {
-    const folderName = fileName.split('.js')[0];
+    const folderName = fileName.split('.mjs')[0];
     if (fs.existsSync(`./src/modules/${folderName}`)) {
-      if (!fs.existsSync(`./dist/modules/${folderName}`)) {
-        fs.mkdirSync(`./dist/modules/${folderName}`);
-      }
-      fs.copyFileSync(`./dist/tmp/${fileName}`, `./dist/modules/${folderName}/${fileName}`);
+      fs.copyFileSync(`./dist/tmp/${fileName}`, `./dist/modules/${fileName}`);
       fs.unlinkSync(`./dist/tmp/${fileName}`);
     } else if (
-      (fileName.indexOf('swiper-') !== 0 && fileName !== 'swiper.js') ||
-      fileName === 'swiper-core.js'
+      (fileName.indexOf('swiper-') !== 0 && fileName !== 'swiper.mjs') ||
+      fileName === 'swiper-core.mjs'
     ) {
       if (!fs.existsSync('./dist/shared')) {
         fs.mkdirSync('./dist/shared');
@@ -84,7 +82,7 @@ export default async function buildModules() {
       fs.copyFileSync(`./dist/tmp/${fileName}`, `./dist/shared/${fileName}`);
       fs.unlinkSync(`./dist/tmp/${fileName}`);
     } else {
-      fs.copyFileSync(`./dist/tmp/${fileName}`, `./dist/${fileName.replace('.js', '.mjs')}`);
+      fs.copyFileSync(`./dist/tmp/${fileName}`, `./dist/${fileName}`);
       fs.unlinkSync(`./dist/tmp/${fileName}`);
     }
   });
@@ -93,12 +91,14 @@ export default async function buildModules() {
   }
 
   // FIX IMPORTS
-  fs.readdirSync('./dist/modules').forEach((modName) => {
-    const content = fs
-      .readFileSync(`./dist/modules/${modName}/${modName}.js`, 'utf-8')
-      .replace(/from '\.\//g, `from '../../shared/`);
-    fs.writeFileSync(`./dist/modules/${modName}/${modName}.js`, content);
-  });
+  fs.readdirSync('./dist/modules')
+    .filter((f) => f.includes('.mjs'))
+    .forEach((modName) => {
+      const content = fs
+        .readFileSync(`./dist/modules/${modName}`, 'utf-8')
+        .replace(/from '\.\//g, `from '../shared/`);
+      fs.writeFileSync(`./dist/modules/${modName}`, content);
+    });
 
   const { core, bundle, slide } = await getElementStyles();
 
@@ -110,8 +110,8 @@ export default async function buildModules() {
         content = content
           .replace(/from '\.\/swiper-core/g, `from './shared/swiper-core`)
           .replace(
-            /import ([0-9A-Za-z]*) from '\.\/([0-9a-z-]*).js'/g,
-            `import $1 from './modules/$2/$2.js'`,
+            /import ([0-9A-Za-z]*) from '\.\/([0-9a-z-]*).mjs'/g,
+            `import $1 from './modules/$2.mjs'`,
           );
       } else {
         content = content.replace(/from '\.\//g, `from './shared/`);
@@ -140,25 +140,30 @@ export default async function buildModules() {
       fs.writeFileSync(`./dist/${f}`, `${banner(bannerName)}\n${content}`);
     });
 
+  // MODULES_INDEX
+  fs.writeFileSync(
+    './dist/modules/index.mjs',
+    modules
+      .map((mod) => `export {default as ${mod.capitalized}} from './${mod.name}.mjs';`)
+      .join('\n'),
+  );
+
   // MINIFY
   await Promise.all([
     // MINIFY SHARED
     ...fs
       .readdirSync('./dist/shared')
-      .filter((f) => f.endsWith('.js') && !f.includes('.min'))
-      .map((f) => minify(f, `./dist/shared/${f}`, true)),
+      .filter((f) => f.endsWith('.mjs'))
+      .map((f) => minify(f, `./dist/shared/${f}`)),
     // MINIFY MODULES
     ...fs
       .readdirSync('./dist/modules')
-      .filter((f) => f.endsWith('.js') && !f.includes('.min'))
-      .map((f) => minify(f, `./dist/modules/${f}/${f}.js`, true)),
+      .filter((f) => f.endsWith('.mjs'))
+      .map((f) => minify(f, `./dist/modules/${f}`)),
     // MINIFY ROOT
     ...fs
       .readdirSync('./dist/')
-      .filter(
-        (f) =>
-          f.endsWith('.mjs') && !f.includes('.min') && !f.includes('react') && !f.includes('vue'),
-      )
+      .filter((f) => f.endsWith('.mjs') && !f.includes('react') && !f.includes('vue'))
       .map((f) => {
         const bannerName = f.includes('react')
           ? 'React'
@@ -167,7 +172,7 @@ export default async function buildModules() {
           : f.includes('element')
           ? 'Custom Element'
           : '';
-        return minify(f, `./dist/${f}`, false, bannerName);
+        return minify(f, `./dist/${f}`, bannerName);
       }),
   ]);
 
@@ -175,13 +180,12 @@ export default async function buildModules() {
   const replaceExports = {};
   ['swiper-bundle.mjs', 'swiper.mjs'].forEach((f) => {
     const content = fs.readFileSync(`./dist/${f}`, 'utf-8');
-    const line = content
-      .split('\n')
-      .filter((l) => l.includes('export {'))[0]
-      .trim();
+    const before = content.match(/export{([^,]*),([^}]*)}/)[0];
+    const after = before.replace(/export{([^,]*),([^}]*)}/, `export {$2}`);
+
     replaceExports[f] = {
-      before: line,
-      after: line.replace(/export { ([^,]*), ([^}]*) }/, `export { $2 }`),
+      before,
+      after,
     };
     fs.writeFileSync(
       `./dist/${f}`,
@@ -198,7 +202,7 @@ export default async function buildModules() {
             replace({
               preventAssignment: true,
               delimiters: ['', ''],
-              'export { SwiperContainer, SwiperSlide, register };': 'register()',
+              'export{SwiperContainer,SwiperSlide,register};': 'register();',
             }),
           ],
         });
@@ -224,7 +228,7 @@ export default async function buildModules() {
   await Promise.all(
     ['swiper-bundle.js', 'swiper.js', 'swiper-element.js', 'swiper-element-bundle.js'].map((f) => {
       const bannerName = f.includes('element') ? 'Custom Element' : '';
-      return minify(f, `./dist/${f}`, false, bannerName);
+      return minify(f, `./dist/${f}`, bannerName);
     }),
   );
 }

@@ -2,16 +2,16 @@ import { minify } from 'terser';
 import fs from 'fs';
 import { banner } from './banner.js';
 
-export default async (fileName, filePath, inPlace, bannerName) => {
+export default async (fileName, filePath, bannerName, sourceMap) => {
   const content = fs.readFileSync(filePath, 'utf-8');
   const fileExt = fileName.includes('.mjs') ? '.mjs' : '.js';
   const { code, map } = await minify(content, {
-    ...(inPlace
+    ...(!sourceMap
       ? {}
       : {
           sourceMap: {
-            filename: `${fileName}.min${fileExt}`,
-            url: `${fileName}.min${fileExt}.map`,
+            filename: `${fileName}.mjs`,
+            url: `${fileName}.mjs.map`,
           },
         }),
 
@@ -21,10 +21,8 @@ export default async (fileName, filePath, inPlace, bannerName) => {
   }).catch((err) => {
     console.error(`Terser failed on file ${fileName}: ${err.toString()}`);
   });
-  if (inPlace) {
-    fs.writeFileSync(filePath, code);
-  } else {
-    fs.writeFileSync(filePath.replace(`${fileExt}`, `.min${fileExt}`), code);
-    fs.writeFileSync(filePath.replace(`${fileExt}`, `.min${fileExt}.map`), map);
+  fs.writeFileSync(filePath, code);
+  if (sourceMap) {
+    fs.writeFileSync(filePath.replace(`${fileExt}`, `.mjs.map`), map);
   }
 };

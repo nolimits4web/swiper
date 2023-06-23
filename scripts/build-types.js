@@ -65,7 +65,7 @@ export default async function buildTypes() {
     const eventsFiles = await globby('src/types/modules/*.d.ts');
     await Promise.all(
       eventsFiles.map(async (eventsFile) => {
-        if (eventsFile.indexOf('public-api') > -1) {
+        if (eventsFile.indexOf('public-api') > -1 || eventsFile.indexOf('index') > -1) {
           return;
         }
         let eventsContent = await fs.readFile(eventsFile, 'utf-8');
