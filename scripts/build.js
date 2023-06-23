@@ -8,6 +8,7 @@ import buildReact from './build-react.js';
 import buildVue from './build-vue.js';
 import buildElement from './build-element.js';
 import buildStyles from './build-styles.js';
+import buildBrowserModules from './build-browser-modules.js';
 import { outputDir } from './utils/output-dir.js';
 
 class Build {
@@ -50,6 +51,7 @@ class Build {
     .add('types', buildTypes)
     .add('styles', buildStyles)
     .add('core', buildJsCore)
+    .add('browser-modules', buildBrowserModules)
     .add('bundle', buildJsBundle)
     .add('element', buildElement)
     .add('react', buildReact)
