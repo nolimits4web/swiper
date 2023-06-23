@@ -1,5 +1,12 @@
 # Changelog
 
+# [10.0.0-beta.2](https://github.com/nolimits4web/Swiper/compare/v10.0.0-beta.1...v10.0.0-beta.2) (2023-06-23)
+
+### Features
+
+- fully rework scripts structure in package ([2c87f13](https://github.com/nolimits4web/Swiper/commit/2c87f13f56a480ddbbfd43f97516a0775ceb8d19))
+- rename package files `.esm.js` to `.mjs` ([7a17821](https://github.com/nolimits4web/Swiper/commit/7a1782128125bda394b40ea9d1235d789964bfa3))
+
 # [10.0.0-beta.1](https://github.com/nolimits4web/Swiper/compare/v9.4.1...v10.0.0-beta.1) (2023-06-23)
 
 ### Bug Fixes

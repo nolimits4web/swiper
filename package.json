@@ -1,6 +1,6 @@
 {
   "name": "swiper-src",
-  "version": "10.0.0-beta.1",
+  "version": "10.0.0-beta.2",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "type": "module",
   "scripts": {
@@ -103,11 +103,9 @@
     "react-dom": "^18.2.0",
     "rimraf": "^5.0.1",
     "rollup": "^3.25.1",
+    "ssr-window": "^4.0.2",
     "terser": "^5.18.1",
     "vite": "^4.3.9",
     "vue": "^3.3.4"
-  },
-  "dependencies": {
-    "ssr-window": "^4.0.2"
   }
 }
