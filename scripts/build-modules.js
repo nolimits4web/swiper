@@ -11,6 +11,7 @@ import { modules as configModules } from './build-config.js';
 import { capitalizeString } from './utils/helper.js';
 import minify from './utils/minify.js';
 import { banner } from './utils/banner.js';
+import isProd from './utils/isProd.js';
 
 export default async function buildModules() {
   elapsed.start('modules');
@@ -28,6 +29,12 @@ export default async function buildModules() {
   const modulesPaths = configModules.map((name) => {
     return `./src/modules/${name}/${name}.mjs`;
   });
+
+  // Create element bundle
+  const coreElementContent = fs
+    .readFileSync('./src/swiper-element.mjs', 'utf-8')
+    .replace(`import Swiper from './swiper.mjs';`, `import Swiper from './swiper-bundle.mjs';`);
+  fs.writeFileSync('./src/swiper-element-bundle.mjs', coreElementContent);
 
   const output = await rollup({
     external: ['react', 'vue'],
@@ -200,22 +207,33 @@ export default async function buildModules() {
     );
   });
 
+  // REMOVE ELEMENT BUNDLE
+  fs.unlinkSync('./src/swiper-element-bundle.mjs');
+
+  if (!isProd) {
+    elapsed.end('modules', chalk.green('Modules build completed!'));
+    return;
+  }
+
   // MINIFY
   await Promise.all([
     // MINIFY SHARED
     ...fs
       .readdirSync('./dist/shared')
-      .filter((f) => f.endsWith('.mjs'))
+      .filter((f) => f.endsWith('.mjs') && !f.includes('.min'))
       .map((f) => minify(f, `./dist/shared/${f}`)),
     // MINIFY MODULES
     ...fs
       .readdirSync('./dist/modules')
-      .filter((f) => f.endsWith('.mjs'))
+      .filter((f) => f.endsWith('.mjs') && !f.includes('.min'))
       .map((f) => minify(f, `./dist/modules/${f}`)),
     // MINIFY ROOT
     ...fs
       .readdirSync('./dist/')
-      .filter((f) => f.endsWith('.mjs') && !f.includes('react') && !f.includes('vue'))
+      .filter(
+        (f) =>
+          f.endsWith('.mjs') && !f.includes('.min') && !f.includes('react') && !f.includes('vue'),
+      )
       .map((f) => {
         const bannerName = f.includes('react')
           ? 'React'
@@ -234,5 +252,6 @@ export default async function buildModules() {
       },
     ),
   ]);
+
   elapsed.end('modules', chalk.green('Modules build completed!'));
 }

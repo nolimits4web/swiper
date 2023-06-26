@@ -5,24 +5,22 @@ import buildTypes from './build-types.js';
 import buildStyles from './build-styles.js';
 import buildModules from './build-modules.js';
 import { outputDir } from './utils/output-dir.js';
+import isProd from './utils/isProd.js';
 
 class Build {
   constructor() {
-    this.argv = process.argv.slice(2).map((v) => v.toLowerCase());
     this.tasks = [];
     // eslint-disable-next-line no-constructor-return
     return this;
   }
 
   add(flag, buildFn) {
-    if (!this.argv.includes('--only') || this.argv.includes(flag)) {
-      this.tasks.push(() => buildFn());
-    }
+    this.tasks.push(() => buildFn());
     return this;
   }
 
   async run() {
-    if (!this.argv.includes('--only')) {
+    if (isProd) {
       await fs.remove(`./${outputDir}`);
       await fs.ensureDir(`./${outputDir}`);
     }

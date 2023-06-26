@@ -1,6 +1,5 @@
 /* eslint-disable spaced-comment */
-import Swiper from './core/core.mjs';
-
+import Swiper from './swiper.mjs';
 import { paramsList } from './components-shared/params-list.mjs';
 import { getParams } from './components-shared/get-element-params.mjs';
 import {
@@ -225,7 +224,6 @@ paramsList.forEach((paramName) => {
 class SwiperSlide extends ClassToExtend {
   constructor() {
     super();
-
     this.attachShadow({ mode: 'open' });
   }
 

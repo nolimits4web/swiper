@@ -9,6 +9,7 @@ import buildModules from './build-modules.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 console.log(chalk.cyan('Watching file changes ...'));
 const watchFunction = async (fileName) => {
+  if (fileName.includes('swiper-element-bundle.mjs')) return;
   if (fileName.includes('.less') || fileName.includes('.css') || fileName.includes('.scss')) {
     console.log('Building styles');
     await buildStyles();
@@ -20,7 +21,7 @@ const watchFunction = async (fileName) => {
     await buildTypes();
     return;
   }
-  if (fileName.includes('.js')) {
+  if (fileName.includes('.mjs') || fileName.includes('.js')) {
     console.log('Building JS');
     await buildModules();
     return;
