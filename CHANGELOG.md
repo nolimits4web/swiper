@@ -1,5 +1,11 @@
 # Changelog
 
+# [10.0.0-beta.5](https://github.com/nolimits4web/Swiper/compare/v10.0.0-beta.4...v10.0.0-beta.5) (2023-06-26)
+
+### Features
+
+- tweak browserslist to iOS >= 15 ([96a4e7e](https://github.com/nolimits4web/Swiper/commit/96a4e7e50a430d70817d90916c8412adfbc33f74))
+
 # [10.0.0-beta.3](https://github.com/nolimits4web/Swiper/compare/v10.0.0-beta.2...v10.0.0-beta.3) (2023-06-23)
 
 ### Features
