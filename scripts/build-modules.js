@@ -4,6 +4,8 @@ import { rollup } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import { babel } from '@rollup/plugin-babel';
+import elapsed from 'elapsed-time-logger';
+import chalk from 'chalk';
 import getElementStyles from './utils/get-element-styles.js';
 import { modules as configModules } from './build-config.js';
 import { capitalizeString } from './utils/helper.js';
@@ -11,6 +13,8 @@ import minify from './utils/minify.js';
 import { banner } from './utils/banner.js';
 
 export default async function buildModules() {
+  elapsed.start('modules');
+
   const modules = [];
   configModules.forEach((name) => {
     const capitalized = capitalizeString(name);
@@ -148,40 +152,12 @@ export default async function buildModules() {
       .join('\n'),
   );
 
-  // MINIFY
-  await Promise.all([
-    // MINIFY SHARED
-    ...fs
-      .readdirSync('./dist/shared')
-      .filter((f) => f.endsWith('.mjs'))
-      .map((f) => minify(f, `./dist/shared/${f}`)),
-    // MINIFY MODULES
-    ...fs
-      .readdirSync('./dist/modules')
-      .filter((f) => f.endsWith('.mjs'))
-      .map((f) => minify(f, `./dist/modules/${f}`)),
-    // MINIFY ROOT
-    ...fs
-      .readdirSync('./dist/')
-      .filter((f) => f.endsWith('.mjs') && !f.includes('react') && !f.includes('vue'))
-      .map((f) => {
-        const bannerName = f.includes('react')
-          ? 'React'
-          : f.includes('vue')
-          ? 'Vue'
-          : f.includes('element')
-          ? 'Custom Element'
-          : '';
-        return minify(f, `./dist/${f}`, bannerName);
-      }),
-  ]);
-
   // IIFE
   const replaceExports = {};
   ['swiper-bundle.mjs', 'swiper.mjs'].forEach((f) => {
     const content = fs.readFileSync(`./dist/${f}`, 'utf-8');
-    const before = content.match(/export{([^,]*),([^}]*)}/)[0];
-    const after = before.replace(/export{([^,]*),([^}]*)}/, `export {$2}`);
+    const before = content.match(/export { ([^,]*), ([^}]*) }/)[0];
+    const after = before.replace(/export { ([^,]*), ([^}]*) }/, `export {$2}`);
 
     replaceExports[f] = {
       before,
@@ -224,11 +200,39 @@ export default async function buildModules() {
     );
   });
 
-  // MINIFY IIFE
-  await Promise.all(
-    ['swiper-bundle.js', 'swiper.js', 'swiper-element.js', 'swiper-element-bundle.js'].map((f) => {
-      const bannerName = f.includes('element') ? 'Custom Element' : '';
-      return minify(f, `./dist/${f}`, bannerName);
-    }),
-  );
+  // MINIFY
+  await Promise.all([
+    // MINIFY SHARED
+    ...fs
+      .readdirSync('./dist/shared')
+      .filter((f) => f.endsWith('.mjs'))
+      .map((f) => minify(f, `./dist/shared/${f}`)),
+    // MINIFY MODULES
+    ...fs
+      .readdirSync('./dist/modules')
+      .filter((f) => f.endsWith('.mjs'))
+      .map((f) => minify(f, `./dist/modules/${f}`)),
+    // MINIFY ROOT
+    ...fs
+      .readdirSync('./dist/')
+      .filter((f) => f.endsWith('.mjs') && !f.includes('react') && !f.includes('vue'))
+      .map((f) => {
+        const bannerName = f.includes('react')
+          ? 'React'
+          : f.includes('vue')
+          ? 'Vue'
+          : f.includes('element')
+          ? 'Custom Element'
+          : '';
+        return minify(f, `./dist/${f}`, bannerName);
+      }),
+    // IIFE
+    ...['swiper-bundle.js', 'swiper.js', 'swiper-element.js', 'swiper-element-bundle.js'].map(
+      (f) => {
+        const bannerName = f.includes('element') ? 'Custom Element' : '';
+        return minify(f, `./dist/${f}`, bannerName);
+      },
+    ),
+  ]);
+  elapsed.end('modules', chalk.green('Modules build completed!'));
 }

@@ -1,5 +1,5 @@
-import { attrToProp, extend } from '../components-shared/utils.mjs';
-import { paramsList } from '../components-shared/params-list.mjs';
+import { attrToProp, extend } from './utils.mjs';
+import { paramsList } from './params-list.mjs';
 import defaults from '../core/defaults.mjs';
 
 const formatValue = (val) => {

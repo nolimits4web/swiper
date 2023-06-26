@@ -2,7 +2,7 @@
 import Swiper from './core/core.mjs';
 
 import { paramsList } from './components-shared/params-list.mjs';
-import { getParams } from './element/get-params.mjs';
+import { getParams } from './components-shared/get-element-params.mjs';
 import {
   needsScrollbar,
   needsNavigation,
