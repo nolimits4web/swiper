@@ -473,7 +473,6 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
   on('click', (_s, e) => {
     const targetEl = e.target;
     const el = makeElementsArray(swiper.pagination.el);
-    if (!Array.isArray(el)) el = [el].filter((element) => !!element);
     if (
       swiper.params.pagination.el &&
       swiper.params.pagination.hideOnClick &&
