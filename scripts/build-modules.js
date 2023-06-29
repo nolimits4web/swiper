@@ -185,7 +185,7 @@ export default async function buildModules() {
             replace({
               preventAssignment: true,
               delimiters: ['', ''],
-              'export{SwiperContainer,SwiperSlide,register};': 'register();',
+              'export { SwiperContainer, SwiperSlide, register };': 'register();',
             }),
           ],
         });
