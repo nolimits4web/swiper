@@ -386,7 +386,11 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
         if (swiper.params.autoplay && swiper.params.autoplayDisableOnInteraction)
           swiper.autoplay.stop();
         // Return page scroll on edge positions
-        if (position === swiper.minTranslate() || position === swiper.maxTranslate()) return true;
+        if (
+          params.releaseOnEdges &&
+          (position === swiper.minTranslate() || position === swiper.maxTranslate())
+        )
+          return true;
       }
     }
 
