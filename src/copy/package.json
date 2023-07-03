@@ -144,6 +144,9 @@
   },
   "typesVersions": {
     "*": {
+      "modules": [
+        "./types/modules/index.d.ts"
+      ],
       "element": [
         "./swiper-element.d.ts"
       ],
