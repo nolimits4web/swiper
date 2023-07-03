@@ -1,5 +1,12 @@
 # Changelog
 
+# [v10.0.3](https://github.com/nolimits4web/Swiper/compare/v10.0.2...v10.0.3) (2023-07-03)
+
+### Features
+
+- added overflow:hidden for fallback if clip is not supported in target… ([#6807](https://github.com/nolimits4web/Swiper/issues/6807)) ([5d8d6f9](https://github.com/nolimits4web/Swiper/commit/5d8d6f933146c8c80792c4892c54cb769b21a005))
+- **element:** use usual `<style>` tag if adopted stylesheet are not supported ([18613df](https://github.com/nolimits4web/Swiper/commit/18613dfaa7719983db059e694753262956905504))
+
 # [v10.0.2](https://github.com/nolimits4web/Swiper/compare/v10.0.1...v10.0.2) (2023-07-03)
 
 ### Bug Fixes
