@@ -13,7 +13,7 @@ import { updateSwiper } from './components-shared/update-swiper.mjs';
 //SWIPER_STYLES
 //SWIPER_SLIDE_STYLES
 
-class DummyHTMLElement {}
+class DummyHTMLElement { }
 
 const ClassToExtend =
   typeof window === 'undefined' || typeof HTMLElement === 'undefined'
@@ -22,6 +22,19 @@ const ClassToExtend =
 
 const arrowSvg = `<svg width="11" height="20" viewBox="0 0 11 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.38296 20.0762C0.111788 19.805 0.111788 19.3654 0.38296 19.0942L9.19758 10.2796L0.38296 1.46497C0.111788 1.19379 0.111788 0.754138 0.38296 0.482966C0.654131 0.211794 1.09379 0.211794 1.36496 0.482966L10.4341 9.55214C10.8359 9.9539 10.8359 10.6053 10.4341 11.007L1.36496 20.0762C1.09379 20.3474 0.654131 20.3474 0.38296 20.0762Z" fill="currentColor"/></svg>
     `;
+
+const addStyle = (shadowRoot, styles) => {
+  if (typeof CSSStyleSheet !== 'undefined' && !shadowRoot.adoptedStyleSheets) {
+    const styleSheet = new CSSStyleSheet();
+    styleSheet.replaceSync(styles);
+    shadowRoot.adoptedStyleSheets = [styleSheet];
+  } else {
+    const style = document.createElement('style');
+    style.rel = 'stylesheet';
+    style.textContent = styles;
+    shadowRoot.appendChild(style)
+  }
+}
 
 class SwiperContainer extends ClassToExtend {
   constructor() {
@@ -58,10 +71,7 @@ class SwiperContainer extends ClassToExtend {
     // local styles
     const localStyles = this.cssStyles();
     if (localStyles.length) {
-      const styleSheet = new CSSStyleSheet();
-      // eslint-disable-next-line
-      styleSheet.replaceSync(localStyles);
-      this.shadowRoot.adoptedStyleSheets = [styleSheet];
+      addStyle(this.shadowRoot, localStyles);
     }
 
     this.cssLinks().forEach((url) => {
@@ -89,10 +99,10 @@ class SwiperContainer extends ClassToExtend {
       ` : ''}
       ${needsPagination(this.passedParams) ? `
         <div part="pagination" class="swiper-pagination"></div>
-      ` : '' }
+      ` : ''}
       ${needsScrollbar(this.passedParams) ? `
         <div part="scrollbar" class="swiper-scrollbar"></div>
-      ` : '' }
+      ` : ''}
     `;
     this.shadowRoot.appendChild(el);
     this.rendered = true;
@@ -166,19 +176,19 @@ class SwiperContainer extends ClassToExtend {
       changedParams: [attrToProp(propName)],
       ...(propName === 'navigation' && passedParams[propName]
         ? {
-            prevEl: '.swiper-button-prev',
-            nextEl: '.swiper-button-next',
-          }
+          prevEl: '.swiper-button-prev',
+          nextEl: '.swiper-button-next',
+        }
         : {}),
       ...(propName === 'pagination' && passedParams[propName]
         ? {
-            paginationEl: '.swiper-pagination',
-          }
+          paginationEl: '.swiper-pagination',
+        }
         : {}),
       ...(propName === 'scrollbar' && passedParams[propName]
         ? {
-            scrollbarEl: '.swiper-scrollbar',
-          }
+          scrollbarEl: '.swiper-scrollbar',
+        }
         : {}),
     });
   }
@@ -230,10 +240,7 @@ class SwiperSlide extends ClassToExtend {
   render() {
     const lazy =
       this.lazy || this.getAttribute('lazy') === '' || this.getAttribute('lazy') === 'true';
-    const styleSheet = new CSSStyleSheet();
-    // eslint-disable-next-line
-    styleSheet.replaceSync(SwiperSlideCSS);
-    this.shadowRoot.adoptedStyleSheets = [styleSheet];
+    addStyle(this.shadowRoot, SwiperSlideCSS);
     this.shadowRoot.appendChild(document.createElement('slot'));
     if (lazy) {
       const lazyDiv = document.createElement('div');
