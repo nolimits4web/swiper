@@ -1,23 +1,53 @@
-export type * from './a11y.d.ts';
-export type * from './autoplay.d.ts';
-export type * from './controller.d.ts';
-export type * from './effect-coverflow.d.ts';
-export type * from './effect-cube.d.ts';
-export type * from './effect-fade.d.ts';
-export type * from './effect-flip.d.ts';
-export type * from './effect-creative.d.ts';
-export type * from './effect-cards.d.ts';
-export type * from './hash-navigation.d.ts';
-export type * from './history.d.ts';
-export type * from './keyboard.d.ts';
-export type * from './mousewheel.d.ts';
-export type * from './navigation.d.ts';
-export type * from './pagination.d.ts';
-export type * from './parallax.d.ts';
-export type * from './scrollbar.d.ts';
-export type * from './thumbs.d.ts';
-export type * from './virtual.d.ts';
-export type * from './zoom.d.ts';
-export type * from './free-mode.d.ts';
-export type * from './grid.d.ts';
-export type * from './manipulation.d.ts';
+import type { SwiperModule } from '../shared.d.ts';
+
+declare const A11y: SwiperModule;
+declare const Autoplay: SwiperModule;
+declare const Controller: SwiperModule;
+declare const EffectCoverflow: SwiperModule;
+declare const EffectCube: SwiperModule;
+declare const EffectFade: SwiperModule;
+declare const EffectFlip: SwiperModule;
+declare const EffectCreative: SwiperModule;
+declare const EffectCards: SwiperModule;
+declare const HashNavigation: SwiperModule;
+declare const History: SwiperModule;
+declare const Keyboard: SwiperModule;
+declare const Lazy: SwiperModule;
+declare const Mousewheel: SwiperModule;
+declare const Navigation: SwiperModule;
+declare const Pagination: SwiperModule;
+declare const Parallax: SwiperModule;
+declare const Scrollbar: SwiperModule;
+declare const Thumbs: SwiperModule;
+declare const Virtual: SwiperModule;
+declare const Zoom: SwiperModule;
+declare const FreeMode: SwiperModule;
+declare const Grid: SwiperModule;
+declare const Manipulation: SwiperModule;
+
+export {
+  A11y,
+  Autoplay,
+  Controller,
+  EffectCoverflow,
+  EffectCube,
+  EffectFade,
+  EffectFlip,
+  EffectCreative,
+  EffectCards,
+  HashNavigation,
+  History,
+  Keyboard,
+  Lazy,
+  Mousewheel,
+  Navigation,
+  Pagination,
+  Parallax,
+  Scrollbar,
+  Thumbs,
+  Virtual,
+  Zoom,
+  FreeMode,
+  Grid,
+  Manipulation,
+};
