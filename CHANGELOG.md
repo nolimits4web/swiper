@@ -1,5 +1,28 @@
 # Changelog
 
+# [10.0.0](https://github.com/nolimits4web/Swiper/compare/v9.4.1...v10.0.0) (2023-07-03)
+
+### Features
+
+- tweak browserslist to iOS >= 15 ([96a4e7e](https://github.com/nolimits4web/Swiper/commit/96a4e7e50a430d70817d90916c8412adfbc33f74))
+- rework package to use .mjs files and all scripts and styles are minified ([a267785](https://github.com/nolimits4web/Swiper/commit/a267785a09fa228d99ede0173fdbe5506238b19a))
+- fully rework scripts structure in package ([2c87f13](https://github.com/nolimits4web/Swiper/commit/2c87f13f56a480ddbbfd43f97516a0775ceb8d19))
+- rename package files `.esm.js` to `.mjs` ([7a17821](https://github.com/nolimits4web/Swiper/commit/7a1782128125bda394b40ea9d1235d789964bfa3))
+- browser ES modules ([ab20bd1](https://github.com/nolimits4web/Swiper/commit/ab20bd1f3a4204ef83831976746cc4a4e5b4b8d9))
+- change swiper container overflow to clip ([#6738](https://github.com/nolimits4web/Swiper/issues/6738)) ([a8447b7](https://github.com/nolimits4web/Swiper/commit/a8447b7d5550bb144b842b4c5b1c61ef96e64ab1))
+- **element:** attributes can accept JSON stringified strings ([5b93954](https://github.com/nolimits4web/Swiper/commit/5b9395424d591ab90c391ab5b9573d09c69536c7))
+- **element:** highly reworked Swiper web component ([a6f8a0f](https://github.com/nolimits4web/Swiper/commit/a6f8a0fab4d4daae8b37b274a6c548393b2a11df))
+  - navigation arrows use SVGs instead of font
+  - changed shadow DOM layout to have `<div class="swiper">` inside
+  - component styles now added using adoptedStylesheets
+  - no more global styles injection
+- set transform 3d on wrapper for iOS devices ([90c590d](https://github.com/nolimits4web/Swiper/commit/90c590d1879f39a3fed290a003fe7fd0205d9033))
+- tweak types exports to be Node 16+ compatible ([30ce8e0](https://github.com/nolimits4web/Swiper/commit/30ce8e0c9c7ce32025275469e9480ca8c81f30a7))
+
+### Bug Fixes
+
+- package.json exports for typescript ([#6626](https://github.com/nolimits4web/Swiper/issues/6626)) ([e9e8039](https://github.com/nolimits4web/Swiper/commit/e9e8039db557c5fbeab33472ced9ab9dc823280b))
+
 # [10.0.0-beta.5](https://github.com/nolimits4web/Swiper/compare/v10.0.0-beta.4...v10.0.0-beta.5) (2023-06-26)
 
 ### Features
