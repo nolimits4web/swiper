@@ -1,5 +1,11 @@
 # Changelog
 
+# [v10.0.1](https://github.com/nolimits4web/Swiper/compare/v10.0.0...v10.0.1) (2023-07-03)
+
+### Bug Fixes
+
+- **types:** fix types for swiper/modules ([fa6e597](https://github.com/nolimits4web/Swiper/commit/fa6e5976856304aff8e13620f09d99e8697b24a8))
+
 # [10.0.0](https://github.com/nolimits4web/Swiper/compare/v9.4.1...v10.0.0) (2023-07-03)
 
 ### Features
