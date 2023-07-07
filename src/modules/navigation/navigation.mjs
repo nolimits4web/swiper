@@ -19,10 +19,8 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     prevEl: null,
   };
 
-  const makeElementsArray = (el) => {
-    if (!Array.isArray(el)) el = [el].filter((e) => !!e);
-    return el;
-  };
+  const makeElementsArray = el =>
+    (Array.isArray(el) ? el : [el]).filter((e) => !!e)
 
   function getEl(el) {
     let res;
