@@ -1,5 +1,11 @@
 # Changelog
 
+# [10.0.4](https://github.com/nolimits4web/Swiper/compare/v10.0.3...v10.0.4) (2023-07-08)
+
+### Bug Fixes
+
+- **element:** fix in Safari < 16.4 ([e53fc07](https://github.com/nolimits4web/Swiper/commit/e53fc07dffca2a2ef3e929e120d4af6b41540cd7)), closes [#6831](https://github.com/nolimits4web/Swiper/issues/6831)
+
 # [v10.0.3](https://github.com/nolimits4web/Swiper/compare/v10.0.2...v10.0.3) (2023-07-03)
 
 ### Features
