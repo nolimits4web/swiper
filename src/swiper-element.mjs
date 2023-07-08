@@ -13,7 +13,7 @@ import { updateSwiper } from './components-shared/update-swiper.mjs';
 //SWIPER_STYLES
 //SWIPER_SLIDE_STYLES
 
-class DummyHTMLElement { }
+class DummyHTMLElement {}
 
 const ClassToExtend =
   typeof window === 'undefined' || typeof HTMLElement === 'undefined'
@@ -24,7 +24,7 @@ const arrowSvg = `<svg width="11" height="20" viewBox="0 0 11 20" fill="none" xm
     `;
 
 const addStyle = (shadowRoot, styles) => {
-  if (typeof CSSStyleSheet !== 'undefined' && !shadowRoot.adoptedStyleSheets) {
+  if (typeof CSSStyleSheet !== 'undefined' && shadowRoot.adoptedStyleSheets) {
     const styleSheet = new CSSStyleSheet();
     styleSheet.replaceSync(styles);
     shadowRoot.adoptedStyleSheets = [styleSheet];
@@ -32,9 +32,9 @@ const addStyle = (shadowRoot, styles) => {
     const style = document.createElement('style');
     style.rel = 'stylesheet';
     style.textContent = styles;
-    shadowRoot.appendChild(style)
+    shadowRoot.appendChild(style);
   }
-}
+};
 
 class SwiperContainer extends ClassToExtend {
   constructor() {
@@ -176,19 +176,19 @@ class SwiperContainer extends ClassToExtend {
       changedParams: [attrToProp(propName)],
       ...(propName === 'navigation' && passedParams[propName]
         ? {
-          prevEl: '.swiper-button-prev',
-          nextEl: '.swiper-button-next',
-        }
+            prevEl: '.swiper-button-prev',
+            nextEl: '.swiper-button-next',
+          }
         : {}),
       ...(propName === 'pagination' && passedParams[propName]
         ? {
-          paginationEl: '.swiper-pagination',
-        }
+            paginationEl: '.swiper-pagination',
+          }
         : {}),
       ...(propName === 'scrollbar' && passedParams[propName]
         ? {
-          scrollbarEl: '.swiper-scrollbar',
-        }
+            scrollbarEl: '.swiper-scrollbar',
+          }
         : {}),
     });
   }
