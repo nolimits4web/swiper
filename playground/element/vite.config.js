@@ -1,6 +1,9 @@
 import path from 'path';
 
 export default {
+  server: {
+    host: '0.0.0.0',
+  },
   resolve: {
     alias: {
       'swiper/element/bundle': path.resolve(__dirname, '../../dist/swiper-element-bundle.mjs'),
