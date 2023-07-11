@@ -65,11 +65,43 @@ class SwiperContainer extends ClassToExtend {
     return this.injectStylesUrls || [];
   }
 
+  calcSlideSlots() {
+    const currentSideSlots = this.slideSlots || 0;
+    // slide slots
+    const slideSlotChildren = [...this.querySelectorAll(`[slot^=slide-]`)].map((child) => {
+      return parseInt(child.getAttribute('slot').split('slide-')[1], 10);
+    });
+    this.slideSlots = slideSlotChildren.length ? Math.max(...slideSlotChildren) + 1 : 0;
+    if (!this.rendered) return;
+    if (this.slideSlots > currentSideSlots) {
+      for (let i = currentSideSlots; i < this.slideSlots; i += 1) {
+        const slideEl = document.createElement('swiper-slide');
+        slideEl.setAttribute('part', `slide slide-${i + 1}`);
+        const slotEl = document.createElement('slot');
+        slotEl.setAttribute('name', `slide-${i + 1}`);
+        slideEl.appendChild(slotEl);
+        this.shadowRoot.querySelector('.swiper-wrapper').appendChild(slideEl);
+      }
+    } else if (this.slideSlots < currentSideSlots) {
+      const slides = this.swiper.slides;
+      for (let i = slides.length - 1; i >= 0; i -= 1) {
+        if (i > this.slideSlots) {
+          slides[i].remove();
+        }
+      }
+    }
+  }
+
   render() {
     if (this.rendered) return;
 
+    this.calcSlideSlots();
+
     // local styles
-    const localStyles = this.cssStyles();
+    let localStyles = this.cssStyles();
+    if (this.slideSlots > 0) {
+      localStyles = localStyles.replace(/::slotted\(([a-z-0-9.]*)\)/g, '$1');
+    }
     if (localStyles.length) {
       addStyle(this.shadowRoot, localStyles);
     }
@@ -86,11 +118,17 @@ class SwiperContainer extends ClassToExtend {
     const el = document.createElement('div');
     el.classList.add('swiper');
     el.part = 'container';
+
     // prettier-ignore
     el.innerHTML = `
       <slot name="container-start"></slot>
       <div class="swiper-wrapper" part="wrapper">
         <slot></slot>
+        ${Array.from({length: this.slideSlots}).map((_, index) => `
+        <swiper-slide part="slide slide-${index}">
+          <slot name="slide-${index}"></slot>
+        </swiper-slide>
+        `).join('')}
       </div>
       <slot name="container-end"></slot>
       ${needsNavigation(this.passedParams) ? `
@@ -117,12 +155,18 @@ class SwiperContainer extends ClassToExtend {
     delete this.swiperParams.init;
 
     this.render();
+
     // eslint-disable-next-line
     this.swiper = new Swiper(this.shadowRoot.querySelector('.swiper'), {
+      ...(swiperParams.virtual
+        ? {}
+        : { observer: true, observeSlideChildren: this.slideSlots > 0 }),
       ...swiperParams,
       touchEventsTarget: 'container',
-      ...(swiperParams.virtual ? {} : { observer: true }),
       onAny: (name, ...args) => {
+        if (name === 'observerUpdate') {
+          this.calcSlideSlots();
+        }
         const eventName = swiperParams.eventsPrefix
           ? `${swiperParams.eventsPrefix}${name.toLowerCase()}`
           : name.toLowerCase();

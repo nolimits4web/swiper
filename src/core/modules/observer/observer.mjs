@@ -38,13 +38,13 @@ export default function Observer({ swiper, extendParams, on, emit }) {
   const init = () => {
     if (!swiper.params.observer) return;
     if (swiper.params.observeParents) {
-      const containerParents = elementParents(swiper.el);
+      const containerParents = elementParents(swiper.hostEl);
       for (let i = 0; i < containerParents.length; i += 1) {
         attach(containerParents[i]);
       }
     }
     // Observe container
-    attach(swiper.el, {
+    attach(swiper.hostEl, {
       childList: swiper.params.observeSlideChildren,
     });
 

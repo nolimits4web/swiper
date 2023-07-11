@@ -1,6 +1,6 @@
-import { Swiper } from '../swiper.mjs';
 import { isObject, extend } from './utils.mjs';
 import { paramsList } from './params-list.mjs';
+import defaults from '../core/defaults.mjs';
 
 function getParams(obj = {}, splitEvents = true) {
   const params = {
@@ -8,8 +8,7 @@ function getParams(obj = {}, splitEvents = true) {
   };
   const events = {};
   const passedParams = {};
-  extend(params, Swiper.defaults);
-  extend(params, Swiper.extendedDefaults);
+  extend(params, defaults);
   params._emitClasses = true;
   params.init = false;
 

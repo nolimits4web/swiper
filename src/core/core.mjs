@@ -514,7 +514,7 @@ class Swiper {
     Object.assign(swiper, {
       el,
       wrapperEl,
-      slidesEl: swiper.isElement ? el.parentNode.host : wrapperEl,
+      slidesEl: swiper.isElement && !el.parentNode.host.slideSlots ? el.parentNode.host : wrapperEl,
       hostEl: swiper.isElement ? el.parentNode.host : el,
       mounted: true,
 
