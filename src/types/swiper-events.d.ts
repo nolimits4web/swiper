@@ -109,42 +109,42 @@ export interface SwiperEvents {
   transitionEnd: (swiper: Swiper) => void;
 
   /**
-   * Event will be fired when user touch Swiper. Receives `touchstart` event as an arguments.
+   * Event will be fired when user touch Swiper. Receives `pointerdown` event as an arguments.
    */
   touchStart: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired when user touch and move finger over Swiper. Receives `touchmove` event as an arguments.
+   * Event will be fired when user touch and move finger over Swiper. Receives `pointermove` event as an arguments.
    */
   touchMove: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired when user touch and move finger over Swiper in direction opposite to direction parameter. Receives `touchmove` event as an arguments.
+   * Event will be fired when user touch and move finger over Swiper in direction opposite to direction parameter. Receives `pointermove` event as an arguments.
    */
   touchMoveOpposite: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired when user touch and move finger over Swiper and move it. Receives `touchmove` event as an arguments.
+   * Event will be fired when user touch and move finger over Swiper and move it. Receives `pointermove` event as an arguments.
    */
   sliderMove: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired when user release Swiper. Receives `touchend` event as an arguments.
+   * Event will be fired when user release Swiper. Receives `pointerup` event as an arguments.
    */
   touchEnd: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired when user click/tap on Swiper. Receives `touchend` event as an arguments.
+   * Event will be fired when user click/tap on Swiper. Receives `pointerup` event as an arguments.
    */
   click: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired when user click/tap on Swiper. Receives `touchend` event as an arguments.
+   * Event will be fired when user click/tap on Swiper. Receives `pointerup` event as an arguments.
    */
   tap: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired when user double tap on Swiper's container. Receives `touchend` event as an arguments
+   * Event will be fired when user double tap on Swiper's container. Receives `pointerup` event as an arguments
    */
   doubleTap: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
