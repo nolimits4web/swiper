@@ -18,6 +18,9 @@ export const getSplittedCSS = (content) => {
   const cssStylesSlideFlip = (content.split(`/* Flip slide shadows start */`)[1] || '').split(
     `/* Flip slide shadows end */`,
   )[0];
+  const cssStylesSlideZoom = (content.split(`/* Zoom container styles start */`)[1] || '').split(
+    `/* Zoom container styles end */`,
+  )[0];
   const navigationFontStyles = (content.split('/* Navigation font start */')[1] || '').split(
     '/* Navigation font end */',
   )[0];
@@ -25,15 +28,19 @@ export const getSplittedCSS = (content) => {
     .replace(cssStylesSlideCore, '')
     .replace(cssStylesSlideCube, '')
     .replace(cssStylesSlideFlip, '')
-    .replace(navigationFontStyles, '');
+    .replace(navigationFontStyles, '')
+    .replace(cssStylesSlideZoom, '');
   if (content.includes(`/* FONT_END */`)) {
     content = content.split('/* FONT_END */')[1];
   }
 
   return {
-    slides: [cssStylesSlideCore || '', cssStylesSlideCube || '', cssStylesSlideFlip || ''].join(
-      '\n',
-    ),
+    slides: [
+      cssStylesSlideCore || '',
+      cssStylesSlideCube || '',
+      cssStylesSlideFlip || '',
+      cssStylesSlideZoom || '',
+    ].join('\n'),
     container: content,
   };
 };
@@ -88,6 +95,9 @@ const proceedSlideReplacements = (content) => {
       }
       if (line.includes('animation: swiper-preloader-spin 1s infinite linear;')) {
         return '';
+      }
+      if (line.includes('.swiper-zoom-container')) {
+        return line.replace('.swiper-zoom-container', '::slotted(.swiper-zoom-container)');
       }
       if (line.includes('--swiper-preloader-color:')) return '';
       if (line.includes('.swiper-3d .swiper-slide-shadow')) {

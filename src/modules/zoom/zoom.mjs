@@ -112,7 +112,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     const selector = `.${swiper.params.zoom.containerClass}`;
     if (e.target.matches(selector)) return true;
     if (
-      [...swiper.el.querySelectorAll(selector)].filter((containerEl) =>
+      [...swiper.hostEl.querySelectorAll(selector)].filter((containerEl) =>
         containerEl.contains(e.target),
       ).length > 0
     )
