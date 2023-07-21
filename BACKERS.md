@@ -932,6 +932,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 ### \$100 Silver Sponsor
 
 <!-- SILVER_SPONSOR -->
+
 - [SEO Agency UK - International SEO and Link Building Services](https://awisee.co.uk/)
 - [Linkbuilding Sweden - Link Building Agency Sweden](https://linkbuildingsweden.com/)
 - [Vedonlyöntibonukset 2023 | Ilmaiset vihjeet | Koutsi hoitaa](https://www.vedonlyontibonukset.com/)
@@ -967,9 +968,10 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 ### \$50+ Sponsor
 
 <!-- SPONSOR -->
+
 - [Mines Aposta lll▷ Jogo da Bombinha Que da Dinheiro](https://mines-game.com/)
 - [siti non AAMS - outlookindia.com](https://www.outlookindia.com/outlook-spotlight/migliori-siti-non-aams-siti-scommesse-senza-licenza-sicuri-news-294715)
-- [オンラインカジノ評価2023【深層分析】～おすすめ人気オンラインカジノ | Kajino](https://kajino.com/)
+- [オンラインカジノ評価 2023【深層分析】～おすすめ人気オンラインカジノ | Kajino](https://kajino.com/)
 - [Best Aussie casinos at aussielowdepositcasino.com](https://aussielowdepositcasino.com/)
 - [Gamblechecker.com - Online Pokies Reviews For NZ Players](https://gamblechecker.com/)
 - [buy ig reel views](https://expressfollowers.com/buy-instagram-reel-views/)
@@ -1135,6 +1137,8 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 ---
 
 ### \$10+ Supporter
+
+[Instagram Stories Viewer](https://opencollective.com/instagram-stories-viewer)<br>
 
 [Will Myers](https://opencollective.com/will-myers)<br>
 
