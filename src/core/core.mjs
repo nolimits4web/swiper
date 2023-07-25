@@ -485,7 +485,7 @@ class Swiper {
     }
 
     el.swiper = swiper;
-    if (el.parentNode && el.parentNode.host) {
+    if (el.parentNode && el.parentNode.host && el.parentNode.host.nodeName === 'SWIPER-CONTAINER') {
       swiper.isElement = true;
     }
 
