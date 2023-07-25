@@ -10,7 +10,7 @@ export default async (fileName, filePath, bannerName) => {
   const { code, map } = await minify(content, {
     sourceMap: {
       filename: `${fileName}${fileExt}`,
-      url: `${fileName}.map`,
+      url: `${fileName.replace(fileExt, `.min${fileExt}`)}.map`,
     },
     output: {
       preamble: typeof bannerName !== 'undefined' ? banner(bannerName) : '',
