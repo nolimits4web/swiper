@@ -44,10 +44,8 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
   let bulletSize;
   let dynamicBulletIndex = 0;
 
-  const makeElementsArray = (el) => {
-    if (!Array.isArray(el)) el = [el].filter((e) => !!e);
-    return el;
-  };
+  const makeElementsArray = el =>
+    (Array.isArray(el) ? el : [el]).filter((e) => !!e)
 
   function isPaginationDisabled() {
     return (

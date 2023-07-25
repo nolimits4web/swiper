@@ -33,10 +33,8 @@ export default function A11y({ swiper, extendParams, on }) {
     notification.innerHTML = message;
   }
 
-  const makeElementsArray = (el) => {
-    if (!Array.isArray(el)) el = [el].filter((e) => !!e);
-    return el;
-  };
+  const makeElementsArray = el =>
+    (Array.isArray(el) ? el : [el]).filter((e) => !!e)
 
   function getRandomNumber(size = 16) {
     const randomChar = () => Math.round(16 * Math.random()).toString(16);
