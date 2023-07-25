@@ -113,11 +113,13 @@ export default function loopFix({
           swiper.slideTo(activeIndex + slidesPrepended, 0, false, true);
           if (setTranslate) {
             swiper.touches[swiper.isHorizontal() ? 'startX' : 'startY'] += diff;
+            swiper.touchEventsData.currentTranslate = swiper.translate;
           }
         }
       } else {
         if (setTranslate) {
           swiper.slideToLoop(slideRealIndex, 0, false, true);
+          swiper.touchEventsData.currentTranslate = swiper.translate;
         }
       }
     } else if (appendSlidesIndexes.length > 0 && isNext) {
@@ -131,6 +133,7 @@ export default function loopFix({
           swiper.slideTo(activeIndex - slidesAppended, 0, false, true);
           if (setTranslate) {
             swiper.touches[swiper.isHorizontal() ? 'startX' : 'startY'] += diff;
+            swiper.touchEventsData.currentTranslate = swiper.translate;
           }
         }
       } else {
