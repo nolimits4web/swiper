@@ -273,7 +273,7 @@ export interface SwiperOptions {
    *   <div class="swiper-wrapper">
    *     <div class="swiper-slide">
    *       <!-- wrap slide content with transform element -->
-   *       <div class="swiper-slide">
+   *       <div class="swiper-slide-transform">
    *         ... slide content ...
    *       </div>
    *     </div>
