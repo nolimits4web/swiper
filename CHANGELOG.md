@@ -1,5 +1,21 @@
 # Changelog
 
+# [10.1.0](https://github.com/nolimits4web/Swiper/compare/v10.0.4...v10.1.0) (2023-08-01)
+
+### Bug Fixes
+
+- **core:** fix flickering in loop mode edge positions ([bf29843](https://github.com/nolimits4web/Swiper/commit/bf298437039168611853cc7b7f92624f5f2726c6)), closes [#6673](https://github.com/nolimits4web/Swiper/issues/6673)
+- **core:** set `isElement` on swiper-containers only ([#6870](https://github.com/nolimits4web/Swiper/issues/6870)) ([2f61fda](https://github.com/nolimits4web/Swiper/commit/2f61fda721232f78b1b8ed16f57953442d70384b))
+- **package:** fix source maps for ES modules ([#6866](https://github.com/nolimits4web/Swiper/issues/6866)) ([5e88c4b](https://github.com/nolimits4web/Swiper/commit/5e88c4b2a88fb2158bc89ebb3f30ad738078530a)), closes [#6863](https://github.com/nolimits4web/Swiper/issues/6863)
+- **modules:** filter out falsy elements ([#6823](https://github.com/nolimits4web/Swiper/issues/6823)) ([e1b7254](https://github.com/nolimits4web/Swiper/commit/e1b725476eb90e2bbf719a344e57a92530f779ce))
+- **mousewheel:** fix `releaseOnEdges` for freeMode ([8a83360](https://github.com/nolimits4web/Swiper/commit/8a83360ea780d63dd5a95d9f62a364c5f4ab0f3f)), closes [#6770](https://github.com/nolimits4web/Swiper/issues/6770) [#6799](https://github.com/nolimits4web/Swiper/issues/6799)
+- **zoom:** fix image move in element ([89d9aa5](https://github.com/nolimits4web/Swiper/commit/89d9aa57531c4675611842378519025a926de34f)), closes [#6847](https://github.com/nolimits4web/Swiper/issues/6847)
+
+### Features
+
+- **element:** support slides as slots ([697b028](https://github.com/nolimits4web/Swiper/commit/697b02843f5feaf1968aefa07ec7e389dcd478cc))
+- **types:** make VirtualOptions generic ([#6852](https://github.com/nolimits4web/Swiper/issues/6852)) ([068ee68](https://github.com/nolimits4web/Swiper/commit/068ee68c55d8f62167af015fc2d57db8af439003))
+
 # [10.0.4](https://github.com/nolimits4web/Swiper/compare/v10.0.3...v10.0.4) (2023-07-08)
 
 ### Bug Fixes
