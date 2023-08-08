@@ -8,17 +8,12 @@
 </head>
 
 <body>
-  <swiper-container effect="cube">
-    <div slot="slide-0">Slide 1</div>
-    <div slot="slide-1">Slide 2</div>
-    <div slot="slide-2">Slide 3</div>
-    <div slot="slide-3">Slide 4</div>
-    <div slot="slide-4">Slide 5</div>
-    <div slot="slide-5">Slide 6</div>
-    <div slot="slide-6">Slide 7</div>
-    <div slot="slide-7">Slide 8</div>
-    <div slot="slide-8">Slide 9</div>
-    <div slot="slide-9">Slide 10</div>
+  <swiper-container effect="fade" fade-effect-cross-fade="true">
+    <swiper-slide>Slide 1</swiper-slide>
+    <swiper-slide>Slide 2</swiper-slide>
+    <swiper-slide>Slide 3</swiper-slide>
+    <swiper-slide>Slide 4</swiper-slide>
+    <swiper-slide>Slide 5</swiper-slide>
   </swiper-container>
   <style>
     body,
@@ -35,7 +30,7 @@
       margin: 50px auto;
     }
 
-    swiper-container::part(slide) {
+    swiper-slide {
       background: #f1f1f1;
       color: #000;
       text-align: center;
