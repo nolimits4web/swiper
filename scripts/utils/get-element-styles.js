@@ -90,7 +90,7 @@ const proceedSlideReplacements = (content) => {
       if (line === '.swiper-lazy-preloader {') {
         return line.replace(
           '.swiper-lazy-preloader {',
-          '::slotted(.swiper-lazy-preloader) {animation: swiper-preloader-spin 1s infinite linear;',
+          '.swiper-lazy-preloader {animation: swiper-preloader-spin 1s infinite linear;',
         );
       }
       if (line.includes('animation: swiper-preloader-spin 1s infinite linear;')) {

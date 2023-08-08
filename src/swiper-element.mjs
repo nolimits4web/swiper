@@ -289,7 +289,8 @@ class SwiperSlide extends ClassToExtend {
     if (lazy) {
       const lazyDiv = document.createElement('div');
       lazyDiv.classList.add('swiper-lazy-preloader');
-      this.appendChild(lazyDiv);
+      lazyDiv.part.add('preloader');
+      this.shadowRoot.appendChild(lazyDiv);
     }
   }
 

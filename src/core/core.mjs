@@ -581,8 +581,11 @@ class Swiper {
 
     // Attach events
     swiper.attachEvents();
-
-    [...swiper.el.querySelectorAll('[loading="lazy"]')].forEach((imageEl) => {
+    const lazyElements = [...swiper.el.querySelectorAll('[loading="lazy"]')];
+    if (swiper.isElement) {
+      lazyElements.push(...swiper.hostEl.querySelectorAll('[loading="lazy"]'));
+    }
+    lazyElements.forEach((imageEl) => {
       if (imageEl.complete) {
         processLazyPreloader(swiper, imageEl);
       } else {
