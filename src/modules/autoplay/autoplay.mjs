@@ -147,6 +147,7 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   };
   const pause = (internal, reset) => {
     if (swiper.destroyed || !swiper.autoplay.running) return;
+
     clearTimeout(timeout);
     if (!internal) {
       pausedByInteraction = true;
@@ -210,6 +211,7 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   const onPointerEnter = (e) => {
     if (e.pointerType !== 'mouse') return;
     pausedByInteraction = true;
+    if (swiper.animating || swiper.autoplay.paused) return;
     pause(true);
   };
 
