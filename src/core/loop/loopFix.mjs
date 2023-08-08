@@ -148,7 +148,6 @@ export default function loopFix({
   if (swiper.controller && swiper.controller.control && !byController) {
     const loopParams = {
       slideRealIndex,
-      slideTo: false,
       direction,
       setTranslate,
       activeSlideIndex,
@@ -156,13 +155,21 @@ export default function loopFix({
     };
     if (Array.isArray(swiper.controller.control)) {
       swiper.controller.control.forEach((c) => {
-        if (!c.destroyed && c.params.loop) c.loopFix(loopParams);
+        if (!c.destroyed && c.params.loop)
+          c.loopFix({
+            ...loopParams,
+            slideTo: c.params.slidesPerView === params.slidesPerView ? slideTo : false,
+          });
       });
     } else if (
       swiper.controller.control instanceof swiper.constructor &&
       swiper.controller.control.params.loop
     ) {
-      swiper.controller.control.loopFix(loopParams);
+      swiper.controller.control.loopFix({
+        ...loopParams,
+        slideTo:
+          swiper.controller.control.params.slidesPerView === params.slidesPerView ? slideTo : false,
+      });
     }
   }
 
