@@ -374,7 +374,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     el = makeElementsArray(el);
     el.forEach((subEl) => {
       if (params.type === 'bullets' && params.clickable) {
-        subEl.classList.add(params.clickableClass);
+        subEl.classList.add(...(params.clickableClass || '').split(' '));
       }
 
       subEl.classList.add(params.modifierClass + params.type);
@@ -414,6 +414,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
           swiper.isHorizontal() ? params.horizontalClass : params.verticalClass,
         );
         if (params.clickable) {
+          subEl.classList.remove(...(params.clickableClass || '').split(' '));
           subEl.removeEventListener('click', onBulletClick);
         }
       });
