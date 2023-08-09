@@ -7,9 +7,10 @@ export default function onTouchEnd(event) {
   if (pointerIndex >= 0) {
     data.evCache.splice(pointerIndex, 1);
   }
-  if (['pointercancel', 'pointerout', 'pointerleave'].includes(event.type)) {
+  if (['pointercancel', 'pointerout', 'pointerleave', 'contextmenu'].includes(event.type)) {
     const proceed =
-      event.type === 'pointercancel' && (swiper.browser.isSafari || swiper.browser.isWebView);
+      ['pointercancel', 'contextmenu'].includes(event.type) &&
+      (swiper.browser.isSafari || swiper.browser.isWebView);
     if (!proceed) {
       return;
     }

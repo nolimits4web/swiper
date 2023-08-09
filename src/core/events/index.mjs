@@ -25,6 +25,7 @@ const events = (swiper, method) => {
   document[domMethod]('pointercancel', swiper.onTouchEnd, { passive: true });
   document[domMethod]('pointerout', swiper.onTouchEnd, { passive: true });
   document[domMethod]('pointerleave', swiper.onTouchEnd, { passive: true });
+  document[domMethod]('contextmenu', swiper.onTouchEnd, { passive: true });
 
   // Prevent Links Clicks
   if (params.preventClicks || params.preventClicksPropagation) {
