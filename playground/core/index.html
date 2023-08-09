@@ -8,11 +8,7 @@
 </head>
 
 <body>
-  <section class="swiper">
-    <div class="swiper-pagination"></div>
-    <div class="swiper-scrollbar"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
+  <div class="swiper">
     <div class="swiper-wrapper">
       <div class="swiper-slide">Slide 1</div>
       <div class="swiper-slide">Slide 2</div>
@@ -23,29 +19,46 @@
       <div class="swiper-slide">Slide 7</div>
       <div class="swiper-slide">Slide 8</div>
       <div class="swiper-slide">Slide 9</div>
-      <div class="swiper-slide">Slide 10</div>
     </div>
-  </section>
+    <div class="swiper-pagination"></div>
+  </div>
+
   <style>
-    body,
-    html {
-      padding: 0;
-      margin: 0;
+    html,
+    body {
       position: relative;
       height: 100%;
     }
 
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+      margin: 0;
+      padding: 0;
+    }
+
     .swiper {
+      margin: 100px auto;
       width: 100%;
-      height: 300px;
-      margin: 50px auto;
+      height: 480px;
     }
 
     .swiper-slide {
-      background: #f1f1f1;
-      color: #000;
-      text-align: center;
-      line-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      background: #fff;
     }
   </style>
   <script type="module">
@@ -55,22 +68,18 @@
     // eslint-disable-next-line
     import Swiper from 'swiper/swiper-bundle.mjs';
 
-    // eslint-disable-next-line
-    window.swiper = new Swiper({
-      el: '.swiper',
-      speed: 300,
-      slidesPerView: 1,
-      scrollbar: {
-        el: '.swiper-scrollbar',
-      },
-      navigation: {
-        prevEl: '.swiper-button-prev',
-        nextEl: '.swiper-button-next',
-      },
+    window.swiper = new Swiper(".swiper", {
+      spaceBetween: 20,
+      slidesPerView: 3,
+      createElements: true,
       pagination: {
         el: '.swiper-pagination',
+        clickable: true,
       },
+      navigation: true,
     });
+
+
   </script>
 </body>
 
