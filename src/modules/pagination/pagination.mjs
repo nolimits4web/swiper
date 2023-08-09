@@ -44,8 +44,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
   let bulletSize;
   let dynamicBulletIndex = 0;
 
-  const makeElementsArray = el =>
-    (Array.isArray(el) ? el : [el]).filter((e) => !!e)
+  const makeElementsArray = (el) => (Array.isArray(el) ? el : [el]).filter((e) => !!e);
 
   function isPaginationDisabled() {
     return (
@@ -77,14 +76,20 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     const index = elementIndex(bulletEl) * swiper.params.slidesPerGroup;
     if (swiper.params.loop) {
       if (swiper.realIndex === index) return;
+      const realIndex = swiper.realIndex;
       const newSlideIndex = swiper.getSlideIndexByData(index);
       const currentSlideIndex = swiper.getSlideIndexByData(swiper.realIndex);
       if (newSlideIndex > swiper.slides.length - swiper.loopedSlides) {
+        const indexBeforeLoopFix = swiper.activeIndex;
         swiper.loopFix({
           direction: newSlideIndex > currentSlideIndex ? 'next' : 'prev',
           activeSlideIndex: newSlideIndex,
           slideTo: false,
         });
+        const indexAfterFix = swiper.activeIndex;
+        if (indexBeforeLoopFix === indexAfterFix) {
+          swiper.slideToLoop(realIndex, 0, false, true);
+        }
       }
 
       swiper.slideToLoop(index);
