@@ -21,6 +21,7 @@
     },
     "./css": "./swiper.css",
     "./css/bundle": "./swiper-bundle.css",
+    "./swiper-bundle.css": "./swiper-bundle.css",
     "./css/a11y": "./modules/a11y.css",
     "./css/autoplay": "./modules/autoplay.css",
     "./css/controller": "./modules/controller.css",
