@@ -1,5 +1,23 @@
 # Changelog
 
+# [10.2.0](https://github.com/nolimits4web/Swiper/compare/v10.1.0...v10.2.0) (2023-08-17)
+
+### Bug Fixes
+
+- **autoplay:** fix autoplay pause during transition ([db9b17f](https://github.com/nolimits4web/Swiper/commit/db9b17ffc627bafaa912b31e6336b4c366be3021)), closes [#6896](https://github.com/nolimits4web/Swiper/issues/6896)
+- **controller:** fix issues with loop mode ([fbb84fe](https://github.com/nolimits4web/Swiper/commit/fbb84fed425f8341c0bd927e5a658962b130abdf)), closes [#6659](https://github.com/nolimits4web/Swiper/issues/6659)
+- **core:** fix touch move and loop behavior when transition-delay enabled on swiper-wrapper ([ac27d02](https://github.com/nolimits4web/Swiper/commit/ac27d0204dfa3e6cc2059e19d5f6ff836d77c4d0))
+- **core:** handle `contextmenu` event ([721ccaf](https://github.com/nolimits4web/Swiper/commit/721ccaf292de538e479c33668abf30ae86278d2b)), closes [#6692](https://github.com/nolimits4web/Swiper/issues/6692)
+- **element:** fix missing elements `part` when added dynamically ([db5b5d6](https://github.com/nolimits4web/Swiper/commit/db5b5d6c337b4e8615b7e6ec2acb1694213a2311)), closes [#6899](https://github.com/nolimits4web/Swiper/issues/6899)
+- **element:** fix parallax on elements passed to component root ([265e466](https://github.com/nolimits4web/Swiper/commit/265e466a043efc750964c397d262736923e58040))
+- **element:** fixed issue with incorrect lookup for lazy prelader and images ([64513ac](https://github.com/nolimits4web/Swiper/commit/64513ac899c843b745e33813126ab6c52af650a4)), closes [#6901](https://github.com/nolimits4web/Swiper/issues/6901)
+- **element:** fixed issue with pointer-events:none in fade effect ([2dcb802](https://github.com/nolimits4web/Swiper/commit/2dcb802ea5192c1f4b47fed4b20242983e06c6cb)), closes [#6908](https://github.com/nolimits4web/Swiper/issues/6908)
+- **pagination:** fixed issue in loop mode when sometimes it switches slides with transiton ([3d7dc58](https://github.com/nolimits4web/Swiper/commit/3d7dc5834f12a8ed518c9a79a58fe13777f9298f)), closes [#6856](https://github.com/nolimits4web/Swiper/issues/6856)
+
+### Features
+
+- **pagination:** allow multiple `clickableClass` ([703d13b](https://github.com/nolimits4web/Swiper/commit/703d13b1aeb234d0f72ab0a61572af6a8bb94ab7)), closes [#6741](https://github.com/nolimits4web/Swiper/issues/6741)
+
 # [10.1.0](https://github.com/nolimits4web/Swiper/compare/v10.0.4...v10.1.0) (2023-08-01)
 
 ### Bug Fixes
