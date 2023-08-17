@@ -92,8 +92,10 @@ export default async function buildStyles() {
         if (file === 'swiper.scss' || file === 'swiper.less') {
           distFileContent = `${banner()}\n${distFileContent}`;
         }
-        if (distFilePath.includes('/modules/')) {
-          distFilePath = distFilePath.replace(/modules\/([a-zA-Z0-9-]*)/, 'modules');
+        if (distFilePath.includes('/modules/') || distFilePath.includes('\\modules\\')) {
+          distFilePath = distFilePath
+            .replace(/modules\/([a-zA-Z0-9-]*)/, 'modules')
+            .replace(/modules\\([a-zA-Z0-9-]*)/, 'modules');
         }
         await fs.ensureDir(path.dirname(distFilePath));
         await fs.writeFile(distFilePath, distFileContent);
