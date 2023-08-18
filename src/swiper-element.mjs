@@ -270,7 +270,7 @@ paramsList.forEach((paramName) => {
       if (!this.passedParams) this.passedParams = {};
       this.passedParams[paramName] = value;
       if (!this.initialized) return;
-      this.updateSwiperOnPropChange(paramName);
+      this.updateSwiperOnPropChange(paramName, value);
     },
   });
 });
