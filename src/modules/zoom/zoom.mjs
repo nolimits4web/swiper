@@ -91,9 +91,11 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     if (evCache.length < 2) return { x: null, y: null };
     const box = gesture.imageEl.getBoundingClientRect();
     return [
-      (evCache[0].pageX + (evCache[1].pageX - evCache[0].pageX) / 2 - box.x) / currentScale,
+      (evCache[0].pageX + (evCache[1].pageX - evCache[0].pageX) / 2 - box.x - window.scrollX) /
+        currentScale,
 
-      (evCache[0].pageY + (evCache[1].pageY - evCache[0].pageY) / 2 - box.y) / currentScale,
+      (evCache[0].pageY + (evCache[1].pageY - evCache[0].pageY) / 2 - box.y - window.scrollY) /
+        currentScale,
     ];
   }
 
