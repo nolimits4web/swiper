@@ -94,10 +94,11 @@ export default function updateActiveIndex(newActiveIndex) {
   }
   swiper.emit('activeIndexChange');
   swiper.emit('snapIndexChange');
-  if (previousRealIndex !== realIndex) {
-    swiper.emit('realIndexChange');
-  }
+
   if (swiper.initialized || swiper.params.runCallbacksOnInit) {
+    if (previousRealIndex !== realIndex) {
+      swiper.emit('realIndexChange');
+    }
     swiper.emit('slideChange');
   }
 }
