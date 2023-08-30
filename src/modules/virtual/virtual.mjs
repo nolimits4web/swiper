@@ -315,9 +315,7 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     swiper.params.watchSlidesProgress = true;
     swiper.originalParams.watchSlidesProgress = true;
 
-    if (!swiper.params.initialSlide) {
-      update();
-    }
+    update();
   });
   on('setTranslate', () => {
     if (!swiper.params.virtual.enabled) return;
