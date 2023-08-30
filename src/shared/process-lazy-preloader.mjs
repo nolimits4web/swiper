@@ -5,7 +5,17 @@ export const processLazyPreloader = (swiper, imageEl) => {
   if (slideEl) {
     let lazyEl = slideEl.querySelector(`.${swiper.params.lazyPreloaderClass}`);
     if (!lazyEl && swiper.isElement) {
-      lazyEl = slideEl.shadowRoot.querySelector(`.${swiper.params.lazyPreloaderClass}`);
+      if (slideEl.shadowRoot) {
+        lazyEl = slideEl.shadowRoot.querySelector(`.${swiper.params.lazyPreloaderClass}`);
+      } else {
+        // init later
+        requestAnimationFrame(() => {
+          if (slideEl.shadowRoot) {
+            lazyEl = slideEl.shadowRoot.querySelector(`.${swiper.params.lazyPreloaderClass}`);
+            if (lazyEl) lazyEl.remove();
+          }
+        });
+      }
     }
     if (lazyEl) lazyEl.remove();
   }
