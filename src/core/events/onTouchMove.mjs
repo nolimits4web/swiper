@@ -149,9 +149,11 @@ export default function onTouchMove(event) {
   swiper.touchesDirection = touchesDiff > 0 ? 'prev' : 'next';
 
   const isLoop = swiper.params.loop && !params.cssMode;
-
+  const allowLoopFix =
+    (swiper.swipeDirection === 'next' && swiper.allowSlideNext) ||
+    (swiper.swipeDirection === 'prev' && swiper.allowSlidePrev);
   if (!data.isMoved) {
-    if (isLoop) {
+    if (isLoop && allowLoopFix) {
       swiper.loopFix({ direction: swiper.swipeDirection });
     }
     data.startTranslate = swiper.getTranslate();
@@ -175,6 +177,7 @@ export default function onTouchMove(event) {
     data.isMoved &&
     prevTouchesDirection !== swiper.touchesDirection &&
     isLoop &&
+    allowLoopFix &&
     Math.abs(diff) >= 1
   ) {
     // need another loop fix
@@ -194,6 +197,7 @@ export default function onTouchMove(event) {
   if (diff > 0) {
     if (
       isLoop &&
+      allowLoopFix &&
       !loopFixed &&
       data.currentTranslate >
         (params.centeredSlides ? swiper.minTranslate() - swiper.size / 2 : swiper.minTranslate())
@@ -212,6 +216,7 @@ export default function onTouchMove(event) {
   } else if (diff < 0) {
     if (
       isLoop &&
+      allowLoopFix &&
       !loopFixed &&
       data.currentTranslate <
         (params.centeredSlides ? swiper.maxTranslate() + swiper.size / 2 : swiper.maxTranslate())
