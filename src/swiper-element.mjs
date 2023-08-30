@@ -172,7 +172,7 @@ class SwiperContainer extends ClassToExtend {
           : name.toLowerCase();
         const event = new CustomEvent(eventName, {
           detail: args,
-          bubbles: true,
+          bubbles: name !== 'hashChange',
           cancelable: true,
         });
         this.dispatchEvent(event);
