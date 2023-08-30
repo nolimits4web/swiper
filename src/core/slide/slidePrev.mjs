@@ -53,6 +53,11 @@ export default function slidePrev(speed = this.params.speed, runCallbacks = true
         ? swiper.virtual.slides.length - 1
         : swiper.slides.length - 1;
     return swiper.slideTo(lastIndex, speed, runCallbacks, internal);
+  } else if (params.loop && swiper.activeIndex === 0 && params.cssMode) {
+    requestAnimationFrame(() => {
+      swiper.slideTo(prevIndex, speed, runCallbacks, internal);
+    });
+    return true;
   }
   return swiper.slideTo(prevIndex, speed, runCallbacks, internal);
 }
