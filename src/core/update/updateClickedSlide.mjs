@@ -1,7 +1,14 @@
-export default function updateClickedSlide(e) {
+export default function updateClickedSlide(el, path) {
   const swiper = this;
   const params = swiper.params;
-  const slide = e.closest(`.${params.slideClass}, swiper-slide`);
+  let slide = el.closest(`.${params.slideClass}, swiper-slide`);
+  if (!slide && swiper.isElement && path && path.length > 1 && path.includes(el)) {
+    [...path.slice(path.indexOf(el) + 1, path.length)].forEach((pathEl) => {
+      if (!slide && pathEl.matches && pathEl.matches(`.${params.slideClass}, swiper-slide`)) {
+        slide = pathEl;
+      }
+    });
+  }
   let slideFound = false;
   let slideIndex;
 
