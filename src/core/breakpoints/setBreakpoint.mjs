@@ -56,6 +56,7 @@ export default function setBreakpoint() {
     breakpointParams.direction && breakpointParams.direction !== params.direction;
   const needsReLoop =
     params.loop && (breakpointParams.slidesPerView !== params.slidesPerView || directionChanged);
+  const wasLoop = params.loop;
 
   if (directionChanged && initialized) {
     swiper.changeDirection();
@@ -63,6 +64,7 @@ export default function setBreakpoint() {
   extend(swiper.params, breakpointParams);
 
   const isEnabled = swiper.params.enabled;
+  const hasLoop = swiper.params.loop;
 
   Object.assign(swiper, {
     allowTouchMove: swiper.params.allowTouchMove,
@@ -80,10 +82,17 @@ export default function setBreakpoint() {
 
   swiper.emit('_beforeBreakpoint', breakpointParams);
 
-  if (needsReLoop && initialized) {
-    swiper.loopDestroy();
-    swiper.loopCreate(realIndex);
-    swiper.updateSlides();
+  if (initialized) {
+    if (needsReLoop) {
+      swiper.loopDestroy();
+      swiper.loopCreate(realIndex);
+      swiper.updateSlides();
+    } else if (!wasLoop && hasLoop) {
+      swiper.loopCreate(realIndex);
+      swiper.updateSlides();
+    } else if (wasLoop && !hasLoop) {
+      swiper.loopDestroy();
+    }
   }
 
   swiper.emit('breakpoint', breakpointParams);
