@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-import type { SwiperOptions, Swiper as SwiperClass } from './types/index.d.ts';
+// Importing from index file causes errors in Typescript 4
+import type { SwiperOptions } from './types/swiper-options';
+import type SwiperClass from './types/swiper-class';
 
 interface SwiperProps extends SwiperOptions {
   /**
