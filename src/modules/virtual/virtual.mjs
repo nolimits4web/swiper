@@ -52,7 +52,9 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
       slideEl.innerHTML = slide;
     }
 
-    if (params.cache) swiper.virtual.cache[index] = slideEl;
+    if (params.cache) {
+      swiper.virtual.cache[index] = slideEl;
+    }
     return slideEl;
   }
 
@@ -161,8 +163,8 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     };
 
     if (force) {
-      swiper.slidesEl
-        .querySelectorAll(`.${swiper.params.slideClass}, swiper-slide`)
+      swiper.slides
+        .filter((el) => el.matches(`.${swiper.params.slideClass}, swiper-slide`))
         .forEach((slideEl) => {
           slideEl.remove();
         });
@@ -170,9 +172,11 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
       for (let i = previousFrom; i <= previousTo; i += 1) {
         if (i < from || i > to) {
           const slideIndex = getSlideIndex(i);
-          swiper.slidesEl
-            .querySelectorAll(
-              `.${swiper.params.slideClass}[data-swiper-slide-index="${slideIndex}"], swiper-slide[data-swiper-slide-index="${slideIndex}"]`,
+          swiper.slides
+            .filter((el) =>
+              el.matches(
+                `.${swiper.params.slideClass}[data-swiper-slide-index="${slideIndex}"], swiper-slide[data-swiper-slide-index="${slideIndex}"]`,
+              ),
             )
             .forEach((slideEl) => {
               slideEl.remove();
