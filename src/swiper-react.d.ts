@@ -2,29 +2,42 @@ import * as React from 'react';
 
 import type { SwiperOptions, Swiper as SwiperClass } from './types/index.d.ts';
 
-interface SwiperProps extends SwiperOptions {
-  /**
-   * Swiper container tag
-   *
-   * @default 'div'
-   */
-  tag?: string;
+type SwiperProps = Omit<
+  React.HTMLAttributes<HTMLElement>,
+  | 'onProgress'
+  | 'onClick'
+  | 'onTouchEnd'
+  | 'onTouchMove'
+  | 'onTouchStart'
+  | 'onTransitionEnd'
+  | 'onKeyPress'
+  | 'onDoubleClick'
+  | 'onScroll'
+  | 'onResize'
+> &
+  SwiperOptions & {
+    /**
+     * Swiper container tag
+     *
+     * @default 'div'
+     */
+    tag?: string;
 
-  /**
-   * Swiper wrapper tag
-   *
-   * @default 'div'
-   */
-  wrapperTag?: string;
+    /**
+     * Swiper wrapper tag
+     *
+     * @default 'div'
+     */
+    wrapperTag?: string;
 
-  /**
-   * Get Swiper instance
-   */
-  onSwiper?: (swiper: SwiperClass) => void;
+    /**
+     * Get Swiper instance
+     */
+    onSwiper?: (swiper: SwiperClass) => void;
 
-  // CORE_EVENTS
-  // MODULES_EVENTS
-}
+    // CORE_EVENTS
+    // MODULES_EVENTS
+  };
 
 interface SlideData {
   isActive: boolean;
@@ -33,7 +46,7 @@ interface SlideData {
   isNext: boolean;
 }
 
-interface SwiperSlideProps {
+type SwiperSlideProps = Omit<React.HTMLAttributes<HTMLElement>, 'children'> & {
   /**
    * Slide tag
    *
@@ -68,29 +81,15 @@ interface SwiperSlideProps {
    * @default undefined
    */
   children?: React.ReactNode | ((slideData: SlideData) => React.ReactNode);
-}
-
-interface SwiperProps
-  extends Omit<
-    React.HTMLAttributes<HTMLElement>,
-    | 'onProgress'
-    | 'onClick'
-    | 'onTouchEnd'
-    | 'onTouchMove'
-    | 'onTouchStart'
-    | 'onTransitionEnd'
-    | 'onKeyPress'
-    | 'onDoubleClick'
-    | 'onScroll'
-    | 'onResize'
-  > {}
-interface SwiperSlideProps extends Omit<React.HTMLAttributes<HTMLElement>, 'children'> {}
+};
 
 interface SwiperRef extends React.HTMLAttributes<HTMLElement> {
   swiper: SwiperClass;
 }
 
-declare const Swiper: React.FunctionComponent<React.RefAttributes<SwiperRef> & SwiperProps>;
+declare const Swiper: React.FunctionComponent<
+  React.RefAttributes<SwiperRef> & React.PropsWithChildren<SwiperProps>
+>;
 declare const SwiperSlide: React.FunctionComponent<SwiperSlideProps>;
 
 declare const useSwiper: () => SwiperClass;
