@@ -19,8 +19,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     prevEl: null,
   };
 
-  const makeElementsArray = el =>
-    (Array.isArray(el) ? el : [el]).filter((e) => !!e)
+  const makeElementsArray = (el) => (Array.isArray(el) ? el : [el]).filter((e) => !!e);
 
   function getEl(el) {
     let res;
@@ -148,11 +147,13 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     let { nextEl, prevEl } = swiper.navigation;
     nextEl = makeElementsArray(nextEl);
     prevEl = makeElementsArray(prevEl);
+    if (swiper.enabled) {
+      update();
+      return;
+    }
     [...nextEl, ...prevEl]
       .filter((el) => !!el)
-      .forEach((el) =>
-        el.classList[swiper.enabled ? 'remove' : 'add'](swiper.params.navigation.lockClass),
-      );
+      .forEach((el) => el.classList.add(swiper.params.navigation.lockClass));
   });
   on('click', (_s, e) => {
     let { nextEl, prevEl } = swiper.navigation;
