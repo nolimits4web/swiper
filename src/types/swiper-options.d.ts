@@ -713,8 +713,6 @@ export interface SwiperOptions {
    * Base for breakpoints (beta). Can be `window` or `container`. If set to `window` (by default) then breakpoint keys mean window width. If set to `container` then breakpoint keys treated as swiper container width
    *
    * @default 'window'
-   *
-   * @note Currently in beta and not supported by Swiper React and Vue components
    */
   breakpointsBase?: string;
 
