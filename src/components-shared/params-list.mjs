@@ -29,6 +29,7 @@ const paramsList = [
   'virtualTranslate',
   '_effect',
   'breakpoints',
+  'breakpointsBase',
   '_spaceBetween',
   '_slidesPerView',
   'maxBackfaceHiddenSlides',
