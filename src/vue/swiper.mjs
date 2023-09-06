@@ -157,6 +157,7 @@ const Swiper = {
     'beforeSlideChangeStart',
     'beforeTransitionStart',
     'breakpoint',
+    'breakpointsBase',
     'changeDirection',
     'click',
     'disable',
