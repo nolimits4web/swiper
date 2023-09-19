@@ -268,6 +268,12 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   slideToClosest(speed?: number, runCallbacks?: boolean): void;
 
   /**
+   * Get dynamically calculated amount of slides per view, useful only when slidesPerView set to `auto`
+   *
+   */
+  slidesPerViewDynamic(): number;
+
+  /**
    * Force swiper to update its height (when autoHeight enabled) for the duration equal to
    * 'speed' parameter
    *
