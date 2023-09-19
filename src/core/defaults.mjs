@@ -10,6 +10,7 @@ export default {
   resizeObserver: true,
   nested: false,
   createElements: false,
+  eventsPrefix: 'swiper',
   enabled: true,
   focusableElements: 'input, select, option, textarea, button, video, label',
 

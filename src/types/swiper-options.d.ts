@@ -176,6 +176,13 @@ export interface SwiperOptions {
   createElements?: boolean;
 
   /**
+   * Event name prefix for all DOM events emitted by Swiper Element (web component)
+   *
+   * @default `swiper`
+   */
+  eventsPrefix?: boolean;
+
+  /**
    * CSS selector for focusable elements. Swiping will be disabled on such elements if they are "focused"
    *
    * @default 'input, select, option, textarea, button, video, label'
