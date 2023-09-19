@@ -266,18 +266,36 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     let activeIndex = swiper.activeIndex;
     if (Array.isArray(slidesIndexes)) {
       for (let i = slidesIndexes.length - 1; i >= 0; i -= 1) {
-        swiper.virtual.slides.splice(slidesIndexes[i], 1);
         if (swiper.params.virtual.cache) {
           delete swiper.virtual.cache[slidesIndexes[i]];
+          // shift cache indexes
+          Object.keys(swiper.virtual.cache).forEach((key) => {
+            if (key > slidesIndexes) {
+              swiper.virtual.cache[key - 1] = swiper.virtual.cache[key];
+              swiper.virtual.cache[key - 1].setAttribute('data-swiper-slide-index', key - 1);
+              delete swiper.virtual.cache[key];
+            }
+          });
         }
+        swiper.virtual.slides.splice(slidesIndexes[i], 1);
+
         if (slidesIndexes[i] < activeIndex) activeIndex -= 1;
         activeIndex = Math.max(activeIndex, 0);
       }
     } else {
-      swiper.virtual.slides.splice(slidesIndexes, 1);
       if (swiper.params.virtual.cache) {
         delete swiper.virtual.cache[slidesIndexes];
+        // shift cache indexes
+        Object.keys(swiper.virtual.cache).forEach((key) => {
+          if (key > slidesIndexes) {
+            swiper.virtual.cache[key - 1] = swiper.virtual.cache[key];
+            swiper.virtual.cache[key - 1].setAttribute('data-swiper-slide-index', key - 1);
+            delete swiper.virtual.cache[key];
+          }
+        });
       }
+      swiper.virtual.slides.splice(slidesIndexes, 1);
+
       if (slidesIndexes < activeIndex) activeIndex -= 1;
       activeIndex = Math.max(activeIndex, 0);
     }
