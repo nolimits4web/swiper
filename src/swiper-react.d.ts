@@ -1,9 +1,10 @@
 import * as React from 'react';
 
 import type { SwiperOptions, Swiper as SwiperClass } from './types/index.d.ts';
+import { SwiperContainer, SwiperSlide } from './swiper-element.js';
 
 type SwiperProps = Omit<
-  React.HTMLAttributes<HTMLElement>,
+  React.HTMLAttributes<SwiperContainer>,
   | 'onProgress'
   | 'onClick'
   | 'onTouchEnd'
@@ -46,46 +47,11 @@ interface SlideData {
   isNext: boolean;
 }
 
-type SwiperSlideProps = Omit<React.HTMLAttributes<HTMLElement>, 'children'> & {
-  /**
-   * Slide tag
-   *
-   * @default 'div'
-   */
-  tag?: string;
-
-  /**
-   * Enables additional wrapper required for zoom mode
-   *
-   * @default false
-   */
-  zoom?: boolean;
-
-  /**
-   * Adds lazy preloader to the slide
-   *
-   * @default false
-   */
-  lazy?: boolean;
-
-  /**
-   * Slide's index in slides array/collection
-   *
-   * @default false
-   */
-  virtualIndex?: number;
-
-  /**
-   * Slide's child element or render function
-   *
-   * @default undefined
-   */
+type SwiperSlideProps = Omit<React.HTMLAttributes<SwiperSlide>, 'children'> & {
   children?: React.ReactNode | ((slideData: SlideData) => React.ReactNode);
 };
 
-interface SwiperRef extends React.HTMLAttributes<HTMLElement> {
-  swiper: SwiperClass;
-}
+interface SwiperRef extends React.HTMLAttributes<SwiperContainer> {}
 
 declare const Swiper: React.FunctionComponent<
   React.RefAttributes<SwiperRef> & React.PropsWithChildren<SwiperProps>

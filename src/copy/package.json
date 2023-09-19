@@ -132,6 +132,10 @@
       "types": "./swiper-react.d.ts",
       "default": "./swiper-react.mjs"
     },
+    "./react/bundle": {
+      "types": "./swiper-react.d.ts",
+      "default": "./swiper-react-bundle.mjs"
+    },
     "./vue": {
       "types": "./swiper-vue.d.ts",
       "default": "./swiper-vue.mjs"

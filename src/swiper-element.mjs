@@ -213,7 +213,9 @@ class SwiperContainer extends ClassToExtend {
     const { params: swiperParams, passedParams } = getParams(this, propName, propValue);
     this.passedParams = passedParams;
     this.swiperParams = swiperParams;
-
+    if (this.swiper && this.swiper.params[propName] === propValue) {
+      return;
+    }
     updateSwiper({
       swiper: this.swiper,
       passedParams: this.passedParams,

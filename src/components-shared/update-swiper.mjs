@@ -107,7 +107,7 @@ function updateSwiper({
 
   updateParams.forEach((key) => {
     if (isObject(currentParams[key]) && isObject(passedParams[key])) {
-      extend(currentParams[key], passedParams[key]);
+      Object.assign(currentParams[key], passedParams[key]);
       if (
         (key === 'navigation' || key === 'pagination' || key === 'scrollbar') &&
         'enabled' in passedParams[key] &&
@@ -141,8 +141,8 @@ function updateSwiper({
     swiper.controller.control = currentParams.controller.control;
   }
 
-  if (changedParams.includes('children') && slides && virtual && currentParams.virtual.enabled) {
-    virtual.slides = slides;
+  if (changedParams.includes('virtual') && virtual && currentParams.virtual.enabled) {
+    if (slides) virtual.slides = slides;
     virtual.update(true);
   }
   if (changedParams.includes('children') && slides && currentParams.loop) {

@@ -16,7 +16,6 @@ interface SwiperContainer extends SwiperOptions {
   initialize: () => void;
   injectStyles: string[];
   injectStylesUrls: string[];
-  eventsPrefix: string;
   addEventListener<K extends keyof SwiperContainerEventMap>(
     type: K,
     listener: (this: SwiperContainer, ev: SwiperContainerEventMap[K]) => any,
