@@ -16,3 +16,4 @@ dist
 .eslintcache
 src/swiper-element-bundle.mjs
 src/swiper-react-bundle.mjs
+src/swiper-vue-bundle.mjs

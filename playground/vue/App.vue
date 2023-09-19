@@ -7,33 +7,30 @@
       navigation
       :scrollbar="{ draggable: true }"
       :pagination="{ clickable: true }"
-      :modules="modules"
+      virtual
     >
-      <swiper-slide><innerComp>Slide 1</innerComp></swiper-slide>
-      <swiper-slide>Slide 2</swiper-slide>
-      <swiper-slide>Slide 3</swiper-slide>
-      <swiper-slide>Slide 4</swiper-slide>
-      <swiper-slide>Slide 5</swiper-slide>
-      <swiper-slide>Slide 6</swiper-slide>
-      <swiper-slide>Slide 7</swiper-slide>
-      <swiper-slide>Slide 8</swiper-slide>
-      <swiper-slide>Slide 9</swiper-slide>
-      <swiper-slide>Slide 10</swiper-slide>
+      <swiper-slide data-swiper-slide-index="0">Slide 1</swiper-slide>
+      <swiper-slide data-swiper-slide-index="1">Slide 2</swiper-slide>
+      <swiper-slide data-swiper-slide-index="2">Slide 3</swiper-slide>
+      <swiper-slide data-swiper-slide-index="3">Slide 4</swiper-slide>
+      <swiper-slide data-swiper-slide-index="4">Slide 5</swiper-slide>
+      <swiper-slide data-swiper-slide-index="5">Slide 6</swiper-slide>
+      <swiper-slide data-swiper-slide-index="6">Slide 7</swiper-slide>
+      <swiper-slide data-swiper-slide-index="7">Slide 8</swiper-slide>
+      <swiper-slide data-swiper-slide-index="8">Slide 9</swiper-slide>
+      <swiper-slide data-swiper-slide-index="9">Slide 10</swiper-slide>
     </swiper>
   </main>
 </template>
 <script>
+import { ref } from 'vue';
 // eslint-disable-next-line
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-// eslint-disable-next-line
-import { Swiper, SwiperSlide } from 'swiper/swiper-vue';
-import innerComp from './innerComp.vue';
+import { Swiper, SwiperSlide } from 'swiper/swiper-vue-bundle';
 
 export default {
   components: {
     Swiper,
     SwiperSlide,
-    innerComp,
   },
 
   setup() {
@@ -41,7 +38,6 @@ export default {
       window.swiper = swiper;
     };
     return {
-      modules: [Navigation, Pagination, Scrollbar, A11y],
       onSwiper,
     };
   },

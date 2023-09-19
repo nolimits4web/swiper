@@ -140,6 +140,10 @@
       "types": "./swiper-vue.d.ts",
       "default": "./swiper-vue.mjs"
     },
+    "./vue/bundle": {
+      "types": "./swiper-vue.d.ts",
+      "default": "./swiper-vue-bundle.mjs"
+    },
     "./modules": {
       "types": "./types/modules/index.d.ts",
       "default": "./modules/index.mjs"
