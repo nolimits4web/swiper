@@ -13,6 +13,7 @@ export default function moduleExtendParams(params, allModulesParams) {
     }
     if (
       moduleParamName === 'navigation' &&
+      params[moduleParamName] &&
       params[moduleParamName].enabled &&
       !params[moduleParamName].prevEl &&
       !params[moduleParamName].nextEl
