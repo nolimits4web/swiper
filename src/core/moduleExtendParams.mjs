@@ -8,19 +8,29 @@ export default function moduleExtendParams(params, allModulesParams) {
       extend(allModulesParams, obj);
       return;
     }
+    if (params[moduleParamName] === true) {
+      params[moduleParamName] = { enabled: true };
+    }
     if (
-      ['navigation', 'pagination', 'scrollbar'].indexOf(moduleParamName) >= 0 &&
-      params[moduleParamName] === true
+      moduleParamName === 'navigation' &&
+      params[moduleParamName].enabled &&
+      !params[moduleParamName].prevEl &&
+      !params[moduleParamName].nextEl
     ) {
-      params[moduleParamName] = { auto: true };
+      params[moduleParamName].auto = true;
+    }
+    if (
+      ['pagination', 'scrollbar'].indexOf(moduleParamName) >= 0 &&
+      params[moduleParamName].enabled &&
+      !params[moduleParamName].el
+    ) {
+      params[moduleParamName].auto = true;
     }
     if (!(moduleParamName in params && 'enabled' in moduleParams)) {
       extend(allModulesParams, obj);
       return;
     }
-    if (params[moduleParamName] === true) {
-      params[moduleParamName] = { enabled: true };
-    }
+
     if (typeof params[moduleParamName] === 'object' && !('enabled' in params[moduleParamName])) {
       params[moduleParamName].enabled = true;
     }
