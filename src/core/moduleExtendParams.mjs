@@ -21,6 +21,7 @@ export default function moduleExtendParams(params, allModulesParams) {
     }
     if (
       ['pagination', 'scrollbar'].indexOf(moduleParamName) >= 0 &&
+      params[moduleParamName] &&
       params[moduleParamName].enabled &&
       !params[moduleParamName].el
     ) {
