@@ -1,4 +1,4 @@
-import { attrToProp, extend } from './utils.mjs';
+import { attrToProp, extend, isObject } from './utils.mjs';
 import { paramsList } from './params-list.mjs';
 import defaults from '../core/defaults.mjs';
 
@@ -66,7 +66,7 @@ function getParams(element, propName, propValue) {
   // Attributes
   const attrsList = [...element.attributes];
   if (typeof propName === 'string' && typeof propValue !== 'undefined') {
-    attrsList.push({ name: propName, value: propValue });
+    attrsList.push({ name: propName, value: isObject(propValue) ? { ...propValue } : propValue });
   }
   attrsList.forEach((attr) => {
     const moduleParam = modulesParamsList.filter(
@@ -84,11 +84,11 @@ function getParams(element, propName, propValue) {
       const name = attrToProp(attr.name);
       if (!allowedParams.includes(name)) return;
       const value = formatValue(attr.value);
-      if (passedParams[name] && modulesParamsList.includes(attr.name)) {
+      if (passedParams[name] && modulesParamsList.includes(attr.name) && !isObject(value)) {
         if (passedParams[name].constructor !== Object) {
           passedParams[name] = {};
         }
-        passedParams[name].enabled = value;
+        passedParams[name].enabled = !!value;
       } else {
         passedParams[name] = value;
       }
