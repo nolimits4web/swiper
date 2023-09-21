@@ -1,4 +1,4 @@
-export default function Grid({ swiper, extendParams }) {
+export default function Grid({ swiper, extendParams, on }) {
   extendParams({
     grid: {
       rows: 1,
@@ -9,6 +9,7 @@ export default function Grid({ swiper, extendParams }) {
   let slidesNumberEvenToRows;
   let slidesPerRow;
   let numFullColumns;
+  let wasMultiRow;
 
   const getSpaceBetween = () => {
     let spaceBetween = swiper.params.spaceBetween;
@@ -96,6 +97,33 @@ export default function Grid({ swiper, extendParams }) {
       snapGrid.push(...newSlidesGrid);
     }
   };
+  const onInit = () => {
+    wasMultiRow = swiper.params.grid && swiper.params.grid.rows > 1;
+  };
+
+  const onUpdate = () => {
+    const { params, el } = swiper;
+    const isMultiRow = params.grid && params.grid.rows > 1;
+
+    if (wasMultiRow && !isMultiRow) {
+      el.classList.remove(
+        `${params.containerModifierClass}grid`,
+        `${params.containerModifierClass}grid-column`,
+      );
+      numFullColumns = 1;
+      swiper.emitContainerClasses();
+    } else if (!wasMultiRow && isMultiRow) {
+      el.classList.add(`${params.containerModifierClass}grid`);
+      if (params.grid.fill === 'column') {
+        el.classList.add(`${params.containerModifierClass}grid-column`);
+      }
+      swiper.emitContainerClasses();
+    }
+    wasMultiRow = isMultiRow;
+  };
+
+  on('init', onInit);
+  on('update', onUpdate);
 
   swiper.grid = {
     initSlides,
