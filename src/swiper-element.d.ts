@@ -1,5 +1,5 @@
 // @ts-ignore
-import { SwiperOptions, Swiper } from './types/index.d.ts';
+import { Swiper, SwiperOptions } from './types/index.d.ts';
 
 declare const register: () => void;
 
@@ -43,4 +43,12 @@ interface SwiperSlide extends HTMLElement {
   lazy: string | boolean;
 }
 
-export { register, SwiperContainer, SwiperSlide };
+declare global {
+  interface HTMLElementTagNameMap {
+    'swiper-container': SwiperContainer;
+    'swiper-slide': SwiperSlide;
+  }
+}
+
+export { SwiperContainer, SwiperSlide, register };
+
