@@ -3,7 +3,8 @@ function isObject(o) {
     typeof o === 'object' &&
     o !== null &&
     o.constructor &&
-    Object.prototype.toString.call(o).slice(8, -1) === 'Object'
+    Object.prototype.toString.call(o).slice(8, -1) === 'Object' &&
+    !o.__swiper__
   );
 }
 
