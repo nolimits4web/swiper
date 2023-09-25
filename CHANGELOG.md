@@ -1,5 +1,35 @@
 # Changelog
 
+# [10.3.0](https://github.com/nolimits4web/Swiper/compare/v10.2.0...v10.3.0) (2023-09-21)
+
+### Bug Fixes
+
+- **core:** correctly destroyor create loop on breakpoints ([12a44fb](https://github.com/nolimits4web/Swiper/commit/12a44fb995313c58cde37395a654493e2d42c694)), closes [#6967](https://github.com/nolimits4web/Swiper/issues/6967)
+- **core:** don't call `realIndexChange` on initialIndex if runCallbacksOnInit is disalbed ([48c4e0a](https://github.com/nolimits4web/Swiper/commit/48c4e0a76736ac124a0d6e878f840208f31b8b09)), closes [#6976](https://github.com/nolimits4web/Swiper/issues/6976)
+- **core:** fix `slideToClickedSlide` when using Element slide slots ([af0519c](https://github.com/nolimits4web/Swiper/commit/af0519c22513ec4a7bad2c80896d421fe07012f8)), closes [#6958](https://github.com/nolimits4web/Swiper/issues/6958)
+- **core:** fix lazy preloader in later initialized slides ([e4fddc0](https://github.com/nolimits4web/Swiper/commit/e4fddc076f69bdf267559c70a489474bc311c02c)), closes [#6946](https://github.com/nolimits4web/Swiper/issues/6946)
+- **core:** fix loop on centeredSlides slide to beginning ([c496835](https://github.com/nolimits4web/Swiper/commit/c496835a2ce49065a9b282bbafe5629797bb3da4)), closes [#7011](https://github.com/nolimits4web/Swiper/issues/7011)
+- **core:** fix loopFix in loop and cssMode ([8180a52](https://github.com/nolimits4web/Swiper/commit/8180a52f386301147dae286994119693f6231202)), closes [#6919](https://github.com/nolimits4web/Swiper/issues/6919)
+- **core:** fixed ignored allowSlidePrev/Next in loop mode ([1b74619](https://github.com/nolimits4web/Swiper/commit/1b74619f5d74073cf387201c5715c29c8115f770)), closes [#6987](https://github.com/nolimits4web/Swiper/issues/6987)
+- **core:** remove grid class on rows change ([908becc](https://github.com/nolimits4web/Swiper/commit/908becc6ffbf5b5a050e2fde522867289073cf4a)), closes [#7053](https://github.com/nolimits4web/Swiper/issues/7053)
+- **element:** correctly respond to object params assignment ([2ef1ff5](https://github.com/nolimits4web/Swiper/commit/2ef1ff5d42cea985556c54f79b8a52305294d21e))
+- **element:** do not bubble `hashchange` event ([106a3d7](https://github.com/nolimits4web/Swiper/commit/106a3d7da4967bbf1ba705c1bb8a0547307bb2f9)), closes [#6943](https://github.com/nolimits4web/Swiper/issues/6943)
+- **element:** fix issue updating with boolean module params ([1cc359e](https://github.com/nolimits4web/Swiper/commit/1cc359e45d637c209ce97ebffb917ae8587fdcf2)), closes [#6947](https://github.com/nolimits4web/Swiper/issues/6947)
+- **navigation:** fix lock class on enable ([ea39c33](https://github.com/nolimits4web/Swiper/commit/ea39c3353ccd74d37444692cf01f38724aaff6b7)), closes [#7009](https://github.com/nolimits4web/Swiper/issues/7009)
+- **react:** add breakpointsBase param ([0eb4122](https://github.com/nolimits4web/Swiper/commit/0eb4122e45558efe9209f3b72ae9c30524424183)), closes [#7014](https://github.com/nolimits4web/Swiper/issues/7014)
+- **react:** fix react components props type ([1cd412e](https://github.com/nolimits4web/Swiper/commit/1cd412ecf22a38ff6c3c63bb7dc49fc1f92ca16f)), closes [#7000](https://github.com/nolimits4web/Swiper/issues/7000)
+- **scrollbar:** add 'touch-action: none' to swiper-scrollbar ([#7024](https://github.com/nolimits4web/Swiper/issues/7024)) ([9542d09](https://github.com/nolimits4web/Swiper/commit/9542d094faa61d9a4837a6ec40c331e8172324ab))
+- **virtual:** fix issue with loop mode and initialSlide enabled ([f4afd9d](https://github.com/nolimits4web/Swiper/commit/f4afd9d0fec3be48c17ab75c462c23e69e98a571)), closes [#6945](https://github.com/nolimits4web/Swiper/issues/6945)
+- **virtual:** fix removing nested slides ([c3321e1](https://github.com/nolimits4web/Swiper/commit/c3321e1645015e2ea053c72edbe60b6351030bcb)), closes [#7005](https://github.com/nolimits4web/Swiper/issues/7005)
+- **virtual:** recalc cache on removeSlide ([96e5166](https://github.com/nolimits4web/Swiper/commit/96e5166c9e01a8ca3e18ee236adee0566ad0969e)), closes [#7020](https://github.com/nolimits4web/Swiper/issues/7020)
+- **vue:** add breakpointsBase param ([6800dbb](https://github.com/nolimits4web/Swiper/commit/6800dbba2f006d1ff2206cd7ac2068cfc6429089))
+- **zoom:** fix scale origin when document is scrolled ([2cf3fc2](https://github.com/nolimits4web/Swiper/commit/2cf3fc26c2a2d9e5dc29b02427c73e8559ab896d)), closes [#6950](https://github.com/nolimits4web/Swiper/issues/6950) [#6955](https://github.com/nolimits4web/Swiper/issues/6955)
+
+### Features
+
+- **core:** allow createElements to process object params with `{enabled: true}` ([abf8405](https://github.com/nolimits4web/Swiper/commit/abf840506aa4c4f2c60cadb9dcdd4223fa071352))
+- **core:** make slidesPerViewDynamic public ([ae434b0](https://github.com/nolimits4web/Swiper/commit/ae434b0a5d76fd0d2659cd2dffc27d19c1f14a9e)), closes [#7036](https://github.com/nolimits4web/Swiper/issues/7036)
+
 # [10.2.0](https://github.com/nolimits4web/Swiper/compare/v10.1.0...v10.2.0) (2023-08-17)
 
 ### Bug Fixes
