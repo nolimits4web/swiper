@@ -141,7 +141,10 @@ function updateSwiper({
     swiper.controller.control = currentParams.controller.control;
   }
 
-  if (changedParams.includes('virtual') && virtual && currentParams.virtual.enabled) {
+  if (changedParams.includes('children') && slides && virtual && currentParams.virtual.enabled) {
+    virtual.slides = slides;
+    virtual.update(true);
+  } else if (changedParams.includes('virtual') && virtual && currentParams.virtual.enabled) {
     if (slides) virtual.slides = slides;
     virtual.update(true);
   }

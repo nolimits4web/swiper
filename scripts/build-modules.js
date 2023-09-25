@@ -30,19 +30,11 @@ export default async function buildModules() {
     return `./src/modules/${name}/${name}.mjs`;
   });
 
-  // Create element & react bundle
+  // Create element bundle
   const coreElementContent = fs
     .readFileSync('./src/swiper-element.mjs', 'utf-8')
     .replace(`import Swiper from './swiper.mjs';`, `import Swiper from './swiper-bundle.mjs';`);
   fs.writeFileSync('./src/swiper-element-bundle.mjs', coreElementContent);
-
-  const reactElementContent = fs
-    .readFileSync('./src/swiper-react.mjs', 'utf-8')
-    .replace(
-      `import { register } from './swiper-element.mjs';`,
-      `import { register } from './swiper-element-bundle.mjs';`,
-    );
-  fs.writeFileSync('./src/swiper-react-bundle.mjs', reactElementContent);
 
   const output = await rollup({
     external: ['react', 'vue'],
@@ -53,7 +45,6 @@ export default async function buildModules() {
       './src/swiper-element-bundle.mjs',
       './src/swiper-vue.mjs',
       './src/swiper-react.mjs',
-      './src/swiper-react-bundle.mjs',
       ...modulesPaths,
     ],
     plugins: [
@@ -133,8 +124,6 @@ export default async function buildModules() {
             /import ([0-9A-Za-z]*) from '\.\/([0-9a-z-]*).mjs'/g,
             `import $1 from './modules/$2.mjs'`,
           );
-      } else if (f.includes('react')) {
-        content = content.replace(/from '\.\/get-params/g, `from './shared/get-params`);
       } else {
         content = content.replace(/from '\.\//g, `from './shared/`);
       }
@@ -220,7 +209,6 @@ export default async function buildModules() {
 
   // REMOVE ELEMENT BUNDLE
   fs.unlinkSync('./src/swiper-element-bundle.mjs');
-  fs.unlinkSync('./src/swiper-react-bundle.mjs');
 
   if (!isProd) {
     elapsed.end('modules', chalk.green('Modules build completed!'));

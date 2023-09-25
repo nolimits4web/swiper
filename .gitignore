@@ -15,4 +15,3 @@ dist
 .env.production.local
 .eslintcache
 src/swiper-element-bundle.mjs
-src/swiper-react-bundle.mjs

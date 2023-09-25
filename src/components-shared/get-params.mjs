@@ -2,10 +2,11 @@ import { isObject, extend } from './utils.mjs';
 import { paramsList } from './params-list.mjs';
 import defaults from '../core/defaults.mjs';
 
-function getParams(obj = {}) {
+function getParams(obj = {}, splitEvents = true) {
   const params = {
     on: {},
   };
+  const events = {};
   const passedParams = {};
   extend(params, defaults);
   params._emitClasses = true;
@@ -27,7 +28,11 @@ function getParams(obj = {}) {
         passedParams[key] = obj[key];
       }
     } else if (key.search(/on[A-Z]/) === 0 && typeof obj[key] === 'function') {
-      params.on[`${key[2].toLowerCase()}${key.substr(3)}`] = obj[key];
+      if (splitEvents) {
+        events[`${key[2].toLowerCase()}${key.substr(3)}`] = obj[key];
+      } else {
+        params.on[`${key[2].toLowerCase()}${key.substr(3)}`] = obj[key];
+      }
     } else {
       rest[key] = obj[key];
     }
@@ -37,9 +42,7 @@ function getParams(obj = {}) {
     if (params[key] === false) delete params[key];
   });
 
-  delete params.touchEventsTarget;
-
-  return { params, passedParams, rest };
+  return { params, passedParams, rest, events };
 }
 
 export { getParams };
