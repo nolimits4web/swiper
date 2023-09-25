@@ -82,6 +82,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
   }
   function init() {
     const params = swiper.params.navigation;
+
     swiper.params.navigation = createElementIfNotDefined(
       swiper,
       swiper.originalParams.navigation,
@@ -92,6 +93,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
       },
     );
     if (!(params.nextEl || params.prevEl)) return;
+
     let nextEl = getEl(params.nextEl);
     let prevEl = getEl(params.prevEl);
 

@@ -22,7 +22,7 @@ import type {
   FreeModeOptions,
   GridOptions,
 } from './types/index.d.ts';
-import { ComponentOptionsMixin, DefineComponent, PropType } from 'vue';
+import { ComponentOptionsMixin, DefineComponent, PropType, Ref } from 'vue';
 import type { SwiperOptions, Swiper as SwiperClass } from './types/index.d.ts';
 
 declare const Swiper: DefineComponent<
@@ -448,4 +448,12 @@ declare const SwiperSlide: DefineComponent<{
   };
 }>;
 
-export { Swiper, SwiperSlide };
+declare const useSwiper: () => Ref<SwiperClass>;
+declare const useSwiperSlide: () => Ref<{
+  isActive: boolean;
+  isVisible: boolean;
+  isPrev: boolean;
+  isNext: boolean;
+}>;
+
+export { Swiper, SwiperSlide, useSwiper, useSwiperSlide };
