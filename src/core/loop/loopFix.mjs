@@ -10,12 +10,6 @@ export default function loopFix({
   const swiper = this;
   if (!swiper.params.loop) return;
   swiper.emit('beforeLoopFix');
-  // console.trace('fix', {
-  //   slideRealIndex,
-  //   direction,
-  //   activeSlideIndex,
-  //   setTranslate,
-  // });
   const { slides, allowSlidePrev, allowSlideNext, slidesEl, params } = swiper;
   const { centeredSlides } = params;
   swiper.allowSlidePrev = true;
@@ -36,16 +30,29 @@ export default function loopFix({
     swiper.emit('loopFix');
     return;
   }
+  let slidesPerView = params.slidesPerView;
+  if (slidesPerView === 'auto') {
+    slidesPerView = swiper.slidesPerViewDynamic();
+  } else {
+    slidesPerView = Math.ceil(parseFloat(params.slidesPerView, 10));
+    if (centeredSlides && slidesPerView % 2 === 0) {
+      slidesPerView = slidesPerView + 1;
+    }
+  }
 
-  const slidesPerView =
-    params.slidesPerView === 'auto'
-      ? swiper.slidesPerViewDynamic()
-      : Math.ceil(parseFloat(params.slidesPerView, 10));
   let loopedSlides = params.loopedSlides || params.slidesPerGroup;
   if (loopedSlides % params.slidesPerGroup !== 0) {
     loopedSlides += params.slidesPerGroup - (loopedSlides % params.slidesPerGroup);
   }
   swiper.loopedSlides = loopedSlides;
+
+  if (swiper.slides.length < slidesPerView + loopedSlides) {
+    try {
+      console.warn('Swiper: amount of slides is insufficient for loop mode, it will be disabled');
+    } catch (err) {
+      // err
+    }
+  }
 
   const prependSlidesIndexes = [];
   const appendSlidesIndexes = [];
@@ -65,29 +72,26 @@ export default function loopFix({
 
   let slidesPrepended = 0;
   let slidesAppended = 0;
-  let activeIndexShift = 0;
-  if (centeredSlides) {
-    activeIndexShift = activeSlideIndex - slidesPerView / 2 + 0.5;
-    console.log(activeIndexShift);
-  }
+  const activeSlideIndexWithShift =
+    activeSlideIndex +
+    (centeredSlides && typeof setTranslate === 'undefined' ? -slidesPerView / 2 + 0.5 : 0);
   // prepend last slides before start
-  if (activeSlideIndex < loopedSlides) {
-    slidesPrepended = Math.max(loopedSlides - activeSlideIndex, params.slidesPerGroup);
-    for (let i = 0; i < loopedSlides - activeSlideIndex; i += 1) {
+  if (activeSlideIndexWithShift < loopedSlides) {
+    slidesPrepended = Math.max(loopedSlides - activeSlideIndexWithShift, params.slidesPerGroup);
+    for (let i = 0; i < loopedSlides - activeSlideIndexWithShift; i += 1) {
       const index = i - Math.floor(i / slides.length) * slides.length;
       prependSlidesIndexes.push(slides.length - index - 1);
     }
-  } else if (activeSlideIndex + slidesPerView > swiper.slides.length - loopedSlides) {
-    // slidesAppended = Math.max(
-    //   activeSlideIndex - (swiper.slides.length - loopedSlides * 2),
-    //   params.slidesPerGroup,
-    // );
-    // for (let i = 0; i < slidesAppended; i += 1) {
-    //   const index = i - Math.floor(i / slides.length) * slides.length;
-    //   appendSlidesIndexes.push(index);
-    // }
+  } else if (activeSlideIndexWithShift + slidesPerView > swiper.slides.length - loopedSlides) {
+    slidesAppended = Math.max(
+      activeSlideIndexWithShift - (swiper.slides.length - loopedSlides * 2),
+      params.slidesPerGroup,
+    );
+    for (let i = 0; i < slidesAppended; i += 1) {
+      const index = i - Math.floor(i / slides.length) * slides.length;
+      appendSlidesIndexes.push(index);
+    }
   }
-  console.log({ slidesAppended, slidesPrepended });
 
   if (isPrev) {
     prependSlidesIndexes.forEach((index) => {
@@ -123,8 +127,9 @@ export default function loopFix({
         } else {
           swiper.slideTo(activeIndex + slidesPrepended, 0, false, true);
           if (setTranslate) {
-            swiper.touches[swiper.isHorizontal() ? 'startX' : 'startY'] += diff;
-            swiper.touchEventsData.currentTranslate = swiper.translate;
+            swiper.touchEventsData.startTranslate = swiper.touchEventsData.startTranslate - diff;
+            swiper.touchEventsData.currentTranslate =
+              swiper.touchEventsData.currentTranslate - diff;
           }
         }
       } else {
@@ -143,8 +148,9 @@ export default function loopFix({
         } else {
           swiper.slideTo(activeIndex - slidesAppended, 0, false, true);
           if (setTranslate) {
-            swiper.touches[swiper.isHorizontal() ? 'startX' : 'startY'] += diff;
-            swiper.touchEventsData.currentTranslate = swiper.translate;
+            swiper.touchEventsData.startTranslate = swiper.touchEventsData.startTranslate - diff;
+            swiper.touchEventsData.currentTranslate =
+              swiper.touchEventsData.currentTranslate - diff;
           }
         }
       } else {

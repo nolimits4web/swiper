@@ -71,13 +71,12 @@ export default function onTouchEnd(event) {
   nextTick(() => {
     if (!swiper.destroyed) swiper.allowClick = true;
   });
-
   if (
     !data.isTouched ||
     !data.isMoved ||
     !swiper.swipeDirection ||
     touches.diff === 0 ||
-    data.currentTranslate === data.startTranslate
+    (data.currentTranslate === data.startTranslate && !data.loopSwapReset)
   ) {
     data.isTouched = false;
     data.isMoved = false;

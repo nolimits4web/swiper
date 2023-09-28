@@ -48,8 +48,6 @@ export default function onTouchMove(event) {
       Object.assign(touches, {
         startX: pageX,
         startY: pageY,
-        prevX: swiper.touches.currentX,
-        prevY: swiper.touches.currentY,
         currentX: pageX,
         currentY: pageY,
       });
@@ -87,6 +85,8 @@ export default function onTouchMove(event) {
   }
   if (e.targetTouches && e.targetTouches.length > 1) return;
 
+  touches.previousX = touches.currentX;
+  touches.previousY = touches.currentY;
   touches.currentX = pageX;
   touches.currentY = pageY;
 
@@ -158,11 +158,10 @@ export default function onTouchMove(event) {
 
   const isLoop = swiper.params.loop && !params.cssMode;
   const allowLoopFix =
-    (swiper.swipeDirection === 'next' && swiper.allowSlideNext) ||
-    (swiper.swipeDirection === 'prev' && swiper.allowSlidePrev);
+    (swiper.touchesDirection === 'next' && swiper.allowSlideNext) ||
+    (swiper.touchesDirection === 'prev' && swiper.allowSlidePrev);
   if (!data.isMoved) {
     if (isLoop && allowLoopFix) {
-      console.log('loop fix 1');
       swiper.loopFix({ direction: swiper.swipeDirection });
     }
     data.startTranslate = swiper.getTranslate();
@@ -182,6 +181,7 @@ export default function onTouchMove(event) {
     swiper.emit('sliderFirstMove', e);
   }
   let loopFixed;
+  let time = new Date().getTime();
   if (
     data.isMoved &&
     data.allowThresholdMove &&
@@ -190,16 +190,21 @@ export default function onTouchMove(event) {
     allowLoopFix &&
     Math.abs(diff) >= 1
   ) {
-    console.log('loop fix 2');
-    // need another loop fix
-    swiper.loopFix({ direction: swiper.swipeDirection, setTranslate: true });
-    loopFixed = true;
+    Object.assign(touches, {
+      startX: pageX,
+      startY: pageY,
+      currentX: pageX,
+      currentY: pageY,
+      startTranslate: data.currentTranslate,
+    });
+    data.loopSwapReset = true;
+    data.startTranslate = data.currentTranslate;
+    return;
   }
   swiper.emit('sliderMove', e);
   data.isMoved = true;
 
   data.currentTranslate = diff + data.startTranslate;
-
   let disableParentSwiper = true;
   let resistanceRatio = params.resistanceRatio;
   if (params.touchReleaseOnEdges) {
@@ -212,10 +217,10 @@ export default function onTouchMove(event) {
       !loopFixed &&
       data.allowThresholdMove &&
       data.currentTranslate >
-        (params.centeredSlides ? swiper.minTranslate() - swiper.size / 2 : swiper.minTranslate())
+        (params.centeredSlides
+          ? swiper.minTranslate() - swiper.slidesSizesGrid[swiper.activeIndex + 1]
+          : swiper.minTranslate())
     ) {
-      console.log('loop fix 3');
-
       swiper.loopFix({ direction: 'prev', setTranslate: true, activeSlideIndex: 0 });
     }
     if (data.currentTranslate > swiper.minTranslate()) {
@@ -233,9 +238,11 @@ export default function onTouchMove(event) {
       allowLoopFix &&
       !loopFixed &&
       data.allowThresholdMove &&
-      data.currentTranslate < swiper.maxTranslate()
+      data.currentTranslate <
+        (params.centeredSlides
+          ? swiper.maxTranslate() + swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1]
+          : swiper.maxTranslate())
     ) {
-      console.log('loop fix 4');
       swiper.loopFix({
         direction: 'next',
         setTranslate: true,
