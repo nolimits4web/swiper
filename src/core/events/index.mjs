@@ -19,10 +19,14 @@ const events = (swiper, method) => {
   const swiperMethod = method;
 
   // Touch Events
+  el[domMethod]('touchstart', swiper.onTouchStart, { passive: false });
   el[domMethod]('pointerdown', swiper.onTouchStart, { passive: false });
+  document[domMethod]('touchmove', swiper.onTouchMove, { passive: false, capture });
   document[domMethod]('pointermove', swiper.onTouchMove, { passive: false, capture });
+  document[domMethod]('touchend', swiper.onTouchEnd, { passive: true });
   document[domMethod]('pointerup', swiper.onTouchEnd, { passive: true });
   document[domMethod]('pointercancel', swiper.onTouchEnd, { passive: true });
+  document[domMethod]('touchcancel', swiper.onTouchEnd, { passive: true });
   document[domMethod]('pointerout', swiper.onTouchEnd, { passive: true });
   document[domMethod]('pointerleave', swiper.onTouchEnd, { passive: true });
   document[domMethod]('contextmenu', swiper.onTouchEnd, { passive: true });

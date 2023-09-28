@@ -15,16 +15,47 @@ function closestElement(selector, base = this) {
   return __closestFrom(base);
 }
 
+function preventEdgeSwipe(swiper, event, startX) {
+  const window = getWindow();
+  const { params } = swiper;
+  const edgeSwipeDetection = params.edgeSwipeDetection;
+  const edgeSwipeThreshold = params.edgeSwipeThreshold;
+  if (
+    edgeSwipeDetection &&
+    (startX <= edgeSwipeThreshold || startX >= window.innerWidth - edgeSwipeThreshold)
+  ) {
+    if (edgeSwipeDetection === 'prevent') {
+      event.preventDefault();
+      return true;
+    }
+    return false;
+  }
+  return true;
+}
+
 export default function onTouchStart(event) {
   const swiper = this;
   const document = getDocument();
-  const window = getWindow();
-
+  let e = event;
+  if (e.originalEvent) e = e.originalEvent;
   const data = swiper.touchEventsData;
-  data.evCache.push(event);
+  if (e.type === 'pointerdown') {
+    if (data.pointerId !== null && data.pointerId !== e.pointerId) {
+      return;
+    }
+    data.pointerId = e.pointerId;
+  } else if (e.type === 'touchstart' && e.targetTouches.length === 1) {
+    data.touchId = e.targetTouches[0].identifier;
+  }
+  if (e.type === 'touchstart') {
+    // don't proceed touch event
+    preventEdgeSwipe(swiper, e, e.targetTouches[0].pageX);
+    return;
+  }
+
   const { params, touches, enabled } = swiper;
   if (!enabled) return;
-  if (!params.simulateTouch && event.pointerType === 'mouse') return;
+  if (!params.simulateTouch && e.pointerType === 'mouse') return;
 
   if (swiper.animating && params.preventInteractionOnTransition) {
     return;
@@ -32,8 +63,7 @@ export default function onTouchStart(event) {
   if (!swiper.animating && params.cssMode && params.loop) {
     swiper.loopFix();
   }
-  let e = event;
-  if (e.originalEvent) e = e.originalEvent;
+
   let targetEl = e.target;
 
   if (params.touchEventsTarget === 'wrapper') {
@@ -46,7 +76,7 @@ export default function onTouchStart(event) {
   // change target el for shadow root component
   const swipingClassHasValue = !!params.noSwipingClass && params.noSwipingClass !== '';
   // eslint-disable-next-line
-  const eventPath = event.composedPath ? event.composedPath() : event.path;
+  const eventPath = e.composedPath ? e.composedPath() : e.path;
   if (swipingClassHasValue && e.target && e.target.shadowRoot && eventPath) {
     targetEl = eventPath[0];
   }
@@ -78,17 +108,8 @@ export default function onTouchStart(event) {
 
   // Do NOT start if iOS edge swipe is detected. Otherwise iOS app cannot swipe-to-go-back anymore
 
-  const edgeSwipeDetection = params.edgeSwipeDetection || params.iOSEdgeSwipeDetection;
-  const edgeSwipeThreshold = params.edgeSwipeThreshold || params.iOSEdgeSwipeThreshold;
-  if (
-    edgeSwipeDetection &&
-    (startX <= edgeSwipeThreshold || startX >= window.innerWidth - edgeSwipeThreshold)
-  ) {
-    if (edgeSwipeDetection === 'prevent') {
-      event.preventDefault();
-    } else {
-      return;
-    }
+  if (!preventEdgeSwipe(swiper, e, startX)) {
+    return;
   }
 
   Object.assign(data, {

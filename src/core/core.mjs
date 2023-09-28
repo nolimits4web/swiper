@@ -193,7 +193,8 @@ class Swiper {
         velocities: [],
         allowMomentumBounce: undefined,
         startMoving: undefined,
-        evCache: [],
+        pointerId: null,
+        touchId: null,
       },
 
       // Clicks

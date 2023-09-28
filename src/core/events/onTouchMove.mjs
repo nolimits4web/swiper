@@ -11,6 +11,20 @@ export default function onTouchMove(event) {
 
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
+
+  if (e.type === 'pointermove') {
+    if (data.touchId !== null) return; // return from pointer if we use touch
+    const id = e.pointerId;
+    if (id !== data.pointerId) return;
+  }
+  let targetTouch;
+  if (e.type === 'touchmove') {
+    targetTouch = [...e.changedTouches].filter((t) => t.identifier === data.touchId)[0];
+    if (!targetTouch || targetTouch.identifier !== data.touchId) return;
+  } else {
+    targetTouch = e;
+  }
+
   if (!data.isTouched) {
     if (data.startMoving && data.isScrolling) {
       swiper.emit('touchMoveOpposite', e);
@@ -18,9 +32,6 @@ export default function onTouchMove(event) {
     return;
   }
 
-  const pointerIndex = data.evCache.findIndex((cachedEv) => cachedEv.pointerId === e.pointerId);
-  if (pointerIndex >= 0) data.evCache[pointerIndex] = e;
-  const targetTouch = data.evCache.length > 1 ? data.evCache[0] : e;
   const pageX = targetTouch.pageX;
   const pageY = targetTouch.pageY;
 
@@ -109,10 +120,7 @@ export default function onTouchMove(event) {
       data.startMoving = true;
     }
   }
-  if (
-    data.isScrolling ||
-    (swiper.zoom && swiper.params.zoom && swiper.params.zoom.enabled && data.evCache.length > 1)
-  ) {
+  if (data.isScrolling || (swiper.zoom && swiper.params.zoom && swiper.params.zoom.enabled)) {
     data.isTouched = false;
     return;
   }
