@@ -162,6 +162,7 @@ export default function onTouchMove(event) {
     (swiper.swipeDirection === 'prev' && swiper.allowSlidePrev);
   if (!data.isMoved) {
     if (isLoop && allowLoopFix) {
+      console.log('loop fix 1');
       swiper.loopFix({ direction: swiper.swipeDirection });
     }
     data.startTranslate = swiper.getTranslate();
@@ -183,11 +184,13 @@ export default function onTouchMove(event) {
   let loopFixed;
   if (
     data.isMoved &&
+    data.allowThresholdMove &&
     prevTouchesDirection !== swiper.touchesDirection &&
     isLoop &&
     allowLoopFix &&
     Math.abs(diff) >= 1
   ) {
+    console.log('loop fix 2');
     // need another loop fix
     swiper.loopFix({ direction: swiper.swipeDirection, setTranslate: true });
     loopFixed = true;
@@ -207,9 +210,12 @@ export default function onTouchMove(event) {
       isLoop &&
       allowLoopFix &&
       !loopFixed &&
+      data.allowThresholdMove &&
       data.currentTranslate >
         (params.centeredSlides ? swiper.minTranslate() - swiper.size / 2 : swiper.minTranslate())
     ) {
+      console.log('loop fix 3');
+
       swiper.loopFix({ direction: 'prev', setTranslate: true, activeSlideIndex: 0 });
     }
     if (data.currentTranslate > swiper.minTranslate()) {
@@ -226,9 +232,10 @@ export default function onTouchMove(event) {
       isLoop &&
       allowLoopFix &&
       !loopFixed &&
-      data.currentTranslate <
-        (params.centeredSlides ? swiper.maxTranslate() + swiper.size / 2 : swiper.maxTranslate())
+      data.allowThresholdMove &&
+      data.currentTranslate < swiper.maxTranslate()
     ) {
+      console.log('loop fix 4');
       swiper.loopFix({
         direction: 'next',
         setTranslate: true,

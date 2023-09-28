@@ -208,7 +208,9 @@ export default async function buildModules() {
   });
 
   // REMOVE ELEMENT BUNDLE
-  fs.unlinkSync('./src/swiper-element-bundle.mjs');
+  if (isProd) {
+    fs.unlinkSync('./src/swiper-element-bundle.mjs');
+  }
 
   if (!isProd) {
     elapsed.end('modules', chalk.green('Modules build completed!'));

@@ -10,9 +10,14 @@ export default function loopFix({
   const swiper = this;
   if (!swiper.params.loop) return;
   swiper.emit('beforeLoopFix');
-
+  // console.trace('fix', {
+  //   slideRealIndex,
+  //   direction,
+  //   activeSlideIndex,
+  //   setTranslate,
+  // });
   const { slides, allowSlidePrev, allowSlideNext, slidesEl, params } = swiper;
-
+  const { centeredSlides } = params;
   swiper.allowSlidePrev = true;
   swiper.allowSlideNext = true;
 
@@ -36,7 +41,7 @@ export default function loopFix({
     params.slidesPerView === 'auto'
       ? swiper.slidesPerViewDynamic()
       : Math.ceil(parseFloat(params.slidesPerView, 10));
-  let loopedSlides = params.loopedSlides || slidesPerView;
+  let loopedSlides = params.loopedSlides || params.slidesPerGroup;
   if (loopedSlides % params.slidesPerGroup !== 0) {
     loopedSlides += params.slidesPerGroup - (loopedSlides % params.slidesPerGroup);
   }
@@ -60,6 +65,11 @@ export default function loopFix({
 
   let slidesPrepended = 0;
   let slidesAppended = 0;
+  let activeIndexShift = 0;
+  if (centeredSlides) {
+    activeIndexShift = activeSlideIndex - slidesPerView / 2 + 0.5;
+    console.log(activeIndexShift);
+  }
   // prepend last slides before start
   if (activeSlideIndex < loopedSlides) {
     slidesPrepended = Math.max(loopedSlides - activeSlideIndex, params.slidesPerGroup);
@@ -67,16 +77,17 @@ export default function loopFix({
       const index = i - Math.floor(i / slides.length) * slides.length;
       prependSlidesIndexes.push(slides.length - index - 1);
     }
-  } else if (activeSlideIndex /* + slidesPerView */ > swiper.slides.length - loopedSlides * 2) {
-    slidesAppended = Math.max(
-      activeSlideIndex - (swiper.slides.length - loopedSlides * 2),
-      params.slidesPerGroup,
-    );
-    for (let i = 0; i < slidesAppended; i += 1) {
-      const index = i - Math.floor(i / slides.length) * slides.length;
-      appendSlidesIndexes.push(index);
-    }
+  } else if (activeSlideIndex + slidesPerView > swiper.slides.length - loopedSlides) {
+    // slidesAppended = Math.max(
+    //   activeSlideIndex - (swiper.slides.length - loopedSlides * 2),
+    //   params.slidesPerGroup,
+    // );
+    // for (let i = 0; i < slidesAppended; i += 1) {
+    //   const index = i - Math.floor(i / slides.length) * slides.length;
+    //   appendSlidesIndexes.push(index);
+    // }
   }
+  console.log({ slidesAppended, slidesPrepended });
 
   if (isPrev) {
     prependSlidesIndexes.forEach((index) => {

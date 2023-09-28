@@ -17,8 +17,6 @@ export default function onTouchEnd(event) {
     if (!targetTouch || targetTouch.identifier !== data.touchId) return;
   }
 
-  data.pointerId = null;
-  data.touchId = null;
   if (['pointercancel', 'pointerout', 'pointerleave', 'contextmenu'].includes(e.type)) {
     const proceed =
       ['pointercancel', 'contextmenu'].includes(e.type) &&
@@ -27,7 +25,8 @@ export default function onTouchEnd(event) {
       return;
     }
   }
-
+  data.pointerId = null;
+  data.touchId = null;
   const { params, touches, rtlTranslate: rtl, slidesGrid, enabled } = swiper;
   if (!enabled) return;
   if (!params.simulateTouch && e.pointerType === 'mouse') return;
