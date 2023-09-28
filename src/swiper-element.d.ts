@@ -51,4 +51,3 @@ declare global {
 }
 
 export { SwiperContainer, SwiperSlide, register };
-
