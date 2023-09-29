@@ -166,6 +166,11 @@ export default function slideTo(
         swiper.onSlideToWrapperTransitionEnd = null;
         delete swiper.onSlideToWrapperTransitionEnd;
         swiper.transitionEnd(runCallbacks, direction);
+
+        // Fix the loop if we're in loop mode
+        if (swiper.params.loop) {
+          swiper.loopFix();
+        }
       };
     }
     swiper.wrapperEl.addEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
