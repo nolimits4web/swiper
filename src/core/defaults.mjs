@@ -124,6 +124,7 @@ export default {
   slideClass: 'swiper-slide',
   slideActiveClass: 'swiper-slide-active',
   slideVisibleClass: 'swiper-slide-visible',
+  slideFullyVisibleClass: 'swiper-slide-fully-visible',
   slideNextClass: 'swiper-slide-next',
   slidePrevClass: 'swiper-slide-prev',
   wrapperClass: 'swiper-wrapper',

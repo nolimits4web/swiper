@@ -774,7 +774,7 @@ export interface SwiperOptions {
   slideActiveClass?: string;
 
   /**
-   * CSS class name of currently visible slide
+   * CSS class name of currently/partially visible slide
    *
    * @default 'swiper-slide-visible'
    *
@@ -783,6 +783,15 @@ export interface SwiperOptions {
    * @note Not supported in Swiper React/Vue
    */
   slideVisibleClass?: string;
+
+  /**
+   * CSS class name of fully (when whole slide is in the viewport) visible slide
+   *
+   * @default 'swiper-slide-fully-visible'
+   *
+   * @note Not supported in Swiper React/Vue
+   */
+  slideFullyVisibleClass?: string;
 
   /**
    * CSS class name of slide which is right after currently active slide

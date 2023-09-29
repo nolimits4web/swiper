@@ -82,6 +82,7 @@ const paramsList = [
   'slideClass',
   'slideActiveClass',
   'slideVisibleClass',
+  'slideFullyVisibleClass',
   'slideNextClass',
   'slidePrevClass',
   'wrapperClass',

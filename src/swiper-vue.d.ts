@@ -302,6 +302,10 @@ declare const Swiper: DefineComponent<
       type: StringConstructor;
       default: undefined;
     };
+    slideFullyVisibleClass: {
+      type: StringConstructor;
+      default: undefined;
+    };
     slideNextClass: {
       type: StringConstructor;
       default: undefined;

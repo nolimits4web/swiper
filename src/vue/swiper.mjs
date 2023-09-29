@@ -102,6 +102,7 @@ const Swiper = {
     slideClass: { type: String, default: undefined },
     slideActiveClass: { type: String, default: undefined },
     slideVisibleClass: { type: String, default: undefined },
+    slideFullyVisibleClass: { type: String, default: undefined },
     slideNextClass: { type: String, default: undefined },
     slidePrevClass: { type: String, default: undefined },
     wrapperClass: { type: String, default: undefined },

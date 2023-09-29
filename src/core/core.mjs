@@ -640,6 +640,7 @@ class Swiper {
         slides.forEach((slideEl) => {
           slideEl.classList.remove(
             params.slideVisibleClass,
+            params.slideFullyVisibleClass,
             params.slideActiveClass,
             params.slideNextClass,
             params.slidePrevClass,

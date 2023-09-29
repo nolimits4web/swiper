@@ -12,7 +12,7 @@ export default function updateSlidesProgress(translate = (this && this.translate
 
   // Visible Slides
   slides.forEach((slideEl) => {
-    slideEl.classList.remove(params.slideVisibleClass);
+    slideEl.classList.remove(params.slideVisibleClass, params.slideFullyVisibleClass);
   });
 
   swiper.visibleSlidesIndexes = [];
@@ -43,6 +43,10 @@ export default function updateSlidesProgress(translate = (this && this.translate
       (slide.swiperSlideSize + spaceBetween);
     const slideBefore = -(offsetCenter - slideOffset);
     const slideAfter = slideBefore + swiper.slidesSizesGrid[i];
+
+    const isFullyVisible =
+      slideBefore >= 0 && slideBefore <= swiper.size - swiper.slidesSizesGrid[i];
+
     const isVisible =
       (slideBefore >= 0 && slideBefore < swiper.size - 1) ||
       (slideAfter > 1 && slideAfter <= swiper.size) ||
@@ -51,6 +55,9 @@ export default function updateSlidesProgress(translate = (this && this.translate
       swiper.visibleSlides.push(slide);
       swiper.visibleSlidesIndexes.push(i);
       slides[i].classList.add(params.slideVisibleClass);
+    }
+    if (isFullyVisible) {
+      slides[i].classList.add(params.slideFullyVisibleClass);
     }
     slide.progress = rtl ? -slideProgress : slideProgress;
     slide.originalProgress = rtl ? -originalSlideProgress : originalSlideProgress;
