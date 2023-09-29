@@ -57,6 +57,11 @@
       justify-content: center;
       font-size: 22px;
       background: #fff;
+      width: 100px;
+    }
+
+    .swiper-slide:not(.swiper-slide-active) {
+      opacity: 0.75;
     }
   </style>
   <script type="module">
@@ -68,8 +73,9 @@
 
     window.swiper = new Swiper(".swiper", {
       spaceBetween: 20,
-      slidesPerView: 3,
-      centeredSlides: true,
+      slidesPerView: 2,
+      slidesPerGroup: 2,
+      // centeredSlides: true,
       loop: true,
       createElements: true,
       pagination: {

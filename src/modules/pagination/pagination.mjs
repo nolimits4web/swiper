@@ -76,33 +76,6 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     const index = elementIndex(bulletEl) * swiper.params.slidesPerGroup;
     if (swiper.params.loop) {
       if (swiper.realIndex === index) return;
-      const realIndex = swiper.realIndex;
-      const newSlideIndex = swiper.getSlideIndexByData(index);
-      const currentSlideIndex = swiper.getSlideIndexByData(swiper.realIndex);
-      const loopFix = (dir) => {
-        const indexBeforeLoopFix = swiper.activeIndex;
-        swiper.loopFix({
-          direction: dir,
-          activeSlideIndex: newSlideIndex,
-          slideTo: false,
-        });
-        const indexAfterFix = swiper.activeIndex;
-        if (indexBeforeLoopFix === indexAfterFix) {
-          swiper.slideToLoop(realIndex, 0, false, true);
-        }
-      };
-      if (newSlideIndex > swiper.slides.length - swiper.loopedSlides) {
-        loopFix(newSlideIndex > currentSlideIndex ? 'next' : 'prev');
-      } else if (swiper.params.centeredSlides) {
-        const slidesPerView =
-          swiper.params.slidesPerView === 'auto'
-            ? swiper.slidesPerViewDynamic()
-            : Math.ceil(parseFloat(swiper.params.slidesPerView, 10));
-        if (newSlideIndex < Math.floor(slidesPerView / 2)) {
-          loopFix('prev');
-        }
-      }
-
       swiper.slideToLoop(index);
     } else {
       swiper.slideTo(index);

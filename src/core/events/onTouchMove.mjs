@@ -182,6 +182,7 @@ export default function onTouchMove(event) {
   }
   let loopFixed;
   let time = new Date().getTime();
+
   if (
     data.isMoved &&
     data.allowThresholdMove &&

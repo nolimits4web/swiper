@@ -11,5 +11,15 @@ export default function loopCreate(slideRealIndex) {
     el.setAttribute('data-swiper-slide-index', index);
   });
 
+  if (swiper.slides.length % params.slidesPerGroup !== 0) {
+    try {
+      console.warn(
+        'Swiper Loop Warning: The number of slides is not even to slidesPerGroup, loop mode may not function properly. You need to add more slides (or make duplicates, or empty slides)',
+      );
+    } catch (err) {
+      // err
+    }
+  }
+
   swiper.loopFix({ slideRealIndex, direction: params.centeredSlides ? undefined : 'next' });
 }

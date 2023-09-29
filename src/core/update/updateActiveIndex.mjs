@@ -57,16 +57,23 @@ export default function updateActiveIndex(newActiveIndex) {
     snapIndex = skip + Math.floor((activeIndex - skip) / params.slidesPerGroup);
   }
   if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
-  if (activeIndex === previousIndex) {
+  if (activeIndex === previousIndex && !swiper.params.loop) {
     if (snapIndex !== previousSnapIndex) {
       swiper.snapIndex = snapIndex;
       swiper.emit('snapIndexChange');
     }
-    if (swiper.params.loop && swiper.virtual && swiper.params.virtual.enabled) {
-      swiper.realIndex = getVirtualRealIndex(activeIndex);
-    }
     return;
   }
+  if (
+    activeIndex === previousIndex &&
+    swiper.params.loop &&
+    swiper.virtual &&
+    swiper.params.virtual.enabled
+  ) {
+    swiper.realIndex = getVirtualRealIndex(activeIndex);
+    return;
+  }
+
   // Get real index
   let realIndex;
   if (swiper.virtual && params.virtual.enabled && params.loop) {

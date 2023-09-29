@@ -25,6 +25,7 @@ export default function onTouchEnd(event) {
       return;
     }
   }
+
   data.pointerId = null;
   data.touchId = null;
   const { params, touches, rtlTranslate: rtl, slidesGrid, enabled } = swiper;
@@ -43,6 +44,7 @@ export default function onTouchEnd(event) {
     data.startMoving = false;
     return;
   }
+
   // Return Grab Cursor
   if (
     params.grabCursor &&
@@ -71,11 +73,12 @@ export default function onTouchEnd(event) {
   nextTick(() => {
     if (!swiper.destroyed) swiper.allowClick = true;
   });
+
   if (
     !data.isTouched ||
     !data.isMoved ||
     !swiper.swipeDirection ||
-    touches.diff === 0 ||
+    (touches.diff === 0 && !data.loopSwapReset) ||
     (data.currentTranslate === data.startTranslate && !data.loopSwapReset)
   ) {
     data.isTouched = false;
@@ -83,6 +86,7 @@ export default function onTouchEnd(event) {
     data.startMoving = false;
     return;
   }
+
   data.isTouched = false;
   data.isMoved = false;
   data.startMoving = false;

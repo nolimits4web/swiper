@@ -17,6 +17,40 @@ export default function slideToLoop(
       // eslint-disable-next-line
       newIndex = newIndex + swiper.virtual.slidesBefore;
     } else {
+      const targetSlideIndex = swiper.getSlideIndexByData(newIndex);
+      const slides = swiper.slides.length;
+      const { centeredSlides } = swiper.params;
+      let slidesPerView = swiper.params.slidesPerView;
+      if (slidesPerView === 'auto') {
+        slidesPerView = swiper.slidesPerViewDynamic();
+      } else {
+        slidesPerView = Math.ceil(parseFloat(swiper.params.slidesPerView, 10));
+        if (centeredSlides && slidesPerView % 2 === 0) {
+          slidesPerView = slidesPerView + 1;
+        }
+      }
+      let needLoopFix = slides - targetSlideIndex < slidesPerView;
+      if (centeredSlides) {
+        needLoopFix = needLoopFix || targetSlideIndex < Math.ceil(slidesPerView / 2);
+      }
+      if (needLoopFix) {
+        const direction = centeredSlides
+          ? targetSlideIndex < swiper.activeIndex
+            ? 'prev'
+            : 'next'
+          : targetSlideIndex - swiper.activeIndex - 1 < swiper.params.slidesPerView
+          ? 'next'
+          : 'prev';
+
+        swiper.loopFix({
+          direction,
+          slideTo: true,
+          activeSlideIndex:
+            direction === 'next' ? targetSlideIndex + 1 : targetSlideIndex - slides + 1,
+          slideRealIndex: direction === 'next' ? swiper.realIndex : undefined,
+        });
+      }
+
       newIndex = swiper.getSlideIndexByData(newIndex);
     }
   }

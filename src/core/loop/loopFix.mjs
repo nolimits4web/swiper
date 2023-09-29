@@ -48,7 +48,10 @@ export default function loopFix({
 
   if (swiper.slides.length < slidesPerView + loopedSlides) {
     try {
-      console.warn('Swiper: amount of slides is insufficient for loop mode, it will be disabled');
+      console.warn(
+        'Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled and not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters',
+      );
+      return;
     } catch (err) {
       // err
     }
@@ -96,6 +99,7 @@ export default function loopFix({
   if (isPrev) {
     prependSlidesIndexes.forEach((index) => {
       swiper.slides[index].swiperLoopMoveDOM = true;
+
       slidesEl.prepend(swiper.slides[index]);
       swiper.slides[index].swiperLoopMoveDOM = false;
     });
@@ -115,7 +119,6 @@ export default function loopFix({
   if (params.watchSlidesProgress) {
     swiper.updateSlidesOffset();
   }
-
   if (slideTo) {
     if (prependSlidesIndexes.length > 0 && isPrev) {
       if (typeof slideRealIndex === 'undefined') {
@@ -134,7 +137,7 @@ export default function loopFix({
         }
       } else {
         if (setTranslate) {
-          swiper.slideToLoop(slideRealIndex, 0, false, true);
+          swiper.slideTo(swiper.activeIndex + prependSlidesIndexes.length, 0, false, true);
           swiper.touchEventsData.currentTranslate = swiper.translate;
         }
       }
@@ -154,7 +157,7 @@ export default function loopFix({
           }
         }
       } else {
-        swiper.slideToLoop(slideRealIndex, 0, false, true);
+        swiper.slideTo(swiper.activeIndex - appendSlidesIndexes.length, 0, false, true);
       }
     }
   }
