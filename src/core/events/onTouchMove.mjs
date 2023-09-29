@@ -17,6 +17,7 @@ export default function onTouchMove(event) {
     const id = e.pointerId;
     if (id !== data.pointerId) return;
   }
+
   let targetTouch;
   if (e.type === 'touchmove') {
     targetTouch = [...e.changedTouches].filter((t) => t.identifier === data.touchId)[0];
@@ -40,6 +41,7 @@ export default function onTouchMove(event) {
     touches.startY = pageY;
     return;
   }
+
   if (!swiper.allowTouchMove) {
     if (!e.target.matches(data.focusableElements)) {
       swiper.allowClick = false;
@@ -55,6 +57,7 @@ export default function onTouchMove(event) {
     }
     return;
   }
+
   if (params.touchReleaseOnEdges && !params.loop) {
     if (swiper.isVertical()) {
       // Vertical
@@ -73,6 +76,7 @@ export default function onTouchMove(event) {
       return;
     }
   }
+
   if (document.activeElement) {
     if (e.target === document.activeElement && e.target.matches(data.focusableElements)) {
       data.isMoved = true;
@@ -80,10 +84,10 @@ export default function onTouchMove(event) {
       return;
     }
   }
+
   if (data.allowTouchCallbacks) {
     swiper.emit('touchMove', e);
   }
-  if (e.targetTouches && e.targetTouches.length > 1) return;
 
   touches.previousX = touches.currentX;
   touches.previousY = touches.currentY;
