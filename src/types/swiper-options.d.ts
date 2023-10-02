@@ -628,12 +628,25 @@ export interface SwiperOptions {
   /**
    * Set to `true` to enable continuous loop mode
    *
-   * Because of nature of how the loop mode works (it will rearrange slides), total number of slides must be >= slidesPerView * 2
+   * Because of nature of how the loop mode works (it will rearrange slides), total number of slides must be:
+   *
+   * - >= `slidesPerView` + `slidesPerGroup`
+   * - even to `slidesPerGroup` (or use `loopAddBlankSlides` parameter)
+   * - even to `grid.rows` (or use `loopAddBlankSlides` parameter)
    *
    * @default false
    *
    */
   loop?: boolean;
+
+  /**
+   * Automatically adds blank slides if you use Grid or `slidesPerGroup` and the total amount of slides is not even to `slidesPerGroup` or to `grid.rows`
+   *
+   *
+   * @default false
+   *
+   */
+  loopAddBlankSlides?: boolean;
 
   /**
    * Defines how many slides before end/beginning it should rearrange (loop) slides. If not specified, defaults to `slidesPerView`
@@ -792,6 +805,15 @@ export interface SwiperOptions {
    * @note Not supported in Swiper React/Vue
    */
   slideFullyVisibleClass?: string;
+
+  /**
+   * CSS class name of the blank slide added by the loop mode (when `loopAddBlankSlides` is enabled)
+   *
+   * @default 'swiper-slide-blank'
+   *
+   * @note Not supported in Swiper React/Vue
+   */
+  slideBlankClass?: string;
 
   /**
    * CSS class name of slide which is right after currently active slide

@@ -204,7 +204,14 @@ function findElementsInElements(elements = [], selector = '') {
 function elementChildren(element, selector = '') {
   return [...element.children].filter((el) => el.matches(selector));
 }
-
+function showWarning(text) {
+  try {
+    console.warn(text);
+    return;
+  } catch (err) {
+    // err
+  }
+}
 function createElement(tag, classes = []) {
   const el = document.createElement(tag);
   el.classList.add(...(Array.isArray(classes) ? classes : [classes]));
@@ -320,6 +327,7 @@ export {
   getComputedStyle,
   setCSSProperty,
   getSlideTransformEl,
+  showWarning,
   // dom
   findElementsInElements,
   createElement,

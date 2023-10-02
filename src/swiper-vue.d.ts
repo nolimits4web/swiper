@@ -252,6 +252,7 @@ declare const Swiper: DefineComponent<
       default: undefined;
     };
     loop: { type: BooleanConstructor; default: undefined };
+    loopAddBlankSlides: { type: BooleanConstructor; default: undefined };
     loopedSlides: {
       type: NumberConstructor;
       default: undefined;
@@ -303,6 +304,10 @@ declare const Swiper: DefineComponent<
       default: undefined;
     };
     slideFullyVisibleClass: {
+      type: StringConstructor;
+      default: undefined;
+    };
+    slideBlankClass: {
       type: StringConstructor;
       default: undefined;
     };

@@ -256,6 +256,8 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     const slidesLength =
       swiper.virtual && swiper.params.virtual.enabled
         ? swiper.virtual.slides.length
+        : swiper.grid && swiper.params.grid.rows > 1
+        ? swiper.slides.length / Math.ceil(swiper.params.grid.rows)
         : swiper.slides.length;
 
     let el = swiper.pagination.el;

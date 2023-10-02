@@ -9,16 +9,28 @@ export default function slideToLoop(
 
     index = indexAsNumber;
   }
-
   const swiper = this;
+  const gridEnabled = swiper.grid && swiper.params.grid && swiper.params.grid.rows > 1;
   let newIndex = index;
   if (swiper.params.loop) {
     if (swiper.virtual && swiper.params.virtual.enabled) {
       // eslint-disable-next-line
       newIndex = newIndex + swiper.virtual.slidesBefore;
     } else {
-      const targetSlideIndex = swiper.getSlideIndexByData(newIndex);
-      const slides = swiper.slides.length;
+      let targetSlideIndex;
+      if (gridEnabled) {
+        const slideIndex = newIndex * swiper.params.grid.rows;
+        targetSlideIndex = swiper.slides.filter(
+          (slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === slideIndex,
+        )[0].column;
+      } else {
+        targetSlideIndex = swiper.getSlideIndexByData(newIndex);
+      }
+
+      const cols = gridEnabled
+        ? Math.ceil(swiper.slides.length / swiper.params.grid.rows)
+        : swiper.slides.length;
+
       const { centeredSlides } = swiper.params;
       let slidesPerView = swiper.params.slidesPerView;
       if (slidesPerView === 'auto') {
@@ -29,7 +41,7 @@ export default function slideToLoop(
           slidesPerView = slidesPerView + 1;
         }
       }
-      let needLoopFix = slides - targetSlideIndex < slidesPerView;
+      let needLoopFix = cols - targetSlideIndex < slidesPerView;
       if (centeredSlides) {
         needLoopFix = needLoopFix || targetSlideIndex < Math.ceil(slidesPerView / 2);
       }
@@ -41,19 +53,28 @@ export default function slideToLoop(
           : targetSlideIndex - swiper.activeIndex - 1 < swiper.params.slidesPerView
           ? 'next'
           : 'prev';
-
         swiper.loopFix({
           direction,
           slideTo: true,
           activeSlideIndex:
-            direction === 'next' ? targetSlideIndex + 1 : targetSlideIndex - slides + 1,
+            direction === 'next' ? targetSlideIndex + 1 : targetSlideIndex - cols + 1,
           slideRealIndex: direction === 'next' ? swiper.realIndex : undefined,
         });
       }
 
-      newIndex = swiper.getSlideIndexByData(newIndex);
+      if (gridEnabled) {
+        const slideIndex = newIndex * swiper.params.grid.rows;
+        newIndex = swiper.slides.filter(
+          (slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === slideIndex,
+        )[0].column;
+      } else {
+        newIndex = swiper.getSlideIndexByData(newIndex);
+      }
     }
   }
 
-  return swiper.slideTo(newIndex, speed, runCallbacks, internal);
+  requestAnimationFrame(() => {
+    swiper.slideTo(newIndex, speed, runCallbacks, internal);
+  });
+  return;
 }

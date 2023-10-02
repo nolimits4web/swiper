@@ -7,24 +7,9 @@ import {
 
 export default function updateSlides() {
   const swiper = this;
-  function getDirectionLabel(property) {
-    if (swiper.isHorizontal()) {
-      return property;
-    }
-    // prettier-ignore
-    return {
-      'width': 'height',
-      'margin-top': 'margin-left',
-      'margin-bottom ': 'margin-right',
-      'margin-left': 'margin-top',
-      'margin-right': 'margin-bottom',
-      'padding-left': 'padding-top',
-      'padding-right': 'padding-bottom',
-      'marginRight': 'marginBottom',
-    }[property];
-  }
+
   function getDirectionPropertyValue(node, label) {
-    return parseFloat(node.getPropertyValue(getDirectionLabel(label)) || 0);
+    return parseFloat(node.getPropertyValue(swiper.getDirectionLabel(label)) || 0);
   }
 
   const params = swiper.params;
@@ -85,7 +70,9 @@ export default function updateSlides() {
 
   const gridEnabled = params.grid && params.grid.rows > 1 && swiper.grid;
   if (gridEnabled) {
-    swiper.grid.initSlides(slidesLength);
+    swiper.grid.initSlides(slides);
+  } else if (swiper.grid) {
+    swiper.grid.unsetSlides();
   }
 
   // Calc slides
@@ -103,13 +90,13 @@ export default function updateSlides() {
     let slide;
     if (slides[i]) slide = slides[i];
     if (gridEnabled) {
-      swiper.grid.updateSlide(i, slide, slidesLength, getDirectionLabel);
+      swiper.grid.updateSlide(i, slide, slides);
     }
     if (slides[i] && elementStyle(slide, 'display') === 'none') continue; // eslint-disable-line
 
     if (params.slidesPerView === 'auto') {
       if (shouldResetSlideSize) {
-        slides[i].style[getDirectionLabel('width')] = ``;
+        slides[i].style[swiper.getDirectionLabel('width')] = ``;
       }
       const slideStyles = getComputedStyle(slide);
       const currentTransform = slide.style.transform;
@@ -157,7 +144,7 @@ export default function updateSlides() {
       if (params.roundLengths) slideSize = Math.floor(slideSize);
 
       if (slides[i]) {
-        slides[i].style[getDirectionLabel('width')] = `${slideSize}px`;
+        slides[i].style[swiper.getDirectionLabel('width')] = `${slideSize}px`;
       }
     }
     if (slides[i]) {
@@ -199,11 +186,11 @@ export default function updateSlides() {
     wrapperEl.style.width = `${swiper.virtualSize + spaceBetween}px`;
   }
   if (params.setWrapperSize) {
-    wrapperEl.style[getDirectionLabel('width')] = `${swiper.virtualSize + spaceBetween}px`;
+    wrapperEl.style[swiper.getDirectionLabel('width')] = `${swiper.virtualSize + spaceBetween}px`;
   }
 
   if (gridEnabled) {
-    swiper.grid.updateWrapperSize(slideSize, snapGrid, getDirectionLabel);
+    swiper.grid.updateWrapperSize(slideSize, snapGrid);
   }
 
   // Remove last grid elements depending on width
@@ -247,7 +234,8 @@ export default function updateSlides() {
   if (snapGrid.length === 0) snapGrid = [0];
 
   if (spaceBetween !== 0) {
-    const key = swiper.isHorizontal() && rtl ? 'marginLeft' : getDirectionLabel('marginRight');
+    const key =
+      swiper.isHorizontal() && rtl ? 'marginLeft' : swiper.getDirectionLabel('marginRight');
     slides
       .filter((_, slideIndex) => {
         if (!params.cssMode || params.loop) return true;

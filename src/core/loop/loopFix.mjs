@@ -1,3 +1,5 @@
+import { showWarning } from '../../shared/utils.mjs';
+
 export default function loopFix({
   slideRealIndex,
   slideTo = true,
@@ -45,16 +47,14 @@ export default function loopFix({
     loopedSlides += params.slidesPerGroup - (loopedSlides % params.slidesPerGroup);
   }
   swiper.loopedSlides = loopedSlides;
+  const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
 
-  if (swiper.slides.length < slidesPerView + loopedSlides) {
-    try {
-      console.warn(
-        'Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled and not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters',
-      );
-      return;
-    } catch (err) {
-      // err
-    }
+  if (slides.length < slidesPerView + loopedSlides) {
+    showWarning(
+      'Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled and not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters',
+    );
+  } else if (gridEnabled && params.grid.fill === 'row') {
+    showWarning('Swiper Loop Warning: Loop mode is not compatible with grid.fill = `row`');
   }
 
   const prependSlidesIndexes = [];
@@ -64,7 +64,7 @@ export default function loopFix({
 
   if (typeof activeSlideIndex === 'undefined') {
     activeSlideIndex = swiper.getSlideIndex(
-      swiper.slides.filter((el) => el.classList.contains(params.slideActiveClass))[0],
+      slides.filter((el) => el.classList.contains(params.slideActiveClass))[0],
     );
   } else {
     activeIndex = activeSlideIndex;
@@ -75,46 +75,71 @@ export default function loopFix({
 
   let slidesPrepended = 0;
   let slidesAppended = 0;
-  const activeSlideIndexWithShift =
-    activeSlideIndex +
+
+  const cols = gridEnabled ? Math.ceil(slides.length / params.grid.rows) : slides.length;
+  const activeColIndex = gridEnabled ? slides[activeSlideIndex].column : activeSlideIndex;
+  const activeColIndexWithShift =
+    activeColIndex +
     (centeredSlides && typeof setTranslate === 'undefined' ? -slidesPerView / 2 + 0.5 : 0);
   // prepend last slides before start
-  if (activeSlideIndexWithShift < loopedSlides) {
-    slidesPrepended = Math.max(loopedSlides - activeSlideIndexWithShift, params.slidesPerGroup);
-    for (let i = 0; i < loopedSlides - activeSlideIndexWithShift; i += 1) {
-      const index = i - Math.floor(i / slides.length) * slides.length;
-      prependSlidesIndexes.push(slides.length - index - 1);
+  if (activeColIndexWithShift < loopedSlides) {
+    slidesPrepended = Math.max(loopedSlides - activeColIndexWithShift, params.slidesPerGroup);
+    for (let i = 0; i < loopedSlides - activeColIndexWithShift; i += 1) {
+      const index = i - Math.floor(i / cols) * cols;
+      if (gridEnabled) {
+        const colIndexToPrepend = cols - index - 1;
+        for (let i = slides.length - 1; i >= 0; i -= 1) {
+          if (slides[i].column === colIndexToPrepend) prependSlidesIndexes.push(i);
+        }
+        // slides.forEach((slide, slideIndex) => {
+        //   if (slide.column === colIndexToPrepend) prependSlidesIndexes.push(slideIndex);
+        // });
+      } else {
+        prependSlidesIndexes.push(cols - index - 1);
+      }
     }
-  } else if (activeSlideIndexWithShift + slidesPerView > swiper.slides.length - loopedSlides) {
+  } else if (activeColIndexWithShift + slidesPerView > cols - loopedSlides) {
     slidesAppended = Math.max(
-      activeSlideIndexWithShift - (swiper.slides.length - loopedSlides * 2),
+      activeColIndexWithShift - (cols - loopedSlides * 2),
       params.slidesPerGroup,
     );
     for (let i = 0; i < slidesAppended; i += 1) {
-      const index = i - Math.floor(i / slides.length) * slides.length;
-      appendSlidesIndexes.push(index);
+      const index = i - Math.floor(i / cols) * cols;
+      if (gridEnabled) {
+        slides.forEach((slide, slideIndex) => {
+          if (slide.column === index) appendSlidesIndexes.push(slideIndex);
+        });
+      } else {
+        appendSlidesIndexes.push(index);
+      }
     }
   }
-
   if (isPrev) {
     prependSlidesIndexes.forEach((index) => {
-      swiper.slides[index].swiperLoopMoveDOM = true;
+      slides[index].swiperLoopMoveDOM = true;
 
-      slidesEl.prepend(swiper.slides[index]);
-      swiper.slides[index].swiperLoopMoveDOM = false;
+      slidesEl.prepend(slides[index]);
+      slides[index].swiperLoopMoveDOM = false;
     });
   }
   if (isNext) {
     appendSlidesIndexes.forEach((index) => {
-      swiper.slides[index].swiperLoopMoveDOM = true;
-      slidesEl.append(swiper.slides[index]);
-      swiper.slides[index].swiperLoopMoveDOM = false;
+      slides[index].swiperLoopMoveDOM = true;
+      slidesEl.append(slides[index]);
+      slides[index].swiperLoopMoveDOM = false;
     });
   }
 
   swiper.recalcSlides();
   if (params.slidesPerView === 'auto') {
     swiper.updateSlides();
+  } else if (
+    gridEnabled &&
+    ((prependSlidesIndexes.length > 0 && isPrev) || (appendSlidesIndexes.length > 0 && isNext))
+  ) {
+    swiper.slides.forEach((slide, slideIndex) => {
+      swiper.grid.updateSlide(slideIndex, slide, swiper.slides);
+    });
   }
   if (params.watchSlidesProgress) {
     swiper.updateSlidesOffset();
@@ -137,7 +162,10 @@ export default function loopFix({
         }
       } else {
         if (setTranslate) {
-          swiper.slideTo(swiper.activeIndex + prependSlidesIndexes.length, 0, false, true);
+          const shift = gridEnabled
+            ? prependSlidesIndexes.length / params.grid.rows
+            : prependSlidesIndexes.length;
+          swiper.slideTo(swiper.activeIndex + shift, 0, false, true);
           swiper.touchEventsData.currentTranslate = swiper.translate;
         }
       }
@@ -157,7 +185,10 @@ export default function loopFix({
           }
         }
       } else {
-        swiper.slideTo(swiper.activeIndex - appendSlidesIndexes.length, 0, false, true);
+        const shift = gridEnabled
+          ? appendSlidesIndexes.length / params.grid.rows
+          : appendSlidesIndexes.length;
+        swiper.slideTo(swiper.activeIndex - shift, 0, false, true);
       }
     }
   }

@@ -5,6 +5,7 @@ export default function updateSlidesClasses() {
 
   const { slides, params, slidesEl, activeIndex } = swiper;
   const isVirtual = swiper.virtual && params.virtual.enabled;
+  const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
 
   const getFilteredSlide = (selector) => {
     return elementChildren(
@@ -17,6 +18,8 @@ export default function updateSlidesClasses() {
   });
 
   let activeSlide;
+  let prevSlide;
+  let nextSlide;
   if (isVirtual) {
     if (params.loop) {
       let slideIndex = activeIndex - swiper.virtual.slidesBefore;
@@ -27,28 +30,43 @@ export default function updateSlidesClasses() {
       activeSlide = getFilteredSlide(`[data-swiper-slide-index="${activeIndex}"]`);
     }
   } else {
-    activeSlide = slides[activeIndex];
+    if (gridEnabled) {
+      activeSlide = slides.filter((slideEl) => slideEl.column === activeIndex)[0];
+      nextSlide = slides.filter((slideEl) => slideEl.column === activeIndex + 1)[0];
+      prevSlide = slides.filter((slideEl) => slideEl.column === activeIndex - 1)[0];
+    } else {
+      activeSlide = slides[activeIndex];
+    }
   }
-
   if (activeSlide) {
     // Active classes
     activeSlide.classList.add(params.slideActiveClass);
 
-    // Next Slide
-    let nextSlide = elementNextAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
-    if (params.loop && !nextSlide) {
-      nextSlide = slides[0];
-    }
-    if (nextSlide) {
-      nextSlide.classList.add(params.slideNextClass);
-    }
-    // Prev Slide
-    let prevSlide = elementPrevAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
-    if (params.loop && !prevSlide === 0) {
-      prevSlide = slides[slides.length - 1];
-    }
-    if (prevSlide) {
-      prevSlide.classList.add(params.slidePrevClass);
+    if (gridEnabled) {
+      if (nextSlide) {
+        nextSlide.classList.add(params.slideNextClass);
+      }
+      if (prevSlide) {
+        prevSlide.classList.add(params.slidePrevClass);
+      }
+    } else {
+      // Next Slide
+      nextSlide = elementNextAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
+      if (params.loop && !nextSlide) {
+        nextSlide = slides[0];
+      }
+      if (nextSlide) {
+        nextSlide.classList.add(params.slideNextClass);
+      }
+
+      // Prev Slide
+      prevSlide = elementPrevAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
+      if (params.loop && !prevSlide === 0) {
+        prevSlide = slides[slides.length - 1];
+      }
+      if (prevSlide) {
+        prevSlide.classList.add(params.slidePrevClass);
+      }
     }
   }
 

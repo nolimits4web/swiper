@@ -228,6 +228,23 @@ class Swiper {
     return swiper;
   }
 
+  getDirectionLabel(property) {
+    if (this.isHorizontal()) {
+      return property;
+    }
+    // prettier-ignore
+    return {
+      'width': 'height',
+      'margin-top': 'margin-left',
+      'margin-bottom ': 'margin-right',
+      'margin-left': 'margin-top',
+      'margin-right': 'margin-bottom',
+      'padding-left': 'padding-top',
+      'padding-right': 'padding-bottom',
+      'marginRight': 'marginBottom',
+    }[property];
+  }
+
   getSlideIndex(slideEl) {
     const { slidesEl, params } = this;
     const slides = elementChildren(slidesEl, `.${params.slideClass}, swiper-slide`);

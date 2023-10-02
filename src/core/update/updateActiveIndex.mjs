@@ -74,15 +74,31 @@ export default function updateActiveIndex(newActiveIndex) {
     return;
   }
 
+  const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
+
+  const normalizeSlideIndexToColumn = (index) => {
+    if (!gridEnabled) return index;
+    return Math.floor(index / params.grid.rows);
+  };
+
   // Get real index
   let realIndex;
   if (swiper.virtual && params.virtual.enabled && params.loop) {
     realIndex = getVirtualRealIndex(activeIndex);
+  } else if (gridEnabled) {
+    const firstSlideInColumn = swiper.slides.filter((slideEl) => slideEl.column === activeIndex)[0];
+    let activeSlideIndex = parseInt(firstSlideInColumn.getAttribute('data-swiper-slide-index'), 10);
+    if (Number.isNaN(activeSlideIndex)) {
+      activeSlideIndex = Math.max(swiper.slides.indexOf(firstSlideInColumn), 0);
+    }
+    realIndex = Math.floor(activeSlideIndex / params.grid.rows);
   } else if (swiper.slides[activeIndex]) {
-    realIndex = parseInt(
-      swiper.slides[activeIndex].getAttribute('data-swiper-slide-index') || activeIndex,
-      10,
-    );
+    const slideIndex = swiper.slides[activeIndex].getAttribute('data-swiper-slide-index');
+    if (slideIndex) {
+      realIndex = parseInt(slideIndex, 10);
+    } else {
+      realIndex = activeIndex;
+    }
   } else {
     realIndex = activeIndex;
   }
