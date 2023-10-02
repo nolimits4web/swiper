@@ -76,5 +76,5 @@ export default function slideToLoop(
   requestAnimationFrame(() => {
     swiper.slideTo(newIndex, speed, runCallbacks, internal);
   });
-  return;
+  return swiper;
 }
