@@ -69,9 +69,10 @@ export default function loopFix({
     }
   } else if (activeSlideIndex /* + slidesPerView */ > swiper.slides.length - loopedSlides * 2) {
     slidesAppended = Math.max(
-      activeSlideIndex - (swiper.slides.length - loopedSlides * 2),
+      activeSlideIndex - Math.abs(swiper.slides.length - loopedSlides),
       params.slidesPerGroup,
     );
+
     for (let i = 0; i < slidesAppended; i += 1) {
       const index = i - Math.floor(i / slides.length) * slides.length;
       appendSlidesIndexes.push(index);
