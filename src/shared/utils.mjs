@@ -207,7 +207,7 @@ function elementChildren(element, selector = '') {
 
 function createElement(tag, classes = []) {
   const el = document.createElement(tag);
-  el.classList.add(...(Array.isArray(classes) ? classes : [classes]));
+  el.classList.add(...(Array.isArray(classes) ? classes : classes.split(' '));
   return el;
 }
 function elementOffset(el) {
