@@ -185,6 +185,7 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
       !swiper.autoplay.running
     )
       return;
+
     autoplayStartTime = new Date().getTime();
     if (pausedByInteraction) {
       pausedByInteraction = false;
@@ -306,6 +307,10 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   on('slideChange', () => {
     if (swiper.destroyed || !swiper.autoplay.running) return;
     slideChanged = true;
+  });
+
+  on('loopFix', () => {
+    resume();
   });
 
   Object.assign(swiper.autoplay, {
