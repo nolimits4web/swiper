@@ -253,7 +253,7 @@ declare const Swiper: DefineComponent<
     };
     loop: { type: BooleanConstructor; default: undefined };
     loopAddBlankSlides: { type: BooleanConstructor; default: undefined };
-    loopedSlides: {
+    loopAdditionalSlides: {
       type: NumberConstructor;
       default: undefined;
     };

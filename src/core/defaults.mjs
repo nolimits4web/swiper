@@ -101,7 +101,7 @@ export default {
   // loop
   loop: false,
   loopAddBlankSlides: true,
-  loopedSlides: null,
+  loopAdditionalSlides: 0,
   loopPreventsSliding: true,
 
   // rewind

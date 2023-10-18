@@ -68,7 +68,7 @@ const paramsList = [
   'preventClicksPropagation',
   '_slideToClickedSlide',
   '_loop',
-  'loopedSlides',
+  'loopAdditionalSlides',
   'loopAddBlankSlides',
   'loopPreventsSliding',
   '_rewind',

@@ -649,11 +649,11 @@ export interface SwiperOptions {
   loopAddBlankSlides?: boolean;
 
   /**
-   * Defines how many slides before end/beginning it should rearrange (loop) slides. If not specified, defaults to `slidesPerView`
+   * Allows to increase amount of looped slides
    *
-   * @default null
+   * @default 0
    */
-  loopedSlides?: number | null;
+  loopAdditionalSlides?: number;
 
   /**
    * If enabled then slideNext/Prev will do nothing while slider is animating in loop mode
