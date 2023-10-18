@@ -216,6 +216,7 @@ export default function freeMode({ swiper, extendParams, emit, once }) {
     }
 
     if (!params.freeMode.momentum || timeDiff >= params.longSwipesMs) {
+      emit('_freeModeStaticRelease');
       swiper.updateProgress();
       swiper.updateActiveIndex();
       swiper.updateSlidesClasses();

@@ -14,7 +14,7 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
       enabled: false,
       delay: 3000,
       waitForTransition: true,
-      disableOnInteraction: true,
+      disableOnInteraction: false,
       stopOnLastSlide: false,
       reverseDirection: false,
       pauseOnMouseEnter: false,
@@ -25,7 +25,7 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   let autoplayDelayTotal = params && params.autoplay ? params.autoplay.delay : 3000;
   let autoplayDelayCurrent = params && params.autoplay ? params.autoplay.delay : 3000;
   let autoplayTimeLeft;
-  let autoplayStartTime = new Date().getTime;
+  let autoplayStartTime = new Date().getTime();
   let wasPaused;
   let isTouched;
   let pausedByTouch;
@@ -134,6 +134,7 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   };
 
   const start = () => {
+    autoplayStartTime = new Date().getTime();
     swiper.autoplay.running = true;
     run();
     emit('autoplayStart');
@@ -248,7 +249,7 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
     if (swiper.params.autoplay.enabled) {
       attachMouseEvents();
       attachDocumentEvents();
-      autoplayStartTime = new Date().getTime();
+
       start();
     }
   });
@@ -261,6 +262,18 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
     }
   });
 
+  on('_freeModeStaticRelease', () => {
+    if (pausedByTouch || pausedByInteraction) {
+      resume();
+    }
+  });
+  on('_freeModeNoMomentumRelease', () => {
+    if (!swiper.params.autoplay.disableOnInteraction) {
+      pause(true, true);
+    } else {
+      stop();
+    }
+  });
   on('beforeTransitionStart', (_s, speed, internal) => {
     if (swiper.destroyed || !swiper.autoplay.running) return;
     if (internal || !swiper.params.autoplay.disableOnInteraction) {
