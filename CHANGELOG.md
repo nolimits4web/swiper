@@ -1,5 +1,12 @@
 # Changelog
 
+# [10.3.1](https://github.com/nolimits4web/Swiper/compare/v10.3.0...v10.3.1) (2023-09-28)
+
+### Bug Fixes
+
+- **autoplay:** fix autoplay stop when disableOnInteraction is active ([ecfb3fb](https://github.com/nolimits4web/Swiper/commit/ecfb3fb06b7214e87332e41a6b96dc7a721a8313)), closes [#7060](https://github.com/nolimits4web/Swiper/issues/7060) [#7059](https://github.com/nolimits4web/Swiper/issues/7059)
+- **types:** detection of custom html tags ([#7055](https://github.com/nolimits4web/Swiper/issues/7055)) ([c55f76d](https://github.com/nolimits4web/Swiper/commit/c55f76d51cadb3b9835b6c45537da30d2c3b298e))
+
 # [10.3.0](https://github.com/nolimits4web/Swiper/compare/v10.2.0...v10.3.0) (2023-09-21)
 
 ### Bug Fixes
