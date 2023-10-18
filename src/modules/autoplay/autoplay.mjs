@@ -32,11 +32,15 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   let touchStartTimeout;
   let slideChanged;
   let pausedByInteraction;
+  let pausedByPointerEnter;
 
   function onTransitionEnd(e) {
     if (!swiper || swiper.destroyed || !swiper.wrapperEl) return;
     if (e.target !== swiper.wrapperEl) return;
     swiper.wrapperEl.removeEventListener('transitionend', onTransitionEnd);
+    if (pausedByPointerEnter) {
+      return;
+    }
     resume();
   }
 
@@ -212,12 +216,14 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   const onPointerEnter = (e) => {
     if (e.pointerType !== 'mouse') return;
     pausedByInteraction = true;
+    pausedByPointerEnter = true;
     if (swiper.animating || swiper.autoplay.paused) return;
     pause(true);
   };
 
   const onPointerLeave = (e) => {
     if (e.pointerType !== 'mouse') return;
+    pausedByPointerEnter = false;
     if (swiper.autoplay.paused) {
       resume();
     }
