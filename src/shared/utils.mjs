@@ -1,4 +1,5 @@
 import { getWindow, getDocument } from 'ssr-window';
+import classesToTokens from './classes-to-tokens.mjs';
 
 function deleteProps(obj) {
   const object = obj;
@@ -214,7 +215,7 @@ function showWarning(text) {
 }
 function createElement(tag, classes = []) {
   const el = document.createElement(tag);
-  el.classList.add(...(Array.isArray(classes) ? classes : [classes]));
+  el.classList.add(...(Array.isArray(classes) ? classes : classesToTokens(classes)));
   return el;
 }
 function elementOffset(el) {

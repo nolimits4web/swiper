@@ -1,6 +1,8 @@
 import { getDocument } from 'ssr-window';
 import { createElement, elementOffset, nextTick } from '../../shared/utils.mjs';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined.mjs';
+import classesToSelector from '../../shared/classes-to-selector.mjs';
+import classesToTokens from '../../shared/classes-to-tokens.mjs';
 
 export default function Scrollbar({ swiper, extendParams, on, emit }) {
   const document = getDocument();
@@ -246,6 +248,7 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     }
     if (!el && typeof params.el === 'string') {
       el = document.querySelectorAll(params.el);
+      if (!el.length) return;
     } else if (!el) {
       el = params.el;
     }
@@ -264,7 +267,7 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
 
     let dragEl;
     if (el) {
-      dragEl = el.querySelector(`.${swiper.params.scrollbar.dragClass}`);
+      dragEl = el.querySelector(classesToSelector(swiper.params.scrollbar.dragClass));
       if (!dragEl) {
         dragEl = createElement('div', swiper.params.scrollbar.dragClass);
         el.append(dragEl);
@@ -281,14 +284,18 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     }
 
     if (el) {
-      el.classList[swiper.enabled ? 'remove' : 'add'](swiper.params.scrollbar.lockClass);
+      el.classList[swiper.enabled ? 'remove' : 'add'](
+        ...classesToTokens(swiper.params.scrollbar.lockClass),
+      );
     }
   }
   function destroy() {
     const params = swiper.params.scrollbar;
     const el = swiper.scrollbar.el;
     if (el) {
-      el.classList.remove(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
+      el.classList.remove(
+        ...classesToTokens(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass),
+      );
     }
 
     disableDraggable();
@@ -316,7 +323,9 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
   on('enable disable', () => {
     const { el } = swiper.scrollbar;
     if (el) {
-      el.classList[swiper.enabled ? 'remove' : 'add'](swiper.params.scrollbar.lockClass);
+      el.classList[swiper.enabled ? 'remove' : 'add'](
+        ...classesToTokens(swiper.params.scrollbar.lockClass),
+      );
     }
   });
   on('destroy', () => {
@@ -324,9 +333,11 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
   });
 
   const enable = () => {
-    swiper.el.classList.remove(swiper.params.scrollbar.scrollbarDisabledClass);
+    swiper.el.classList.remove(...classesToTokens(swiper.params.scrollbar.scrollbarDisabledClass));
     if (swiper.scrollbar.el) {
-      swiper.scrollbar.el.classList.remove(swiper.params.scrollbar.scrollbarDisabledClass);
+      swiper.scrollbar.el.classList.remove(
+        ...classesToTokens(swiper.params.scrollbar.scrollbarDisabledClass),
+      );
     }
     init();
     updateSize();
@@ -334,9 +345,11 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
   };
 
   const disable = () => {
-    swiper.el.classList.add(swiper.params.scrollbar.scrollbarDisabledClass);
+    swiper.el.classList.add(...classesToTokens(swiper.params.scrollbar.scrollbarDisabledClass));
     if (swiper.scrollbar.el) {
-      swiper.scrollbar.el.classList.add(swiper.params.scrollbar.scrollbarDisabledClass);
+      swiper.scrollbar.el.classList.add(
+        ...classesToTokens(swiper.params.scrollbar.scrollbarDisabledClass),
+      );
     }
     destroy();
   };
