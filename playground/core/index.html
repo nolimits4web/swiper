@@ -8,6 +8,8 @@
 </head>
 
 <body>
+  <button class="start">Start</button>
+  <button class="stop">Stop</button>
   <div class="swiper">
     <div class="swiper-wrapper">
       <div class="swiper-slide">Slide 1</div>
@@ -19,6 +21,7 @@
       <div class="swiper-slide">Slide 7</div>
     </div>
     <div class="swiper-pagination"></div>
+    <div class="swiper-scrollbar"></div>
   </div>
 
   <style>
@@ -74,16 +77,34 @@
     window.swiper = new Swiper(".swiper", {
       spaceBetween: 20,
       slidesPerView: 2,
-      slidesPerGroup: 2,
-      // centeredSlides: true,
-      loop: true,
       createElements: true,
+      // freeMode: true,
+      speed: 3000,
+      autoplay: {
+        pauseOnMouseEnter: true,
+        delay: 2500,
+        enabled: true,
+      },
       pagination: {
         el: '.swiper-pagination',
         clickable: true,
       },
+      scrollbar: {
+        el: '.swiper-scrollbar',
+      },
       navigation: true,
+      on: {
+        autoplayTimeLeft(s, time, progress) {
+        }
+      }
     });
+
+    document.querySelector('.start').addEventListener('click', () => {
+      swiper.autoplay.start();
+    })
+    document.querySelector('.stop').addEventListener('click', () => {
+      swiper.autoplay.stop();
+    })
 
 
   </script>
