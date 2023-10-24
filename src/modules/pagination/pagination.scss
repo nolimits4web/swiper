@@ -116,7 +116,9 @@
     width: 8px;
     .swiper-pagination-bullet {
       display: inline-block;
-      transition: 200ms transform, 200ms top;
+      transition:
+        200ms transform,
+        200ms top;
     }
   }
 }
@@ -130,12 +132,16 @@
     transform: translateX(-50%);
     white-space: nowrap;
     .swiper-pagination-bullet {
-      transition: 200ms transform, 200ms left;
+      transition:
+        200ms transform,
+        200ms left;
     }
   }
 }
 .swiper-horizontal.swiper-rtl > .swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
-  transition: 200ms transform, 200ms right;
+  transition:
+    200ms transform,
+    200ms right;
 }
 /* Fraction */
 .swiper-pagination-fraction {
