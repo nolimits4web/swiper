@@ -1,5 +1,26 @@
 # Changelog
 
+# 11.0.0-beta.1
+
+### Bug Fixes
+
+- **autoplay:** fix negative autoplay values after stop/start, fix autoplay with free mode ([8bef84d](https://github.com/nolimits4web/Swiper/commit/8bef84d68c44b93757585cb037f7448cc99f7c71)), closes [#7084](https://github.com/nolimits4web/Swiper/issues/7084)
+- **autoplay:** fix pauseOnPointerEnter if hovered during transition ([5080d95](https://github.com/nolimits4web/Swiper/commit/5080d9569fc1ac77c0cb01812567f8035cc780bb)), closes [#7107](https://github.com/nolimits4web/Swiper/issues/7107)
+- **core:** remove grid class on rows change ([2f65e89](https://github.com/nolimits4web/Swiper/commit/2f65e89cb5758b44ceced212d4be905e0ed0f4c3)), closes [#7053](https://github.com/nolimits4web/Swiper/issues/7053)
+- **element:** correctly respond to object params assignment ([f23c742](https://github.com/nolimits4web/Swiper/commit/f23c74250c7d4fd56ea4d5abfe2e031504c86d91))
+- **scrollbar:** allow multiple classes in scrollbar parameters ([89a6f71](https://github.com/nolimits4web/Swiper/commit/89a6f7192f7da120487c224dc1b1a7668422321a)), closes [#7096](https://github.com/nolimits4web/Swiper/issues/7096)
+
+### Features
+
+- **core:** add fully visible slides classes ([902a4c4](https://github.com/nolimits4web/Swiper/commit/902a4c4adbff3af1188427d6cfef50d537c1bcef)), closes [#6773](https://github.com/nolimits4web/Swiper/issues/6773)
+- **core:** add handling for native touch events ([74bb1cc](https://github.com/nolimits4web/Swiper/commit/74bb1ccf4c6f31ffdb7419d5a58a4f592aa6006b)), closes [#6478](https://github.com/nolimits4web/Swiper/issues/6478) [#6381](https://github.com/nolimits4web/Swiper/issues/6381) [#6897](https://github.com/nolimits4web/Swiper/issues/6897)
+- **core:** loop support for grid, new `loopAddBlankSlides` parameter ([b5db223](https://github.com/nolimits4web/Swiper/commit/b5db22392f6c6609de292c00d163f9230d0925ee))
+- **core:** remove `loopedSlides` parameter, add `loopAdditionalSlides` parameter ([d647985](https://github.com/nolimits4web/Swiper/commit/d647985faa9c8e3d551270e96692b2bd135bc92a))
+- **core:** reworked loop mode ([2a99dbd](https://github.com/nolimits4web/Swiper/commit/2a99dbd383ca6880dd60ce35c70d7337bb1f38c8))
+- **core:** update loop mode logic and lowered requirements ([703ede6](https://github.com/nolimits4web/Swiper/commit/703ede6ea1e490ee0200edf18c6857f534101827))
+- **element:** make`eventPrefix` parameter default to `swiper` ([88d463a](https://github.com/nolimits4web/Swiper/commit/88d463aef9b74e6de637470c4c7c024e5f3ca6b9))
+- **core:** move default container overflow back to `hidden` ([88941a8](https://github.com/nolimits4web/Swiper/commit/88941a82491b289faed24508db8b90e3c5506ba1))
+
 # [10.3.1](https://github.com/nolimits4web/Swiper/compare/v10.3.0...v10.3.1) (2023-09-28)
 
 ### Bug Fixes

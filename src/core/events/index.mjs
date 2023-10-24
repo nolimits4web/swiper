@@ -7,9 +7,7 @@ import onResize from './onResize.mjs';
 import onClick from './onClick.mjs';
 import onScroll from './onScroll.mjs';
 import onLoad from './onLoad.mjs';
-
-let dummyEventAttached = false;
-function dummyEventListener() {}
+import onDocumentTouchStart from './onDocumentTouchStart.mjs';
 
 const events = (swiper, method) => {
   const document = getDocument();
@@ -19,6 +17,7 @@ const events = (swiper, method) => {
   const swiperMethod = method;
 
   // Touch Events
+  document[domMethod]('touchstart', swiper.onDocumentTouchStart, { passive: false, capture });
   el[domMethod]('touchstart', swiper.onTouchStart, { passive: false });
   el[domMethod]('pointerdown', swiper.onTouchStart, { passive: false });
   document[domMethod]('touchmove', swiper.onTouchMove, { passive: false, capture });
@@ -58,12 +57,12 @@ const events = (swiper, method) => {
 
 function attachEvents() {
   const swiper = this;
-  const document = getDocument();
   const { params } = swiper;
 
   swiper.onTouchStart = onTouchStart.bind(swiper);
   swiper.onTouchMove = onTouchMove.bind(swiper);
   swiper.onTouchEnd = onTouchEnd.bind(swiper);
+  swiper.onDocumentTouchStart = onDocumentTouchStart.bind(swiper);
 
   if (params.cssMode) {
     swiper.onScroll = onScroll.bind(swiper);
@@ -71,11 +70,6 @@ function attachEvents() {
 
   swiper.onClick = onClick.bind(swiper);
   swiper.onLoad = onLoad.bind(swiper);
-
-  if (!dummyEventAttached) {
-    document.addEventListener('touchstart', dummyEventListener);
-    dummyEventAttached = true;
-  }
 
   events(swiper, 'on');
 }
