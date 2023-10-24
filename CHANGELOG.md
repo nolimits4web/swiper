@@ -1,5 +1,11 @@
 # Changelog
 
+# [11.0.1](https://github.com/nolimits4web/Swiper/compare/v11.0.0...v11.0.1) (2023-10-24)
+
+### Bug Fixes
+
+- **types:** fix eventsPrefix type ([fd0f601](https://github.com/nolimits4web/Swiper/commit/fd0f601fb08af7a72d3c582cf88e06e6a8bed9f8))
+
 # [11.0.0](https://github.com/nolimits4web/Swiper/compare/v10.3.1...v11.0.0) (2023-09-24)
 
 ### Bug Fixes
