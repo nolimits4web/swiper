@@ -630,7 +630,7 @@ export interface SwiperOptions {
    *
    * Because of nature of how the loop mode works (it will rearrange slides), total number of slides must be:
    *
-   * - >= `slidesPerView` + `slidesPerGroup`
+   * - more than or equal to `slidesPerView` + `slidesPerGroup`
    * - even to `slidesPerGroup` (or use `loopAddBlankSlides` parameter)
    * - even to `grid.rows` (or use `loopAddBlankSlides` parameter)
    *
