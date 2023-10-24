@@ -180,7 +180,7 @@ export interface SwiperOptions {
    *
    * @default `swiper`
    */
-  eventsPrefix?: boolean;
+  eventsPrefix?: string;
 
   /**
    * CSS selector for focusable elements. Swiping will be disabled on such elements if they are "focused"
