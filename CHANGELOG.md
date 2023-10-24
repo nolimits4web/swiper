@@ -1,6 +1,6 @@
 # Changelog
 
-# 11.0.0-beta.1
+# [11.0.0](https://github.com/nolimits4web/Swiper/compare/v10.3.1...v11.0.0) (2023-09-24)
 
 ### Bug Fixes
 
