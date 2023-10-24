@@ -500,7 +500,7 @@ export interface SwiperOptions {
   touchMoveStopPropagation?: boolean;
 
   /**
-   * Enable to release Swiper events for swipe-back work in app. If set to `'prevent'` then it will prevent system swipe-back navigation instead
+   * Enable to release Swiper events for swipe-back work in app. If set to `'prevent'` then it will prevent system swipe-back navigation instead. This feature works only with "touch" events (and not pointer events), so it will work on iOS/Android devices and won't work on Windows devices with pointer (touch) events.
    *
    * @default false
    */
@@ -514,7 +514,7 @@ export interface SwiperOptions {
   edgeSwipeThreshold?: number;
 
   /**
-   * Enable to release touch events on slider edge position (beginning, end) to allow for further page scrolling
+   * Enable to release touch events on slider edge position (beginning, end) to allow for further page scrolling. This feature works only with "touch" events (and not pointer events), so it will work on iOS/Android devices and won't work on Windows devices with pointer events. Also `threshold` parameter must be set to `0`
    *
    * @default false
    */
