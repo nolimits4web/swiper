@@ -48,7 +48,8 @@ export default function loopFix({
   if (loopedSlides % slidesPerGroup !== 0) {
     loopedSlides += slidesPerGroup - (loopedSlides % slidesPerGroup);
   }
-  swiper.loopedSlides = loopedSlides + params.loopAdditionalSlides;
+  loopedSlides += params.loopAdditionalSlides;
+  swiper.loopedSlides = loopedSlides;
   const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
 
   if (slides.length < slidesPerView + loopedSlides) {
@@ -101,10 +102,7 @@ export default function loopFix({
       }
     }
   } else if (activeColIndexWithShift + slidesPerView > cols - loopedSlides) {
-    slidesAppended = Math.max(
-      activeColIndexWithShift - (cols - loopedSlides * 2),
-      slidesPerGroup,
-    );
+    slidesAppended = Math.max(activeColIndexWithShift - (cols - loopedSlides * 2), slidesPerGroup);
     for (let i = 0; i < slidesAppended; i += 1) {
       const index = i - Math.floor(i / cols) * cols;
       if (gridEnabled) {
