@@ -10,6 +10,7 @@ export default function loopFix({
   byMousewheel,
 } = {}) {
   const swiper = this;
+
   if (!swiper.params.loop) return;
   swiper.emit('beforeLoopFix');
   const { slides, allowSlidePrev, allowSlideNext, slidesEl, params } = swiper;
@@ -114,6 +115,10 @@ export default function loopFix({
       }
     }
   }
+  swiper.__preventObserver__ = true;
+  requestAnimationFrame(() => {
+    swiper.__preventObserver__ = false;
+  });
   if (isPrev) {
     prependSlidesIndexes.forEach((index) => {
       slides[index].swiperLoopMoveDOM = true;
