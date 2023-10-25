@@ -5,25 +5,6 @@
   <meta charset="UTF-8" />
   <title>Swiper Playground</title>
   <meta name="viewport" content="width=device-width" />
-</head>
-
-<body>
-  <button class="start">Start</button>
-  <button class="stop">Stop</button>
-  <div class="swiper">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">Slide 1</div>
-      <div class="swiper-slide">Slide 2</div>
-      <div class="swiper-slide">Slide 3</div>
-      <div class="swiper-slide">Slide 4</div>
-      <div class="swiper-slide">Slide 5</div>
-      <div class="swiper-slide">Slide 6</div>
-      <div class="swiper-slide">Slide 7</div>
-    </div>
-    <div class="swiper-pagination"></div>
-    <div class="swiper-scrollbar"></div>
-  </div>
-
   <style>
     html,
     body {
@@ -40,72 +21,66 @@
       padding: 0;
     }
 
-    body {
-      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-      font-size: 14px;
-      color: #000;
-      margin: 0;
-      padding: 0;
-    }
-
     .swiper {
-      margin: 100px auto;
       width: 100%;
-      height: 480px;
+      height: 100%;
     }
 
     .swiper-slide {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
+      text-align: center;
+      font-size: 18px;
       background: #fff;
-      width: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .swiper-slide:not(.swiper-slide-active) {
-      opacity: 0.75;
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   </style>
+</head>
+
+<body>
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">Slide 1</div>
+      <div class="swiper-slide">Slide 2</div>
+      <div class="swiper-slide">Slide 3</div>
+      <div class="swiper-slide">Slide 4</div>
+      <div class="swiper-slide">Slide 5</div>
+      <div class="swiper-slide">Slide 6</div>
+      <div class="swiper-slide">Slide 7</div>
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+
   <script type="module">
-    // eslint-disable-next-line
+    // // eslint-disable-next-line
     import 'swiper/swiper-bundle.css';
 
-    // eslint-disable-next-line
+    // // eslint-disable-next-line
     import Swiper from 'swiper/swiper-bundle.mjs';
 
     window.swiper = new Swiper(".swiper", {
-      spaceBetween: 20,
-      slidesPerView: 2,
-      createElements: true,
-      // freeMode: true,
-      speed: 3000,
-      autoplay: {
-        pauseOnMouseEnter: true,
-        delay: 2500,
-        enabled: true,
-      },
+      slidesPerView: 5,
+      spaceBetween: 30,
+      loop: true,
       pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
+        el: ".swiper-pagination",
+        clickable: true
       },
-      scrollbar: {
-        el: '.swiper-scrollbar',
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev"
       },
-      navigation: true,
-      on: {
-        autoplayTimeLeft(s, time, progress) {
-        }
-      }
     });
-
-    document.querySelector('.start').addEventListener('click', () => {
-      swiper.autoplay.start();
-    })
-    document.querySelector('.stop').addEventListener('click', () => {
-      swiper.autoplay.stop();
-    })
-
 
   </script>
 </body>
