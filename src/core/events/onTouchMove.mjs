@@ -124,7 +124,7 @@ export default function onTouchMove(event) {
       data.startMoving = true;
     }
   }
-  if (data.isScrolling || (swiper.zoom && swiper.params.zoom && swiper.params.zoom.enabled)) {
+  if (data.isScrolling) {
     data.isTouched = false;
     return;
   }
