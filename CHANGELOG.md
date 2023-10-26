@@ -1,5 +1,12 @@
 # Changelog
 
+# [11.0.3](https://github.com/nolimits4web/Swiper/compare/v11.0.2...v11.0.3) (2023-10-26)
+
+### Bug Fixes
+
+- **core:** fixed legacy condition preventing touch move when zoom enabled ([2f64043](https://github.com/nolimits4web/Swiper/commit/2f64043bc2abfe13a6b3a2a24b082c9627c20ee7)), closes [#7137](https://github.com/nolimits4web/Swiper/issues/7137)
+- **core:** prevent observer updates on loop fix ([7a5eacc](https://github.com/nolimits4web/Swiper/commit/7a5eaccb5e6ee1a867a3c2f30e9a44400e6c341c)), closes [#7135](https://github.com/nolimits4web/Swiper/issues/7135)
+
 # [11.0.2](https://github.com/nolimits4web/Swiper/compare/v11.0.1...v11.0.2) (2023-10-25)
 
 ### Bug Fixes
