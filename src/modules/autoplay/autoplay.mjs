@@ -18,6 +18,7 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
       stopOnLastSlide: false,
       reverseDirection: false,
       pauseOnMouseEnter: false,
+      disableAutoSlide: false,
     },
   });
   let timeout;
@@ -98,7 +99,10 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
     const speed = swiper.params.speed;
     const proceed = () => {
       if (!swiper || swiper.destroyed) return;
-      if (swiper.params.autoplay.reverseDirection) {
+      if(swiper.params.autoplay.disableAutoSlide){
+        stop()
+      }
+      else if (swiper.params.autoplay.reverseDirection) {
         if (!swiper.isBeginning || swiper.params.loop || swiper.params.rewind) {
           swiper.slidePrev(speed, true, true);
           emit('autoplay');
@@ -323,6 +327,9 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   });
 
   on('slideChange', () => {
+    if(swiper.params.autoplay.enabled && swiper.params.autoplay.disableAutoSlide && !swiper.autoplay.running){
+      start()
+    }
     if (swiper.destroyed || !swiper.autoplay.running) return;
     slideChanged = true;
   });
