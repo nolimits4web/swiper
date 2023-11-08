@@ -65,6 +65,15 @@ export default function EffectFlip({ swiper, extendParams, on }) {
         rotateY = -rotateY;
       }
 
+      if (swiper.browser && swiper.browser.isSafari) {
+        if ((Math.abs(rotateY) / 90) % 2 === 1) {
+          rotateY += 0.001;
+        }
+        if ((Math.abs(rotateX) / 90) % 2 === 1) {
+          rotateX += 0.001;
+        }
+      }
+
       slideEl.style.zIndex = -Math.abs(Math.round(progress)) + slides.length;
 
       if (params.slideShadows) {
