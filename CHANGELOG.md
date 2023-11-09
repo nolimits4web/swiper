@@ -1,5 +1,11 @@
 # Changelog
 
+# [11.0.4](https://github.com/nolimits4web/Swiper/compare/v11.0.3...v11.0.4) (2023-11-09)
+
+### Bug Fixes
+
+- **effectx:** fix Safari issue with rotates even to 90deg ([e005b69](https://github.com/nolimits4web/Swiper/commit/e005b699e7dbd7c343a56f19fca384b28c37cb97)), closes [#7167](https://github.com/nolimits4web/Swiper/issues/7167)
+
 # [11.0.3](https://github.com/nolimits4web/Swiper/compare/v11.0.2...v11.0.3) (2023-10-26)
 
 ### Bug Fixes
