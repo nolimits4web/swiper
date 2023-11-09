@@ -1,7 +1,13 @@
-.swiper-grid > .swiper-wrapper {
+.swiper-grid>.swiper-wrapper {
   flex-wrap: wrap;
 }
-.swiper-grid-column > .swiper-wrapper {
+
+.swiper-grid-column>.swiper-wrapper {
   flex-wrap: wrap;
   flex-direction: column;
+}
+
+.swiper-grid-row>.swiper-wrapper {
+  flex-wrap: wrap;
+  flex-direction: row;
 }
