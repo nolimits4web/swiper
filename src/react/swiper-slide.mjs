@@ -1,4 +1,4 @@
-import React, { useRef, useState, forwardRef } from 'react';
+import React, { useMemo, useRef, useState, forwardRef } from 'react';
 import { uniqueClasses } from '../components-shared/utils.mjs';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.mjs';
 import { SwiperSlideContext } from './context.mjs';
@@ -55,12 +55,12 @@ const SwiperSlide = forwardRef(
       }
     }, [swiper]);
 
-    const slideData = {
+    const slideData = useMemo(() => ({
       isActive: slideClasses.indexOf('swiper-slide-active') >= 0,
       isVisible: slideClasses.indexOf('swiper-slide-visible') >= 0,
       isPrev: slideClasses.indexOf('swiper-slide-prev') >= 0,
       isNext: slideClasses.indexOf('swiper-slide-next') >= 0,
-    };
+    }), [slideClasses]);
 
     const renderChildren = () => {
       return typeof children === 'function' ? children(slideData) : children;
