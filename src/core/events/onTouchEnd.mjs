@@ -108,6 +108,7 @@ export default function onTouchEnd(event) {
   }
 
   // Find current slide
+  const swipeToLast = currentPos >= -swiper.maxTranslate() && !swiper.params.loop;
   let stopIndex = 0;
   let groupSize = swiper.slidesSizesGrid[0];
   for (
@@ -117,11 +118,11 @@ export default function onTouchEnd(event) {
   ) {
     const increment = i < params.slidesPerGroupSkip - 1 ? 1 : params.slidesPerGroup;
     if (typeof slidesGrid[i + increment] !== 'undefined') {
-      if (currentPos >= slidesGrid[i] && currentPos < slidesGrid[i + increment]) {
+      if (swipeToLast || (currentPos >= slidesGrid[i] && currentPos < slidesGrid[i + increment])) {
         stopIndex = i;
         groupSize = slidesGrid[i + increment] - slidesGrid[i];
       }
-    } else if (currentPos >= slidesGrid[i]) {
+    } else if (swipeToLast || currentPos >= slidesGrid[i]) {
       stopIndex = i;
       groupSize = slidesGrid[slidesGrid.length - 1] - slidesGrid[slidesGrid.length - 2];
     }
