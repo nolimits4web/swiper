@@ -297,9 +297,7 @@ export default function A11y({ swiper, extendParams, on }) {
 
     // Pagination
     if (hasClickablePagination()) {
-      const paginationEl = Array.isArray(swiper.pagination.el)
-        ? swiper.pagination.el
-        : [swiper.pagination.el];
+      const paginationEl = makeElementsArray(swiper.pagination.el)
       paginationEl.forEach((el) => {
         el.addEventListener('keydown', onEnterOrSpaceKey);
       });
@@ -324,9 +322,7 @@ export default function A11y({ swiper, extendParams, on }) {
 
     // Pagination
     if (hasClickablePagination()) {
-      const paginationEl = Array.isArray(swiper.pagination.el)
-        ? swiper.pagination.el
-        : [swiper.pagination.el];
+      const paginationEl = makeElementsArray(swiper.pagination.el)
       paginationEl.forEach((el) => {
         el.removeEventListener('keydown', onEnterOrSpaceKey);
       });
