@@ -108,7 +108,7 @@ export default function onTouchEnd(event) {
   }
 
   // Find current slide
-  const swipeToLast = currentPos >= -swiper.maxTranslate();
+  const swipeToLast = currentPos >= -swiper.maxTranslate() && !swiper.params.loop;
   let stopIndex = 0;
   let groupSize = swiper.slidesSizesGrid[0];
   for (
