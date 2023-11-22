@@ -1,5 +1,16 @@
 # Changelog
 
+# [11.0.5](https://github.com/nolimits4web/Swiper/compare/v11.0.4...v11.0.5) (2023-11-22)
+
+### Bug Fixes
+
+- **core:** swipe to last with slidesPerView: auto ([#7183](https://github.com/nolimits4web/Swiper/issues/7183)) ([2e3f47d](https://github.com/nolimits4web/Swiper/commit/2e3f47d5fcd37707be18180f35c9955c0bcc915e))
+- **modules/a11y:** filter out falsy pagination elems ([#7201](https://github.com/nolimits4web/Swiper/issues/7201)) ([a044626](https://github.com/nolimits4web/Swiper/commit/a0446261bdbd9d538e31c02d3248d3bec0328c55))
+
+### Features
+
+- **core:** new `slidesUpdated` event ([8a0c7c4](https://github.com/nolimits4web/Swiper/commit/8a0c7c43ad5931d22a20a9b33152f6befc5bcb59))
+
 # [11.0.4](https://github.com/nolimits4web/Swiper/compare/v11.0.3...v11.0.4) (2023-11-09)
 
 ### Bug Fixes
