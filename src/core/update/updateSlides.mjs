@@ -315,6 +315,8 @@ export default function updateSlides() {
     swiper.updateSlidesOffset();
   }
 
+  swiper.emit('slidesUpdated');
+
   if (!isVirtual && !params.cssMode && (params.effect === 'slide' || params.effect === 'fade')) {
     const backFaceHiddenClass = `${params.containerModifierClass}backface-hidden`;
     const hasClassBackfaceClassAdded = swiper.el.classList.contains(backFaceHiddenClass);

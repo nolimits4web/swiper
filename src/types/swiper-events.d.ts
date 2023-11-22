@@ -64,6 +64,10 @@ export interface SwiperEvents {
   beforeDestroy: (swiper: Swiper) => void;
 
   /**
+   * Event will be fired after slides and their sizes are calculated and updated
+   */
+  slidesUpdated: (swiper: Swiper) => void;
+  /**
    * Event will be fired when currently active slide is changed
    */
   slideChange: (swiper: Swiper) => void;

@@ -196,6 +196,7 @@ const Swiper = {
     'scrollbarDragStart',
     'setTransition',
     'setTranslate',
+    'slidesUpdated',
     'slideChange',
     'slideChangeTransitionEnd',
     'slideChangeTransitionStart',
