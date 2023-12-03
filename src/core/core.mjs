@@ -337,17 +337,18 @@ class Swiper {
   }
 
   slidesPerViewDynamic(view = 'current', exact = false) {
+    console.log('debug');
     const swiper = this;
     const { params, slides, slidesGrid, slidesSizesGrid, size: swiperSize, activeIndex } = swiper;
     let spv = 1;
     if (typeof params.slidesPerView === 'number') return params.slidesPerView;
 
     if (params.centeredSlides) {
-      let slideSize = slides[activeIndex] ? slides[activeIndex].swiperSlideSize : 0;
+      let slideSize = slides[activeIndex] ? Math.ceil(slides[activeIndex].swiperSlideSize) : 0;
       let breakLoop;
       for (let i = activeIndex + 1; i < slides.length; i += 1) {
         if (slides[i] && !breakLoop) {
-          slideSize += slides[i].swiperSlideSize;
+          slideSize += Math.ceil(slides[i].swiperSlideSize);
           spv += 1;
           if (slideSize > swiperSize) breakLoop = true;
         }
