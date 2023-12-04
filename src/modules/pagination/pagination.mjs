@@ -257,8 +257,8 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       swiper.virtual && swiper.params.virtual.enabled
         ? swiper.virtual.slides.length
         : swiper.grid && swiper.params.grid.rows > 1
-        ? swiper.slides.length / Math.ceil(swiper.params.grid.rows)
-        : swiper.slides.length;
+          ? swiper.slides.length / Math.ceil(swiper.params.grid.rows)
+          : swiper.slides.length;
 
     let el = swiper.pagination.el;
     el = makeElementsArray(el);
@@ -345,10 +345,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       el = [...swiper.el.querySelectorAll(params.el)];
       // check if it belongs to another nested Swiper
       if (el.length > 1) {
-        el = el.filter((subEl) => {
-          if (elementParents(subEl, '.swiper')[0] !== swiper.el) return false;
-          return true;
-        })[0];
+        el = el.find((subEl) => elementParents(subEl, '.swiper')[0] === swiper.el);
       }
     }
     if (Array.isArray(el) && el.length === 1) el = el[0];

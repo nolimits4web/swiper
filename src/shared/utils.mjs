@@ -1,4 +1,4 @@
-import { getWindow, getDocument } from 'ssr-window';
+import { getDocument, getWindow } from 'ssr-window';
 import classesToTokens from './classes-to-tokens.mjs';
 
 function deleteProps(obj) {
@@ -205,6 +205,9 @@ function findElementsInElements(elements = [], selector = '') {
 function elementChildren(element, selector = '') {
   return [...element.children].filter((el) => el.matches(selector));
 }
+function elementChild(element, selector = '') {
+  return [...element.children].find((el) => el.matches(selector));
+}
 function showWarning(text) {
   try {
     console.warn(text);
@@ -319,26 +322,27 @@ function elementOuterSize(el, size, includeMargins) {
 
 export {
   animateCSSModeScroll,
+  createElement,
   deleteProps,
-  nextTick,
-  now,
-  getTranslate,
-  isObject,
+  elementChild,
+  elementChildren,
+  elementIndex,
+  elementNextAll,
+  elementOffset,
+  elementOuterSize,
+  elementParents,
+  elementPrevAll,
+  elementStyle,
+  elementTransitionEnd,
   extend,
-  getComputedStyle,
-  setCSSProperty,
-  getSlideTransformEl,
-  showWarning,
   // dom
   findElementsInElements,
-  createElement,
-  elementChildren,
-  elementOffset,
-  elementPrevAll,
-  elementNextAll,
-  elementStyle,
-  elementIndex,
-  elementParents,
-  elementTransitionEnd,
-  elementOuterSize,
+  getComputedStyle,
+  getSlideTransformEl,
+  getTranslate,
+  isObject,
+  nextTick,
+  now,
+  setCSSProperty,
+  showWarning,
 };
