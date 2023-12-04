@@ -1,27 +1,27 @@
-import { SwiperOptions } from './swiper-options';
-import Swiper from './swiper-class';
+import type { SwiperOptions } from './swiper-options.d.ts';
+import type Swiper from './swiper-class.d.ts';
 
-import { A11yEvents } from './modules/a11y';
-import { AutoplayEvents } from './modules/autoplay';
-import { ControllerEvents } from './modules/controller';
-import { CoverflowEffectEvents } from './modules/effect-coverflow';
-import { CubeEffectEvents } from './modules/effect-cube';
-import { FadeEffectEvents } from './modules/effect-fade';
-import { FlipEffectEvents } from './modules/effect-flip';
-import { CreativeEffectEvents } from './modules/effect-creative';
-import { CardsEffectEvents } from './modules/effect-cards';
-import { HashNavigationEvents } from './modules/hash-navigation';
-import { HistoryEvents } from './modules/history';
-import { KeyboardEvents } from './modules/keyboard';
-import { MousewheelEvents } from './modules/mousewheel';
-import { NavigationEvents } from './modules/navigation';
-import { PaginationEvents } from './modules/pagination';
-import { ParallaxEvents } from './modules/parallax';
-import { ScrollbarEvents } from './modules/scrollbar';
-import { ThumbsEvents } from './modules/thumbs';
-import { VirtualEvents } from './modules/virtual';
-import { ZoomEvents } from './modules/zoom';
-import { FreeModeEvents } from './modules/free-mode';
+import type { A11yEvents } from './modules/a11y.d.ts';
+import type { AutoplayEvents } from './modules/autoplay.d.ts';
+import type { ControllerEvents } from './modules/controller.d.ts';
+import type { CoverflowEffectEvents } from './modules/effect-coverflow.d.ts';
+import type { CubeEffectEvents } from './modules/effect-cube.d.ts';
+import type { FadeEffectEvents } from './modules/effect-fade.d.ts';
+import type { FlipEffectEvents } from './modules/effect-flip.d.ts';
+import type { CreativeEffectEvents } from './modules/effect-creative.d.ts';
+import type { CardsEffectEvents } from './modules/effect-cards.d.ts';
+import type { HashNavigationEvents } from './modules/hash-navigation.d.ts';
+import type { HistoryEvents } from './modules/history.d.ts';
+import type { KeyboardEvents } from './modules/keyboard.d.ts';
+import type { MousewheelEvents } from './modules/mousewheel.d.ts';
+import type { NavigationEvents } from './modules/navigation.d.ts';
+import type { PaginationEvents } from './modules/pagination.d.ts';
+import type { ParallaxEvents } from './modules/parallax.d.ts';
+import type { ScrollbarEvents } from './modules/scrollbar.d.ts';
+import type { ThumbsEvents } from './modules/thumbs.d.ts';
+import type { VirtualEvents } from './modules/virtual.d.ts';
+import type { ZoomEvents } from './modules/zoom.d.ts';
+import type { FreeModeEvents } from './modules/free-mode.d.ts';
 
 export interface SwiperEvents {
   // CORE_EVENTS_START
@@ -63,6 +63,10 @@ export interface SwiperEvents {
    */
   beforeDestroy: (swiper: Swiper) => void;
 
+  /**
+   * Event will be fired after slides and their sizes are calculated and updated
+   */
+  slidesUpdated: (swiper: Swiper) => void;
   /**
    * Event will be fired when currently active slide is changed
    */
@@ -109,42 +113,42 @@ export interface SwiperEvents {
   transitionEnd: (swiper: Swiper) => void;
 
   /**
-   * Event will be fired when user touch Swiper. Receives `touchstart` event as an arguments.
+   * Event will be fired when user touch Swiper. Receives `pointerdown` event as an arguments.
    */
   touchStart: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired when user touch and move finger over Swiper. Receives `touchmove` event as an arguments.
+   * Event will be fired when user touch and move finger over Swiper. Receives `pointermove` event as an arguments.
    */
   touchMove: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired when user touch and move finger over Swiper in direction opposite to direction parameter. Receives `touchmove` event as an arguments.
+   * Event will be fired when user touch and move finger over Swiper in direction opposite to direction parameter. Receives `pointermove` event as an arguments.
    */
   touchMoveOpposite: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired when user touch and move finger over Swiper and move it. Receives `touchmove` event as an arguments.
+   * Event will be fired when user touch and move finger over Swiper and move it. Receives `pointermove` event as an arguments.
    */
   sliderMove: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired when user release Swiper. Receives `touchend` event as an arguments.
+   * Event will be fired when user release Swiper. Receives `pointerup` event as an arguments.
    */
   touchEnd: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired when user click/tap on Swiper. Receives `touchend` event as an arguments.
+   * Event will be fired when user click/tap on Swiper. Receives `pointerup` event as an arguments.
    */
   click: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired when user click/tap on Swiper. Receives `touchend` event as an arguments.
+   * Event will be fired when user click/tap on Swiper. Receives `pointerup` event as an arguments.
    */
   tap: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 
   /**
-   * Event will be fired when user double tap on Swiper's container. Receives `touchend` event as an arguments
+   * Event will be fired when user double tap on Swiper's container. Receives `pointerup` event as an arguments
    */
   doubleTap: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
 

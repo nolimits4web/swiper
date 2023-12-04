@@ -12,8 +12,10 @@ export default async function buildTypes() {
   elapsed.start('types');
   let coreEventsReact = '';
   let coreEventsVue = '';
+  let coreEventsElement = '';
   let modulesEventsReact = '';
   let modulesEventsVue = '';
+  let modulesEventsElement = '';
 
   const replaceInstances = (content) => {
     return content
@@ -29,6 +31,25 @@ export default async function buildTypes() {
     coreEventsContent = coreEventsContent
       .split('// CORE_EVENTS_START')[1]
       .split('// CORE_EVENTS_END')[0];
+    coreEventsElement = coreEventsContent.replace(
+      / ([a-zA-Z_?]*): ([^;]*);/g,
+      (string, name, args) => {
+        if (
+          name.includes('_') ||
+          name.toLowerCase() === 'classnames' ||
+          name.toLowerCase() === 'index'
+        ) {
+          return '';
+        }
+        args = args
+          .replace('(', '')
+          .replace(')', '')
+          .split('=>')[0]
+          .replace('SwiperClass', 'Swiper')
+          .trim();
+        return ` ${name.toLowerCase()}: CustomEvent<[${args}]>;`;
+      },
+    );
     coreEventsReact = replaceInstances(
       coreEventsContent.replace(/ ([a-zA-Z]*): \(/g, (string, name) => {
         return ` on${name[0].toUpperCase()}${name.substr(1)}?: (`;
@@ -44,12 +65,24 @@ export default async function buildTypes() {
     const eventsFiles = await globby('src/types/modules/*.d.ts');
     await Promise.all(
       eventsFiles.map(async (eventsFile) => {
-        if (eventsFile.indexOf('public-api') > -1) {
+        if (eventsFile.indexOf('public-api') > -1 || eventsFile.indexOf('index') > -1) {
           return;
         }
         let eventsContent = await fs.readFile(eventsFile, 'utf-8');
         eventsContent = eventsContent.split('Events {')[1].split('}')[0].trim();
         if (eventsContent.length) {
+          modulesEventsElement += eventsContent.replace(
+            / ([a-zA-Z]*): ([^;]*);/g,
+            (string, name, args) => {
+              args = args
+                .replace('(', '')
+                .replace(')', '')
+                .split('=>')[0]
+                .replace('SwiperClass', 'Swiper')
+                .trim();
+              return ` ${name.toLowerCase()}: CustomEvent<[${args}]>;`;
+            },
+          );
           modulesEventsReact += replaceInstances(
             eventsContent.replace(/ ([a-zA-Z]*): \(/g, (string, name) => {
               return ` on${name[0].toUpperCase()}${name.substr(1)}?: (`;
@@ -86,7 +119,7 @@ export default async function buildTypes() {
         return fs.writeFile(destPath, content);
       };
       if (file.includes('swiper-element.d.ts')) {
-        return processTypingFile('', '');
+        return processTypingFile(coreEventsElement, modulesEventsElement);
       }
       if (file.includes('swiper-react.d.ts')) {
         return processTypingFile(coreEventsReact, modulesEventsReact);

@@ -5,14 +5,47 @@
   <meta charset="UTF-8" />
   <title>Swiper Playground</title>
   <meta name="viewport" content="width=device-width" />
+  <style>
+    html,
+    body {
+      position: relative;
+      height: 100%;
+    }
+
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+      margin: 0;
+      padding: 0;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
 </head>
 
 <body>
-  <section class="swiper">
-    <div class="swiper-pagination"></div>
-    <div class="swiper-scrollbar"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
+  <div class="swiper">
     <div class="swiper-wrapper">
       <div class="swiper-slide">Slide 1</div>
       <div class="swiper-slide">Slide 2</div>
@@ -21,56 +54,34 @@
       <div class="swiper-slide">Slide 5</div>
       <div class="swiper-slide">Slide 6</div>
       <div class="swiper-slide">Slide 7</div>
-      <div class="swiper-slide">Slide 8</div>
-      <div class="swiper-slide">Slide 9</div>
-      <div class="swiper-slide">Slide 10</div>
     </div>
-  </section>
-  <style>
-    body,
-    html {
-      padding: 0;
-      margin: 0;
-      position: relative;
-      height: 100%;
-    }
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+  </div>
 
-    .swiper {
-      width: 100%;
-      height: 300px;
-      margin: 50px auto;
-    }
 
-    .swiper-slide {
-      background: #f1f1f1;
-      color: #000;
-      text-align: center;
-      line-height: 300px;
-    }
-  </style>
   <script type="module">
-    // eslint-disable-next-line
+    // // eslint-disable-next-line
     import 'swiper/swiper-bundle.css';
 
-    // eslint-disable-next-line
-    import Swiper from 'swiper/swiper-bundle.esm.js';
+    // // eslint-disable-next-line
+    import Swiper from 'swiper/swiper-bundle.mjs';
 
-    // eslint-disable-next-line
-    window.swiper = new Swiper({
-      el: '.swiper',
-      speed: 300,
-      slidesPerView: 1,
-      scrollbar: {
-        el: '.swiper-scrollbar',
+    window.swiper = new Swiper(".swiper", {
+      slidesPerView: 5,
+      spaceBetween: 30,
+      loop: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true
       },
       navigation: {
-        prevEl: '.swiper-button-prev',
-        nextEl: '.swiper-button-next',
-      },
-      pagination: {
-        el: '.swiper-pagination',
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev"
       },
     });
+
   </script>
 </body>
 

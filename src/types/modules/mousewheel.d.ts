@@ -1,5 +1,5 @@
-import Swiper from '../swiper-class';
-import { CSSSelector } from '../shared';
+import type Swiper from '../swiper-class.d.ts';
+import type { CSSSelector } from '../shared.d.ts';
 
 export interface MousewheelMethods {
   /**
@@ -72,4 +72,11 @@ export interface MousewheelOptions {
    * @default null
    */
   thresholdTime?: number | null;
+
+  /**
+   * Scrolling on elements with this class will be ignored
+   *
+   * @default 'swiper-no-mousewheel'
+   */
+  noMousewheelClass?: string;
 }

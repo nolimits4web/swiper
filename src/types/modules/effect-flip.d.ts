@@ -1,5 +1,3 @@
-import { CSSSelector } from '../shared';
-
 export interface FlipEffectMethods {}
 
 export interface FlipEffectEvents {}

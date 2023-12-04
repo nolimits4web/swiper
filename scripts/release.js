@@ -2,7 +2,7 @@ import exec from 'exec-sh';
 import inquirer from 'inquirer';
 import fs from 'fs';
 import path from 'path';
-import rimraf from 'rimraf';
+import { rimraf } from 'rimraf';
 import * as url from 'url';
 
 const pkg = JSON.parse(fs.readFileSync(new URL('../package.json', import.meta.url)));

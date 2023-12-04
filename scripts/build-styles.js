@@ -11,6 +11,7 @@ import { banner } from './utils/banner.js';
 import config from './build-config.js';
 import { outputDir } from './utils/output-dir.js';
 import isProd from './utils/isProd.js';
+import { getSplittedCSS, proceedReplacements } from './utils/get-element-styles.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -48,6 +49,7 @@ const buildCSS = async ({ isBundle, modules, minified }) => {
       ? ''
       : modules.map((mod) => `@import url('./modules/${mod}/${mod}.less');`).join('\n'),
   );
+
   const cssContent = await autoprefixer(
     await less(lessContent, path.resolve(__dirname, '../src')),
   ).catch((err) => {
@@ -83,11 +85,17 @@ export default async function buildStyles() {
     );
     await Promise.all(
       files.map(async (file) => {
-        const distFilePath = path.resolve(__dirname, `../${outputDir}`, file);
+        let distFilePath = path.resolve(__dirname, `../${outputDir}`, file);
         const srcFilePath = path.resolve(__dirname, '../src', file);
         let distFileContent = await readSwiperFile(srcFilePath);
+        distFileContent = distFileContent.replace('../../swiper-vars', '../swiper-vars');
         if (file === 'swiper.scss' || file === 'swiper.less') {
           distFileContent = `${banner()}\n${distFileContent}`;
+        }
+        if (distFilePath.includes('/modules/') || distFilePath.includes('\\modules\\')) {
+          distFilePath = distFilePath
+            .replace(/modules\/([a-zA-Z0-9-]*)/, 'modules')
+            .replace(/modules\\([a-zA-Z0-9-]*)/, 'modules');
         }
         await fs.ensureDir(path.dirname(distFilePath));
         await fs.writeFile(distFilePath, distFileContent);
@@ -105,11 +113,14 @@ export default async function buildStyles() {
           throw new Error(`${filePath}: ${err}`);
         });
         const resultCSS = await autoprefixer(lessContent);
+        const resultCSSElement = proceedReplacements(getSplittedCSS(resultCSS).container);
         const resultFilePath = filePath.replace(/\.less$/, '');
         const minifiedCSS = await minifyCSS(resultCSS);
-        // not sure if needed. Possibly can produce a bug cause of the same naming
-        // await fs.writeFile(`${resultFilePath}.css`, resultCSS);
+        const minifiedCSSElement = await minifyCSS(resultCSSElement);
+        await fs.writeFile(`${resultFilePath}.css`, resultCSS);
+        await fs.writeFile(`${resultFilePath}-element.css`, resultCSSElement);
         await fs.writeFile(`${resultFilePath}.min.css`, minifiedCSS);
+        await fs.writeFile(`${resultFilePath}-element.min.css`, minifiedCSSElement);
       }),
     );
   }
