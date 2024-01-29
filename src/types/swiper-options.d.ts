@@ -101,6 +101,13 @@ export interface SwiperOptions {
   oneWayMovement?: boolean;
 
   /**
+   * The name of the swiper element node name; used for detecting web component rendering
+   *
+   * @default 'SWIPER-CONTAINER'
+   */
+  swiperElementNodeName?: string;
+
+  /**
    * Duration of transition between slides (in ms)
    *
    * @default 300
