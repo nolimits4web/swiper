@@ -643,7 +643,7 @@ export interface SwiperOptions {
    * Automatically adds blank slides if you use Grid or `slidesPerGroup` and the total amount of slides is not even to `slidesPerGroup` or to `grid.rows`
    *
    *
-   * @default false
+   * @default true
    *
    */
   loopAddBlankSlides?: boolean;
