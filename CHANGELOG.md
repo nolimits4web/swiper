@@ -1,5 +1,19 @@
 # Changelog
 
+# [11.0.6](https://github.com/nolimits4web/Swiper/compare/v11.0.5...v11.0.6) (2024-02-05)
+
+### Bug Fixes
+
+- add optional swiperElementNodeName param to allow more flexible web component usage ([#7284](https://github.com/nolimits4web/Swiper/issues/7284)) ([178511f](https://github.com/nolimits4web/Swiper/commit/178511fe8ac37b590b92ff081379074e340436fa))
+- fixed behavior where the combination of 'initialSlide:0' and 'slidesPerView:auto' would shift the first slide position ([e5c04c3](https://github.com/nolimits4web/Swiper/commit/e5c04c38e4261f4afb195bc15ea7417e7c1190dd)), closes [#7216](https://github.com/nolimits4web/Swiper/issues/7216)
+- Safari 3D fix for webview ([d42ce05](https://github.com/nolimits4web/Swiper/commit/d42ce05380c4a8f1848ad409b2ac8ed848723399)), closes [#7167](https://github.com/nolimits4web/Swiper/issues/7167)
+- **scrollbar:** correctly update scrollbar on changeDirection ([6bbb73d](https://github.com/nolimits4web/Swiper/commit/6bbb73d84f684e711250664d1eb7017b1b02ec3a)), closes [#7263](https://github.com/nolimits4web/Swiper/issues/7263)
+- SwiperOptions documentation for loopAddBlankSlides ([#7289](https://github.com/nolimits4web/Swiper/issues/7289)) ([cbc3dba](https://github.com/nolimits4web/Swiper/commit/cbc3dba7b4869c82f87c920e519f334fe9dc9880))
+
+### Features
+
+- **core:** prevent running .slideTo methods when Swiper is destroyed ([05f9c64](https://github.com/nolimits4web/Swiper/commit/05f9c6493081666f0458a67715271fc728827731)), closes [#7265](https://github.com/nolimits4web/Swiper/issues/7265)
+
 # [11.0.5](https://github.com/nolimits4web/Swiper/compare/v11.0.4...v11.0.5) (2023-11-22)
 
 ### Bug Fixes
