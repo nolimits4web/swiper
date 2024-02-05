@@ -124,7 +124,11 @@ export default function EffectCube({ swiper, extendParams, on }) {
       if (progress <= 1 && progress > -1) {
         wrapperRotate = slideIndex * 90 + progress * 90;
         if (rtl) wrapperRotate = -slideIndex * 90 - progress * 90;
-        if (swiper.browser && swiper.browser.isSafari && (Math.abs(wrapperRotate) / 90) % 2 === 1) {
+        if (
+          swiper.browser &&
+          swiper.browser.need3dFix &&
+          (Math.abs(wrapperRotate) / 90) % 2 === 1
+        ) {
           wrapperRotate += 0.001;
         }
       }
