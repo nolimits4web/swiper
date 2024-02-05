@@ -2,7 +2,7 @@
 export default function slidePrev(speed = this.params.speed, runCallbacks = true, internal) {
   const swiper = this;
   const { params, snapGrid, slidesGrid, rtlTranslate, enabled, animating } = swiper;
-  if (!enabled) return swiper;
+  if (!enabled || swiper.destroyed) return swiper;
   const isVirtual = swiper.virtual && params.virtual.enabled;
 
   if (params.loop) {

@@ -2,6 +2,7 @@ import { elementChildren, nextTick } from '../../shared/utils.mjs';
 
 export default function slideToClickedSlide() {
   const swiper = this;
+  if (swiper.destroyed) return;
   const { params, slidesEl } = swiper;
 
   const slidesPerView =

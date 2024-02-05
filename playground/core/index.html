@@ -58,6 +58,7 @@
     <div class="swiper-button-next"></div>
     <div class="swiper-button-prev"></div>
     <div class="swiper-pagination"></div>
+    <div class="swiper-scrollbar"></div>
   </div>
 
 
@@ -69,9 +70,11 @@
     import Swiper from 'swiper/swiper-bundle.mjs';
 
     window.swiper = new Swiper(".swiper", {
-      slidesPerView: 5,
-      spaceBetween: 30,
-      loop: true,
+      slidesPerView: 'auto',
+      // spaceBetween: 30,
+      scrollbar: {
+        el: '.swiper-scrollbar',
+      },
       pagination: {
         el: ".swiper-pagination",
         clickable: true

@@ -6,6 +6,7 @@ export default function slideToClosest(
   threshold = 0.5,
 ) {
   const swiper = this;
+  if (swiper.destroyed) return;
   let index = swiper.activeIndex;
   const skip = Math.min(swiper.params.slidesPerGroupSkip, index);
   const snapIndex = skip + Math.floor((index - skip) / swiper.params.slidesPerGroup);

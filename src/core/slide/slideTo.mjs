@@ -12,6 +12,7 @@ export default function slideTo(
   }
 
   const swiper = this;
+
   let slideIndex = index;
   if (slideIndex < 0) slideIndex = 0;
 
@@ -28,7 +29,8 @@ export default function slideTo(
 
   if (
     (swiper.animating && params.preventInteractionOnTransition) ||
-    (!enabled && !internal && !initial)
+    (!enabled && !internal && !initial) ||
+    swiper.destroyed
   ) {
     return false;
   }

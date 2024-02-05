@@ -10,6 +10,7 @@ export default function slideToLoop(
     index = indexAsNumber;
   }
   const swiper = this;
+  if (swiper.destroyed) return;
   const gridEnabled = swiper.grid && swiper.params.grid && swiper.params.grid.rows > 1;
   let newIndex = index;
   if (swiper.params.loop) {
