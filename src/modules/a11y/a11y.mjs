@@ -1,5 +1,5 @@
 import classesToSelector from '../../shared/classes-to-selector.mjs';
-import { createElement, elementIndex } from '../../shared/utils.mjs';
+import { createElement, elementIndex, makeElementsArray } from '../../shared/utils.mjs';
 
 export default function A11y({ swiper, extendParams, on }) {
   extendParams({
@@ -32,9 +32,6 @@ export default function A11y({ swiper, extendParams, on }) {
     notification.innerHTML = '';
     notification.innerHTML = message;
   }
-
-  const makeElementsArray = el =>
-    (Array.isArray(el) ? el : [el]).filter((e) => !!e)
 
   function getRandomNumber(size = 16) {
     const randomChar = () => Math.round(16 * Math.random()).toString(16);
@@ -297,7 +294,7 @@ export default function A11y({ swiper, extendParams, on }) {
 
     // Pagination
     if (hasClickablePagination()) {
-      const paginationEl = makeElementsArray(swiper.pagination.el)
+      const paginationEl = makeElementsArray(swiper.pagination.el);
       paginationEl.forEach((el) => {
         el.addEventListener('keydown', onEnterOrSpaceKey);
       });
@@ -322,7 +319,7 @@ export default function A11y({ swiper, extendParams, on }) {
 
     // Pagination
     if (hasClickablePagination()) {
-      const paginationEl = makeElementsArray(swiper.pagination.el)
+      const paginationEl = makeElementsArray(swiper.pagination.el);
       paginationEl.forEach((el) => {
         el.removeEventListener('keydown', onEnterOrSpaceKey);
       });

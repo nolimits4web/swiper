@@ -1,5 +1,5 @@
 import { getDocument } from 'ssr-window';
-import { createElement, elementOffset, nextTick } from '../../shared/utils.mjs';
+import { createElement, elementOffset, makeElementsArray, nextTick } from '../../shared/utils.mjs';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined.mjs';
 import classesToSelector from '../../shared/classes-to-selector.mjs';
 import classesToTokens from '../../shared/classes-to-tokens.mjs';
@@ -301,6 +301,17 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     disableDraggable();
   }
 
+  on('changeDirection', () => {
+    if (!swiper.scrollbar || !swiper.scrollbar.el) return;
+    const params = swiper.params.scrollbar;
+    let { el } = swiper.scrollbar;
+    el = makeElementsArray(el);
+    el.forEach((subEl) => {
+      subEl.classList.remove(params.horizontalClass, params.verticalClass);
+      subEl.classList.add(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
+    });
+  });
+
   on('init', () => {
     if (swiper.params.scrollbar.enabled === false) {
       // eslint-disable-next-line
@@ -311,7 +322,7 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
       setTranslate();
     }
   });
-  on('update resize observerUpdate lock unlock', () => {
+  on('update resize observerUpdate lock unlock changeDirection', () => {
     updateSize();
   });
   on('setTranslate', () => {

@@ -1,4 +1,5 @@
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined.mjs';
+import { makeElementsArray } from '../../shared/utils.mjs';
 
 export default function Navigation({ swiper, extendParams, on, emit }) {
   extendParams({
@@ -18,8 +19,6 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     nextEl: null,
     prevEl: null,
   };
-
-  const makeElementsArray = (el) => (Array.isArray(el) ? el : [el]).filter((e) => !!e);
 
   function getEl(el) {
     let res;
