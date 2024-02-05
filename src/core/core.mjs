@@ -337,7 +337,6 @@ class Swiper {
   }
 
   slidesPerViewDynamic(view = 'current', exact = false) {
-    console.log('debug');
     const swiper = this;
     const { params, slides, slidesGrid, slidesSizesGrid, size: swiperSize, activeIndex } = swiper;
     let spv = 1;
