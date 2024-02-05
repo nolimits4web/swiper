@@ -7,6 +7,7 @@ const paramsList = [
   'init',
   '_direction',
   'oneWayMovement',
+  'swiperElementNodeName',
   'touchEventsTarget',
   'initialSlide',
   '_speed',

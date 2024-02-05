@@ -2,6 +2,7 @@ export default {
   init: true,
   direction: 'horizontal',
   oneWayMovement: false,
+  swiperElementNodeName: 'SWIPER-CONTAINER',
   touchEventsTarget: 'wrapper',
   initialSlide: 0,
   speed: 300,
