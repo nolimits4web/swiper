@@ -1,36 +1,33 @@
 /* eslint no-param-reassign: "off" */
 import { getDocument } from 'ssr-window';
-import {
-  extend,
-  deleteProps,
-  createElement,
-  elementChildren,
-  elementStyle,
-  elementIndex,
-} from '../shared/utils.mjs';
-import { getSupport } from '../shared/get-support.mjs';
-import { getDevice } from '../shared/get-device.mjs';
 import { getBrowser } from '../shared/get-browser.mjs';
-
-import Resize from './modules/resize/resize.mjs';
-import Observer from './modules/observer/observer.mjs';
-
-import eventsEmitter from './events-emitter.mjs';
-
-import update from './update/index.mjs';
-import translate from './translate/index.mjs';
-import transition from './transition/index.mjs';
-import slide from './slide/index.mjs';
-import loop from './loop/index.mjs';
-import grabCursor from './grab-cursor/index.mjs';
-import events from './events/index.mjs';
+import { getDevice } from '../shared/get-device.mjs';
+import { getSupport } from '../shared/get-support.mjs';
+import { preload, processLazyPreloader } from '../shared/process-lazy-preloader.mjs';
+import {
+  createElement,
+  deleteProps,
+  elementChild,
+  elementChildren,
+  elementIndex,
+  elementStyle,
+  extend,
+} from '../shared/utils.mjs';
 import breakpoints from './breakpoints/index.mjs';
-import classes from './classes/index.mjs';
 import checkOverflow from './check-overflow/index.mjs';
-
+import classes from './classes/index.mjs';
 import defaults from './defaults.mjs';
+import eventsEmitter from './events-emitter.mjs';
+import events from './events/index.mjs';
+import grabCursor from './grab-cursor/index.mjs';
+import loop from './loop/index.mjs';
 import moduleExtendParams from './moduleExtendParams.mjs';
-import { processLazyPreloader, preload } from '../shared/process-lazy-preloader.mjs';
+import Observer from './modules/observer/observer.mjs';
+import Resize from './modules/resize/resize.mjs';
+import slide from './slide/index.mjs';
+import transition from './transition/index.mjs';
+import translate from './translate/index.mjs';
+import update from './update/index.mjs';
 
 const prototypes = {
   eventsEmitter,
@@ -254,9 +251,7 @@ class Swiper {
 
   getSlideIndexByData(index) {
     return this.getSlideIndex(
-      this.slides.filter(
-        (slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === index,
-      )[0],
+      this.slides.find((slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === index),
     );
   }
 
@@ -518,7 +513,7 @@ class Swiper {
         // Children needs to return slot items
         return res;
       }
-      return elementChildren(el, getWrapperSelector())[0];
+      return elementChild(el, getWrapperSelector());
     };
     // Find Wrapper
     let wrapperEl = getWrapper();

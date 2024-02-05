@@ -1,19 +1,15 @@
-import { createElement, elementChildren } from './utils.mjs';
+import { createElement, elementChild } from './utils.mjs';
 
 export default function createElementIfNotDefined(swiper, originalParams, params, checkProps) {
-  if (swiper.params.createElements) {
-    Object.keys(checkProps).forEach((key) => {
-      if (!params[key] && params.auto === true) {
-        let element = elementChildren(swiper.el, `.${checkProps[key]}`)[0];
-        if (!element) {
-          element = createElement('div', checkProps[key]);
-          element.className = checkProps[key];
-          swiper.el.append(element);
-        }
-        params[key] = element;
-        originalParams[key] = element;
-      }
-    });
-  }
+  if (!swiper.params.createElements) return params;
+  Object.entries(checkProps).forEach(([key, className]) => {
+    if (!params[key] && params.auto === true) {
+      const element = elementChild(swiper.el, `.${className}`) || createElement('div', className);
+      element.className = className;
+      swiper.el.append(element);
+
+      params[key] = originalParams[key] = element;
+    }
+  });
   return params;
 }

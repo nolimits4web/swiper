@@ -20,9 +20,9 @@ export default function slideToLoop(
       let targetSlideIndex;
       if (gridEnabled) {
         const slideIndex = newIndex * swiper.params.grid.rows;
-        targetSlideIndex = swiper.slides.filter(
+        targetSlideIndex = swiper.slides.find(
           (slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === slideIndex,
-        )[0].column;
+        ).column;
       } else {
         targetSlideIndex = swiper.getSlideIndexByData(newIndex);
       }
@@ -51,8 +51,8 @@ export default function slideToLoop(
             ? 'prev'
             : 'next'
           : targetSlideIndex - swiper.activeIndex - 1 < swiper.params.slidesPerView
-          ? 'next'
-          : 'prev';
+            ? 'next'
+            : 'prev';
         swiper.loopFix({
           direction,
           slideTo: true,
@@ -64,9 +64,9 @@ export default function slideToLoop(
 
       if (gridEnabled) {
         const slideIndex = newIndex * swiper.params.grid.rows;
-        newIndex = swiper.slides.filter(
+        newIndex = swiper.slides.find(
           (slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === slideIndex,
-        )[0].column;
+        ).column;
       } else {
         newIndex = swiper.getSlideIndexByData(newIndex);
       }

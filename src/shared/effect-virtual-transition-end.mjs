@@ -10,10 +10,9 @@ export default function effectVirtualTransitionEnd({
   const getSlide = (el) => {
     if (!el.parentElement) {
       // assume shadow root
-      const slide = swiper.slides.filter(
+      return swiper.slides.find(
         (slideEl) => slideEl.shadowRoot && slideEl.shadowRoot === el.parentNode,
-      )[0];
-      return slide;
+      );
     }
     return el.parentElement;
   };

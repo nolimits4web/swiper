@@ -1,5 +1,6 @@
 import { getWindow } from 'ssr-window';
 import {
+  elementChild,
   elementChildren,
   elementOffset,
   elementParents,
@@ -144,7 +145,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
 
       let imageEl = gesture.slideEl.querySelector(`.${params.containerClass}`);
       if (imageEl) {
-        imageEl = imageEl.querySelectorAll('picture, img, svg, canvas, .swiper-zoom-target')[0];
+        imageEl = imageEl.querySelector('picture, img, svg, canvas, .swiper-zoom-target');
       }
       gesture.imageEl = imageEl;
       if (imageEl) {
@@ -534,13 +535,13 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
 
     if (!gesture.slideEl) {
       if (swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual) {
-        gesture.slideEl = elementChildren(swiper.slidesEl, `.${swiper.params.slideActiveClass}`)[0];
+        gesture.slideEl = elementChild(swiper.slidesEl, `.${swiper.params.slideActiveClass}`);
       } else {
         gesture.slideEl = swiper.slides[swiper.activeIndex];
       }
       let imageEl = gesture.slideEl.querySelector(`.${params.containerClass}`);
       if (imageEl) {
-        imageEl = imageEl.querySelectorAll('picture, img, svg, canvas, .swiper-zoom-target')[0];
+        imageEl = imageEl.querySelector('picture, img, svg, canvas, .swiper-zoom-target');
       }
       gesture.imageEl = imageEl;
       if (imageEl) {
