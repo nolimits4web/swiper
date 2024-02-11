@@ -11,6 +11,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
   extendParams({
     zoom: {
       enabled: false,
+      limitToOriginalSize: false,
       maxRatio: 3,
       minRatio: 1,
       toggle: true,
@@ -87,6 +88,16 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     return distance;
   }
 
+  function getMaxRatio() {
+    const params = swiper.params.zoom;
+    const maxRatio = gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
+    if (params.limitToOriginalSize && gesture.imageEl.naturalWidth) {
+      const imageMaxRatio = gesture.imageEl.naturalWidth / gesture.imageEl.offsetWidth;
+      return Math.min(imageMaxRatio, maxRatio);
+    }
+    return maxRatio;
+  }
+
   function getScaleOrigin() {
     if (evCache.length < 2) return { x: null, y: null };
     const box = gesture.imageEl.getBoundingClientRect();
@@ -158,7 +169,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
         return;
       }
 
-      gesture.maxRatio = gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
+      gesture.maxRatio = getMaxRatio();
     }
     if (gesture.imageEl) {
       const [originX, originY] = getScaleOrigin();
@@ -476,10 +487,9 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       touchY = undefined;
     }
 
-    zoom.scale =
-      forceZoomRatio || gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
-    currentScale =
-      forceZoomRatio || gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
+    const maxRatio = getMaxRatio();
+    zoom.scale = forceZoomRatio || maxRatio;
+    currentScale = forceZoomRatio || maxRatio;
 
     if (e && !(currentScale === 1 && forceZoomRatio)) {
       slideWidth = gesture.slideEl.offsetWidth;
