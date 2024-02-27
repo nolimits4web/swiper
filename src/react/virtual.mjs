@@ -34,7 +34,7 @@ function renderVirtual(swiper, slides, virtualData) {
     return React.cloneElement(child, {
       swiper,
       style,
-      key: `slide-${index}`,
+      key: child.props.virtualIndex || child.key || `slide-${index}`,
     });
   });
 }
