@@ -11,6 +11,10 @@
       "types": "./swiper.d.ts",
       "default": "./swiper.mjs"
     },
+    "./effect-utils": {
+      "types": "./swiper-effect-utils.d.ts",
+      "default": "./swiper-effect-utils.mjs"
+    },
     "./core": {
       "types": "./swiper.d.ts",
       "default": "./swiper.mjs"
