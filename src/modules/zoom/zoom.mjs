@@ -91,7 +91,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
   function getMaxRatio() {
     const params = swiper.params.zoom;
     const maxRatio = gesture.imageWrapEl.getAttribute('data-swiper-zoom') || params.maxRatio;
-    if (params.limitToOriginalSize && gesture.imageEl.naturalWidth) {
+    if (params.limitToOriginalSize && gesture.imageEl && gesture.imageEl.naturalWidth) {
       const imageMaxRatio = gesture.imageEl.naturalWidth / gesture.imageEl.offsetWidth;
       return Math.min(imageMaxRatio, maxRatio);
     }
