@@ -1,5 +1,18 @@
 # Changelog
 
+# [11.0.7](https://github.com/nolimits4web/Swiper/compare/v11.0.6...v11.0.7) (2024-02-27)
+
+### Bug Fixes
+
+- **core:** fix initial slide index shift with centeredSlides and slidesPerView auto ([#7319](https://github.com/nolimits4web/Swiper/issues/7319)) ([cae9c2d](https://github.com/nolimits4web/Swiper/commit/cae9c2dc192dafc0f35cb03e919dd1151dca88da))
+- **history:** fix setting history in virtual slides ([d4de17b](https://github.com/nolimits4web/Swiper/commit/d4de17b278b57760cfc9953d1da7892b44f0fc22)), closes [#7327](https://github.com/nolimits4web/Swiper/issues/7327)
+- **react:** make sure the key is unique in virtual mode ([829a253](https://github.com/nolimits4web/Swiper/commit/829a2536b5d4f4ed86cb31d9c73d4d9b3be656c3)), closes [#7329](https://github.com/nolimits4web/Swiper/issues/7329)
+
+### Features
+
+- add swiper-effect-utils ([df5f873](https://github.com/nolimits4web/Swiper/commit/df5f8731b795419534420bf4d567c75bfd475656)), closes [#7336](https://github.com/nolimits4web/Swiper/issues/7336)
+- **zoom:** add ability to constrain max zoom to 100% of original image size ([#7311](https://github.com/nolimits4web/Swiper/issues/7311)) ([645f266](https://github.com/nolimits4web/Swiper/commit/645f266c6b8dea5d43e14cace925ad86236ecc75))
+
 # [11.0.6](https://github.com/nolimits4web/Swiper/compare/v11.0.5...v11.0.6) (2024-02-05)
 
 ### Bug Fixes
