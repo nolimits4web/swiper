@@ -206,11 +206,11 @@ export interface SwiperOptions {
   uniqueNavElements?: boolean;
 
   /**
-   * Transition effect. Can be `'slide'`, `'fade'`, `'cube'`, `'coverflow'`, `'flip'` or `'creative'`
+   * Transition effect. Can be `'slide'`, `'fade'`, `'cube'`, `'coverflow'`, `'flip'`, `'creative'` or `'cards'`
    *
    * @default 'slide'
    */
-  effect?: 'slide' | 'fade' | 'cube' | 'coverflow' | 'flip' | 'creative' | 'cards' | string;
+  effect?: 'slide' | 'fade' | 'cube' | 'coverflow' | 'flip' | 'creative' | 'cards';
 
   /**
    * Fire Transition/SlideChange/Start/End events on swiper initialization.
@@ -741,7 +741,7 @@ export interface SwiperOptions {
    *
    * @default 'window'
    */
-  breakpointsBase?: string;
+  breakpointsBase?: 'window' | 'container';
 
   // Observer
   /**
