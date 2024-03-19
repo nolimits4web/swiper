@@ -206,7 +206,7 @@ export interface SwiperOptions {
   uniqueNavElements?: boolean;
 
   /**
-   * Transition effect. Can be `'slide'`, `'fade'`, `'cube'`, `'coverflow'`, `'flip'` or `'creative'`
+   * Transition effect. Can be `'slide'`, `'fade'`, `'cube'`, `'coverflow'`, `'flip'`, `'creative'` or `'cards'`
    *
    * @default 'slide'
    */
@@ -741,7 +741,7 @@ export interface SwiperOptions {
    *
    * @default 'window'
    */
-  breakpointsBase?: string;
+  breakpointsBase?: 'window' | 'container';
 
   // Observer
   /**
