@@ -13,9 +13,6 @@ export default function updateSlidesClasses() {
       `.${params.slideClass}${selector}, swiper-slide${selector}`,
     )[0];
   };
-  slides.forEach((slideEl) => {
-    slideEl.classList.remove(params.slideActiveClass, params.slideNextClass, params.slidePrevClass);
-  });
 
   let activeSlide;
   let prevSlide;
@@ -38,25 +35,13 @@ export default function updateSlidesClasses() {
       activeSlide = slides[activeIndex];
     }
   }
-  if (activeSlide) {
-    // Active classes
-    activeSlide.classList.add(params.slideActiveClass);
 
-    if (gridEnabled) {
-      if (nextSlide) {
-        nextSlide.classList.add(params.slideNextClass);
-      }
-      if (prevSlide) {
-        prevSlide.classList.add(params.slidePrevClass);
-      }
-    } else {
+  if (activeSlide) {
+    if (!gridEnabled) {
       // Next Slide
       nextSlide = elementNextAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
       if (params.loop && !nextSlide) {
         nextSlide = slides[0];
-      }
-      if (nextSlide) {
-        nextSlide.classList.add(params.slideNextClass);
       }
 
       // Prev Slide
@@ -64,11 +49,31 @@ export default function updateSlidesClasses() {
       if (params.loop && !prevSlide === 0) {
         prevSlide = slides[slides.length - 1];
       }
-      if (prevSlide) {
-        prevSlide.classList.add(params.slidePrevClass);
-      }
     }
   }
+  
+  slides.forEach((slideEl) => {
+    const isActiveSlide = slideEl === activeSlide;
+    if(isActiveSlide) {
+      slideEl.classList.add(params.slideActiveClass);
+    } else {
+      slideEl.classList.remove(params.slideActiveClass);
+    }
+
+    const isNextSlide = activeSlide && slideEl === nextSlide;
+    if(isNextSlide) {
+      slideEl.classList.add(params.slideNextClass);
+    } else {
+      slideEl.classList.remove(params.slideNextClass);
+    }
+
+    const isPrevSlide = activeSlide && slideEl === prevSlide;
+    if(isPrevSlide) {
+      slideEl.classList.add(params.slidePrevClass);
+    } else {
+      slideEl.classList.remove(params.slidePrevClass);
+    }
+  });
 
   swiper.emitSlidesClasses();
 }
