@@ -255,8 +255,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     if (!image.isTouched || !gesture.slideEl) return;
 
     if (!image.isMoved) {
-      image.width = gesture.imageEl.offsetWidth;
-      image.height = gesture.imageEl.offsetHeight;
+      image.width = gesture.imageEl.offsetWidth || gesture.imageEl.clientWidth;
+      image.height = gesture.imageEl.offsetHeight || gesture.imageEl.clientHeight;
       image.startX = getTranslate(gesture.imageWrapEl, 'x') || 0;
       image.startY = getTranslate(gesture.imageWrapEl, 'y') || 0;
       gesture.slideWidth = gesture.slideEl.offsetWidth;
@@ -315,7 +315,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     const scaleRatio =
       (zoom.scale - currentScale) / (gesture.maxRatio - swiper.params.zoom.minRatio);
     const { originX, originY } = gesture;
-
+    console.log(image);
     image.currentX =
       image.touchesCurrent.x -
       image.touchesStart.x +
@@ -499,8 +499,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       diffX = offsetX + slideWidth / 2 - touchX;
       diffY = offsetY + slideHeight / 2 - touchY;
 
-      imageWidth = gesture.imageEl.offsetWidth;
-      imageHeight = gesture.imageEl.offsetHeight;
+      imageWidth = gesture.imageEl.offsetWidth || gesture.imageEl.clientWidth;
+      imageHeight = gesture.imageEl.offsetHeight || gesture.imageEl.clientHeight;
       scaledWidth = imageWidth * zoom.scale;
       scaledHeight = imageHeight * zoom.scale;
 
