@@ -1,3 +1,4 @@
+import { getDocument } from 'ssr-window';
 import classesToSelector from '../../shared/classes-to-selector.mjs';
 import { createElement, elementIndex, makeElementsArray } from '../../shared/utils.mjs';
 
@@ -25,6 +26,9 @@ export default function A11y({ swiper, extendParams, on }) {
   };
 
   let liveRegion = null;
+  let preventFocusHandler;
+  let focusTargetSlideEl;
+  let visibilityChangedTimestamp = new Date().getTime();
 
   function notify(message) {
     const notification = liveRegion;
@@ -205,10 +209,19 @@ export default function A11y({ swiper, extendParams, on }) {
     addElLabel(el, message);
     addElControls(el, wrapperId);
   };
-  const handlePointerDown = () => {
+
+  const handlePointerDown = (e) => {
+    if (
+      focusTargetSlideEl &&
+      focusTargetSlideEl !== e.target &&
+      !focusTargetSlideEl.contains(e.target)
+    ) {
+      preventFocusHandler = true;
+    }
     swiper.a11y.clicked = true;
   };
   const handlePointerUp = () => {
+    preventFocusHandler = false;
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         if (!swiper.destroyed) {
@@ -218,10 +231,17 @@ export default function A11y({ swiper, extendParams, on }) {
     });
   };
 
+  const onVisibilityChange = (e) => {
+    visibilityChangedTimestamp = new Date().getTime();
+  };
+
   const handleFocus = (e) => {
     if (swiper.a11y.clicked) return;
+    if (new Date().getTime() - visibilityChangedTimestamp < 100) return;
+
     const slideEl = e.target.closest(`.${swiper.params.slideClass}, swiper-slide`);
     if (!slideEl || !swiper.slides.includes(slideEl)) return;
+    focusTargetSlideEl = slideEl;
     const isActive = swiper.slides.indexOf(slideEl) === swiper.activeIndex;
     const isVisible =
       swiper.params.watchSlidesProgress &&
@@ -234,7 +254,11 @@ export default function A11y({ swiper, extendParams, on }) {
     } else {
       swiper.el.scrollTop = 0;
     }
-    swiper.slideTo(swiper.slides.indexOf(slideEl), 0);
+    requestAnimationFrame(() => {
+      if (preventFocusHandler) return;
+      swiper.slideTo(swiper.slides.indexOf(slideEl), 0);
+      preventFocusHandler = false;
+    });
   };
 
   const initSlides = () => {
@@ -305,6 +329,9 @@ export default function A11y({ swiper, extendParams, on }) {
     }
 
     // Tab focus
+    const document = getDocument();
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    swiper.el.addEventListener('focus', handleFocus, true);
     swiper.el.addEventListener('focus', handleFocus, true);
     swiper.el.addEventListener('pointerdown', handlePointerDown, true);
     swiper.el.addEventListener('pointerup', handlePointerUp, true);
@@ -329,6 +356,8 @@ export default function A11y({ swiper, extendParams, on }) {
       });
     }
 
+    const document = getDocument();
+    document.removeEventListener('visibilitychange', onVisibilityChange);
     // Tab focus
     swiper.el.removeEventListener('focus', handleFocus, true);
     swiper.el.removeEventListener('pointerdown', handlePointerDown, true);
