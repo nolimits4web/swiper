@@ -1,5 +1,21 @@
 # Changelog
 
+# [11.1.0](https://github.com/nolimits4web/Swiper/compare/v11.0.7...v11.1.0) (2024-03-28)
+
+### Bug Fixes
+
+- **a11y:** fixed issue with not working "enter" navigation on arrows ([aac2dcf](https://github.com/nolimits4web/Swiper/commit/aac2dcfc4cf6ddcef93933c75d3eab984f149a18)), closes [#7423](https://github.com/nolimits4web/Swiper/issues/7423)
+- **a11y:** prevent falsy focus handlers ([a7c260a](https://github.com/nolimits4web/Swiper/commit/a7c260a9d93405a0adce304b4ccf4f5309dfedda)), closes [#7406](https://github.com/nolimits4web/Swiper/issues/7406)
+- **core:** add/remove slide classes only when changed ([3312fba](https://github.com/nolimits4web/Swiper/commit/3312fba06de686e48cf0c138ea7bba20fc7842e5)), closes [#7356](https://github.com/nolimits4web/Swiper/issues/7356)
+- **core:** don't fix the loop on simple resize ([641793f](https://github.com/nolimits4web/Swiper/commit/641793ff459527c4c1efc9f72b447b87c8939f5f)), closes [#7325](https://github.com/nolimits4web/Swiper/issues/7325)
+- **core:** fixed thrown error on calling slideTo methods on destroyed swiper ([8c6a3c6](https://github.com/nolimits4web/Swiper/commit/8c6a3c6f63915db82415e2d7829ece6c624ace1e)), closes [#7416](https://github.com/nolimits4web/Swiper/issues/7416)
+- **core:** handle grabCursor within breakpoints ([e853908](https://github.com/nolimits4web/Swiper/commit/e853908c2ff93dc944ba045c9c0fce83efe46288)), closes [#7364](https://github.com/nolimits4web/Swiper/issues/7364)
+- **core:** reset animating flag on translateTo call ([7da50bf](https://github.com/nolimits4web/Swiper/commit/7da50bf1bcfe86f5af646e7d53c7d0414211da60)), closes [#7403](https://github.com/nolimits4web/Swiper/issues/7403)
+- **scrollbar:** fix warning ([e5371f7](https://github.com/nolimits4web/Swiper/commit/e5371f7656c4e828d87e7497edc73f9b6311f91d)), closes [#7415](https://github.com/nolimits4web/Swiper/issues/7415)
+- **thumbs:** fix thumbs .swiper type prop to accept string ([5b0fa84](https://github.com/nolimits4web/Swiper/commit/5b0fa84ac14022dd1ca39d387267a8d9125cb13a)), closes [#7421](https://github.com/nolimits4web/Swiper/issues/7421)
+- **virtual:** don't render first slides when initialSlide set ([bab9230](https://github.com/nolimits4web/Swiper/commit/bab92305c5a69b9b9f33615fa5df61fbfda39700)), closes [#7353](https://github.com/nolimits4web/Swiper/issues/7353)
+- **zoom:** fix panning on SVG elements ([eed8a5b](https://github.com/nolimits4web/Swiper/commit/eed8a5bf727163cf2da343490c09fc248b658e5e)), closes [#7352](https://github.com/nolimits4web/Swiper/issues/7352)
+
 # [11.0.7](https://github.com/nolimits4web/Swiper/compare/v11.0.6...v11.0.7) (2024-02-27)
 
 ### Bug Fixes
