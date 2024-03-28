@@ -315,7 +315,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     const scaleRatio =
       (zoom.scale - currentScale) / (gesture.maxRatio - swiper.params.zoom.minRatio);
     const { originX, originY } = gesture;
-    console.log(image);
+
     image.currentX =
       image.touchesCurrent.x -
       image.touchesStart.x +
