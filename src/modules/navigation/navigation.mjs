@@ -31,6 +31,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
       if (
         swiper.params.uniqueNavElements &&
         typeof el === 'string' &&
+        res &&
         res.length > 1 &&
         swiper.el.querySelectorAll(el).length === 1
       ) {
