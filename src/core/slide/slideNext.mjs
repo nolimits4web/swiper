@@ -1,8 +1,11 @@
 /* eslint no-unused-vars: "off" */
-export default function slideNext(speed = this.params.speed, runCallbacks = true, internal) {
+export default function slideNext(speed, runCallbacks = true, internal) {
   const swiper = this;
   const { enabled, params, animating } = swiper;
   if (!enabled || swiper.destroyed) return swiper;
+  if (typeof speed === 'undefined') {
+    speed = swiper.params.speed;
+  }
   let perGroup = params.slidesPerGroup;
   if (params.slidesPerView === 'auto' && params.slidesPerGroup === 1 && params.slidesPerGroupAuto) {
     perGroup = Math.max(swiper.slidesPerViewDynamic('current', true), 1);

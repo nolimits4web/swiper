@@ -1,9 +1,4 @@
-export default function slideToLoop(
-  index = 0,
-  speed = this.params.speed,
-  runCallbacks = true,
-  internal,
-) {
+export default function slideToLoop(index = 0, speed, runCallbacks = true, internal) {
   if (typeof index === 'string') {
     const indexAsNumber = parseInt(index, 10);
 
@@ -11,6 +6,11 @@ export default function slideToLoop(
   }
   const swiper = this;
   if (swiper.destroyed) return;
+
+  if (typeof speed === 'undefined') {
+    speed = swiper.params.speed;
+  }
+
   const gridEnabled = swiper.grid && swiper.params.grid && swiper.params.grid.rows > 1;
   let newIndex = index;
   if (swiper.params.loop) {

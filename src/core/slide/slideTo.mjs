@@ -1,12 +1,6 @@
 import { animateCSSModeScroll } from '../../shared/utils.mjs';
 
-export default function slideTo(
-  index = 0,
-  speed = this.params.speed,
-  runCallbacks = true,
-  internal,
-  initial,
-) {
+export default function slideTo(index = 0, speed, runCallbacks = true, internal, initial) {
   if (typeof index === 'string') {
     index = parseInt(index, 10);
   }
@@ -28,11 +22,14 @@ export default function slideTo(
   } = swiper;
 
   if (
-    (swiper.animating && params.preventInteractionOnTransition) ||
     (!enabled && !internal && !initial) ||
-    swiper.destroyed
+    swiper.destroyed ||
+    (swiper.animating && params.preventInteractionOnTransition)
   ) {
     return false;
+  }
+  if (typeof speed === 'undefined') {
+    speed = swiper.params.speed;
   }
 
   const skip = Math.min(swiper.params.slidesPerGroupSkip, slideIndex);
