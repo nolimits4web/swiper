@@ -35,7 +35,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
         swiper.el.querySelectorAll(el).length === 1
       ) {
         res = swiper.el.querySelector(el);
-      } else if (res.length === 1) {
+      } else if (res && res.length === 1) {
         res = res[0];
       }
     }
