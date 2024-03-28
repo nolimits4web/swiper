@@ -35,6 +35,8 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
         swiper.el.querySelectorAll(el).length === 1
       ) {
         res = swiper.el.querySelector(el);
+      } else if (res.length === 1) {
+        res = res[0];
       }
     }
     if (el && !res) return el;
@@ -95,11 +97,11 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
 
     let nextEl = getEl(params.nextEl);
     let prevEl = getEl(params.prevEl);
-
     Object.assign(swiper.navigation, {
       nextEl,
       prevEl,
     });
+    return;
     nextEl = makeElementsArray(nextEl);
     prevEl = makeElementsArray(prevEl);
 
