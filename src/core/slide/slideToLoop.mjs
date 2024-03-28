@@ -43,9 +43,14 @@ export default function slideToLoop(index = 0, speed, runCallbacks = true, inter
         }
       }
       let needLoopFix = cols - targetSlideIndex < slidesPerView;
+
       if (centeredSlides) {
         needLoopFix = needLoopFix || targetSlideIndex < Math.ceil(slidesPerView / 2);
       }
+      if (internal && centeredSlides && swiper.params.slidesPerView !== 'auto' && !gridEnabled) {
+        needLoopFix = false;
+      }
+
       if (needLoopFix) {
         const direction = centeredSlides
           ? targetSlideIndex < swiper.activeIndex
