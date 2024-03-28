@@ -177,7 +177,7 @@ export default function Scrollbar({ swiper, extendParams, on, emit }) {
     const { el, dragEl } = scrollbar;
 
     if (!isTouched) return;
-    if (e.preventDefault) e.preventDefault();
+    if (e.preventDefault && e.cancelable) e.preventDefault();
     else e.returnValue = false;
     setDragPosition(e);
     wrapperEl.style.transitionDuration = '0ms';
