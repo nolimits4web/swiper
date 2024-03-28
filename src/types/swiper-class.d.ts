@@ -215,7 +215,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    * @param runCallbacks Set it to false (by default it is true) and transition will
    *  not produce transition events.
    */
-  slideNext(speed?: number, runCallbacks?: boolean): void;
+  slideNext(speed?: number, runCallbacks?: boolean): boolean;
 
   /**
    * Run transition to previous slide.
@@ -224,7 +224,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    * @param runCallbacks Set it to false (by default it is true) and transition will
    *  not produce transition events.
    */
-  slidePrev(speed?: number, runCallbacks?: boolean): void;
+  slidePrev(speed?: number, runCallbacks?: boolean): boolean;
 
   /**
    * Run transition to the slide with index number equal to 'index' parameter for the
@@ -235,7 +235,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    * @param runCallbacks Set it to false (by default it is true) and transition will
    *  not produce transition events.
    */
-  slideTo(index: number, speed?: number, runCallbacks?: boolean): void;
+  slideTo(index: number, speed?: number, runCallbacks?: boolean): boolean;
 
   /**
    * Does the same as .slideTo but for the case when used with enabled loop. So this
@@ -246,7 +246,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    * @param runCallbacks Set it to false (by default it is true) and transition will
    *  not produce transition events.
    */
-  slideToLoop(index: number, speed?: number, runCallbacks?: boolean): void;
+  slideToLoop(index: number, speed?: number, runCallbacks?: boolean): Swiper;
 
   /**
    * Reset swiper position to currently active slide for the duration equal to 'speed'
@@ -256,7 +256,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    * @param runCallbacks Set it to false (by default it is true) and transition will
    *  not produce transition events.
    */
-  slideReset(speed?: number, runCallbacks?: boolean): void;
+  slideReset(speed?: number, runCallbacks?: boolean): boolean;
 
   /**
    * Reset swiper position to closest slide/snap point for the duration equal to 'speed' parameter.
@@ -265,7 +265,7 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    * @param runCallbacks Set it to false (by default it is true) and transition will
    *  not produce transition events.
    */
-  slideToClosest(speed?: number, runCallbacks?: boolean): void;
+  slideToClosest(speed?: number, runCallbacks?: boolean): boolean;
 
   /**
    * Get dynamically calculated amount of slides per view, useful only when slidesPerView set to `auto`
