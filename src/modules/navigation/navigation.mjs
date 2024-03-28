@@ -101,7 +101,6 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
       nextEl,
       prevEl,
     });
-    return;
     nextEl = makeElementsArray(nextEl);
     prevEl = makeElementsArray(prevEl);
 
