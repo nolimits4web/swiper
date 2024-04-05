@@ -18,8 +18,13 @@ function getChildren(originalSlots = {}, slidesRef, oldSlidesRef) {
       if (isFragment && vnode.children) {
         getSlidesFromElements(vnode.children, slotName);
       } else if (
-        vnode.type &&
-        (vnode.type.name === 'SwiperSlide' || vnode.type.name === 'AsyncComponentWrapper')
+        (
+          vnode.type &&
+          (vnode.type.name === 'SwiperSlide' || vnode.type.name === 'AsyncComponentWrapper')
+        ) ||
+        (
+          vnode.componentOptions && (vnode.componentOptions.tag === 'SwiperSlide')
+        )
       ) {
         slides.push(vnode);
       } else if (slots[slotName]) {
