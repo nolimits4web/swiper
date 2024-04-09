@@ -124,7 +124,7 @@ export default function onTouchMove(event) {
       data.startMoving = true;
     }
   }
-  if (data.isScrolling) {
+  if (data.isScrolling || (e.type === 'touchmove' && data.preventTouchMoveFromPointerMove)) {
     data.isTouched = false;
     return;
   }

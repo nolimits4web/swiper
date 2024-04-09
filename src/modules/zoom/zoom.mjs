@@ -238,6 +238,17 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       gesture.slideEl = undefined;
     }
   }
+  let allowTouchMoveTimeout;
+  function allowTouchMove() {
+    swiper.touchEventsData.preventTouchMoveFromPointerMove = false;
+  }
+  function preventTouchMove() {
+    clearTimeout(allowTouchMoveTimeout);
+    swiper.touchEventsData.preventTouchMoveFromPointerMove = true;
+    allowTouchMoveTimeout = setTimeout(() => {
+      allowTouchMove();
+    });
+  }
   function onTouchStart(e) {
     const device = swiper.device;
     if (!gesture.imageEl) return;
@@ -249,10 +260,16 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     image.touchesStart.y = event.pageY;
   }
   function onTouchMove(e) {
-    if (!eventWithinSlide(e) || !eventWithinZoomContainer(e)) return;
+    if (!eventWithinSlide(e) || !eventWithinZoomContainer(e)) {
+      return;
+    }
     const zoom = swiper.zoom;
-    if (!gesture.imageEl) return;
-    if (!image.isTouched || !gesture.slideEl) return;
+    if (!gesture.imageEl) {
+      return;
+    }
+    if (!image.isTouched || !gesture.slideEl) {
+      return;
+    }
 
     if (!image.isMoved) {
       image.width = gesture.imageEl.offsetWidth || gesture.imageEl.clientWidth;
@@ -267,7 +284,10 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     const scaledWidth = image.width * zoom.scale;
     const scaledHeight = image.height * zoom.scale;
 
-    if (scaledWidth < gesture.slideWidth && scaledHeight < gesture.slideHeight) return;
+    if (scaledWidth < gesture.slideWidth && scaledHeight < gesture.slideHeight) {
+      allowTouchMove();
+      return;
+    }
 
     image.minX = Math.min(gesture.slideWidth / 2 - scaledWidth / 2, 0);
     image.maxX = -image.minX;
@@ -293,6 +313,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
             image.touchesCurrent.x > image.touchesStart.x))
       ) {
         image.isTouched = false;
+        allowTouchMove();
         return;
       }
       if (
@@ -303,6 +324,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
             image.touchesCurrent.y > image.touchesStart.y))
       ) {
         image.isTouched = false;
+        allowTouchMove();
         return;
       }
     }
@@ -310,6 +332,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       e.preventDefault();
     }
     e.stopPropagation();
+    preventTouchMove();
 
     image.isMoved = true;
     const scaleRatio =
