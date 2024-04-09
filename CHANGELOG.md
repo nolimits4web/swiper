@@ -1,5 +1,11 @@
 # Changelog
 
+# [11.1.1](https://github.com/nolimits4web/Swiper/compare/v11.1.0...v11.1.1) (2024-04-09)
+
+### Bug Fixes
+
+- **zoom:** fix zoom pan not preventing slide changes using touch ([f73cc2a](https://github.com/nolimits4web/Swiper/commit/f73cc2a7a0bc4b9d094c33853e629785d1b5ddeb)), closes [#7308](https://github.com/nolimits4web/Swiper/issues/7308)
+
 # [11.1.0](https://github.com/nolimits4web/Swiper/compare/v11.0.7...v11.1.0) (2024-03-28)
 
 ### Bug Fixes
