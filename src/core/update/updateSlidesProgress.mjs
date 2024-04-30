@@ -1,3 +1,11 @@
+const toggleSlideClasses = (slideEl, condition, className) => {
+  if (condition && !slideEl.classList.contains(className)) {
+    slideEl.classList.add(className);
+  } else if (!condition && slideEl.classList.contains(className)) {
+    slideEl.classList.remove(className);
+  }
+};
+
 export default function updateSlidesProgress(translate = (this && this.translate) || 0) {
   const swiper = this;
   const params = swiper.params;
@@ -9,11 +17,6 @@ export default function updateSlidesProgress(translate = (this && this.translate
 
   let offsetCenter = -translate;
   if (rtl) offsetCenter = translate;
-
-  // Visible Slides
-  slides.forEach((slideEl) => {
-    slideEl.classList.remove(params.slideVisibleClass, params.slideFullyVisibleClass);
-  });
 
   swiper.visibleSlidesIndexes = [];
   swiper.visibleSlides = [];
@@ -54,11 +57,9 @@ export default function updateSlidesProgress(translate = (this && this.translate
     if (isVisible) {
       swiper.visibleSlides.push(slide);
       swiper.visibleSlidesIndexes.push(i);
-      slides[i].classList.add(params.slideVisibleClass);
     }
-    if (isFullyVisible) {
-      slides[i].classList.add(params.slideFullyVisibleClass);
-    }
+    toggleSlideClasses(slide, isVisible, params.slideVisibleClass);
+    toggleSlideClasses(slide, isFullyVisible, params.slideFullyVisibleClass);
     slide.progress = rtl ? -slideProgress : slideProgress;
     slide.originalProgress = rtl ? -originalSlideProgress : originalSlideProgress;
   }
