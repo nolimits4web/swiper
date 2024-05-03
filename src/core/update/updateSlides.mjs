@@ -85,7 +85,7 @@ export default function updateSlides() {
       return typeof params.breakpoints[key].slidesPerView !== 'undefined';
     }).length > 0;
 
-  for (let i = 0; i < slidesLength; i += 1) {
+  for (let i = 0; i < slides.length; i += 1) {
     slideSize = 0;
     let slide;
     if (slides[i]) slide = slides[i];
