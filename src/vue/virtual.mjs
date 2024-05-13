@@ -33,7 +33,11 @@ function renderVirtual(swiperRef, slides, virtualData) {
     if (!slide.props.style) slide.props.style = {};
     slide.props.swiperRef = swiperRef;
     slide.props.style = style;
-    return h(slide.type, { ...slide.props }, slide.children);
+    if (slide.type) {
+      return h(slide.type, { ...slide.props }, slide.children);
+    } else if (slide.componentOptions) {
+      return h(slide.componentOptions.Ctor, { ...slide.props }, slide.componentOptions.children);
+    }
   });
 }
 
