@@ -1,5 +1,11 @@
 # Changelog
 
+# [11.1.3](https://github.com/nolimits4web/Swiper/compare/v11.1.2...v11.1.3) (2024-05-13)
+
+### Bug Fixes
+
+- fix types import ([57923db](https://github.com/nolimits4web/Swiper/commit/57923db8f2cc7dae9f39011531147d68f26f834d)), closes [#7529](https://github.com/nolimits4web/Swiper/issues/7529)
+
 # [11.1.2](https://github.com/nolimits4web/Swiper/compare/v11.1.1...v11.1.2) (2024-05-13)
 
 ### Bug Fixes
