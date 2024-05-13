@@ -174,6 +174,9 @@ export default function onTouchMove(event) {
       const evt = new window.CustomEvent('transitionend', {
         bubbles: true,
         cancelable: true,
+        detail: {
+          bySwiperTouchMove: true,
+        },
       });
       swiper.wrapperEl.dispatchEvent(evt);
     }
