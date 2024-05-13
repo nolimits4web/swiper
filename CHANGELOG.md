@@ -1,5 +1,17 @@
 # Changelog
 
+# [11.1.2](https://github.com/nolimits4web/Swiper/compare/v11.1.1...v11.1.2) (2024-05-13)
+
+### Bug Fixes
+
+- **autoplay:** keep 0 transition on touchmove with 0 timeout delay ([8ccb08e](https://github.com/nolimits4web/Swiper/commit/8ccb08ef1c1adcb4ff53f91bf494a0bd221d5735)), closes [#7515](https://github.com/nolimits4web/Swiper/issues/7515)
+- **core:** centerInsuffientSlides takes offsets into account ([#7437](https://github.com/nolimits4web/Swiper/issues/7437)) ([5a271ff](https://github.com/nolimits4web/Swiper/commit/5a271ff050376820cfe42e04730cd097f38496a1))
+- **types:** fixed SwiperModule, slideTo, effectInit types ([#7428](https://github.com/nolimits4web/Swiper/issues/7428)) ([bc61bce](https://github.com/nolimits4web/Swiper/commit/bc61bce297bce8c38299671e9fe18f6a5b0fd77e))
+
+### Performance Improvements
+
+- do not remove and re-add visibility classes for unchanged slides to prevents unnecessary style recalculations (This performance difference is mostly noticable when moving a slide with a mouse or touchmove because updateSlidesProgress is triggered for every keyboard-/touchevent) ([#7505](https://github.com/nolimits4web/Swiper/issues/7505)) ([2c08227](https://github.com/nolimits4web/Swiper/commit/2c08227d3e81db744e2d6e1c9d87c9ff6236533d))
+
 # [11.1.1](https://github.com/nolimits4web/Swiper/compare/v11.1.0...v11.1.1) (2024-04-09)
 
 ### Bug Fixes
