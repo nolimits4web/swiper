@@ -5,13 +5,13 @@ declare const createShadow: (suffix?: string, slideEl: HTMLElement, side?: strin
 declare const effectInit: (params: {
   effect: string;
   swiper: Swiper;
-  on?: () => void;
-  setTranslate?: () => void;
-  setTransition?: () => void;
+  on: () => void;
+  setTranslate: () => void;
+  setTransition: (duration: number) => void;
   overwriteParams?: () => SwiperOptions;
-  perspective?: boolean;
+  perspective?: () => boolean;
   recreateShadows?: () => void;
-  getEffectParams?: () => any;
+  getEffectParams?: () => { slideShadows?: boolean };
 }) => void;
 
 declare const effectTarget: (effectParams: any, slideEl: HTMLElement) => void;
