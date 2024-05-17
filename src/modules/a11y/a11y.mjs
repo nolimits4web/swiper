@@ -256,7 +256,12 @@ export default function A11y({ swiper, extendParams, on }) {
     }
     requestAnimationFrame(() => {
       if (preventFocusHandler) return;
-      swiper.slideTo(swiper.slides.indexOf(slideEl), 0);
+      if (swiper.params.loop) {
+        swiper.slideToLoop(parseInt(slideEl.getAttribute('data-swiper-slide-index')), 0);
+      } else {
+        swiper.slideTo(swiper.slides.indexOf(slideEl), 0);
+      }
+
       preventFocusHandler = false;
     });
   };
