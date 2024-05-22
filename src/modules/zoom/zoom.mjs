@@ -28,6 +28,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
   let isScaling = false;
   let fakeGestureTouched;
   let fakeGestureMoved;
+  let preventZoomOut;
   const evCache = [];
   const gesture = {
     originX: 0,
@@ -270,7 +271,6 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     if (!image.isTouched || !gesture.slideEl) {
       return;
     }
-
     if (!image.isMoved) {
       image.width = gesture.imageEl.offsetWidth || gesture.imageEl.clientWidth;
       image.height = gesture.imageEl.offsetHeight || gesture.imageEl.clientHeight;
@@ -283,11 +283,6 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     // Define if we need image drag
     const scaledWidth = image.width * zoom.scale;
     const scaledHeight = image.height * zoom.scale;
-
-    if (scaledWidth < gesture.slideWidth && scaledHeight < gesture.slideHeight) {
-      allowTouchMove();
-      return;
-    }
 
     image.minX = Math.min(gesture.slideWidth / 2 - scaledWidth / 2, 0);
     image.maxX = -image.minX;
