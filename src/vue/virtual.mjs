@@ -24,7 +24,7 @@ function renderVirtual(swiperRef, slides, virtualData) {
   const loopTo = swiperRef.value.params.loop ? slides.length * 2 : slides.length;
   const slidesToRender = [];
   for (let i = loopFrom; i < loopTo; i += 1) {
-    if (i >= from && i <= to) {
+    if (i >= from && i <= to && slidesToRender.length < slides.length) {
       slidesToRender.push(slides[getSlideIndex(i)]);
     }
   }
