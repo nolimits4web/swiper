@@ -1,5 +1,15 @@
 # Changelog
 
+# [11.1.4](https://github.com/nolimits4web/Swiper/compare/v11.1.3...v11.1.4) (2024-05-30)
+
+### Bug Fixes
+
+- **a11y:** fix slide on focus when loop mode is enabled ([fc8ed1a](https://github.com/nolimits4web/Swiper/commit/fc8ed1a2de8f05b017e371763b1236e1eb2670c4)), closes [#7540](https://github.com/nolimits4web/Swiper/issues/7540)
+- **core:** check for swiper.el in destroy queue ([39a3e53](https://github.com/nolimits4web/Swiper/commit/39a3e53ba7df00a0479e0748fff874703578c7df)), closes [#7530](https://github.com/nolimits4web/Swiper/issues/7530)
+- **navigation:** prevent hide on click when clicking on navigation buttons ([c0f7bb6](https://github.com/nolimits4web/Swiper/commit/c0f7bb6f3612f42664eab60bbcfb7969bfeb16bf)), closes [#7559](https://github.com/nolimits4web/Swiper/issues/7559)
+- **vue:** avoid rendering same slide vnode twice for small amount of slides in loop + virtual mode ([#7556](https://github.com/nolimits4web/Swiper/issues/7556)) ([5737f03](https://github.com/nolimits4web/Swiper/commit/5737f03d202ce0f22d390b2e9f94b8573f59472b))
+- **zoom:** fix issue when slide change possible during zoom out ([f67308c](https://github.com/nolimits4web/Swiper/commit/f67308c8f4367817d9c60980276c922af9fcb654))
+
 # [11.1.3](https://github.com/nolimits4web/Swiper/compare/v11.1.2...v11.1.3) (2024-05-13)
 
 ### Bug Fixes
