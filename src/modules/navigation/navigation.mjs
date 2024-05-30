@@ -161,11 +161,15 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     nextEl = makeElementsArray(nextEl);
     prevEl = makeElementsArray(prevEl);
     const targetEl = e.target;
-    if (
-      swiper.params.navigation.hideOnClick &&
-      !prevEl.includes(targetEl) &&
-      !nextEl.includes(targetEl)
-    ) {
+    let targetIsButton = prevEl.includes(targetEl) || nextEl.includes(targetEl);
+
+    if (swiper.isElement && !targetIsButton) {
+      const path = e.path || (e.composedPath && e.composedPath());
+      if (path) {
+        targetIsButton = path.find((pathEl) => nextEl.includes(pathEl) || prevEl.includes(pathEl));
+      }
+    }
+    if (swiper.params.navigation.hideOnClick && !targetIsButton) {
       if (
         swiper.pagination &&
         swiper.params.pagination &&
