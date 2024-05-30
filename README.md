@@ -156,6 +156,68 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
       </a>
     </td>
     <td align="center" valign="middle">
+      <a href="https://insfollowpro.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/insfollowpro.png" alt="Buy Instagram followers" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://bulkoid.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/bulkoid_com.png" alt="Bulkoid" width="160">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle">
+      <a href="https://www.exploreig.com" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/exploreig.png" alt="instagram profile viewer" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.gokken-online.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/gokken-online.png" alt="Gokken Online" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://storiesig.social/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/storiesigsocial.png" alt="Storiesig Social" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://casinoszondercruks.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/czc.png" alt="Cazino zonder Cruks" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.socialfollowers.uk/buy-youtube-views" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/buy-youtube-views-social-followers.png" alt="buy youtube views" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://ng.se/artiklar/norska-casinon-utan-svensk-licens" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/norska-casino.png" alt="Norska Casino" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://hmkasinoerdanmark.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/andynichols.png" alt="HolyMolyCasinos Danske casino" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.c19.cl/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/casino-online-chile.png" alt="Sitio web con reseñas de los mejores casinos en línea de Chile" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://earthweb.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/earthweb1.png" alt="EarthWeb" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://graming.com/tiktok-followers/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/graming-tiktok.png" alt="Graming TikTok Followers" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
       <a href="https://www.fbpostlikes.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/pankaj-jangir.png" alt="fb post likes" width="160">
       </a>
@@ -323,7 +385,7 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
     </td>
     <td align="center" valign="middle">
       <a href="https://slidz.co" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/quickbookstoolhub.png" alt="Cloud Slides - Shop Affordable Comfort for Men & Women | $29.99" width="160">
+        <img src="https://swiperjs.com/images/sponsors/quickbookstoolhub.png" alt="Slidz" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -886,7 +948,7 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
     </td>
     <td align="center" valign="middle">
       <a href="https://rotativka.com/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/rotativka.png" alt="Rotativka.com - Най-добрите онлайн казина в България" width="160">
+        <img src="https://swiperjs.com/images/sponsors/rotativka.png" alt="Rotativka.com - Най-добрите онлайн к��зина в България" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
