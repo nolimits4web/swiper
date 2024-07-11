@@ -78,10 +78,10 @@
 }
 .swiper-button-next,
 .swiper-rtl .swiper-button-prev {
+  right: var(--swiper-navigation-sides-offset, 10px);
+  left: auto;
   &:after {
     content: 'next';
   }
-  right: var(--swiper-navigation-sides-offset, 10px);
-  left: auto;
 }
 /* Navigation font end */
