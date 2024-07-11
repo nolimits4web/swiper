@@ -138,7 +138,7 @@ const Swiper = forwardRef(
         swiperParams,
       );
 
-      if (onSwiper) onSwiper(swiperRef.current);
+      if (onSwiper && !swiperRef.current.destroyed) onSwiper(swiperRef.current);
       // eslint-disable-next-line
       return () => {
         if (swiperRef.current && !swiperRef.current.destroyed) {

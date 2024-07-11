@@ -68,6 +68,7 @@ export default function translateTo(
           );
           swiper.onTranslateToWrapperTransitionEnd = null;
           delete swiper.onTranslateToWrapperTransitionEnd;
+          swiper.animating = false;
           if (runCallbacks) {
             swiper.emit('transitionEnd');
           }

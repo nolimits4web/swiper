@@ -1,9 +1,11 @@
 import { getWindow } from 'ssr-window';
+import { getDevice } from './get-device.mjs';
 
 let browser;
 
 function calcBrowser() {
   const window = getWindow();
+  const device = getDevice();
   let needPerspectiveFix = false;
   function isSafari() {
     const ua = window.navigator.userAgent.toLowerCase();
@@ -20,10 +22,15 @@ function calcBrowser() {
       needPerspectiveFix = major < 16 || (major === 16 && minor < 2);
     }
   }
+  const isWebView = /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent);
+  const isSafariBrowser = isSafari();
+  const need3dFix = isSafariBrowser || (isWebView && device.ios);
+
   return {
-    isSafari: needPerspectiveFix || isSafari(),
+    isSafari: needPerspectiveFix || isSafariBrowser,
     needPerspectiveFix,
-    isWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent),
+    need3dFix,
+    isWebView,
   };
 }
 

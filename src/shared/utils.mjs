@@ -316,7 +316,9 @@ function elementOuterSize(el, size, includeMargins) {
   }
   return el.offsetWidth;
 }
-
+function makeElementsArray(el) {
+  return (Array.isArray(el) ? el : [el]).filter((e) => !!e);
+}
 export {
   animateCSSModeScroll,
   deleteProps,
@@ -341,4 +343,5 @@ export {
   elementParents,
   elementTransitionEnd,
   elementOuterSize,
+  makeElementsArray,
 };

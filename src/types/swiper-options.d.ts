@@ -101,6 +101,13 @@ export interface SwiperOptions {
   oneWayMovement?: boolean;
 
   /**
+   * The name of the swiper element node name; used for detecting web component rendering
+   *
+   * @default 'SWIPER-CONTAINER'
+   */
+  swiperElementNodeName?: string;
+
+  /**
    * Duration of transition between slides (in ms)
    *
    * @default 300
@@ -199,7 +206,7 @@ export interface SwiperOptions {
   uniqueNavElements?: boolean;
 
   /**
-   * Transition effect. Can be `'slide'`, `'fade'`, `'cube'`, `'coverflow'`, `'flip'` or `'creative'`
+   * Transition effect. Can be `'slide'`, `'fade'`, `'cube'`, `'coverflow'`, `'flip'`, `'creative'` or `'cards'`
    *
    * @default 'slide'
    */
@@ -643,7 +650,7 @@ export interface SwiperOptions {
    * Automatically adds blank slides if you use Grid or `slidesPerGroup` and the total amount of slides is not even to `slidesPerGroup` or to `grid.rows`
    *
    *
-   * @default false
+   * @default true
    *
    */
   loopAddBlankSlides?: boolean;
@@ -734,7 +741,7 @@ export interface SwiperOptions {
    *
    * @default 'window'
    */
-  breakpointsBase?: string;
+  breakpointsBase?: 'window' | 'container';
 
   // Observer
   /**

@@ -46,6 +46,7 @@ export default async function buildModules() {
       './src/swiper-vue.mjs',
       './src/swiper-react.mjs',
       ...modulesPaths,
+      './src/swiper-effect-utils.mjs',
     ],
     plugins: [
       replace({

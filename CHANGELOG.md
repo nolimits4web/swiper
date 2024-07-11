@@ -1,5 +1,82 @@
 # Changelog
 
+# [11.1.4](https://github.com/nolimits4web/Swiper/compare/v11.1.3...v11.1.4) (2024-05-30)
+
+### Bug Fixes
+
+- **a11y:** fix slide on focus when loop mode is enabled ([fc8ed1a](https://github.com/nolimits4web/Swiper/commit/fc8ed1a2de8f05b017e371763b1236e1eb2670c4)), closes [#7540](https://github.com/nolimits4web/Swiper/issues/7540)
+- **core:** check for swiper.el in destroy queue ([39a3e53](https://github.com/nolimits4web/Swiper/commit/39a3e53ba7df00a0479e0748fff874703578c7df)), closes [#7530](https://github.com/nolimits4web/Swiper/issues/7530)
+- **navigation:** prevent hide on click when clicking on navigation buttons ([c0f7bb6](https://github.com/nolimits4web/Swiper/commit/c0f7bb6f3612f42664eab60bbcfb7969bfeb16bf)), closes [#7559](https://github.com/nolimits4web/Swiper/issues/7559)
+- **vue:** avoid rendering same slide vnode twice for small amount of slides in loop + virtual mode ([#7556](https://github.com/nolimits4web/Swiper/issues/7556)) ([5737f03](https://github.com/nolimits4web/Swiper/commit/5737f03d202ce0f22d390b2e9f94b8573f59472b))
+- **zoom:** fix issue when slide change possible during zoom out ([f67308c](https://github.com/nolimits4web/Swiper/commit/f67308c8f4367817d9c60980276c922af9fcb654))
+
+# [11.1.3](https://github.com/nolimits4web/Swiper/compare/v11.1.2...v11.1.3) (2024-05-13)
+
+### Bug Fixes
+
+- fix types import ([57923db](https://github.com/nolimits4web/Swiper/commit/57923db8f2cc7dae9f39011531147d68f26f834d)), closes [#7529](https://github.com/nolimits4web/Swiper/issues/7529)
+
+# [11.1.2](https://github.com/nolimits4web/Swiper/compare/v11.1.1...v11.1.2) (2024-05-13)
+
+### Bug Fixes
+
+- **autoplay:** keep 0 transition on touchmove with 0 timeout delay ([8ccb08e](https://github.com/nolimits4web/Swiper/commit/8ccb08ef1c1adcb4ff53f91bf494a0bd221d5735)), closes [#7515](https://github.com/nolimits4web/Swiper/issues/7515)
+- **core:** centerInsuffientSlides takes offsets into account ([#7437](https://github.com/nolimits4web/Swiper/issues/7437)) ([5a271ff](https://github.com/nolimits4web/Swiper/commit/5a271ff050376820cfe42e04730cd097f38496a1))
+- **types:** fixed SwiperModule, slideTo, effectInit types ([#7428](https://github.com/nolimits4web/Swiper/issues/7428)) ([bc61bce](https://github.com/nolimits4web/Swiper/commit/bc61bce297bce8c38299671e9fe18f6a5b0fd77e))
+
+### Performance Improvements
+
+- do not remove and re-add visibility classes for unchanged slides to prevents unnecessary style recalculations (This performance difference is mostly noticable when moving a slide with a mouse or touchmove because updateSlidesProgress is triggered for every keyboard-/touchevent) ([#7505](https://github.com/nolimits4web/Swiper/issues/7505)) ([2c08227](https://github.com/nolimits4web/Swiper/commit/2c08227d3e81db744e2d6e1c9d87c9ff6236533d))
+
+# [11.1.1](https://github.com/nolimits4web/Swiper/compare/v11.1.0...v11.1.1) (2024-04-09)
+
+### Bug Fixes
+
+- **zoom:** fix zoom pan not preventing slide changes using touch ([f73cc2a](https://github.com/nolimits4web/Swiper/commit/f73cc2a7a0bc4b9d094c33853e629785d1b5ddeb)), closes [#7308](https://github.com/nolimits4web/Swiper/issues/7308)
+
+# [11.1.0](https://github.com/nolimits4web/Swiper/compare/v11.0.7...v11.1.0) (2024-03-28)
+
+### Bug Fixes
+
+- **a11y:** fixed issue with not working "enter" navigation on arrows ([aac2dcf](https://github.com/nolimits4web/Swiper/commit/aac2dcfc4cf6ddcef93933c75d3eab984f149a18)), closes [#7423](https://github.com/nolimits4web/Swiper/issues/7423)
+- **a11y:** prevent falsy focus handlers ([a7c260a](https://github.com/nolimits4web/Swiper/commit/a7c260a9d93405a0adce304b4ccf4f5309dfedda)), closes [#7406](https://github.com/nolimits4web/Swiper/issues/7406)
+- **core:** add/remove slide classes only when changed ([3312fba](https://github.com/nolimits4web/Swiper/commit/3312fba06de686e48cf0c138ea7bba20fc7842e5)), closes [#7356](https://github.com/nolimits4web/Swiper/issues/7356)
+- **core:** don't fix the loop on simple resize ([641793f](https://github.com/nolimits4web/Swiper/commit/641793ff459527c4c1efc9f72b447b87c8939f5f)), closes [#7325](https://github.com/nolimits4web/Swiper/issues/7325)
+- **core:** fixed thrown error on calling slideTo methods on destroyed swiper ([8c6a3c6](https://github.com/nolimits4web/Swiper/commit/8c6a3c6f63915db82415e2d7829ece6c624ace1e)), closes [#7416](https://github.com/nolimits4web/Swiper/issues/7416)
+- **core:** handle grabCursor within breakpoints ([e853908](https://github.com/nolimits4web/Swiper/commit/e853908c2ff93dc944ba045c9c0fce83efe46288)), closes [#7364](https://github.com/nolimits4web/Swiper/issues/7364)
+- **core:** reset animating flag on translateTo call ([7da50bf](https://github.com/nolimits4web/Swiper/commit/7da50bf1bcfe86f5af646e7d53c7d0414211da60)), closes [#7403](https://github.com/nolimits4web/Swiper/issues/7403)
+- **scrollbar:** fix warning ([e5371f7](https://github.com/nolimits4web/Swiper/commit/e5371f7656c4e828d87e7497edc73f9b6311f91d)), closes [#7415](https://github.com/nolimits4web/Swiper/issues/7415)
+- **thumbs:** fix thumbs .swiper type prop to accept string ([5b0fa84](https://github.com/nolimits4web/Swiper/commit/5b0fa84ac14022dd1ca39d387267a8d9125cb13a)), closes [#7421](https://github.com/nolimits4web/Swiper/issues/7421)
+- **virtual:** don't render first slides when initialSlide set ([bab9230](https://github.com/nolimits4web/Swiper/commit/bab92305c5a69b9b9f33615fa5df61fbfda39700)), closes [#7353](https://github.com/nolimits4web/Swiper/issues/7353)
+- **zoom:** fix panning on SVG elements ([eed8a5b](https://github.com/nolimits4web/Swiper/commit/eed8a5bf727163cf2da343490c09fc248b658e5e)), closes [#7352](https://github.com/nolimits4web/Swiper/issues/7352)
+
+# [11.0.7](https://github.com/nolimits4web/Swiper/compare/v11.0.6...v11.0.7) (2024-02-27)
+
+### Bug Fixes
+
+- **core:** fix initial slide index shift with centeredSlides and slidesPerView auto ([#7319](https://github.com/nolimits4web/Swiper/issues/7319)) ([cae9c2d](https://github.com/nolimits4web/Swiper/commit/cae9c2dc192dafc0f35cb03e919dd1151dca88da))
+- **history:** fix setting history in virtual slides ([d4de17b](https://github.com/nolimits4web/Swiper/commit/d4de17b278b57760cfc9953d1da7892b44f0fc22)), closes [#7327](https://github.com/nolimits4web/Swiper/issues/7327)
+- **react:** make sure the key is unique in virtual mode ([829a253](https://github.com/nolimits4web/Swiper/commit/829a2536b5d4f4ed86cb31d9c73d4d9b3be656c3)), closes [#7329](https://github.com/nolimits4web/Swiper/issues/7329)
+
+### Features
+
+- add swiper-effect-utils ([df5f873](https://github.com/nolimits4web/Swiper/commit/df5f8731b795419534420bf4d567c75bfd475656)), closes [#7336](https://github.com/nolimits4web/Swiper/issues/7336)
+- **zoom:** add ability to constrain max zoom to 100% of original image size ([#7311](https://github.com/nolimits4web/Swiper/issues/7311)) ([645f266](https://github.com/nolimits4web/Swiper/commit/645f266c6b8dea5d43e14cace925ad86236ecc75))
+
+# [11.0.6](https://github.com/nolimits4web/Swiper/compare/v11.0.5...v11.0.6) (2024-02-05)
+
+### Bug Fixes
+
+- add optional swiperElementNodeName param to allow more flexible web component usage ([#7284](https://github.com/nolimits4web/Swiper/issues/7284)) ([178511f](https://github.com/nolimits4web/Swiper/commit/178511fe8ac37b590b92ff081379074e340436fa))
+- fixed behavior where the combination of 'initialSlide:0' and 'slidesPerView:auto' would shift the first slide position ([e5c04c3](https://github.com/nolimits4web/Swiper/commit/e5c04c38e4261f4afb195bc15ea7417e7c1190dd)), closes [#7216](https://github.com/nolimits4web/Swiper/issues/7216)
+- Safari 3D fix for webview ([d42ce05](https://github.com/nolimits4web/Swiper/commit/d42ce05380c4a8f1848ad409b2ac8ed848723399)), closes [#7167](https://github.com/nolimits4web/Swiper/issues/7167)
+- **scrollbar:** correctly update scrollbar on changeDirection ([6bbb73d](https://github.com/nolimits4web/Swiper/commit/6bbb73d84f684e711250664d1eb7017b1b02ec3a)), closes [#7263](https://github.com/nolimits4web/Swiper/issues/7263)
+- SwiperOptions documentation for loopAddBlankSlides ([#7289](https://github.com/nolimits4web/Swiper/issues/7289)) ([cbc3dba](https://github.com/nolimits4web/Swiper/commit/cbc3dba7b4869c82f87c920e519f334fe9dc9880))
+
+### Features
+
+- **core:** prevent running .slideTo methods when Swiper is destroyed ([05f9c64](https://github.com/nolimits4web/Swiper/commit/05f9c6493081666f0458a67715271fc728827731)), closes [#7265](https://github.com/nolimits4web/Swiper/issues/7265)
+
 # [11.0.5](https://github.com/nolimits4web/Swiper/compare/v11.0.4...v11.0.5) (2023-11-22)
 
 ### Bug Fixes

@@ -17,8 +17,12 @@ export default function setBreakpoint() {
 
   const breakpointOnlyParams = breakpoint in breakpoints ? breakpoints[breakpoint] : undefined;
   const breakpointParams = breakpointOnlyParams || swiper.originalParams;
+
   const wasMultiRow = isGridEnabled(swiper, params);
   const isMultiRow = isGridEnabled(swiper, breakpointParams);
+
+  const wasGrabCursor = swiper.params.grabCursor;
+  const isGrabCursor = breakpointParams.grabCursor;
 
   const wasEnabled = params.enabled;
 
@@ -37,6 +41,11 @@ export default function setBreakpoint() {
       el.classList.add(`${params.containerModifierClass}grid-column`);
     }
     swiper.emitContainerClasses();
+  }
+  if (wasGrabCursor && !isGrabCursor) {
+    swiper.unsetGrabCursor();
+  } else if (!wasGrabCursor && isGrabCursor) {
+    swiper.setGrabCursor();
   }
 
   // Toggle navigation, pagination, scrollbar
