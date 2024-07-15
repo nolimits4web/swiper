@@ -2,7 +2,7 @@ import createShadow from '../../shared/create-shadow.mjs';
 import effectInit from '../../shared/effect-init.mjs';
 import effectTarget from '../../shared/effect-target.mjs';
 import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end.mjs';
-import { getSlideTransformEl } from '../../shared/utils.mjs';
+import { getRotateFix, getSlideTransformEl } from '../../shared/utils.mjs';
 
 export default function EffectCreative({ swiper, extendParams, on }) {
   extendParams({
@@ -37,6 +37,7 @@ export default function EffectCreative({ swiper, extendParams, on }) {
     const { progressMultiplier: multiplier } = params;
 
     const isCenteredSlides = swiper.params.centeredSlides;
+    const rotateFix = getRotateFix(swiper);
 
     if (isCenteredSlides) {
       const margin = slidesSizesGrid[0] / 2 - swiper.params.slidesOffsetBefore || 0;
@@ -89,16 +90,15 @@ export default function EffectCreative({ swiper, extendParams, on }) {
       // set rotates
       r.forEach((value, index) => {
         let val = data.rotate[index] * Math.abs(progress * multiplier);
-        if (swiper.browser && swiper.browser.need3dFix && (Math.abs(val) / 90) % 2 === 1) {
-          val += 0.001;
-        }
         r[index] = val;
       });
 
       slideEl.style.zIndex = -Math.abs(Math.round(slideProgress)) + slides.length;
 
       const translateString = t.join(', ');
-      const rotateString = `rotateX(${r[0]}deg) rotateY(${r[1]}deg) rotateZ(${r[2]}deg)`;
+      const rotateString = `rotateX(${rotateFix(r[0])}deg) rotateY(${rotateFix(
+        r[1],
+      )}deg) rotateZ(${rotateFix(r[2])}deg)`;
       const scaleString =
         originalProgress < 0
           ? `scale(${1 + (1 - data.scale) * originalProgress * multiplier})`

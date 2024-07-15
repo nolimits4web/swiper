@@ -319,6 +319,14 @@ function elementOuterSize(el, size, includeMargins) {
 function makeElementsArray(el) {
   return (Array.isArray(el) ? el : [el]).filter((e) => !!e);
 }
+function getRotateFix(swiper) {
+  return (v) => {
+    if (Math.abs(v) > 0 && swiper.browser && swiper.browser.need3dFix && Math.abs(v) % 90 === 0) {
+      return v + 0.001;
+    }
+    return v;
+  };
+}
 export {
   animateCSSModeScroll,
   deleteProps,
@@ -344,4 +352,5 @@ export {
   elementTransitionEnd,
   elementOuterSize,
   makeElementsArray,
+  getRotateFix,
 };
