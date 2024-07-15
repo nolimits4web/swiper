@@ -26,10 +26,10 @@ export default function Observer({ swiper, extendParams, on, emit }) {
         window.setTimeout(observerUpdate, 0);
       }
     });
-
     observer.observe(target, {
       attributes: typeof options.attributes === 'undefined' ? true : options.attributes,
-      childList: typeof options.childList === 'undefined' ? true : options.childList,
+      childList:
+        swiper.isElement || (typeof options.childList === 'undefined' ? true : options).childList,
       characterData: typeof options.characterData === 'undefined' ? true : options.characterData,
     });
 
