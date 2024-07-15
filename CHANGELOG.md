@@ -1,5 +1,14 @@
 # Changelog
 
+# [11.1.5](https://github.com/nolimits4web/Swiper/compare/v11.1.4...v11.1.5) (2024-07-15)
+
+### Bug Fixes
+
+- **element:** fix observer to watch for slides ([7cffede](https://github.com/nolimits4web/Swiper/commit/7cffedef190c6e75bf84adfa6dfddd64e1bfa0e6)), closes [#7598](https://github.com/nolimits4web/Swiper/issues/7598)
+- improved 3d rotate fix in Safari ([cb83879](https://github.com/nolimits4web/Swiper/commit/cb83879894fca633844b5db76dfe1d9d82c816ea)), closes [#7532](https://github.com/nolimits4web/Swiper/issues/7532)
+- update navigation.scss to remove SASS Deprecation Warning ([#7612](https://github.com/nolimits4web/Swiper/issues/7612)) ([a3e0bf8](https://github.com/nolimits4web/Swiper/commit/a3e0bf893da2af150a64b99c8d59b81249929a5a))
+- **vue:** add breakpointsBase type ([4adb85b](https://github.com/nolimits4web/Swiper/commit/4adb85b081a0ed3e657da79d8f711e610335edba)), closes [#7607](https://github.com/nolimits4web/Swiper/issues/7607)
+
 # [11.1.4](https://github.com/nolimits4web/Swiper/compare/v11.1.3...v11.1.4) (2024-05-30)
 
 ### Bug Fixes
