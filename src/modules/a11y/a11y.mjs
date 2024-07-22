@@ -18,6 +18,7 @@ export default function A11y({ swiper, extendParams, on }) {
       itemRoleDescriptionMessage: null,
       slideRole: 'group',
       id: null,
+      scrollOnFocus: true
     },
   });
 

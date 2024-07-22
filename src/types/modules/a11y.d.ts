@@ -93,4 +93,11 @@ export interface A11yOptions {
    * @default null
    */
   id?: string | number | null;
+
+  /**
+   * Enables scrolling to the slide that has been focused
+   *
+   * @default true
+   */
+  scrollOnFocus?: boolean;
 }
