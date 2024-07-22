@@ -237,7 +237,7 @@ export default function A11y({ swiper, extendParams, on }) {
   };
 
   const handleFocus = (e) => {
-    if (swiper.a11y.clicked) return;
+    if (swiper.a11y.clicked || !swiper.params.a11y.scrollOnFocus) return;
     if (new Date().getTime() - visibilityChangedTimestamp < 100) return;
 
     const slideEl = e.target.closest(`.${swiper.params.slideClass}, swiper-slide`);
