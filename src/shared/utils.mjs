@@ -203,7 +203,19 @@ function findElementsInElements(elements = [], selector = '') {
   return found;
 }
 function elementChildren(element, selector = '') {
-  return [...element.children].filter((el) => el.matches(selector));
+  const children = [...element.children];
+  if(element instanceof HTMLSlotElement) {
+    children.push(...element.assignedElements())
+  }
+
+  if(!selector) {
+    return children;
+  }
+  return children.filter((el) => el.matches(selector));
+}
+function elementIsChildOf(el, parent) {
+  const children = elementChildren(parent);
+  return children.includes(el);
 }
 function showWarning(text) {
   try {
@@ -343,6 +355,7 @@ export {
   findElementsInElements,
   createElement,
   elementChildren,
+  elementIsChildOf,
   elementOffset,
   elementPrevAll,
   elementNextAll,
