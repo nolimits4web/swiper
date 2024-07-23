@@ -1,5 +1,16 @@
 # Changelog
 
+# [11.1.6](https://github.com/nolimits4web/Swiper/compare/v11.1.5...v11.1.6) (2024-07-23)
+
+### Bug Fixes
+
+- **controller:** fix 2 way control in element ([6eec16b](https://github.com/nolimits4web/Swiper/commit/6eec16bfe1f103bd19bad6dec0a7aa3fb3ee2bb1)), closes [#7628](https://github.com/nolimits4web/Swiper/issues/7628)
+
+### Features
+
+- **a11y:** added new prop for a11y module - `scrollOnFocus` ([#7632](https://github.com/nolimits4web/Swiper/issues/7632)) ([f4f7da0](https://github.com/nolimits4web/Swiper/commit/f4f7da0260f1b03ab5f168b84a3b74ef8e2a7a26))
+- **element:** added support for using slots as swiper wrappers ([#7624](https://github.com/nolimits4web/Swiper/issues/7624)) ([e374e06](https://github.com/nolimits4web/Swiper/commit/e374e06a930bef74658614900bb1e11c5a54b189))
+
 # [11.1.5](https://github.com/nolimits4web/Swiper/compare/v11.1.4...v11.1.5) (2024-07-15)
 
 ### Bug Fixes
