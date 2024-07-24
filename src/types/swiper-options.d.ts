@@ -857,6 +857,13 @@ export interface SwiperOptions {
   wrapperClass?: string;
 
   /**
+   * Automatically enables lazy loading on images and adds a preloader element. Set to 'false' to disable
+   *
+   * @default true
+   */
+  lazyPreload?: boolean;
+
+  /**
    * CSS class name of lazy preloader
    *
    * @default 'swiper-lazy-preloader'

@@ -327,6 +327,10 @@ declare const Swiper: DefineComponent<
       type: StringConstructor;
       default: undefined;
     };
+    lazyPreload: {
+      type: BooleanConstructor;
+      default: undefined;
+    };
     lazyPreloaderClass: {
       type: StringConstructor;
       default: undefined;

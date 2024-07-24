@@ -131,6 +131,9 @@ export default {
   slideNextClass: 'swiper-slide-next',
   slidePrevClass: 'swiper-slide-prev',
   wrapperClass: 'swiper-wrapper',
+
+  // Lazy Preload
+  lazyPreload: true,
   lazyPreloaderClass: 'swiper-lazy-preloader',
   lazyPreloadPrevNext: 0,
 
