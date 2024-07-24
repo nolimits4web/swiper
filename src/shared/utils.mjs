@@ -204,18 +204,22 @@ function findElementsInElements(elements = [], selector = '') {
 }
 function elementChildren(element, selector = '') {
   const children = [...element.children];
-  if(element instanceof HTMLSlotElement) {
-    children.push(...element.assignedElements())
+  if (element instanceof HTMLSlotElement) {
+    children.push(...element.assignedElements());
   }
 
-  if(!selector) {
+  if (!selector) {
     return children;
   }
   return children.filter((el) => el.matches(selector));
 }
 function elementIsChildOf(el, parent) {
-  const children = elementChildren(parent);
-  return children.includes(el);
+  const isChild = parent.contains(el);
+  if (!isChild && parent instanceof HTMLSlotElement) {
+    const children = [...element.assignedElements()];
+    return children.includes(el);
+  }
+  return isChild;
 }
 function showWarning(text) {
   try {
