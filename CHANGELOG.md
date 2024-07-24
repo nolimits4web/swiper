@@ -1,5 +1,11 @@
 # Changelog
 
+# [11.1.7](https://github.com/nolimits4web/Swiper/compare/v11.1.6...v11.1.7) (2024-07-24)
+
+### Bug Fixes
+
+- **core:** fix element child detection ([7ec975c](https://github.com/nolimits4web/Swiper/commit/7ec975c8550bfebacc7ecd032dc540e720f45175)), closes [#7636](https://github.com/nolimits4web/Swiper/issues/7636)
+
 # [11.1.6](https://github.com/nolimits4web/Swiper/compare/v11.1.5...v11.1.6) (2024-07-23)
 
 ### Bug Fixes
