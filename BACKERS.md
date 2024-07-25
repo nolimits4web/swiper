@@ -118,8 +118,8 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://opencollective.com/amazon-return-pallets" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/" alt="Amazon Return Pallets" width="160">
+      <a href="https://www.upliquidation.com/amazon-liquidation/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/amazon-return-pallets.jpg" alt="Amazon Return Pallets" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -203,7 +203,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
     </td>
     <td align="center" valign="middle">
       <a href="https://vvslikes.com/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/buy-instagram-likes-free-trial.png" alt="Buy Instagram Likes With Free Trial" width="160">
+        <img src="https://swiperjs.com/images/sponsors/buy-instagram-likes-free-trial.png" alt="Buy TikTok Likes With Free Trial" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -1211,7 +1211,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 
 <!-- SPONSOR -->
 - [ZonderCruks - Online Gokken Zonder CRUKS](https://zondercruks.net/)
-- [Amazon Return Pallets](https://opencollective.com/amazon-return-pallets)
+- [Amazon Return Pallets](https://www.upliquidation.com/amazon-liquidation/)
 - [BloodyCase](https://bloodycase.com/?promocode=SWIPER)
 - [Crypto Loko](https://crypto-loko-casino.com/)
 - [Free Chip No Deposit](https://free-chip-no-deposit.com/)
@@ -1227,7 +1227,7 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 - [try bookmakers not on GamStop](https://nongamstopbookiesuk.com/)
 - [The Red Playground](https://theredplayground.com/)
 - [Buy Instagram Followers & Likes](https://leofame.com/)
-- [Buy Instagram Likes With Free Trial](https://vvslikes.com/)
+- [Buy TikTok Likes With Free Trial](https://vvslikes.com/)
 - [CasinoRevisor: Alles über die besten Casinos in Deutschland](https://casinorevisor.com/)
 - [Ai2people](https://ai2people.com/)
 - [Accelerating Your Software Products | Teravision Technologies](https://www.teravisiontech.com/)

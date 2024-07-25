@@ -156,8 +156,8 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://opencollective.com/amazon-return-pallets" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/" alt="Amazon Return Pallets" width="160">
+      <a href="https://www.upliquidation.com/amazon-liquidation/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/amazon-return-pallets.jpg" alt="Amazon Return Pallets" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -241,7 +241,7 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
     </td>
     <td align="center" valign="middle">
       <a href="https://vvslikes.com/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/buy-instagram-likes-free-trial.png" alt="Buy Instagram Likes With Free Trial" width="160">
+        <img src="https://swiperjs.com/images/sponsors/buy-instagram-likes-free-trial.png" alt="Buy TikTok Likes With Free Trial" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
