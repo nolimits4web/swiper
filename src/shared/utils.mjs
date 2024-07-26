@@ -216,7 +216,7 @@ function elementChildren(element, selector = '') {
 function elementIsChildOf(el, parent) {
   const isChild = parent.contains(el);
   if (!isChild && parent instanceof HTMLSlotElement) {
-    const children = [...element.assignedElements()];
+    const children = [...parent.assignedElements()];
     return children.includes(el);
   }
   return isChild;
