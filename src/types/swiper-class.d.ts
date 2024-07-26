@@ -386,6 +386,16 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   ): any;
 
   /**
+   * Get current minimal translate value
+   */
+  minTranslate(): number;
+
+  /**
+   * Get current maximal translate value
+   */
+  maxTranslate(): number;
+
+  /**
    * Unset grab cursor
    */
   unsetGrabCursor(): void;
