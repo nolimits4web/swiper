@@ -1,6 +1,6 @@
 {
   "name": "swiper-src",
-  "version": "11.1.7",
+  "version": "11.1.8",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "type": "module",
   "scripts": {

@@ -1,5 +1,11 @@
 # Changelog
 
+# [11.1.8](https://github.com/nolimits4web/Swiper/compare/v11.1.7...v11.1.8) (2024-07-26)
+
+### Bug Fixes
+
+- **core:** fixed typo in utils/elementIsChildOf ([#7649](https://github.com/nolimits4web/Swiper/issues/7649)) ([575e715](https://github.com/nolimits4web/Swiper/commit/575e71593bac73f8db64730cce2323f660006489))
+
 # [11.1.7](https://github.com/nolimits4web/Swiper/compare/v11.1.6...v11.1.7) (2024-07-24)
 
 ### Bug Fixes
