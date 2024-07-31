@@ -1,5 +1,17 @@
 # Changelog
 
+# [11.1.9](https://github.com/nolimits4web/Swiper/compare/v11.1.8...v11.1.9) (2024-07-31)
+
+### Bug Fixes
+
+- **core:** fix loop missing slides with centeredSlides ([4847fcb](https://github.com/nolimits4web/Swiper/commit/4847fcba5dbe34caa91ea23b0bb72c8d40da0e63)), closes [#7584](https://github.com/nolimits4web/Swiper/issues/7584)
+- **core:** fix types of swiper-effect-utils.d.ts ([#7655](https://github.com/nolimits4web/Swiper/issues/7655)) ([4875f26](https://github.com/nolimits4web/Swiper/commit/4875f26163c016469e599abd3d5e0a05b3838959))
+- **mousewheel:** fix issue with event handling after Swiper was destroyed ([82ae434](https://github.com/nolimits4web/Swiper/commit/82ae4346800b96bdb435cb97bed34beebbb1f359)), closes [#7654](https://github.com/nolimits4web/Swiper/issues/7654)
+
+### Features
+
+- add types for minTranslate and maxTranslate functions ([#7647](https://github.com/nolimits4web/Swiper/issues/7647)) ([450c57a](https://github.com/nolimits4web/Swiper/commit/450c57a4c6d651207e4f79ffe7ac823ab2cfcb63))
+
 # [11.1.8](https://github.com/nolimits4web/Swiper/compare/v11.1.7...v11.1.8) (2024-07-26)
 
 ### Bug Fixes
