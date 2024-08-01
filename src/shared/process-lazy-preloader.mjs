@@ -1,5 +1,5 @@
 export const processLazyPreloader = (swiper, imageEl) => {
-  if (!swiper || swiper.destroyed || !swiper.params) return;
+  if (!swiper || swiper.destroyed || !swiper.params || !swiper.params.lazyPreload) return;
   const slideSelector = () => (swiper.isElement ? `swiper-slide` : `.${swiper.params.slideClass}`);
   const slideEl = imageEl.closest(slideSelector());
   if (slideEl) {
@@ -28,7 +28,7 @@ const unlazy = (swiper, index) => {
 };
 
 export const preload = (swiper) => {
-  if (!swiper || swiper.destroyed || !swiper.params) return;
+  if (!swiper || swiper.destroyed || !swiper.params || !swiper.params.lazyPreload) return;
   let amount = swiper.params.lazyPreloadPrevNext;
   const len = swiper.slides.length;
   if (!len || !amount || amount < 0) return;
