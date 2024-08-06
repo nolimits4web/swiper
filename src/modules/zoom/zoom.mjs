@@ -500,10 +500,6 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     }
 
     const forceZoomRatio = typeof e === 'number' ? e : null;
-    if (currentScale === 1 && forceZoomRatio) {
-      touchX = undefined;
-      touchY = undefined;
-    }
 
     const maxRatio = getMaxRatio();
     zoom.scale = forceZoomRatio || maxRatio;
@@ -551,6 +547,10 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       gesture.originX = 0;
       gesture.originY = 0;
     }
+    if (currentScale === 1) {
+      image.touchesStart.x = undefined;
+      image.touchesStart.y = undefined;
+    }
     gesture.imageWrapEl.style.transitionDuration = '300ms';
     gesture.imageWrapEl.style.transform = `translate3d(${translateX}px, ${translateY}px,0)`;
     gesture.imageEl.style.transitionDuration = '300ms';
@@ -584,6 +584,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     }
     zoom.scale = 1;
     currentScale = 1;
+    image.touchesStart.x = undefined;
+    image.touchesStart.y = undefined;
     gesture.imageWrapEl.style.transitionDuration = '300ms';
     gesture.imageWrapEl.style.transform = 'translate3d(0,0,0)';
     gesture.imageEl.style.transitionDuration = '300ms';
