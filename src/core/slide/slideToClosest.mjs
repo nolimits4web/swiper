@@ -1,11 +1,12 @@
 /* eslint no-unused-vars: "off" */
-export default function slideToClosest(
-  speed = this.params.speed,
-  runCallbacks = true,
-  internal,
-  threshold = 0.5,
-) {
+export default function slideToClosest(speed, runCallbacks = true, internal, threshold = 0.5) {
   const swiper = this;
+  if (swiper.destroyed) return;
+
+  if (typeof speed === 'undefined') {
+    speed = swiper.params.speed;
+  }
+
   let index = swiper.activeIndex;
   const skip = Math.min(swiper.params.slidesPerGroupSkip, index);
   const snapIndex = skip + Math.floor((index - skip) / swiper.params.slidesPerGroup);

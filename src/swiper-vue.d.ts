@@ -51,6 +51,10 @@ declare const Swiper: DefineComponent<
       type: PropType<SwiperOptions['oneWayMovement']>;
       default: SwiperOptions['oneWayMovement'];
     };
+    swiperElementNodeName: {
+      type: PropType<SwiperOptions['swiperElementNodeName']>;
+      default: SwiperOptions['swiperElementNodeName'];
+    };
     touchEventsTarget: {
       type: PropType<SwiperOptions['touchEventsTarget']>;
       default: undefined;

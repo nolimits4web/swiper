@@ -124,7 +124,7 @@ export default function onTouchMove(event) {
       data.startMoving = true;
     }
   }
-  if (data.isScrolling) {
+  if (data.isScrolling || (e.type === 'touchmove' && data.preventTouchMoveFromPointerMove)) {
     data.isTouched = false;
     return;
   }
@@ -174,6 +174,9 @@ export default function onTouchMove(event) {
       const evt = new window.CustomEvent('transitionend', {
         bubbles: true,
         cancelable: true,
+        detail: {
+          bySwiperTouchMove: true,
+        },
       });
       swiper.wrapperEl.dispatchEvent(evt);
     }
@@ -223,7 +226,12 @@ export default function onTouchMove(event) {
       data.allowThresholdMove &&
       data.currentTranslate >
         (params.centeredSlides
-          ? swiper.minTranslate() - swiper.slidesSizesGrid[swiper.activeIndex + 1]
+          ? swiper.minTranslate() -
+            swiper.slidesSizesGrid[swiper.activeIndex + 1] -
+            (params.slidesPerView !== 'auto' && swiper.slides.length - params.slidesPerView >= 2
+              ? swiper.slidesSizesGrid[swiper.activeIndex + 1] + swiper.params.spaceBetween
+              : 0) -
+            swiper.params.spaceBetween
           : swiper.minTranslate())
     ) {
       swiper.loopFix({ direction: 'prev', setTranslate: true, activeSlideIndex: 0 });
@@ -245,7 +253,13 @@ export default function onTouchMove(event) {
       data.allowThresholdMove &&
       data.currentTranslate <
         (params.centeredSlides
-          ? swiper.maxTranslate() + swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1]
+          ? swiper.maxTranslate() +
+            swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1] +
+            swiper.params.spaceBetween +
+            (params.slidesPerView !== 'auto' && swiper.slides.length - params.slidesPerView >= 2
+              ? swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1] +
+                swiper.params.spaceBetween
+              : 0)
           : swiper.maxTranslate())
     ) {
       swiper.loopFix({

@@ -1,5 +1,13 @@
 import { elementChild, elementNextAll, elementPrevAll } from '../../shared/utils.mjs';
 
+const toggleSlideClasses = (slideEl, condition, className) => {
+  if (condition && !slideEl.classList.contains(className)) {
+    slideEl.classList.add(className);
+  } else if (!condition && slideEl.classList.contains(className)) {
+    slideEl.classList.remove(className);
+  }
+};
+
 export default function updateSlidesClasses() {
   const swiper = this;
 
@@ -10,9 +18,6 @@ export default function updateSlidesClasses() {
   const getFilteredSlide = (selector) => {
     return elementChild(slidesEl, `.${params.slideClass}${selector}, swiper-slide${selector}`);
   };
-  slides.forEach((slideEl) => {
-    slideEl.classList.remove(params.slideActiveClass, params.slideNextClass, params.slidePrevClass);
-  });
 
   let activeSlide;
   let prevSlide;
@@ -35,25 +40,13 @@ export default function updateSlidesClasses() {
       activeSlide = slides[activeIndex];
     }
   }
-  if (activeSlide) {
-    // Active classes
-    activeSlide.classList.add(params.slideActiveClass);
 
-    if (gridEnabled) {
-      if (nextSlide) {
-        nextSlide.classList.add(params.slideNextClass);
-      }
-      if (prevSlide) {
-        prevSlide.classList.add(params.slidePrevClass);
-      }
-    } else {
+  if (activeSlide) {
+    if (!gridEnabled) {
       // Next Slide
       nextSlide = elementNextAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0];
       if (params.loop && !nextSlide) {
         nextSlide = slides[0];
-      }
-      if (nextSlide) {
-        nextSlide.classList.add(params.slideNextClass);
       }
 
       // Prev Slide
@@ -61,11 +54,14 @@ export default function updateSlidesClasses() {
       if (params.loop && !prevSlide === 0) {
         prevSlide = slides[slides.length - 1];
       }
-      if (prevSlide) {
-        prevSlide.classList.add(params.slidePrevClass);
-      }
     }
   }
+
+  slides.forEach((slideEl) => {
+    toggleSlideClasses(slideEl, slideEl === activeSlide, params.slideActiveClass);
+    toggleSlideClasses(slideEl, slideEl === nextSlide, params.slideNextClass);
+    toggleSlideClasses(slideEl, slideEl === prevSlide, params.slidePrevClass);
+  });
 
   swiper.emitSlidesClasses();
 }

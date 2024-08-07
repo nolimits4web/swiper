@@ -338,11 +338,11 @@ class Swiper {
     if (typeof params.slidesPerView === 'number') return params.slidesPerView;
 
     if (params.centeredSlides) {
-      let slideSize = slides[activeIndex] ? slides[activeIndex].swiperSlideSize : 0;
+      let slideSize = slides[activeIndex] ? Math.ceil(slides[activeIndex].swiperSlideSize) : 0;
       let breakLoop;
       for (let i = activeIndex + 1; i < slides.length; i += 1) {
         if (slides[i] && !breakLoop) {
-          slideSize += slides[i].swiperSlideSize;
+          slideSize += Math.ceil(slides[i].swiperSlideSize);
           spv += 1;
           if (slideSize > swiperSize) breakLoop = true;
         }
@@ -499,7 +499,11 @@ class Swiper {
     }
 
     el.swiper = swiper;
-    if (el.parentNode && el.parentNode.host && el.parentNode.host.nodeName === 'SWIPER-CONTAINER') {
+    if (
+      el.parentNode &&
+      el.parentNode.host &&
+      el.parentNode.host.nodeName === swiper.params.swiperElementNodeName.toUpperCase()
+    ) {
       swiper.isElement = true;
     }
 
@@ -646,8 +650,12 @@ class Swiper {
     // Cleanup styles
     if (cleanStyles) {
       swiper.removeClasses();
-      el.removeAttribute('style');
-      wrapperEl.removeAttribute('style');
+      if (el && typeof el !== 'string') {
+        el.removeAttribute('style');
+      }
+      if (wrapperEl) {
+        wrapperEl.removeAttribute('style');
+      }
       if (slides && slides.length) {
         slides.forEach((slideEl) => {
           slideEl.classList.remove(
@@ -671,7 +679,9 @@ class Swiper {
     });
 
     if (deleteInstance !== false) {
-      swiper.el.swiper = null;
+      if (swiper.el && typeof swiper.el !== 'string') {
+        swiper.el.swiper = null;
+      }
       deleteProps(swiper);
     }
     swiper.destroyed = true;

@@ -158,9 +158,7 @@ class SwiperContainer extends ClassToExtend {
 
     // eslint-disable-next-line
     this.swiper = new Swiper(this.shadowRoot.querySelector('.swiper'), {
-      ...(swiperParams.virtual
-        ? {}
-        : { observer: true, observeSlideChildren: this.slideSlots > 0 }),
+      ...(swiperParams.virtual ? {} : { observer: true }),
       ...swiperParams,
       touchEventsTarget: 'container',
       onAny: (name, ...args) => {

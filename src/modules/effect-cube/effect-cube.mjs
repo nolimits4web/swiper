@@ -1,5 +1,5 @@
 import effectInit from '../../shared/effect-init.mjs';
-import { createElement } from '../../shared/utils.mjs';
+import { createElement, getRotateFix } from '../../shared/utils.mjs';
 
 export default function EffectCube({ swiper, extendParams, on }) {
   extendParams({
@@ -58,6 +58,7 @@ export default function EffectCube({ swiper, extendParams, on }) {
       size: swiperSize,
       browser,
     } = swiper;
+    const r = getRotateFix(swiper);
     const params = swiper.params.cubeEffect;
     const isHorizontal = swiper.isHorizontal();
     const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
@@ -118,15 +119,12 @@ export default function EffectCube({ swiper, extendParams, on }) {
         tx = 0;
       }
 
-      const transform = `rotateX(${isHorizontal ? 0 : -slideAngle}deg) rotateY(${
-        isHorizontal ? slideAngle : 0
-      }deg) translate3d(${tx}px, ${ty}px, ${tz}px)`;
+      const transform = `rotateX(${r(isHorizontal ? 0 : -slideAngle)}deg) rotateY(${r(
+        isHorizontal ? slideAngle : 0,
+      )}deg) translate3d(${tx}px, ${ty}px, ${tz}px)`;
       if (progress <= 1 && progress > -1) {
         wrapperRotate = slideIndex * 90 + progress * 90;
         if (rtl) wrapperRotate = -slideIndex * 90 - progress * 90;
-        if (swiper.browser && swiper.browser.isSafari && (Math.abs(wrapperRotate) / 90) % 2 === 1) {
-          wrapperRotate += 0.001;
-        }
       }
       slideEl.style.transform = transform;
       if (params.slideShadows) {
@@ -157,9 +155,9 @@ export default function EffectCube({ swiper, extendParams, on }) {
     }
     const zFactor =
       (browser.isSafari || browser.isWebView) && browser.needPerspectiveFix ? -swiperSize / 2 : 0;
-    wrapperEl.style.transform = `translate3d(0px,0,${zFactor}px) rotateX(${
-      swiper.isHorizontal() ? 0 : wrapperRotate
-    }deg) rotateY(${swiper.isHorizontal() ? -wrapperRotate : 0}deg)`;
+    wrapperEl.style.transform = `translate3d(0px,0,${zFactor}px) rotateX(${r(
+      swiper.isHorizontal() ? 0 : wrapperRotate,
+    )}deg) rotateY(${r(swiper.isHorizontal() ? -wrapperRotate : 0)}deg)`;
 
     wrapperEl.style.setProperty('--swiper-cube-translate-z', `${zFactor}px`);
   };

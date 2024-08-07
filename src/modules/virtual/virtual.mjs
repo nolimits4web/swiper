@@ -58,8 +58,17 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     return slideEl;
   }
 
-  function update(force) {
-    const { slidesPerView, slidesPerGroup, centeredSlides, loop: isLoop } = swiper.params;
+  function update(force, beforeInit) {
+    const {
+      slidesPerView,
+      slidesPerGroup,
+      centeredSlides,
+      loop: isLoop,
+      initialSlide,
+    } = swiper.params;
+    if (beforeInit && !isLoop && initialSlide > 0) {
+      return;
+    }
     const { addSlidesBefore, addSlidesAfter } = swiper.params.virtual;
     const {
       from: previousFrom,
@@ -337,7 +346,7 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     swiper.params.watchSlidesProgress = true;
     swiper.originalParams.watchSlidesProgress = true;
 
-    update();
+    update(false, true);
   });
   on('setTranslate', () => {
     if (!swiper.params.virtual.enabled) return;

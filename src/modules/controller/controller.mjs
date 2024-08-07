@@ -154,17 +154,26 @@ export default function Controller({ swiper, extendParams, on }) {
       (typeof swiper.params.controller.control === 'string' ||
         swiper.params.controller.control instanceof HTMLElement)
     ) {
-      const controlElement = document.querySelector(swiper.params.controller.control);
-      if (controlElement && controlElement.swiper) {
-        swiper.controller.control = controlElement.swiper;
-      } else if (controlElement) {
-        const onControllerSwiper = (e) => {
-          swiper.controller.control = e.detail[0];
-          swiper.update();
-          controlElement.removeEventListener('init', onControllerSwiper);
-        };
-        controlElement.addEventListener('init', onControllerSwiper);
-      }
+      const controlElements =
+        typeof swiper.params.controller.control === 'string'
+          ? [...document.querySelectorAll(swiper.params.controller.control)]
+          : [swiper.params.controller.control];
+
+      controlElements.forEach((controlElement) => {
+        if (!swiper.controller.control) swiper.controller.control = [];
+        if (controlElement && controlElement.swiper) {
+          swiper.controller.control.push(controlElement.swiper);
+        } else if (controlElement) {
+          const eventName = `${swiper.params.eventsPrefix}init`;
+          const onControllerSwiper = (e) => {
+            swiper.controller.control.push(e.detail[0]);
+            swiper.update();
+            controlElement.removeEventListener(eventName, onControllerSwiper);
+          };
+          controlElement.addEventListener(eventName, onControllerSwiper);
+        }
+      });
+
       return;
     }
     swiper.controller.control = swiper.params.controller.control;

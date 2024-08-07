@@ -50,7 +50,10 @@ export default function History({ swiper, extendParams, on }) {
     } else {
       location = window.location;
     }
-    const slide = swiper.slides[index];
+    const slide =
+      swiper.virtual && swiper.params.virtual.enabled
+        ? swiper.slidesEl.querySelector(`[data-swiper-slide-index="${index}"]`)
+        : swiper.slides[index];
     let value = slugify(slide.getAttribute('data-history'));
     if (swiper.params.history.root.length > 0) {
       let root = swiper.params.history.root;

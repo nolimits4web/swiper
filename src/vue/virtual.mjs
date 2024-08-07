@@ -24,7 +24,7 @@ function renderVirtual(swiperRef, slides, virtualData) {
   const loopTo = swiperRef.value.params.loop ? slides.length * 2 : slides.length;
   const slidesToRender = [];
   for (let i = loopFrom; i < loopTo; i += 1) {
-    if (i >= from && i <= to) {
+    if (i >= from && i <= to && slidesToRender.length < slides.length) {
       slidesToRender.push(slides[getSlideIndex(i)]);
     }
   }
@@ -33,7 +33,11 @@ function renderVirtual(swiperRef, slides, virtualData) {
     if (!slide.props.style) slide.props.style = {};
     slide.props.swiperRef = swiperRef;
     slide.props.style = style;
-    return h(slide.type, { ...slide.props }, slide.children);
+    if (slide.type) {
+      return h(slide.type, { ...slide.props }, slide.children);
+    } else if (slide.componentOptions) {
+      return h(slide.componentOptions.Ctor, { ...slide.props }, slide.componentOptions.children);
+    }
   });
 }
 

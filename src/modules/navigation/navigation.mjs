@@ -1,4 +1,5 @@
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined.mjs';
+import { makeElementsArray } from '../../shared/utils.mjs';
 
 export default function Navigation({ swiper, extendParams, on, emit }) {
   extendParams({
@@ -19,8 +20,6 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     prevEl: null,
   };
 
-  const makeElementsArray = (el) => (Array.isArray(el) ? el : [el]).filter((e) => !!e);
-
   function getEl(el) {
     let res;
     if (el && typeof el === 'string' && swiper.isElement) {
@@ -32,10 +31,13 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
       if (
         swiper.params.uniqueNavElements &&
         typeof el === 'string' &&
+        res &&
         res.length > 1 &&
         swiper.el.querySelectorAll(el).length === 1
       ) {
         res = swiper.el.querySelector(el);
+      } else if (res && res.length === 1) {
+        res = res[0];
       }
     }
     if (el && !res) return el;
@@ -96,7 +98,6 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
 
     let nextEl = getEl(params.nextEl);
     let prevEl = getEl(params.prevEl);
-
     Object.assign(swiper.navigation, {
       nextEl,
       prevEl,
@@ -160,11 +161,15 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     nextEl = makeElementsArray(nextEl);
     prevEl = makeElementsArray(prevEl);
     const targetEl = e.target;
-    if (
-      swiper.params.navigation.hideOnClick &&
-      !prevEl.includes(targetEl) &&
-      !nextEl.includes(targetEl)
-    ) {
+    let targetIsButton = prevEl.includes(targetEl) || nextEl.includes(targetEl);
+
+    if (swiper.isElement && !targetIsButton) {
+      const path = e.path || (e.composedPath && e.composedPath());
+      if (path) {
+        targetIsButton = path.find((pathEl) => nextEl.includes(pathEl) || prevEl.includes(pathEl));
+      }
+    }
+    if (swiper.params.navigation.hideOnClick && !targetIsButton) {
       if (
         swiper.pagination &&
         swiper.params.pagination &&

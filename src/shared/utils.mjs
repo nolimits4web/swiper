@@ -203,7 +203,23 @@ function findElementsInElements(elements = [], selector = '') {
   return found;
 }
 function elementChildren(element, selector = '') {
-  return [...element.children].filter((el) => el.matches(selector));
+  const children = [...element.children];
+  if (element instanceof HTMLSlotElement) {
+    children.push(...element.assignedElements());
+  }
+
+  if (!selector) {
+    return children;
+  }
+  return children.filter((el) => el.matches(selector));
+}
+function elementIsChildOf(el, parent) {
+  const isChild = parent.contains(el);
+  if (!isChild && parent instanceof HTMLSlotElement) {
+    const children = [...parent.assignedElements()];
+    return children.includes(el);
+  }
+  return isChild;
 }
 function elementChild(element, selector = '') {
   return [...element.children].find((el) => el.matches(selector));
@@ -319,7 +335,17 @@ function elementOuterSize(el, size, includeMargins) {
   }
   return el.offsetWidth;
 }
-
+function makeElementsArray(el) {
+  return (Array.isArray(el) ? el : [el]).filter((e) => !!e);
+}
+function getRotateFix(swiper) {
+  return (v) => {
+    if (Math.abs(v) > 0 && swiper.browser && swiper.browser.need3dFix && Math.abs(v) % 90 === 0) {
+      return v + 0.001;
+    }
+    return v;
+  };
+}
 export {
   animateCSSModeScroll,
   createElement,
@@ -327,6 +353,7 @@ export {
   elementChild,
   elementChildren,
   elementIndex,
+  elementIsChildOf,
   elementNextAll,
   elementOffset,
   elementOuterSize,
@@ -338,9 +365,11 @@ export {
   // dom
   findElementsInElements,
   getComputedStyle,
+  getRotateFix,
   getSlideTransformEl,
   getTranslate,
   isObject,
+  makeElementsArray,
   nextTick,
   now,
   setCSSProperty,

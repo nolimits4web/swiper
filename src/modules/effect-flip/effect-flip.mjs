@@ -2,7 +2,7 @@ import createShadow from '../../shared/create-shadow.mjs';
 import effectInit from '../../shared/effect-init.mjs';
 import effectTarget from '../../shared/effect-target.mjs';
 import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end.mjs';
-import { getSlideTransformEl } from '../../shared/utils.mjs';
+import { getRotateFix, getSlideTransformEl } from '../../shared/utils.mjs';
 
 export default function EffectFlip({ swiper, extendParams, on }) {
   extendParams({
@@ -44,6 +44,7 @@ export default function EffectFlip({ swiper, extendParams, on }) {
   const setTranslate = () => {
     const { slides, rtlTranslate: rtl } = swiper;
     const params = swiper.params.flipEffect;
+    const rotateFix = getRotateFix(swiper);
     for (let i = 0; i < slides.length; i += 1) {
       const slideEl = slides[i];
       let progress = slideEl.progress;
@@ -65,21 +66,14 @@ export default function EffectFlip({ swiper, extendParams, on }) {
         rotateY = -rotateY;
       }
 
-      if (swiper.browser && swiper.browser.isSafari) {
-        if ((Math.abs(rotateY) / 90) % 2 === 1) {
-          rotateY += 0.001;
-        }
-        if ((Math.abs(rotateX) / 90) % 2 === 1) {
-          rotateX += 0.001;
-        }
-      }
-
       slideEl.style.zIndex = -Math.abs(Math.round(progress)) + slides.length;
 
       if (params.slideShadows) {
         createSlideShadows(slideEl, progress, params);
       }
-      const transform = `translate3d(${tx}px, ${ty}px, 0px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      const transform = `translate3d(${tx}px, ${ty}px, 0px) rotateX(${rotateFix(
+        rotateX,
+      )}deg) rotateY(${rotateFix(rotateY)}deg)`;
       const targetEl = effectTarget(params, slideEl);
       targetEl.style.transform = transform;
     }

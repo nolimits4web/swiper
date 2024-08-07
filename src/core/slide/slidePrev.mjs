@@ -1,8 +1,12 @@
 /* eslint no-unused-vars: "off" */
-export default function slidePrev(speed = this.params.speed, runCallbacks = true, internal) {
+export default function slidePrev(speed, runCallbacks = true, internal) {
   const swiper = this;
   const { params, snapGrid, slidesGrid, rtlTranslate, enabled, animating } = swiper;
-  if (!enabled) return swiper;
+  if (!enabled || swiper.destroyed) return swiper;
+  if (typeof speed === 'undefined') {
+    speed = swiper.params.speed;
+  }
+
   const isVirtual = swiper.virtual && params.virtual.enabled;
 
   if (params.loop) {

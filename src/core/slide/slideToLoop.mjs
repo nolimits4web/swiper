@@ -1,15 +1,16 @@
-export default function slideToLoop(
-  index = 0,
-  speed = this.params.speed,
-  runCallbacks = true,
-  internal,
-) {
+export default function slideToLoop(index = 0, speed, runCallbacks = true, internal) {
   if (typeof index === 'string') {
     const indexAsNumber = parseInt(index, 10);
 
     index = indexAsNumber;
   }
   const swiper = this;
+  if (swiper.destroyed) return;
+
+  if (typeof speed === 'undefined') {
+    speed = swiper.params.speed;
+  }
+
   const gridEnabled = swiper.grid && swiper.params.grid && swiper.params.grid.rows > 1;
   let newIndex = index;
   if (swiper.params.loop) {
@@ -42,9 +43,14 @@ export default function slideToLoop(
         }
       }
       let needLoopFix = cols - targetSlideIndex < slidesPerView;
+
       if (centeredSlides) {
         needLoopFix = needLoopFix || targetSlideIndex < Math.ceil(slidesPerView / 2);
       }
+      if (internal && centeredSlides && swiper.params.slidesPerView !== 'auto' && !gridEnabled) {
+        needLoopFix = false;
+      }
+
       if (needLoopFix) {
         const direction = centeredSlides
           ? targetSlideIndex < swiper.activeIndex
