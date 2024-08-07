@@ -1,6 +1,6 @@
-import { attrToProp, extend, isObject } from './utils.mjs';
-import { paramsList } from './params-list.mjs';
 import defaults from '../core/defaults.mjs';
+import { paramsList } from './params-list.mjs';
+import { attrToProp, extend, isObject } from './utils.mjs';
 
 const formatValue = (val) => {
   if (parseFloat(val) === Number(val)) return Number(val);
@@ -69,9 +69,7 @@ function getParams(element, propName, propValue) {
     attrsList.push({ name: propName, value: isObject(propValue) ? { ...propValue } : propValue });
   }
   attrsList.forEach((attr) => {
-    const moduleParam = modulesParamsList.filter(
-      (mParam) => attr.name.indexOf(`${mParam}-`) === 0,
-    )[0];
+    const moduleParam = modulesParamsList.find((mParam) => attr.name.indexOf(`${mParam}-`) === 0);
     if (moduleParam) {
       const parentObjName = attrToProp(moduleParam);
       const subObjName = attrToProp(attr.name.split(`${moduleParam}-`)[1]);
