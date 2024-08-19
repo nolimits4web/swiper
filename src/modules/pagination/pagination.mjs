@@ -70,6 +70,16 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     }
   }
 
+  function getMoveDirection(preIndex, nextIndex, length) {
+    preIndex = preIndex % length;
+    nextIndex = nextIndex % length;
+    if (nextIndex === preIndex + 1) {
+      return 'next';
+    } else if (nextIndex === preIndex - 1) {
+      return 'previous';
+    }
+    return;
+  }
   function onBulletClick(e) {
     const bulletEl = e.target.closest(classesToSelector(swiper.params.pagination.bulletClass));
     if (!bulletEl) {
@@ -79,6 +89,14 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     const index = elementIndex(bulletEl) * swiper.params.slidesPerGroup;
     if (swiper.params.loop) {
       if (swiper.realIndex === index) return;
+      if (getMoveDirection(swiper.realIndex, index, swiper.slides.length) === 'next') {
+        swiper.slideNext();
+        return;
+      }
+      if (getMoveDirection(swiper.realIndex, index, swiper.slides.length) === 'previous') {
+        swiper.slidePrev();
+        return;
+      }
       swiper.slideToLoop(index);
     } else {
       swiper.slideTo(index);
