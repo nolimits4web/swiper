@@ -1,5 +1,12 @@
 # Changelog
 
+# [11.1.10](https://github.com/nolimits4web/Swiper/compare/v11.1.9...v11.1.10) (2024-08-21)
+
+### Bug Fixes
+
+- **pagination:** fixed swiper Infinite loop scroll jumping ([#7690](https://github.com/nolimits4web/Swiper/issues/7690))
+- **zoom:** fix zoomIn after currentScale is set to 1 ([#7663](https://github.com/nolimits4web/Swiper/issues/7663)) ([94173da](https://github.com/nolimits4web/Swiper/commit/94173dae058d18e3839d8f98584bce460eb49996))
+
 # [11.1.9](https://github.com/nolimits4web/Swiper/compare/v11.1.8...v11.1.9) (2024-07-31)
 
 ### Bug Fixes
