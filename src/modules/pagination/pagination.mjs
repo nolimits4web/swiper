@@ -70,12 +70,12 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     }
   }
 
-  function getMoveDirection(preIndex, nextIndex, length) {
-    preIndex = preIndex % length;
+  function getMoveDirection(prevIndex, nextIndex, length) {
+    prevIndex = prevIndex % length;
     nextIndex = nextIndex % length;
-    if (nextIndex === preIndex + 1) {
+    if (nextIndex === prevIndex + 1) {
       return 'next';
-    } else if (nextIndex === preIndex - 1) {
+    } else if (nextIndex === prevIndex - 1) {
       return 'previous';
     }
     return;
@@ -89,15 +89,14 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     const index = elementIndex(bulletEl) * swiper.params.slidesPerGroup;
     if (swiper.params.loop) {
       if (swiper.realIndex === index) return;
-      if (getMoveDirection(swiper.realIndex, index, swiper.slides.length) === 'next') {
+      const moveDirection = getMoveDirection(swiper.realIndex, index, swiper.slides.length);
+      if (moveDirection === 'next') {
         swiper.slideNext();
-        return;
-      }
-      if (getMoveDirection(swiper.realIndex, index, swiper.slides.length) === 'previous') {
+      } else if (moveDirection === 'previous') {
         swiper.slidePrev();
-        return;
+      } else {
+        swiper.slideToLoop(index);
       }
-      swiper.slideToLoop(index);
     } else {
       swiper.slideTo(index);
     }
