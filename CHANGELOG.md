@@ -1,5 +1,13 @@
 # Changelog
 
+# [11.1.11](https://github.com/nolimits4web/Swiper/compare/v11.1.10...v11.1.11) (2024-08-28)
+
+### Bug Fixes
+
+- centeredSlides with centeredSlidesBounds don't work correct when slidesPerView: 'auto' and width of the swiper-container bigger then width of slides ([#7696](https://github.com/nolimits4web/Swiper/issues/7696)) ([c11172a](https://github.com/nolimits4web/Swiper/commit/c11172a50ae67d79a625ad35c9460feceff478c6))
+- **element:** fix element styles to have correct order override ([f26036f](https://github.com/nolimits4web/Swiper/commit/f26036f3261bc9dad9f83a8c7145578b8ccf6ecc)), closes [#7704](https://github.com/nolimits4web/Swiper/issues/7704)
+- **virtual:** fix bypassing initial translate check if Virtual is enabled ([df957bb](https://github.com/nolimits4web/Swiper/commit/df957bbdb81ffeb7ef752598f740d4e155f9840a)), closes [#7699](https://github.com/nolimits4web/Swiper/issues/7699)
+
 # [11.1.10](https://github.com/nolimits4web/Swiper/compare/v11.1.9...v11.1.10) (2024-08-21)
 
 ### Bug Fixes
