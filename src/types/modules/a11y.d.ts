@@ -67,6 +67,13 @@ export interface A11yOptions {
   containerRoleDescriptionMessage?: string | null;
 
   /**
+   * Value of the "role" attribute to be set on the swiper container
+   *
+   * @default null
+   */
+  containerRole?: string | null;
+
+  /**
    * Message for screen readers describing the role of slide element
    *
    * @default null
