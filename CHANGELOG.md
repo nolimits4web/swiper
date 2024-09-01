@@ -1,3 +1,13 @@
+# [11.1.12](https://github.com/nolimits4web/Swiper/compare/v11.1.11...v11.1.12) (2024-09-01)
+
+### Bug Fixes
+
+- **cards:** fix cards effect styles leak ([0be4c6a](https://github.com/nolimits4web/Swiper/commit/0be4c6aa785d5be34a8f33fde91b67ec25d5752a)), closes [#7712](https://github.com/nolimits4web/Swiper/issues/7712)
+
+### Features
+
+- **a11y:** add `containerRole` parameter ([#7708](https://github.com/nolimits4web/Swiper/issues/7708)) ([1542c01](https://github.com/nolimits4web/Swiper/commit/1542c01823fd233aa6159c13aec717360cb3c01c))
+
 # Changelog
 
 # [11.1.11](https://github.com/nolimits4web/Swiper/compare/v11.1.10...v11.1.11) (2024-08-28)
