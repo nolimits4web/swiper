@@ -76,7 +76,14 @@ export default function onTouchMove(event) {
       return;
     }
   }
-
+  if (
+    document.activeElement &&
+    document.activeElement.matches(data.focusableElements) &&
+    document.activeElement !== e.target &&
+    e.pointerType !== 'mouse'
+  ) {
+    document.activeElement.blur();
+  }
   if (document.activeElement) {
     if (e.target === document.activeElement && e.target.matches(data.focusableElements)) {
       data.isMoved = true;

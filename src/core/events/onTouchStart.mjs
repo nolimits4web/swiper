@@ -134,10 +134,13 @@ export default function onTouchStart(event) {
       data.isTouched = false;
     }
   }
+
   if (
     document.activeElement &&
     document.activeElement.matches(data.focusableElements) &&
-    document.activeElement !== targetEl
+    document.activeElement !== targetEl &&
+    (e.pointerType === 'mouse' ||
+      (e.pointerType !== 'mouse' && !targetEl.matches(data.focusableElements)))
   ) {
     document.activeElement.blur();
   }
