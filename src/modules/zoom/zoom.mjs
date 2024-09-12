@@ -247,6 +247,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     clearTimeout(allowTouchMoveTimeout);
     swiper.touchEventsData.preventTouchMoveFromPointerMove = true;
     allowTouchMoveTimeout = setTimeout(() => {
+      if (swiper.destroyed) return;
       allowTouchMove();
     });
   }
