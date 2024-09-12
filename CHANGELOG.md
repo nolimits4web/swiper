@@ -1,3 +1,13 @@
+# Changelog
+
+# [11.1.14](https://github.com/nolimits4web/Swiper/compare/v11.1.12...v11.1.14) (2024-09-12)
+
+### Bug Fixes
+
+- **core:** fix mobile input blur on touchstart on different input ([66c5dd1](https://github.com/nolimits4web/Swiper/commit/66c5dd10dc3b75a645b17c5b06b193483c026a89)), closes [#7728](https://github.com/nolimits4web/Swiper/issues/7728)
+- **element:** Query the swiper.hostEl for the navigation buttons ([#7714](https://github.com/nolimits4web/Swiper/issues/7714)) ([#7716](https://github.com/nolimits4web/Swiper/issues/7716)) ([d0b6abd](https://github.com/nolimits4web/Swiper/commit/d0b6abd74805398ac3cbf41aeebf141a805ec64b))
+- **zoom:** add sanity check before allowTouchMove call in timeout ([#7723](https://github.com/nolimits4web/Swiper/issues/7723)) ([869bb84](https://github.com/nolimits4web/Swiper/commit/869bb843735718c3c77551644cfd717bbf9e264e))
+
 # [11.1.12](https://github.com/nolimits4web/Swiper/compare/v11.1.11...v11.1.12) (2024-09-01)
 
 ### Bug Fixes
@@ -7,8 +17,6 @@
 ### Features
 
 - **a11y:** add `containerRole` parameter ([#7708](https://github.com/nolimits4web/Swiper/issues/7708)) ([1542c01](https://github.com/nolimits4web/Swiper/commit/1542c01823fd233aa6159c13aec717360cb3c01c))
-
-# Changelog
 
 # [11.1.11](https://github.com/nolimits4web/Swiper/compare/v11.1.10...v11.1.11) (2024-08-28)
 
