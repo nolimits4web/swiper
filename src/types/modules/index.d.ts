@@ -12,7 +12,6 @@ declare const EffectCards: SwiperModule;
 declare const HashNavigation: SwiperModule;
 declare const History: SwiperModule;
 declare const Keyboard: SwiperModule;
-declare const Lazy: SwiperModule;
 declare const Mousewheel: SwiperModule;
 declare const Navigation: SwiperModule;
 declare const Pagination: SwiperModule;
@@ -38,7 +37,6 @@ export {
   HashNavigation,
   History,
   Keyboard,
-  Lazy,
   Mousewheel,
   Navigation,
   Pagination,
