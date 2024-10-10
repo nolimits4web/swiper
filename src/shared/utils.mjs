@@ -214,12 +214,20 @@ function elementChildren(element, selector = '') {
   return children.filter((el) => el.matches(selector));
 }
 function elementIsChildOf(el, parent) {
-  const isChild = parent.contains(el);
-  if (!isChild && parent instanceof HTMLSlotElement) {
-    const children = [...parent.assignedElements()];
-    return children.includes(el);
+  // Breadth-first search through all parent's children and assigned elements
+  const elementsQueue = [parent];
+  while (elementsQueue.length > 0) {
+    const elementToCheck = elementsQueue.shift();
+    if (el === elementToCheck) {
+      return true;
+    }
+    elementsQueue.push(
+      ...elementToCheck.children,
+      ...(elementToCheck.shadowRoot?.children ?? []),
+      ...(elementToCheck.assignedElements?.() ?? []),
+    );
   }
-  return isChild;
+  return false;
 }
 function showWarning(text) {
   try {
