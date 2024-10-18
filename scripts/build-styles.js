@@ -97,6 +97,26 @@ export default async function buildStyles() {
             .replace(/modules\/([a-zA-Z0-9-]*)/, 'modules')
             .replace(/modules\\([a-zA-Z0-9-]*)/, 'modules');
         }
+
+        const extension = file.split('.').pop();
+        if (extension === 'scss') {
+          if (file === 'swiper.scss') {
+            //root file
+            distFileContent = distFileContent.replace(
+              `@import 'swiper-vars.scss';`,
+              `@use 'swiper-vars.scss' as vars;`,
+            );
+            distFileContent = distFileContent.replace(`#{$themeColor}`, `#{vars.$themeColor}`);
+          } else {
+            //modules files
+            distFileContent = distFileContent.replace(
+              `@import '../swiper-vars.scss';`,
+              `@use '../swiper-vars.scss' as vars;`,
+            );
+            distFileContent = distFileContent.replace(`#{$themeColor}`, `#{vars.$themeColor}`);
+          }
+        }
+
         await fs.ensureDir(path.dirname(distFilePath));
         await fs.writeFile(distFilePath, distFileContent);
       }),
