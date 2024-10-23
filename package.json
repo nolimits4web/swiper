@@ -13,7 +13,7 @@
     "element": "npm run build && concurrently --kill-others \"vite ./playground/element\" \"npm run watch\" ",
     "react": "npm run build && concurrently --kill-others \"vite ./playground/react\" \"npm run watch\"",
     "vue": "npm run build && concurrently --kill-others \"vite ./playground/vue\" \"npm run watch\"",
-    "prettier": "prettier \"**/*.+(js|json|scss|css|less|ts|jsx)\"",
+    "prettier": "prettier \"**/*.+(js|json|scss|css|less|ts|jsx|mjs)\"",
     "format": "npm run prettier -- --write",
     "check-format": "npm run prettier -- --list-different",
     "lint": "eslint --ext .js,.jsx .",
