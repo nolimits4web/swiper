@@ -1,17 +1,17 @@
 /* eslint-disable no-shadow */
-import fs from 'fs';
-import { rollup } from 'rollup';
+import { babel } from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
-import { babel } from '@rollup/plugin-babel';
-import elapsed from 'elapsed-time-logger';
 import chalk from 'chalk';
-import getElementStyles from './utils/get-element-styles.js';
+import elapsed from 'elapsed-time-logger';
+import fs from 'fs';
+import { rollup } from 'rollup';
 import { modules as configModules } from './build-config.js';
-import { capitalizeString } from './utils/helper.js';
-import minify from './utils/minify.js';
 import { banner } from './utils/banner.js';
+import getElementStyles from './utils/get-element-styles.js';
+import { capitalizeString } from './utils/helper.js';
 import isProd from './utils/isProd.js';
+import minify from './utils/minify.js';
 
 export default async function buildModules() {
   elapsed.start('modules');
@@ -80,7 +80,7 @@ export default async function buildModules() {
     fs.mkdirSync(`./dist/modules`);
   }
   files.forEach((fileName) => {
-    const folderName = fileName.split('.mjs')[0];
+    const [folderName] = fileName.split('.mjs');
     if (fs.existsSync(`./src/modules/${folderName}`)) {
       fs.copyFileSync(`./dist/tmp/${fileName}`, `./dist/modules/${fileName}`);
       fs.unlinkSync(`./dist/tmp/${fileName}`);
@@ -144,10 +144,10 @@ export default async function buildModules() {
       const bannerName = f.includes('react')
         ? 'React'
         : f.includes('vue')
-        ? 'Vue'
-        : f.includes('element')
-        ? 'Custom Element'
-        : '';
+          ? 'Vue'
+          : f.includes('element')
+            ? 'Custom Element'
+            : '';
 
       fs.writeFileSync(`./dist/${f}`, `${banner(bannerName)}\n${content}`);
     });
@@ -241,10 +241,10 @@ export default async function buildModules() {
         const bannerName = f.includes('react')
           ? 'React'
           : f.includes('vue')
-          ? 'Vue'
-          : f.includes('element')
-          ? 'Custom Element'
-          : '';
+            ? 'Vue'
+            : f.includes('element')
+              ? 'Custom Element'
+              : '';
         return minify(f, `./dist/${f}`, bannerName);
       }),
     // IIFE

@@ -1,5 +1,5 @@
-import { getWindow, getDocument } from 'ssr-window';
-import { elementChildren } from '../../shared/utils.mjs';
+import { getDocument, getWindow } from 'ssr-window';
+import { elementChild } from '../../shared/utils.mjs';
 
 export default function HashNavigation({ swiper, extendParams, emit, on }) {
   let initialized = false;
@@ -12,18 +12,18 @@ export default function HashNavigation({ swiper, extendParams, emit, on }) {
       watchState: false,
       getSlideIndex(_s, hash) {
         if (swiper.virtual && swiper.params.virtual.enabled) {
-          const slideWithHash = swiper.slides.filter(
+          const slideWithHash = swiper.slides.find(
             (slideEl) => slideEl.getAttribute('data-hash') === hash,
-          )[0];
+          );
           if (!slideWithHash) return 0;
           const index = parseInt(slideWithHash.getAttribute('data-swiper-slide-index'), 10);
           return index;
         }
         return swiper.getSlideIndex(
-          elementChildren(
+          elementChild(
             swiper.slidesEl,
             `.${swiper.params.slideClass}[data-hash="${hash}"], swiper-slide[data-hash="${hash}"]`,
-          )[0],
+          ),
         );
       },
     },
