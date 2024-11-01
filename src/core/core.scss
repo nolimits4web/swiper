@@ -1,6 +1,6 @@
 @at-root {
   :root {
-    --swiper-theme-color: #{$themeColor};
+    --swiper-theme-color: #{vars.$themeColor};
     /*
     --swiper-preloader-color: var(--swiper-theme-color);
     --swiper-wrapper-transition-timing-function: initial;
