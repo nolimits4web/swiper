@@ -60,6 +60,11 @@ interface Swiper extends SwiperClass<SwiperEvents> {
   wrapperEl: HTMLElement;
 
   /**
+   * Wrapper HTML element
+   */
+  slidesEl: HTMLElement;
+
+  /**
    * Array of slides HTML elements. To get specific slide HTMLElement use `swiper.slides[1]`
    */
   slides: HTMLElement[];
@@ -115,6 +120,16 @@ interface Swiper extends SwiperClass<SwiperEvents> {
    * Slides snap grid
    */
   snapGrid: number[];
+
+  /**
+   * Slides grid
+   */
+  slidesGrid: number[];
+
+  /**
+   * Array of widths for slides
+   */
+  slidesSizesGrid: number[];
 
   /**
    * `true` if slider on most "left"/"top" position
@@ -384,6 +399,16 @@ interface Swiper extends SwiperClass<SwiperEvents> {
     runCallbacks?: boolean,
     translateBounds?: boolean,
   ): any;
+
+  /**
+   * Get current minimal translate value
+   */
+  minTranslate(): number;
+
+  /**
+   * Get current maximal translate value
+   */
+  maxTranslate(): number;
 
   /**
    * Unset grab cursor

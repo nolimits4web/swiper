@@ -1,6 +1,6 @@
-import { Swiper, SwiperOptions } from './types/index.d.ts';
+import type { Swiper, SwiperOptions } from './types/index.d.ts';
 
-declare const createShadow: (suffix?: string, slideEl: HTMLElement, side?: string) => HTMLElement;
+declare const createShadow: (suffix: string, slideEl: HTMLElement, side?: string) => HTMLElement;
 
 declare const effectInit: (params: {
   effect: string;

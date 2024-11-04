@@ -15,9 +15,11 @@ export default function A11y({ swiper, extendParams, on }) {
       slideLabelMessage: '{{index}} / {{slidesLength}}',
       containerMessage: null,
       containerRoleDescriptionMessage: null,
+      containerRole: null,
       itemRoleDescriptionMessage: null,
       slideRole: 'group',
       id: null,
+      scrollOnFocus: true
     },
   });
 
@@ -236,7 +238,7 @@ export default function A11y({ swiper, extendParams, on }) {
   };
 
   const handleFocus = (e) => {
-    if (swiper.a11y.clicked) return;
+    if (swiper.a11y.clicked || !swiper.params.a11y.scrollOnFocus) return;
     if (new Date().getTime() - visibilityChangedTimestamp < 100) return;
 
     const slideEl = e.target.closest(`.${swiper.params.slideClass}, swiper-slide`);
@@ -300,6 +302,9 @@ export default function A11y({ swiper, extendParams, on }) {
     }
     if (params.containerMessage) {
       addElLabel(containerEl, params.containerMessage);
+    }
+    if (params.containerRole) {
+      addElRole(containerEl, params.containerRole);
     }
 
     // Wrapper

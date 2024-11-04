@@ -203,7 +203,23 @@ function findElementsInElements(elements = [], selector = '') {
   return found;
 }
 function elementChildren(element, selector = '') {
-  return [...element.children].filter((el) => el.matches(selector));
+  const children = [...element.children];
+  if (element instanceof HTMLSlotElement) {
+    children.push(...element.assignedElements());
+  }
+
+  if (!selector) {
+    return children;
+  }
+  return children.filter((el) => el.matches(selector));
+}
+function elementIsChildOf(el, parent) {
+  const isChild = parent.contains(el);
+  if (!isChild && parent instanceof HTMLSlotElement) {
+    const children = [...parent.assignedElements()];
+    return children.includes(el);
+  }
+  return isChild;
 }
 function showWarning(text) {
   try {
@@ -319,6 +335,14 @@ function elementOuterSize(el, size, includeMargins) {
 function makeElementsArray(el) {
   return (Array.isArray(el) ? el : [el]).filter((e) => !!e);
 }
+function getRotateFix(swiper) {
+  return (v) => {
+    if (Math.abs(v) > 0 && swiper.browser && swiper.browser.need3dFix && Math.abs(v) % 90 === 0) {
+      return v + 0.001;
+    }
+    return v;
+  };
+}
 export {
   animateCSSModeScroll,
   deleteProps,
@@ -335,6 +359,7 @@ export {
   findElementsInElements,
   createElement,
   elementChildren,
+  elementIsChildOf,
   elementOffset,
   elementPrevAll,
   elementNextAll,
@@ -344,4 +369,5 @@ export {
   elementTransitionEnd,
   elementOuterSize,
   makeElementsArray,
+  getRotateFix,
 };

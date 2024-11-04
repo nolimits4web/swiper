@@ -1,4 +1,4 @@
-@import '../../swiper-vars.scss';
+@use '../../swiper-vars.scss' as vars;
 @at-root {
   :root {
     --swiper-navigation-size: 44px;
@@ -82,12 +82,12 @@
 }
 .swiper-button-next,
 .swiper-rtl .swiper-button-prev {
+  right: var(--swiper-navigation-sides-offset, 10px);
+  left: auto;
   &:after {
     content: '';
     -webkit-mask: var(--swiper-navigation-next-icon) no-repeat;
     mask: var(--swiper-navigation-next-icon) no-repeat;
   }
-  right: var(--swiper-navigation-sides-offset, 10px);
-  left: auto;
 }
 /* Navigation font end */

@@ -76,7 +76,14 @@ export default function onTouchMove(event) {
       return;
     }
   }
-
+  if (
+    document.activeElement &&
+    document.activeElement.matches(data.focusableElements) &&
+    document.activeElement !== e.target &&
+    e.pointerType !== 'mouse'
+  ) {
+    document.activeElement.blur();
+  }
   if (document.activeElement) {
     if (e.target === document.activeElement && e.target.matches(data.focusableElements)) {
       data.isMoved = true;
@@ -226,7 +233,12 @@ export default function onTouchMove(event) {
       data.allowThresholdMove &&
       data.currentTranslate >
         (params.centeredSlides
-          ? swiper.minTranslate() - swiper.slidesSizesGrid[swiper.activeIndex + 1]
+          ? swiper.minTranslate() -
+            swiper.slidesSizesGrid[swiper.activeIndex + 1] -
+            (params.slidesPerView !== 'auto' && swiper.slides.length - params.slidesPerView >= 2
+              ? swiper.slidesSizesGrid[swiper.activeIndex + 1] + swiper.params.spaceBetween
+              : 0) -
+            swiper.params.spaceBetween
           : swiper.minTranslate())
     ) {
       swiper.loopFix({ direction: 'prev', setTranslate: true, activeSlideIndex: 0 });
@@ -248,7 +260,13 @@ export default function onTouchMove(event) {
       data.allowThresholdMove &&
       data.currentTranslate <
         (params.centeredSlides
-          ? swiper.maxTranslate() + swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1]
+          ? swiper.maxTranslate() +
+            swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1] +
+            swiper.params.spaceBetween +
+            (params.slidesPerView !== 'auto' && swiper.slides.length - params.slidesPerView >= 2
+              ? swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1] +
+                swiper.params.spaceBetween
+              : 0)
           : swiper.maxTranslate())
     ) {
       swiper.loopFix({
