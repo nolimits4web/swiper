@@ -26,8 +26,9 @@ function updateSwiper({
     changedParams.includes('thumbs') &&
     passedParams.thumbs &&
     passedParams.thumbs.swiper &&
+    !passedParams.thumbs.swiper.destroyed &&
     currentParams.thumbs &&
-    !currentParams.thumbs.swiper
+    (!currentParams.thumbs.swiper || currentParams.thumbs.swiper.destroyed)
   ) {
     needThumbsInit = true;
   }
