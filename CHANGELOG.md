@@ -1,5 +1,14 @@
 # Changelog
 
+# [11.1.15](https://github.com/nolimits4web/Swiper/compare/v11.1.14...v11.1.15) (2024-11-18)
+
+### Bug Fixes
+
+- **react:** react strict mode double initialization errors for thumbs ([#7789](https://github.com/nolimits4web/Swiper/issues/7789)) ([9dece7d](https://github.com/nolimits4web/Swiper/commit/9dece7dae34e6a7a0291cd0a05f8c804bfdd7b59))
+- **scss:** Dart Sass 3.0.0 compatibility ([fbd2ba4](https://github.com/nolimits4web/Swiper/commit/fbd2ba4b9bc7c5ae6a3c8796e4ea790a2c5507b0)), closes [#7772](https://github.com/nolimits4web/Swiper/issues/7772) [#7771](https://github.com/nolimits4web/Swiper/issues/7771)
+- **types:** remove 'Lazy' declaration ([#7739](https://github.com/nolimits4web/Swiper/issues/7739)) ([40a705e](https://github.com/nolimits4web/Swiper/commit/40a705e5bcadf2ee2ee90591ff9ed95c1aaf9026))
+- **types:** type definitions for `slidesEl`, `slidesGrid`, and `slidesSizesGrid` ([#7768](https://github.com/nolimits4web/Swiper/issues/7768)) ([fb59a41](https://github.com/nolimits4web/Swiper/commit/fb59a41801629a25dc7f0738961e3aeeb60a9cc8))
+
 # [11.1.14](https://github.com/nolimits4web/Swiper/compare/v11.1.12...v11.1.14) (2024-09-12)
 
 ### Bug Fixes
