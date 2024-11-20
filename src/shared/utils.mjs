@@ -1,4 +1,4 @@
-import { getWindow, getDocument } from 'ssr-window';
+import { getDocument, getWindow } from 'ssr-window';
 import classesToTokens from './classes-to-tokens.mjs';
 
 function deleteProps(obj) {
@@ -221,6 +221,9 @@ function elementIsChildOf(el, parent) {
   }
   return isChild;
 }
+function elementChild(element, selector = '') {
+  return [...element.children].find((el) => el.matches(selector));
+}
 function showWarning(text) {
   try {
     console.warn(text);
@@ -345,29 +348,30 @@ function getRotateFix(swiper) {
 }
 export {
   animateCSSModeScroll,
+  createElement,
   deleteProps,
-  nextTick,
-  now,
-  getTranslate,
-  isObject,
+  elementChild,
+  elementChildren,
+  elementIndex,
+  elementIsChildOf,
+  elementNextAll,
+  elementOffset,
+  elementOuterSize,
+  elementParents,
+  elementPrevAll,
+  elementStyle,
+  elementTransitionEnd,
   extend,
-  getComputedStyle,
-  setCSSProperty,
-  getSlideTransformEl,
-  showWarning,
   // dom
   findElementsInElements,
-  createElement,
-  elementChildren,
-  elementIsChildOf,
-  elementOffset,
-  elementPrevAll,
-  elementNextAll,
-  elementStyle,
-  elementIndex,
-  elementParents,
-  elementTransitionEnd,
-  elementOuterSize,
-  makeElementsArray,
+  getComputedStyle,
   getRotateFix,
+  getSlideTransformEl,
+  getTranslate,
+  isObject,
+  makeElementsArray,
+  nextTick,
+  now,
+  setCSSProperty,
+  showWarning,
 };

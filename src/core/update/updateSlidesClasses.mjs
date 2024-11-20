@@ -1,4 +1,4 @@
-import { elementChildren, elementNextAll, elementPrevAll } from '../../shared/utils.mjs';
+import { elementChild, elementNextAll, elementPrevAll } from '../../shared/utils.mjs';
 
 const toggleSlideClasses = (slideEl, condition, className) => {
   if (condition && !slideEl.classList.contains(className)) {
@@ -16,10 +16,7 @@ export default function updateSlidesClasses() {
   const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
 
   const getFilteredSlide = (selector) => {
-    return elementChildren(
-      slidesEl,
-      `.${params.slideClass}${selector}, swiper-slide${selector}`,
-    )[0];
+    return elementChild(slidesEl, `.${params.slideClass}${selector}, swiper-slide${selector}`);
   };
 
   let activeSlide;
@@ -36,9 +33,9 @@ export default function updateSlidesClasses() {
     }
   } else {
     if (gridEnabled) {
-      activeSlide = slides.filter((slideEl) => slideEl.column === activeIndex)[0];
-      nextSlide = slides.filter((slideEl) => slideEl.column === activeIndex + 1)[0];
-      prevSlide = slides.filter((slideEl) => slideEl.column === activeIndex - 1)[0];
+      activeSlide = slides.find((slideEl) => slideEl.column === activeIndex);
+      nextSlide = slides.find((slideEl) => slideEl.column === activeIndex + 1);
+      prevSlide = slides.find((slideEl) => slideEl.column === activeIndex - 1);
     } else {
       activeSlide = slides[activeIndex];
     }
