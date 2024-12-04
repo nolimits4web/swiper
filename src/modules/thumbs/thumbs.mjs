@@ -125,9 +125,9 @@ export default function Thumb({ swiper, extendParams, on }) {
       let newThumbsIndex;
       let direction;
       if (thumbsSwiper.params.loop) {
-        const newThumbsSlide = thumbsSwiper.slides.filter(
+        const newThumbsSlide = thumbsSwiper.slides.find(
           (slideEl) => slideEl.getAttribute('data-swiper-slide-index') === `${swiper.realIndex}`,
-        )[0];
+        );
         newThumbsIndex = thumbsSwiper.slides.indexOf(newThumbsSlide);
 
         direction = swiper.activeIndex > swiper.previousIndex ? 'next' : 'prev';

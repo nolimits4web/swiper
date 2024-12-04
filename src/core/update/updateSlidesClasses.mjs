@@ -36,9 +36,9 @@ export default function updateSlidesClasses() {
     }
   } else {
     if (gridEnabled) {
-      activeSlide = slides.filter((slideEl) => slideEl.column === activeIndex)[0];
-      nextSlide = slides.filter((slideEl) => slideEl.column === activeIndex + 1)[0];
-      prevSlide = slides.filter((slideEl) => slideEl.column === activeIndex - 1)[0];
+      activeSlide = slides.find((slideEl) => slideEl.column === activeIndex);
+      nextSlide = slides.find((slideEl) => slideEl.column === activeIndex + 1);
+      prevSlide = slides.find((slideEl) => slideEl.column === activeIndex - 1);
     } else {
       activeSlide = slides[activeIndex];
     }
