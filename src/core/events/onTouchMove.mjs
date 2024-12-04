@@ -20,7 +20,7 @@ export default function onTouchMove(event) {
 
   let targetTouch;
   if (e.type === 'touchmove') {
-    targetTouch = [...e.changedTouches].filter((t) => t.identifier === data.touchId)[0];
+    targetTouch = [...e.changedTouches].find((t) => t.identifier === data.touchId);
     if (!targetTouch || targetTouch.identifier !== data.touchId) return;
   } else {
     targetTouch = e;

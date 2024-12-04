@@ -12,9 +12,9 @@ export default function HashNavigation({ swiper, extendParams, emit, on }) {
       watchState: false,
       getSlideIndex(_s, hash) {
         if (swiper.virtual && swiper.params.virtual.enabled) {
-          const slideWithHash = swiper.slides.filter(
+          const slideWithHash = swiper.slides.find(
             (slideEl) => slideEl.getAttribute('data-hash') === hash,
-          )[0];
+          );
           if (!slideWithHash) return 0;
           const index = parseInt(slideWithHash.getAttribute('data-swiper-slide-index'), 10);
           return index;
