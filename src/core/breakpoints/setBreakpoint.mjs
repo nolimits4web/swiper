@@ -12,7 +12,7 @@ export default function setBreakpoint() {
 
   // Get breakpoint for window/container width and update parameters
   const breakpointsBase = params.breakpointsBase === 'window' || !params.breakpointsBase ? params.breakpointsBase : 'container';
-  const breakpointContainer = params.breakpointsBase === 'window' || !params.breakpointsBase ? el : el.closest(params.breakpointsBase);
+  const breakpointContainer = ['window', 'container'].includes(params.breakpointsBase) || !params.breakpointsBase ? params.el : document.querySelector(params.breakpointsBase);
   const breakpoint = swiper.getBreakpoint(breakpoints, breakpointsBase, breakpointContainer);
 
   if (!breakpoint || swiper.currentBreakpoint === breakpoint) return;
