@@ -1,4 +1,4 @@
-import { nextTick } from '../../shared/utils.mjs';
+import { now, nextTick } from '../../shared/utils.mjs';
 
 export default function onTouchEnd(event) {
   const swiper = this;
@@ -54,6 +54,9 @@ export default function onTouchEnd(event) {
   ) {
     swiper.setGrabCursor(false);
   }
+
+  const touchEndTime = now();
+  const timeDiff = touchEndTime - data.touchStartTime;
 
   nextTick(() => {
     if (!swiper.destroyed) swiper.allowClick = true;
