@@ -64,11 +64,11 @@ export interface ZoomOptions {
    */
   minRatio?: number;
   /**
-   * When set to true, a zoomed in image will automatically pan while moving the mouse
+   * When set to true, a zoomed in image will automatically pan while moving the mouse over the image
    *
    * @default false
    */
-  panWithMouse?: boolean;
+  panOnMouseMove?: boolean;
   /**
    * Enable/disable zoom-in by slide's double tap
    *
