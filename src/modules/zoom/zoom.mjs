@@ -14,6 +14,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       limitToOriginalSize: false,
       maxRatio: 3,
       minRatio: 1,
+      panWithMouse: false,
       toggle: true,
       containerClass: 'swiper-zoom-container',
       zoomedSlideClass: 'swiper-slide-zoomed',
@@ -26,6 +27,9 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
 
   let currentScale = 1;
   let isScaling = false;
+  let isPanningWithMouse = false;
+  let mousePanStart = { x: 0, y: 0 };
+  const mousePanSensitivity = -3; // Negative to invert pan direction
   let fakeGestureTouched;
   let fakeGestureMoved;
   let preventZoomOut;
@@ -435,6 +439,53 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       gesture.originY = 0;
     }
   }
+  function onMouseMove(e) {
+    // Only pan if zoomed in and mouse panning is enabled
+    if (!swiper.params.zoom.panWithMouse || currentScale <= 1 || !gesture.imageWrapEl) return;
+    if (!eventWithinSlide(e) || !eventWithinZoomContainer(e)) return;
+
+    const currentTransform = window.getComputedStyle(gesture.imageWrapEl).transform;
+    const matrix = new window.DOMMatrix(currentTransform);
+
+    if (!isPanningWithMouse) {
+      isPanningWithMouse = true;
+      mousePanStart.x = e.clientX;
+      mousePanStart.y = e.clientY;
+
+      image.startX = matrix.e;
+      image.startY = matrix.f;
+      image.width = gesture.imageEl.offsetWidth || gesture.imageEl.clientWidth;
+      image.height = gesture.imageEl.offsetHeight || gesture.imageEl.clientHeight;
+
+      gesture.slideWidth = gesture.slideEl.offsetWidth;
+      gesture.slideHeight = gesture.slideEl.offsetHeight;
+      return;
+    }
+
+    const deltaX = (e.clientX - mousePanStart.x) * mousePanSensitivity;
+    const deltaY = (e.clientY - mousePanStart.y) * mousePanSensitivity;
+
+    const scaledWidth = image.width * currentScale;
+    const scaledHeight = image.height * currentScale;
+    const slideWidth = gesture.slideWidth;
+    const slideHeight = gesture.slideHeight;
+
+    const minX = Math.min(slideWidth / 2 - scaledWidth / 2, 0);
+    const maxX = -minX;
+    const minY = Math.min(slideHeight / 2 - scaledHeight / 2, 0);
+    const maxY = -minY;
+
+    const newX = Math.max(Math.min(image.startX + deltaX, maxX), minX);
+    const newY = Math.max(Math.min(image.startY + deltaY, maxY), minY);
+
+    gesture.imageWrapEl.style.transitionDuration = '0ms';
+    gesture.imageWrapEl.style.transform = `translate3d(${newX}px, ${newY}px, 0)`;
+
+    mousePanStart.x = e.clientX;
+    mousePanStart.y = e.clientY;
+    image.startX = newX;
+    image.startY = newY;
+  }
 
   function zoomIn(e) {
     const zoom = swiper.zoom;
@@ -598,6 +649,13 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     gesture.slideEl = undefined;
     gesture.originX = 0;
     gesture.originY = 0;
+
+    if (swiper.params.zoom.panWithMouse) {
+      isPanningWithMouse = false;
+      mousePanStart = { x: 0, y: 0 };
+      image.startX = 0;
+      image.startY = 0;
+    }
   }
 
   // Toggle Zoom
@@ -639,6 +697,11 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
 
     // Move image
     swiper.wrapperEl.addEventListener('pointermove', onTouchMove, activeListenerWithCapture);
+
+    // Mouse panning
+    if (swiper.params.zoom.panWithMouse) {
+      swiper.wrapperEl.addEventListener('mousemove', onMouseMove, activeListenerWithCapture);
+    }
   }
   function disable() {
     const zoom = swiper.zoom;
@@ -656,6 +719,11 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
 
     // Move image
     swiper.wrapperEl.removeEventListener('pointermove', onTouchMove, activeListenerWithCapture);
+
+    // Mouse panning
+    if (swiper.params.zoom.panWithMouse) {
+      swiper.wrapperEl.removeEventListener('mousemove', onMouseMove, activeListenerWithCapture);
+    }
   }
 
   on('init', () => {
