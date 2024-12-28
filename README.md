@@ -281,7 +281,7 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
     </td>
     <td align="center" valign="middle">
       <a href="https://likesid.com/kupit-lajki-instagram/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/likesid.png" alt="Купить лайки в Инстаграм" width="160">
+        <img src="https://swiperjs.com/images/sponsors/likesid.png" alt="Купить лайки в Инстагра��" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -1074,6 +1074,7 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
 - **RTL**: Swiper is the only slider that provides 100% RTL support with correct layout.
 - **Multi Row Slides Layout**: Swiper allows a multiple row slides layout, with a few slides per column.
 - **Transition Effects**: Fade, Flip, 3D Cube, 3D Coverflow.
+- **AccordionCard Component**: A modern card component with smooth flip animation, perfect for showcasing content in an elegant way. Features customizable styles, responsive layout, and custom rendering support.
 - **Two-way Control**: Swiper may be used as controller for any number of other Swipers, and even be controlled at the same time.
 - **Full Navigation Control**: Swiper comes with all required built-in navigation elements, such as Pagination, Navigation arrows and Scrollbar.
 - **Flexbox Layout**: Swiper uses modern flexbox layout for slides layout, which solves a lot of problems and time with size caclulations. Such layout also allows configuring the Slides grid using pure CSS.
