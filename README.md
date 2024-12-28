@@ -281,7 +281,7 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
     </td>
     <td align="center" valign="middle">
       <a href="https://likesid.com/kupit-lajki-instagram/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/likesid.png" alt="Купить лайки в Инстагра" width="160">
+        <img src="https://swiperjs.com/images/sponsors/likesid.png" alt="Купить лайки в Инстаграм" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
