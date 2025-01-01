@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, forwardRef } from 'react';
+import React, { useRef, useState, useEffect, forwardRef, useMemo } from 'react';
 import SwiperCore from '../swiper.mjs';
 import { getParams } from '../components-shared/get-params.mjs';
 import { mountSwiper } from '../components-shared/mount-swiper.mjs';
@@ -191,13 +191,15 @@ const Swiper = forwardRef(
       });
     }
 
+    const swiperRefMemo = useMemo(() => swiperRef.current, []);
+
     return (
       <Tag
         ref={swiperElRef}
         className={uniqueClasses(`${containerClasses}${className ? ` ${className}` : ''}`)}
         {...restProps}
       >
-        <SwiperContext.Provider value={swiperRef.current}>
+        <SwiperContext.Provider value={swiperRefMemo}>
           {slots['container-start']}
           <WrapperTag className={wrapperClass(swiperParams.wrapperClass)}>
             {slots['wrapper-start']}
