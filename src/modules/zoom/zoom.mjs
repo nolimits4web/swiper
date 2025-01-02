@@ -266,6 +266,9 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     image.touchesStart.y = event.pageY;
   }
   function onTouchMove(e) {
+    const isMouseEvent = e.pointerType === 'mouse';
+    const isMousePan = isMouseEvent && swiper.params.zoom.panOnMouseMove;
+
     if (!eventWithinSlide(e) || !eventWithinZoomContainer(e)) {
       return;
     }
@@ -274,8 +277,14 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       return;
     }
     if (!image.isTouched || !gesture.slideEl) {
+      if (isMousePan) onMouseMove(e);
       return;
     }
+    if (isMousePan) {
+      onMouseMove(e);
+      return;
+    }
+
     if (!image.isMoved) {
       image.width = gesture.imageEl.offsetWidth || gesture.imageEl.clientWidth;
       image.height = gesture.imageEl.offsetHeight || gesture.imageEl.clientHeight;
@@ -441,7 +450,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
   }
   function onMouseMove(e) {
     // Only pan if zoomed in and mouse panning is enabled
-    if (!swiper.params.zoom.panOnMouseMove || currentScale <= 1 || !gesture.imageWrapEl) return;
+    if (currentScale <= 1 || !gesture.imageWrapEl) return;
     if (!eventWithinSlide(e) || !eventWithinZoomContainer(e)) return;
 
     const currentTransform = window.getComputedStyle(gesture.imageWrapEl).transform;
@@ -651,10 +660,12 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     gesture.originY = 0;
 
     if (swiper.params.zoom.panOnMouseMove) {
-      isPanningWithMouse = false;
       mousePanStart = { x: 0, y: 0 };
-      image.startX = 0;
-      image.startY = 0;
+      if (isPanningWithMouse) {
+        isPanningWithMouse = false;
+        image.startX = 0;
+        image.startY = 0;
+      }
     }
   }
 
@@ -697,11 +708,6 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
 
     // Move image
     swiper.wrapperEl.addEventListener('pointermove', onTouchMove, activeListenerWithCapture);
-
-    // Mouse panning
-    if (swiper.params.zoom.panOnMouseMove) {
-      swiper.wrapperEl.addEventListener('mousemove', onMouseMove, activeListenerWithCapture);
-    }
   }
   function disable() {
     const zoom = swiper.zoom;
@@ -719,11 +725,6 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
 
     // Move image
     swiper.wrapperEl.removeEventListener('pointermove', onTouchMove, activeListenerWithCapture);
-
-    // Mouse panning
-    if (swiper.params.zoom.panOnMouseMove) {
-      swiper.wrapperEl.removeEventListener('mousemove', onMouseMove, activeListenerWithCapture);
-    }
   }
 
   on('init', () => {
