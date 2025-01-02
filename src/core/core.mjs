@@ -254,9 +254,7 @@ class Swiper {
 
   getSlideIndexByData(index) {
     return this.getSlideIndex(
-      this.slides.find(
-        (slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === index
-      ),
+      this.slides.find((slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === index),
     );
   }
 
