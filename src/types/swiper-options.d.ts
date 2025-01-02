@@ -741,7 +741,7 @@ export interface SwiperOptions {
    *
    * @default 'window'
    */
-  breakpointsBase?: 'window' | 'container';
+  breakpointsBase?: 'window' | 'container' | CSSSelector;
 
   // Observer
   /**
