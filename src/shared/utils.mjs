@@ -213,9 +213,9 @@ function elementChildren(element, selector = '') {
   }
   return children.filter((el) => el.matches(selector));
 }
-function elementIsChildOf(el, parent) {
+function elementIsChildOfSlot(el, slot) {
   // Breadth-first search through all parent's children and assigned elements
-  const elementsQueue = [parent];
+  const elementsQueue = [slot];
   while (elementsQueue.length > 0) {
     const elementToCheck = elementsQueue.shift();
     if (el === elementToCheck) {
@@ -223,11 +223,22 @@ function elementIsChildOf(el, parent) {
     }
     elementsQueue.push(
       ...elementToCheck.children,
-      ...(elementToCheck.shadowRoot?.children ?? []),
-      ...(elementToCheck.assignedElements?.() ?? []),
+      ...(elementToCheck.shadowRoot?.children || []),
+      ...(elementToCheck.assignedElements?.() || []),
     );
   }
-  return false;
+}
+function elementIsChildOf(el, parent) {
+  let isChild = parent.contains(el);
+  if (!isChild && parent instanceof HTMLSlotElement) {
+    const children = [...parent.assignedElements()];
+    isChild = children.includes(el);
+    if (!isChild) {
+      isChild = elementIsChildOfSlot(el, parent);
+    }
+  }
+
+  return isChild;
 }
 function showWarning(text) {
   try {
