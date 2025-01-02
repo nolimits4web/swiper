@@ -1,5 +1,17 @@
 # Changelog
 
+# [11.2.0](https://github.com/nolimits4web/Swiper/compare/v11.1.15...v11.2.0) (2025-01-02)
+
+### Bug Fixes
+
+- **core:** Fixed elementIsChildOf returning false for nested web components ([#7762](https://github.com/nolimits4web/Swiper/issues/7762)) ([8136607](https://github.com/nolimits4web/Swiper/commit/8136607e0782646cd095b6e3ff8ece63033df390)), closes [#7761](https://github.com/nolimits4web/Swiper/issues/7761)
+- **zoom:** Ensure the zoom module's array is cleared onTouchEnd to fix [#7304](https://github.com/nolimits4web/Swiper/issues/7304) ([#7830](https://github.com/nolimits4web/Swiper/issues/7830)) ([21610bd](https://github.com/nolimits4web/Swiper/commit/21610bde1d6537102fdcec62b86f2f2e0794540c))
+
+### Features
+
+- **core:** Allow using a CSS selector as breakpointsBase ([#7818](https://github.com/nolimits4web/Swiper/issues/7818)) ([44d3443](https://github.com/nolimits4web/Swiper/commit/44d3443f66d93c1dc6720bddb05780bea7406982))
+- **zoom:** Add ability to pan around an image on mouse move ([#7831](https://github.com/nolimits4web/Swiper/issues/7831)) ([c4619bb](https://github.com/nolimits4web/Swiper/commit/c4619bb01dd929b29397afc7697958ca23c82c90)), closes [#7306](https://github.com/nolimits4web/Swiper/issues/7306)
+
 # [11.1.15](https://github.com/nolimits4web/Swiper/compare/v11.1.14...v11.1.15) (2024-11-18)
 
 ### Bug Fixes
