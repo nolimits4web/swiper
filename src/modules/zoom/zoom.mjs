@@ -32,7 +32,6 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
   const mousePanSensitivity = -3; // Negative to invert pan direction
   let fakeGestureTouched;
   let fakeGestureMoved;
-  let preventZoomOut;
   const evCache = [];
   const gesture = {
     originX: 0,
@@ -391,6 +390,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
   }
   function onTouchEnd() {
     const zoom = swiper.zoom;
+    evCache.length = 0;
     if (!gesture.imageEl) return;
     if (!image.isTouched || !image.isMoved) {
       image.isTouched = false;
