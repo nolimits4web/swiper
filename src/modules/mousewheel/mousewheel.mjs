@@ -385,7 +385,7 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
         if (!ignoreWheelEvents) emit('scroll', e);
 
         // Stop autoplay
-        if (swiper.params.autoplay && swiper.params.autoplayDisableOnInteraction)
+        if (swiper.params.autoplay && swiper.params.autoplay.disableOnInteraction)
           swiper.autoplay.stop();
         // Return page scroll on edge positions
         if (
