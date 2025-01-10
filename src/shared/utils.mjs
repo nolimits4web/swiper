@@ -203,8 +203,9 @@ function findElementsInElements(elements = [], selector = '') {
   return found;
 }
 function elementChildren(element, selector = '') {
+  const window = getWindow();
   const children = [...element.children];
-  if (element instanceof HTMLSlotElement) {
+  if (window.HTMLSlotElement && element instanceof HTMLSlotElement) {
     children.push(...element.assignedElements());
   }
 
@@ -229,8 +230,9 @@ function elementIsChildOfSlot(el, slot) {
   }
 }
 function elementIsChildOf(el, parent) {
+  const window = getWindow();
   let isChild = parent.contains(el);
-  if (!isChild && parent instanceof HTMLSlotElement) {
+  if (!isChild && window.HTMLSlotElement && parent instanceof HTMLSlotElement) {
     const children = [...parent.assignedElements()];
     isChild = children.includes(el);
     if (!isChild) {
