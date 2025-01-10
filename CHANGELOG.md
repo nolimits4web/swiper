@@ -1,5 +1,12 @@
 # Changelog
 
+# [11.2.1](https://github.com/nolimits4web/Swiper/compare/v11.2.0...v11.2.1) (2025-01-10)
+
+### Bug Fixes
+
+- **core:** add check for HTMLSlotElement support ([#7840](https://github.com/nolimits4web/Swiper/issues/7840)) ([56700e5](https://github.com/nolimits4web/Swiper/commit/56700e588e63da8a07ec25f096910cbef64e7dd1))
+- **core:** typo in autoplay param ([#7848](https://github.com/nolimits4web/Swiper/issues/7848)) ([69113c9](https://github.com/nolimits4web/Swiper/commit/69113c99478921a52532daf2ba1ab994ed46b701))
+
 # [11.2.0](https://github.com/nolimits4web/Swiper/compare/v11.1.15...v11.2.0) (2025-01-02)
 
 ### Bug Fixes
