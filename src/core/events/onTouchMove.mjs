@@ -198,6 +198,7 @@ export default function onTouchMove(event) {
   let time = new Date().getTime();
 
   if (
+    params._loopSwapReset !== false &&
     data.isMoved &&
     data.allowThresholdMove &&
     prevTouchesDirection !== swiper.touchesDirection &&

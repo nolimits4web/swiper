@@ -123,7 +123,10 @@ export default function EffectCards({ swiper, extendParams, on }) {
     setTransition,
     perspective: () => true,
     overwriteParams: () => ({
+      _loopSwapReset: false,
       watchSlidesProgress: true,
+      loopAdditionalSlides: 3,
+      centeredSlides: true,
       virtualTranslate: !swiper.params.cssMode,
     }),
   });
