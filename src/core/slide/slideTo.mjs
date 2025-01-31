@@ -1,3 +1,4 @@
+import { getBrowser } from '../../shared/get-browser.mjs';
 import { animateCSSModeScroll } from '../../shared/utils.mjs';
 
 export default function slideTo(index = 0, speed, runCallbacks = true, internal, initial) {
@@ -150,6 +151,12 @@ export default function slideTo(index = 0, speed, runCallbacks = true, internal,
       });
     }
     return true;
+  }
+
+  const browser = getBrowser();
+  const isSafari = browser.isSafari;
+  if (isVirtual && !initial && isSafari && swiper.isElement) {
+    swiper.virtual.update(false, false, slideIndex);
   }
   swiper.setTransition(speed);
   swiper.setTranslate(translate);

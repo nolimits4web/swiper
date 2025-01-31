@@ -58,7 +58,7 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     return slideEl;
   }
 
-  function update(force, beforeInit) {
+  function update(force, beforeInit, forceActiveIndex) {
     const {
       slidesPerView,
       slidesPerGroup,
@@ -81,7 +81,8 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
       swiper.updateActiveIndex();
     }
 
-    const activeIndex = swiper.activeIndex || 0;
+    const activeIndex =
+      typeof forceActiveIndex === 'undefined' ? swiper.activeIndex || 0 : forceActiveIndex;
 
     let offsetProp;
     if (swiper.rtlTranslate) offsetProp = 'right';
