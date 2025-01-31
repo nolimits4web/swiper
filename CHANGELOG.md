@@ -1,5 +1,13 @@
 # Changelog
 
+# [11.2.2](https://github.com/nolimits4web/Swiper/compare/v11.2.1...v11.2.2) (2025-01-31)
+
+### Bug Fixes
+
+- **cards:** fix slides swap issue in loop mode ([e012e34](https://github.com/nolimits4web/Swiper/commit/e012e34f6f926dcec6415f11912d23190ed85242)), closes [#7823](https://github.com/nolimits4web/Swiper/issues/7823)
+- **core:** fix slidePrev issue in free-mode ([a3fee36](https://github.com/nolimits4web/Swiper/commit/a3fee3615eaf3daf3fad54445c3bdba29d9cd302)), closes [#7869](https://github.com/nolimits4web/Swiper/issues/7869)
+- **virtual:** fix when Element not swiping in Safari ([5abdbfd](https://github.com/nolimits4web/Swiper/commit/5abdbfde1a4e796a6ed981105d02ca7b4b13d6ed)), closes [#7679](https://github.com/nolimits4web/Swiper/issues/7679)
+
 # [11.2.1](https://github.com/nolimits4web/Swiper/compare/v11.2.0...v11.2.1) (2025-01-10)
 
 ### Bug Fixes
