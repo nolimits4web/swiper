@@ -95,6 +95,7 @@
     "./scss/parallax": "./modules/parallax.scss",
     "./scss/scrollbar": "./modules/scrollbar.scss",
     "./scss/thumbs": "./modules/thumbs.scss",
+    "./scss/vars": "./swiper-vars.scss",
     "./scss/virtual": "./modules/virtual.scss",
     "./scss/zoom": "./modules/zoom.scss",
     "./element": {
