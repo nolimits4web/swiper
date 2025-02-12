@@ -122,7 +122,6 @@ export default function loopFix({
   if (isPrev) {
     prependSlidesIndexes.forEach((index) => {
       slides[index].swiperLoopMoveDOM = true;
-
       slidesEl.prepend(slides[index]);
       slides[index].swiperLoopMoveDOM = false;
     });
