@@ -1,5 +1,16 @@
 # Changelog
 
+# [11.2.3](https://github.com/nolimits4web/Swiper/compare/v11.2.2...v11.2.3) (2025-02-12)
+
+### Bug Fixes
+
+- **element:** remove infinite preloader in loop ([#7886](https://github.com/nolimits4web/Swiper/issues/7886)) ([c0d3ece](https://github.com/nolimits4web/Swiper/commit/c0d3ece2147e95f37154ee019402286f5b213712))
+
+### Features
+
+- **core:** export swiper-vars.scss for overwriteability ([#7883](https://github.com/nolimits4web/Swiper/issues/7883)) ([0b688a1](https://github.com/nolimits4web/Swiper/commit/0b688a1a40d9365ff0a696abf290bea6baf5a8f0)), closes [#7882](https://github.com/nolimits4web/Swiper/issues/7882)
+- update ssr-window to latest ([c521888](https://github.com/nolimits4web/Swiper/commit/c521888d98863ededd3286543dac7e040bcf1ddc))
+
 # [11.2.2](https://github.com/nolimits4web/Swiper/compare/v11.2.1...v11.2.2) (2025-01-31)
 
 ### Bug Fixes
