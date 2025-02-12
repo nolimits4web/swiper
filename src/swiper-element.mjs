@@ -299,6 +299,10 @@ class SwiperSlide extends ClassToExtend {
   }
 
   connectedCallback() {
+    if (this.swiperLoopMoveDOM) {
+      return;
+    }
+
     this.initialize();
   }
 }
