@@ -223,9 +223,9 @@ function elementIsChildOfSlot(el, slot) {
       return true;
     }
     elementsQueue.push(
-      ...elementToCheck.children,
-      ...(elementToCheck.shadowRoot?.children || []),
-      ...(elementToCheck.assignedElements?.() || []),
+      ...Array.from(elementToCheck.children),
+      ...(elementToCheck.shadowRoot ? Array.from(elementToCheck.shadowRoot.children) : []),
+      ...(elementToCheck.assignedElements ? Array.from(elementToCheck.assignedElements()) : []),
     );
   }
 }
