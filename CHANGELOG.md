@@ -1,5 +1,11 @@
 # Changelog
 
+# [11.2.4](https://github.com/nolimits4web/Swiper/compare/v11.2.3...v11.2.4) (2025-02-14)
+
+### Bug Fixes
+
+- restore compatibility with ES2019 [#7891](https://github.com/nolimits4web/Swiper/issues/7891) ([#7892](https://github.com/nolimits4web/Swiper/issues/7892)) ([b4fbbb3](https://github.com/nolimits4web/Swiper/commit/b4fbbb3ceb1af1cecd5295a32f1e600876802e87))
+
 # [11.2.3](https://github.com/nolimits4web/Swiper/compare/v11.2.2...v11.2.3) (2025-02-12)
 
 ### Bug Fixes
