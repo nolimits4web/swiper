@@ -1,7 +1,7 @@
 export default function loopDestroy() {
   const swiper = this;
   const { params, slidesEl } = swiper;
-  if (!params.loop || (swiper.virtual && swiper.params.virtual.enabled)) return;
+  if ((!params.loop || !slidesEl) || (swiper.virtual && swiper.params.virtual.enabled)) return;
   swiper.recalcSlides();
 
   const newSlidesOrder = [];
