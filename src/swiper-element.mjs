@@ -147,8 +147,7 @@ class SwiperContainer extends ClassToExtend {
   }
 
   initialize() {
-    if (this.initialized) return;
-    this.initialized = true;
+    if (this.swiper?.initialized) return;
     const { params: swiperParams, passedParams } = getParams(this);
     this.swiperParams = swiperParams;
     this.passedParams = passedParams;
@@ -180,7 +179,7 @@ class SwiperContainer extends ClassToExtend {
 
   connectedCallback() {
     if (
-      this.initialized &&
+      this.swiper?.initialized &&
       this.nested &&
       this.closest('swiper-slide') &&
       this.closest('swiper-slide').swiperLoopMoveDOM
@@ -204,7 +203,6 @@ class SwiperContainer extends ClassToExtend {
     if (this.swiper && this.swiper.destroy) {
       this.swiper.destroy();
     }
-    this.initialized = false;
   }
 
   updateSwiperOnPropChange(propName, propValue) {
