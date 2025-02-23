@@ -237,7 +237,7 @@ class SwiperContainer extends ClassToExtend {
   }
 
   attributeChangedCallback(attr, prevValue, newValue) {
-    if (!this.initialized) return;
+    if (!(this.swiper && this.swiper.initialized)) return;
     if (prevValue === 'true' && newValue === null) {
       newValue = false;
     }
@@ -268,7 +268,7 @@ paramsList.forEach((paramName) => {
     set(value) {
       if (!this.passedParams) this.passedParams = {};
       this.passedParams[paramName] = value;
-      if (!this.initialized) return;
+      if (!(this.swiper && this.swiper.initialized)) return;
       this.updateSwiperOnPropChange(paramName, value);
     },
   });
