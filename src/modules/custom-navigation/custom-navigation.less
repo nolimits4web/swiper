@@ -1,0 +1,86 @@
+:root {
+  --swiper-navigation-size: 24px;
+  /*
+  --swiper-navigation-top-offset: 50%;
+  --swiper-navigation-sides-offset: 10px;
+  --swiper-navigation-color: var(--swiper-theme-color);
+  */
+}
+.swiper-button-prev,
+.swiper-button-next {
+  position: absolute;
+  top: calc(var(--swiper-navigation-top-offset, 50%) - var(--swiper-pagination-area, 0px) / 2);
+  width: var(--swiper-navigation-size);
+  height: var(--swiper-navigation-size);
+  margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
+  z-index: 10;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--swiper-navigation-color, var(--swiper-theme-color));
+  &.swiper-button-disabled {
+    opacity: var(--swiper-navigation-disabled-opacity, 0);
+    cursor: auto;
+    pointer-events: none;
+  }
+  &.swiper-button-hidden {
+    opacity: 0;
+    cursor: auto;
+    pointer-events: none;
+  }
+  .swiper-navigation-disabled & {
+    display: none !important;
+  }
+  svg {
+    // width: 100%;
+    // height: 100%;
+    width: var(--swiper-navigation-icon-width, var(--swiper-navigation-icon-size, 8px));
+    height: var(--swiper-navigation-icon-height, var(--swiper-navigation-icon-size, 16px));
+    object-fit: contain;
+    transform-origin: center;
+  }
+  .swiper-rtl & svg {
+    transform: rotate(180deg);
+  }
+}
+.swiper-button-prev,
+.swiper-rtl .swiper-button-next {
+  left: var(--swiper-navigation-sides-offset, 16px);
+  right: auto;
+}
+.swiper-button-next,
+.swiper-rtl .swiper-button-prev {
+  right: var(--swiper-navigation-sides-offset, 16px);
+  left: auto;
+}
+.swiper-button-lock {
+  display: none;
+}
+/* Navigation font start */
+.swiper-button-prev,
+.swiper-button-next {
+  &:after {
+    font-family: swiper-icons;
+    font-size: var(--swiper-navigation-size);
+    text-transform: none !important;
+    letter-spacing: 0;
+    font-variant: initial;
+    line-height: 1;
+  }
+}
+.swiper-button-prev,
+.swiper-rtl .swiper-button-next {
+  &:after {
+    content: 'prev';
+  }
+}
+.swiper-button-next,
+.swiper-rtl .swiper-button-prev {
+  &:after {
+    content: 'next';
+  }
+  right: var(--swiper-navigation-sides-offset, 10px);
+  left: auto;
+}
+/* Navigation font end */
