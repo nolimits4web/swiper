@@ -4,8 +4,8 @@ const envBuildModules = parseSwiperBuildModulesEnv();
 
 export const modules = envBuildModules || [
   // 'virtual',
-  // 'keyboard',
-  // 'mousewheel',
+  'keyboard',
+  'mousewheel',
   // 'navigation',
   // 'pagination',
   'custom-navigation',
@@ -17,7 +17,7 @@ export const modules = envBuildModules || [
   'a11y',
   // 'history',
   // 'hash-navigation',
-  // 'autoplay',
+  'autoplay',
   // 'thumbs',
   'free-mode',
   // 'grid',
