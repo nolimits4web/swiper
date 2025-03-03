@@ -494,6 +494,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     mousePanStart.y = e.clientY;
     image.startX = newX;
     image.startY = newY;
+    image.currentX = newX;
+    image.currentY = newY;
   }
 
   function zoomIn(e) {
@@ -560,6 +562,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       touchY = image.touchesStart.y;
     }
 
+    const prevScale = currentScale;
+
     const forceZoomRatio = typeof e === 'number' ? e : null;
     if (currentScale === 1 && forceZoomRatio) {
       touchX = undefined;
@@ -590,8 +594,18 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       translateMaxX = -translateMinX;
       translateMaxY = -translateMinY;
 
-      translateX = diffX * zoom.scale;
-      translateY = diffY * zoom.scale;
+      if (
+        prevScale > 0 &&
+        forceZoomRatio &&
+        typeof image.currentX === 'number' &&
+        typeof image.currentY === 'number'
+      ) {
+        translateX = (image.currentX * zoom.scale) / prevScale;
+        translateY = (image.currentY * zoom.scale) / prevScale;
+      } else {
+        translateX = diffX * zoom.scale;
+        translateY = diffY * zoom.scale;
+      }
 
       if (translateX < translateMinX) {
         translateX = translateMinX;
@@ -614,6 +628,9 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       gesture.originX = 0;
       gesture.originY = 0;
     }
+
+    image.currentX = translateX;
+    image.currentY = translateY;
     gesture.imageWrapEl.style.transitionDuration = '300ms';
     gesture.imageWrapEl.style.transform = `translate3d(${translateX}px, ${translateY}px,0)`;
     gesture.imageEl.style.transitionDuration = '300ms';
@@ -647,6 +664,8 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
     }
     zoom.scale = 1;
     currentScale = 1;
+    image.currentX = undefined;
+    image.currentY = undefined;
     image.touchesStart.x = undefined;
     image.touchesStart.y = undefined;
     gesture.imageWrapEl.style.transitionDuration = '300ms';
