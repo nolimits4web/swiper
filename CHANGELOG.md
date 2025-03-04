@@ -1,5 +1,17 @@
 # Changelog
 
+# [11.2.5](https://github.com/nolimits4web/Swiper/compare/v11.2.4...v11.2.5) (2025-03-04)
+
+### Bug Fixes
+
+- **docs:** correct structure of pagination render functions ([b259723](https://github.com/nolimits4web/Swiper/commit/b25972397926ad0abb3bfa808e8621127a0f0e06)), closes [#7897](https://github.com/nolimits4web/Swiper/issues/7897) [#7896](https://github.com/nolimits4web/Swiper/issues/7896)
+- **thumbs:** correct reinit thumbs ([1cf24d4](https://github.com/nolimits4web/Swiper/commit/1cf24d46472f1e0bbd73fa1ea6064fc5f793b7e6)), closes [#7880](https://github.com/nolimits4web/Swiper/issues/7880)
+- **zoom:** fix transform origin of `zoom.in()` function ([#7904](https://github.com/nolimits4web/Swiper/issues/7904)) ([f7febe1](https://github.com/nolimits4web/Swiper/commit/f7febe10be5d38954a7b030234037a852b47b12d))
+
+### Features
+
+- check if slidesEl is defined in loopDestroy ([#7906](https://github.com/nolimits4web/Swiper/issues/7906)) ([ced30cb](https://github.com/nolimits4web/Swiper/commit/ced30cbd567700582aef5076c5e22dc3b4b571e1))
+
 # [11.2.4](https://github.com/nolimits4web/Swiper/compare/v11.2.3...v11.2.4) (2025-02-14)
 
 ### Bug Fixes
