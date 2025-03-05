@@ -125,7 +125,7 @@ export default function EffectCards({ swiper, extendParams, on }) {
     overwriteParams: () => ({
       _loopSwapReset: false,
       watchSlidesProgress: true,
-      loopAdditionalSlides: 3,
+      loopAdditionalSlides: swiper.params.cardsEffect.rotate ? 3 : 2,
       centeredSlides: true,
       virtualTranslate: !swiper.params.cssMode,
     }),

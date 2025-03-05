@@ -53,9 +53,12 @@ export default function loopFix({
   swiper.loopedSlides = loopedSlides;
   const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
 
-  if (slides.length < slidesPerView + loopedSlides) {
+  if (
+    slides.length < slidesPerView + loopedSlides ||
+    (swiper.params.effect === 'cards' && slides.length < slidesPerView + loopedSlides * 2)
+  ) {
     showWarning(
-      'Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled and not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters',
+      'Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled or not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters',
     );
   } else if (gridEnabled && params.grid.fill === 'row') {
     showWarning('Swiper Loop Warning: Loop mode is not compatible with grid.fill = `row`');
@@ -119,6 +122,15 @@ export default function loopFix({
   requestAnimationFrame(() => {
     swiper.__preventObserver__ = false;
   });
+  if (swiper.params.effect === 'cards' && slides.length < slidesPerView + loopedSlides * 2) {
+    if (appendSlidesIndexes.includes(activeSlideIndex)) {
+      appendSlidesIndexes.splice(appendSlidesIndexes.indexOf(activeSlideIndex), 1);
+    }
+    if (prependSlidesIndexes.includes(activeSlideIndex)) {
+      prependSlidesIndexes.splice(prependSlidesIndexes.indexOf(activeSlideIndex), 1);
+    }
+  }
+
   if (isPrev) {
     prependSlidesIndexes.forEach((index) => {
       slides[index].swiperLoopMoveDOM = true;
