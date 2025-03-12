@@ -164,6 +164,12 @@ class SwiperContainer extends ClassToExtend {
         if (name === 'observerUpdate') {
           this.calcSlideSlots();
         }
+        // CUSTOM: set --swiper-slide-size property
+        if (name === 'afterInit' || name === 'resize' || name === 'update') {
+          const [swiper] = args;
+          const slideSize = swiper.slidesSizesGrid[0];
+          this.style.setProperty('--swiper-slide-size', `${slideSize}px`);
+        }
         const eventName = swiperParams.eventsPrefix
           ? `${swiperParams.eventsPrefix}${name.toLowerCase()}`
           : name.toLowerCase();
