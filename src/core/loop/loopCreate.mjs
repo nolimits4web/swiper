@@ -1,6 +1,6 @@
 import { createElement, elementChildren, showWarning } from '../../shared/utils.mjs';
 
-export default function loopCreate(slideRealIndex) {
+export default function loopCreate(slideRealIndex, initial) {
   const swiper = this;
   const { params, slidesEl } = swiper;
   if (!params.loop || (swiper.virtual && swiper.params.virtual.enabled)) return;
@@ -58,5 +58,9 @@ export default function loopCreate(slideRealIndex) {
     initSlides();
   }
 
-  swiper.loopFix({ slideRealIndex, direction: params.centeredSlides ? undefined : 'next' });
+  swiper.loopFix({
+    slideRealIndex,
+    direction: params.centeredSlides ? undefined : 'next',
+    initial,
+  });
 }
