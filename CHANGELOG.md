@@ -1,5 +1,13 @@
 # Changelog
 
+# [11.2.6](https://github.com/nolimits4web/Swiper/compare/v11.2.5...v11.2.6) (2025-03-19)
+
+### Bug Fixes
+
+- **cards/loop:** improve loop behavior with cards effect ([9a258d4](https://github.com/nolimits4web/Swiper/commit/9a258d42324cce36026bd3e3367b069a64e9aa99)), closes [#7917](https://github.com/nolimits4web/Swiper/issues/7917)
+- **core:** fix initialSlide in loop mode when it there are not enough slides to fill ([16818e2](https://github.com/nolimits4web/Swiper/commit/16818e2629d6afbbc1ef3778b3289d575e86d2ff)), closes [#7780](https://github.com/nolimits4web/Swiper/issues/7780)
+- **core:** fix touchReleaseOnEdges in RTL ([d841428](https://github.com/nolimits4web/Swiper/commit/d841428af537f127f16584cf437ba4c6a912a82f)), closes [#7179](https://github.com/nolimits4web/Swiper/issues/7179)
+
 # [11.2.5](https://github.com/nolimits4web/Swiper/compare/v11.2.4...v11.2.5) (2025-03-04)
 
 ### Bug Fixes
