@@ -1,18 +1,19 @@
+/*
 :root {
   --swiper-navigation-size: 24px;
-  /*
   --swiper-navigation-top-offset: 50%;
   --swiper-navigation-sides-offset: 10px;
   --swiper-navigation-color: var(--swiper-theme-color);
-  */
 }
+*/
 .swiper-button-prev,
 .swiper-button-next {
   position: absolute;
   top: var(--swiper-navigation-top-offset, 50%);
-  width: var(--swiper-navigation-size);
-  height: var(--swiper-navigation-size);
-  margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
+  width: var(--swiper-navigation-size, 24px);
+  height: var(--swiper-navigation-size, 24px);
+  transform: translateY(-50%);
+  margin-top: calc(0px - (var(--swiper-pagination-area-height, 56px) / 2));
   z-index: 10;
   cursor: pointer;
   display: flex;
@@ -33,12 +34,15 @@
     display: none !important;
   }
   svg {
-    // width: 100%;
-    // height: 100%;
-    width: var(--swiper-navigation-icon-width, var(--swiper-navigation-icon-size, 8px));
-    height: var(--swiper-navigation-icon-height, var(--swiper-navigation-icon-size, 16px));
+    width: var(--swiper-navigation-icon-width, var(--swiper-navigation-icon-size, 24px));
+    height: var(--swiper-navigation-icon-height, var(--swiper-navigation-icon-size, 24px));
+    overflow: visible;
     object-fit: contain;
     transform-origin: center;
+
+    path {
+      vector-effect: non-scaling-stroke;
+    }
   }
   .swiper-rtl & svg {
     transform: rotate(180deg);
@@ -46,41 +50,14 @@
 }
 .swiper-button-prev,
 .swiper-rtl .swiper-button-next {
-  left: var(--swiper-navigation-sides-offset, 16px);
-  right: auto;
+  left: var(----swiper-navigation-button-prev-left, var(--swiper-navigation-sides-offset, 24px));
+  right: var(--swiper-navigation-button-prev-right, auto);
 }
 .swiper-button-next,
 .swiper-rtl .swiper-button-prev {
-  right: var(--swiper-navigation-sides-offset, 16px);
-  left: auto;
+  right: var(--swiper-navigation-button-next-right, var(--swiper-navigation-sides-offset, 24px));
+  left: var(--swiper-navigation-button-next-left, auto);
 }
 .swiper-button-lock {
   display: none;
 }
-/* Navigation font start */
-.swiper-button-prev,
-.swiper-button-next {
-  &:after {
-    font-family: swiper-icons;
-    font-size: var(--swiper-navigation-size);
-    text-transform: none !important;
-    letter-spacing: 0;
-    font-variant: initial;
-    line-height: 1;
-  }
-}
-.swiper-button-prev,
-.swiper-rtl .swiper-button-next {
-  &:after {
-    content: 'prev';
-  }
-}
-.swiper-button-next,
-.swiper-rtl .swiper-button-prev {
-  &:after {
-    content: 'next';
-  }
-  right: var(--swiper-navigation-sides-offset, 10px);
-  left: auto;
-}
-/* Navigation font end */

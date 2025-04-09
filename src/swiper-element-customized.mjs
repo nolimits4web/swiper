@@ -20,7 +20,7 @@ const ClassToExtend =
     ? DummyHTMLElement
     : HTMLElement;
 
-const arrowSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="8" height="16" viewBox="0 0 8 16"><path stroke="currentColor" d="M0.130175 0.137832C0.303741 -0.045944 0.585148 -0.0459439 0.758714 0.137832L7.86982 7.66724C8.04339 7.85102 8.04339 8.14898 7.86982 8.33276L0.758713 15.8622C0.585146 16.0459 0.30374 16.0459 0.130173 15.8622C-0.043393 15.6784 -0.043393 15.3804 0.130173 15.1967L6.92701 8L0.130175 0.803344C-0.0433916 0.619568 -0.0433916 0.321608 0.130175 0.137832Z" /></svg>`;
+const arrowSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path stroke="currentColor" fill="none" d="m29 8 10 12-10 12"/></svg>`;
 
 const addStyle = (shadowRoot, styles) => {
   if (typeof CSSStyleSheet !== 'undefined' && shadowRoot.adoptedStyleSheets) {
@@ -149,8 +149,20 @@ class SwiperContainer extends ClassToExtend {
     if (this.initialized) return;
     this.initialized = true;
     const { params: swiperParams, passedParams } = getParams(this);
+    if (passedParams.pagination) {
+      passedParams.pagination = {
+        type: 'progressbar',
+      };
+      swiperParams.pagination = {
+        el: '.swiper-pagination',
+        type: 'progressbar',
+        enabled: true,
+      };
+    }
     this.swiperParams = swiperParams;
     this.passedParams = passedParams;
+    console.log('this.swiperParams.pagination', this.swiperParams.pagination);
+    console.log('this.passedParams.pagination', this.passedParams.pagination);
     delete this.swiperParams.init;
 
     this.render();
