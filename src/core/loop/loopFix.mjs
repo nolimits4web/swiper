@@ -6,6 +6,7 @@ export default function loopFix({
   direction,
   setTranslate,
   activeSlideIndex,
+  initial,
   byController,
   byMousewheel,
 } = {}) {
@@ -14,7 +15,7 @@ export default function loopFix({
   if (!swiper.params.loop) return;
   swiper.emit('beforeLoopFix');
   const { slides, allowSlidePrev, allowSlideNext, slidesEl, params } = swiper;
-  const { centeredSlides } = params;
+  const { centeredSlides, initialSlide } = params;
   swiper.allowSlidePrev = true;
   swiper.allowSlideNext = true;
 
@@ -53,9 +54,12 @@ export default function loopFix({
   swiper.loopedSlides = loopedSlides;
   const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
 
-  if (slides.length < slidesPerView + loopedSlides) {
+  if (
+    slides.length < slidesPerView + loopedSlides ||
+    (swiper.params.effect === 'cards' && slides.length < slidesPerView + loopedSlides * 2)
+  ) {
     showWarning(
-      'Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled and not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters',
+      'Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled or not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters',
     );
   } else if (gridEnabled && params.grid.fill === 'row') {
     showWarning('Swiper Loop Warning: Loop mode is not compatible with grid.fill = `row`');
@@ -64,7 +68,11 @@ export default function loopFix({
   const prependSlidesIndexes = [];
   const appendSlidesIndexes = [];
 
-  let activeIndex = swiper.activeIndex;
+  const cols = gridEnabled ? Math.ceil(slides.length / params.grid.rows) : slides.length;
+
+  const isInitialOverflow = initial && cols - initialSlide < slidesPerView && !centeredSlides;
+
+  let activeIndex = isInitialOverflow ? initialSlide : swiper.activeIndex;
 
   if (typeof activeSlideIndex === 'undefined') {
     activeSlideIndex = swiper.getSlideIndex(
@@ -80,7 +88,6 @@ export default function loopFix({
   let slidesPrepended = 0;
   let slidesAppended = 0;
 
-  const cols = gridEnabled ? Math.ceil(slides.length / params.grid.rows) : slides.length;
   const activeColIndex = gridEnabled ? slides[activeSlideIndex].column : activeSlideIndex;
   const activeColIndexWithShift =
     activeColIndex +
@@ -104,6 +111,10 @@ export default function loopFix({
     }
   } else if (activeColIndexWithShift + slidesPerView > cols - loopedSlides) {
     slidesAppended = Math.max(activeColIndexWithShift - (cols - loopedSlides * 2), slidesPerGroup);
+    if (isInitialOverflow) {
+      slidesAppended = Math.max(slidesAppended, slidesPerView - cols + initialSlide + 1);
+    }
+
     for (let i = 0; i < slidesAppended; i += 1) {
       const index = i - Math.floor(i / cols) * cols;
       if (gridEnabled) {
@@ -119,6 +130,15 @@ export default function loopFix({
   requestAnimationFrame(() => {
     swiper.__preventObserver__ = false;
   });
+  if (swiper.params.effect === 'cards' && slides.length < slidesPerView + loopedSlides * 2) {
+    if (appendSlidesIndexes.includes(activeSlideIndex)) {
+      appendSlidesIndexes.splice(appendSlidesIndexes.indexOf(activeSlideIndex), 1);
+    }
+    if (prependSlidesIndexes.includes(activeSlideIndex)) {
+      prependSlidesIndexes.splice(prependSlidesIndexes.indexOf(activeSlideIndex), 1);
+    }
+  }
+
   if (isPrev) {
     prependSlidesIndexes.forEach((index) => {
       slides[index].swiperLoopMoveDOM = true;

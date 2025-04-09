@@ -57,7 +57,6 @@ export default function onTouchMove(event) {
     }
     return;
   }
-
   if (params.touchReleaseOnEdges && !params.loop) {
     if (swiper.isVertical()) {
       // Vertical
@@ -70,8 +69,15 @@ export default function onTouchMove(event) {
         return;
       }
     } else if (
-      (pageX < touches.startX && swiper.translate <= swiper.maxTranslate()) ||
-      (pageX > touches.startX && swiper.translate >= swiper.minTranslate())
+      rtl &&
+      ((pageX > touches.startX && -swiper.translate <= swiper.maxTranslate()) ||
+        (pageX < touches.startX && -swiper.translate >= swiper.minTranslate()))
+    ) {
+      return;
+    } else if (
+      !rtl &&
+      ((pageX < touches.startX && swiper.translate <= swiper.maxTranslate()) ||
+        (pageX > touches.startX && swiper.translate >= swiper.minTranslate()))
     ) {
       return;
     }
