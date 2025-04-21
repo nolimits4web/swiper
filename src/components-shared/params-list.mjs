@@ -1,5 +1,6 @@
 /* underscore in name -> watch for changes */
 const paramsList = [
+  'checkHeight', // Shinsegae V custom
   'eventsPrefix',
   'injectStyles',
   'injectStylesUrls',

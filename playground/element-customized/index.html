@@ -4,9 +4,65 @@
     <meta charset="UTF-8" />
     <title>Swiper Playground</title>
     <meta name="viewport" content="width=device-width" />
+
+    <style>
+      .v-banner-product__products {
+        margin-top: 20px;
+        height: var(--swiper-checked-height);
+        background: rgba(255, 0, 0, 0.8);
+      }
+    </style>
   </head>
 
   <body>
+    <swiper-container
+      space-between="8"
+      navigation="true"
+      pagination-type="progressbar"
+      check-height=".v-banner-product__products"
+    >
+      <swiper-slide>
+        <div>
+          Slide 1
+          <div class="v-banner-product__products">
+            <div style="height: 310px"></div>
+          </div>
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div>
+          Slide 2
+          <div class="v-banner-product__products">
+            <div style="height: 320px"></div>
+          </div>
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div>
+          Slide 3
+          <div class="v-banner-product__products">
+            <div style="height: 330px"></div>
+          </div>
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div>
+          Slide 4
+          <div class="v-banner-product__products">
+            <div style="height: 300px"></div>
+          </div>
+        </div>
+      </swiper-slide>
+      <swiper-slide>
+        <div>
+          Slide 5
+          <div class="v-banner-product__products">
+            <div style="height: 310px"></div>
+          </div>
+        </div>
+      </swiper-slide>
+    </swiper-container>
+
     <swiper-container space-between="8" navigation="true" pagination-type="progressbar">
       <swiper-slide>Slide 1</swiper-slide>
       <swiper-slide>Slide 2</swiper-slide>

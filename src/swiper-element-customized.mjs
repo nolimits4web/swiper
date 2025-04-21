@@ -161,8 +161,6 @@ class SwiperContainer extends ClassToExtend {
     }
     this.swiperParams = swiperParams;
     this.passedParams = passedParams;
-    console.log('this.swiperParams.pagination', this.swiperParams.pagination);
-    console.log('this.passedParams.pagination', this.passedParams.pagination);
     delete this.swiperParams.init;
 
     this.render();
@@ -179,7 +177,24 @@ class SwiperContainer extends ClassToExtend {
         // CUSTOM: set --swiper-slide-size property
         if (name === 'afterInit' || name === 'resize' || name === 'update') {
           const [swiper] = args;
+          const checkHeightSelector = swiper.passedParams.checkHeight;
           const slideSize = swiper.slidesSizesGrid[0];
+
+          if (checkHeightSelector) {
+            const targetElements = swiper.hostEl.querySelectorAll(checkHeightSelector);
+
+            if (targetElements.length > 0) {
+              const tallestHeight = Array.from(targetElements).reduce((max, el) => {
+                const height = el.offsetHeight;
+                return Math.max(height, max);
+              }, 0);
+
+              if (tallestHeight > 0) {
+                this.style.setProperty('--swiper-checked-height', `${tallestHeight}px`);
+              }
+            }
+          }
+
           this.style.setProperty('--swiper-slide-size', `${slideSize}px`);
         }
         const eventName = swiperParams.eventsPrefix
