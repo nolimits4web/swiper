@@ -184,14 +184,18 @@ class SwiperContainer extends ClassToExtend {
             const targetElements = swiper.hostEl.querySelectorAll(checkHeightSelector);
 
             if (targetElements.length > 0) {
-              const tallestHeight = Array.from(targetElements).reduce((max, el) => {
-                const height = el.offsetHeight;
-                return Math.max(height, max);
-              }, 0);
+              this.style.removeProperty('--swiper-checked-height');
 
-              if (tallestHeight > 0) {
-                this.style.setProperty('--swiper-checked-height', `${tallestHeight}px`);
-              }
+              requestAnimationFrame(() => {
+                const tallestHeight = Array.from(targetElements).reduce((max, el) => {
+                  const height = el.offsetHeight;
+                  return Math.max(height, max);
+                }, 0);
+
+                if (tallestHeight > 0) {
+                  this.style.setProperty('--swiper-checked-height', `${tallestHeight}px`);
+                }
+              });
             }
           }
 
