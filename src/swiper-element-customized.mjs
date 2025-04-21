@@ -35,6 +35,54 @@ const addStyle = (shadowRoot, styles) => {
   }
 };
 
+const debounce = (func, wait = 50) => {
+  let timer = null;
+
+  return (...args) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+
+    timer = setTimeout(() => {
+      clearTimeout(timer);
+      timer = null;
+      func(...args);
+    }, wait);
+  };
+};
+
+const setCustomProperties = (swiper) => {
+  swiper.hostEl.style.removeProperty('--swiper-slide-size');
+  swiper.hostEl.style.removeProperty('--swiper-checked-height');
+
+  const slideSize = swiper.slidesSizesGrid[0];
+  let tallestHeight = 0;
+
+  if (typeof slideSize === 'number') {
+    swiper.hostEl.style.setProperty('--swiper-slide-size', `${slideSize}px`);
+  }
+
+  const checkHeightSelector = swiper.passedParams?.checkHeight;
+  let elementsToCheckHeight = [];
+
+  if (checkHeightSelector) {
+    elementsToCheckHeight = Array.from(swiper.hostEl.querySelectorAll(checkHeightSelector));
+  }
+
+  if (elementsToCheckHeight.length === 0) {
+    return;
+  }
+
+  tallestHeight = elementsToCheckHeight.reduce((max, element) => {
+    const height = Math.round(element.offsetHeight);
+    return Math.max(height, max);
+  }, 0);
+
+  if (tallestHeight > 0) {
+    swiper.hostEl.style.setProperty('--swiper-checked-height', `${tallestHeight}px`);
+  }
+};
+
 class SwiperContainer extends ClassToExtend {
   constructor() {
     super();
@@ -165,6 +213,8 @@ class SwiperContainer extends ClassToExtend {
 
     this.render();
 
+    const debouncedSetCustomProperties = debounce(setCustomProperties);
+
     // eslint-disable-next-line
     this.swiper = new Swiper(this.shadowRoot.querySelector('.swiper'), {
       ...(swiperParams.virtual ? {} : { observer: true }),
@@ -177,29 +227,8 @@ class SwiperContainer extends ClassToExtend {
         // CUSTOM: set --swiper-slide-size property
         if (name === 'afterInit' || name === 'resize' || name === 'update') {
           const [swiper] = args;
-          const checkHeightSelector = swiper.passedParams.checkHeight;
-          const slideSize = swiper.slidesSizesGrid[0];
 
-          if (checkHeightSelector) {
-            const targetElements = swiper.hostEl.querySelectorAll(checkHeightSelector);
-
-            if (targetElements.length > 0) {
-              this.style.removeProperty('--swiper-checked-height');
-
-              requestAnimationFrame(() => {
-                const tallestHeight = Array.from(targetElements).reduce((max, el) => {
-                  const height = el.offsetHeight;
-                  return Math.max(height, max);
-                }, 0);
-
-                if (tallestHeight > 0) {
-                  this.style.setProperty('--swiper-checked-height', `${tallestHeight}px`);
-                }
-              });
-            }
-          }
-
-          this.style.setProperty('--swiper-slide-size', `${slideSize}px`);
+          debouncedSetCustomProperties(swiper);
         }
         const eventName = swiperParams.eventsPrefix
           ? `${swiperParams.eventsPrefix}${name.toLowerCase()}`

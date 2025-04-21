@@ -6,6 +6,26 @@
     <meta name="viewport" content="width=device-width" />
 
     <style>
+      body,
+      html {
+        padding: 0;
+        margin: 0;
+        position: relative;
+        height: 100%;
+      }
+
+      swiper-container {
+        width: 100%;
+        margin: 50px auto;
+      }
+
+      swiper-slide {
+        background: #f1f1f1;
+        color: #000;
+        text-align: center;
+        line-height: 300px;
+      }
+
       .v-banner-product__products {
         margin-top: 20px;
         height: var(--swiper-checked-height);
@@ -25,7 +45,8 @@
         <div>
           Slide 1
           <div class="v-banner-product__products">
-            <div style="height: 30vh"></div>
+            <div style="aspect-ratio: 1/0.5"></div>
+            <div style="line-height: 1.3">text</div>
           </div>
         </div>
       </swiper-slide>
@@ -33,7 +54,9 @@
         <div>
           Slide 2
           <div class="v-banner-product__products">
-            <div style="height: 32vh"></div>
+            <div style="aspect-ratio: 1/0.5"></div>
+            <div style="line-height: 1.3">text</div>
+            <div style="line-height: 1.3">text</div>
           </div>
         </div>
       </swiper-slide>
@@ -41,7 +64,7 @@
         <div>
           Slide 3
           <div class="v-banner-product__products">
-            <div style="height: 33vh"></div>
+            <div style="aspect-ratio: 1/0.5"></div>
           </div>
         </div>
       </swiper-slide>
@@ -49,7 +72,7 @@
         <div>
           Slide 4
           <div class="v-banner-product__products">
-            <div style="height: 30vh"></div>
+            <div style="aspect-ratio: 1/0.5"></div>
           </div>
         </div>
       </swiper-slide>
@@ -57,7 +80,7 @@
         <div>
           Slide 5
           <div class="v-banner-product__products">
-            <div style="height: 31vh"></div>
+            <div style="aspect-ratio: 1/0.5"></div>
           </div>
         </div>
       </swiper-slide>
@@ -138,27 +161,6 @@
       <swiper-slide>Slide 19</swiper-slide>
       <swiper-slide>Slide 20</swiper-slide>
     </swiper-container>
-    <style>
-      body,
-      html {
-        padding: 0;
-        margin: 0;
-        position: relative;
-        height: 100%;
-      }
-
-      swiper-container {
-        width: 100%;
-        margin: 50px auto;
-      }
-
-      swiper-slide {
-        background: #f1f1f1;
-        color: #000;
-        text-align: center;
-        line-height: 300px;
-      }
-    </style>
     <script type="module">
       import { register } from 'swiper/element/bundle';
       register();
