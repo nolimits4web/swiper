@@ -59,7 +59,7 @@ const setCustomProperties = (swiper) => {
   let tallestHeight = 0;
 
   if (typeof slideSize === 'number') {
-    swiper.hostEl.style.setProperty('--swiper-slide-size', `${slideSize}px`);
+    swiper.hostEl.style.setProperty('--swiper-slide-size', `${Math.floor(slideSize)}px`);
   }
 
   const checkHeightSelector = swiper.passedParams?.checkHeight;
