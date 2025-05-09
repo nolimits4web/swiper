@@ -21,7 +21,7 @@
 }
 
 .swiper {
-  padding-bottom: var(--swiper-pagination-area-height, 56px);
+  padding-bottom: var(--swiper-pagination-area-height, 24px);
 }
 
 .swiper-pagination {
@@ -42,7 +42,10 @@
 /* Progress */
 .swiper-pagination-progressbar {
   position: absolute;
-  bottom: 28px;
+  bottom: calc(
+    (var(--swiper-pagination-area-height, 24px) - var(--swiper-pagination-progressbar-size, 2px)) /
+      2
+  );
   left: 50%;
   transform: translateX(-50%);
   width: var(--swiper-pagination-width, 100px);
