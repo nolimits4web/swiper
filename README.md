@@ -1041,6 +1041,15 @@ Swiper is not compatible with all platforms, it is a modern touch slider which i
 - **Accessibility (A11y)**
 - **And many more ...**
 
+### CMS integration
+
+Slideshows are a common feature in e-commerce and marketing sites, whether it's a homepage hero, product highlights, or testimonials.
+In most cases, these are powered by a content management system (CMS), so marketers or content editors can easily update them without deploying code.
+
+Check the template below for CMS integration with a free-forever tier:
+
+[![Use Template](https://croct.com/button?variant=cms)](https://croct.com/templates/interface/section/react-swiper-carousel)
+
 ## Community
 
 The Swiper community can be found on [GitHub Discussions](https://github.com/nolimits4web/swiper/discussions), where you can ask questions, voice ideas, and share your projects
