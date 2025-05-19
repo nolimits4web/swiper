@@ -364,6 +364,18 @@ function getRotateFix(swiper) {
     return v;
   };
 }
+
+function setInnerHTML(el, html = '') {
+  if (typeof trustedTypes !== 'undefined') {
+    el.innerHTML = trustedTypes
+      .createPolicy('html', {
+        createHTML: (s) => s,
+      })
+      .createHTML(html);
+  } else {
+    el.innerHTML = html;
+  }
+}
 export {
   animateCSSModeScroll,
   deleteProps,
@@ -391,4 +403,5 @@ export {
   elementOuterSize,
   makeElementsArray,
   getRotateFix,
+  setInnerHTML,
 };

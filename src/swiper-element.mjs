@@ -9,6 +9,7 @@ import {
   attrToProp,
 } from './components-shared/utils.mjs';
 import { updateSwiper } from './components-shared/update-swiper.mjs';
+import { setInnerHTML } from './shared/utils.mjs';
 
 //SWIPER_STYLES
 //SWIPER_SLIDE_STYLES
@@ -120,7 +121,7 @@ class SwiperContainer extends ClassToExtend {
     el.part = 'container';
 
     // prettier-ignore
-    el.innerHTML = `
+    setInnerHTML(el, `
       <slot name="container-start"></slot>
       <div class="swiper-wrapper" part="wrapper">
         <slot></slot>
@@ -141,7 +142,7 @@ class SwiperContainer extends ClassToExtend {
       ${needsScrollbar(this.passedParams) ? `
         <div part="scrollbar" class="swiper-scrollbar"></div>
       ` : ''}
-    `;
+    `);
     this.shadowRoot.appendChild(el);
     this.rendered = true;
   }

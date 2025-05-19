@@ -1,3 +1,5 @@
+import { setInnerHTML } from '../../../shared/utils.mjs';
+
 export default function appendSlide(slides) {
   const swiper = this;
   const { params, slidesEl } = swiper;
@@ -9,9 +11,9 @@ export default function appendSlide(slides) {
   const appendElement = (slideEl) => {
     if (typeof slideEl === 'string') {
       const tempDOM = document.createElement('div');
-      tempDOM.innerHTML = slideEl;
+      setInnerHTML(tempDOM, slideEl);
       slidesEl.append(tempDOM.children[0]);
-      tempDOM.innerHTML = '';
+      setInnerHTML(tempDOM, '');
     } else {
       slidesEl.append(slideEl);
     }

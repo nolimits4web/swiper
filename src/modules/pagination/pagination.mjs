@@ -5,6 +5,7 @@ import {
   elementOuterSize,
   elementParents,
   makeElementsArray,
+  setInnerHTML,
 } from '../../shared/utils.mjs';
 
 export default function Pagination({ swiper, extendParams, on, emit }) {
@@ -258,7 +259,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
           });
       }
       if (params.type === 'custom' && params.renderCustom) {
-        subEl.innerHTML = params.renderCustom(swiper, current + 1, total);
+        setInnerHTML(subEl, params.renderCustom(swiper, current + 1, total));
         if (subElIndex === 0) emit('paginationRender', subEl);
       } else {
         if (subElIndex === 0) emit('paginationRender', subEl);
@@ -323,7 +324,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     swiper.pagination.bullets = [];
     el.forEach((subEl) => {
       if (params.type !== 'custom') {
-        subEl.innerHTML = paginationHTML || '';
+        setInnerHTML(subEl, paginationHTML || '');
       }
       if (params.type === 'bullets') {
         swiper.pagination.bullets.push(

@@ -1,3 +1,5 @@
+import { setInnerHTML } from '../../../shared/utils.mjs';
+
 export default function prependSlide(slides) {
   const swiper = this;
   const { params, activeIndex, slidesEl } = swiper;
@@ -9,9 +11,9 @@ export default function prependSlide(slides) {
   const prependElement = (slideEl) => {
     if (typeof slideEl === 'string') {
       const tempDOM = document.createElement('div');
-      tempDOM.innerHTML = slideEl;
+      setInnerHTML(tempDOM, slideEl);
       slidesEl.prepend(tempDOM.children[0]);
-      tempDOM.innerHTML = '';
+      setInnerHTML(tempDOM, '');
     } else {
       slidesEl.prepend(slideEl);
     }
