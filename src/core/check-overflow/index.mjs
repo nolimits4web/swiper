@@ -9,7 +9,7 @@ function checkOverflow() {
       Math.abs(swiper.slidesGrid[0]) +
       swiper.slidesSizesGrid[0] +
       swiper.slidesGrid[lastSlideIndex] +
-      swiper.slidesGrid[lastSlideIndex] +
+      swiper.slidesSizesGrid[lastSlideIndex] +
       slidesOffsetBefore * 2;
     swiper.isLocked = swiper.size > lastSlideRightEdge;
   } else {
