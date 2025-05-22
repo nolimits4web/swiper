@@ -7,6 +7,7 @@ function checkOverflow() {
     const lastSlideIndex = swiper.slides.length - 1;
     const lastSlideRightEdge =
       Math.abs(swiper.slidesGrid[0]) +
+      swiper.slidesSizesGrid[0] +
       swiper.slidesGrid[lastSlideIndex] +
       swiper.slidesSizesGrid[lastSlideIndex] +
       slidesOffsetBefore * 2;
