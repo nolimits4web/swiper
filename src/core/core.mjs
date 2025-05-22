@@ -390,11 +390,13 @@ class Swiper {
       swiper.setBreakpoint();
     }
 
-    [...swiper.el.querySelectorAll('[loading="lazy"]')].forEach((imageEl) => {
-      if (imageEl.complete) {
-        processLazyPreloader(swiper, imageEl);
-      }
-    });
+    if (swiper.params.lazyPreload) {
+      [...swiper.el.querySelectorAll('[loading="lazy"]')].forEach((imageEl) => {
+        if (imageEl.complete) {
+          processLazyPreloader(swiper, imageEl);
+        }
+      });
+    }
 
     swiper.updateSize();
     swiper.updateSlides();
@@ -602,19 +604,23 @@ class Swiper {
 
     // Attach events
     swiper.attachEvents();
-    const lazyElements = [...swiper.el.querySelectorAll('[loading="lazy"]')];
-    if (swiper.isElement) {
-      lazyElements.push(...swiper.hostEl.querySelectorAll('[loading="lazy"]'));
-    }
-    lazyElements.forEach((imageEl) => {
-      if (imageEl.complete) {
-        processLazyPreloader(swiper, imageEl);
-      } else {
-        imageEl.addEventListener('load', (e) => {
-          processLazyPreloader(swiper, e.target);
-        });
+
+    if (swiper.params.lazyPreload) {
+      const lazyElements = [...swiper.el.querySelectorAll('[loading="lazy"]')];
+      if (swiper.isElement) {
+        lazyElements.push(...swiper.hostEl.querySelectorAll('[loading="lazy"]'));
       }
-    });
+      lazyElements.forEach((imageEl) => {
+        if (imageEl.complete) {
+          processLazyPreloader(swiper, imageEl);
+        } else {
+          imageEl.addEventListener('load', (e) => {
+            processLazyPreloader(swiper, e.target);
+          });
+        }
+      });
+    }
+
     preload(swiper);
 
     // Init Flag
