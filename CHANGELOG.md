@@ -1,5 +1,11 @@
 # Changelog
 
+# [11.2.8](https://github.com/nolimits4web/Swiper/compare/v11.2.7...v11.2.8) (2025-05-23)
+
+### Bug Fixes
+
+- **virtual:** fix error in Virtual slides ([7a53208](https://github.com/nolimits4web/Swiper/commit/7a53208899cbcc6efb3ec655a9de3a0b4871bbb8)), closes [#7997](https://github.com/nolimits4web/Swiper/issues/7997)
+
 # [11.2.7](https://github.com/nolimits4web/Swiper/compare/v11.2.6...v11.2.7) (2025-05-19)
 
 ### Bug Fixes
