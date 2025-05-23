@@ -1,5 +1,10 @@
 import { getDocument } from 'ssr-window';
-import { createElement, elementChildren, setCSSProperty } from '../../shared/utils.mjs';
+import {
+  createElement,
+  elementChildren,
+  setCSSProperty,
+  setInnerHTML,
+} from '../../shared/utils.mjs';
 
 export default function Virtual({ swiper, extendParams, on, emit }) {
   extendParams({
