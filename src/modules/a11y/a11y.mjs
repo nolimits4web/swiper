@@ -280,6 +280,9 @@ export default function A11y({ swiper, extendParams, on }) {
     const slidesLength = swiper.slides.length;
     if (params.slideLabelMessage) {
       swiper.slides.forEach((slideEl, index) => {
+        if (swiper.params.loop && !slideEl.getAttribute('data-swiper-slide-index')) {
+          slideEl.setAttribute('data-swiper-slide-index', index);
+        }
         const slideIndex = swiper.params.loop
           ? parseInt(slideEl.getAttribute('data-swiper-slide-index'), 10)
           : index;
