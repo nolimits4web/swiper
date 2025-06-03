@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://swiperjs.com/images/share-banner-3.png"/>
+  <img src="https://swiperjs.com/images/share-banner.jpg"/>
 </p>
 
 <p align="center">
