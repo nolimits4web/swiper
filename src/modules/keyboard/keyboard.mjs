@@ -50,9 +50,10 @@ export default function Keyboard({ swiper, extendParams, on, emit }) {
     }
     if (
       document.activeElement &&
-      document.activeElement.nodeName &&
-      (document.activeElement.nodeName.toLowerCase() === 'input' ||
-        document.activeElement.nodeName.toLowerCase() === 'textarea')
+      (document.activeElement.isContentEditable ||
+        (document.activeElement.nodeName &&
+          (document.activeElement.nodeName.toLowerCase() === 'input' ||
+            document.activeElement.nodeName.toLowerCase() === 'textarea')))
     ) {
       return undefined;
     }
