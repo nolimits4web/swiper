@@ -195,21 +195,27 @@ export default function updateSlides() {
 
   // Remove last grid elements depending on width
   if (!params.centeredSlides) {
+    const minVisible = Math.floor(params.slidesPerView);
+    const lastAllowedSnapIndex = Math.max(slidesLength - minVisible, 0);
+
     const newSlidesGrid = [];
     for (let i = 0; i < snapGrid.length; i += 1) {
       let slidesGridItem = snapGrid[i];
       if (params.roundLengths) slidesGridItem = Math.floor(slidesGridItem);
-      if (snapGrid[i] <= swiper.virtualSize - swiperSize) {
+
+      /* keep this snap iff its *slide index* ≤ lastAllowedSnapIndex */
+      if (i <= lastAllowedSnapIndex && params.alignSlides) {
+        newSlidesGrid.push(slidesGridItem);
+      }
+      else if (snapGrid[i] <= swiper.virtualSize - swiperSize) {
         newSlidesGrid.push(slidesGridItem);
       }
     }
     snapGrid = newSlidesGrid;
 
-    if (
-      Math.floor(swiper.virtualSize - swiperSize) - Math.floor(snapGrid[snapGrid.length - 1]) >
-      1
-    ) {
-      snapGrid.push(swiper.virtualSize - swiperSize);
+    if ((Math.floor(swiper.virtualSize - swiperSize) - Math.floor(snapGrid[snapGrid.length - 1]) > 1) 
+      && !params.alignSlides) {
+        snapGrid.push(swiper.virtualSize - swiperSize);
     }
   }
   if (isVirtual && params.loop) {
