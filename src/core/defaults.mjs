@@ -58,6 +58,7 @@ export default {
   slidesOffsetAfter: 0, // in px
   normalizeSlideIndex: true,
   centerInsufficientSlides: false,
+  alignSlides: false,
 
   // Disable swiper and hide navigation when container not overflow
   watchOverflow: true,
