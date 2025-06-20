@@ -1,6 +1,11 @@
 import { getDocument } from 'ssr-window';
 import classesToSelector from '../../shared/classes-to-selector.mjs';
-import { createElement, elementIndex, makeElementsArray } from '../../shared/utils.mjs';
+import {
+  createElement,
+  elementIndex,
+  makeElementsArray,
+  setInnerHTML,
+} from '../../shared/utils.mjs';
 
 export default function A11y({ swiper, extendParams, on }) {
   extendParams({
@@ -35,8 +40,7 @@ export default function A11y({ swiper, extendParams, on }) {
   function notify(message) {
     const notification = liveRegion;
     if (notification.length === 0) return;
-    notification.innerHTML = '';
-    notification.innerHTML = message;
+    setInnerHTML(notification, message);
   }
 
   function getRandomNumber(size = 16) {

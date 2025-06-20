@@ -1,5 +1,23 @@
 # Changelog
 
+# [11.2.8](https://github.com/nolimits4web/Swiper/compare/v11.2.7...v11.2.8) (2025-05-23)
+
+### Bug Fixes
+
+- **virtual:** fix error in Virtual slides ([7a53208](https://github.com/nolimits4web/Swiper/commit/7a53208899cbcc6efb3ec655a9de3a0b4871bbb8)), closes [#7997](https://github.com/nolimits4web/Swiper/issues/7997)
+
+# [11.2.7](https://github.com/nolimits4web/Swiper/compare/v11.2.6...v11.2.7) (2025-05-19)
+
+### Bug Fixes
+
+- **core:** fix for slideResetTransition events ([#7989](https://github.com/nolimits4web/Swiper/issues/7989)) ([473ec25](https://github.com/nolimits4web/Swiper/commit/473ec25a74a9dfbf4366445034bd22aabc3f1889))
+- **core:** set innerHTML using trusted type ([8a46954](https://github.com/nolimits4web/Swiper/commit/8a46954e43c976ea5dc0c6e3edf351f3a99a0d42)), closes [#7961](https://github.com/nolimits4web/Swiper/issues/7961)
+- **react,vue:** fix not rendered slides in effects when Virtual is enabled ([e4e1680](https://github.com/nolimits4web/Swiper/commit/e4e1680cda676992ff2ff7b14d7c45db9aec304b)), closes [#7730](https://github.com/nolimits4web/Swiper/issues/7730)
+- **types:** add enabled property on swiper-class.d.ts ([#7973](https://github.com/nolimits4web/Swiper/issues/7973)) ([ccd96dc](https://github.com/nolimits4web/Swiper/commit/ccd96dca508de2a72adb11cba3fce96d24596453))
+- **types:** coverflow effect can be number or string with percentage ([#7931](https://github.com/nolimits4web/Swiper/issues/7931)) ([4d988d8](https://github.com/nolimits4web/Swiper/commit/4d988d8b0f5f646d881895c2934d82042fa1b120))
+- **types:** fix `effect` param type ([#7945](https://github.com/nolimits4web/Swiper/issues/7945)) ([42eec07](https://github.com/nolimits4web/Swiper/commit/42eec0722c7a1d6dd943245282f4048ce7d4459d))
+- **vue:** added missing props ([#7966](https://github.com/nolimits4web/Swiper/issues/7966)) ([6aa8d05](https://github.com/nolimits4web/Swiper/commit/6aa8d0585d29ff10abb9a4328ce6add240d4e55d))
+
 # [11.2.6](https://github.com/nolimits4web/Swiper/compare/v11.2.5...v11.2.6) (2025-03-19)
 
 ### Bug Fixes

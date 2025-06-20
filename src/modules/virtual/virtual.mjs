@@ -1,5 +1,10 @@
 import { getDocument } from 'ssr-window';
-import { createElement, elementChildren, setCSSProperty } from '../../shared/utils.mjs';
+import {
+  createElement,
+  elementChildren,
+  setCSSProperty,
+  setInnerHTML,
+} from '../../shared/utils.mjs';
 
 export default function Virtual({ swiper, extendParams, on, emit }) {
   extendParams({
@@ -39,7 +44,7 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     if (params.renderSlide) {
       slideEl = params.renderSlide.call(swiper, slide, index);
       if (typeof slideEl === 'string') {
-        tempDOM.innerHTML = slideEl;
+        setInnerHTML(tempDOM, slideEl);
         slideEl = tempDOM.children[0];
       }
     } else if (swiper.isElement) {
@@ -49,7 +54,7 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     }
     slideEl.setAttribute('data-swiper-slide-index', index);
     if (!params.renderSlide) {
-      slideEl.innerHTML = slide;
+      setInnerHTML(slideEl, slide);
     }
 
     if (params.cache) {

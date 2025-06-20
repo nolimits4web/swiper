@@ -73,9 +73,14 @@ function getParams(element, propName, propValue) {
     if (moduleParam) {
       const parentObjName = attrToProp(moduleParam);
       const subObjName = attrToProp(attr.name.split(`${moduleParam}-`)[1]);
-      if (typeof passedParams[parentObjName] === 'undefined') passedParams[parentObjName] = {};
+      if (typeof passedParams[parentObjName] === 'undefined') {
+        passedParams[parentObjName] = {};
+      }
       if (passedParams[parentObjName] === true) {
         passedParams[parentObjName] = { enabled: true };
+      }
+      if (passedParams[parentObjName] === false) {
+        passedParams[parentObjName] = { enabled: false };
       }
       passedParams[parentObjName][subObjName] = formatValue(attr.value);
     } else {

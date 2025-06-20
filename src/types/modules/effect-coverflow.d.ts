@@ -16,11 +16,14 @@ export interface CoverflowEffectOptions {
    */
   rotate?: number;
   /**
-   * Stretch space between slides (in px)
+   * Stretch space between slides
+   *
+   * - a number is interpreted as pixels (e.g., `20` for 20px).
+   * - a string with a percentage (e.g., `"50%"`).
    *
    * @default 0
    */
-  stretch?: number;
+  stretch?: number | `${number}%`;
   /**
    * Depth offset in px (slides translate in Z axis)
    *
