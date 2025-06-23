@@ -12,7 +12,7 @@ export default function loopFix({
 } = {}) {
   const swiper = this;
 
-  if (!swiper.params.loop) return;
+  if (!swiper.params.loop || swiper.slides.length === 0) return;
   swiper.emit('beforeLoopFix');
   const { slides, allowSlidePrev, allowSlideNext, slidesEl, params } = swiper;
   const { centeredSlides, initialSlide } = params;
