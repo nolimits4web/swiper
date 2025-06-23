@@ -113,15 +113,15 @@ class SwiperContainer extends ClassToExtend {
   }
 
   calcSlideSlots() {
-    const currentSideSlots = this.slideSlots || 0;
+    const currentSlideSlots = this.slideSlots || 0;
     // slide slots
     const slideSlotChildren = [...this.querySelectorAll(`[slot^=slide-]`)].map((child) => {
       return parseInt(child.getAttribute('slot').split('slide-')[1], 10);
     });
     this.slideSlots = slideSlotChildren.length ? Math.max(...slideSlotChildren) + 1 : 0;
     if (!this.rendered) return;
-    if (this.slideSlots > currentSideSlots) {
-      for (let i = currentSideSlots; i < this.slideSlots; i += 1) {
+    if (this.slideSlots > currentSlideSlots) {
+      for (let i = currentSlideSlots; i < this.slideSlots; i += 1) {
         const slideEl = document.createElement('swiper-slide');
         slideEl.setAttribute('part', `slide slide-${i + 1}`);
         const slotEl = document.createElement('slot');
@@ -129,7 +129,7 @@ class SwiperContainer extends ClassToExtend {
         slideEl.appendChild(slotEl);
         this.shadowRoot.querySelector('.swiper-wrapper').appendChild(slideEl);
       }
-    } else if (this.slideSlots < currentSideSlots) {
+    } else if (this.slideSlots < currentSlideSlots) {
       const slides = this.swiper.slides;
       for (let i = slides.length - 1; i >= 0; i -= 1) {
         if (i > this.slideSlots) {
