@@ -244,7 +244,10 @@ function elementIsChildOf(el, parent) {
 }
 function showWarning(text) {
   try {
-    console.warn(text);
+    const window = getWindow();
+    // https://example.com/foo/bar?debug=true
+    const isDebugMode = new URLSearchParams(window.location.search).get('debug') === 'true';
+    isDebugMode && console.warn(text);
     return;
   } catch (err) {
     // err
