@@ -19,8 +19,24 @@
         margin: 50px auto;
       }
 
+      swiper-slide:nth-of-type(1) {
+        --r: 255;
+      }
+      swiper-slide:nth-of-type(2) {
+        --r: 205;
+      }
+      swiper-slide:nth-of-type(3) {
+        --r: 155;
+      }
+      swiper-slide:nth-of-type(4) {
+        --r: 105;
+      }
+      swiper-slide:nth-of-type(5) {
+        --r: 55;
+      }
+
       swiper-slide {
-        background: #f1f1f1;
+        background: rgb(var(--r, 128), 128, 128);
         color: #000;
         text-align: center;
         line-height: 300px;
@@ -31,10 +47,39 @@
         height: var(--swiper-checked-height);
         background: rgba(255, 0, 0, 0.8);
       }
+
+      swiper-container.side-space {
+        background: #eee;
+
+        &::part(root) {
+          padding-inline: 24px;
+        }
+      }
     </style>
+    <!-- <script src="swiper-element-bundle.js"></script> -->
   </head>
 
   <body>
+    <swiper-container loop></swiper-container>
+
+    <swiper-container loop>
+      <div slot="container-end">
+        <p>container end slot</p>
+      </div>
+      <swiper-slide>Slide 1</swiper-slide>
+    </swiper-container>
+
+    <swiper-container space-between="8" navigation pagination loop speed="1000">
+      <div slot="container-end">
+        <p>container end slot</p>
+      </div>
+      <swiper-slide>Slide 1</swiper-slide>
+      <swiper-slide>Slide 2</swiper-slide>
+      <swiper-slide>Slide 3</swiper-slide>
+      <swiper-slide>Slide 4</swiper-slide>
+      <swiper-slide>Slide 5</swiper-slide>
+    </swiper-container>
+
     <swiper-container
       space-between="8"
       navigation="true"
@@ -95,6 +140,35 @@
     </swiper-container>
     <swiper-container
       space-between="8"
+      navigation="true"
+      pagination="true"
+      pagination-clickable="true"
+    >
+      <swiper-slide>Slide 1</swiper-slide>
+      <swiper-slide>Slide 2</swiper-slide>
+      <swiper-slide>Slide 3</swiper-slide>
+      <swiper-slide>Slide 4</swiper-slide>
+      <swiper-slide>Slide 5</swiper-slide>
+      <swiper-slide>Slide 6</swiper-slide>
+      <swiper-slide>Slide 7</swiper-slide>
+      <swiper-slide>Slide 8</swiper-slide>
+      <swiper-slide>Slide 9</swiper-slide>
+      <swiper-slide>Slide 10</swiper-slide>
+      <swiper-slide>Slide 11</swiper-slide>
+      <swiper-slide>Slide 12</swiper-slide>
+      <swiper-slide>Slide 13</swiper-slide>
+      <swiper-slide>Slide 14</swiper-slide>
+      <swiper-slide>Slide 15</swiper-slide>
+      <swiper-slide>Slide 16</swiper-slide>
+      <swiper-slide>Slide 17</swiper-slide>
+      <swiper-slide>Slide 18</swiper-slide>
+      <swiper-slide>Slide 19</swiper-slide>
+      <swiper-slide>Slide 20</swiper-slide>
+    </swiper-container>
+    <swiper-container
+      class="side-space"
+      space-between="8"
+      slides-per-view="2"
       navigation="true"
       pagination="true"
       pagination-clickable="true"

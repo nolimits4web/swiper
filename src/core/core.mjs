@@ -48,6 +48,12 @@ const prototypes = {
 
 const extendedDefaults = {};
 
+const getHostEl = (el) => {
+  if (!el) return undefined;
+  if (el.nodeType === Node.DOCUMENT_FRAGMENT_NODE && el.host) return el.host;
+  return getHostEl(el.parentNode);
+};
+
 class Swiper {
   constructor(...args) {
     let el;
@@ -502,10 +508,11 @@ class Swiper {
     }
 
     el.swiper = swiper;
+    const hostEl = getHostEl(el);
     if (
       el.parentNode &&
-      el.parentNode.host &&
-      el.parentNode.host.nodeName === swiper.params.swiperElementNodeName.toUpperCase()
+      hostEl &&
+      hostEl.nodeName === swiper.params.swiperElementNodeName.toUpperCase()
     ) {
       swiper.isElement = true;
     }
@@ -535,8 +542,8 @@ class Swiper {
     Object.assign(swiper, {
       el,
       wrapperEl,
-      slidesEl: swiper.isElement && !el.parentNode.host.slideSlots ? el.parentNode.host : wrapperEl,
-      hostEl: swiper.isElement ? el.parentNode.host : el,
+      slidesEl: swiper.isElement && !hostEl.slideSlots ? hostEl : wrapperEl,
+      hostEl: swiper.isElement ? hostEl : el,
       mounted: true,
 
       // RTL

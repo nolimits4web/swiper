@@ -8,6 +8,7 @@
 */
 .swiper-button-prev,
 .swiper-button-next {
+  opacity: var(--swiper-navigation-opacity);
   position: absolute;
   top: var(--swiper-navigation-top-offset, 50%);
   width: var(--swiper-navigation-size, 24px);
@@ -20,12 +21,14 @@
   justify-content: center;
   color: var(--swiper-navigation-color, var(--swiper-theme-color));
   &.swiper-button-disabled {
-    opacity: var(--swiper-navigation-disabled-opacity, 0);
+    --swiper-navigation-opacity: var(--swiper-navigation-disabled-opacity, 0);
+
     cursor: auto;
     pointer-events: none;
   }
   &.swiper-button-hidden {
-    opacity: 0;
+    --swiper-navigation-opacity: 0;
+
     cursor: auto;
     pointer-events: none;
   }
@@ -49,12 +52,12 @@
 }
 .swiper-button-prev,
 .swiper-rtl .swiper-button-next {
-  left: var(--swiper-navigation-button-prev-left, var(--swiper-navigation-sides-offset, 24px));
+  left: var(--swiper-navigation-button-prev-left, var(--swiper-navigation-sides-offset, 0));
   right: var(--swiper-navigation-button-prev-right, auto);
 }
 .swiper-button-next,
 .swiper-rtl .swiper-button-prev {
-  right: var(--swiper-navigation-button-next-right, var(--swiper-navigation-sides-offset, 24px));
+  right: var(--swiper-navigation-button-next-right, var(--swiper-navigation-sides-offset, 0));
   left: var(--swiper-navigation-button-next-left, auto);
 }
 .swiper-button-lock {

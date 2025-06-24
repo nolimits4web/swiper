@@ -346,7 +346,10 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     if (!params.el) return;
     let el;
     if (typeof params.el === 'string' && swiper.isElement) {
-      el = swiper.el.querySelector(params.el);
+      el =
+        swiper.el.querySelector(params.el) ||
+        swiper.hostEl.shadowRoot.querySelector(params.el) ||
+        swiper.hostEl.querySelector(params.el);
     }
     if (!el && typeof params.el === 'string') {
       el = [...document.querySelectorAll(params.el)];

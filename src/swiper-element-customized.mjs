@@ -20,7 +20,7 @@ const ClassToExtend =
     ? DummyHTMLElement
     : HTMLElement;
 
-const arrowSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path stroke="currentColor" fill="none" d="m29 8 10 12-10 12"/></svg>`;
+const arrowSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path stroke="currentColor" fill="none" d="M15 8L25 20L15 32"/></svg>`;
 
 const addStyle = (shadowRoot, styles) => {
   if (typeof CSSStyleSheet !== 'undefined' && shadowRoot.adoptedStyleSheets) {
@@ -163,19 +163,21 @@ class SwiperContainer extends ClassToExtend {
     });
     // prettier-ignore
     const el = document.createElement('div');
-    el.classList.add('swiper');
-    el.part = 'container';
+    el.classList.add('swiper-root');
+    el.part = 'root';
 
     // prettier-ignore
     el.innerHTML = `
       <slot name="container-start"></slot>
-      <div class="swiper-wrapper" part="wrapper">
-        <slot></slot>
-        ${Array.from({length: this.slideSlots}).map((_, index) => `
-        <swiper-slide part="slide slide-${index}">
-          <slot name="slide-${index}"></slot>
-        </swiper-slide>
-        `).join('')}
+      <div class="swiper" part="container">
+        <div class="swiper-wrapper" part="wrapper">
+          <slot></slot>
+          ${Array.from({length: this.slideSlots}).map((_, index) => `
+          <swiper-slide part="slide slide-${index}">
+            <slot name="slide-${index}"></slot>
+          </swiper-slide>
+          `).join('')}
+        </div>
       </div>
       <slot name="container-end"></slot>
       ${needsNavigation(this.passedParams) ? `
