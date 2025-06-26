@@ -34,7 +34,15 @@ export default function slideTo(index = 0, speed, runCallbacks = true, internal,
   }
 
   const skip = Math.min(swiper.params.slidesPerGroupSkip, slideIndex);
-  let snapIndex = skip + Math.floor((slideIndex - skip) / swiper.params.slidesPerGroup);
+  let effectiveIndex = slideIndex;
+  if (swiper.grid && swiper.params.grid && swiper.params.grid.rows > 1) {
+    if (swiper.params.grid.fill === 'column') {
+      effectiveIndex = Math.floor(slideIndex / swiper.params.grid.rows);
+    } else if (swiper.params.grid.fill === 'row') {
+      effectiveIndex = slideIndex % Math.ceil(swiper.slides.length / swiper.params.grid.rows);
+    }
+  }
+  let snapIndex = skip + Math.floor((effectiveIndex - skip) / swiper.params.slidesPerGroup);
   if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
 
   const translate = -snapGrid[snapIndex];
