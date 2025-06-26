@@ -12,6 +12,7 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   extendParams({
     autoplay: {
       enabled: false,
+      speed: 1000,
       delay: 3000,
       waitForTransition: true,
       disableOnInteraction: false,
@@ -96,7 +97,7 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
       autoplayDelayCurrent = currentSlideDelay;
     }
     autoplayTimeLeft = delay;
-    const speed = swiper.params.speed;
+    const speed = swiper.params.autoplay.speed || swiper.params.speed;
     const proceed = () => {
       if (!swiper || swiper.destroyed) return;
       if (swiper.params.autoplay.reverseDirection) {
