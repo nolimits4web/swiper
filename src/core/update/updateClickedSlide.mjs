@@ -25,9 +25,11 @@ export default function updateClickedSlide(el, path) {
   if (slide && slideFound) {
     swiper.clickedSlide = slide;
     if (swiper.virtual && swiper.params.virtual.enabled) {
-      swiper.clickedIndex = parseInt(slide.getAttribute('data-swiper-slide-index'), 10);
+      swiper.clickedIndex = swiper.getSlideIndexWhenGrid(
+        parseInt(slide.getAttribute('data-swiper-slide-index'), 10),
+      );
     } else {
-      swiper.clickedIndex = slideIndex;
+      swiper.clickedIndex = swiper.getSlideIndexWhenGrid(slideIndex);
     }
   } else {
     swiper.clickedSlide = undefined;

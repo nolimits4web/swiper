@@ -8,8 +8,10 @@ export default function slideToClickedSlide() {
   const slidesPerView =
     params.slidesPerView === 'auto' ? swiper.slidesPerViewDynamic() : params.slidesPerView;
   let slideToIndex = swiper.clickedIndex;
+
   let realIndex;
   const slideSelector = swiper.isElement ? `swiper-slide` : `.${params.slideClass}`;
+  const isGrid = swiper.grid && swiper.params.grid && swiper.params.grid.rows > 1;
   if (params.loop) {
     if (swiper.animating) return;
     realIndex = parseInt(swiper.clickedSlide.getAttribute('data-swiper-slide-index'), 10);
@@ -29,7 +31,11 @@ export default function slideToClickedSlide() {
       } else {
         swiper.slideTo(slideToIndex);
       }
-    } else if (slideToIndex > swiper.slides.length - slidesPerView) {
+    } else if (
+      slideToIndex > isGrid
+        ? (swiper.slides.length - slidesPerView) / 2 - (swiper.params.grid.rows - 1)
+        : swiper.slides.length - slidesPerView
+    ) {
       swiper.loopFix();
       slideToIndex = swiper.getSlideIndex(
         elementChildren(slidesEl, `${slideSelector}[data-swiper-slide-index="${realIndex}"]`)[0],
