@@ -13,6 +13,18 @@ export default function loopCreate(slideRealIndex, initial) {
     });
   };
 
+  const clearBlankSlides = () => {
+    const slides = elementChildren(slidesEl, `.${params.slideBlankClass}`);
+
+    slides.forEach((el) => {
+      el.remove();
+    });
+  };
+
+  clearBlankSlides();
+  swiper.recalcSlides();
+  swiper.updateSlides();
+
   const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
 
   const slidesPerGroup = params.slidesPerGroup * (gridEnabled ? params.grid.rows : 1);
