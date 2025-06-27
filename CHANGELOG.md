@@ -1,5 +1,17 @@
 # Changelog
 
+# [11.2.9](https://github.com/nolimits4web/Swiper/compare/v11.2.8...v11.2.9) (2025-06-27)
+
+### Bug Fixes
+
+- **core:** clear blank slides within loopCreate() ([#8033](https://github.com/nolimits4web/Swiper/issues/8033)) ([377d53c](https://github.com/nolimits4web/Swiper/commit/377d53cbcf7dfbaeab76e8bfa88e94795693b157))
+- **core:** escape brackets when transforming classes to selector ([#8014](https://github.com/nolimits4web/Swiper/issues/8014)) ([0c53ee8](https://github.com/nolimits4web/Swiper/commit/0c53ee8bd9d606934e0e29d78b7088a58d9fba64))
+- **core:** slideTo function does not work when grid.rows > 1 ([#8030](https://github.com/nolimits4web/Swiper/issues/8030)) ([1fde9d3](https://github.com/nolimits4web/Swiper/commit/1fde9d38090a858487ae9e000a8c164fecf81320))
+- **core:** using loop and slideToClickedSlide / slideToLoop with centeredSlides ([b6692e2](https://github.com/nolimits4web/Swiper/commit/b6692e21de281685c6434368e5cac2180f9320fa)), closes [#8031](https://github.com/nolimits4web/Swiper/issues/8031)
+- **element:** don't set subprops on boolean values ([090caa1](https://github.com/nolimits4web/Swiper/commit/090caa19764f16e44e89b8478e5737f1783eefa3)), closes [#8003](https://github.com/nolimits4web/Swiper/issues/8003)
+- **keyboard:** detect contenteditable element in keyboard module ([#8006](https://github.com/nolimits4web/Swiper/issues/8006)) ([fcd434a](https://github.com/nolimits4web/Swiper/commit/fcd434aa53e957b516417865bddafdcb5533e863))
+- **vue:** add missing event ([839cafb](https://github.com/nolimits4web/Swiper/commit/839cafb60fb68d8f4ef8b5a2ccf6648e895e8fe9)), closes [#8002](https://github.com/nolimits4web/Swiper/issues/8002)
+
 # [11.2.8](https://github.com/nolimits4web/Swiper/compare/v11.2.7...v11.2.8) (2025-05-23)
 
 ### Bug Fixes
