@@ -45,7 +45,9 @@ export default function loopFix({
   }
 
   const slidesPerGroup = params.slidesPerGroupAuto ? slidesPerView : params.slidesPerGroup;
-  let loopedSlides = slidesPerGroup;
+  let loopedSlides = centeredSlides
+    ? Math.max(slidesPerGroup, Math.ceil(slidesPerView / 2))
+    : slidesPerGroup;
 
   if (loopedSlides % slidesPerGroup !== 0) {
     loopedSlides += slidesPerGroup - (loopedSlides % slidesPerGroup);
