@@ -25,11 +25,10 @@ export default function loopCreate(slideRealIndex, initial) {
     }
   };
 
+  const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
   if (params.loopAddBlankSlides && (params.slidesPerGroup > 1 || gridEnabled)) {
     clearBlankSlides();
   }
-
-  const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
 
   const slidesPerGroup = params.slidesPerGroup * (gridEnabled ? params.grid.rows : 1);
 
