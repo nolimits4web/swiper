@@ -13,6 +13,22 @@ export default function loopCreate(slideRealIndex, initial) {
     });
   };
 
+  const clearBlankSlides = () => {
+    const slides = elementChildren(slidesEl, `.${params.slideBlankClass}`);
+
+    slides.forEach((el) => {
+      el.remove();
+    });
+    if (slides.length > 0) {
+      swiper.recalcSlides();
+      swiper.updateSlides();
+    }
+  };
+
+  if (params.loopAddBlankSlides && (params.slidesPerGroup > 1 || gridEnabled)) {
+    clearBlankSlides();
+  }
+
   const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
 
   const slidesPerGroup = params.slidesPerGroup * (gridEnabled ? params.grid.rows : 1);
