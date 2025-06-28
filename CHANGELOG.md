@@ -1,5 +1,11 @@
 # Changelog
 
+# [11.2.10](https://github.com/nolimits4web/Swiper/compare/v11.2.9...v11.2.10) (2025-06-28)
+
+### Bug Fixes
+
+- **core:** fix clickedIndex with grid ([863d8bd](https://github.com/nolimits4web/Swiper/commit/863d8bdd750b5a5f5b6df8b1129656e8050bd615))
+
 # [11.2.9](https://github.com/nolimits4web/Swiper/compare/v11.2.8...v11.2.9) (2025-06-27)
 
 ### Bug Fixes
