@@ -209,6 +209,9 @@ class SwiperContainer extends ClassToExtend {
         enabled: true,
       };
     }
+    if (passedParams.loop) {
+      swiperParams.watchSlidesProgress = true;
+    }
     this.swiperParams = swiperParams;
     this.passedParams = passedParams;
     delete this.swiperParams.init;
