@@ -13,7 +13,7 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
     autoplay: {
       enabled: false,
       speed: 1000,
-      delay: 3000,
+      delay: 5000,
       waitForTransition: true,
       disableOnInteraction: false,
       stopOnLastSlide: false,
@@ -23,8 +23,8 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   });
   let timeout;
   let raf;
-  let autoplayDelayTotal = params && params.autoplay ? params.autoplay.delay : 3000;
-  let autoplayDelayCurrent = params && params.autoplay ? params.autoplay.delay : 3000;
+  let autoplayDelayTotal = params && params.autoplay ? params.autoplay.delay : 5000;
+  let autoplayDelayCurrent = params && params.autoplay ? params.autoplay.delay : 5000;
   let autoplayTimeLeft;
   let autoplayStartTime = new Date().getTime();
   let wasPaused;
