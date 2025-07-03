@@ -32,27 +32,27 @@ export default function slideToLoop(index = 0, speed, runCallbacks = true, inter
         ? Math.ceil(swiper.slides.length / swiper.params.grid.rows)
         : swiper.slides.length;
 
-      const { centeredSlides } = swiper.params;
+      const { centeredSlides, slidesOffsetBefore, slidesOffsetAfter } = swiper.params;
+      const bothDirections = centeredSlides || !!slidesOffsetBefore || !!slidesOffsetAfter;
       let slidesPerView = swiper.params.slidesPerView;
       if (slidesPerView === 'auto') {
         slidesPerView = swiper.slidesPerViewDynamic();
       } else {
         slidesPerView = Math.ceil(parseFloat(swiper.params.slidesPerView, 10));
-        if (centeredSlides && slidesPerView % 2 === 0) {
+        if (bothDirections && slidesPerView % 2 === 0) {
           slidesPerView = slidesPerView + 1;
         }
       }
       let needLoopFix = cols - targetSlideIndex < slidesPerView;
-
-      if (centeredSlides) {
+      if (bothDirections) {
         needLoopFix = needLoopFix || targetSlideIndex < Math.ceil(slidesPerView / 2);
       }
-      if (internal && centeredSlides && swiper.params.slidesPerView !== 'auto' && !gridEnabled) {
+      if (internal && bothDirections && swiper.params.slidesPerView !== 'auto' && !gridEnabled) {
         needLoopFix = false;
       }
 
       if (needLoopFix) {
-        const direction = centeredSlides
+        const direction = bothDirections
           ? targetSlideIndex < swiper.activeIndex
             ? 'prev'
             : 'next'
