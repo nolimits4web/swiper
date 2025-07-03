@@ -73,7 +73,8 @@ export default function loopCreate(slideRealIndex, initial) {
     initSlides();
   }
 
-  const bothDirections = (params.centeredSlides || !!params.slidesOffsetBefore || !!params.slidesOffsetAfter);
+  const bothDirections =
+    params.centeredSlides || !!params.slidesOffsetBefore || !!params.slidesOffsetAfter;
   swiper.loopFix({
     slideRealIndex,
     direction: bothDirections ? undefined : 'next',

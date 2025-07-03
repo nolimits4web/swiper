@@ -17,7 +17,7 @@ export default function loopFix({
   const { slides, allowSlidePrev, allowSlideNext, slidesEl, params } = swiper;
   const { centeredSlides, slidesOffsetBefore, slidesOffsetAfter, initialSlide } = params;
   const bothDirections = centeredSlides || !!slidesOffsetBefore || !!slidesOffsetAfter;
-  
+
   swiper.allowSlidePrev = true;
   swiper.allowSlideNext = true;
 
