@@ -33,6 +33,7 @@ const paramsList = [
   'breakpointsBase',
   '_spaceBetween',
   '_slidesPerView',
+  '_slideSize',
   'maxBackfaceHiddenSlides',
   '_grid',
   '_slidesPerGroup',
