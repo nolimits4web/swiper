@@ -94,7 +94,12 @@ export default function updateSlides() {
     }
     if (slides[i] && elementStyle(slide, 'display') === 'none') continue; // eslint-disable-line
 
-    if (params.slidesPerView === 'auto') {
+    if (params.slidesPerView === 'auto' && params.slideSize) {
+      slideSize = params.slideSize;
+      if (slides[i]) {
+        slides[i].style[swiper.getDirectionLabel('width')] = `${slideSize}px`;
+      }
+    } else if (params.slidesPerView === 'auto' && !params.slideSize && slides[i]) {
       if (shouldResetSlideSize) {
         slides[i].style[swiper.getDirectionLabel('width')] = ``;
       }

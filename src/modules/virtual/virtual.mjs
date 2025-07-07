@@ -37,7 +37,12 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
   function renderSlide(slide, index) {
     const params = swiper.params.virtual;
     if (params.cache && swiper.virtual.cache[index]) {
-      return swiper.virtual.cache[index];
+      const cachedSlideEl = swiper.virtual.cache[index];
+      if (swiper.params.slidesPerView === 'auto' && swiper.params.slideSize) {
+        cachedSlideEl.style[swiper.getDirectionLabel('width')] = `${swiper.params.slideSize}px`;
+        cachedSlideEl.swiperSlideSize = swiper.params.slideSize;
+      }
+      return cachedSlideEl;
     }
     // eslint-disable-next-line
     let slideEl;
@@ -55,6 +60,12 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     slideEl.setAttribute('data-swiper-slide-index', index);
     if (!params.renderSlide) {
       setInnerHTML(slideEl, slide);
+    }
+
+    // Set size immediately if slideSize is provided with auto slides
+    if (swiper.params.slidesPerView === 'auto' && swiper.params.slideSize) {
+      slideEl.style[swiper.getDirectionLabel('width')] = `${swiper.params.slideSize}px`;
+      slideEl.swiperSlideSize = swiper.params.slideSize;
     }
 
     if (params.cache) {
@@ -95,12 +106,28 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
 
     let slidesAfter;
     let slidesBefore;
-    if (centeredSlides) {
-      slidesAfter = Math.floor(slidesPerView / 2) + slidesPerGroup + addSlidesAfter;
-      slidesBefore = Math.floor(slidesPerView / 2) + slidesPerGroup + addSlidesBefore;
+
+    let slidesPerViewNumeric;
+    if (slidesPerView === 'auto') {
+      if (swiper.params.slideSize) {
+        if (swiper.size > 0) {
+          slidesPerViewNumeric = Math.max(1, Math.ceil(swiper.size / swiper.params.slideSize));
+        } else {
+          slidesPerViewNumeric = Math.max(1, Math.ceil(320 / swiper.params.slideSize));
+        }
+      } else {
+        slidesPerViewNumeric = swiper.slidesPerViewDynamic() || 1;
+      }
     } else {
-      slidesAfter = slidesPerView + (slidesPerGroup - 1) + addSlidesAfter;
-      slidesBefore = (isLoop ? slidesPerView : slidesPerGroup) + addSlidesBefore;
+      slidesPerViewNumeric = slidesPerView;
+    }
+
+    if (centeredSlides) {
+      slidesAfter = Math.floor(slidesPerViewNumeric / 2) + slidesPerGroup + addSlidesAfter;
+      slidesBefore = Math.floor(slidesPerViewNumeric / 2) + slidesPerGroup + addSlidesBefore;
+    } else {
+      slidesAfter = slidesPerViewNumeric + (slidesPerGroup - 1) + addSlidesAfter;
+      slidesBefore = (isLoop ? slidesPerViewNumeric : slidesPerGroup) + addSlidesBefore;
     }
     let from = activeIndex - slidesBefore;
     let to = activeIndex + slidesAfter;
@@ -370,6 +397,11 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     if (swiper.params.cssMode) {
       setCSSProperty(swiper.wrapperEl, '--swiper-virtual-size', `${swiper.virtualSize}px`);
     }
+  });
+
+  on('resize', () => {
+    if (!swiper.params.virtual.enabled) return;
+    update();
   });
 
   Object.assign(swiper.virtual, {
