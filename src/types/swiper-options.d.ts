@@ -326,6 +326,15 @@ export interface SwiperOptions {
   slidesPerView?: number | 'auto';
 
   /**
+   * Fixed slide size in pixels. When provided along with `slidesPerView: 'auto'`, 
+   * it will override the automatic slide size calculation. 
+   * For horizontal sliders, this sets the width; for vertical sliders, this sets the height.
+   *
+   * @default null
+   */
+  slideSize?: number | null;
+
+  /**
    * If total number of slides less than specified here value, then Swiper will enable `backface-visibility: hidden` on slide elements to reduce visual "flicker" in Safari.
    *
    * @note It is not recommended to enable it on large amount of slides as it will reduce performance
