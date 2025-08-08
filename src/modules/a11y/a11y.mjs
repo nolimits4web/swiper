@@ -25,6 +25,7 @@ export default function A11y({ swiper, extendParams, on }) {
       slideRole: 'group',
       id: null,
       scrollOnFocus: true,
+      wrapperLiveRegion: true,
     },
   });
 
@@ -318,9 +319,11 @@ export default function A11y({ swiper, extendParams, on }) {
     const wrapperEl = swiper.wrapperEl;
     const wrapperId =
       params.id || wrapperEl.getAttribute('id') || `swiper-wrapper-${getRandomNumber(16)}`;
-    const live = swiper.params.autoplay && swiper.params.autoplay.enabled ? 'off' : 'polite';
     addElId(wrapperEl, wrapperId);
-    addElLive(wrapperEl, live);
+    if (params.wrapperLiveRegion) {
+      const live = swiper.params.autoplay && swiper.params.autoplay.enabled ? 'off' : 'polite';
+      addElLive(wrapperEl, live);
+    }
 
     // Slide
     initSlides();
