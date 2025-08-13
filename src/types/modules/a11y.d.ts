@@ -107,4 +107,11 @@ export interface A11yOptions {
    * @default true
    */
   scrollOnFocus?: boolean;
+  /**
+   * Whether or not the swiper-wrapper should have the `aria-live` attribute applied to it.
+   * If true, the value will be `off` when autoplay is enabled, otherwise it will be `polite`
+   *
+   * @default true
+   */
+  wrapperLiveRegion?: boolean;
 }
