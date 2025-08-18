@@ -1,17 +1,17 @@
 export const processLazyPreloader = (swiper, imageEl) => {
   if (!swiper || swiper.destroyed || !swiper.params) return;
-  const slideSelector = () => (swiper.isElement ? `swiper-slide` : `.${swiper.params.slideClass}`);
+  const slideSelector = () => (swiper.isElement ? `swiper-slide` : `.${swiper.params?.slideClass}`);
   const slideEl = imageEl.closest(slideSelector());
   if (slideEl) {
-    let lazyEl = slideEl.querySelector(`.${swiper.params.lazyPreloaderClass}`);
+    let lazyEl = slideEl.querySelector(`.${swiper.params?.lazyPreloaderClass}`);
     if (!lazyEl && swiper.isElement) {
       if (slideEl.shadowRoot) {
-        lazyEl = slideEl.shadowRoot.querySelector(`.${swiper.params.lazyPreloaderClass}`);
+        lazyEl = slideEl.shadowRoot.querySelector(`.${swiper.params?.lazyPreloaderClass}`);
       } else {
         // init later
         requestAnimationFrame(() => {
           if (slideEl.shadowRoot) {
-            lazyEl = slideEl.shadowRoot.querySelector(`.${swiper.params.lazyPreloaderClass}`);
+            lazyEl = slideEl.shadowRoot.querySelector(`.${swiper.params?.lazyPreloaderClass}`);
             if (lazyEl) lazyEl.remove();
           }
         });
