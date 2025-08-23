@@ -298,8 +298,14 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
         if (params.renderBullet) {
           paginationHTML += params.renderBullet.call(swiper, i, params.bulletClass);
         } else {
+          const slide = swiper.slides[i];
+          const slideHasVideo = slide && slide.querySelector('video') != null;
+          const className = `${params.bulletClass}${
+            slideHasVideo ? ` ${params.bulletClass}_has_video` : ''
+          }`;
+          const playIcon = `<svg viewBox="0 0 10 12"><path d="M.75 10.763V1.237L9 6 .75 10.763Z"/></svg>`;
           // prettier-ignore
-          paginationHTML += `<${params.bulletElement} ${swiper.isElement ? 'part="bullet"' : ''} class="${params.bulletClass}"></${params.bulletElement}>`;
+          paginationHTML += `<${params.bulletElement} ${swiper.isElement ? 'part="bullet"' : ''} class="${className}">${slideHasVideo ? playIcon : ''}</${params.bulletElement}>`;
         }
       }
     }

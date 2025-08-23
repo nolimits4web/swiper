@@ -20,7 +20,7 @@ const ClassToExtend =
     ? DummyHTMLElement
     : HTMLElement;
 
-const arrowSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path stroke="currentColor" fill="none" d="M15 8L25 20L15 32"/></svg>`;
+const arrowSvg = `<svg viewBox="0 0 40 40"><path stroke="currentColor" fill="none" d="M15 8L25 20L15 32"/></svg>`;
 
 const addStyle = (shadowRoot, styles) => {
   if (typeof CSSStyleSheet !== 'undefined' && shadowRoot.adoptedStyleSheets) {
@@ -200,12 +200,10 @@ class SwiperContainer extends ClassToExtend {
     this.initialized = true;
     const { params: swiperParams, passedParams } = getParams(this);
     if (passedParams.pagination) {
-      passedParams.pagination = {
-        type: 'progressbar',
-      };
       swiperParams.pagination = {
         el: '.swiper-pagination',
-        type: 'progressbar',
+        type: passedParams.pagination.type || 'progressbar',
+        clickable: passedParams.pagination.clickable ?? passedParams.pagination.type === 'bullets',
         enabled: true,
       };
     }

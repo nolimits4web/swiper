@@ -42,6 +42,18 @@
         line-height: 300px;
       }
 
+      .box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        aspect-ratio: 1/1.5;
+        background: #ccc;
+        border-radius: 8px;
+        overflow: clip;
+        object-fit: cover;
+      }
+
       .v-banner-product__products {
         margin-top: 20px;
         height: var(--swiper-checked-height);
@@ -60,6 +72,26 @@
   </head>
 
   <body>
+    <swiper-container navigation loop pagination-type="bullets" pagination-clickable>
+      <swiper-slide>
+        <div class="box">1</div>
+      </swiper-slide>
+      <swiper-slide>
+        <video class="box" autoplay muted loop>
+          <source src="./boat.mp4" type="video/mp4" />
+        </video>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="box">3</div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="box">4</div>
+      </swiper-slide>
+      <swiper-slide>
+        <div class="box">5</div>
+      </swiper-slide>
+    </swiper-container>
+
     <swiper-container loop></swiper-container>
 
     <swiper-container loop>
