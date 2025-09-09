@@ -85,3 +85,17 @@
   }
 }
 /* Navigation font end */
+.swiper-vertical {
+  :is(.swiper-button-next, .swiper-button-prev) {
+    left: 50%;
+    transform: rotate(90deg);
+    transform-origin: left center;
+  }
+  .swiper-button-prev {
+    top: calc(var(--swiper-navigation-size) / 2);
+  }
+  .swiper-button-next {
+    top: auto;
+    bottom: calc(var(--swiper-navigation-size) / 2);
+  }
+}
