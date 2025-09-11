@@ -91,6 +91,14 @@ export interface VirtualOptions<T = any> {
    * @default []
    */
   slides?: T[];
+
+  /**
+   * Slide size for slidesPerView: `auto` (in px)
+   *
+   * @default 320
+   */
+  slidesPerViewAutoSlideSize?: number;
+
   /**
    * Enables DOM cache of rendering slides html elements. Once they are rendered they will be saved to cache and reused from it.
    *

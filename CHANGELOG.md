@@ -1,5 +1,21 @@
 # Changelog
 
+# [12.0.0](https://github.com/nolimits4web/Swiper/compare/v11.2.10...v12.0.0) (2025-09-11)
+
+### Bug Fixes
+
+- **core:** fixes issues when slidesOffsetBefore & slidesOffsetAfter are combinated with centeredSlides, slidesPerView & loop ([#8038](https://github.com/nolimits4web/Swiper/issues/8038)) ([74cc297](https://github.com/nolimits4web/Swiper/commit/74cc29713508bb48939ef9147a869979a8120cc4)), closes [#7298](https://github.com/nolimits4web/Swiper/issues/7298) [#7956](https://github.com/nolimits4web/Swiper/issues/7956) [#6916](https://github.com/nolimits4web/Swiper/issues/6916)
+- **effect-cards:** fix offset in vertical direction when rotate is unset ([a248ca1](https://github.com/nolimits4web/Swiper/commit/a248ca1fc4fd070e02f65ca7afc55789c02f15c7)), closes [#8075](https://github.com/nolimits4web/Swiper/issues/8075)
+- **get-device:** regexp tweak ([60bb79b](https://github.com/nolimits4web/Swiper/commit/60bb79b599895350da71212b05e3f89a0dabc447)), closes [#8057](https://github.com/nolimits4web/Swiper/issues/8057)
+- **types:** correct types for getSlideTransformEl ([b34bdce](https://github.com/nolimits4web/Swiper/commit/b34bdce988a681a41778c95795e19787a19e754d)), closes [#8054](https://github.com/nolimits4web/Swiper/issues/8054)
+
+### Features
+
+- **a11y:** add wrapperLiveRegion param to disable wrapper live region in a11y module ([#8061](https://github.com/nolimits4web/Swiper/issues/8061)) ([d03044e](https://github.com/nolimits4web/Swiper/commit/d03044e8f8648946dfecf9b669df987a5a5e1925))
+- move to SVG icons for navigation ([264603c](https://github.com/nolimits4web/Swiper/commit/264603cc36a54e7a4f39507b2fbdab7e38bb046e)), closes [#6652](https://github.com/nolimits4web/Swiper/issues/6652) [#4990](https://github.com/nolimits4web/Swiper/issues/4990)
+- remove LESS and SCSS styles in favor of CSS ([118ec66](https://github.com/nolimits4web/Swiper/commit/118ec6616da1249b589f9c468076ec036234b36d))
+- **virtual:** add slidesPerViewAutoSlideSize parameter for fixed slide dimensions with slidesPerView auto ([d472144](https://github.com/nolimits4web/Swiper/commit/d47214480e7b9155ce2203a9a21209e56c5c303b)), closes [#8041](https://github.com/nolimits4web/Swiper/issues/8041) [#7796](https://github.com/nolimits4web/Swiper/issues/7796)
+
 # [11.2.10](https://github.com/nolimits4web/Swiper/compare/v11.2.9...v11.2.10) (2025-06-28)
 
 ### Bug Fixes
