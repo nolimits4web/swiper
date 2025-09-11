@@ -1,5 +1,11 @@
 # Changelog
 
+# [12.0.1](https://github.com/nolimits4web/Swiper/compare/v12.0.0...v12.0.1) (2025-09-11)
+
+### Bug Fixes
+
+- **navigation:** tweak nav styles when adjacent ([98440d9](https://github.com/nolimits4web/Swiper/commit/98440d9621c2b06c1c45edf8f4103ce5125e8231))
+
 # [12.0.0](https://github.com/nolimits4web/Swiper/compare/v11.2.10...v12.0.0) (2025-09-11)
 
 ### Bug Fixes
