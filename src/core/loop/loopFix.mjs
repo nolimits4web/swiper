@@ -15,15 +15,17 @@ export default function loopFix({
   if (!swiper.params.loop) return;
   swiper.emit('beforeLoopFix');
   const { slides, allowSlidePrev, allowSlideNext, slidesEl, params } = swiper;
-  const { centeredSlides, initialSlide } = params;
+  const { centeredSlides, slidesOffsetBefore, slidesOffsetAfter, initialSlide } = params;
+  const bothDirections = centeredSlides || !!slidesOffsetBefore || !!slidesOffsetAfter;
+
   swiper.allowSlidePrev = true;
   swiper.allowSlideNext = true;
 
   if (swiper.virtual && params.virtual.enabled) {
     if (slideTo) {
-      if (!params.centeredSlides && swiper.snapIndex === 0) {
+      if (!bothDirections && swiper.snapIndex === 0) {
         swiper.slideTo(swiper.virtual.slides.length, 0, false, true);
-      } else if (params.centeredSlides && swiper.snapIndex < params.slidesPerView) {
+      } else if (bothDirections && swiper.snapIndex < params.slidesPerView) {
         swiper.slideTo(swiper.virtual.slides.length + swiper.snapIndex, 0, false, true);
       } else if (swiper.snapIndex === swiper.snapGrid.length - 1) {
         swiper.slideTo(swiper.virtual.slidesBefore, 0, false, true);
@@ -39,13 +41,13 @@ export default function loopFix({
     slidesPerView = swiper.slidesPerViewDynamic();
   } else {
     slidesPerView = Math.ceil(parseFloat(params.slidesPerView, 10));
-    if (centeredSlides && slidesPerView % 2 === 0) {
+    if (bothDirections && slidesPerView % 2 === 0) {
       slidesPerView = slidesPerView + 1;
     }
   }
 
   const slidesPerGroup = params.slidesPerGroupAuto ? slidesPerView : params.slidesPerGroup;
-  let loopedSlides = centeredSlides
+  let loopedSlides = bothDirections
     ? Math.max(slidesPerGroup, Math.ceil(slidesPerView / 2))
     : slidesPerGroup;
 
@@ -72,7 +74,7 @@ export default function loopFix({
 
   const cols = gridEnabled ? Math.ceil(slides.length / params.grid.rows) : slides.length;
 
-  const isInitialOverflow = initial && cols - initialSlide < slidesPerView && !centeredSlides;
+  const isInitialOverflow = initial && cols - initialSlide < slidesPerView && !bothDirections;
 
   let activeIndex = isInitialOverflow ? initialSlide : swiper.activeIndex;
 
@@ -93,7 +95,7 @@ export default function loopFix({
   const activeColIndex = gridEnabled ? slides[activeSlideIndex].column : activeSlideIndex;
   const activeColIndexWithShift =
     activeColIndex +
-    (centeredSlides && typeof setTranslate === 'undefined' ? -slidesPerView / 2 + 0.5 : 0);
+    (bothDirections && typeof setTranslate === 'undefined' ? -slidesPerView / 2 + 0.5 : 0);
   // prepend last slides before start
   if (activeColIndexWithShift < loopedSlides) {
     slidesPrepended = Math.max(loopedSlides - activeColIndexWithShift, slidesPerGroup);

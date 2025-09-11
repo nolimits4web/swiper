@@ -73,9 +73,11 @@ export default function loopCreate(slideRealIndex, initial) {
     initSlides();
   }
 
+  const bothDirections =
+    params.centeredSlides || !!params.slidesOffsetBefore || !!params.slidesOffsetAfter;
   swiper.loopFix({
     slideRealIndex,
-    direction: params.centeredSlides ? undefined : 'next',
+    direction: bothDirections ? undefined : 'next',
     initial,
   });
 }

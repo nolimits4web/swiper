@@ -14,7 +14,7 @@ export default function updateSlides() {
 
   const params = swiper.params;
 
-  const { wrapperEl, slidesEl, size: swiperSize, rtlTranslate: rtl, wrongRTL } = swiper;
+  const { wrapperEl, slidesEl, rtlTranslate: rtl, wrongRTL } = swiper;
   const isVirtual = swiper.virtual && params.virtual.enabled;
   const previousSlidesLength = isVirtual ? swiper.virtual.slides.length : swiper.slides.length;
   const slides = elementChildren(slidesEl, `.${swiper.params.slideClass}, swiper-slide`);
@@ -36,6 +36,7 @@ export default function updateSlides() {
   const previousSnapGridLength = swiper.snapGrid.length;
   const previousSlidesGridLength = swiper.slidesGrid.length;
 
+  const swiperSize = swiper.size - offsetBefore - offsetAfter;
   let spaceBetween = params.spaceBetween;
   let slidePosition = -offsetBefore;
   let prevSlideSize = 0;
@@ -49,7 +50,7 @@ export default function updateSlides() {
     spaceBetween = parseFloat(spaceBetween);
   }
 
-  swiper.virtualSize = -spaceBetween;
+  swiper.virtualSize = -spaceBetween - offsetBefore - offsetAfter;
 
   // reset margins
   slides.forEach((slideEl) => {
@@ -269,7 +270,7 @@ export default function updateSlides() {
       allSlidesSize += slideSizeValue + (spaceBetween || 0);
     });
     allSlidesSize -= spaceBetween;
-    const offsetSize = (params.slidesOffsetBefore || 0) + (params.slidesOffsetAfter || 0);
+    const offsetSize = (offsetBefore || 0) + (offsetAfter || 0);
     if (allSlidesSize + offsetSize < swiperSize) {
       const allSlidesOffset = (swiperSize - allSlidesSize - offsetSize) / 2;
       snapGrid.forEach((snap, snapIndex) => {
