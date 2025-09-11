@@ -2,9 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import * as url from 'url';
 import autoprefixer from './autoprefixer.js';
-import less from './less.js';
-import cleanCss from './clean-css.js';
+import minifyCss from './minify-css.js';
 import config from '../build-config.js';
+import unwrapCss from './unwrap-css.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -118,31 +118,31 @@ const proceedSlideReplacements = (content) => {
 export default async function getElementStyles() {
   // eslint-disable-next-line
   const modules = config.modules.filter((name) => {
-    const lessFilePath = `./src/modules/${name}/${name}.less`;
-    return fs.existsSync(lessFilePath);
+    const cssFilePath = `./src/modules/${name}/${name}.css`;
+    return fs.existsSync(cssFilePath);
   });
 
-  let lessContentBundle = await fs.readFileSync(
-    path.resolve(__dirname, '../../src/swiper.less'),
+  const cssContentBundle = await fs.readFileSync(
+    path.resolve(__dirname, '../../src/swiper.css'),
     'utf8',
   );
-  lessContentBundle = lessContentBundle.replace(
-    '//IMPORT_MODULES',
-    modules.map((mod) => `@import url('./modules/${mod}/${mod}.less');`).join('\n'),
-  );
+  const modulesCSSContent = [];
+  for (const mod of modules) {
+    modulesCSSContent.push(
+      // eslint-disable-next-line no-await-in-loop
+      await fs.readFileSync(path.resolve(__dirname, `../../src/modules/${mod}/${mod}.css`), 'utf8'),
+    );
+  }
 
-  let lessContentCore = await fs.readFileSync(
-    path.resolve(__dirname, '../../src/swiper.less'),
+  const cssContentCore = await fs.readFileSync(
+    path.resolve(__dirname, '../../src/swiper.css'),
     'utf8',
   );
-  lessContentCore = lessContentCore.replace('//IMPORT_MODULES', '');
 
-  let cssStylesBundle = await autoprefixer(
-    await less(lessContentBundle, path.resolve(__dirname, '../../src')),
+  let cssStylesBundle = await unwrapCss(
+    await autoprefixer([cssContentBundle, ...modulesCSSContent].join('\n')),
   );
-  let cssStylesCore = await autoprefixer(
-    await less(lessContentCore, path.resolve(__dirname, '../../src')),
-  );
+  let cssStylesCore = await unwrapCss(await autoprefixer(cssContentCore));
   // eslint-disable-next-line
   let cssStylesSlide = getSplittedCSS(cssStylesBundle).slides;
   cssStylesBundle = getSplittedCSS(cssStylesBundle).container;
@@ -152,9 +152,9 @@ export default async function getElementStyles() {
   cssStylesCore = proceedReplacements(cssStylesCore);
   cssStylesSlide = proceedSlideReplacements(cssStylesSlide);
 
-  cssStylesBundle = await cleanCss(cssStylesBundle);
-  cssStylesCore = await cleanCss(cssStylesCore);
-  cssStylesSlide = await cleanCss(cssStylesSlide);
+  cssStylesBundle = await minifyCss(cssStylesBundle);
+  cssStylesCore = await minifyCss(cssStylesCore);
+  cssStylesSlide = await minifyCss(cssStylesSlide);
   return {
     core: cssStylesCore,
     bundle: cssStylesBundle,
