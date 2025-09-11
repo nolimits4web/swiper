@@ -21,18 +21,11 @@ export const getSplittedCSS = (content) => {
   const cssStylesSlideZoom = (content.split(`/* Zoom container styles start */`)[1] || '').split(
     `/* Zoom container styles end */`,
   )[0];
-  const navigationFontStyles = (content.split('/* Navigation font start */')[1] || '').split(
-    '/* Navigation font end */',
-  )[0];
   content = content
     .replace(cssStylesSlideCore, '')
     .replace(cssStylesSlideCube, '')
     .replace(cssStylesSlideFlip, '')
-    .replace(navigationFontStyles, '')
     .replace(cssStylesSlideZoom, '');
-  if (content.includes(`/* FONT_END */`)) {
-    content = content.split('/* FONT_END */')[1];
-  }
 
   return {
     slides: [

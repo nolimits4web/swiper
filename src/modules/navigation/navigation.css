@@ -2,17 +2,17 @@
   --swiper-navigation-size: 44px;
   /*
   --swiper-navigation-top-offset: 50%;
-  --swiper-navigation-sides-offset: 10px;
+  --swiper-navigation-sides-offset: 4px;
   --swiper-navigation-color: var(--swiper-theme-color);
   */
 }
 .swiper-button-prev,
 .swiper-button-next {
   position: absolute;
-  top: var(--swiper-navigation-top-offset, 50%);
-  width: calc(var(--swiper-navigation-size) / 44 * 27);
+
+  width: var(--swiper-navigation-size);
   height: var(--swiper-navigation-size);
-  margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
+
   z-index: 10;
   cursor: pointer;
   display: flex;
@@ -37,59 +37,57 @@
     height: 100%;
     object-fit: contain;
     transform-origin: center;
+    fill: currentColor;
+    pointer-events: none;
   }
-  .swiper-rtl & svg {
-    transform: rotate(180deg);
-  }
 }
-.swiper-button-prev,
-.swiper-rtl .swiper-button-next {
-  left: var(--swiper-navigation-sides-offset, 10px);
-  right: auto;
-}
-.swiper-button-next,
-.swiper-rtl .swiper-button-prev {
-  right: var(--swiper-navigation-sides-offset, 10px);
-  left: auto;
-}
+
 .swiper-button-lock {
   display: none;
 }
-/* Navigation font start */
-.swiper-button-prev,
-.swiper-button-next {
-  &:after {
-    font-family: swiper-icons;
-    font-size: var(--swiper-navigation-size);
-    text-transform: none !important;
-    letter-spacing: 0;
-    font-variant: initial;
-    line-height: 1;
+
+.swiper-horizontal {
+  .swiper-button-prev,
+  .swiper-button-next {
+    top: var(--swiper-navigation-top-offset, 50%);
+    margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
+  }
+  .swiper-button-prev,
+  .swiper-rtl .swiper-button-next {
+    left: var(--swiper-navigation-sides-offset, 4px);
+    right: auto;
+  }
+  .swiper-button-next,
+  .swiper-rtl .swiper-button-prev {
+    right: var(--swiper-navigation-sides-offset, 4px);
+    left: auto;
+  }
+  .swiper-button-prev,
+  &.swiper-rtl .swiper-button-next {
+    .swiper-navigation-icon {
+      transform: rotate(180deg);
+    }
+  }
+  &.swiper-rtl .swiper-button-prev {
+    .swiper-navigation-icon {
+      transform: rotate(0deg);
+    }
   }
 }
-.swiper-button-next,
-.swiper-rtl .swiper-button-prev {
-  right: var(--swiper-navigation-sides-offset, 10px);
-  left: auto;
-}
-.swiper-button-next {
-  &:after {
-    content: 'next';
+.swiper-vertical {
+  .swiper-button-prev,
+  .swiper-button-next {
+    left: var(--swiper-navigation-top-offset, 50%);
+    margin-left: calc(0px - (var(--swiper-navigation-size) / 2));
+  }
+  .swiper-button-prev {
+    top: var(--swiper-navigation-sides-offset, 4px);
+    bottom: auto;
+    transform: rotate(-90deg);
+  }
+  .swiper-button-next {
+    bottom: var(--swiper-navigation-sides-offset, 4px);
+    top: auto;
+    transform: rotate(90deg);
   }
 }
-.swiper-rtl .swiper-button-next {
-  &:after {
-    content: 'prev';
-  }
-}
-.swiper-button-prev {
-  &:after {
-    content: 'prev';
-  }
-}
-.swiper-rtl .swiper-button-prev {
-  &::after {
-    content: 'next';
-  }
-}
-/* Navigation font end */
