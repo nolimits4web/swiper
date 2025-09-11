@@ -12,6 +12,7 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
       enabled: false,
       slides: [],
       cache: true,
+      slidesPerViewAutoSlideSize: 320,
       renderSlide: null,
       renderExternal: null,
       renderExternalUpdate: true,
@@ -65,16 +66,16 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
 
   function update(force, beforeInit, forceActiveIndex) {
     const {
-      slidesPerView,
       slidesPerGroup,
       centeredSlides,
+      slidesPerView,
       loop: isLoop,
       initialSlide,
     } = swiper.params;
     if (beforeInit && !isLoop && initialSlide > 0) {
       return;
     }
-    const { addSlidesBefore, addSlidesAfter } = swiper.params.virtual;
+    const { addSlidesBefore, addSlidesAfter, slidesPerViewAutoSlideSize } = swiper.params.virtual;
     const {
       from: previousFrom,
       to: previousTo,
@@ -93,14 +94,31 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
     if (swiper.rtlTranslate) offsetProp = 'right';
     else offsetProp = swiper.isHorizontal() ? 'left' : 'top';
 
+    let slidesPerViewNumeric;
+    if (slidesPerView === 'auto') {
+      if (slidesPerViewAutoSlideSize) {
+        let swiperSize = swiper.size;
+        if (!swiperSize) {
+          swiperSize = swiper.isHorizontal()
+            ? swiper.el.getBoundingClientRect().width
+            : swiper.el.getBoundingClientRect().height;
+        }
+        slidesPerViewNumeric = Math.max(1, Math.ceil(swiperSize / slidesPerViewAutoSlideSize));
+      } else {
+        slidesPerViewNumeric = 1;
+      }
+    } else {
+      slidesPerViewNumeric = slidesPerView;
+    }
+
     let slidesAfter;
     let slidesBefore;
     if (centeredSlides) {
-      slidesAfter = Math.floor(slidesPerView / 2) + slidesPerGroup + addSlidesAfter;
-      slidesBefore = Math.floor(slidesPerView / 2) + slidesPerGroup + addSlidesBefore;
+      slidesAfter = Math.floor(slidesPerViewNumeric / 2) + slidesPerGroup + addSlidesAfter;
+      slidesBefore = Math.floor(slidesPerViewNumeric / 2) + slidesPerGroup + addSlidesBefore;
     } else {
-      slidesAfter = slidesPerView + (slidesPerGroup - 1) + addSlidesAfter;
-      slidesBefore = (isLoop ? slidesPerView : slidesPerGroup) + addSlidesBefore;
+      slidesAfter = slidesPerViewNumeric + (slidesPerGroup - 1) + addSlidesAfter;
+      slidesBefore = (isLoop ? slidesPerViewNumeric : slidesPerGroup) + addSlidesBefore;
     }
     let from = activeIndex - slidesBefore;
     let to = activeIndex + slidesAfter;

@@ -88,16 +88,26 @@ export default function updateSlides() {
 
   for (let i = 0; i < slidesLength; i += 1) {
     slideSize = 0;
-    let slide;
-    if (slides[i]) slide = slides[i];
-    if (gridEnabled) {
-      swiper.grid.updateSlide(i, slide, slides);
+    const slide = slides[i];
+    if (slide) {
+      if (gridEnabled) {
+        swiper.grid.updateSlide(i, slide, slides);
+      }
+      if (elementStyle(slide, 'display') === 'none') continue; // eslint-disable-line
     }
-    if (slides[i] && elementStyle(slide, 'display') === 'none') continue; // eslint-disable-line
 
-    if (params.slidesPerView === 'auto') {
+    if (isVirtual && params.slidesPerView === 'auto') {
+      if (params.virtual.slidesPerViewAutoSlideSize) {
+        slideSize = params.virtual.slidesPerViewAutoSlideSize;
+      }
+      if (slideSize && slide) {
+        if (params.roundLengths) slideSize = Math.floor(slideSize);
+
+        slide.style[swiper.getDirectionLabel('width')] = `${slideSize}px`;
+      }
+    } else if (params.slidesPerView === 'auto') {
       if (shouldResetSlideSize) {
-        slides[i].style[swiper.getDirectionLabel('width')] = ``;
+        slide.style[swiper.getDirectionLabel('width')] = ``;
       }
       const slideStyles = getComputedStyle(slide);
       const currentTransform = slide.style.transform;
@@ -144,12 +154,12 @@ export default function updateSlides() {
       slideSize = (swiperSize - (params.slidesPerView - 1) * spaceBetween) / params.slidesPerView;
       if (params.roundLengths) slideSize = Math.floor(slideSize);
 
-      if (slides[i]) {
-        slides[i].style[swiper.getDirectionLabel('width')] = `${slideSize}px`;
+      if (slide) {
+        slide.style[swiper.getDirectionLabel('width')] = `${slideSize}px`;
       }
     }
-    if (slides[i]) {
-      slides[i].swiperSlideSize = slideSize;
+    if (slide) {
+      slide.swiperSlideSize = slideSize;
     }
     slidesSizesGrid.push(slideSize);
 
