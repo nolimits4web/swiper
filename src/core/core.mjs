@@ -254,10 +254,19 @@ class Swiper {
 
   getSlideIndexByData(index) {
     return this.getSlideIndex(
-      this.slides.filter(
-        (slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === index,
-      )[0],
+      this.slides.find((slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === index),
     );
+  }
+
+  getSlideIndexWhenGrid(index) {
+    if (this.grid && this.params.grid && this.params.grid.rows > 1) {
+      if (this.params.grid.fill === 'column') {
+        index = Math.floor(index / this.params.grid.rows);
+      } else if (this.params.grid.fill === 'row') {
+        index = index % Math.ceil(this.slides.length / this.params.grid.rows);
+      }
+    }
+    return index;
   }
 
   recalcSlides() {
@@ -599,7 +608,7 @@ class Swiper {
 
     // Create loop
     if (swiper.params.loop) {
-      swiper.loopCreate();
+      swiper.loopCreate(undefined, true);
     }
 
     // Attach events

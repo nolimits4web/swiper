@@ -20,7 +20,7 @@ export default function onTouchMove(event) {
 
   let targetTouch;
   if (e.type === 'touchmove') {
-    targetTouch = [...e.changedTouches].filter((t) => t.identifier === data.touchId)[0];
+    targetTouch = [...e.changedTouches].find((t) => t.identifier === data.touchId);
     if (!targetTouch || targetTouch.identifier !== data.touchId) return;
   } else {
     targetTouch = e;
@@ -57,7 +57,6 @@ export default function onTouchMove(event) {
     }
     return;
   }
-
   if (params.touchReleaseOnEdges && !params.loop) {
     if (swiper.isVertical()) {
       // Vertical
@@ -70,8 +69,15 @@ export default function onTouchMove(event) {
         return;
       }
     } else if (
-      (pageX < touches.startX && swiper.translate <= swiper.maxTranslate()) ||
-      (pageX > touches.startX && swiper.translate >= swiper.minTranslate())
+      rtl &&
+      ((pageX > touches.startX && -swiper.translate <= swiper.maxTranslate()) ||
+        (pageX < touches.startX && -swiper.translate >= swiper.minTranslate()))
+    ) {
+      return;
+    } else if (
+      !rtl &&
+      ((pageX < touches.startX && swiper.translate <= swiper.maxTranslate()) ||
+        (pageX > touches.startX && swiper.translate >= swiper.minTranslate()))
     ) {
       return;
     }
@@ -198,6 +204,7 @@ export default function onTouchMove(event) {
   let time = new Date().getTime();
 
   if (
+    params._loopSwapReset !== false &&
     data.isMoved &&
     data.allowThresholdMove &&
     prevTouchesDirection !== swiper.touchesDirection &&

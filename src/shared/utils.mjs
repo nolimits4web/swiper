@@ -203,8 +203,9 @@ function findElementsInElements(elements = [], selector = '') {
   return found;
 }
 function elementChildren(element, selector = '') {
+  const window = getWindow();
   const children = [...element.children];
-  if (element instanceof HTMLSlotElement) {
+  if (window.HTMLSlotElement && element instanceof HTMLSlotElement) {
     children.push(...element.assignedElements());
   }
 
@@ -213,12 +214,32 @@ function elementChildren(element, selector = '') {
   }
   return children.filter((el) => el.matches(selector));
 }
-function elementIsChildOf(el, parent) {
-  const isChild = parent.contains(el);
-  if (!isChild && parent instanceof HTMLSlotElement) {
-    const children = [...parent.assignedElements()];
-    return children.includes(el);
+function elementIsChildOfSlot(el, slot) {
+  // Breadth-first search through all parent's children and assigned elements
+  const elementsQueue = [slot];
+  while (elementsQueue.length > 0) {
+    const elementToCheck = elementsQueue.shift();
+    if (el === elementToCheck) {
+      return true;
+    }
+    elementsQueue.push(
+      ...elementToCheck.children,
+      ...(elementToCheck.shadowRoot ? elementToCheck.shadowRoot.children : []),
+      ...(elementToCheck.assignedElements ? elementToCheck.assignedElements() : []),
+    );
   }
+}
+function elementIsChildOf(el, parent) {
+  const window = getWindow();
+  let isChild = parent.contains(el);
+  if (!isChild && window.HTMLSlotElement && parent instanceof HTMLSlotElement) {
+    const children = [...parent.assignedElements()];
+    isChild = children.includes(el);
+    if (!isChild) {
+      isChild = elementIsChildOfSlot(el, parent);
+    }
+  }
+
   return isChild;
 }
 function showWarning(text) {
@@ -343,6 +364,18 @@ function getRotateFix(swiper) {
     return v;
   };
 }
+
+function setInnerHTML(el, html = '') {
+  if (typeof trustedTypes !== 'undefined') {
+    el.innerHTML = trustedTypes
+      .createPolicy('html', {
+        createHTML: (s) => s,
+      })
+      .createHTML(html);
+  } else {
+    el.innerHTML = html;
+  }
+}
 export {
   animateCSSModeScroll,
   deleteProps,
@@ -370,4 +403,5 @@ export {
   elementOuterSize,
   makeElementsArray,
   getRotateFix,
+  setInnerHTML,
 };

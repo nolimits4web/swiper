@@ -13,7 +13,7 @@ export default function onTouchEnd(event) {
     if (e.pointerId !== data.pointerId) return;
     targetTouch = e;
   } else {
-    targetTouch = [...e.changedTouches].filter((t) => t.identifier === data.touchId)[0];
+    targetTouch = [...e.changedTouches].find((t) => t.identifier === data.touchId);
     if (!targetTouch || targetTouch.identifier !== data.touchId) return;
   }
 

@@ -141,9 +141,12 @@ export interface PaginationOptions {
    * ```js
    * const swiper = new Swiper('.swiper', {
    *   //...
-   *   renderBullet: function (index, className) {
-   *     return '<span class="' + className + '">' + (index + 1) + '</span>';
-   *   }
+   *   pagination: {
+   *     //...
+   *     renderBullet: function (index, className) {
+   *       return '<span class="' + className + '">' + (index + 1) + '</span>';
+   *     },
+   *   },
    * });
    * ```
    */
@@ -158,11 +161,14 @@ export interface PaginationOptions {
    * ```js
    * const swiper = new Swiper('.swiper', {
    *   //...
-   *   renderFraction: function (currentClass, totalClass) {
+   *   pagination: {
+   *     //...
+   *     renderFraction: function (currentClass, totalClass) {
    *       return '<span class="' + currentClass + '"></span>' +
    *               ' of ' +
    *               '<span class="' + totalClass + '"></span>';
-   *   }
+   *     },
+   *   },
    * });
    * ```
    */
@@ -177,9 +183,12 @@ export interface PaginationOptions {
    * ```js
    * const swiper = new Swiper('.swiper', {
    *   //...
-   *   renderProgressbar: function (progressbarFillClass) {
+   *   pagination: {
+   *     //...
+   *     renderProgressbar: function (progressbarFillClass) {
    *       return '<span class="' + progressbarFillClass + '"></span>';
-   *   }
+   *     },
+   *   },
    * });
    * ```
    */
@@ -195,9 +204,12 @@ export interface PaginationOptions {
    * ```js
    * const swiper = new Swiper('.swiper', {
    *   //...
-   *   renderCustom: function (swiper, current, total) {
-   *     return current + ' of ' + total;
-   *   }
+   *   pagination: {
+   *     //...
+   *     renderCustom: function (swiper, current, total) {
+   *       return current + ' of ' + total;
+   *     },
+   *   },
    * });
    * ```
    */

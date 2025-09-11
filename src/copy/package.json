@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "11.1.14",
+  "version": "11.2.10",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "typings": "swiper.d.ts",
   "type": "module",
@@ -95,6 +95,7 @@
     "./scss/parallax": "./modules/parallax.scss",
     "./scss/scrollbar": "./modules/scrollbar.scss",
     "./scss/thumbs": "./modules/thumbs.scss",
+    "./scss/vars": "./swiper-vars.scss",
     "./scss/virtual": "./modules/virtual.scss",
     "./scss/zoom": "./modules/zoom.scss",
     "./element": {
@@ -208,5 +209,5 @@
   "engines": {
     "node": ">= 4.7.0"
   },
-  "releaseDate": "September 12, 2024"
+  "releaseDate": "June 28, 2025"
 }

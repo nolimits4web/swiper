@@ -23,6 +23,6 @@ declare const effectVirtualTransitionEnd: (params: {
   allSlides?: boolean;
 }) => void;
 
-declare const getSlideTransformEl: (slideEl: HTMLElement) => void;
+declare const getSlideTransformEl: (slideEl: HTMLElement) => HTMLElement;
 
 export { createShadow, effectInit, effectTarget, effectVirtualTransitionEnd, getSlideTransformEl };

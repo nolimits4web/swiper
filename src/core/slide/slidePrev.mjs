@@ -25,8 +25,9 @@ export default function slidePrev(speed, runCallbacks = true, internal) {
   const normalizedTranslate = normalize(translate);
   const normalizedSnapGrid = snapGrid.map((val) => normalize(val));
 
+  const isFreeMode = params.freeMode && params.freeMode.enabled;
   let prevSnap = snapGrid[normalizedSnapGrid.indexOf(normalizedTranslate) - 1];
-  if (typeof prevSnap === 'undefined' && params.cssMode) {
+  if (typeof prevSnap === 'undefined' && (params.cssMode || isFreeMode)) {
     let prevSnapIndex;
     snapGrid.forEach((snap, snapIndex) => {
       if (normalizedTranslate >= snap) {
@@ -35,7 +36,9 @@ export default function slidePrev(speed, runCallbacks = true, internal) {
       }
     });
     if (typeof prevSnapIndex !== 'undefined') {
-      prevSnap = snapGrid[prevSnapIndex > 0 ? prevSnapIndex - 1 : prevSnapIndex];
+      prevSnap = isFreeMode
+        ? snapGrid[prevSnapIndex]
+        : snapGrid[prevSnapIndex > 0 ? prevSnapIndex - 1 : prevSnapIndex];
     }
   }
   let prevIndex = 0;

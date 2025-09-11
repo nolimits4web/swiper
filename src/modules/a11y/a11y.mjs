@@ -1,6 +1,11 @@
 import { getDocument } from 'ssr-window';
 import classesToSelector from '../../shared/classes-to-selector.mjs';
-import { createElement, elementIndex, makeElementsArray } from '../../shared/utils.mjs';
+import {
+  createElement,
+  elementIndex,
+  makeElementsArray,
+  setInnerHTML,
+} from '../../shared/utils.mjs';
 
 export default function A11y({ swiper, extendParams, on }) {
   extendParams({
@@ -19,7 +24,8 @@ export default function A11y({ swiper, extendParams, on }) {
       itemRoleDescriptionMessage: null,
       slideRole: 'group',
       id: null,
-      scrollOnFocus: true
+      scrollOnFocus: true,
+      wrapperLiveRegion: true,
     },
   });
 
@@ -35,8 +41,7 @@ export default function A11y({ swiper, extendParams, on }) {
   function notify(message) {
     const notification = liveRegion;
     if (notification.length === 0) return;
-    notification.innerHTML = '';
-    notification.innerHTML = message;
+    setInnerHTML(notification, message);
   }
 
   function getRandomNumber(size = 16) {
@@ -259,9 +264,12 @@ export default function A11y({ swiper, extendParams, on }) {
     requestAnimationFrame(() => {
       if (preventFocusHandler) return;
       if (swiper.params.loop) {
-        swiper.slideToLoop(parseInt(slideEl.getAttribute('data-swiper-slide-index')), 0);
+        swiper.slideToLoop(
+          swiper.getSlideIndexWhenGrid(parseInt(slideEl.getAttribute('data-swiper-slide-index'))),
+          0,
+        );
       } else {
-        swiper.slideTo(swiper.slides.indexOf(slideEl), 0);
+        swiper.slideTo(swiper.getSlideIndexWhenGrid(swiper.slides.indexOf(slideEl)), 0);
       }
 
       preventFocusHandler = false;
@@ -311,9 +319,11 @@ export default function A11y({ swiper, extendParams, on }) {
     const wrapperEl = swiper.wrapperEl;
     const wrapperId =
       params.id || wrapperEl.getAttribute('id') || `swiper-wrapper-${getRandomNumber(16)}`;
-    const live = swiper.params.autoplay && swiper.params.autoplay.enabled ? 'off' : 'polite';
     addElId(wrapperEl, wrapperId);
-    addElLive(wrapperEl, live);
+    if (params.wrapperLiveRegion) {
+      const live = swiper.params.autoplay && swiper.params.autoplay.enabled ? 'off' : 'polite';
+      addElLive(wrapperEl, live);
+    }
 
     // Slide
     initSlides();

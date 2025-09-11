@@ -1,4 +1,5 @@
-import { isObject, extend } from './utils.mjs';
+import { setInnerHTML } from '../shared/utils.mjs';
+import { isObject } from './utils.mjs';
 
 function updateSwiper({
   swiper,
@@ -26,8 +27,9 @@ function updateSwiper({
     changedParams.includes('thumbs') &&
     passedParams.thumbs &&
     passedParams.thumbs.swiper &&
+    !passedParams.thumbs.swiper.destroyed &&
     currentParams.thumbs &&
-    !currentParams.thumbs.swiper
+    (!currentParams.thumbs.swiper || currentParams.thumbs.swiper.destroyed)
   ) {
     needThumbsInit = true;
   }
@@ -192,14 +194,14 @@ function updateSwiper({
       if (!nextEl || typeof nextEl === 'string') {
         nextEl = document.createElement('div');
         nextEl.classList.add('swiper-button-next');
-        nextEl.innerHTML = swiper.hostEl.constructor.nextButtonSvg;
+        setInnerHTML(nextEl, swiper.hostEl.constructor.nextButtonSvg);
         nextEl.part.add('button-next');
         swiper.el.appendChild(nextEl);
       }
       if (!prevEl || typeof prevEl === 'string') {
         prevEl = document.createElement('div');
         prevEl.classList.add('swiper-button-prev');
-        prevEl.innerHTML = swiper.hostEl.constructor.prevButtonSvg;
+        setInnerHTML(prevEl, swiper.hostEl.constructor.prevButtonSvg);
         prevEl.part.add('button-prev');
         swiper.el.appendChild(prevEl);
       }

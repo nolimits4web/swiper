@@ -9,6 +9,7 @@ import {
   attrToProp,
 } from './components-shared/utils.mjs';
 import { updateSwiper } from './components-shared/update-swiper.mjs';
+import { setInnerHTML } from './shared/utils.mjs';
 
 //SWIPER_STYLES
 //SWIPER_SLIDE_STYLES
@@ -120,7 +121,7 @@ class SwiperContainer extends ClassToExtend {
     el.part = 'container';
 
     // prettier-ignore
-    el.innerHTML = `
+    setInnerHTML(el, `
       <slot name="container-start"></slot>
       <div class="swiper-wrapper" part="wrapper">
         <slot></slot>
@@ -141,14 +142,13 @@ class SwiperContainer extends ClassToExtend {
       ${needsScrollbar(this.passedParams) ? `
         <div part="scrollbar" class="swiper-scrollbar"></div>
       ` : ''}
-    `;
+    `);
     this.shadowRoot.appendChild(el);
     this.rendered = true;
   }
 
   initialize() {
-    if (this.initialized) return;
-    this.initialized = true;
+    if (this.swiper && this.swiper.initialized) return;
     const { params: swiperParams, passedParams } = getParams(this);
     this.swiperParams = swiperParams;
     this.passedParams = passedParams;
@@ -180,7 +180,8 @@ class SwiperContainer extends ClassToExtend {
 
   connectedCallback() {
     if (
-      this.initialized &&
+      this.swiper &&
+      this.swiper.initialized &&
       this.nested &&
       this.closest('swiper-slide') &&
       this.closest('swiper-slide').swiperLoopMoveDOM
@@ -204,7 +205,6 @@ class SwiperContainer extends ClassToExtend {
     if (this.swiper && this.swiper.destroy) {
       this.swiper.destroy();
     }
-    this.initialized = false;
   }
 
   updateSwiperOnPropChange(propName, propValue) {
@@ -238,7 +238,7 @@ class SwiperContainer extends ClassToExtend {
   }
 
   attributeChangedCallback(attr, prevValue, newValue) {
-    if (!this.initialized) return;
+    if (!(this.swiper && this.swiper.initialized)) return;
     if (prevValue === 'true' && newValue === null) {
       newValue = false;
     }
@@ -269,7 +269,7 @@ paramsList.forEach((paramName) => {
     set(value) {
       if (!this.passedParams) this.passedParams = {};
       this.passedParams[paramName] = value;
-      if (!this.initialized) return;
+      if (!(this.swiper && this.swiper.initialized)) return;
       this.updateSwiperOnPropChange(paramName, value);
     },
   });
@@ -299,6 +299,10 @@ class SwiperSlide extends ClassToExtend {
   }
 
   connectedCallback() {
+    if (this.swiperLoopMoveDOM) {
+      return;
+    }
+
     this.initialize();
   }
 }

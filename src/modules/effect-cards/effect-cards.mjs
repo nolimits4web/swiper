@@ -59,7 +59,9 @@ export default function EffectCards({ swiper, extendParams, on }) {
         rotate += -28 * progress * subProgress;
         scale += -0.5 * subProgress;
         tXAdd += 96 * subProgress;
-        tY = `${-25 * subProgress * Math.abs(progress)}%`;
+        tY = `${
+          (params.rotate || swiper.isHorizontal() ? -25 : 0) * subProgress * Math.abs(progress)
+        }%`;
       }
       if (progress < 0) {
         // next
@@ -123,7 +125,10 @@ export default function EffectCards({ swiper, extendParams, on }) {
     setTransition,
     perspective: () => true,
     overwriteParams: () => ({
+      _loopSwapReset: false,
       watchSlidesProgress: true,
+      loopAdditionalSlides: swiper.params.cardsEffect.rotate ? 3 : 2,
+      centeredSlides: true,
       virtualTranslate: !swiper.params.cssMode,
     }),
   });
