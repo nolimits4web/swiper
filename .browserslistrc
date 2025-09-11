@@ -8,7 +8,7 @@
 
 # npx browserslist
 
-IOS >= 15
-Safari >= 15
+IOS >= 17
+Safari >= 17
 last 5 Chrome versions
 last 5 Firefox versions
