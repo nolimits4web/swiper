@@ -8,7 +8,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     navigation: {
       nextEl: null,
       prevEl: null,
-
+      addIcons: true,
       hideOnClick: false,
       disabledClass: 'swiper-button-disabled',
       hiddenClass: 'swiper-button-hidden',
@@ -109,8 +109,15 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
 
     const initButton = (el, dir) => {
       if (el) {
-        if (el.matches('.swiper-button-next,.swiper-button-prev') && !el.querySelector('svg')) {
-          setInnerHTML(el, arrowSvg);
+        if (
+          params.addIcons &&
+          el.matches('.swiper-button-next,.swiper-button-prev') &&
+          !el.querySelector('svg')
+        ) {
+          const tempEl = document.createElement('div');
+          setInnerHTML(tempEl, arrowSvg);
+          el.appendChild(tempEl.querySelector('svg'));
+          tempEl.remove();
         }
         el.addEventListener('click', dir === 'next' ? onNextClick : onPrevClick);
       }

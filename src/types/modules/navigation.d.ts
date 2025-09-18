@@ -69,6 +69,13 @@ export interface NavigationOptions {
   prevEl?: CSSSelector | HTMLElement | null;
 
   /**
+   * Boolean property to add SVG icons to navigation buttons
+   *
+   * @default true
+   */
+  addIcons?: boolean;
+
+  /**
    * Toggle navigation buttons visibility after click on Slider's container
    *
    * @default false
