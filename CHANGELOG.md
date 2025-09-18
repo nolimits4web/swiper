@@ -1,5 +1,12 @@
 # Changelog
 
+# [12.0.2](https://github.com/nolimits4web/Swiper/compare/v12.0.1...v12.0.2) (2025-09-18)
+
+### Features
+
+- **navigation:** add styles for when buttons set before slider ([4588c57](https://github.com/nolimits4web/Swiper/commit/4588c5719d4d828548c34f456de099f621f4c709)), closes [#8085](https://github.com/nolimits4web/Swiper/issues/8085)
+- **navigation:** new `addIcons` parameter to add SVG icons to nav buttons ([b955b0c](https://github.com/nolimits4web/Swiper/commit/b955b0c15c3b813bbda7a68cdd250f8a822015df)), closes [#8088](https://github.com/nolimits4web/Swiper/issues/8088) [#8087](https://github.com/nolimits4web/Swiper/issues/8087)
+
 # [12.0.1](https://github.com/nolimits4web/Swiper/compare/v12.0.0...v12.0.1) (2025-09-11)
 
 ### Bug Fixes
