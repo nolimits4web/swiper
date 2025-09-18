@@ -46,6 +46,22 @@
   display: none;
 }
 
+.swiper-button-prev,
+.swiper-button-next {
+  top: var(--swiper-navigation-top-offset, 50%);
+  margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
+}
+.swiper-button-prev {
+  left: var(--swiper-navigation-sides-offset, 4px);
+  right: auto;
+  .swiper-navigation-icon {
+    transform: rotate(180deg);
+  }
+}
+.swiper-button-next {
+  right: var(--swiper-navigation-sides-offset, 4px);
+  left: auto;
+}
 .swiper-horizontal {
   .swiper-button-prev,
   .swiper-button-next,
@@ -53,6 +69,7 @@
   ~ .swiper-button-next {
     top: var(--swiper-navigation-top-offset, 50%);
     margin-top: calc(0px - (var(--swiper-navigation-size) / 2));
+    margin-left: 0;
   }
   .swiper-button-prev,
   & ~ .swiper-button-prev,
@@ -89,18 +106,24 @@
   ~ .swiper-button-prev,
   ~ .swiper-button-next {
     left: var(--swiper-navigation-top-offset, 50%);
+    right: auto;
     margin-left: calc(0px - (var(--swiper-navigation-size) / 2));
+    margin-top: 0;
   }
   .swiper-button-prev,
   ~ .swiper-button-prev {
     top: var(--swiper-navigation-sides-offset, 4px);
     bottom: auto;
-    transform: rotate(-90deg);
+    .swiper-navigation-icon {
+      transform: rotate(-90deg);
+    }
   }
   .swiper-button-next,
   ~ .swiper-button-next {
     bottom: var(--swiper-navigation-sides-offset, 4px);
     top: auto;
-    transform: rotate(90deg);
+    .swiper-navigation-icon {
+      transform: rotate(90deg);
+    }
   }
 }
