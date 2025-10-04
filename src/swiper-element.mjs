@@ -37,8 +37,6 @@ const addStyle = (shadowRoot, styles) => {
 class SwiperContainer extends ClassToExtend {
   constructor() {
     super();
-
-    this.attachShadow({ mode: 'open' });
   }
 
   static get nextButtonSvg() {
@@ -146,6 +144,9 @@ class SwiperContainer extends ClassToExtend {
 
   initialize() {
     if (this.swiper && this.swiper.initialized) return;
+
+    this.attachShadow({ mode: 'open' });
+
     const { params: swiperParams, passedParams } = getParams(this);
     this.swiperParams = swiperParams;
     this.passedParams = passedParams;
