@@ -528,6 +528,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       }
     }
     if (!gesture.imageEl || !gesture.imageWrapEl) return;
+    gesture.maxRatio = getMaxRatio();
     if (swiper.params.cssMode) {
       swiper.wrapperEl.style.overflow = 'hidden';
       swiper.wrapperEl.style.touchAction = 'none';
@@ -658,6 +659,7 @@ export default function Zoom({ swiper, extendParams, on, emit }) {
       }
     }
     if (!gesture.imageEl || !gesture.imageWrapEl) return;
+    gesture.maxRatio = getMaxRatio();
     if (swiper.params.cssMode) {
       swiper.wrapperEl.style.overflow = '';
       swiper.wrapperEl.style.touchAction = '';
