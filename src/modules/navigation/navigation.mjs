@@ -20,6 +20,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
   swiper.navigation = {
     nextEl: null,
     prevEl: null,
+    arrowSvg,
   };
 
   function getEl(el) {

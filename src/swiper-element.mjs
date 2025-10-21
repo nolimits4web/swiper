@@ -41,17 +41,6 @@ class SwiperContainer extends ClassToExtend {
     this.attachShadow({ mode: 'open' });
   }
 
-  static get nextButtonSvg() {
-    return arrowSvg;
-  }
-
-  static get prevButtonSvg() {
-    return arrowSvg.replace(
-      '/></svg>',
-      ' transform-origin="center" transform="rotate(180)"/></svg>',
-    );
-  }
-
   cssStyles() {
     return [
       SwiperCSS, // eslint-disable-line
