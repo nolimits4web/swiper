@@ -1,5 +1,15 @@
 # Changelog
 
+# [12.0.3](https://github.com/nolimits4web/Swiper/compare/v12.0.2...v12.0.3) (2025-10-21)
+
+### Bug Fixes
+
+- **element:** fixed reference to nav arrows SVG ([0b17ecf](https://github.com/nolimits4web/Swiper/commit/0b17ecf56bf941e4a5da2a2c171d5e16a9e4552b)), closes [#8115](https://github.com/nolimits4web/Swiper/issues/8115)
+
+### Features
+
+- **core:** add 'getRotateFix' export to effect utils ([c97ae5d](https://github.com/nolimits4web/Swiper/commit/c97ae5d0069cf3d5c745efb63ced9924a64d2453)), closes [#8114](https://github.com/nolimits4web/Swiper/issues/8114)
+
 # [12.0.2](https://github.com/nolimits4web/Swiper/compare/v12.0.1...v12.0.2) (2025-09-18)
 
 ### Features
