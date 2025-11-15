@@ -55,21 +55,9 @@ export default function onTouchEnd(event) {
     swiper.setGrabCursor(false);
   }
 
-  // Time diff
   const touchEndTime = now();
   const timeDiff = touchEndTime - data.touchStartTime;
 
-  // Tap, doubleTap, Click
-  if (swiper.allowClick) {
-    const pathTree = e.path || (e.composedPath && e.composedPath());
-    swiper.updateClickedSlide((pathTree && pathTree[0]) || e.target, pathTree);
-    swiper.emit('tap click', e);
-    if (timeDiff < 300 && touchEndTime - data.lastClickTime < 300) {
-      swiper.emit('doubleTap doubleClick', e);
-    }
-  }
-
-  data.lastClickTime = now();
   nextTick(() => {
     if (!swiper.destroyed) swiper.allowClick = true;
   });
