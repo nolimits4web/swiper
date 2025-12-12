@@ -77,24 +77,27 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
     return currentSlideDelay;
   };
 
+  const getTotalDelay = () => {
+    let totalDelay = swiper.params.autoplay.delay;
+    const currentSlideDelay = getSlideDelay();
+    if (!Number.isNaN(currentSlideDelay) && currentSlideDelay > 0) {
+      totalDelay = currentSlideDelay;
+    }
+    return totalDelay;
+  };
+
   const run = (delayForce) => {
     if (swiper.destroyed || !swiper.autoplay.running) return;
     cancelAnimationFrame(raf);
     calcTimeLeft();
 
-    let delay = typeof delayForce === 'undefined' ? swiper.params.autoplay.delay : delayForce;
-    autoplayDelayTotal = swiper.params.autoplay.delay;
-    autoplayDelayCurrent = swiper.params.autoplay.delay;
-    const currentSlideDelay = getSlideDelay();
-    if (
-      !Number.isNaN(currentSlideDelay) &&
-      currentSlideDelay > 0 &&
-      typeof delayForce === 'undefined'
-    ) {
-      delay = currentSlideDelay;
-      autoplayDelayTotal = currentSlideDelay;
-      autoplayDelayCurrent = currentSlideDelay;
+    let delay = delayForce;
+    if (typeof delay === 'undefined') {
+      delay = getTotalDelay();
+      autoplayDelayTotal = delay;
+      autoplayDelayCurrent = delay;
     }
+
     autoplayTimeLeft = delay;
     const speed = swiper.params.speed;
     const proceed = () => {
@@ -170,9 +173,6 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
 
     swiper.autoplay.paused = true;
     if (reset) {
-      if (slideChanged) {
-        autoplayTimeLeft = swiper.params.autoplay.delay;
-      }
       slideChanged = false;
       proceed();
       return;
@@ -328,6 +328,11 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   on('slideChange', () => {
     if (swiper.destroyed || !swiper.autoplay.running) return;
     slideChanged = true;
+
+    if (swiper.autoplay.paused) {
+      autoplayTimeLeft = getTotalDelay();
+      autoplayDelayTotal = getTotalDelay();
+    }
   });
 
   Object.assign(swiper.autoplay, {
