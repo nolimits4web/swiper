@@ -37,6 +37,10 @@ export default function A11y({ swiper, extendParams, on }) {
   let preventFocusHandler;
   let focusTargetSlideEl;
   let visibilityChangedTimestamp = new Date().getTime();
+  let savedScrollLeft = 0;
+  let savedScrollTop = 0;
+  let isRestoringScroll = false;
+  let scrollRestoreTimeout = null;
 
   function notify(message) {
     const notification = liveRegion;
@@ -242,6 +246,104 @@ export default function A11y({ swiper, extendParams, on }) {
     visibilityChangedTimestamp = new Date().getTime();
   };
 
+  const restoreScrollPosition = () => {
+    if (!isRestoringScroll) return;
+    if (swiper.isHorizontal()) {
+      if (swiper.params.cssMode && swiper.el.scrollLeft !== savedScrollLeft) {
+        swiper.el.scrollLeft = savedScrollLeft;
+      }
+      if (swiper.wrapperEl.scrollLeft !== savedScrollLeft) {
+        swiper.wrapperEl.scrollLeft = savedScrollLeft;
+      }
+    } else {
+      if (swiper.params.cssMode && swiper.el.scrollTop !== savedScrollTop) {
+        swiper.el.scrollTop = savedScrollTop;
+      }
+      if (swiper.wrapperEl.scrollTop !== savedScrollTop) {
+        swiper.wrapperEl.scrollTop = savedScrollTop;
+      }
+    }
+  };
+
+  const handleScroll = () => {
+    if (isRestoringScroll) {
+      restoreScrollPosition();
+    }
+  };
+
+  const handleFocusIn = (e) => {
+    if (swiper.a11y.clicked || !swiper.params.a11y.scrollOnFocus) return;
+    if (new Date().getTime() - visibilityChangedTimestamp < 100) return;
+
+    const slideEl = e.target.closest(`.${swiper.params.slideClass}, swiper-slide`);
+    if (!slideEl || !swiper.slides.includes(slideEl)) return;
+    
+    // Check if the focused element is a focusable element (link, button, etc.)
+    const focusableElements = ['A', 'BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'AREA'];
+    const isFocusableElement = focusableElements.includes(e.target.tagName) || 
+                                e.target.hasAttribute('tabindex') ||
+                                e.target.isContentEditable;
+    
+    if (!isFocusableElement) return;
+    
+    if (e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
+    
+    // Always save and restore scroll position to prevent browser scroll from breaking the slider
+    // Save current scroll positions before browser scrolls
+    if (swiper.isHorizontal()) {
+      savedScrollLeft = swiper.params.cssMode ? swiper.el.scrollLeft : swiper.wrapperEl.scrollLeft;
+    } else {
+      savedScrollTop = swiper.params.cssMode ? swiper.el.scrollTop : swiper.wrapperEl.scrollTop;
+    }
+    
+    // Enable scroll restoration
+    isRestoringScroll = true;
+    
+    // Clear any existing timeout
+    if (scrollRestoreTimeout) {
+      clearTimeout(scrollRestoreTimeout);
+    }
+    
+    // Restore scroll position immediately and multiple times to catch browser scroll
+    restoreScrollPosition();
+    requestAnimationFrame(() => {
+      restoreScrollPosition();
+      requestAnimationFrame(() => {
+        restoreScrollPosition();
+      });
+    });
+    
+    // Disable scroll restoration after a short time
+    scrollRestoreTimeout = setTimeout(() => {
+      isRestoringScroll = false;
+    }, 100);
+    
+    focusTargetSlideEl = slideEl;
+    const isActive = swiper.slides.indexOf(slideEl) === swiper.activeIndex;
+    const isVisible =
+      swiper.params.watchSlidesProgress &&
+      swiper.visibleSlides &&
+      swiper.visibleSlides.includes(slideEl);
+    
+    // Only navigate to slide if it's not already active or visible
+    if (!isActive && !isVisible) {
+      // Navigate to the correct slide
+      requestAnimationFrame(() => {
+        if (preventFocusHandler) return;
+        if (swiper.params.loop) {
+          swiper.slideToLoop(
+            swiper.getSlideIndexWhenGrid(parseInt(slideEl.getAttribute('data-swiper-slide-index'))),
+            0,
+          );
+        } else {
+          swiper.slideTo(swiper.getSlideIndexWhenGrid(swiper.slides.indexOf(slideEl)), 0);
+        }
+
+        preventFocusHandler = false;
+      });
+    }
+  };
+
   const handleFocus = (e) => {
     if (swiper.a11y.clicked || !swiper.params.a11y.scrollOnFocus) return;
     if (new Date().getTime() - visibilityChangedTimestamp < 100) return;
@@ -351,10 +453,16 @@ export default function A11y({ swiper, extendParams, on }) {
     // Tab focus
     const document = getDocument();
     document.addEventListener('visibilitychange', onVisibilityChange);
-    swiper.el.addEventListener('focus', handleFocus, true);
+    // Use focusin to catch focus events before browser scrolls
+    swiper.el.addEventListener('focusin', handleFocusIn, true);
     swiper.el.addEventListener('focus', handleFocus, true);
     swiper.el.addEventListener('pointerdown', handlePointerDown, true);
     swiper.el.addEventListener('pointerup', handlePointerUp, true);
+    // Listen for scroll events to restore scroll position when browser scrolls due to focus
+    swiper.wrapperEl.addEventListener('scroll', handleScroll, { passive: true });
+    if (swiper.params.cssMode) {
+      swiper.el.addEventListener('scroll', handleScroll, { passive: true });
+    }
   };
   function destroy() {
     if (liveRegion) liveRegion.remove();
@@ -380,9 +488,21 @@ export default function A11y({ swiper, extendParams, on }) {
     document.removeEventListener('visibilitychange', onVisibilityChange);
     // Tab focus
     if (swiper.el && typeof swiper.el !== 'string') {
+      swiper.el.removeEventListener('focusin', handleFocusIn, true);
       swiper.el.removeEventListener('focus', handleFocus, true);
       swiper.el.removeEventListener('pointerdown', handlePointerDown, true);
       swiper.el.removeEventListener('pointerup', handlePointerUp, true);
+    }
+    // Remove scroll listeners
+    if (swiper.wrapperEl) {
+      swiper.wrapperEl.removeEventListener('scroll', handleScroll, { passive: true });
+    }
+    if (swiper.params.cssMode && swiper.el && typeof swiper.el !== 'string') {
+      swiper.el.removeEventListener('scroll', handleScroll, { passive: true });
+    }
+    // Clear timeout
+    if (scrollRestoreTimeout) {
+      clearTimeout(scrollRestoreTimeout);
     }
   }
 

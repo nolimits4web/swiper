@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Swiper - Tab Focus Fix Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+</head>
+
+<body>
+  <h1>Tab Focus Fix Test - Issue #4006</h1>
+  <p>Use the Tab key to navigate through the links in the slides. The slider should not break when a link gets focused.</p>
+  
+  <!-- Swiper -->
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <h2>Slide 1</h2>
+        <p>This slide contains a link:</p>
+        <a href="#slide1">Link in Slide 1</a>
+      </div>
+      <div class="swiper-slide">
+        <h2>Slide 2</h2>
+        <p>This slide contains multiple links:</p>
+        <a href="#slide2a">First Link in Slide 2</a><br>
+        <a href="#slide2b">Second Link in Slide 2</a>
+      </div>
+      <div class="swiper-slide">
+        <h2>Slide 3</h2>
+        <p>This slide contains a button:</p>
+        <button onclick="alert('Button clicked!')">Click Me</button>
+      </div>
+      <div class="swiper-slide">
+        <h2>Slide 4</h2>
+        <p>This slide contains a link that should trigger navigation:</p>
+        <a href="#slide4">Link in Slide 4</a>
+      </div>
+      <div class="swiper-slide">
+        <h2>Slide 5</h2>
+        <p>Another link here:</p>
+        <a href="#slide5">Link in Slide 5</a>
+      </div>
+      <div class="swiper-slide">
+        <h2>Slide 6</h2>
+        <p>Final slide with a link:</p>
+        <a href="#slide6">Link in Slide 6</a>
+      </div>
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
+  <div style="margin-top: 20px; padding: 20px; background: #f0f0f0;">
+    <h3>Test Instructions:</h3>
+    <ol>
+      <li>Click on the slider or press Tab to start tabbing through the page</li>
+      <li>When you tab to a link inside a slide, the slider should automatically navigate to that slide</li>
+      <li>The slider display should NOT break - slides should remain properly aligned</li>
+      <li>Continue tabbing through all links to verify the fix works for all slides</li>
+    </ol>
+    <p><strong>Expected behavior:</strong> The slider should smoothly navigate to the slide containing the focused link without breaking the layout.</p>
+    <p><strong>Previous bug:</strong> When a link got focus, the browser would scroll the container, changing scrollLeft and breaking the slider display.</p>
+  </div>
+
+  <!-- Initialize Swiper -->
+  <script type="module">
+    import Swiper from 'swiper/swiper-bundle.mjs';
+    import 'swiper/swiper-bundle.css';
+    var swiper = new Swiper('.swiper', {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      keyboard: {
+        enabled: true,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      a11y: {
+        enabled: true,
+        scrollOnFocus: true,
+      },
+    });
+  </script>
+
+  <!-- Demo styles -->
+  <style>
+    html,
+    body {
+      position: relative;
+      height: 100%;
+      margin: 0;
+      padding: 20px;
+    }
+
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 20px;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .swiper-slide h2 {
+      margin-top: 0;
+    }
+
+    .swiper-slide a,
+    .swiper-slide button {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      background: #007aff;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .swiper-slide a:hover,
+    .swiper-slide button:hover {
+      background: #0056b3;
+    }
+
+    .swiper-slide a:focus,
+    .swiper-slide button:focus {
+      outline: 3px solid #ff6b6b;
+      outline-offset: 2px;
+    }
+  </style>
+</body>
+
+</html>
+
