@@ -352,7 +352,6 @@ export default function A11y({ swiper, extendParams, on }) {
     const document = getDocument();
     document.addEventListener('visibilitychange', onVisibilityChange);
     swiper.el.addEventListener('focus', handleFocus, true);
-    swiper.el.addEventListener('focus', handleFocus, true);
     swiper.el.addEventListener('pointerdown', handlePointerDown, true);
     swiper.el.addEventListener('pointerup', handlePointerUp, true);
   };
