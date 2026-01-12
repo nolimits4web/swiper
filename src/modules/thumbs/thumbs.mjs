@@ -19,6 +19,13 @@ export default function Thumb({ swiper, extendParams, on }) {
     swiper: null,
   };
 
+  function isVirtualEnabled() {
+    const thumbsSwiper = swiper.thumbs.swiper;
+    if (!thumbsSwiper || thumbsSwiper.destroyed) return false;
+
+    return thumbsSwiper.params.virtual && thumbsSwiper.params.virtual.enabled;
+  }
+
   function onThumbClick() {
     const thumbsSwiper = swiper.thumbs.swiper;
     if (!thumbsSwiper || thumbsSwiper.destroyed) return;
@@ -76,17 +83,19 @@ export default function Thumb({ swiper, extendParams, on }) {
     }
     swiper.thumbs.swiper.el.classList.add(swiper.params.thumbs.thumbsContainerClass);
     swiper.thumbs.swiper.on('tap', onThumbClick);
+
+    if (isVirtualEnabled()) {
+      swiper.thumbs.swiper.on('virtualUpdate', () => {
+        update(false, { autoScroll: false });
+      });
+    }
+
     return true;
   }
 
-  function update(initial) {
+  function update(initial, p = { autoScroll: true }) {
     const thumbsSwiper = swiper.thumbs.swiper;
     if (!thumbsSwiper || thumbsSwiper.destroyed) return;
-
-    const slidesPerView =
-      thumbsSwiper.params.slidesPerView === 'auto'
-        ? thumbsSwiper.slidesPerViewDynamic()
-        : thumbsSwiper.params.slidesPerView;
 
     // Activate thumbs
     let thumbsToActivate = 1;
@@ -103,10 +112,7 @@ export default function Thumb({ swiper, extendParams, on }) {
     thumbsToActivate = Math.floor(thumbsToActivate);
 
     thumbsSwiper.slides.forEach((slideEl) => slideEl.classList.remove(thumbActiveClass));
-    if (
-      thumbsSwiper.params.loop ||
-      (thumbsSwiper.params.virtual && thumbsSwiper.params.virtual.enabled)
-    ) {
+    if (thumbsSwiper.params.loop || isVirtualEnabled()) {
       for (let i = 0; i < thumbsToActivate; i += 1) {
         elementChildren(
           thumbsSwiper.slidesEl,
@@ -122,6 +128,20 @@ export default function Thumb({ swiper, extendParams, on }) {
         }
       }
     }
+
+    if (p.autoScroll) {
+      autoScroll(initial ? 0 : undefined);
+    }
+  }
+
+  function autoScroll(slideSpeed) {
+    const thumbsSwiper = swiper.thumbs.swiper;
+    if (!thumbsSwiper || thumbsSwiper.destroyed) return;
+
+    const slidesPerView =
+      thumbsSwiper.params.slidesPerView === 'auto'
+        ? thumbsSwiper.slidesPerViewDynamic()
+        : thumbsSwiper.params.slidesPerView;
 
     const autoScrollOffset = swiper.params.thumbs.autoScrollOffset;
     const useOffset = autoScrollOffset && !thumbsSwiper.params.loop;
@@ -160,7 +180,7 @@ export default function Thumb({ swiper, extendParams, on }) {
         ) {
           // newThumbsIndex = newThumbsIndex - slidesPerView + 1;
         }
-        thumbsSwiper.slideTo(newThumbsIndex, initial ? 0 : undefined);
+        thumbsSwiper.slideTo(newThumbsIndex, slideSpeed);
       }
     }
   }
