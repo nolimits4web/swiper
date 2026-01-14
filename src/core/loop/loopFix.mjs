@@ -97,7 +97,7 @@ export default function loopFix({
     activeColIndex +
     (bothDirections && typeof setTranslate === 'undefined' ? -slidesPerView / 2 + 0.5 : 0);
   // prepend last slides before start
-  if (activeColIndexWithShift < loopedSlides) {
+  if (activeColIndexWithShift < loopedSlides && !isNext) {
     slidesPrepended = Math.max(loopedSlides - activeColIndexWithShift, slidesPerGroup);
     for (let i = 0; i < loopedSlides - activeColIndexWithShift; i += 1) {
       const index = i - Math.floor(i / cols) * cols;
