@@ -90,14 +90,17 @@
       "default": "./swiper-react.mjs"
     },
     "./vue": {
-      "types": "./swiper-vue.d.ts",
-      "default": "./swiper-vue.mjs"
+      "types": "./vue/swiper-vue.d.ts",
+      "import": "./vue/swiper-vue.mjs",
+      "default": "./vue/swiper-vue.mjs"
     },
     "./modules": {
       "types": "./types/modules/index.d.ts",
       "default": "./modules/index.mjs"
     },
-    "./types": "./types/index.d.ts",
+    "./types": {
+      "types": "./types/index.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {

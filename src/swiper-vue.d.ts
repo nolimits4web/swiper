@@ -23,7 +23,7 @@ import type {
   GridOptions,
 } from './types/index.d.ts';
 import { ComponentOptionsMixin, DefineComponent, PropType, Ref } from 'vue';
-import type { SwiperOptions, Swiper as SwiperClass } from './types/index.d.ts';
+import type { SwiperOptions, Swiper as SwiperClass } from '../types/index';
 
 declare const Swiper: DefineComponent<
   {
