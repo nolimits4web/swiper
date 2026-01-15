@@ -9,7 +9,7 @@ export interface ThumbsMethods {
   /**
    * Update thumbs
    */
-  update(initial: boolean): void;
+  update(initial: boolean, p?: { autoScroll?: boolean }): void;
 
   /**
    * Initialize thumbs
