@@ -93,7 +93,7 @@ export default function Thumb({ swiper, extendParams, on }) {
     return true;
   }
 
-  function update(initial, p = { autoScroll: true }) {
+  function update(initial, p) {
     const thumbsSwiper = swiper.thumbs.swiper;
     if (!thumbsSwiper || thumbsSwiper.destroyed) return;
 
@@ -129,7 +129,7 @@ export default function Thumb({ swiper, extendParams, on }) {
       }
     }
 
-    if (p.autoScroll) {
+    if (p?.autoScroll ?? true) {
       autoScroll(initial ? 0 : undefined);
     }
   }
