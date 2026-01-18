@@ -13,6 +13,7 @@ export default function Keyboard({ swiper, extendParams, on, emit }) {
       enabled: false,
       onlyInViewport: true,
       pageUpDown: true,
+      speed: undefined,
     },
   });
 
@@ -92,22 +93,23 @@ export default function Keyboard({ swiper, extendParams, on, emit }) {
       }
       if (!inView) return undefined;
     }
+    const speed = swiper.params.keyboard.speed;
     if (swiper.isHorizontal()) {
       if (isPageUp || isPageDown || isArrowLeft || isArrowRight) {
         if (e.preventDefault) e.preventDefault();
         else e.returnValue = false;
       }
       if (((isPageDown || isArrowRight) && !rtl) || ((isPageUp || isArrowLeft) && rtl))
-        swiper.slideNext();
+        swiper.slideNext(speed);
       if (((isPageUp || isArrowLeft) && !rtl) || ((isPageDown || isArrowRight) && rtl))
-        swiper.slidePrev();
+        swiper.slidePrev(speed);
     } else {
       if (isPageUp || isPageDown || isArrowUp || isArrowDown) {
         if (e.preventDefault) e.preventDefault();
         else e.returnValue = false;
       }
-      if (isPageDown || isArrowDown) swiper.slideNext();
-      if (isPageUp || isArrowUp) swiper.slidePrev();
+      if (isPageDown || isArrowDown) swiper.slideNext(speed);
+      if (isPageUp || isArrowUp) swiper.slidePrev(speed);
     }
     emit('keyPress', kc);
     return undefined;

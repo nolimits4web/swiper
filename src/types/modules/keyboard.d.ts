@@ -43,4 +43,10 @@ export interface KeyboardOptions {
    * @default true
    */
   pageUpDown?: boolean;
+  /**
+   * Set the speed of keyboard navigation transitions (in ms)
+   *
+   * @default undefined
+   */
+  speed?: number;
 }
