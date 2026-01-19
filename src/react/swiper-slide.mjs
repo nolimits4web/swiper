@@ -75,7 +75,6 @@ const SwiperSlide = forwardRef(
         ref={slideElRef}
         className={uniqueClasses(`${slideClasses}${className ? ` ${className}` : ''}`)}
         data-swiper-slide-index={virtualIndex}
-        onLoad={onLoad}
         {...rest}
       >
         {zoom && (
@@ -85,14 +84,14 @@ const SwiperSlide = forwardRef(
               data-swiper-zoom={typeof zoom === 'number' ? zoom : undefined}
             >
               {renderChildren()}
-              {lazy && !lazyLoaded && <div className="swiper-lazy-preloader" />}
+              {lazy && !lazyLoaded && <div className="swiper-lazy-preloader" onLoad={onLoad} />}
             </div>
           </SwiperSlideContext.Provider>
         )}
         {!zoom && (
           <SwiperSlideContext.Provider value={slideData}>
             {renderChildren()}
-            {lazy && !lazyLoaded && <div className="swiper-lazy-preloader" />}
+            {lazy && !lazyLoaded && <div className="swiper-lazy-preloader" onLoad={onLoad} />}
           </SwiperSlideContext.Provider>
         )}
       </Tag>
