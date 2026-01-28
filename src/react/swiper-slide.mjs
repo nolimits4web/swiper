@@ -85,14 +85,28 @@ const SwiperSlide = forwardRef(
               data-swiper-zoom={typeof zoom === 'number' ? zoom : undefined}
             >
               {renderChildren()}
-              {lazy && !lazyLoaded && <div className="swiper-lazy-preloader" />}
+              {lazy && !lazyLoaded && (
+                <div
+                  className="swiper-lazy-preloader"
+                  ref={(node) => {
+                    if (node) node.lazyPreloaderManaged = true;
+                  }}
+                />
+              )}
             </div>
           </SwiperSlideContext.Provider>
         )}
         {!zoom && (
           <SwiperSlideContext.Provider value={slideData}>
             {renderChildren()}
-            {lazy && !lazyLoaded && <div className="swiper-lazy-preloader" />}
+            {lazy && !lazyLoaded && (
+              <div
+                className="swiper-lazy-preloader"
+                ref={(node) => {
+                  if (node) node.lazyPreloaderManaged = true;
+                }}
+              />
+            )}
           </SwiperSlideContext.Provider>
         )}
       </Tag>

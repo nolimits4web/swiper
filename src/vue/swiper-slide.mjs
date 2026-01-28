@@ -104,12 +104,26 @@ const SwiperSlide = {
               },
               [
                 slots.default && slots.default(slideData.value),
-                props.lazy && !lazyLoaded.value && h('div', { class: 'swiper-lazy-preloader' }),
+                props.lazy &&
+                  !lazyLoaded.value &&
+                  h('div', {
+                    class: 'swiper-lazy-preloader',
+                    onVnodeMounted: (vnode) => {
+                      if (vnode.el) vnode.el.lazyPreloaderManaged = true;
+                    },
+                  }),
               ],
             )
           : [
               slots.default && slots.default(slideData.value),
-              props.lazy && !lazyLoaded.value && h('div', { class: 'swiper-lazy-preloader' }),
+              props.lazy &&
+                !lazyLoaded.value &&
+                h('div', {
+                  class: 'swiper-lazy-preloader',
+                  onVnodeMounted: (vnode) => {
+                    if (vnode.el) vnode.el.lazyPreloaderManaged = true;
+                  },
+                }),
             ],
       );
     };

@@ -12,12 +12,13 @@ export const processLazyPreloader = (swiper, imageEl) => {
         requestAnimationFrame(() => {
           if (slideEl.shadowRoot) {
             lazyEl = slideEl.shadowRoot.querySelector(`.${swiper.params.lazyPreloaderClass}`);
-            if (lazyEl) lazyEl.remove();
+            if (lazyEl && !lazyEl.lazyPreloaderManaged) lazyEl.remove();
           }
         });
       }
     }
-    if (lazyEl) lazyEl.remove();
+    // Skip removal if managed by React/Vue component
+    if (lazyEl && !lazyEl.lazyPreloaderManaged) lazyEl.remove();
   }
 };
 
