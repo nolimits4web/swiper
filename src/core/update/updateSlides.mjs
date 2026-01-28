@@ -69,6 +69,12 @@ export default function updateSlides() {
     setCSSProperty(wrapperEl, '--swiper-centered-offset-after', '');
   }
 
+  // set cssMode offsets
+  if (params.cssMode) {
+    setCSSProperty(wrapperEl, '--swiper-slides-offset-before', `${offsetBefore}px`);
+    setCSSProperty(wrapperEl, '--swiper-slides-offset-after', `${offsetAfter}px`);
+  }
+
   const gridEnabled = params.grid && params.grid.rows > 1 && swiper.grid;
   if (gridEnabled) {
     swiper.grid.initSlides(slides);
