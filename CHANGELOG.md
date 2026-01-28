@@ -1,5 +1,23 @@
 # Changelog
 
+# [12.1.0](https://github.com/nolimits4web/Swiper/compare/v12.0.3...v12.1.0) (2026-01-28)
+
+### Bug Fixes
+
+- **autoplay:** broken custom delay percentages with pause/resume ([#8133](https://github.com/nolimits4web/Swiper/issues/8133)) ([0afecde](https://github.com/nolimits4web/Swiper/commit/0afecde9781268a60a92f752ea3a3a92420e2dcf))
+- **core:** Don't use `data-swiper-slide-index` for `realIndex` when virtual module is enabled ([#8142](https://github.com/nolimits4web/Swiper/issues/8142)) ([bd957f8](https://github.com/nolimits4web/Swiper/commit/bd957f8396f711b83dc1bc6b3d42a59e6d6539d2))
+- **core:** Escape all CSS selector special characters ([d35f41a](https://github.com/nolimits4web/Swiper/commit/d35f41a85bd1793de58358d06300440e09187a6d)), closes [#8135](https://github.com/nolimits4web/Swiper/issues/8135)
+- **core:** support slidesOffsetBefore and slidesOffsetAfert in cssMode ([45b98d0](https://github.com/nolimits4web/Swiper/commit/45b98d02b2235b0c425f8bd60ebdc04d7b1a4fbd)), closes [#7926](https://github.com/nolimits4web/Swiper/issues/7926)
+- fix lazy preloader removal error in react in vue ([332f5c7](https://github.com/nolimits4web/Swiper/commit/332f5c77005921c8a260f199cdfe6d3aa5d209a1)), closes [#8149](https://github.com/nolimits4web/Swiper/issues/8149)
+- **thumbs:** update slide classes on virtual swiper update ([#8141](https://github.com/nolimits4web/Swiper/issues/8141)) ([9752771](https://github.com/nolimits4web/Swiper/commit/975277111b73f389043cb0ed19feee0244a80f57))
+- **types:** Add `autoScroll` to `thumbs.update` type signature ([#8146](https://github.com/nolimits4web/Swiper/issues/8146)) ([5d91e6e](https://github.com/nolimits4web/Swiper/commit/5d91e6edb4ce35d70019616b51f1e380feb9a082))
+- **zoom:** initialize gesture state after programmatic zoom ([#8112](https://github.com/nolimits4web/Swiper/issues/8112)) ([71e9511](https://github.com/nolimits4web/Swiper/commit/71e9511802c34482bc8b66abda19a1a518d88d36))
+
+### Features
+
+- **keyboard:** add support for custom speed parameter in keyboard navigation ([#8148](https://github.com/nolimits4web/Swiper/issues/8148)) ([7a4a0e5](https://github.com/nolimits4web/Swiper/commit/7a4a0e5fc3c85710a37ab021328e083fc3b14e16))
+- new snapToSlideEdge parameter ([de3131f](https://github.com/nolimits4web/Swiper/commit/de3131fbf72cccbf1d1473f787ddf15c74612584)), closes [#8021](https://github.com/nolimits4web/Swiper/issues/8021) [#4780](https://github.com/nolimits4web/Swiper/issues/4780)
+
 # [12.0.3](https://github.com/nolimits4web/Swiper/compare/v12.0.2...v12.0.3) (2025-10-21)
 
 ### Bug Fixes
