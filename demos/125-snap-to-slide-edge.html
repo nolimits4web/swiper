@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Swiper demo - Snap To Slide Edge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+</head>
+
+<body>
+  <h2>Default behavior (snapToSlideEdge: false)</h2>
+  <p>Notice how at the end, the last slide aligns to the right edge</p>
+  <!-- Swiper without snapToSlideEdge -->
+  <div class="swiper swiper-default">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">Slide 1</div>
+      <div class="swiper-slide">Slide 2</div>
+      <div class="swiper-slide">Slide 3</div>
+      <div class="swiper-slide">Slide 4</div>
+      <div class="swiper-slide">Slide 5</div>
+      <div class="swiper-slide">Slide 6</div>
+      <div class="swiper-slide">Slide 7</div>
+      <div class="swiper-slide">Slide 8</div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <h2>With snapToSlideEdge: true</h2>
+  <p>Slides always stay aligned to their original position</p>
+  <!-- Swiper with snapToSlideEdge -->
+  <div class="swiper swiper-snap-edge">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">Slide 1</div>
+      <div class="swiper-slide">Slide 2</div>
+      <div class="swiper-slide">Slide 3</div>
+      <div class="swiper-slide">Slide 4</div>
+      <div class="swiper-slide">Slide 5</div>
+      <div class="swiper-slide">Slide 6</div>
+      <div class="swiper-slide">Slide 7</div>
+      <div class="swiper-slide">Slide 8</div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <!-- Initialize Swiper -->
+  <script type="module">
+    import Swiper from 'swiper/swiper-bundle.mjs';
+    import 'swiper/swiper-bundle.css';
+
+    // Default behavior - last slide aligns to edge
+    var swiperDefault = new Swiper('.swiper-default', {
+      slidesPerView: 'auto',
+      spaceBetween: 20,
+      pagination: {
+        el: '.swiper-default .swiper-pagination',
+        clickable: true,
+      },
+    });
+
+    // With snapToSlideEdge - slides stay aligned
+    var swiperSnapEdge = new Swiper('.swiper-snap-edge', {
+      slidesPerView: 'auto',
+      spaceBetween: 20,
+      snapToSlideEdge: true,
+      pagination: {
+        el: '.swiper-snap-edge .swiper-pagination',
+        clickable: true,
+      },
+    });
+  </script>
+
+  <!-- Demo styles -->
+  <style>
+    html,
+    body {
+      position: relative;
+      height: 100%;
+    }
+
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      margin: 20px 0 10px;
+    }
+
+    p {
+      margin: 0 0 10px;
+      color: #666;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 30px;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      border-radius: 8px;
+      width: 100px;
+
+      /* Center slide text vertically */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-default .swiper-slide {
+      background: #4a90d9;
+      color: #fff;
+    }
+
+    .swiper-snap-edge .swiper-slide {
+      background: #5cb85c;
+      color: #fff;
+    }
+  </style>
+</body>
+
+</html>

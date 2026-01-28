@@ -206,11 +206,48 @@ export default function updateSlides() {
 
   // Remove last grid elements depending on width
   if (!params.centeredSlides) {
+    // Check if snapToSlideEdge should be applied
+    const isFractionalSlidesPerView =
+      params.slidesPerView !== 'auto' && params.slidesPerView % 1 !== 0;
+    const shouldSnapToSlideEdge =
+      params.snapToSlideEdge &&
+      !params.loop &&
+      (params.slidesPerView === 'auto' || isFractionalSlidesPerView);
+
+    // Calculate the last allowed snap index when snapToSlideEdge is enabled
+    // This ensures minimum slides are visible at the end
+    let lastAllowedSnapIndex = snapGrid.length;
+    if (shouldSnapToSlideEdge) {
+      let minVisibleSlides;
+      if (params.slidesPerView === 'auto') {
+        // For 'auto' mode, calculate how many slides fit based on actual sizes
+        minVisibleSlides = 1;
+        let accumulatedSize = 0;
+        for (let i = slidesSizesGrid.length - 1; i >= 0; i -= 1) {
+          accumulatedSize += slidesSizesGrid[i] + (i < slidesSizesGrid.length - 1 ? spaceBetween : 0);
+          if (accumulatedSize <= swiperSize) {
+            minVisibleSlides = slidesSizesGrid.length - i;
+          } else {
+            break;
+          }
+        }
+      } else {
+        minVisibleSlides = Math.floor(params.slidesPerView);
+      }
+      lastAllowedSnapIndex = Math.max(slidesLength - minVisibleSlides, 0);
+    }
+
     const newSlidesGrid = [];
     for (let i = 0; i < snapGrid.length; i += 1) {
       let slidesGridItem = snapGrid[i];
       if (params.roundLengths) slidesGridItem = Math.floor(slidesGridItem);
-      if (snapGrid[i] <= swiper.virtualSize - swiperSize) {
+      if (shouldSnapToSlideEdge) {
+        // When snapToSlideEdge is enabled, only keep snaps up to lastAllowedSnapIndex
+        if (i <= lastAllowedSnapIndex) {
+          newSlidesGrid.push(slidesGridItem);
+        }
+      } else if (snapGrid[i] <= swiper.virtualSize - swiperSize) {
+        // When snapToSlideEdge is disabled, keep snaps that fit within scrollable area
         newSlidesGrid.push(slidesGridItem);
       }
     }
@@ -220,7 +257,10 @@ export default function updateSlides() {
       Math.floor(swiper.virtualSize - swiperSize) - Math.floor(snapGrid[snapGrid.length - 1]) >
       1
     ) {
-      snapGrid.push(swiper.virtualSize - swiperSize);
+      // Only add edge-aligned snap if snapToSlideEdge is not enabled
+      if (!shouldSnapToSlideEdge) {
+        snapGrid.push(swiper.virtualSize - swiperSize);
+      }
     }
   }
   if (isVirtual && params.loop) {

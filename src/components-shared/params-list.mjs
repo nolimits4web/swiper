@@ -44,6 +44,7 @@ const paramsList = [
   '_slidesOffsetAfter',
   'normalizeSlideIndex',
   '_centerInsufficientSlides',
+  '_snapToSlideEdge',
   '_watchOverflow',
   'roundLengths',
   'touchRatio',

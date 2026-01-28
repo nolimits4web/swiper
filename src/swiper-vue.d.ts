@@ -162,6 +162,10 @@ declare const Swiper: DefineComponent<
       type: BooleanConstructor;
       default: undefined;
     };
+    snapToSlideEdge: {
+      type: BooleanConstructor;
+      default: undefined;
+    };
     watchOverflow: {
       type: BooleanConstructor;
       default: undefined;

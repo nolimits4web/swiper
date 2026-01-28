@@ -401,6 +401,15 @@ export interface SwiperOptions {
   centerInsufficientSlides?: boolean;
 
   /**
+   * When enabled, the swiper will always snap to slide edges rather than arbitrary positions.
+   * This prevents partial slides from appearing misaligned at the end of the swiper.
+   * Only applies when `slidesPerView` is fractional or `'auto'`, and is ignored in `loop` and `centeredSlides` modes.
+   *
+   * @default false
+   */
+  snapToSlideEdge?: boolean;
+
+  /**
    * This option may a little improve desktop usability. If `true`, user will see the "grab" cursor when hover on Swiper
    *
    * @default false
