@@ -3,3 +3,9 @@ node_modules
 dist
 .nova
 package.json
+.claude
+.agents
+.cursor
+.gemini
+.codex
+.opencode
