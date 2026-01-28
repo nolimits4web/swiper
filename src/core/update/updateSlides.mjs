@@ -224,7 +224,8 @@ export default function updateSlides() {
         minVisibleSlides = 1;
         let accumulatedSize = 0;
         for (let i = slidesSizesGrid.length - 1; i >= 0; i -= 1) {
-          accumulatedSize += slidesSizesGrid[i] + (i < slidesSizesGrid.length - 1 ? spaceBetween : 0);
+          accumulatedSize +=
+            slidesSizesGrid[i] + (i < slidesSizesGrid.length - 1 ? spaceBetween : 0);
           if (accumulatedSize <= swiperSize) {
             minVisibleSlides = slidesSizesGrid.length - i;
           } else {
