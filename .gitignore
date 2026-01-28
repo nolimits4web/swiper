@@ -15,3 +15,11 @@ dist
 .env.production.local
 .eslintcache
 src/swiper-element-bundle.mjs
+
+# Agents
+.claude
+.agents
+.cursor
+.gemini
+.codex
+.opencode
