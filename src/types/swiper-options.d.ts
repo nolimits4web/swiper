@@ -892,7 +892,7 @@ export interface SwiperOptions {
    * });
    * ```
    */
-  a11y?: A11yOptions;
+  a11y?: A11yOptions | boolean;
 
   /**
    * Object with autoplay parameters or boolean `true` to enable with default settings
