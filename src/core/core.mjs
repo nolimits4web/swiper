@@ -93,7 +93,11 @@ class Swiper {
     swiper.eventsAnyListeners = [];
     swiper.modules = [...swiper.__modules__];
     if (params.modules && Array.isArray(params.modules)) {
-      swiper.modules.push(...params.modules);
+      params.modules.forEach((mod) => {
+        if (typeof mod === 'function' && swiper.modules.indexOf(mod) < 0) {
+          swiper.modules.push(mod);
+        }
+      });
     }
 
     const allModulesParams = {};
