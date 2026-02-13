@@ -251,8 +251,9 @@ export default function A11y({ swiper, extendParams, on }) {
     focusTargetSlideEl = slideEl;
     const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
     const isActive =
-      (isVirtual ? parseInt(slideEl.getAttribute('data-swiper-slide-index'), 10) : swiper.slides.indexOf(slideEl)) ===
-      swiper.activeIndex;
+      (isVirtual
+        ? parseInt(slideEl.getAttribute('data-swiper-slide-index'), 10)
+        : swiper.slides.indexOf(slideEl)) === swiper.activeIndex;
     const isVisible =
       swiper.params.watchSlidesProgress &&
       swiper.visibleSlides &&
@@ -273,7 +274,9 @@ export default function A11y({ swiper, extendParams, on }) {
         );
       } else if (isVirtual) {
         swiper.slideTo(
-          swiper.getSlideIndexWhenGrid(parseInt(slideEl.getAttribute('data-swiper-slide-index'), 10)),
+          swiper.getSlideIndexWhenGrid(
+            parseInt(slideEl.getAttribute('data-swiper-slide-index'), 10),
+          ),
           0,
         );
       } else {

@@ -1,5 +1,14 @@
 # Changelog
 
+# [12.1.1](https://github.com/nolimits4web/Swiper/compare/v12.1.0...v12.1.1) (2026-02-13)
+
+### Bug Fixes
+
+- **a11y:** fix focus in virtual mode enabled ([3055008](https://github.com/nolimits4web/Swiper/commit/30550088fd089600aec2d7f8924b88cff13abbe9)), closes [#8147](https://github.com/nolimits4web/Swiper/issues/8147)
+- **core:** avoid double-subtracting offsets in centerInsufficientSlides ([#8158](https://github.com/nolimits4web/Swiper/issues/8158)) ([60b0052](https://github.com/nolimits4web/Swiper/commit/60b005222a801029a4a00d319517028afba7af18))
+- **core:** prevent duplicate module initialization in constructor ([#8155](https://github.com/nolimits4web/Swiper/issues/8155)) ([#8156](https://github.com/nolimits4web/Swiper/issues/8156)) ([07738a2](https://github.com/nolimits4web/Swiper/commit/07738a233b70535c36126c5b579f2bb40049da6c))
+- **types:** support boolean as a11y value ([#8157](https://github.com/nolimits4web/Swiper/issues/8157)) ([6bf76d5](https://github.com/nolimits4web/Swiper/commit/6bf76d573196c61db1328350c11e2c44f5d3ec08))
+
 # [12.1.0](https://github.com/nolimits4web/Swiper/compare/v12.0.3...v12.1.0) (2026-01-28)
 
 ### Bug Fixes
