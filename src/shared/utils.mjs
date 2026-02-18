@@ -102,11 +102,12 @@ function isNode(node) {
 }
 function extend(...args) {
   const to = Object(args[0]);
-  const noExtend = ['__proto__', 'constructor', 'prototype'];
   for (let i = 1; i < args.length; i += 1) {
     const nextSource = args[i];
     if (nextSource !== undefined && nextSource !== null && !isNode(nextSource)) {
-      const keysArray = Object.keys(Object(nextSource)).filter((key) => noExtend.indexOf(key) < 0);
+      const keysArray = Object.keys(Object(nextSource)).filter(
+        (key) => key !== '__proto__' && key !== 'constructor' && key !== 'prototype',
+      );
       for (let nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex += 1) {
         const nextKey = keysArray[nextIndex];
         const desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
