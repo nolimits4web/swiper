@@ -111,7 +111,6 @@ export default function A11y({ swiper, extendParams, on }) {
 
   function onEnterOrSpaceKey(e) {
     if (e.keyCode !== 13 && e.keyCode !== 32) return;
-    const params = swiper.params.a11y;
     const targetEl = e.target;
     if (
       swiper.pagination &&
@@ -127,20 +126,10 @@ export default function A11y({ swiper, extendParams, on }) {
         if (!(swiper.isEnd && !swiper.params.loop)) {
           swiper.slideNext();
         }
-        if (swiper.isEnd) {
-          notify(params.lastSlideMessage);
-        } else {
-          notify(params.nextSlideMessage);
-        }
       }
       if (prevEls.includes(targetEl)) {
         if (!(swiper.isBeginning && !swiper.params.loop)) {
           swiper.slidePrev();
-        }
-        if (swiper.isBeginning) {
-          notify(params.firstSlideMessage);
-        } else {
-          notify(params.prevSlideMessage);
         }
       }
     }
@@ -421,5 +410,23 @@ export default function A11y({ swiper, extendParams, on }) {
   on('destroy', () => {
     if (!swiper.params.a11y.enabled) return;
     destroy();
+  });
+  on('navigationNext', () => {
+    if (!swiper.params.a11y.enabled) return;
+    const params = swiper.params.a11y;
+    if (swiper.isEnd) {
+      notify(params.lastSlideMessage);
+    } else {
+      notify(params.nextSlideMessage);
+    }
+  });
+  on('navigationPrev', () => {
+    if (!swiper.params.a11y.enabled) return;
+    const params = swiper.params.a11y;
+    if (swiper.isBeginning) {
+      notify(params.firstSlideMessage);
+    } else {
+      notify(params.prevSlideMessage);
+    }
   });
 }
