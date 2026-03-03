@@ -1,27 +1,27 @@
-import type { SwiperOptions } from './swiper-options.d.ts';
-import type Swiper from './swiper-class.d.ts';
+import type { SwiperOptions } from './swiper-options';
+import type Swiper from './swiper-class';
 
-import type { A11yEvents } from './modules/a11y.d.ts';
-import type { AutoplayEvents } from './modules/autoplay.d.ts';
-import type { ControllerEvents } from './modules/controller.d.ts';
-import type { CoverflowEffectEvents } from './modules/effect-coverflow.d.ts';
-import type { CubeEffectEvents } from './modules/effect-cube.d.ts';
-import type { FadeEffectEvents } from './modules/effect-fade.d.ts';
-import type { FlipEffectEvents } from './modules/effect-flip.d.ts';
-import type { CreativeEffectEvents } from './modules/effect-creative.d.ts';
-import type { CardsEffectEvents } from './modules/effect-cards.d.ts';
-import type { HashNavigationEvents } from './modules/hash-navigation.d.ts';
-import type { HistoryEvents } from './modules/history.d.ts';
-import type { KeyboardEvents } from './modules/keyboard.d.ts';
-import type { MousewheelEvents } from './modules/mousewheel.d.ts';
-import type { NavigationEvents } from './modules/navigation.d.ts';
-import type { PaginationEvents } from './modules/pagination.d.ts';
-import type { ParallaxEvents } from './modules/parallax.d.ts';
-import type { ScrollbarEvents } from './modules/scrollbar.d.ts';
-import type { ThumbsEvents } from './modules/thumbs.d.ts';
-import type { VirtualEvents } from './modules/virtual.d.ts';
-import type { ZoomEvents } from './modules/zoom.d.ts';
-import type { FreeModeEvents } from './modules/free-mode.d.ts';
+import type { A11yEvents } from './modules/a11y';
+import type { AutoplayEvents } from './modules/autoplay';
+import type { ControllerEvents } from './modules/controller';
+import type { CoverflowEffectEvents } from './modules/effect-coverflow';
+import type { CubeEffectEvents } from './modules/effect-cube';
+import type { FadeEffectEvents } from './modules/effect-fade';
+import type { FlipEffectEvents } from './modules/effect-flip';
+import type { CreativeEffectEvents } from './modules/effect-creative';
+import type { CardsEffectEvents } from './modules/effect-cards';
+import type { HashNavigationEvents } from './modules/hash-navigation';
+import type { HistoryEvents } from './modules/history';
+import type { KeyboardEvents } from './modules/keyboard';
+import type { MousewheelEvents } from './modules/mousewheel';
+import type { NavigationEvents } from './modules/navigation';
+import type { PaginationEvents } from './modules/pagination';
+import type { ParallaxEvents } from './modules/parallax';
+import type { ScrollbarEvents } from './modules/scrollbar';
+import type { ThumbsEvents } from './modules/thumbs';
+import type { VirtualEvents } from './modules/virtual';
+import type { ZoomEvents } from './modules/zoom';
+import type { FreeModeEvents } from './modules/free-mode';
 
 export interface SwiperEvents {
   // CORE_EVENTS_START
