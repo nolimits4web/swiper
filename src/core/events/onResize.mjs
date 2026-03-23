@@ -31,7 +31,8 @@ export default function onResize() {
     !swiper.params.centeredSlides &&
     !isVirtualLoop
   ) {
-    swiper.slideTo(swiper.slides.length - 1, 0, false, true);
+    const slides = isVirtual ? swiper.virtual.slides : swiper.slides;
+    swiper.slideTo(slides.length - 1, 0, false, true);
   } else {
     if (swiper.params.loop && !isVirtual) {
       swiper.slideToLoop(swiper.realIndex, 0, false, true);

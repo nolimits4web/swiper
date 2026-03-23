@@ -1,16 +1,3 @@
-<div align="center" markdown="1">
-   <sup>Special thanks to:</sup>
-   <br>
-   <a href="http://go.warp.dev/swiper">
-      <img alt="Warp sponsorship" width="400" src="https://raw.githubusercontent.com/warpdotdev/brand-assets/refs/heads/main/Github/Sponsor/Warp-Github-LG-03.png">
-   </a>
-
-[Warp, built for coding with multiple AI agents](http://go.warp.dev/swiper)
-
-</div>
-
----
-
 <p align="center">
   <img src="https://swiperjs.com/images/share-banner.jpg"/>
 </p>
