@@ -1,5 +1,16 @@
 # Changelog
 
+# [12.1.3](https://github.com/nolimits4web/Swiper/compare/v12.1.1...v12.1.3) (2026-03-24)
+
+### Bug Fixes
+
+- **core:** use virtual slides count in onResize when virtual mode is enabled ([#8163](https://github.com/nolimits4web/Swiper/issues/8163)) ([4400083](https://github.com/nolimits4web/Swiper/commit/44000834d05ac339a9c4dfbaaa3f60c1a0631cff))
+- **grid:** round down `slidesPerView` before calculating number of slides ([#8172](https://github.com/nolimits4web/Swiper/issues/8172)) ([49a55ab](https://github.com/nolimits4web/Swiper/commit/49a55ab2c89c63679cdd21d389ec7ef9d9d375f4))
+
+### Features
+
+- **element:** add navigation button slots ([cc82241](https://github.com/nolimits4web/Swiper/commit/cc8224177d5f577b672e37b9386f7388d71ba3c3))
+
 # [12.1.1](https://github.com/nolimits4web/Swiper/compare/v12.1.0...v12.1.1) (2026-02-13)
 
 ### Bug Fixes
