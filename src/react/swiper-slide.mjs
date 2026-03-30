@@ -58,6 +58,7 @@ const SwiperSlide = forwardRef(
     const slideData = {
       isActive: slideClasses.indexOf('swiper-slide-active') >= 0,
       isVisible: slideClasses.indexOf('swiper-slide-visible') >= 0,
+      isFullyVisible: slideClasses.indexOf('swiper-slide-fully-visible') >= 0,
       isPrev: slideClasses.indexOf('swiper-slide-prev') >= 0,
       isNext: slideClasses.indexOf('swiper-slide-next') >= 0,
     };
