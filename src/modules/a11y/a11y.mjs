@@ -105,7 +105,7 @@ export default function A11y({ swiper, extendParams, on }) {
   function enableEl(el) {
     el = makeElementsArray(el);
     el.forEach((subEl) => {
-      subEl.setAttribute('aria-disabled', false);
+      subEl.removeAttribute('aria-disabled');
     });
   }
 
