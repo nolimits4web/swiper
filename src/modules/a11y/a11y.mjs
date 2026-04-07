@@ -214,7 +214,6 @@ export default function A11y({ swiper, extendParams, on }) {
       el.addEventListener('keydown', onEnterOrSpaceKey);
     }
     addElLabel(el, message);
-    addElControls(el, wrapperId);
   };
 
   const handlePointerDown = (e) => {
