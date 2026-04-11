@@ -150,12 +150,12 @@
   "homepage": "https://swiperjs.com",
   "funding": [
     {
-      "type": "patreon",
-      "url": "https://www.patreon.com/swiperjs"
+      "type": "custom",
+      "url": "https://sponsors.nolimits4web.com"
     },
     {
-      "type": "open_collective",
-      "url": "http://opencollective.com/swiper"
+      "type": "github",
+      "url": "https://github.com/sponsors/nolimits4web"
     }
   ],
   "engines": {
