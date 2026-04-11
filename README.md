@@ -9,9 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://opencollective.com/swiper">
-    <img src="https://opencollective.com/swiper/all/badge.svg?label=financial+contributors" alt="Financial Contributors on Open Collective"/>
-  </a>
+
   <a href="https://github.com/nolimits4web/swiper/actions?query=workflow%3ABuild">
     <img src="https://github.com/nolimits4web/swiper/workflows/Build/badge.svg" alt="Build status"/>
   </a>
@@ -24,12 +22,6 @@
   <a href="https://npmjs.org/package/swiper">
     <img alt="types included" src="https://badgen.net/npm/types/swiper" />
   </a>
-</p>
-
-<p align="center">
-<a href="https://opencollective.com/swiper/" target="_blank">
-  <img src="https://opencollective.com/swiper/donate/button@2x.png?color=blue" width=300 />
-</a>
 </p>
 
 # Swiper
@@ -1219,15 +1211,7 @@ All changes should be committed to `src/` files only. Before you open an issue p
 </table>
 <!-- SPONSORS_TABLE_WRAP -->
 
-## Contributors
-
-### Code Contributors
+## Code Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 <a href="CODE_CONTRIBUTORS.md"><img src="https://opencollective.com/swiper/contributors.svg?width=890&button=false" /></a>
-
-### Financial Contributors
-
-Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/swiper/contribute)]
-
-<a href="https://opencollective.com/swiper"><img src="https://opencollective.com/swiper/individuals.svg?width=890"></a>
