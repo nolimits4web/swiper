@@ -1,6 +1,6 @@
 # Backers
 
-Support Swiper development by [pledging on Open Collective](http://opencollective.com/swiper)!
+Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web.com)!
 
 <!-- SPONSORS_TABLE_WRAP -->
 <table>
@@ -1095,21 +1095,12 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 </table>
 <!-- SPONSORS_TABLE_WRAP -->
 
-### \$500 Platinum Sponsor
-
-[Currently vacant. It could be you!](https://opencollective.com/swiper/contribute/platinum-sponsor-24468/checkout)
-
----
-
-### \$250 Gold Sponsor
-
-[Currently vacant. It could be you!](https://opencollective.com/swiper/contribute/gold-sponsor-24466/checkout)
-
 ---
 
 ### \$100 Silver Sponsor
 
 <!-- SILVER_SPONSOR -->
+
 - [Casinos Online Mexico](https://www.cortijolapasion.mx/)
 - [Kasino Ilman Rekisteröintiä](https://kasino-ilman-tilia.net/)
 - [Evernomic](https://evernomic.com/)
@@ -1133,13 +1124,12 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 - [Best Online Casinos in Canada](https://casinoshunter.com/online-casinos/)
 <!-- SILVER_SPONSOR -->
 
-[Join here!](https://opencollective.com/swiper/contribute/silver-sponsor-24464/checkout)
-
 ---
 
 ### \$50+ Sponsor
 
 <!-- SPONSOR -->
+
 - [casinos online fuera de España](https://www.casino.escritoscientificos.es/)
 - [WestAce](https://westace.site/)
 - [WestAce](https://westace.site/)
@@ -1330,8 +1320,6 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 - [Instagram likes](https://goread.io/buy-instagram-likes)
 <!-- SPONSOR -->
 
-[Join here!](https://opencollective.com/swiper/contribute/sponsor-24467/checkout)
-
 ---
 
 ### \$25+ Top Supporter
@@ -1342,8 +1330,6 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 
 <!-- TOP_SUPPORTER -->
 
-[Join here!](https://opencollective.com/swiper/contribute/top-supporter-24465/checkout)
-
 ---
 
 ### \$10+ Supporter
@@ -1353,8 +1339,6 @@ Support Swiper development by [pledging on Open Collective](http://opencollectiv
 [Instagram Stories Viewer](https://opencollective.com/instagram-stories-viewer)<br>
 
 [Will Myers](https://opencollective.com/will-myers)<br>
-
-[Join here!](https://opencollective.com/swiper/contribute/supporter-23766/checkout)
 
 ---
 
