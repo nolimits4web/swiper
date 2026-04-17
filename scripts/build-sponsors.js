@@ -44,6 +44,7 @@ const buildTables = (sponsors) => {
     if (rows.length > 0 && rows[rows.length - 1].length < perRow) {
       rows[rows.length - 1].push(...Array.from({ length: perRow - rows[rows.length - 1].length }));
     }
+    // prettier-ignore
     tableContent = `\n<table>\n${rows
       .map((items) =>
         [
@@ -55,7 +56,7 @@ const buildTables = (sponsors) => {
                 : [
                     `    <td align="center" valign="middle">`,
                     `      <a href="${item.link}" target="_blank">`,
-                    `        <img src="https://swiperjs.com/images/sponsors/${item.image}" alt="${item.title}" width="160">`,
+                    `        <img src="${item.image.startsWith('http') ? item.image : `https://swiperjs.com/images/sponsors/${item.image}`}" alt="${item.title}" width="160">`,
                     `      </a>`,
                     `    </td>`,
                   ].join('\n'),
