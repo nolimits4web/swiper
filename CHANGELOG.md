@@ -1,5 +1,16 @@
 # Changelog
 
+# [12.1.4](https://github.com/nolimits4web/Swiper/compare/v12.1.3...v12.1.4) (2026-04-29)
+
+### Bug Fixes
+
+- remove redundant aria-disabled=false from swiper nav button ([#8176](https://github.com/nolimits4web/Swiper/issues/8176)) ([6730929](https://github.com/nolimits4web/Swiper/commit/673092978a54ee3aff82633dd50880011a2a362f))
+
+### Features
+
+- **package:** add TS declarations for CSS files ([ea3081b](https://github.com/nolimits4web/Swiper/commit/ea3081b8c5863b297a240a0698804121c9e6c118)), closes [#8055](https://github.com/nolimits4web/Swiper/issues/8055)
+- **react:** expose isFullyVisible in SwiperSlide render props ([#8175](https://github.com/nolimits4web/Swiper/issues/8175)) ([3af0002](https://github.com/nolimits4web/Swiper/commit/3af0002acfc18a5ec450b3a2354d6187a64797e8))
+
 # [12.1.3](https://github.com/nolimits4web/Swiper/compare/v12.1.1...v12.1.3) (2026-03-24)
 
 ### Bug Fixes
