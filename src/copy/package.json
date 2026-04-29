@@ -23,33 +23,114 @@
       "types": "./swiper.d.ts",
       "default": "./swiper-bundle.mjs"
     },
-    "./css": "./swiper.css",
-    "./swiper.css": "./swiper.css",
-    "./css/bundle": "./swiper-bundle.css",
-    "./swiper-bundle.css": "./swiper-bundle.css",
-    "./css/a11y": "./modules/a11y.css",
-    "./css/autoplay": "./modules/autoplay.css",
-    "./css/controller": "./modules/controller.css",
-    "./css/effect-coverflow": "./modules/effect-coverflow.css",
-    "./css/effect-cube": "./modules/effect-cube.css",
-    "./css/effect-fade": "./modules/effect-fade.css",
-    "./css/effect-flip": "./modules/effect-flip.css",
-    "./css/effect-creative": "./modules/effect-creative.css",
-    "./css/effect-cards": "./modules/effect-cards.css",
-    "./css/free-mode": "./modules/free-mode.css",
-    "./css/grid": "./modules/grid.css",
-    "./css/hash-navigation": "./modules/hash-navigation.css",
-    "./css/history": "./modules/history.css",
-    "./css/keyboard": "./modules/keyboard.css",
-    "./css/manipulation": "./modules/manipulation.css",
-    "./css/mousewheel": "./modules/mousewheel.css",
-    "./css/navigation": "./modules/navigation.css",
-    "./css/pagination": "./modules/pagination.css",
-    "./css/parallax": "./modules/parallax.css",
-    "./css/scrollbar": "./modules/scrollbar.css",
-    "./css/thumbs": "./modules/thumbs.css",
-    "./css/virtual": "./modules/virtual.css",
-    "./css/zoom": "./modules/zoom.css",
+    "./css": {
+      "types": "./swiper.css.d.ts",
+      "default": "./swiper.css"
+    },
+    "./swiper.css": {
+      "types": "./swiper.css.d.ts",
+      "default": "./swiper.css"
+    },
+    "./css/bundle": {
+      "types": "./swiper.css.d.ts",
+      "default": "./swiper-bundle.css"
+    },
+    "./swiper-bundle.css": {
+      "types": "./swiper.css.d.ts",
+      "default": "./swiper-bundle.css"
+    },
+    "./css/a11y": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/a11y.css"
+    },
+    "./css/autoplay": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/autoplay.css"
+    },
+    "./css/controller": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/controller.css"
+    },
+    "./css/effect-coverflow": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/effect-coverflow.css"
+    },
+    "./css/effect-cube": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/effect-cube.css"
+    },
+    "./css/effect-fade": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/effect-fade.css"
+    },
+    "./css/effect-flip": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/effect-flip.css"
+    },
+    "./css/effect-creative": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/effect-creative.css"
+    },
+    "./css/effect-cards": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/effect-cards.css"
+    },
+    "./css/free-mode": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/free-mode.css"
+    },
+    "./css/grid": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/grid.css"
+    },
+    "./css/hash-navigation": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/hash-navigation.css"
+    },
+    "./css/history": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/history.css"
+    },
+    "./css/keyboard": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/keyboard.css"
+    },
+    "./css/manipulation": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/manipulation.css"
+    },
+    "./css/mousewheel": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/mousewheel.css"
+    },
+    "./css/navigation": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/navigation.css"
+    },
+    "./css/pagination": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/pagination.css"
+    },
+    "./css/parallax": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/parallax.css"
+    },
+    "./css/scrollbar": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/scrollbar.css"
+    },
+    "./css/thumbs": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/thumbs.css"
+    },
+    "./css/virtual": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/virtual.css"
+    },
+    "./css/zoom": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/zoom.css"
+    },
     "./element": {
       "types": "./swiper-element.d.ts",
       "default": "./swiper-element.mjs"
@@ -62,29 +143,98 @@
       "types": "./swiper-element.d.ts",
       "default": "./swiper-element-bundle.mjs"
     },
-    "./element/css/a11y": "./modules/a11y-element.css",
-    "./element/css/autoplay": "./modules/autoplay-element.css",
-    "./element/css/controller": "./modules/controller-element.css",
-    "./element/css/effect-coverflow": "./modules/effect-coverflow-element.css",
-    "./element/css/effect-cube": "./modules/effect-cube-element.css",
-    "./element/css/effect-fade": "./modules/effect-fade-element.css",
-    "./element/css/effect-flip": "./modules/effect-flip-element.css",
-    "./element/css/effect-creative": "./modules/effect-creative-element.css",
-    "./element/css/effect-cards": "./modules/effect-cards-element.css",
-    "./element/css/free-mode": "./modules/free-mode-element.css",
-    "./element/css/grid": "./modules/grid-element.css",
-    "./element/css/hash-navigation": "./modules/hash-navigation-element.css",
-    "./element/css/history": "./modules/history-element.css",
-    "./element/css/keyboard": "./modules/keyboard-element.css",
-    "./element/css/manipulation": "./modules/manipulation-element.css",
-    "./element/css/mousewheel": "./modules/mousewheel-element.css",
-    "./element/css/navigation": "./modules/navigation-element.css",
-    "./element/css/pagination": "./modules/pagination-element.css",
-    "./element/css/parallax": "./modules/parallax-element.css",
-    "./element/css/scrollbar": "./modules/scrollbar-element.css",
-    "./element/css/thumbs": "./modules/thumbs-element.css",
-    "./element/css/virtual": "./modules/virtual-element.css",
-    "./element/css/zoom": "./modules/zoom-element.css",
+    "./element/css/a11y": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/a11y-element.css"
+    },
+    "./element/css/autoplay": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/autoplay-element.css"
+    },
+    "./element/css/controller": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/controller-element.css"
+    },
+    "./element/css/effect-coverflow": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/effect-coverflow-element.css"
+    },
+    "./element/css/effect-cube": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/effect-cube-element.css"
+    },
+    "./element/css/effect-fade": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/effect-fade-element.css"
+    },
+    "./element/css/effect-flip": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/effect-flip-element.css"
+    },
+    "./element/css/effect-creative": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/effect-creative-element.css"
+    },
+    "./element/css/effect-cards": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/effect-cards-element.css"
+    },
+    "./element/css/free-mode": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/free-mode-element.css"
+    },
+    "./element/css/grid": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/grid-element.css"
+    },
+    "./element/css/hash-navigation": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/hash-navigation-element.css"
+    },
+    "./element/css/history": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/history-element.css"
+    },
+    "./element/css/keyboard": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/keyboard-element.css"
+    },
+    "./element/css/manipulation": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/manipulation-element.css"
+    },
+    "./element/css/mousewheel": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/mousewheel-element.css"
+    },
+    "./element/css/navigation": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/navigation-element.css"
+    },
+    "./element/css/pagination": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/pagination-element.css"
+    },
+    "./element/css/parallax": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/parallax-element.css"
+    },
+    "./element/css/scrollbar": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/scrollbar-element.css"
+    },
+    "./element/css/thumbs": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/thumbs-element.css"
+    },
+    "./element/css/virtual": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/virtual-element.css"
+    },
+    "./element/css/zoom": {
+      "types": "./swiper.css.d.ts",
+      "default": "./modules/zoom-element.css"
+    },
     "./react": {
       "types": "./swiper-react.d.ts",
       "default": "./swiper-react.mjs"
