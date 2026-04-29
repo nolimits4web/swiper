@@ -42,6 +42,7 @@ type SwiperProps = Omit<
 interface SlideData {
   isActive: boolean;
   isVisible: boolean;
+  isFullyVisible: boolean;
   isPrev: boolean;
   isNext: boolean;
 }
