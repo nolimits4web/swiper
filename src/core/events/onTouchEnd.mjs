@@ -3,6 +3,8 @@ import { now, nextTick } from '../../shared/utils.mjs';
 export default function onTouchEnd(event) {
   const swiper = this;
   const data = swiper.touchEventsData;
+  // stale listener: re-init via connectedCallback replaces swiper.onTouchEnd (fn2) but fn1 stays on document
+  if (!data) return;
 
   let e = event;
   if (e.originalEvent) e = e.originalEvent;

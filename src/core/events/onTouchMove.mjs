@@ -5,6 +5,8 @@ export default function onTouchMove(event) {
   const document = getDocument();
   const swiper = this;
   const data = swiper.touchEventsData;
+  // stale listener: re-init via connectedCallback replaces swiper.onTouchEnd (fn2) but fn1 stays on document
+  if (!data) return;
   const { params, touches, rtlTranslate: rtl, enabled } = swiper;
   if (!enabled) return;
   if (!params.simulateTouch && event.pointerType === 'mouse') return;
