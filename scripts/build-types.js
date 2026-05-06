@@ -130,5 +130,27 @@ export default async function buildTypes() {
       return fs.writeFile(destPath, fileContent);
     }),
   );
+
+  const packageJson = await fs.readJson(path.resolve(__dirname, `../${outputDir}/package.json`));
+  const cssTypingFiles = new Set();
+  Object.values(packageJson.exports).forEach((entry) => {
+    if (
+      entry &&
+      typeof entry === 'object' &&
+      typeof entry.default === 'string' &&
+      entry.default.endsWith('.css') &&
+      typeof entry.types === 'string'
+    ) {
+      cssTypingFiles.add(entry.types);
+    }
+  });
+  await Promise.all(
+    Array.from(cssTypingFiles).map(async (file) => {
+      const destPath = path.resolve(__dirname, `../${outputDir}`, file);
+      if (await fs.pathExists(destPath)) return;
+      await fs.ensureDir(path.dirname(destPath));
+      await fs.writeFile(destPath, 'export {};\n');
+    }),
+  );
   elapsed.end('types', chalk.green('Types build completed!'));
 }
