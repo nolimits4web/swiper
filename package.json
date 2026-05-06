@@ -61,6 +61,9 @@
       "url": "https://github.com/sponsors/nolimits4web"
     }
   ],
+  "files": [
+    "src/"
+  ],
   "engines": {
     "node": ">= 4.7.0"
   },
