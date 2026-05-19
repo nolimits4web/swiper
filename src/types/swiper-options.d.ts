@@ -920,7 +920,7 @@ export interface SwiperOptions {
    * });
    * ```
    */
-  controller?: ControllerOptions;
+  controller?: ControllerOptions | boolean;
 
   /**
    * Object with Coverflow-effect parameters.
