@@ -1,5 +1,6 @@
 export default function onClick(e) {
   const swiper = this;
+  if (swiper.destroyed) return;
   if (!swiper.enabled) return;
   if (!swiper.allowClick) {
     if (swiper.params.preventClicks) e.preventDefault();

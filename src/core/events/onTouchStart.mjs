@@ -35,6 +35,7 @@ function preventEdgeSwipe(swiper, event, startX) {
 
 export default function onTouchStart(event) {
   const swiper = this;
+  if (swiper.destroyed) return;
   const document = getDocument();
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
