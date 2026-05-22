@@ -3,6 +3,7 @@ import { now, nextTick } from '../../shared/utils.mjs';
 export default function onTouchEnd(event) {
   const swiper = this;
   const data = swiper.touchEventsData;
+  if (!data) return;
 
   let e = event;
   if (e.originalEvent) e = e.originalEvent;

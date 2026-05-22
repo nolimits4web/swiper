@@ -5,6 +5,7 @@ export default function onTouchMove(event) {
   const document = getDocument();
   const swiper = this;
   const data = swiper.touchEventsData;
+  if (!data) return;
   const { params, touches, rtlTranslate: rtl, enabled } = swiper;
   if (!enabled) return;
   if (!params.simulateTouch && event.pointerType === 'mouse') return;
