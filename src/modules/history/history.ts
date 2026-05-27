@@ -49,7 +49,7 @@ const History: SwiperModuleFn = ({ swiper, extendParams, on }) => {
       .replace(/-+$/, '');
   };
 
-  const getPathValues = (urlOverride?: string): PathValues => {
+  const getPathValues = (urlOverride?: string | null): PathValues => {
     let location: URL | Location;
     if (urlOverride) {
       location = new URL(urlOverride);
@@ -66,11 +66,11 @@ const History: SwiperModuleFn = ({ swiper, extendParams, on }) => {
     return { key, value };
   };
   const setHistory = (key: string | undefined, index: number): void => {
-    const histParams = swiper.params.history as any;
+    const histParams = swiper.params.history!;
     if (!initialized || !histParams.enabled) return;
     let location: URL | Location;
-    if ((swiper.params as any).url) {
-      location = new URL((swiper.params as any).url);
+    if (swiper.params.url) {
+      location = new URL(swiper.params.url);
     } else {
       location = window.location;
     }
@@ -80,10 +80,10 @@ const History: SwiperModuleFn = ({ swiper, extendParams, on }) => {
         : swiper.slides[index];
     if (!slide) return;
     let value = slugify(slide.getAttribute('data-history') || '');
-    if (histParams.root.length > 0) {
-      let root: string = histParams.root;
-      if (root[root.length - 1] === '/') root = root.slice(0, root.length - 1);
-      value = `${root}/${key ? `${key}/` : ''}${value}`;
+    const root = histParams.root ?? '';
+    if (root.length > 0) {
+      const trimmedRoot = root[root.length - 1] === '/' ? root.slice(0, root.length - 1) : root;
+      value = `${trimmedRoot}/${key ? `${key}/` : ''}${value}`;
     } else if (!location.pathname.includes(key || '')) {
       value = `${key ? `${key}/` : ''}${value}`;
     }
@@ -121,12 +121,12 @@ const History: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   };
 
   const setHistoryPopState = (): void => {
-    paths = getPathValues((swiper.params as any).url);
+    paths = getPathValues(swiper.params.url);
     scrollToSlide(swiper.params.speed!, paths.value, false);
   };
 
   const init = (): void => {
-    const histParams = swiper.params.history as any;
+    const histParams = swiper.params.history;
     if (!histParams) return;
     if (!window.history || !window.history.pushState) {
       histParams.enabled = false;
@@ -134,7 +134,7 @@ const History: SwiperModuleFn = ({ swiper, extendParams, on }) => {
       return;
     }
     initialized = true;
-    paths = getPathValues((swiper.params as any).url);
+    paths = getPathValues(swiper.params.url);
     if (!paths.key && !paths.value) {
       if (!histParams.replaceState) {
         window.addEventListener('popstate', setHistoryPopState);
@@ -147,30 +147,29 @@ const History: SwiperModuleFn = ({ swiper, extendParams, on }) => {
     }
   };
   const destroy = (): void => {
-    const histParams = swiper.params.history as any;
-    if (!histParams.replaceState) {
+    if (!swiper.params.history!.replaceState) {
       window.removeEventListener('popstate', setHistoryPopState);
     }
   };
 
   on('init', () => {
-    if ((swiper.params.history as any).enabled) {
+    if (swiper.params.history!.enabled) {
       init();
     }
   });
   on('destroy', () => {
-    if ((swiper.params.history as any).enabled) {
+    if (swiper.params.history!.enabled) {
       destroy();
     }
   });
   on('transitionEnd _freeModeNoMomentumRelease', () => {
     if (initialized) {
-      setHistory((swiper.params.history as any).key, swiper.activeIndex);
+      setHistory(swiper.params.history!.key, swiper.activeIndex);
     }
   });
   on('slideChange', () => {
     if (initialized && swiper.params.cssMode) {
-      setHistory((swiper.params.history as any).key, swiper.activeIndex);
+      setHistory(swiper.params.history!.key, swiper.activeIndex);
     }
   });
 };
