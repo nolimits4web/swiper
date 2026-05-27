@@ -23,9 +23,6 @@ declare module '../../core/core' {
 }
 
 const Keyboard: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
-  (swiper as any).keyboard = {
-    enabled: false,
-  };
   extendParams({
     keyboard: {
       enabled: false,
@@ -42,8 +39,8 @@ const Keyboard: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     let e: KeyboardEvent = event as KeyboardEvent;
     if ((event as any).originalEvent) e = (event as any).originalEvent;
     const kc = e.keyCode || e.charCode;
-    const keyboardParams = swiper.params.keyboard as any;
-    const pageUpDown: boolean = keyboardParams.pageUpDown;
+    const keyboardParams = swiper.params.keyboard!;
+    const pageUpDown = !!keyboardParams.pageUpDown;
     const isPageUp = pageUpDown && kc === 33;
     const isPageDown = pageUpDown && kc === 34;
     const isArrowLeft = kc === 37;
@@ -113,7 +110,7 @@ const Keyboard: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
       }
       if (!inView) return undefined;
     }
-    const speed: number | undefined = keyboardParams.speed;
+    const speed = keyboardParams.speed;
     if (swiper.isHorizontal()) {
       if (isPageUp || isPageDown || isArrowLeft || isArrowRight) {
         if (e.preventDefault) e.preventDefault();
@@ -145,8 +142,14 @@ const Keyboard: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     swiper.keyboard.enabled = false;
   }
 
+  swiper.keyboard = {
+    enabled: false,
+    enable,
+    disable,
+  };
+
   on('init', () => {
-    if ((swiper.params.keyboard as any).enabled) {
+    if (swiper.params.keyboard!.enabled) {
       enable();
     }
   });
@@ -154,11 +157,6 @@ const Keyboard: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     if (swiper.keyboard.enabled) {
       disable();
     }
-  });
-
-  Object.assign(swiper.keyboard, {
-    enable,
-    disable,
   });
 };
 
