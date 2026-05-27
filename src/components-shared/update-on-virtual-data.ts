@@ -1,4 +1,6 @@
-export const updateOnVirtualData = (swiper) => {
+import type { Swiper } from '../core/core';
+
+export const updateOnVirtualData = (swiper: Swiper | null | undefined): void => {
   if (
     !swiper ||
     swiper.destroyed ||
@@ -11,6 +13,6 @@ export const updateOnVirtualData = (swiper) => {
   swiper.updateSlidesClasses();
   swiper.emit('_virtualUpdated');
   if (swiper.parallax && swiper.params.parallax && swiper.params.parallax.enabled) {
-    swiper.parallax.setTranslate();
+    swiper.parallax.setTranslate?.();
   }
 };

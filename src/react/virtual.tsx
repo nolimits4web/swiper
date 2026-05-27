@@ -1,20 +1,31 @@
-import React from 'react';
+import React, { type CSSProperties, type ReactElement } from 'react';
+import type { Swiper as SwiperClass } from '../core/core';
+import type { ChildWithProps } from './get-children';
 
-function renderVirtual(swiper, slides, virtualData) {
-  if (!virtualData) return null;
+export interface VirtualData {
+  from: number;
+  to: number;
+  offset: number;
+}
 
-  const getSlideIndex = (index) => {
+export function renderVirtual(
+  swiper: SwiperClass | null,
+  slides: ChildWithProps[],
+  virtualData: VirtualData | null,
+): ReactElement[] | null {
+  if (!virtualData || !swiper) return null;
+
+  const getSlideIndex = (index: number): number => {
     let slideIndex = index;
     if (index < 0) {
       slideIndex = slides.length + index;
     } else if (slideIndex >= slides.length) {
-      // eslint-disable-next-line
-      slideIndex = slideIndex - slides.length;
+      slideIndex -= slides.length;
     }
     return slideIndex;
   };
 
-  const style = swiper.isHorizontal()
+  const style: CSSProperties = swiper.isHorizontal()
     ? {
         [swiper.rtlTranslate ? 'right' : 'left']: `${virtualData.offset}px`,
       }
@@ -24,19 +35,19 @@ function renderVirtual(swiper, slides, virtualData) {
   const { from, to } = virtualData;
   const loopFrom = swiper.params.loop ? -slides.length : 0;
   const loopTo = swiper.params.loop ? slides.length * 2 : slides.length;
-  const slidesToRender = [];
+  const slidesToRender: ChildWithProps[] = [];
   for (let i = loopFrom; i < loopTo; i += 1) {
     if (i >= from && i <= to) {
-      slidesToRender.push(slides[getSlideIndex(i)]);
+      const slide = slides[getSlideIndex(i)];
+      if (slide) slidesToRender.push(slide);
     }
   }
   return slidesToRender.map((child, index) => {
+    const virtualIndex = child.props.virtualIndex as string | number | undefined;
     return React.cloneElement(child, {
       swiper,
       style,
-      key: child.props.virtualIndex || child.key || `slide-${index}`,
+      key: virtualIndex || child.key || `slide-${index}`,
     });
   });
 }
-
-export { renderVirtual };

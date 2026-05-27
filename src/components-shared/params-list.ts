@@ -1,5 +1,5 @@
 /* underscore in name -> watch for changes */
-const paramsList = [
+const paramsList: string[] = [
   'eventsPrefix',
   'injectStyles',
   'injectStylesUrls',

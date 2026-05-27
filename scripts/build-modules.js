@@ -33,19 +33,19 @@ export default async function buildModules() {
 
   // Create element bundle
   const coreElementContent = fs
-    .readFileSync('./src/swiper-element.mjs', 'utf-8')
-    .replace(`import Swiper from './swiper.mjs';`, `import Swiper from './swiper-bundle.mjs';`);
-  fs.writeFileSync('./src/swiper-element-bundle.mjs', coreElementContent);
+    .readFileSync('./src/swiper-element.ts', 'utf-8')
+    .replace(`import Swiper from './swiper';`, `import Swiper from './swiper-bundle';`);
+  fs.writeFileSync('./src/swiper-element-bundle.ts', coreElementContent);
 
   const output = await rollup({
     external: ['react', 'vue'],
     input: [
-      './src/swiper.mjs',
-      './src/swiper-bundle.mjs',
-      './src/swiper-element.mjs',
-      './src/swiper-element-bundle.mjs',
-      './src/swiper-vue.mjs',
-      './src/swiper-react.mjs',
+      './src/swiper.ts',
+      './src/swiper-bundle.ts',
+      './src/swiper-element.ts',
+      './src/swiper-element-bundle.ts',
+      './src/swiper-vue.ts',
+      './src/swiper-react.ts',
       ...modulesPaths,
       './src/swiper-effect-utils.ts',
     ],
@@ -61,7 +61,7 @@ export default async function buildModules() {
       nodeResolve({
         mainFields: ['module', 'main', 'jsnext'],
         rootDir: './src',
-        extensions: ['.mjs', '.js', '.ts', '.json', '.node'],
+        extensions: ['.mjs', '.js', '.ts', '.tsx', '.json', '.node'],
       }),
       typescript({
         tsconfig: './tsconfig.json',
@@ -73,7 +73,7 @@ export default async function buildModules() {
           sourceMap: !isProd,
         },
       }),
-      babel({ babelHelpers: 'bundled', extensions: ['.js', '.mjs', '.ts'] }),
+      babel({ babelHelpers: 'bundled', extensions: ['.js', '.mjs', '.ts', '.tsx'] }),
     ],
     onwarn() {},
   });
@@ -146,14 +146,14 @@ export default async function buildModules() {
       // ADD ELEMENT STYLES
       if (f === 'swiper-element.mjs') {
         content = content
-          .replace('//SWIPER_STYLES', `const SwiperCSS = \`${core}\``)
-          .replace('//SWIPER_SLIDE_STYLES', `const SwiperSlideCSS = \`${slide}\``);
+          .replace(`'__SWIPER_STYLES__'`, `\`${core}\``)
+          .replace(`'__SWIPER_SLIDE_STYLES__'`, `\`${slide}\``);
       }
       if (f === 'swiper-element-bundle.mjs') {
         content = content
           .replace('/swiper-bundle.js', `/swiper-bundle.mjs`)
-          .replace('//SWIPER_STYLES', `const SwiperCSS = \`${bundle}\``)
-          .replace('//SWIPER_SLIDE_STYLES', `const SwiperSlideCSS = \`${slide}\``);
+          .replace(`'__SWIPER_STYLES__'`, `\`${bundle}\``)
+          .replace(`'__SWIPER_SLIDE_STYLES__'`, `\`${slide}\``);
       }
       // ADD BANNER
       const bannerName = f.includes('react')
@@ -225,7 +225,7 @@ export default async function buildModules() {
 
   // REMOVE ELEMENT BUNDLE
   if (isProd) {
-    fs.unlinkSync('./src/swiper-element-bundle.mjs');
+    fs.unlinkSync('./src/swiper-element-bundle.ts');
   }
 
   if (!isProd) {

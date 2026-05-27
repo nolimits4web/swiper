@@ -1,38 +1,146 @@
-import { h, ref, onMounted, onUpdated, onBeforeUnmount, watch, nextTick, provide } from 'vue';
-import SwiperCore from '../swiper.mjs';
-import { getParams } from '../components-shared/get-params.mjs';
-import { mountSwiper } from '../components-shared/mount-swiper.mjs';
 import {
-  needsScrollbar,
+  defineComponent,
+  h,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  onUpdated,
+  provide,
+  ref,
+  shallowRef,
+  watch,
+  type PropType,
+  type Ref,
+  type SetupContext,
+  type VNode,
+} from 'vue';
+import SwiperCore from '../swiper';
+import { getParams } from '../components-shared/get-params';
+import { mountSwiper } from '../components-shared/mount-swiper';
+import {
+  extend,
   needsNavigation,
   needsPagination,
+  needsScrollbar,
   uniqueClasses,
-  extend,
   wrapperClass,
-} from '../components-shared/utils.mjs';
-import { getChangedParams } from '../components-shared/get-changed-params.mjs';
-import { getChildren } from './get-children.mjs';
-import { updateSwiper } from '../components-shared/update-swiper.mjs';
-import { renderVirtual } from './virtual.mjs';
-import { updateOnVirtualData } from '../components-shared/update-on-virtual-data.mjs';
+} from '../components-shared/utils';
+import { getChangedParams } from '../components-shared/get-changed-params';
+import { getChildren, type MutableRef } from './get-children';
+import { updateSwiper } from '../components-shared/update-swiper';
+import { renderVirtual, type VueVirtualData } from './virtual';
+import { updateOnVirtualData } from '../components-shared/update-on-virtual-data';
+import type { Swiper as SwiperClass, SwiperEventHandler, SwiperOptions } from '../core/core';
 
-const Swiper = {
+type VNodeWithLegacy = VNode & { componentOptions?: { tag?: string; Ctor?: unknown } };
+
+const SWIPER_EVENTS = [
+  '_beforeBreakpoint',
+  '_containerClasses',
+  '_slideClass',
+  '_slideClasses',
+  '_swiper',
+  '_freeModeNoMomentumRelease',
+  '_virtualUpdated',
+  'activeIndexChange',
+  'afterInit',
+  'autoplay',
+  'autoplayStart',
+  'autoplayStop',
+  'autoplayPause',
+  'autoplayResume',
+  'autoplayTimeLeft',
+  'beforeDestroy',
+  'beforeInit',
+  'beforeLoopFix',
+  'beforeResize',
+  'beforeSlideChangeStart',
+  'beforeTransitionStart',
+  'breakpoint',
+  'changeDirection',
+  'click',
+  'disable',
+  'doubleTap',
+  'doubleClick',
+  'destroy',
+  'enable',
+  'fromEdge',
+  'hashChange',
+  'hashSet',
+  'init',
+  'keyPress',
+  'lock',
+  'loopFix',
+  'momentumBounce',
+  'navigationHide',
+  'navigationShow',
+  'navigationPrev',
+  'navigationNext',
+  'observerUpdate',
+  'orientationchange',
+  'paginationHide',
+  'paginationRender',
+  'paginationShow',
+  'paginationUpdate',
+  'progress',
+  'reachBeginning',
+  'reachEnd',
+  'realIndexChange',
+  'resize',
+  'scroll',
+  'scrollbarDragEnd',
+  'scrollbarDragMove',
+  'scrollbarDragStart',
+  'setTransition',
+  'setTranslate',
+  'slidesUpdated',
+  'slideChange',
+  'slideChangeTransitionEnd',
+  'slideChangeTransitionStart',
+  'slideNextTransitionEnd',
+  'slideNextTransitionStart',
+  'slidePrevTransitionEnd',
+  'slidePrevTransitionStart',
+  'slideResetTransitionStart',
+  'slideResetTransitionEnd',
+  'sliderMove',
+  'sliderFirstMove',
+  'slidesLengthChange',
+  'slidesGridLengthChange',
+  'snapGridLengthChange',
+  'snapIndexChange',
+  'swiper',
+  'tap',
+  'toEdge',
+  'touchEnd',
+  'touchMove',
+  'touchMoveOpposite',
+  'touchStart',
+  'transitionEnd',
+  'transitionStart',
+  'unlock',
+  'update',
+  'virtualUpdate',
+  'zoomChange',
+] as const;
+
+const Swiper = defineComponent({
   name: 'Swiper',
   props: {
-    tag: {
-      type: String,
-      default: 'div',
-    },
-    wrapperTag: {
-      type: String,
-      default: 'div',
-    },
-    modules: { type: Array, default: undefined },
+    tag: { type: String, default: 'div' },
+    wrapperTag: { type: String, default: 'div' },
+    modules: { type: Array as PropType<SwiperOptions['modules']>, default: undefined },
     init: { type: Boolean, default: undefined },
-    direction: { type: String, default: undefined },
+    direction: {
+      type: String as PropType<SwiperOptions['direction']>,
+      default: undefined,
+    },
     oneWayMovement: { type: Boolean, default: undefined },
     swiperElementNodeName: { type: String, default: 'SWIPER-CONTAINER' },
-    touchEventsTarget: { type: String, default: undefined },
+    touchEventsTarget: {
+      type: String as PropType<SwiperOptions['touchEventsTarget']>,
+      default: undefined,
+    },
     initialSlide: { type: Number, default: undefined },
     speed: { type: Number, default: undefined },
     cssMode: { type: Boolean, default: undefined },
@@ -45,16 +153,25 @@ const Swiper = {
     preventInteractionOnTransition: { type: Boolean, default: undefined },
     userAgent: { type: String, default: undefined },
     url: { type: String, default: undefined },
-    edgeSwipeDetection: { type: [Boolean, String], default: undefined },
+    edgeSwipeDetection: {
+      type: [Boolean, String] as PropType<boolean | string>,
+      default: undefined,
+    },
     edgeSwipeThreshold: { type: Number, default: undefined },
     autoHeight: { type: Boolean, default: undefined },
     setWrapperSize: { type: Boolean, default: undefined },
     virtualTranslate: { type: Boolean, default: undefined },
-    effect: { type: String, default: undefined },
-    breakpoints: { type: Object, default: undefined },
+    effect: { type: String as PropType<SwiperOptions['effect']>, default: undefined },
+    breakpoints: { type: Object as PropType<SwiperOptions['breakpoints']>, default: undefined },
     breakpointsBase: { type: String, default: undefined },
-    spaceBetween: { type: [Number, String], default: undefined },
-    slidesPerView: { type: [Number, String], default: undefined },
+    spaceBetween: {
+      type: [Number, String] as PropType<number | string>,
+      default: undefined,
+    },
+    slidesPerView: {
+      type: [Number, String] as PropType<SwiperOptions['slidesPerView']>,
+      default: undefined,
+    },
     maxBackfaceHiddenSlides: { type: Number, default: undefined },
     slidesPerGroup: { type: Number, default: undefined },
     slidesPerGroupSkip: { type: Number, default: undefined },
@@ -117,193 +234,158 @@ const Swiper = {
     observer: { type: Boolean, default: undefined },
     observeParents: { type: Boolean, default: undefined },
     observeSlideChildren: { type: Boolean, default: undefined },
-    a11y: { type: [Boolean, Object], default: undefined },
-    autoplay: { type: [Boolean, Object], default: undefined },
-    controller: { type: Object, default: undefined },
-    coverflowEffect: { type: Object, default: undefined },
-    cubeEffect: { type: Object, default: undefined },
-    fadeEffect: { type: Object, default: undefined },
-    flipEffect: { type: Object, default: undefined },
-    creativeEffect: { type: Object, default: undefined },
-    cardsEffect: { type: Object, default: undefined },
-    hashNavigation: { type: [Boolean, Object], default: undefined },
-    history: { type: [Boolean, Object], default: undefined },
-    keyboard: { type: [Boolean, Object], default: undefined },
-    mousewheel: { type: [Boolean, Object], default: undefined },
-    navigation: { type: [Boolean, Object], default: undefined },
-    pagination: { type: [Boolean, Object], default: undefined },
-    parallax: { type: [Boolean, Object], default: undefined },
-    scrollbar: { type: [Boolean, Object], default: undefined },
-    thumbs: { type: Object, default: undefined },
-    virtual: { type: [Boolean, Object], default: undefined },
-    zoom: { type: [Boolean, Object], default: undefined },
-    grid: { type: [Object], default: undefined },
-    freeMode: { type: [Boolean, Object], default: undefined },
+    a11y: {
+      type: [Boolean, Object] as PropType<SwiperOptions['a11y']>,
+      default: undefined,
+    },
+    autoplay: {
+      type: [Boolean, Object] as PropType<SwiperOptions['autoplay']>,
+      default: undefined,
+    },
+    controller: {
+      type: Object as PropType<SwiperOptions['controller']>,
+      default: undefined,
+    },
+    coverflowEffect: {
+      type: Object as PropType<SwiperOptions['coverflowEffect']>,
+      default: undefined,
+    },
+    cubeEffect: { type: Object as PropType<SwiperOptions['cubeEffect']>, default: undefined },
+    fadeEffect: { type: Object as PropType<SwiperOptions['fadeEffect']>, default: undefined },
+    flipEffect: { type: Object as PropType<SwiperOptions['flipEffect']>, default: undefined },
+    creativeEffect: {
+      type: Object as PropType<SwiperOptions['creativeEffect']>,
+      default: undefined,
+    },
+    cardsEffect: { type: Object as PropType<SwiperOptions['cardsEffect']>, default: undefined },
+    hashNavigation: {
+      type: [Boolean, Object] as PropType<SwiperOptions['hashNavigation']>,
+      default: undefined,
+    },
+    history: {
+      type: [Boolean, Object] as PropType<SwiperOptions['history']>,
+      default: undefined,
+    },
+    keyboard: {
+      type: [Boolean, Object] as PropType<SwiperOptions['keyboard']>,
+      default: undefined,
+    },
+    mousewheel: {
+      type: [Boolean, Object] as PropType<SwiperOptions['mousewheel']>,
+      default: undefined,
+    },
+    navigation: {
+      type: [Boolean, Object] as PropType<SwiperOptions['navigation']>,
+      default: undefined,
+    },
+    pagination: {
+      type: [Boolean, Object] as PropType<SwiperOptions['pagination']>,
+      default: undefined,
+    },
+    parallax: {
+      type: [Boolean, Object] as PropType<SwiperOptions['parallax']>,
+      default: undefined,
+    },
+    scrollbar: {
+      type: [Boolean, Object] as PropType<SwiperOptions['scrollbar']>,
+      default: undefined,
+    },
+    thumbs: { type: Object as PropType<SwiperOptions['thumbs']>, default: undefined },
+    virtual: {
+      type: [Boolean, Object] as PropType<SwiperOptions['virtual']>,
+      default: undefined,
+    },
+    zoom: {
+      type: [Boolean, Object] as PropType<SwiperOptions['zoom']>,
+      default: undefined,
+    },
+    grid: { type: Object as PropType<SwiperOptions['grid']>, default: undefined },
+    freeMode: {
+      type: [Boolean, Object] as PropType<SwiperOptions['freeMode']>,
+      default: undefined,
+    },
     enabled: { type: Boolean, default: undefined },
   },
-  emits: [
-    '_beforeBreakpoint',
-    '_containerClasses',
-    '_slideClass',
-    '_slideClasses',
-    '_swiper',
-    '_freeModeNoMomentumRelease',
-    '_virtualUpdated',
-    'activeIndexChange',
-    'afterInit',
-    'autoplay',
-    'autoplayStart',
-    'autoplayStop',
-    'autoplayPause',
-    'autoplayResume',
-    'autoplayTimeLeft',
-    'beforeDestroy',
-    'beforeInit',
-    'beforeLoopFix',
-    'beforeResize',
-    'beforeSlideChangeStart',
-    'beforeTransitionStart',
-    'breakpoint',
-    'changeDirection',
-    'click',
-    'disable',
-    'doubleTap',
-    'doubleClick',
-    'destroy',
-    'enable',
-    'fromEdge',
-    'hashChange',
-    'hashSet',
-    'init',
-    'keyPress',
-    'lock',
-    'loopFix',
-    'momentumBounce',
-    'navigationHide',
-    'navigationShow',
-    'navigationPrev',
-    'navigationNext',
-    'observerUpdate',
-    'orientationchange',
-    'paginationHide',
-    'paginationRender',
-    'paginationShow',
-    'paginationUpdate',
-    'progress',
-    'reachBeginning',
-    'reachEnd',
-    'realIndexChange',
-    'resize',
-    'scroll',
-    'scrollbarDragEnd',
-    'scrollbarDragMove',
-    'scrollbarDragStart',
-    'setTransition',
-    'setTranslate',
-    'slidesUpdated',
-    'slideChange',
-    'slideChangeTransitionEnd',
-    'slideChangeTransitionStart',
-    'slideNextTransitionEnd',
-    'slideNextTransitionStart',
-    'slidePrevTransitionEnd',
-    'slidePrevTransitionStart',
-    'slideResetTransitionStart',
-    'slideResetTransitionEnd',
-    'sliderMove',
-    'sliderFirstMove',
-    'slidesLengthChange',
-    'slidesGridLengthChange',
-    'snapGridLengthChange',
-    'snapIndexChange',
-    'swiper',
-    'tap',
-    'toEdge',
-    'touchEnd',
-    'touchMove',
-    'touchMoveOpposite',
-    'touchStart',
-    'transitionEnd',
-    'transitionStart',
-    'unlock',
-    'update',
-    'virtualUpdate',
-    'zoomChange',
-  ],
-  setup(props, { slots: originalSlots, emit }) {
+  emits: SWIPER_EVENTS as unknown as string[],
+  setup(props, { slots: originalSlots, emit }: SetupContext) {
     const { tag: Tag, wrapperTag: WrapperTag } = props;
 
     const containerClasses = ref('swiper');
-    const virtualData = ref(null);
+    const virtualData = ref<VueVirtualData | null>(null);
     const breakpointChanged = ref(false);
     const initializedRef = ref(false);
-    const swiperElRef = ref(null);
-    const swiperRef = ref(null);
-    const oldPassedParamsRef = ref(null);
-    const slidesRef = { value: [] };
-    const oldSlidesRef = { value: [] };
+    const swiperElRef = ref<HTMLElement | null>(null);
+    const swiperRef = shallowRef<SwiperClass | null>(null);
+    const oldPassedParamsRef = ref<Record<string, unknown> | null>(null);
+    const slidesRef: MutableRef<VNodeWithLegacy[]> = { value: [] };
+    const oldSlidesRef: MutableRef<VNodeWithLegacy[]> = { value: [] };
 
-    const nextElRef = ref(null);
-    const prevElRef = ref(null);
-    const paginationElRef = ref(null);
-    const scrollbarElRef = ref(null);
+    const nextElRef = ref<HTMLElement | null>(null);
+    const prevElRef = ref<HTMLElement | null>(null);
+    const paginationElRef = ref<HTMLElement | null>(null);
+    const scrollbarElRef = ref<HTMLElement | null>(null);
 
-    const { params: swiperParams, passedParams } = getParams(props, false);
+    const { params: swiperParams, passedParams } = getParams(
+      props as unknown as Record<string, unknown>,
+      false,
+    );
 
     getChildren(originalSlots, slidesRef, oldSlidesRef);
 
     oldPassedParamsRef.value = passedParams;
     oldSlidesRef.value = slidesRef.value;
 
-    const onBeforeBreakpoint = () => {
+    const onBeforeBreakpoint = (): void => {
       getChildren(originalSlots, slidesRef, oldSlidesRef);
       breakpointChanged.value = true;
     };
 
-    swiperParams.onAny = (event, ...args) => {
-      emit(event, ...args);
+    swiperParams.onAny = (event: string, ...args: unknown[]): void => {
+      (emit as (e: string, ...a: unknown[]) => void)(event, ...args);
     };
 
-    Object.assign(swiperParams.on, {
+    Object.assign(swiperParams.on as Record<string, SwiperEventHandler>, {
       _beforeBreakpoint: onBeforeBreakpoint,
-      _containerClasses(swiper, classes) {
+      _containerClasses(_swiper: SwiperClass, classes: string) {
         containerClasses.value = classes;
       },
     });
 
     // init Swiper
-    const passParams = { ...swiperParams };
+    const passParams = { ...swiperParams } as SwiperOptions & { wrapperClass?: string };
     delete passParams.wrapperClass;
     swiperRef.value = new SwiperCore(passParams);
-    if (swiperRef.value.virtual && swiperRef.value.params.virtual.enabled) {
-      swiperRef.value.virtual.slides = slidesRef.value;
+    const instance = swiperRef.value;
+    if (instance && instance.virtual && instance.params.virtual?.enabled) {
+      instance.virtual.slides = slidesRef.value;
       const extendWith = {
         cache: false,
         slides: slidesRef.value,
-        renderExternal: (data) => {
+        renderExternal: (data: VueVirtualData) => {
           virtualData.value = data;
         },
         renderExternalUpdate: false,
       };
-      extend(swiperRef.value.params.virtual, extendWith);
-      extend(swiperRef.value.originalParams.virtual, extendWith);
+      extend(instance.params.virtual, extendWith);
+      if (instance.originalParams.virtual) extend(instance.originalParams.virtual, extendWith);
     }
 
     onUpdated(() => {
-      // set initialized flag
       if (!initializedRef.value && swiperRef.value) {
         swiperRef.value.emitSlidesClasses();
         initializedRef.value = true;
       }
-      // watch for params change
-      const { passedParams: newPassedParams } = getParams(props, false);
+      const { passedParams: newPassedParams } = getParams(
+        props as unknown as Record<string, unknown>,
+        false,
+      );
 
       const changedParams = getChangedParams(
         newPassedParams,
         oldPassedParamsRef.value,
         slidesRef.value,
         oldSlidesRef.value,
-        (c) => c.props && c.props.key,
+        (c) => (c.props ? c.props.key : undefined),
       );
       oldPassedParamsRef.value = newPassedParams;
 
@@ -326,18 +408,16 @@ const Swiper = {
       breakpointChanged.value = false;
     });
 
-    provide('swiper', swiperRef);
+    provide('swiper', swiperRef as Ref<SwiperClass | null>);
 
-    // update on virtual update
     watch(virtualData, () => {
       nextTick(() => {
         updateOnVirtualData(swiperRef.value);
       });
     });
 
-    // mount swiper
     onMounted(() => {
-      if (!swiperElRef.value) return;
+      if (!swiperElRef.value || !swiperRef.value) return;
       mountSwiper(
         {
           el: swiperElRef.value,
@@ -358,15 +438,17 @@ const Swiper = {
       }
     });
 
-    // bypass swiper instance to slides
-    function renderSlides(slides) {
+    function renderSlides(
+      slides: VNodeWithLegacy[],
+    ): VNodeWithLegacy[] | ReturnType<typeof renderVirtual> {
       if (swiperParams.virtual) {
-        return renderVirtual(swiperRef, slides, virtualData.value);
+        return renderVirtual(swiperRef as Ref<SwiperClass | null>, slides, virtualData.value);
       }
       slides.forEach((slide, index) => {
-        if (!slide.props) slide.props = {};
-        slide.props.swiperRef = swiperRef;
-        slide.props.swiperSlideIndex = index;
+        const slideProps = (slide.props ?? {}) as Record<string, unknown>;
+        slideProps.swiperRef = swiperRef;
+        slideProps.swiperSlideIndex = index;
+        slide.props = slideProps;
       });
       return slides;
     }
@@ -397,6 +479,6 @@ const Swiper = {
       );
     };
   },
-};
+});
 
 export { Swiper };

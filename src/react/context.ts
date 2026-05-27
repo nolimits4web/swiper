@@ -1,13 +1,18 @@
 import { createContext, useContext } from 'react';
+import type { Swiper as SwiperClass } from '../core/core';
 
-export const SwiperSlideContext = createContext(null);
+export interface SwiperSlideData {
+  isActive: boolean;
+  isVisible: boolean;
+  isFullyVisible: boolean;
+  isPrev: boolean;
+  isNext: boolean;
+}
 
-export const useSwiperSlide = () => {
-  return useContext(SwiperSlideContext);
-};
+export const SwiperSlideContext = createContext<SwiperSlideData | null>(null);
 
-export const SwiperContext = createContext(null);
+export const useSwiperSlide = (): SwiperSlideData | null => useContext(SwiperSlideContext);
 
-export const useSwiper = () => {
-  return useContext(SwiperContext);
-};
+export const SwiperContext = createContext<SwiperClass | null>(null);
+
+export const useSwiper = (): SwiperClass | null => useContext(SwiperContext);

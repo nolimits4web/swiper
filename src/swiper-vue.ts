@@ -1,6 +1,6 @@
-import { Swiper } from './vue/swiper.mjs';
-import { SwiperSlide } from './vue/swiper-slide.mjs';
+import { Swiper } from './vue/swiper';
+import { SwiperSlide } from './vue/swiper-slide';
 
-export { useSwiperSlide, useSwiper } from './vue/context.mjs';
+export { useSwiperSlide, useSwiper } from './vue/context';
 
 export { Swiper, SwiperSlide };

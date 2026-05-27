@@ -1,70 +1,83 @@
-function isObject(o) {
+import type { SwiperOptions } from '../core/core';
+
+interface SwiperLikeFlag {
+  __swiper__?: true;
+}
+
+export function isObject(o: unknown): o is Record<string, unknown> {
+  if (typeof o !== 'object' || o === null) return false;
+  const obj = o as Record<string, unknown> & SwiperLikeFlag;
   return (
-    typeof o === 'object' &&
-    o !== null &&
-    o.constructor &&
-    Object.prototype.toString.call(o).slice(8, -1) === 'Object' &&
-    !o.__swiper__
+    !!obj.constructor &&
+    Object.prototype.toString.call(obj).slice(8, -1) === 'Object' &&
+    !obj.__swiper__
   );
 }
 
-function extend(target, src) {
+export function extend<T extends object, S extends object>(target: T, src: S): T & S {
   const noExtend = ['__proto__', 'constructor', 'prototype'];
-  Object.keys(src)
+  const t = target as Record<string, unknown>;
+  const s = src as Record<string, unknown>;
+  Object.keys(s)
     .filter((key) => noExtend.indexOf(key) < 0)
     .forEach((key) => {
-      if (typeof target[key] === 'undefined') target[key] = src[key];
-      else if (isObject(src[key]) && isObject(target[key]) && Object.keys(src[key]).length > 0) {
-        if (src[key].__swiper__) target[key] = src[key];
-        else extend(target[key], src[key]);
+      const srcVal = s[key];
+      const targetVal = t[key];
+      if (typeof targetVal === 'undefined') {
+        t[key] = srcVal;
+      } else if (isObject(srcVal) && isObject(targetVal) && Object.keys(srcVal).length > 0) {
+        if ((srcVal as SwiperLikeFlag).__swiper__) {
+          t[key] = srcVal;
+        } else {
+          extend(targetVal, srcVal);
+        }
       } else {
-        target[key] = src[key];
+        t[key] = srcVal;
       }
     });
+  return target as T & S;
 }
 
-function needsNavigation(params = {}) {
+type ParamsLike = Partial<Pick<SwiperOptions, 'navigation' | 'pagination' | 'scrollbar'>>;
+
+export function needsNavigation(params: ParamsLike = {}): boolean {
+  const nav = params.navigation;
   return (
-    params.navigation &&
-    typeof params.navigation.nextEl === 'undefined' &&
-    typeof params.navigation.prevEl === 'undefined'
+    !!nav &&
+    typeof nav !== 'boolean' &&
+    typeof nav.nextEl === 'undefined' &&
+    typeof nav.prevEl === 'undefined'
   );
 }
-function needsPagination(params = {}) {
-  return params.pagination && typeof params.pagination.el === 'undefined';
+
+export function needsPagination(params: ParamsLike = {}): boolean {
+  const pag = params.pagination;
+  return !!pag && typeof pag !== 'boolean' && typeof pag.el === 'undefined';
 }
-function needsScrollbar(params = {}) {
-  return params.scrollbar && typeof params.scrollbar.el === 'undefined';
+
+export function needsScrollbar(params: ParamsLike = {}): boolean {
+  const sb = params.scrollbar;
+  return !!sb && typeof sb !== 'boolean' && typeof sb.el === 'undefined';
 }
-function uniqueClasses(classNames = '') {
+
+export function uniqueClasses(classNames = ''): string {
   const classes = classNames
     .split(' ')
     .map((c) => c.trim())
     .filter((c) => !!c);
-  const unique = [];
+  const unique: string[] = [];
   classes.forEach((c) => {
     if (unique.indexOf(c) < 0) unique.push(c);
   });
   return unique.join(' ');
 }
 
-function attrToProp(attrName = '') {
+export function attrToProp(attrName = ''): string {
   return attrName.replace(/-[a-z]/g, (l) => l.toUpperCase().replace('-', ''));
 }
 
-function wrapperClass(className = '') {
+export function wrapperClass(className = ''): string {
   if (!className) return 'swiper-wrapper';
   if (!className.includes('swiper-wrapper')) return `swiper-wrapper ${className}`;
   return className;
 }
-
-export {
-  isObject,
-  extend,
-  needsNavigation,
-  needsPagination,
-  needsScrollbar,
-  uniqueClasses,
-  attrToProp,
-  wrapperClass,
-};

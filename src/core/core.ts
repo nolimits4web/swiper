@@ -46,7 +46,9 @@ export interface SwiperOptions extends LegacySwiperOptions {
   on?: {
     [event in keyof SwiperEvents]?: SwiperEvents[event];
   };
-  onAny?(handler: (eventName: string, ...args: any[]) => void): void;
+  // Initial onAny handler — receives the event name and any payload args.
+  // Distinct from `Swiper.prototype.onAny`, which is the runtime registrar.
+  onAny?(eventName: string, ...args: any[]): void;
 }
 export interface SwiperEvents extends LegacySwiperEvents {}
 
@@ -433,8 +435,8 @@ export class Swiper {
         swiper.on(eventName, swiper.params.on![eventName] as any);
       });
     }
-    if (swiper.params && (swiper.params as any).onAny) {
-      swiper.onAny((swiper.params as any).onAny);
+    if (swiper.params && swiper.params.onAny) {
+      swiper.onAny(swiper.params.onAny);
     }
 
     // Extend Swiper

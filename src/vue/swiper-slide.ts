@@ -1,39 +1,55 @@
 import {
+  computed,
+  defineComponent,
   h,
-  ref,
+  onBeforeUnmount,
+  onBeforeUpdate,
   onMounted,
   onUpdated,
-  onBeforeUpdate,
-  computed,
-  onBeforeUnmount,
   provide,
+  ref,
+  type PropType,
+  type Ref,
+  type SetupContext,
+  type VNode,
 } from 'vue';
-import { uniqueClasses } from '../components-shared/utils.mjs';
+import { uniqueClasses } from '../components-shared/utils';
+import type { Swiper as SwiperClass } from '../core/core';
+import type { VueSwiperSlideData } from './context';
 
-const SwiperSlide = {
+interface SwiperSlideElement extends HTMLElement {
+  swiperSlideIndex?: number;
+  lazyPreloaderManaged?: boolean;
+}
+
+const SwiperSlide = defineComponent({
   name: 'SwiperSlide',
   props: {
     tag: {
       type: String,
       default: 'div',
     },
-    swiperRef: { type: Object, required: false },
+    swiperRef: { type: Object as PropType<Ref<SwiperClass | null>>, required: false },
     swiperSlideIndex: { type: Number, default: undefined, required: false },
-    zoom: { type: Boolean, default: undefined, required: false },
+    zoom: {
+      type: [Boolean, Number] as PropType<boolean | number>,
+      default: undefined,
+      required: false,
+    },
     lazy: { type: Boolean, default: false, required: false },
     virtualIndex: {
-      type: [String, Number],
+      type: [String, Number] as PropType<string | number>,
       default: undefined,
     },
   },
-  setup(props, { slots }) {
+  setup(props, { slots }: SetupContext) {
     let eventAttached = false;
     const { swiperRef } = props;
-    const slideElRef = ref(null);
+    const slideElRef = ref<SwiperSlideElement | null>(null);
     const slideClasses = ref('swiper-slide');
     const lazyLoaded = ref(false);
 
-    function updateClasses(swiper, el, classNames) {
+    function updateClasses(_swiper: SwiperClass, el: HTMLElement, classNames: string): void {
       if (el === slideElRef.value) {
         slideClasses.value = classNames;
       }
@@ -68,7 +84,7 @@ const SwiperSlide = {
       swiperRef.value.off('_slideClass', updateClasses);
     });
 
-    const slideData = computed(() => ({
+    const slideData = computed<VueSwiperSlideData>(() => ({
       isActive: slideClasses.value.indexOf('swiper-slide-active') >= 0,
       isVisible: slideClasses.value.indexOf('swiper-slide-visible') >= 0,
       isPrev: slideClasses.value.indexOf('swiper-slide-prev') >= 0,
@@ -76,12 +92,17 @@ const SwiperSlide = {
     }));
     provide('swiperSlide', slideData);
 
-    const onLoad = () => {
+    const onLoad = (): void => {
       lazyLoaded.value = true;
     };
 
-    return () => {
-      return h(
+    const lazyPreloaderHook = (vnode: VNode): void => {
+      const el = vnode.el as SwiperSlideElement | null;
+      if (el) el.lazyPreloaderManaged = true;
+    };
+
+    return () =>
+      h(
         props.tag,
         {
           class: uniqueClasses(`${slideClasses.value}`),
@@ -108,9 +129,7 @@ const SwiperSlide = {
                   !lazyLoaded.value &&
                   h('div', {
                     class: 'swiper-lazy-preloader',
-                    onVnodeMounted: (vnode) => {
-                      if (vnode.el) vnode.el.lazyPreloaderManaged = true;
-                    },
+                    onVnodeMounted: lazyPreloaderHook,
                   }),
               ],
             )
@@ -120,14 +139,11 @@ const SwiperSlide = {
                 !lazyLoaded.value &&
                 h('div', {
                   class: 'swiper-lazy-preloader',
-                  onVnodeMounted: (vnode) => {
-                    if (vnode.el) vnode.el.lazyPreloaderManaged = true;
-                  },
+                  onVnodeMounted: lazyPreloaderHook,
                 }),
             ],
       );
-    };
   },
-};
+});
 
 export { SwiperSlide };

@@ -1,74 +1,120 @@
 import { setInnerHTML } from '../shared/utils';
-import { isObject } from './utils.mjs';
+import { isObject } from './utils';
+import type { Swiper, SwiperOptions } from '../core/core';
 
-function updateSwiper({
-  swiper,
-  slides,
-  passedParams,
-  changedParams,
-  nextEl,
-  prevEl,
-  scrollbarEl,
-  paginationEl,
-}) {
+export interface UpdateSwiperArgs {
+  swiper: Swiper;
+  slides?: unknown[];
+  passedParams: Record<string, unknown>;
+  changedParams: string[];
+  nextEl?: HTMLElement | string | null;
+  prevEl?: HTMLElement | string | null;
+  scrollbarEl?: HTMLElement | string | null;
+  paginationEl?: HTMLElement | string | null;
+}
+
+type ModuleKey = 'navigation' | 'pagination' | 'scrollbar';
+
+interface PartAwareElement extends HTMLElement {
+  part: DOMTokenList;
+}
+
+export function updateSwiper(args: UpdateSwiperArgs): void {
+  let { nextEl, prevEl, scrollbarEl, paginationEl } = args;
+  const { swiper, slides, passedParams, changedParams } = args;
   const updateParams = changedParams.filter(
     (key) => key !== 'children' && key !== 'direction' && key !== 'wrapperClass',
   );
   const { params: currentParams, pagination, navigation, scrollbar, virtual, thumbs } = swiper;
-  let needThumbsInit;
-  let needControllerInit;
-  let needPaginationInit;
-  let needScrollbarInit;
-  let needNavigationInit;
-  let loopNeedDestroy;
-  let loopNeedEnable;
-  let loopNeedReloop;
+  const passed = passedParams as Record<string, Record<string, unknown> | boolean | undefined>;
+  const current = currentParams as unknown as Record<
+    string,
+    Record<string, unknown> | boolean | undefined
+  >;
+
+  let needThumbsInit: boolean | undefined;
+  let needControllerInit: boolean | undefined;
+  let needPaginationInit: boolean | undefined;
+  let needScrollbarInit: boolean | undefined;
+  let needNavigationInit: boolean | undefined;
+  let loopNeedDestroy: boolean | undefined;
+  let loopNeedEnable: boolean | undefined;
+  let loopNeedReloop: boolean | undefined;
+
+  const passedThumbs = passed.thumbs as
+    | { swiper?: Swiper; [k: string]: unknown }
+    | boolean
+    | undefined;
+  const currentThumbs = current.thumbs as { swiper?: Swiper | null } | boolean | undefined;
   if (
     changedParams.includes('thumbs') &&
-    passedParams.thumbs &&
-    passedParams.thumbs.swiper &&
-    !passedParams.thumbs.swiper.destroyed &&
-    currentParams.thumbs &&
-    (!currentParams.thumbs.swiper || currentParams.thumbs.swiper.destroyed)
+    isObject(passedThumbs) &&
+    isObject(passedThumbs.swiper) &&
+    !(passedThumbs.swiper as Swiper).destroyed &&
+    isObject(currentThumbs) &&
+    (!currentThumbs.swiper || (currentThumbs.swiper as Swiper).destroyed)
   ) {
     needThumbsInit = true;
   }
+
+  const passedController = passed.controller as
+    | { control?: unknown; [k: string]: unknown }
+    | boolean
+    | undefined;
+  const currentController = current.controller as
+    | { control?: unknown; [k: string]: unknown }
+    | boolean
+    | undefined;
   if (
     changedParams.includes('controller') &&
-    passedParams.controller &&
-    passedParams.controller.control &&
-    currentParams.controller &&
-    !currentParams.controller.control
+    isObject(passedController) &&
+    passedController.control &&
+    isObject(currentController) &&
+    !currentController.control
   ) {
     needControllerInit = true;
   }
+
+  const passedPagination = passed.pagination as
+    | { el?: unknown; [k: string]: unknown }
+    | boolean
+    | undefined;
   if (
     changedParams.includes('pagination') &&
-    passedParams.pagination &&
-    (passedParams.pagination.el || paginationEl) &&
-    (currentParams.pagination || currentParams.pagination === false) &&
+    isObject(passedPagination) &&
+    (passedPagination.el || paginationEl) &&
+    (current.pagination || current.pagination === false) &&
     pagination &&
     !pagination.el
   ) {
     needPaginationInit = true;
   }
 
+  const passedScrollbar = passed.scrollbar as
+    | { el?: unknown; [k: string]: unknown }
+    | boolean
+    | undefined;
   if (
     changedParams.includes('scrollbar') &&
-    passedParams.scrollbar &&
-    (passedParams.scrollbar.el || scrollbarEl) &&
-    (currentParams.scrollbar || currentParams.scrollbar === false) &&
+    isObject(passedScrollbar) &&
+    (passedScrollbar.el || scrollbarEl) &&
+    (current.scrollbar || current.scrollbar === false) &&
     scrollbar &&
     !scrollbar.el
   ) {
     needScrollbarInit = true;
   }
+
+  const passedNavigation = passed.navigation as
+    | { nextEl?: unknown; prevEl?: unknown; [k: string]: unknown }
+    | boolean
+    | undefined;
   if (
     changedParams.includes('navigation') &&
-    passedParams.navigation &&
-    (passedParams.navigation.prevEl || prevEl) &&
-    (passedParams.navigation.nextEl || nextEl) &&
-    (currentParams.navigation || currentParams.navigation === false) &&
+    isObject(passedNavigation) &&
+    (passedNavigation.prevEl || prevEl) &&
+    (passedNavigation.nextEl || nextEl) &&
+    (current.navigation || current.navigation === false) &&
     navigation &&
     !navigation.prevEl &&
     !navigation.nextEl
@@ -76,24 +122,35 @@ function updateSwiper({
     needNavigationInit = true;
   }
 
-  const destroyModule = (mod) => {
-    if (!swiper[mod]) return;
-    swiper[mod].destroy();
+  interface ModuleInstanceLike {
+    destroy(): void;
+    el?: HTMLElement;
+    nextEl?: HTMLElement;
+    prevEl?: HTMLElement;
+  }
+  const destroyModule = (mod: ModuleKey) => {
+    const moduleInstance = swiper[mod] as ModuleInstanceLike | undefined;
+    if (!moduleInstance) return;
+    moduleInstance.destroy();
+    const currentModule = current[mod];
+    const currentObj = isObject(currentModule) ? currentModule : undefined;
     if (mod === 'navigation') {
       if (swiper.isElement) {
-        swiper[mod].prevEl.remove();
-        swiper[mod].nextEl.remove();
+        moduleInstance.prevEl?.remove();
+        moduleInstance.nextEl?.remove();
       }
-      currentParams[mod].prevEl = undefined;
-      currentParams[mod].nextEl = undefined;
-      swiper[mod].prevEl = undefined;
-      swiper[mod].nextEl = undefined;
+      if (currentObj) {
+        currentObj.prevEl = undefined;
+        currentObj.nextEl = undefined;
+      }
+      moduleInstance.prevEl = undefined;
+      moduleInstance.nextEl = undefined;
     } else {
       if (swiper.isElement) {
-        swiper[mod].el.remove();
+        moduleInstance.el?.remove();
       }
-      currentParams[mod].el = undefined;
-      swiper[mod].el = undefined;
+      if (currentObj) currentObj.el = undefined;
+      moduleInstance.el = undefined;
     }
   };
 
@@ -108,26 +165,27 @@ function updateSwiper({
   }
 
   updateParams.forEach((key) => {
-    if (isObject(currentParams[key]) && isObject(passedParams[key])) {
-      Object.assign(currentParams[key], passedParams[key]);
+    const currentValue = current[key];
+    const passedValue = passed[key];
+    if (isObject(currentValue) && isObject(passedValue)) {
+      Object.assign(currentValue, passedValue);
       if (
         (key === 'navigation' || key === 'pagination' || key === 'scrollbar') &&
-        'enabled' in passedParams[key] &&
-        !passedParams[key].enabled
+        'enabled' in passedValue &&
+        !passedValue.enabled
       ) {
         destroyModule(key);
       }
     } else {
-      const newValue = passedParams[key];
       if (
-        (newValue === true || newValue === false) &&
+        (passedValue === true || passedValue === false) &&
         (key === 'navigation' || key === 'pagination' || key === 'scrollbar')
       ) {
-        if (newValue === false) {
+        if (passedValue === false) {
           destroyModule(key);
         }
       } else {
-        currentParams[key] = passedParams[key];
+        current[key] = passedValue;
       }
     }
   });
@@ -137,16 +195,16 @@ function updateSwiper({
     !needControllerInit &&
     swiper.controller &&
     swiper.controller.control &&
-    currentParams.controller &&
-    currentParams.controller.control
+    isObject(currentController) &&
+    currentController.control
   ) {
-    swiper.controller.control = currentParams.controller.control;
+    swiper.controller.control = currentController.control as Swiper | Swiper[];
   }
 
-  if (changedParams.includes('children') && slides && virtual && currentParams.virtual.enabled) {
+  if (changedParams.includes('children') && slides && virtual && currentParams.virtual?.enabled) {
     virtual.slides = slides;
     virtual.update(true);
-  } else if (changedParams.includes('virtual') && virtual && currentParams.virtual.enabled) {
+  } else if (changedParams.includes('virtual') && virtual && currentParams.virtual?.enabled) {
     if (slides) virtual.slides = slides;
     virtual.update(true);
   }
@@ -154,72 +212,80 @@ function updateSwiper({
     loopNeedReloop = true;
   }
 
-  if (needThumbsInit) {
+  if (needThumbsInit && thumbs) {
     const initialized = thumbs.init();
     if (initialized) thumbs.update(true);
   }
 
-  if (needControllerInit) {
-    swiper.controller.control = currentParams.controller.control;
+  if (needControllerInit && swiper.controller && isObject(currentController)) {
+    swiper.controller.control = currentController.control as Swiper | Swiper[];
   }
 
-  if (needPaginationInit) {
+  if (needPaginationInit && pagination) {
     if (swiper.isElement && (!paginationEl || typeof paginationEl === 'string')) {
-      paginationEl = document.createElement('div');
-      paginationEl.classList.add('swiper-pagination');
-      paginationEl.part.add('pagination');
-      swiper.el.appendChild(paginationEl);
+      const el = document.createElement('div') as PartAwareElement;
+      el.classList.add('swiper-pagination');
+      el.part.add('pagination');
+      swiper.el.appendChild(el);
+      paginationEl = el;
     }
-    if (paginationEl) currentParams.pagination.el = paginationEl;
+    const paginationParams = current.pagination;
+    if (paginationEl && isObject(paginationParams))
+      paginationParams.el = paginationEl as HTMLElement;
     pagination.init();
     pagination.render();
     pagination.update();
   }
 
-  if (needScrollbarInit) {
+  if (needScrollbarInit && scrollbar) {
     if (swiper.isElement && (!scrollbarEl || typeof scrollbarEl === 'string')) {
-      scrollbarEl = document.createElement('div');
-      scrollbarEl.classList.add('swiper-scrollbar');
-      scrollbarEl.part.add('scrollbar');
-      swiper.el.appendChild(scrollbarEl);
+      const el = document.createElement('div') as PartAwareElement;
+      el.classList.add('swiper-scrollbar');
+      el.part.add('scrollbar');
+      swiper.el.appendChild(el);
+      scrollbarEl = el;
     }
-    if (scrollbarEl) currentParams.scrollbar.el = scrollbarEl;
+    const scrollbarParams = current.scrollbar;
+    if (scrollbarEl && isObject(scrollbarParams)) scrollbarParams.el = scrollbarEl as HTMLElement;
     scrollbar.init();
     scrollbar.updateSize();
     scrollbar.setTranslate();
   }
 
-  if (needNavigationInit) {
+  if (needNavigationInit && navigation) {
     if (swiper.isElement) {
       if (!nextEl || typeof nextEl === 'string') {
-        nextEl = document.createElement('div');
-        nextEl.classList.add('swiper-button-next');
-        setInnerHTML(nextEl, swiper.navigation.arrowSvg);
-        nextEl.part.add('button-next');
-        swiper.el.appendChild(nextEl);
+        const el = document.createElement('div') as PartAwareElement;
+        el.classList.add('swiper-button-next');
+        setInnerHTML(el, navigation.arrowSvg);
+        el.part.add('button-next');
+        swiper.el.appendChild(el);
+        nextEl = el;
       }
       if (!prevEl || typeof prevEl === 'string') {
-        prevEl = document.createElement('div');
-        prevEl.classList.add('swiper-button-prev');
-        setInnerHTML(prevEl, swiper.navigation.arrowSvg);
-        prevEl.part.add('button-prev');
-        swiper.el.appendChild(prevEl);
+        const el = document.createElement('div') as PartAwareElement;
+        el.classList.add('swiper-button-prev');
+        setInnerHTML(el, navigation.arrowSvg);
+        el.part.add('button-prev');
+        swiper.el.appendChild(el);
+        prevEl = el;
       }
     }
-    if (nextEl) currentParams.navigation.nextEl = nextEl;
-    if (prevEl) currentParams.navigation.prevEl = prevEl;
+    const navigationParams = current.navigation;
+    if (nextEl && isObject(navigationParams)) navigationParams.nextEl = nextEl as HTMLElement;
+    if (prevEl && isObject(navigationParams)) navigationParams.prevEl = prevEl as HTMLElement;
     navigation.init();
     navigation.update();
   }
 
   if (changedParams.includes('allowSlideNext')) {
-    swiper.allowSlideNext = passedParams.allowSlideNext;
+    swiper.allowSlideNext = passed.allowSlideNext as boolean;
   }
   if (changedParams.includes('allowSlidePrev')) {
-    swiper.allowSlidePrev = passedParams.allowSlidePrev;
+    swiper.allowSlidePrev = passed.allowSlidePrev as boolean;
   }
   if (changedParams.includes('direction')) {
-    swiper.changeDirection(passedParams.direction, false);
+    swiper.changeDirection(passed.direction as SwiperOptions['direction'], false);
   }
   if (loopNeedDestroy || loopNeedReloop) {
     swiper.loopDestroy();
@@ -229,4 +295,3 @@ function updateSwiper({
   }
   swiper.update();
 }
-export { updateSwiper };

@@ -149,8 +149,10 @@ export function showWarning(text: string): void {
 
 export function createElement<K extends keyof HTMLElementTagNameMap>(
   tag: K,
-  classes: string | string[] = [],
-): HTMLElementTagNameMap[K] {
+  classes?: string | string[],
+): HTMLElementTagNameMap[K];
+export function createElement(tag: string, classes?: string | string[]): HTMLElement;
+export function createElement(tag: string, classes: string | string[] = []): HTMLElement {
   const el = document.createElement(tag);
   el.classList.add(...(Array.isArray(classes) ? classes : classesToTokens(classes)));
   return el;

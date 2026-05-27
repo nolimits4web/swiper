@@ -1,10 +1,16 @@
-import { paramsList } from './params-list.mjs';
-import { isObject } from './utils.mjs';
+import { paramsList } from './params-list';
+import { isObject } from './utils';
 
-function getChangedParams(swiperParams, oldParams, children, oldChildren, getKey) {
-  const keys = [];
+export function getChangedParams<T>(
+  swiperParams: Record<string, unknown>,
+  oldParams: Record<string, unknown> | null | undefined,
+  children: T[] | null | undefined,
+  oldChildren: T[] | null | undefined,
+  getKey: (child: T) => unknown,
+): string[] {
+  const keys: string[] = [];
   if (!oldParams) return keys;
-  const addKey = (key) => {
+  const addKey = (key: string) => {
     if (keys.indexOf(key) < 0) keys.push(key);
   };
   if (children && oldChildren) {
@@ -16,27 +22,27 @@ function getChangedParams(swiperParams, oldParams, children, oldChildren, getKey
   const watchParams = paramsList.filter((key) => key[0] === '_').map((key) => key.replace(/_/, ''));
   watchParams.forEach((key) => {
     if (key in swiperParams && key in oldParams) {
-      if (isObject(swiperParams[key]) && isObject(oldParams[key])) {
-        const newKeys = Object.keys(swiperParams[key]);
-        const oldKeys = Object.keys(oldParams[key]);
+      const newVal = swiperParams[key];
+      const oldVal = oldParams[key];
+      if (isObject(newVal) && isObject(oldVal)) {
+        const newKeys = Object.keys(newVal);
+        const oldKeys = Object.keys(oldVal);
         if (newKeys.length !== oldKeys.length) {
           addKey(key);
         } else {
           newKeys.forEach((newKey) => {
-            if (swiperParams[key][newKey] !== oldParams[key][newKey]) {
+            if (newVal[newKey] !== oldVal[newKey]) {
               addKey(key);
             }
           });
           oldKeys.forEach((oldKey) => {
-            if (swiperParams[key][oldKey] !== oldParams[key][oldKey]) addKey(key);
+            if (newVal[oldKey] !== oldVal[oldKey]) addKey(key);
           });
         }
-      } else if (swiperParams[key] !== oldParams[key]) {
+      } else if (newVal !== oldVal) {
         addKey(key);
       }
     }
   });
   return keys;
 }
-
-export { getChangedParams };

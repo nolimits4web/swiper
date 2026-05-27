@@ -10,7 +10,9 @@ export interface ParallaxOptions {
   enabled?: boolean;
 }
 
-export interface ParallaxMethods {}
+export interface ParallaxMethods {
+  setTranslate?: () => void;
+}
 
 export interface ParallaxEvents {}
 
@@ -21,7 +23,7 @@ type ParallaxParamsRuntime = Required<ParallaxOptions>;
 
 declare module '../../core/core' {
   interface Swiper {
-    parallax: ParallaxMethods;
+    parallax?: ParallaxMethods;
   }
   interface SwiperOptions {
     /**
@@ -54,8 +56,6 @@ const Parallax: SwiperModuleFn = ({ swiper, extendParams, on }) => {
       enabled: false,
     },
   });
-
-  swiper.parallax = {};
 
   function getParams(): ParallaxParamsRuntime {
     return swiper.params.parallax as ParallaxParamsRuntime;
