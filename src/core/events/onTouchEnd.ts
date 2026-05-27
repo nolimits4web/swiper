@@ -1,20 +1,24 @@
 import { now, nextTick } from '../../shared/utils';
+import type { Swiper } from '../core';
 
-export default function onTouchEnd(event) {
+export default function onTouchEnd(
+  this: Swiper,
+  event: TouchEvent | PointerEvent | MouseEvent,
+): void {
   const swiper = this;
   if (swiper.destroyed) return;
-  const data = swiper.touchEventsData;
+  const data = swiper.touchEventsData as any;
 
-  let e = event;
+  let e: any = event;
   if (e.originalEvent) e = e.originalEvent;
-  let targetTouch;
+  let targetTouch: any;
   const isTouchEvent = e.type === 'touchend' || e.type === 'touchcancel';
   if (!isTouchEvent) {
     if (data.touchId !== null) return; // return from pointer if we use touch
     if (e.pointerId !== data.pointerId) return;
     targetTouch = e;
   } else {
-    targetTouch = [...e.changedTouches].find((t) => t.identifier === data.touchId);
+    targetTouch = [...e.changedTouches].find((t: any) => t.identifier === data.touchId);
     if (!targetTouch || targetTouch.identifier !== data.touchId) return;
   }
 
@@ -58,7 +62,7 @@ export default function onTouchEnd(event) {
 
   // Time diff
   const touchEndTime = now();
-  const timeDiff = touchEndTime - data.touchStartTime;
+  const timeDiff = touchEndTime - (data.touchStartTime as number);
 
   // Tap, doubleTap, Click
   if (swiper.allowClick) {
@@ -92,7 +96,7 @@ export default function onTouchEnd(event) {
   data.isMoved = false;
   data.startMoving = false;
 
-  let currentPos;
+  let currentPos: number;
   if (params.followFinger) {
     currentPos = rtl ? swiper.translate : -swiper.translate;
   } else {
@@ -103,65 +107,68 @@ export default function onTouchEnd(event) {
     return;
   }
 
-  if (params.freeMode && params.freeMode.enabled) {
-    swiper.freeMode.onTouchEnd({ currentPos });
+  if (params.freeMode && (params.freeMode as any).enabled) {
+    (swiper.freeMode as any).onTouchEnd({ currentPos });
     return;
   }
 
   // Find current slide
   const swipeToLast = currentPos >= -swiper.maxTranslate() && !swiper.params.loop;
   let stopIndex = 0;
-  let groupSize = swiper.slidesSizesGrid[0];
+  let groupSize = swiper.slidesSizesGrid[0]!;
   for (
     let i = 0;
     i < slidesGrid.length;
-    i += i < params.slidesPerGroupSkip ? 1 : params.slidesPerGroup
+    i += i < params.slidesPerGroupSkip! ? 1 : params.slidesPerGroup!
   ) {
-    const increment = i < params.slidesPerGroupSkip - 1 ? 1 : params.slidesPerGroup;
+    const increment = i < params.slidesPerGroupSkip! - 1 ? 1 : params.slidesPerGroup!;
     if (typeof slidesGrid[i + increment] !== 'undefined') {
-      if (swipeToLast || (currentPos >= slidesGrid[i] && currentPos < slidesGrid[i + increment])) {
+      if (
+        swipeToLast ||
+        (currentPos >= slidesGrid[i]! && currentPos < slidesGrid[i + increment]!)
+      ) {
         stopIndex = i;
-        groupSize = slidesGrid[i + increment] - slidesGrid[i];
+        groupSize = slidesGrid[i + increment]! - slidesGrid[i]!;
       }
-    } else if (swipeToLast || currentPos >= slidesGrid[i]) {
+    } else if (swipeToLast || currentPos >= slidesGrid[i]!) {
       stopIndex = i;
-      groupSize = slidesGrid[slidesGrid.length - 1] - slidesGrid[slidesGrid.length - 2];
+      groupSize = slidesGrid[slidesGrid.length - 1]! - slidesGrid[slidesGrid.length - 2]!;
     }
   }
 
-  let rewindFirstIndex = null;
-  let rewindLastIndex = null;
+  let rewindFirstIndex: number | null = null;
+  let rewindLastIndex: number | null = null;
   if (params.rewind) {
     if (swiper.isBeginning) {
       rewindLastIndex =
-        params.virtual && params.virtual.enabled && swiper.virtual
-          ? swiper.virtual.slides.length - 1
+        params.virtual && (params.virtual as any).enabled && swiper.virtual
+          ? (swiper.virtual as any).slides.length - 1
           : swiper.slides.length - 1;
     } else if (swiper.isEnd) {
       rewindFirstIndex = 0;
     }
   }
   // Find current slide size
-  const ratio = (currentPos - slidesGrid[stopIndex]) / groupSize;
-  const increment = stopIndex < params.slidesPerGroupSkip - 1 ? 1 : params.slidesPerGroup;
-  if (timeDiff > params.longSwipesMs) {
+  const ratio = (currentPos - slidesGrid[stopIndex]!) / groupSize;
+  const increment = stopIndex < params.slidesPerGroupSkip! - 1 ? 1 : params.slidesPerGroup!;
+  if (timeDiff > params.longSwipesMs!) {
     // Long touches
     if (!params.longSwipes) {
       swiper.slideTo(swiper.activeIndex);
       return;
     }
     if (swiper.swipeDirection === 'next') {
-      if (ratio >= params.longSwipesRatio)
-        swiper.slideTo(params.rewind && swiper.isEnd ? rewindFirstIndex : stopIndex + increment);
+      if (ratio >= params.longSwipesRatio!)
+        swiper.slideTo(params.rewind && swiper.isEnd ? rewindFirstIndex! : stopIndex + increment);
       else swiper.slideTo(stopIndex);
     }
     if (swiper.swipeDirection === 'prev') {
-      if (ratio > 1 - params.longSwipesRatio) {
+      if (ratio > 1 - params.longSwipesRatio!) {
         swiper.slideTo(stopIndex + increment);
       } else if (
         rewindLastIndex !== null &&
         ratio < 0 &&
-        Math.abs(ratio) > params.longSwipesRatio
+        Math.abs(ratio) > params.longSwipesRatio!
       ) {
         swiper.slideTo(rewindLastIndex);
       } else {
@@ -176,7 +183,8 @@ export default function onTouchEnd(event) {
     }
     const isNavButtonTarget =
       swiper.navigation &&
-      (e.target === swiper.navigation.nextEl || e.target === swiper.navigation.prevEl);
+      (e.target === (swiper.navigation as any).nextEl ||
+        e.target === (swiper.navigation as any).prevEl);
     if (!isNavButtonTarget) {
       if (swiper.swipeDirection === 'next') {
         swiper.slideTo(rewindFirstIndex !== null ? rewindFirstIndex : stopIndex + increment);
@@ -184,7 +192,7 @@ export default function onTouchEnd(event) {
       if (swiper.swipeDirection === 'prev') {
         swiper.slideTo(rewindLastIndex !== null ? rewindLastIndex : stopIndex);
       }
-    } else if (e.target === swiper.navigation.nextEl) {
+    } else if (e.target === (swiper.navigation as any).nextEl) {
       swiper.slideTo(stopIndex + increment);
     } else {
       swiper.slideTo(stopIndex);

@@ -1,4 +1,10 @@
-export default function setTranslate(translate, byController) {
+import type { Swiper } from '../core';
+
+export default function setTranslate(
+  this: Swiper,
+  translate: number,
+  byController?: boolean,
+): void {
   const swiper = this;
   const { rtlTranslate: rtl, params, wrapperEl, progress } = swiper;
   let x = 0;

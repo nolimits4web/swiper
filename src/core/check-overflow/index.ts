@@ -1,4 +1,6 @@
-function checkOverflow() {
+import type { Swiper } from '../core';
+
+function checkOverflow(this: Swiper): void {
   const swiper = this;
   const { isLocked: wasLocked, params } = swiper;
   const { slidesOffsetBefore } = params;
@@ -6,8 +8,8 @@ function checkOverflow() {
   if (slidesOffsetBefore) {
     const lastSlideIndex = swiper.slides.length - 1;
     const lastSlideRightEdge =
-      swiper.slidesGrid[lastSlideIndex] +
-      swiper.slidesSizesGrid[lastSlideIndex] +
+      swiper.slidesGrid[lastSlideIndex]! +
+      swiper.slidesSizesGrid[lastSlideIndex]! +
       slidesOffsetBefore * 2;
     swiper.isLocked = swiper.size > lastSlideRightEdge;
   } else {

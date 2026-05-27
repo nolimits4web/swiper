@@ -4,41 +4,47 @@ import {
   elementStyle,
   setCSSProperty,
 } from '../../shared/utils';
+import type { Swiper } from '../core';
 
-export default function updateSlides() {
+export default function updateSlides(this: Swiper): void {
   const swiper = this;
 
-  function getDirectionPropertyValue(node, label) {
-    return parseFloat(node.getPropertyValue(swiper.getDirectionLabel(label)) || 0);
+  function getDirectionPropertyValue(node: CSSStyleDeclaration, label: string): number {
+    return parseFloat(node.getPropertyValue(swiper.getDirectionLabel(label)) || '0');
   }
 
   const params = swiper.params;
 
   const { wrapperEl, slidesEl, rtlTranslate: rtl, wrongRTL } = swiper;
-  const isVirtual = swiper.virtual && params.virtual.enabled;
-  const previousSlidesLength = isVirtual ? swiper.virtual.slides.length : swiper.slides.length;
-  const slides = elementChildren(slidesEl, `.${swiper.params.slideClass}, swiper-slide`);
-  const slidesLength = isVirtual ? swiper.virtual.slides.length : slides.length;
-  let snapGrid = [];
-  const slidesGrid = [];
-  const slidesSizesGrid = [];
+  const isVirtual = swiper.virtual && (params.virtual as any).enabled;
+  const previousSlidesLength = isVirtual
+    ? (swiper.virtual as any).slides.length
+    : swiper.slides.length;
+  const slides = elementChildren(
+    slidesEl,
+    `.${swiper.params.slideClass}, swiper-slide`,
+  ) as HTMLElement[];
+  const slidesLength: number = isVirtual ? (swiper.virtual as any).slides.length : slides.length;
+  let snapGrid: number[] = [];
+  const slidesGrid: number[] = [];
+  const slidesSizesGrid: number[] = [];
 
-  let offsetBefore = params.slidesOffsetBefore;
+  let offsetBefore: number | ((this: Swiper) => number) | undefined = params.slidesOffsetBefore;
   if (typeof offsetBefore === 'function') {
-    offsetBefore = params.slidesOffsetBefore.call(swiper);
+    offsetBefore = (params.slidesOffsetBefore as any).call(swiper);
   }
 
-  let offsetAfter = params.slidesOffsetAfter;
+  let offsetAfter: number | ((this: Swiper) => number) | undefined = params.slidesOffsetAfter;
   if (typeof offsetAfter === 'function') {
-    offsetAfter = params.slidesOffsetAfter.call(swiper);
+    offsetAfter = (params.slidesOffsetAfter as any).call(swiper);
   }
 
   const previousSnapGridLength = swiper.snapGrid.length;
   const previousSlidesGridLength = swiper.slidesGrid.length;
 
-  const swiperSize = swiper.size - offsetBefore - offsetAfter;
-  let spaceBetween = params.spaceBetween;
-  let slidePosition = -offsetBefore;
+  const swiperSize = swiper.size - (offsetBefore as number) - (offsetAfter as number);
+  let spaceBetween: number | string = params.spaceBetween!;
+  let slidePosition = -(offsetBefore as number);
   let prevSlideSize = 0;
   let index = 0;
   if (typeof swiperSize === 'undefined') {
@@ -50,7 +56,8 @@ export default function updateSlides() {
     spaceBetween = parseFloat(spaceBetween);
   }
 
-  swiper.virtualSize = -spaceBetween - offsetBefore - offsetAfter;
+  swiper.virtualSize =
+    -(spaceBetween as number) - (offsetBefore as number) - (offsetAfter as number);
 
   // reset margins
   slides.forEach((slideEl) => {
@@ -75,21 +82,21 @@ export default function updateSlides() {
     setCSSProperty(wrapperEl, '--swiper-slides-offset-after', `${offsetAfter}px`);
   }
 
-  const gridEnabled = params.grid && params.grid.rows > 1 && swiper.grid;
+  const gridEnabled = params.grid && params.grid.rows! > 1 && swiper.grid;
   if (gridEnabled) {
-    swiper.grid.initSlides(slides);
+    (swiper.grid as any).initSlides(slides);
   } else if (swiper.grid) {
-    swiper.grid.unsetSlides();
+    (swiper.grid as any).unsetSlides();
   }
 
   // Calc slides
-  let slideSize;
+  let slideSize: number = 0;
 
   const shouldResetSlideSize =
     params.slidesPerView === 'auto' &&
     params.breakpoints &&
     Object.keys(params.breakpoints).filter((key) => {
-      return typeof params.breakpoints[key].slidesPerView !== 'undefined';
+      return typeof (params.breakpoints as any)[key].slidesPerView !== 'undefined';
     }).length > 0;
 
   for (let i = 0; i < slidesLength; i += 1) {
@@ -97,37 +104,37 @@ export default function updateSlides() {
     const slide = slides[i];
     if (slide) {
       if (gridEnabled) {
-        swiper.grid.updateSlide(i, slide, slides);
+        (swiper.grid as any).updateSlide(i, slide, slides);
       }
       if (elementStyle(slide, 'display') === 'none') continue; // eslint-disable-line
     }
 
     if (isVirtual && params.slidesPerView === 'auto') {
-      if (params.virtual.slidesPerViewAutoSlideSize) {
-        slideSize = params.virtual.slidesPerViewAutoSlideSize;
+      if ((params.virtual as any).slidesPerViewAutoSlideSize) {
+        slideSize = (params.virtual as any).slidesPerViewAutoSlideSize;
       }
       if (slideSize && slide) {
         if (params.roundLengths) slideSize = Math.floor(slideSize);
 
-        slide.style[swiper.getDirectionLabel('width')] = `${slideSize}px`;
+        (slide.style as any)[swiper.getDirectionLabel('width')] = `${slideSize}px`;
       }
     } else if (params.slidesPerView === 'auto') {
       if (shouldResetSlideSize) {
-        slide.style[swiper.getDirectionLabel('width')] = ``;
+        (slide!.style as any)[swiper.getDirectionLabel('width')] = ``;
       }
-      const slideStyles = getComputedStyle(slide);
-      const currentTransform = slide.style.transform;
-      const currentWebKitTransform = slide.style.webkitTransform;
+      const slideStyles = getComputedStyle(slide!);
+      const currentTransform = slide!.style.transform;
+      const currentWebKitTransform = (slide!.style as any).webkitTransform;
       if (currentTransform) {
-        slide.style.transform = 'none';
+        slide!.style.transform = 'none';
       }
       if (currentWebKitTransform) {
-        slide.style.webkitTransform = 'none';
+        (slide!.style as any).webkitTransform = 'none';
       }
       if (params.roundLengths) {
         slideSize = swiper.isHorizontal()
-          ? elementOuterSize(slide, 'width', true)
-          : elementOuterSize(slide, 'height', true);
+          ? elementOuterSize(slide!, 'width', true)
+          : elementOuterSize(slide!, 'height', true);
       } else {
         // eslint-disable-next-line
         const width = getDirectionPropertyValue(slideStyles, 'width');
@@ -139,7 +146,7 @@ export default function updateSlides() {
         if (boxSizing && boxSizing === 'border-box') {
           slideSize = width + marginLeft + marginRight;
         } else {
-          const { clientWidth, offsetWidth } = slide;
+          const { clientWidth, offsetWidth } = slide!;
           slideSize =
             width +
             paddingLeft +
@@ -150,71 +157,75 @@ export default function updateSlides() {
         }
       }
       if (currentTransform) {
-        slide.style.transform = currentTransform;
+        slide!.style.transform = currentTransform;
       }
       if (currentWebKitTransform) {
-        slide.style.webkitTransform = currentWebKitTransform;
+        (slide!.style as any).webkitTransform = currentWebKitTransform;
       }
       if (params.roundLengths) slideSize = Math.floor(slideSize);
     } else {
-      slideSize = (swiperSize - (params.slidesPerView - 1) * spaceBetween) / params.slidesPerView;
+      slideSize =
+        (swiperSize - ((params.slidesPerView as number) - 1) * (spaceBetween as number)) /
+        (params.slidesPerView as number);
       if (params.roundLengths) slideSize = Math.floor(slideSize);
 
       if (slide) {
-        slide.style[swiper.getDirectionLabel('width')] = `${slideSize}px`;
+        (slide.style as any)[swiper.getDirectionLabel('width')] = `${slideSize}px`;
       }
     }
     if (slide) {
-      slide.swiperSlideSize = slideSize;
+      (slide as any).swiperSlideSize = slideSize;
     }
     slidesSizesGrid.push(slideSize);
 
     if (params.centeredSlides) {
-      slidePosition = slidePosition + slideSize / 2 + prevSlideSize / 2 + spaceBetween;
+      slidePosition = slidePosition + slideSize / 2 + prevSlideSize / 2 + (spaceBetween as number);
       if (prevSlideSize === 0 && i !== 0)
-        slidePosition = slidePosition - swiperSize / 2 - spaceBetween;
-      if (i === 0) slidePosition = slidePosition - swiperSize / 2 - spaceBetween;
+        slidePosition = slidePosition - swiperSize / 2 - (spaceBetween as number);
+      if (i === 0) slidePosition = slidePosition - swiperSize / 2 - (spaceBetween as number);
       if (Math.abs(slidePosition) < 1 / 1000) slidePosition = 0;
       if (params.roundLengths) slidePosition = Math.floor(slidePosition);
-      if (index % params.slidesPerGroup === 0) snapGrid.push(slidePosition);
+      if (index % params.slidesPerGroup! === 0) snapGrid.push(slidePosition);
       slidesGrid.push(slidePosition);
     } else {
       if (params.roundLengths) slidePosition = Math.floor(slidePosition);
       if (
-        (index - Math.min(swiper.params.slidesPerGroupSkip, index)) %
-          swiper.params.slidesPerGroup ===
+        (index - Math.min(swiper.params.slidesPerGroupSkip!, index)) %
+          swiper.params.slidesPerGroup! ===
         0
       )
         snapGrid.push(slidePosition);
       slidesGrid.push(slidePosition);
-      slidePosition = slidePosition + slideSize + spaceBetween;
+      slidePosition = slidePosition + slideSize + (spaceBetween as number);
     }
 
-    swiper.virtualSize += slideSize + spaceBetween;
+    swiper.virtualSize += slideSize + (spaceBetween as number);
 
     prevSlideSize = slideSize;
 
     index += 1;
   }
 
-  swiper.virtualSize = Math.max(swiper.virtualSize, swiperSize) + offsetAfter;
+  swiper.virtualSize = Math.max(swiper.virtualSize, swiperSize) + (offsetAfter as number);
 
   if (rtl && wrongRTL && (params.effect === 'slide' || params.effect === 'coverflow')) {
-    wrapperEl.style.width = `${swiper.virtualSize + spaceBetween}px`;
+    wrapperEl.style.width = `${swiper.virtualSize + (spaceBetween as number)}px`;
   }
   if (params.setWrapperSize) {
-    wrapperEl.style[swiper.getDirectionLabel('width')] = `${swiper.virtualSize + spaceBetween}px`;
+    (wrapperEl.style as any)[swiper.getDirectionLabel('width')] = `${
+      swiper.virtualSize + (spaceBetween as number)
+    }px`;
   }
 
   if (gridEnabled) {
-    swiper.grid.updateWrapperSize(slideSize, snapGrid);
+    (swiper.grid as any).updateWrapperSize(slideSize, snapGrid);
   }
 
   // Remove last grid elements depending on width
   if (!params.centeredSlides) {
     // Check if snapToSlideEdge should be applied
     const isFractionalSlidesPerView =
-      params.slidesPerView !== 'auto' && params.slidesPerView % 1 !== 0;
+      params.slidesPerView !== 'auto' && (params.slidesPerView as number) % 1 !== 0;
     const shouldSnapToSlideEdge =
       params.snapToSlideEdge &&
       !params.loop &&
@@ -224,14 +235,14 @@ export default function updateSlides() {
     // This ensures minimum slides are visible at the end
     let lastAllowedSnapIndex = snapGrid.length;
     if (shouldSnapToSlideEdge) {
-      let minVisibleSlides;
+      let minVisibleSlides: number;
       if (params.slidesPerView === 'auto') {
         // For 'auto' mode, calculate how many slides fit based on actual sizes
         minVisibleSlides = 1;
         let accumulatedSize = 0;
         for (let i = slidesSizesGrid.length - 1; i >= 0; i -= 1) {
           accumulatedSize +=
-            slidesSizesGrid[i] + (i < slidesSizesGrid.length - 1 ? spaceBetween : 0);
+            slidesSizesGrid[i]! + (i < slidesSizesGrid.length - 1 ? (spaceBetween as number) : 0);
           if (accumulatedSize <= swiperSize) {
             minVisibleSlides = slidesSizesGrid.length - i;
           } else {
@@ -239,21 +250,21 @@ export default function updateSlides() {
           }
         }
       } else {
-        minVisibleSlides = Math.floor(params.slidesPerView);
+        minVisibleSlides = Math.floor(params.slidesPerView as number);
       }
       lastAllowedSnapIndex = Math.max(slidesLength - minVisibleSlides, 0);
     }
 
-    const newSlidesGrid = [];
+    const newSlidesGrid: number[] = [];
     for (let i = 0; i < snapGrid.length; i += 1) {
-      let slidesGridItem = snapGrid[i];
+      let slidesGridItem = snapGrid[i]!;
       if (params.roundLengths) slidesGridItem = Math.floor(slidesGridItem);
       if (shouldSnapToSlideEdge) {
         // When snapToSlideEdge is enabled, only keep snaps up to lastAllowedSnapIndex
         if (i <= lastAllowedSnapIndex) {
           newSlidesGrid.push(slidesGridItem);
         }
-      } else if (snapGrid[i] <= swiper.virtualSize - swiperSize) {
+      } else if (snapGrid[i]! <= swiper.virtualSize - swiperSize) {
         // When snapToSlideEdge is disabled, keep snaps that fit within scrollable area
         newSlidesGrid.push(slidesGridItem);
       }
@@ -261,7 +272,7 @@ export default function updateSlides() {
     snapGrid = newSlidesGrid;
 
     if (
-      Math.floor(swiper.virtualSize - swiperSize) - Math.floor(snapGrid[snapGrid.length - 1]) >
+      Math.floor(swiper.virtualSize - swiperSize) - Math.floor(snapGrid[snapGrid.length - 1]!) >
       1
     ) {
       // Only add edge-aligned snap if snapToSlideEdge is not enabled
@@ -271,21 +282,26 @@ export default function updateSlides() {
     }
   }
   if (isVirtual && params.loop) {
-    const size = slidesSizesGrid[0] + spaceBetween;
-    if (params.slidesPerGroup > 1) {
+    const size = slidesSizesGrid[0]! + (spaceBetween as number);
+    if (params.slidesPerGroup! > 1) {
       const groups = Math.ceil(
-        (swiper.virtual.slidesBefore + swiper.virtual.slidesAfter) / params.slidesPerGroup,
+        ((swiper.virtual as any).slidesBefore + (swiper.virtual as any).slidesAfter) /
+          params.slidesPerGroup!,
       );
-      const groupSize = size * params.slidesPerGroup;
+      const groupSize = size * params.slidesPerGroup!;
       for (let i = 0; i < groups; i += 1) {
-        snapGrid.push(snapGrid[snapGrid.length - 1] + groupSize);
+        snapGrid.push(snapGrid[snapGrid.length - 1]! + groupSize);
       }
     }
-    for (let i = 0; i < swiper.virtual.slidesBefore + swiper.virtual.slidesAfter; i += 1) {
+    for (
+      let i = 0;
+      i < (swiper.virtual as any).slidesBefore + (swiper.virtual as any).slidesAfter;
+      i += 1
+    ) {
       if (params.slidesPerGroup === 1) {
-        snapGrid.push(snapGrid[snapGrid.length - 1] + size);
+        snapGrid.push(snapGrid[snapGrid.length - 1]! + size);
       }
-      slidesGrid.push(slidesGrid[slidesGrid.length - 1] + size);
+      slidesGrid.push(slidesGrid[slidesGrid.length - 1]! + size);
       swiper.virtualSize += size;
     }
   }
@@ -303,20 +319,20 @@ export default function updateSlides() {
         return true;
       })
       .forEach((slideEl) => {
-        slideEl.style[key] = `${spaceBetween}px`;
+        (slideEl.style as any)[key] = `${spaceBetween}px`;
       });
   }
 
   if (params.centeredSlides && params.centeredSlidesBounds) {
     let allSlidesSize = 0;
     slidesSizesGrid.forEach((slideSizeValue) => {
-      allSlidesSize += slideSizeValue + (spaceBetween || 0);
+      allSlidesSize += slideSizeValue + ((spaceBetween as number) || 0);
     });
-    allSlidesSize -= spaceBetween;
+    allSlidesSize -= spaceBetween as number;
     const maxSnap = allSlidesSize > swiperSize ? allSlidesSize - swiperSize : 0;
     snapGrid = snapGrid.map((snap) => {
-      if (snap <= 0) return -offsetBefore;
-      if (snap > maxSnap) return maxSnap + offsetAfter;
+      if (snap <= 0) return -(offsetBefore as number);
+      if (snap > maxSnap) return maxSnap + (offsetAfter as number);
       return snap;
     });
   }
@@ -324,9 +340,9 @@ export default function updateSlides() {
   if (params.centerInsufficientSlides) {
     let allSlidesSize = 0;
     slidesSizesGrid.forEach((slideSizeValue) => {
-      allSlidesSize += slideSizeValue + (spaceBetween || 0);
+      allSlidesSize += slideSizeValue + ((spaceBetween as number) || 0);
     });
-    allSlidesSize -= spaceBetween;
+    allSlidesSize -= spaceBetween as number;
     if (allSlidesSize < swiperSize) {
       const allSlidesOffset = (swiperSize - allSlidesSize) / 2;
       snapGrid.forEach((snap, snapIndex) => {
@@ -346,14 +362,14 @@ export default function updateSlides() {
   });
 
   if (params.centeredSlides && params.cssMode && !params.centeredSlidesBounds) {
-    setCSSProperty(wrapperEl, '--swiper-centered-offset-before', `${-snapGrid[0]}px`);
+    setCSSProperty(wrapperEl, '--swiper-centered-offset-before', `${-snapGrid[0]!}px`);
     setCSSProperty(
       wrapperEl,
       '--swiper-centered-offset-after',
-      `${swiper.size / 2 - slidesSizesGrid[slidesSizesGrid.length - 1] / 2}px`,
+      `${swiper.size / 2 - slidesSizesGrid[slidesSizesGrid.length - 1]! / 2}px`,
     );
-    const addToSnapGrid = -swiper.snapGrid[0];
-    const addToSlidesGrid = -swiper.slidesGrid[0];
+    const addToSnapGrid = -swiper.snapGrid[0]!;
+    const addToSlidesGrid = -swiper.slidesGrid[0]!;
     swiper.snapGrid = swiper.snapGrid.map((v) => v + addToSnapGrid);
     swiper.slidesGrid = swiper.slidesGrid.map((v) => v + addToSlidesGrid);
   }
@@ -378,7 +394,7 @@ export default function updateSlides() {
   if (!isVirtual && !params.cssMode && (params.effect === 'slide' || params.effect === 'fade')) {
     const backFaceHiddenClass = `${params.containerModifierClass}backface-hidden`;
     const hasClassBackfaceClassAdded = swiper.el.classList.contains(backFaceHiddenClass);
-    if (slidesLength <= params.maxBackfaceHiddenSlides) {
+    if (slidesLength <= params.maxBackfaceHiddenSlides!) {
       if (!hasClassBackfaceClassAdded) swiper.el.classList.add(backFaceHiddenClass);
     } else if (hasClassBackfaceClassAdded) {
       swiper.el.classList.remove(backFaceHiddenClass);

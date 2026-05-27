@@ -1,17 +1,24 @@
 /* eslint no-unused-vars: "off" */
-export default function slideNext(speed, runCallbacks = true, internal) {
+import type { Swiper } from '../core';
+
+export default function slideNext(
+  this: Swiper,
+  speed?: number,
+  runCallbacks = true,
+  internal?: boolean,
+): boolean | Swiper {
   const swiper = this;
   const { enabled, params, animating } = swiper;
   if (!enabled || swiper.destroyed) return swiper;
   if (typeof speed === 'undefined') {
     speed = swiper.params.speed;
   }
-  let perGroup = params.slidesPerGroup;
+  let perGroup = params.slidesPerGroup!;
   if (params.slidesPerView === 'auto' && params.slidesPerGroup === 1 && params.slidesPerGroupAuto) {
     perGroup = Math.max(swiper.slidesPerViewDynamic('current', true), 1);
   }
-  const increment = swiper.activeIndex < params.slidesPerGroupSkip ? 1 : perGroup;
-  const isVirtual = swiper.virtual && params.virtual.enabled;
+  const increment = swiper.activeIndex < params.slidesPerGroupSkip! ? 1 : perGroup;
+  const isVirtual = swiper.virtual && (params.virtual as any).enabled;
   if (params.loop) {
     if (animating && !isVirtual && params.loopPreventsSliding) return false;
     swiper.loopFix({ direction: 'next' });

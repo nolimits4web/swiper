@@ -1,7 +1,14 @@
-export default function slideToLoop(index = 0, speed, runCallbacks = true, internal) {
+import type { Swiper } from '../core';
+
+export default function slideToLoop(
+  this: Swiper,
+  index: number | string = 0,
+  speed?: number,
+  runCallbacks = true,
+  internal?: boolean,
+): Swiper | undefined {
   if (typeof index === 'string') {
     const indexAsNumber = parseInt(index, 10);
-
     index = indexAsNumber;
   }
   const swiper = this;
@@ -11,34 +18,36 @@ export default function slideToLoop(index = 0, speed, runCallbacks = true, inter
     speed = swiper.params.speed;
   }
 
-  const gridEnabled = swiper.grid && swiper.params.grid && swiper.params.grid.rows > 1;
-  let newIndex = index;
+  const gridEnabled = swiper.grid && swiper.params.grid && swiper.params.grid.rows! > 1;
+  let newIndex: number = index as number;
   if (swiper.params.loop) {
-    if (swiper.virtual && swiper.params.virtual.enabled) {
+    if (swiper.virtual && (swiper.params.virtual as any).enabled) {
       // eslint-disable-next-line
-      newIndex = newIndex + swiper.virtual.slidesBefore;
+      newIndex = newIndex + (swiper.virtual as any).slidesBefore;
     } else {
-      let targetSlideIndex;
+      let targetSlideIndex: number;
       if (gridEnabled) {
-        const slideIndex = newIndex * swiper.params.grid.rows;
-        targetSlideIndex = swiper.slides.find(
-          (slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === slideIndex,
+        const slideIndex = newIndex * swiper.params.grid!.rows!;
+        targetSlideIndex = (
+          swiper.slides.find(
+            (slideEl) => Number(slideEl.getAttribute('data-swiper-slide-index')) === slideIndex,
+          ) as any
         ).column;
       } else {
         targetSlideIndex = swiper.getSlideIndexByData(newIndex);
       }
 
       const cols = gridEnabled
-        ? Math.ceil(swiper.slides.length / swiper.params.grid.rows)
+        ? Math.ceil(swiper.slides.length / swiper.params.grid!.rows!)
         : swiper.slides.length;
 
       const { centeredSlides, slidesOffsetBefore, slidesOffsetAfter } = swiper.params;
       const bothDirections = centeredSlides || !!slidesOffsetBefore || !!slidesOffsetAfter;
-      let slidesPerView = swiper.params.slidesPerView;
-      if (slidesPerView === 'auto') {
+      let slidesPerView: number = swiper.params.slidesPerView as number;
+      if (slidesPerView === ('auto' as any)) {
         slidesPerView = swiper.slidesPerViewDynamic();
       } else {
-        slidesPerView = Math.ceil(parseFloat(swiper.params.slidesPerView, 10));
+        slidesPerView = Math.ceil(parseFloat(String(swiper.params.slidesPerView)));
         if (bothDirections && slidesPerView % 2 === 0) {
           slidesPerView = slidesPerView + 1;
         }
@@ -52,11 +61,11 @@ export default function slideToLoop(index = 0, speed, runCallbacks = true, inter
       }
 
       if (needLoopFix) {
-        const direction = bothDirections
+        const direction: 'prev' | 'next' = bothDirections
           ? targetSlideIndex < swiper.activeIndex
             ? 'prev'
             : 'next'
-          : targetSlideIndex - swiper.activeIndex - 1 < swiper.params.slidesPerView
+          : targetSlideIndex - swiper.activeIndex - 1 < (swiper.params.slidesPerView as number)
           ? 'next'
           : 'prev';
         swiper.loopFix({
@@ -69,9 +78,11 @@ export default function slideToLoop(index = 0, speed, runCallbacks = true, inter
       }
 
       if (gridEnabled) {
-        const slideIndex = newIndex * swiper.params.grid.rows;
-        newIndex = swiper.slides.find(
-          (slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === slideIndex,
+        const slideIndex = newIndex * swiper.params.grid!.rows!;
+        newIndex = (
+          swiper.slides.find(
+            (slideEl) => Number(slideEl.getAttribute('data-swiper-slide-index')) === slideIndex,
+          ) as any
         ).column;
       } else {
         newIndex = swiper.getSlideIndexByData(newIndex);

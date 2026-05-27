@@ -1,21 +1,28 @@
 import { elementParents } from '../../../shared/utils';
+import type { SwiperModuleFn } from '../../core';
 
-export default function Observer({ swiper, extendParams, on, emit }) {
-  const observers = [];
-  const attach = (target, options = {}) => {
-    const ObserverFunc = window.MutationObserver || window.WebkitMutationObserver;
-    const observer = new ObserverFunc((mutations) => {
+interface ObserverAttachOptions {
+  attributes?: boolean;
+  childList?: boolean;
+  characterData?: boolean;
+}
+
+const Observer: SwiperModuleFn = ({ swiper, extendParams, on }) => {
+  const observers: MutationObserver[] = [];
+  const attach = (target: Node, options: ObserverAttachOptions = {}): void => {
+    const ObserverFunc = window.MutationObserver || (window as any).WebkitMutationObserver;
+    const observer = new ObserverFunc((mutations: MutationRecord[]) => {
       // The observerUpdate event should only be triggered
       // once despite the number of mutations.  Additional
       // triggers are redundant and are very costly
       if (swiper.__preventObserver__) return;
       if (mutations.length === 1) {
-        emit('observerUpdate', mutations[0]);
+        (swiper as any).emit('observerUpdate', mutations[0]);
         return;
       }
 
       const observerUpdate = function observerUpdate() {
-        emit('observerUpdate', mutations[0]);
+        (swiper as any).emit('observerUpdate', mutations[0]);
       };
 
       if (window.requestAnimationFrame) {
@@ -27,18 +34,19 @@ export default function Observer({ swiper, extendParams, on, emit }) {
     observer.observe(target, {
       attributes: typeof options.attributes === 'undefined' ? true : options.attributes,
       childList:
-        swiper.isElement || (typeof options.childList === 'undefined' ? true : options).childList,
+        swiper.isElement ||
+        (typeof options.childList === 'undefined' ? true : (options as any)).childList,
       characterData: typeof options.characterData === 'undefined' ? true : options.characterData,
     });
 
     observers.push(observer);
   };
-  const init = () => {
+  const init = (): void => {
     if (!swiper.params.observer) return;
     if (swiper.params.observeParents) {
       const containerParents = elementParents(swiper.hostEl);
       for (let i = 0; i < containerParents.length; i += 1) {
-        attach(containerParents[i]);
+        attach(containerParents[i]!);
       }
     }
     // Observe container
@@ -49,7 +57,7 @@ export default function Observer({ swiper, extendParams, on, emit }) {
     // Observe wrapper
     attach(swiper.wrapperEl, { attributes: false });
   };
-  const destroy = () => {
+  const destroy = (): void => {
     observers.forEach((observer) => {
       observer.disconnect();
     });
@@ -63,4 +71,6 @@ export default function Observer({ swiper, extendParams, on, emit }) {
   });
   on('init', init);
   on('destroy', destroy);
-}
+};
+
+export default Observer;

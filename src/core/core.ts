@@ -7,9 +7,9 @@ import {
   elementStyle,
   elementIndex,
 } from '../shared/utils';
-import { getSupport } from '../shared/get-support';
-import { getDevice } from '../shared/get-device';
-import { getBrowser } from '../shared/get-browser';
+import { getSupport, type SwiperSupport } from '../shared/get-support';
+import { getDevice, type SwiperDevice } from '../shared/get-device';
+import { getBrowser, type SwiperBrowser } from '../shared/get-browser';
 
 import Resize from './modules/resize/resize';
 import Observer from './modules/observer/observer';
@@ -31,6 +31,320 @@ import defaults from './defaults';
 import moduleExtendParams from './moduleExtendParams';
 import { processLazyPreloader, preload } from '../shared/process-lazy-preloader';
 
+import type { SwiperOptions } from '../types/swiper-options.d.ts';
+import type { SwiperEvents } from '../types/swiper-events.d.ts';
+import type { CSSSelector } from '../types/shared.d.ts';
+
+import type { A11yMethods } from '../types/modules/a11y.d.ts';
+import type { AutoplayMethods } from '../types/modules/autoplay.d.ts';
+import type { ControllerMethods } from '../types/modules/controller.d.ts';
+import type { CoverflowEffectMethods } from '../types/modules/effect-coverflow.d.ts';
+import type { CubeEffectMethods } from '../types/modules/effect-cube.d.ts';
+import type { FadeEffectMethods } from '../types/modules/effect-fade.d.ts';
+import type { FlipEffectMethods } from '../types/modules/effect-flip.d.ts';
+import type { CreativeEffectMethods } from '../types/modules/effect-creative.d.ts';
+import type { CardsEffectMethods } from '../types/modules/effect-cards.d.ts';
+import type { HashNavigationMethods } from '../types/modules/hash-navigation.d.ts';
+import type { HistoryMethods } from '../types/modules/history.d.ts';
+import type { KeyboardMethods } from '../types/modules/keyboard.d.ts';
+import type { MousewheelMethods } from '../types/modules/mousewheel.d.ts';
+import type { NavigationMethods } from '../types/modules/navigation.d.ts';
+import type { PaginationMethods } from '../types/modules/pagination.d.ts';
+import type { ParallaxMethods } from '../types/modules/parallax.d.ts';
+import type { ScrollbarMethods } from '../types/modules/scrollbar.d.ts';
+import type { ThumbsMethods } from '../types/modules/thumbs.d.ts';
+import type { VirtualMethods } from '../types/modules/virtual.d.ts';
+import type { ZoomMethods } from '../types/modules/zoom.d.ts';
+import type { FreeModeMethods } from '../types/modules/free-mode.d.ts';
+import type { ManipulationMethods } from '../types/modules/manipulation.d.ts';
+
+export type SwiperEventHandler = (...args: any[]) => any;
+export type SwiperEventName = keyof SwiperEvents;
+
+// Runtime params extend SwiperOptions with internal-only properties that aren't
+// exposed in the public type surface.
+export type SwiperParams = SwiperOptions & {
+  el?: CSSSelector | HTMLElement;
+};
+export type SwiperModuleFn = (ctx: {
+  params: SwiperOptions;
+  swiper: Swiper;
+  extendParams: (obj: Record<string, any>) => void;
+  on: Swiper['on'];
+  once: Swiper['once'];
+  off: Swiper['off'];
+  emit: Swiper['emit'];
+}) => void;
+
+export interface SwiperTouchEventsData {
+  isTouched?: boolean;
+  isMoved?: boolean;
+  allowTouchCallbacks?: boolean;
+  touchStartTime?: number;
+  isScrolling?: boolean;
+  currentTranslate?: number;
+  startTranslate?: number;
+  allowThresholdMove?: boolean;
+  focusableElements: string;
+  lastClickTime: number;
+  clickTimeout?: ReturnType<typeof setTimeout>;
+  velocities: Array<{ position: number; time: number }>;
+  allowMomentumBounce?: boolean;
+  startMoving?: boolean;
+  pointerId: number | null;
+  touchId: number | null;
+  evCache?: PointerEvent[];
+  preventTouchMoveFromPointerMove?: boolean;
+}
+
+export interface SwiperTouches {
+  startX: number;
+  startY: number;
+  currentX: number;
+  currentY: number;
+  diff: number;
+}
+
+export interface Swiper {
+  // Initialization params
+  params: SwiperParams;
+  originalParams: SwiperParams;
+  passedParams: SwiperParams;
+
+  // Capabilities
+  support: SwiperSupport;
+  device: SwiperDevice;
+  browser: SwiperBrowser;
+
+  // Internal flags / state
+  __swiper__: true;
+  __modules__?: SwiperModuleFn[];
+  __preventObserver__?: boolean;
+  destroyed?: boolean;
+  initialized?: boolean;
+  mounted?: boolean;
+  isElement?: boolean;
+  documentTouchHandlerProceeded?: boolean;
+  enabled: boolean;
+
+  // Elements
+  el: HTMLElement;
+  wrapperEl: HTMLElement;
+  slidesEl: HTMLElement;
+  hostEl: HTMLElement;
+  classNames: string[];
+
+  // Slides
+  slides: HTMLElement[];
+  slidesGrid: number[];
+  snapGrid: number[];
+  slidesSizesGrid: number[];
+  visibleSlides: HTMLElement[];
+  visibleSlidesIndexes: number[];
+  loopedSlides: number | null;
+
+  // Sizes
+  size: number;
+  width: number;
+  height: number;
+  virtualSize: number;
+
+  // Indexes
+  activeIndex: number;
+  realIndex: number;
+  previousIndex: number;
+  snapIndex: number;
+  previousSnapIndex?: number;
+  previousRealIndex?: number;
+  clickedIndex: number;
+  clickedSlide: HTMLElement;
+
+  // Direction / RTL
+  rtl: boolean;
+  rtlTranslate: boolean;
+  wrongRTL: boolean;
+  swipeDirection: 'prev' | 'next';
+  touchesDirection?: 'prev' | 'next' | '';
+
+  // Translate / progress
+  translate: number;
+  previousTranslate: number;
+  progress: number;
+  velocity: number;
+  animating: boolean;
+
+  // Edges
+  isBeginning: boolean;
+  isEnd: boolean;
+  isLocked: boolean;
+
+  // Touch / interaction
+  allowClick: boolean;
+  allowTouchMove: boolean;
+  allowSlideNext: boolean;
+  allowSlidePrev: boolean;
+  touches: SwiperTouches;
+  touchEventsData: SwiperTouchEventsData;
+
+  // Images
+  imagesToLoad: HTMLImageElement[];
+  imagesLoaded: number;
+
+  // Breakpoints
+  currentBreakpoint?: string | null;
+
+  // Modules + events
+  modules: SwiperModuleFn[];
+  eventsListeners: Record<string, SwiperEventHandler[]>;
+  eventsAnyListeners: SwiperEventHandler[];
+
+  // Internal one-shot helpers attached at runtime
+  onSlideToWrapperTransitionEnd?: ((e: TransitionEvent) => void) | null;
+  onTranslateToWrapperTransitionEnd?: ((e: TransitionEvent) => void) | null;
+  _clientLeft?: number;
+  _cssModeVirtualInitialSet?: boolean;
+  _immediateVirtual?: boolean;
+
+  // Event-emitter (prototype mixin: src/core/events-emitter)
+  on<E extends keyof SwiperEvents>(event: E, handler: SwiperEvents[E], priority?: boolean): Swiper;
+  on(events: string, handler: SwiperEventHandler, priority?: boolean): Swiper;
+  once<E extends keyof SwiperEvents>(
+    event: E,
+    handler: SwiperEvents[E],
+    priority?: boolean,
+  ): Swiper;
+  once(events: string, handler: SwiperEventHandler, priority?: boolean): Swiper;
+  onAny(handler: SwiperEventHandler, priority?: boolean): Swiper;
+  offAny(handler: SwiperEventHandler): Swiper;
+  off<E extends keyof SwiperEvents>(event: E, handler?: SwiperEvents[E]): Swiper;
+  off(events: string, handler?: SwiperEventHandler): Swiper;
+  emit(events: string | string[], ...data: any[]): Swiper;
+  emit(opts: { events: string | string[]; data?: any[]; context?: any }): Swiper;
+
+  // Translate methods (prototype mixin: src/core/translate)
+  getTranslate(axis?: 'x' | 'y'): number;
+  setTranslate(translate: number, byController?: boolean): void;
+  minTranslate(): number;
+  maxTranslate(): number;
+  translateTo(
+    translate?: number,
+    speed?: number,
+    runCallbacks?: boolean,
+    translateBounds?: boolean,
+    internal?: boolean,
+  ): boolean;
+
+  // Transition methods (prototype mixin: src/core/transition)
+  setTransition(duration: number, byController?: boolean): void;
+  transitionStart(runCallbacks?: boolean, direction?: 'reset' | 'prev' | 'next'): void;
+  transitionEnd(runCallbacks?: boolean, direction?: 'reset' | 'prev' | 'next'): void;
+
+  // Slide methods (prototype mixin: src/core/slide)
+  slideTo(
+    index?: number,
+    speed?: number,
+    runCallbacks?: boolean,
+    internal?: boolean,
+    initial?: boolean,
+  ): boolean;
+  slideToLoop(
+    index?: number,
+    speed?: number,
+    runCallbacks?: boolean,
+    internal?: boolean,
+  ): boolean | Swiper;
+  slideNext(speed?: number, runCallbacks?: boolean, internal?: boolean): boolean;
+  slidePrev(speed?: number, runCallbacks?: boolean, internal?: boolean): boolean;
+  slideReset(speed?: number, runCallbacks?: boolean, internal?: boolean): boolean;
+  slideToClosest(
+    speed?: number,
+    runCallbacks?: boolean,
+    internal?: boolean,
+    threshold?: number,
+  ): boolean;
+  slideToClickedSlide(): void;
+
+  // Loop methods (prototype mixin: src/core/loop)
+  loopCreate(slideRealIndex?: number, initial?: boolean): void;
+  loopFix(options?: {
+    slideRealIndex?: number;
+    slideTo?: boolean;
+    direction?: 'next' | 'prev';
+    setTranslate?: boolean;
+    activeSlideIndex?: number;
+    byController?: boolean;
+    byMousewheel?: boolean;
+  }): void;
+  loopDestroy(): void;
+
+  // Update methods (prototype mixin: src/core/update)
+  updateSize(): void;
+  updateSlides(): void;
+  updateAutoHeight(speed?: number): void;
+  updateSlidesOffset(): void;
+  updateSlidesProgress(translate?: number): void;
+  updateProgress(translate?: number): void;
+  updateSlidesClasses(): void;
+  updateActiveIndex(newActiveIndex?: number): void;
+  updateClickedSlide(el: HTMLElement, path?: EventTarget[]): void;
+
+  // Breakpoints methods (prototype mixin: src/core/breakpoints)
+  setBreakpoint(): void;
+  getBreakpoint(
+    breakpoints: SwiperOptions['breakpoints'],
+    base?: string,
+    containerEl?: HTMLElement,
+  ): string;
+
+  // Classes methods (prototype mixin: src/core/classes)
+  addClasses(): void;
+  removeClasses(): void;
+
+  // Check-overflow (prototype mixin: src/core/check-overflow)
+  checkOverflow(): void;
+
+  // Grab cursor (prototype mixin: src/core/grab-cursor)
+  setGrabCursor(moving?: boolean): void;
+  unsetGrabCursor(): void;
+
+  // Events handlers (prototype mixin: src/core/events)
+  attachEvents(): void;
+  detachEvents(): void;
+  onTouchStart: (event: TouchEvent | PointerEvent | MouseEvent) => void;
+  onTouchMove: (event: TouchEvent | PointerEvent | MouseEvent) => void;
+  onTouchEnd: (event: TouchEvent | PointerEvent | MouseEvent) => void;
+  onDocumentTouchStart: (event: TouchEvent | PointerEvent) => void;
+  onClick: (event: MouseEvent) => void;
+  onScroll: () => void;
+  onLoad: (event: Event) => void;
+
+  // Module-injected methods. These get redeclared via module augmentation in v15.
+  a11y: A11yMethods;
+  autoplay: AutoplayMethods;
+  controller: ControllerMethods;
+  coverflowEffect: CoverflowEffectMethods;
+  cubeEffect: CubeEffectMethods;
+  fadeEffect: FadeEffectMethods;
+  flipEffect: FlipEffectMethods;
+  creativeEffect: CreativeEffectMethods;
+  cardsEffect: CardsEffectMethods;
+  hashNavigation: HashNavigationMethods;
+  history: HistoryMethods;
+  keyboard: KeyboardMethods;
+  mousewheel: MousewheelMethods;
+  navigation: NavigationMethods;
+  pagination: PaginationMethods;
+  parallax: ParallaxMethods;
+  scrollbar: ScrollbarMethods;
+  thumbs: ThumbsMethods;
+  virtual: VirtualMethods;
+  zoom: ZoomMethods;
+  freeMode: FreeModeMethods;
+  grid: any;
+}
+
+export interface Swiper extends ManipulationMethods {}
+
 const prototypes = {
   eventsEmitter,
   update,
@@ -43,22 +357,26 @@ const prototypes = {
   breakpoints,
   checkOverflow,
   classes,
-};
+} as const;
 
-const extendedDefaults = {};
+const extendedDefaults: SwiperOptions = {};
 
-class Swiper {
-  constructor(...args) {
-    let el;
-    let params;
+export class Swiper {
+  static extendedDefaults: SwiperOptions;
+  static defaults: SwiperOptions;
+
+  constructor(container: CSSSelector | HTMLElement | SwiperOptions, options?: SwiperOptions);
+  constructor(...args: [SwiperParams] | [CSSSelector | HTMLElement, SwiperParams?]) {
+    let el: CSSSelector | HTMLElement | undefined;
+    let params: SwiperParams | undefined;
     if (
       args.length === 1 &&
-      args[0].constructor &&
+      (args[0] as any).constructor &&
       Object.prototype.toString.call(args[0]).slice(8, -1) === 'Object'
     ) {
-      params = args[0];
+      params = args[0] as SwiperParams;
     } else {
-      [el, params] = args;
+      [el, params] = args as [CSSSelector | HTMLElement | undefined, SwiperParams | undefined];
     }
     if (!params) params = {};
 
@@ -68,41 +386,41 @@ class Swiper {
     if (
       params.el &&
       typeof params.el === 'string' &&
-      document.querySelectorAll(params.el).length > 1
+      document.querySelectorAll(params.el as string).length > 1
     ) {
-      const swipers = [];
-      document.querySelectorAll(params.el).forEach((containerEl) => {
+      const swipers: Swiper[] = [];
+      document.querySelectorAll(params.el as string).forEach((containerEl) => {
         const newParams = extend({}, params, { el: containerEl });
         swipers.push(new Swiper(newParams));
       });
       // eslint-disable-next-line no-constructor-return
-      return swipers;
+      return swipers as unknown as Swiper;
     }
 
     // Swiper Instance
-    const swiper = this;
+    const swiper = this as unknown as Swiper;
     swiper.__swiper__ = true;
     swiper.support = getSupport();
-    swiper.device = getDevice({ userAgent: params.userAgent });
+    swiper.device = getDevice({ userAgent: params.userAgent ?? undefined });
     swiper.browser = getBrowser();
 
     swiper.eventsListeners = {};
     swiper.eventsAnyListeners = [];
-    swiper.modules = [...swiper.__modules__];
+    swiper.modules = [...(swiper.__modules__ || [])];
     if (params.modules && Array.isArray(params.modules)) {
       params.modules.forEach((mod) => {
-        if (typeof mod === 'function' && swiper.modules.indexOf(mod) < 0) {
-          swiper.modules.push(mod);
+        if (typeof mod === 'function' && swiper.modules.indexOf(mod as any) < 0) {
+          swiper.modules.push(mod as any);
         }
       });
     }
 
-    const allModulesParams = {};
+    const allModulesParams: Record<string, any> = {};
     swiper.modules.forEach((mod) => {
-      mod({
-        params,
+      (mod as SwiperModuleFn)({
+        params: params!,
         swiper,
-        extendParams: moduleExtendParams(params, allModulesParams),
+        extendParams: moduleExtendParams(params!, allModulesParams),
         on: swiper.on.bind(swiper),
         once: swiper.once.bind(swiper),
         off: swiper.off.bind(swiper),
@@ -120,12 +438,12 @@ class Swiper {
 
     // add event listeners
     if (swiper.params && swiper.params.on) {
-      Object.keys(swiper.params.on).forEach((eventName) => {
-        swiper.on(eventName, swiper.params.on[eventName]);
+      (Object.keys(swiper.params.on) as Array<keyof SwiperEvents>).forEach((eventName) => {
+        swiper.on(eventName, swiper.params.on![eventName] as any);
       });
     }
-    if (swiper.params && swiper.params.onAny) {
-      swiper.onAny(swiper.params.onAny);
+    if (swiper.params && (swiper.params as any).onAny) {
+      swiper.onAny((swiper.params as any).onAny);
     }
 
     // Extend Swiper
@@ -165,7 +483,7 @@ class Swiper {
       velocity: 0,
       animating: false,
 
-      cssOverflowAdjustment() {
+      cssOverflowAdjustment(this: Swiper): number {
         // Returns 0 unless `translate` is > 2**23
         // Should be subtracted from css values to prevent overflow
         return Math.trunc(this.translate / 2 ** 23) * 2 ** 23;
@@ -229,12 +547,12 @@ class Swiper {
     return swiper;
   }
 
-  getDirectionLabel(property) {
+  getDirectionLabel(this: Swiper, property: string): string {
     if (this.isHorizontal()) {
       return property;
     }
     // prettier-ignore
-    return {
+    return ({
       'width': 'height',
       'margin-top': 'margin-left',
       'margin-bottom ': 'margin-right',
@@ -243,157 +561,166 @@ class Swiper {
       'padding-left': 'padding-top',
       'padding-right': 'padding-bottom',
       'marginRight': 'marginBottom',
-    }[property];
+    } as Record<string, string>)[property]!;
   }
 
-  getSlideIndex(slideEl) {
+  isHorizontal(this: Swiper): boolean {
+    return this.params.direction === 'horizontal';
+  }
+
+  isVertical(this: Swiper): boolean {
+    return this.params.direction === 'vertical';
+  }
+
+  cssOverflowAdjustment(this: Swiper): number {
+    return Math.trunc(this.translate / 2 ** 23) * 2 ** 23;
+  }
+
+  getSlideIndex(this: Swiper, slideEl: Element): number {
     const { slidesEl, params } = this;
     const slides = elementChildren(slidesEl, `.${params.slideClass}, swiper-slide`);
-    const firstSlideIndex = elementIndex(slides[0]);
-    return elementIndex(slideEl) - firstSlideIndex;
+    const firstSlideIndex = elementIndex(slides[0]!);
+    return elementIndex(slideEl)! - (firstSlideIndex ?? 0);
   }
 
-  getSlideIndexByData(index) {
+  getSlideIndexByData(this: Swiper, index: number): number {
     return this.getSlideIndex(
-      this.slides.find((slideEl) => slideEl.getAttribute('data-swiper-slide-index') * 1 === index),
+      this.slides.find(
+        (slideEl) => Number(slideEl.getAttribute('data-swiper-slide-index')) === index,
+      )!,
     );
   }
 
-  getSlideIndexWhenGrid(index) {
-    if (this.grid && this.params.grid && this.params.grid.rows > 1) {
+  getSlideIndexWhenGrid(this: Swiper, index: number): number {
+    if (this.grid && this.params.grid && this.params.grid.rows! > 1) {
       if (this.params.grid.fill === 'column') {
-        index = Math.floor(index / this.params.grid.rows);
+        index = Math.floor(index / this.params.grid.rows!);
       } else if (this.params.grid.fill === 'row') {
-        index = index % Math.ceil(this.slides.length / this.params.grid.rows);
+        index = index % Math.ceil(this.slides.length / this.params.grid.rows!);
       }
     }
     return index;
   }
 
-  recalcSlides() {
-    const swiper = this;
-    const { slidesEl, params } = swiper;
-    swiper.slides = elementChildren(slidesEl, `.${params.slideClass}, swiper-slide`);
+  recalcSlides(this: Swiper): void {
+    const { slidesEl, params } = this;
+    this.slides = elementChildren(slidesEl, `.${params.slideClass}, swiper-slide`) as HTMLElement[];
   }
 
-  enable() {
-    const swiper = this;
-    if (swiper.enabled) return;
-    swiper.enabled = true;
-    if (swiper.params.grabCursor) {
-      swiper.setGrabCursor();
+  enable(this: Swiper): void {
+    if (this.enabled) return;
+    this.enabled = true;
+    if (this.params.grabCursor) {
+      this.setGrabCursor();
     }
-    swiper.emit('enable');
+    this.emit('enable');
   }
 
-  disable() {
-    const swiper = this;
-    if (!swiper.enabled) return;
-    swiper.enabled = false;
-    if (swiper.params.grabCursor) {
-      swiper.unsetGrabCursor();
+  disable(this: Swiper): void {
+    if (!this.enabled) return;
+    this.enabled = false;
+    if (this.params.grabCursor) {
+      this.unsetGrabCursor();
     }
-    swiper.emit('disable');
+    this.emit('disable');
   }
 
-  setProgress(progress, speed) {
-    const swiper = this;
+  setProgress(this: Swiper, progress: number, speed?: number): void {
     progress = Math.min(Math.max(progress, 0), 1);
-    const min = swiper.minTranslate();
-    const max = swiper.maxTranslate();
+    const min = this.minTranslate();
+    const max = this.maxTranslate();
     const current = (max - min) * progress + min;
-    swiper.translateTo(current, typeof speed === 'undefined' ? 0 : speed);
-    swiper.updateActiveIndex();
-    swiper.updateSlidesClasses();
+    this.translateTo(current, typeof speed === 'undefined' ? 0 : speed);
+    this.updateActiveIndex();
+    this.updateSlidesClasses();
   }
 
-  emitContainerClasses() {
-    const swiper = this;
-    if (!swiper.params._emitClasses || !swiper.el) return;
-    const cls = swiper.el.className.split(' ').filter((className) => {
+  emitContainerClasses(this: Swiper): void {
+    if (!this.params._emitClasses || !this.el) return;
+    const cls = this.el.className.split(' ').filter((className) => {
       return (
         className.indexOf('swiper') === 0 ||
-        className.indexOf(swiper.params.containerModifierClass) === 0
+        className.indexOf(this.params.containerModifierClass!) === 0
       );
     });
-    swiper.emit('_containerClasses', cls.join(' '));
+    this.emit('_containerClasses', cls.join(' '));
   }
 
-  getSlideClasses(slideEl) {
-    const swiper = this;
-    if (swiper.destroyed) return '';
+  getSlideClasses(this: Swiper, slideEl: Element): string {
+    if (this.destroyed) return '';
 
     return slideEl.className
       .split(' ')
       .filter((className) => {
         return (
           className.indexOf('swiper-slide') === 0 ||
-          className.indexOf(swiper.params.slideClass) === 0
+          className.indexOf(this.params.slideClass!) === 0
         );
       })
       .join(' ');
   }
 
-  emitSlidesClasses() {
-    const swiper = this;
-    if (!swiper.params._emitClasses || !swiper.el) return;
-    const updates = [];
-    swiper.slides.forEach((slideEl) => {
-      const classNames = swiper.getSlideClasses(slideEl);
+  emitSlidesClasses(this: Swiper): void {
+    if (!this.params._emitClasses || !this.el) return;
+    const updates: Array<{ slideEl: HTMLElement; classNames: string }> = [];
+    this.slides.forEach((slideEl) => {
+      const classNames = this.getSlideClasses(slideEl);
       updates.push({ slideEl, classNames });
-      swiper.emit('_slideClass', slideEl, classNames);
+      this.emit('_slideClass', slideEl, classNames);
     });
-    swiper.emit('_slideClasses', updates);
+    this.emit('_slideClasses', updates);
   }
 
-  slidesPerViewDynamic(view = 'current', exact = false) {
-    const swiper = this;
-    const { params, slides, slidesGrid, slidesSizesGrid, size: swiperSize, activeIndex } = swiper;
+  slidesPerViewDynamic(
+    this: Swiper,
+    view: 'current' | 'previous' = 'current',
+    exact = false,
+  ): number {
+    const { params, slides, slidesGrid, slidesSizesGrid, size: swiperSize, activeIndex } = this;
     let spv = 1;
     if (typeof params.slidesPerView === 'number') return params.slidesPerView;
 
     if (params.centeredSlides) {
-      let slideSize = slides[activeIndex] ? Math.ceil(slides[activeIndex].swiperSlideSize) : 0;
-      let breakLoop;
+      let slideSize = slides[activeIndex]
+        ? Math.ceil((slides[activeIndex] as any).swiperSlideSize)
+        : 0;
+      let breakLoop = false;
       for (let i = activeIndex + 1; i < slides.length; i += 1) {
         if (slides[i] && !breakLoop) {
-          slideSize += Math.ceil(slides[i].swiperSlideSize);
+          slideSize += Math.ceil((slides[i] as any).swiperSlideSize);
           spv += 1;
           if (slideSize > swiperSize) breakLoop = true;
         }
       }
       for (let i = activeIndex - 1; i >= 0; i -= 1) {
         if (slides[i] && !breakLoop) {
-          slideSize += slides[i].swiperSlideSize;
+          slideSize += (slides[i] as any).swiperSlideSize;
           spv += 1;
           if (slideSize > swiperSize) breakLoop = true;
         }
       }
-    } else {
-      // eslint-disable-next-line
-      if (view === 'current') {
-        for (let i = activeIndex + 1; i < slides.length; i += 1) {
-          const slideInView = exact
-            ? slidesGrid[i] + slidesSizesGrid[i] - slidesGrid[activeIndex] < swiperSize
-            : slidesGrid[i] - slidesGrid[activeIndex] < swiperSize;
-          if (slideInView) {
-            spv += 1;
-          }
+    } else if (view === 'current') {
+      for (let i = activeIndex + 1; i < slides.length; i += 1) {
+        const slideInView = exact
+          ? slidesGrid[i]! + slidesSizesGrid[i]! - slidesGrid[activeIndex]! < swiperSize
+          : slidesGrid[i]! - slidesGrid[activeIndex]! < swiperSize;
+        if (slideInView) {
+          spv += 1;
         }
-      } else {
-        // previous
-        for (let i = activeIndex - 1; i >= 0; i -= 1) {
-          const slideInView = slidesGrid[activeIndex] - slidesGrid[i] < swiperSize;
-          if (slideInView) {
-            spv += 1;
-          }
+      }
+    } else {
+      // previous
+      for (let i = activeIndex - 1; i >= 0; i -= 1) {
+        const slideInView = slidesGrid[activeIndex]! - slidesGrid[i]! < swiperSize;
+        if (slideInView) {
+          spv += 1;
         }
       }
     }
     return spv;
   }
 
-  update() {
+  update(this: Swiper): void {
     const swiper = this;
     if (!swiper || swiper.destroyed) return;
     const { snapGrid, params } = swiper;
@@ -403,8 +730,8 @@ class Swiper {
     }
 
     [...swiper.el.querySelectorAll('[loading="lazy"]')].forEach((imageEl) => {
-      if (imageEl.complete) {
-        processLazyPreloader(swiper, imageEl);
+      if ((imageEl as HTMLImageElement).complete) {
+        processLazyPreloader(swiper, imageEl as HTMLImageElement);
       }
     });
 
@@ -424,19 +751,21 @@ class Swiper {
       swiper.updateSlidesClasses();
     }
     let translated;
-    if (params.freeMode && params.freeMode.enabled && !params.cssMode) {
+    if (params.freeMode && (params.freeMode as any).enabled && !params.cssMode) {
       setTranslate();
       if (params.autoHeight) {
         swiper.updateAutoHeight();
       }
     } else {
       if (
-        (params.slidesPerView === 'auto' || params.slidesPerView > 1) &&
+        (params.slidesPerView === 'auto' || (params.slidesPerView as number) > 1) &&
         swiper.isEnd &&
         !params.centeredSlides
       ) {
         const slides =
-          swiper.virtual && params.virtual.enabled ? swiper.virtual.slides : swiper.slides;
+          swiper.virtual && params.virtual && (params.virtual as any).enabled
+            ? (swiper.virtual as any).slides
+            : swiper.slides;
         translated = swiper.slideTo(slides.length - 1, 0, false, true);
       } else {
         translated = swiper.slideTo(swiper.activeIndex, 0, false, true);
@@ -451,11 +780,14 @@ class Swiper {
     swiper.emit('update');
   }
 
-  changeDirection(newDirection, needUpdate = true) {
+  changeDirection(
+    this: Swiper,
+    newDirection?: 'horizontal' | 'vertical',
+    needUpdate = true,
+  ): Swiper {
     const swiper = this;
     const currentDirection = swiper.params.direction;
     if (!newDirection) {
-      // eslint-disable-next-line
       newDirection = currentDirection === 'horizontal' ? 'vertical' : 'horizontal';
     }
     if (
@@ -485,7 +817,7 @@ class Swiper {
     return swiper;
   }
 
-  changeLanguageDirection(direction) {
+  changeLanguageDirection(this: Swiper, direction: 'rtl' | 'ltr'): void {
     const swiper = this;
     if ((swiper.rtl && direction === 'rtl') || (!swiper.rtl && direction === 'ltr')) return;
     swiper.rtl = direction === 'rtl';
@@ -500,24 +832,24 @@ class Swiper {
     swiper.update();
   }
 
-  mount(element) {
+  mount(this: Swiper, element?: HTMLElement | string): boolean {
     const swiper = this;
     if (swiper.mounted) return true;
 
     // Find el
-    let el = element || swiper.params.el;
+    let el: HTMLElement | string | null | undefined = element || (swiper.params.el as any);
     if (typeof el === 'string') {
-      el = document.querySelector(el);
+      el = document.querySelector(el) as HTMLElement | null;
     }
     if (!el) {
       return false;
     }
 
-    el.swiper = swiper;
+    (el as any).swiper = swiper;
     if (
       el.parentNode &&
-      el.parentNode.host &&
-      el.parentNode.host.nodeName === swiper.params.swiperElementNodeName.toUpperCase()
+      (el.parentNode as any).host &&
+      (el.parentNode as any).host.nodeName === swiper.params.swiperElementNodeName!.toUpperCase()
     ) {
       swiper.isElement = true;
     }
@@ -527,42 +859,48 @@ class Swiper {
     };
 
     const getWrapper = () => {
-      if (el && el.shadowRoot && el.shadowRoot.querySelector) {
-        const res = el.shadowRoot.querySelector(getWrapperSelector());
+      if (el && (el as HTMLElement).shadowRoot) {
+        const res = (el as HTMLElement).shadowRoot!.querySelector(getWrapperSelector());
         // Children needs to return slot items
-        return res;
+        return res as HTMLElement | null;
       }
-      return elementChildren(el, getWrapperSelector())[0];
+      return elementChildren(el as HTMLElement, getWrapperSelector())[0] as HTMLElement | undefined;
     };
     // Find Wrapper
     let wrapperEl = getWrapper();
     if (!wrapperEl && swiper.params.createElements) {
-      wrapperEl = createElement('div', swiper.params.wrapperClass);
-      el.append(wrapperEl);
-      elementChildren(el, `.${swiper.params.slideClass}`).forEach((slideEl) => {
-        wrapperEl.append(slideEl);
+      wrapperEl = createElement('div', swiper.params.wrapperClass) as HTMLElement;
+      (el as HTMLElement).append(wrapperEl);
+      elementChildren(el as HTMLElement, `.${swiper.params.slideClass}`).forEach((slideEl) => {
+        wrapperEl!.append(slideEl);
       });
     }
 
     Object.assign(swiper, {
       el,
       wrapperEl,
-      slidesEl: swiper.isElement && !el.parentNode.host.slideSlots ? el.parentNode.host : wrapperEl,
-      hostEl: swiper.isElement ? el.parentNode.host : el,
+      slidesEl:
+        swiper.isElement && !((el as HTMLElement).parentNode as any).host.slideSlots
+          ? (el as HTMLElement).parentNode!
+          : wrapperEl,
+      hostEl: swiper.isElement ? ((el as HTMLElement).parentNode as any).host : el,
       mounted: true,
 
       // RTL
-      rtl: el.dir.toLowerCase() === 'rtl' || elementStyle(el, 'direction') === 'rtl',
+      rtl:
+        (el as HTMLElement).dir.toLowerCase() === 'rtl' ||
+        elementStyle(el as HTMLElement, 'direction') === 'rtl',
       rtlTranslate:
         swiper.params.direction === 'horizontal' &&
-        (el.dir.toLowerCase() === 'rtl' || elementStyle(el, 'direction') === 'rtl'),
-      wrongRTL: elementStyle(wrapperEl, 'display') === '-webkit-box',
+        ((el as HTMLElement).dir.toLowerCase() === 'rtl' ||
+          elementStyle(el as HTMLElement, 'direction') === 'rtl'),
+      wrongRTL: elementStyle(wrapperEl!, 'display') === '-webkit-box',
     });
 
     return true;
   }
 
-  init(el) {
+  init(this: Swiper, el?: HTMLElement | string): Swiper {
     const swiper = this;
     if (swiper.initialized) return swiper;
 
@@ -595,9 +933,9 @@ class Swiper {
     }
 
     // Slide To Initial Slide
-    if (swiper.params.loop && swiper.virtual && swiper.params.virtual.enabled) {
+    if (swiper.params.loop && swiper.virtual && (swiper.params.virtual as any)?.enabled) {
       swiper.slideTo(
-        swiper.params.initialSlide + swiper.virtual.slidesBefore,
+        (swiper.params.initialSlide ?? 0) + (swiper.virtual as any).slidesBefore,
         0,
         swiper.params.runCallbacksOnInit,
         false,
@@ -614,16 +952,18 @@ class Swiper {
 
     // Attach events
     swiper.attachEvents();
-    const lazyElements = [...swiper.el.querySelectorAll('[loading="lazy"]')];
+    const lazyElements = [...swiper.el.querySelectorAll('[loading="lazy"]')] as HTMLImageElement[];
     if (swiper.isElement) {
-      lazyElements.push(...swiper.hostEl.querySelectorAll('[loading="lazy"]'));
+      lazyElements.push(
+        ...(swiper.hostEl.querySelectorAll('[loading="lazy"]') as NodeListOf<HTMLImageElement>),
+      );
     }
     lazyElements.forEach((imageEl) => {
       if (imageEl.complete) {
         processLazyPreloader(swiper, imageEl);
       } else {
         imageEl.addEventListener('load', (e) => {
-          processLazyPreloader(swiper, e.target);
+          processLazyPreloader(swiper, e.target as HTMLImageElement);
         });
       }
     });
@@ -641,7 +981,7 @@ class Swiper {
     return swiper;
   }
 
-  destroy(deleteInstance = true, cleanStyles = true) {
+  destroy(this: Swiper, deleteInstance = true, cleanStyles = true): null {
     const swiper = this;
     const { params, el, wrapperEl, slides } = swiper;
 
@@ -666,7 +1006,7 @@ class Swiper {
     if (cleanStyles) {
       swiper.removeClasses();
       if (el && typeof el !== 'string') {
-        el.removeAttribute('style');
+        (el as HTMLElement).removeAttribute('style');
       }
       if (wrapperEl) {
         wrapperEl.removeAttribute('style');
@@ -674,11 +1014,11 @@ class Swiper {
       if (slides && slides.length) {
         slides.forEach((slideEl) => {
           slideEl.classList.remove(
-            params.slideVisibleClass,
-            params.slideFullyVisibleClass,
-            params.slideActiveClass,
-            params.slideNextClass,
-            params.slidePrevClass,
+            params.slideVisibleClass!,
+            params.slideFullyVisibleClass!,
+            params.slideActiveClass!,
+            params.slideNextClass!,
+            params.slidePrevClass!,
           );
           slideEl.removeAttribute('style');
           slideEl.removeAttribute('data-swiper-slide-index');
@@ -695,37 +1035,29 @@ class Swiper {
 
     if (deleteInstance !== false) {
       if (swiper.el && typeof swiper.el !== 'string') {
-        swiper.el.swiper = null;
+        (swiper.el as any).swiper = null;
       }
-      deleteProps(swiper);
+      deleteProps(swiper as unknown as Record<string, unknown>);
     }
     swiper.destroyed = true;
 
     return null;
   }
 
-  static extendDefaults(newDefaults) {
+  static extendDefaults(newDefaults: SwiperOptions): void {
     extend(extendedDefaults, newDefaults);
   }
 
-  static get extendedDefaults() {
-    return extendedDefaults;
-  }
-
-  static get defaults() {
-    return defaults;
-  }
-
-  static installModule(mod) {
-    if (!Swiper.prototype.__modules__) Swiper.prototype.__modules__ = [];
-    const modules = Swiper.prototype.__modules__;
+  static installModule(mod: SwiperModuleFn): void {
+    if (!Swiper.prototype.__modules__) (Swiper.prototype as any).__modules__ = [];
+    const modules = Swiper.prototype.__modules__!;
 
     if (typeof mod === 'function' && modules.indexOf(mod) < 0) {
       modules.push(mod);
     }
   }
 
-  static use(module) {
+  static use(module: SwiperModuleFn | SwiperModuleFn[]): typeof Swiper {
     if (Array.isArray(module)) {
       module.forEach((m) => Swiper.installModule(m));
       return Swiper;
@@ -735,9 +1067,22 @@ class Swiper {
   }
 }
 
+Object.defineProperty(Swiper, 'extendedDefaults', {
+  get() {
+    return extendedDefaults;
+  },
+});
+
+Object.defineProperty(Swiper, 'defaults', {
+  get() {
+    return defaults;
+  },
+});
+
 Object.keys(prototypes).forEach((prototypeGroup) => {
-  Object.keys(prototypes[prototypeGroup]).forEach((protoMethod) => {
-    Swiper.prototype[protoMethod] = prototypes[prototypeGroup][protoMethod];
+  const group = (prototypes as Record<string, Record<string, any>>)[prototypeGroup]!;
+  Object.keys(group).forEach((protoMethod) => {
+    (Swiper.prototype as any)[protoMethod] = group[protoMethod];
   });
 });
 

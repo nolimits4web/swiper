@@ -1,4 +1,6 @@
-export default function setGrabCursor(moving) {
+import type { Swiper } from '../core';
+
+export default function setGrabCursor(this: Swiper, moving?: boolean): void {
   const swiper = this;
   if (
     !swiper.params.simulateTouch ||

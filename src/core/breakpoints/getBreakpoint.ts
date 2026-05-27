@@ -1,8 +1,14 @@
-export default function getBreakpoint(breakpoints, base = 'window', containerEl) {
-  if (!breakpoints || (base === 'container' && !containerEl)) return undefined;
-  let breakpoint = false;
+import type { SwiperOptions } from '../../types/swiper-options.d.ts';
 
-  const currentHeight = base === 'window' ? window.innerHeight : containerEl.clientHeight;
+export default function getBreakpoint(
+  breakpoints: SwiperOptions['breakpoints'],
+  base: string = 'window',
+  containerEl?: HTMLElement,
+): string | undefined {
+  if (!breakpoints || (base === 'container' && !containerEl)) return undefined;
+  let breakpoint: string | false = false;
+
+  const currentHeight = base === 'window' ? window.innerHeight : containerEl!.clientHeight;
 
   const points = Object.keys(breakpoints).map((point) => {
     if (typeof point === 'string' && point.indexOf('@') === 0) {
@@ -13,14 +19,14 @@ export default function getBreakpoint(breakpoints, base = 'window', containerEl)
     return { value: point, point };
   });
 
-  points.sort((a, b) => parseInt(a.value, 10) - parseInt(b.value, 10));
+  points.sort((a, b) => parseInt(String(a.value), 10) - parseInt(String(b.value), 10));
   for (let i = 0; i < points.length; i += 1) {
-    const { point, value } = points[i];
+    const { point, value } = points[i]!;
     if (base === 'window') {
       if (window.matchMedia(`(min-width: ${value}px)`).matches) {
         breakpoint = point;
       }
-    } else if (value <= containerEl.clientWidth) {
+    } else if ((value as number) <= containerEl!.clientWidth) {
       breakpoint = point;
     }
   }

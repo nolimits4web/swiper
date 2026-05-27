@@ -1,4 +1,6 @@
-export default function unsetGrabCursor() {
+import type { Swiper } from '../core';
+
+export default function unsetGrabCursor(this: Swiper): void {
   const swiper = this;
   if ((swiper.params.watchOverflow && swiper.isLocked) || swiper.params.cssMode) {
     return;

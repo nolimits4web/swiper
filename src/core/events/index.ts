@@ -6,31 +6,42 @@ import onClick from './onClick';
 import onScroll from './onScroll';
 import onLoad from './onLoad';
 import onDocumentTouchStart from './onDocumentTouchStart';
+import type { Swiper } from '../core';
 
-const events = (swiper, method) => {
+const events = (swiper: Swiper, method: 'on' | 'off'): void => {
   const { params, el, wrapperEl, device } = swiper;
   const capture = !!params.nested;
-  const domMethod = method === 'on' ? 'addEventListener' : 'removeEventListener';
+  const domMethod: 'addEventListener' | 'removeEventListener' =
+    method === 'on' ? 'addEventListener' : 'removeEventListener';
   const swiperMethod = method;
   if (!el || typeof el === 'string') return;
 
   // Touch Events
-  document[domMethod]('touchstart', swiper.onDocumentTouchStart, { passive: false, capture });
-  el[domMethod]('touchstart', swiper.onTouchStart, { passive: false });
-  el[domMethod]('pointerdown', swiper.onTouchStart, { passive: false });
-  document[domMethod]('touchmove', swiper.onTouchMove, { passive: false, capture });
-  document[domMethod]('pointermove', swiper.onTouchMove, { passive: false, capture });
-  document[domMethod]('touchend', swiper.onTouchEnd, { passive: true });
-  document[domMethod]('pointerup', swiper.onTouchEnd, { passive: true });
-  document[domMethod]('pointercancel', swiper.onTouchEnd, { passive: true });
-  document[domMethod]('touchcancel', swiper.onTouchEnd, { passive: true });
-  document[domMethod]('pointerout', swiper.onTouchEnd, { passive: true });
-  document[domMethod]('pointerleave', swiper.onTouchEnd, { passive: true });
-  document[domMethod]('contextmenu', swiper.onTouchEnd, { passive: true });
+  document[domMethod]('touchstart', swiper.onDocumentTouchStart as EventListener, {
+    passive: false,
+    capture,
+  });
+  el[domMethod]('touchstart', swiper.onTouchStart as EventListener, { passive: false });
+  el[domMethod]('pointerdown', swiper.onTouchStart as EventListener, { passive: false });
+  document[domMethod]('touchmove', swiper.onTouchMove as EventListener, {
+    passive: false,
+    capture,
+  });
+  document[domMethod]('pointermove', swiper.onTouchMove as EventListener, {
+    passive: false,
+    capture,
+  });
+  document[domMethod]('touchend', swiper.onTouchEnd as EventListener, { passive: true });
+  document[domMethod]('pointerup', swiper.onTouchEnd as EventListener, { passive: true });
+  document[domMethod]('pointercancel', swiper.onTouchEnd as EventListener, { passive: true });
+  document[domMethod]('touchcancel', swiper.onTouchEnd as EventListener, { passive: true });
+  document[domMethod]('pointerout', swiper.onTouchEnd as EventListener, { passive: true });
+  document[domMethod]('pointerleave', swiper.onTouchEnd as EventListener, { passive: true });
+  document[domMethod]('contextmenu', swiper.onTouchEnd as EventListener, { passive: true });
 
   // Prevent Links Clicks
   if (params.preventClicks || params.preventClicksPropagation) {
-    el[domMethod]('click', swiper.onClick, true);
+    el[domMethod]('click', swiper.onClick as EventListener, true);
   }
   if (params.cssMode) {
     wrapperEl[domMethod]('scroll', swiper.onScroll);
@@ -38,7 +49,7 @@ const events = (swiper, method) => {
 
   // Resize handler
   if (params.updateOnWindowResize) {
-    swiper[swiperMethod](
+    (swiper[swiperMethod] as any)(
       device.ios || device.android
         ? 'resize orientationchange observerUpdate'
         : 'resize observerUpdate',
@@ -46,33 +57,33 @@ const events = (swiper, method) => {
       true,
     );
   } else {
-    swiper[swiperMethod]('observerUpdate', onResize, true);
+    (swiper[swiperMethod] as any)('observerUpdate', onResize, true);
   }
 
   // Images loader
-  el[domMethod]('load', swiper.onLoad, { capture: true });
+  el[domMethod]('load', swiper.onLoad as EventListener, { capture: true });
 };
 
-function attachEvents() {
+function attachEvents(this: Swiper): void {
   const swiper = this;
   const { params } = swiper;
 
-  swiper.onTouchStart = onTouchStart.bind(swiper);
-  swiper.onTouchMove = onTouchMove.bind(swiper);
-  swiper.onTouchEnd = onTouchEnd.bind(swiper);
-  swiper.onDocumentTouchStart = onDocumentTouchStart.bind(swiper);
+  swiper.onTouchStart = onTouchStart.bind(swiper) as any;
+  swiper.onTouchMove = onTouchMove.bind(swiper) as any;
+  swiper.onTouchEnd = onTouchEnd.bind(swiper) as any;
+  swiper.onDocumentTouchStart = onDocumentTouchStart.bind(swiper) as any;
 
   if (params.cssMode) {
-    swiper.onScroll = onScroll.bind(swiper);
+    swiper.onScroll = onScroll.bind(swiper) as any;
   }
 
-  swiper.onClick = onClick.bind(swiper);
-  swiper.onLoad = onLoad.bind(swiper);
+  swiper.onClick = onClick.bind(swiper) as any;
+  swiper.onLoad = onLoad.bind(swiper) as any;
 
   events(swiper, 'on');
 }
 
-function detachEvents() {
+function detachEvents(this: Swiper): void {
   const swiper = this;
   events(swiper, 'off');
 }

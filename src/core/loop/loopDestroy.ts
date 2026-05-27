@@ -1,15 +1,18 @@
-export default function loopDestroy() {
+import type { Swiper } from '../core';
+
+export default function loopDestroy(this: Swiper): void {
   const swiper = this;
   const { params, slidesEl } = swiper;
-  if (!params.loop || !slidesEl || (swiper.virtual && swiper.params.virtual.enabled)) return;
+  if (!params.loop || !slidesEl || (swiper.virtual && (swiper.params.virtual as any).enabled))
+    return;
   swiper.recalcSlides();
 
-  const newSlidesOrder = [];
+  const newSlidesOrder: HTMLElement[] = [];
   swiper.slides.forEach((slideEl) => {
     const index =
-      typeof slideEl.swiperSlideIndex === 'undefined'
-        ? slideEl.getAttribute('data-swiper-slide-index') * 1
-        : slideEl.swiperSlideIndex;
+      typeof (slideEl as any).swiperSlideIndex === 'undefined'
+        ? Number(slideEl.getAttribute('data-swiper-slide-index'))
+        : (slideEl as any).swiperSlideIndex;
     newSlidesOrder[index] = slideEl;
   });
   swiper.slides.forEach((slideEl) => {

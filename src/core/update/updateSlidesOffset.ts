@@ -1,4 +1,6 @@
-export default function updateSlidesOffset() {
+import type { Swiper } from '../core';
+
+export default function updateSlidesOffset(this: Swiper): void {
   const swiper = this;
   const slides = swiper.slides;
   // eslint-disable-next-line
@@ -8,8 +10,8 @@ export default function updateSlidesOffset() {
       : swiper.wrapperEl.offsetTop
     : 0;
   for (let i = 0; i < slides.length; i += 1) {
-    slides[i].swiperSlideOffset =
-      (swiper.isHorizontal() ? slides[i].offsetLeft : slides[i].offsetTop) -
+    (slides[i] as any).swiperSlideOffset =
+      (swiper.isHorizontal() ? slides[i]!.offsetLeft : slides[i]!.offsetTop) -
       minusOffset -
       swiper.cssOverflowAdjustment();
   }

@@ -1,4 +1,6 @@
-export default function onScroll() {
+import type { Swiper } from '../core';
+
+export default function onScroll(this: Swiper): void {
   const swiper = this;
   if (swiper.destroyed) return;
   const { wrapperEl, rtlTranslate, enabled } = swiper;
@@ -15,7 +17,7 @@ export default function onScroll() {
   swiper.updateActiveIndex();
   swiper.updateSlidesClasses();
 
-  let newProgress;
+  let newProgress: number;
   const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
   if (translatesDiff === 0) {
     newProgress = 0;

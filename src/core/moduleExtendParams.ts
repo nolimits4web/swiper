@@ -1,8 +1,13 @@
 import { extend } from '../shared/utils';
 
-export default function moduleExtendParams(params, allModulesParams) {
-  return function extendParams(obj = {}) {
-    const moduleParamName = Object.keys(obj)[0];
+type AnyRecord = Record<string, any>;
+
+export default function moduleExtendParams(
+  params: AnyRecord,
+  allModulesParams: AnyRecord,
+): (obj?: AnyRecord) => void {
+  return function extendParams(obj: AnyRecord = {}) {
+    const moduleParamName = Object.keys(obj)[0]!;
     const moduleParams = obj[moduleParamName];
     if (typeof moduleParams !== 'object' || moduleParams === null) {
       extend(allModulesParams, obj);

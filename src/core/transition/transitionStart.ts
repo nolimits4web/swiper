@@ -1,6 +1,11 @@
 import transitionEmit from './transitionEmit';
+import type { Swiper } from '../core';
 
-export default function transitionStart(runCallbacks = true, direction) {
+export default function transitionStart(
+  this: Swiper,
+  runCallbacks = true,
+  direction?: 'reset' | 'prev' | 'next',
+): void {
   const swiper = this;
   const { params } = swiper;
   if (params.cssMode) return;

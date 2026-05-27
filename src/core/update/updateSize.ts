@@ -1,9 +1,10 @@
 import { elementStyle } from '../../shared/utils';
+import type { Swiper } from '../core';
 
-export default function updateSize() {
+export default function updateSize(this: Swiper): void {
   const swiper = this;
-  let width;
-  let height;
+  let width: number;
+  let height: number;
   const el = swiper.el;
   if (typeof swiper.params.width !== 'undefined' && swiper.params.width !== null) {
     width = swiper.params.width;
@@ -22,12 +23,12 @@ export default function updateSize() {
   // Subtract paddings
   width =
     width -
-    parseInt(elementStyle(el, 'padding-left') || 0, 10) -
-    parseInt(elementStyle(el, 'padding-right') || 0, 10);
+    parseInt(elementStyle(el, 'padding-left') || '0', 10) -
+    parseInt(elementStyle(el, 'padding-right') || '0', 10);
   height =
     height -
-    parseInt(elementStyle(el, 'padding-top') || 0, 10) -
-    parseInt(elementStyle(el, 'padding-bottom') || 0, 10);
+    parseInt(elementStyle(el, 'padding-top') || '0', 10) -
+    parseInt(elementStyle(el, 'padding-bottom') || '0', 10);
 
   if (Number.isNaN(width)) width = 0;
   if (Number.isNaN(height)) height = 0;

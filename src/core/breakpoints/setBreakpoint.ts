@@ -1,10 +1,12 @@
 import { extend } from '../../shared/utils';
+import type { Swiper } from '../core';
+import type { SwiperOptions } from '../../types/swiper-options.d.ts';
 
-const isGridEnabled = (swiper, params) => {
-  return swiper.grid && params.grid && params.grid.rows > 1;
+const isGridEnabled = (swiper: Swiper, params: SwiperOptions): boolean => {
+  return !!(swiper.grid && params.grid && params.grid.rows! > 1);
 };
 
-export default function setBreakpoint() {
+export default function setBreakpoint(this: Swiper): void {
   const swiper = this;
   const { realIndex, initialized, params, el } = swiper;
   const breakpoints = params.breakpoints;
@@ -16,16 +18,21 @@ export default function setBreakpoint() {
       ? params.breakpointsBase
       : 'container';
   const breakpointContainer =
-    ['window', 'container'].includes(params.breakpointsBase) || !params.breakpointsBase
+    ['window', 'container'].includes(params.breakpointsBase as string) || !params.breakpointsBase
       ? swiper.el
-      : document.querySelector(params.breakpointsBase);
+      : (document.querySelector(params.breakpointsBase as string) as HTMLElement);
 
-  const breakpoint = swiper.getBreakpoint(breakpoints, breakpointsBase, breakpointContainer);
+  const breakpoint = swiper.getBreakpoint(
+    breakpoints,
+    breakpointsBase as string,
+    breakpointContainer,
+  );
 
   if (!breakpoint || swiper.currentBreakpoint === breakpoint) return;
 
-  const breakpointOnlyParams = breakpoint in breakpoints ? breakpoints[breakpoint] : undefined;
-  const breakpointParams = breakpointOnlyParams || swiper.originalParams;
+  const breakpointOnlyParams =
+    breakpoint in breakpoints ? (breakpoints as any)[breakpoint] : undefined;
+  const breakpointParams: SwiperOptions = breakpointOnlyParams || swiper.originalParams;
 
   const wasMultiRow = isGridEnabled(swiper, params);
   const isMultiRow = isGridEnabled(swiper, breakpointParams);
@@ -44,8 +51,8 @@ export default function setBreakpoint() {
   } else if (!wasMultiRow && isMultiRow) {
     el.classList.add(`${params.containerModifierClass}grid`);
     if (
-      (breakpointParams.grid.fill && breakpointParams.grid.fill === 'column') ||
-      (!breakpointParams.grid.fill && params.grid.fill === 'column')
+      (breakpointParams.grid!.fill && breakpointParams.grid!.fill === 'column') ||
+      (!breakpointParams.grid!.fill && params.grid!.fill === 'column')
     ) {
       el.classList.add(`${params.containerModifierClass}grid-column`);
     }
@@ -58,15 +65,16 @@ export default function setBreakpoint() {
   }
 
   // Toggle navigation, pagination, scrollbar
-  ['navigation', 'pagination', 'scrollbar'].forEach((prop) => {
-    if (typeof breakpointParams[prop] === 'undefined') return;
-    const wasModuleEnabled = params[prop] && params[prop].enabled;
-    const isModuleEnabled = breakpointParams[prop] && breakpointParams[prop].enabled;
+  (['navigation', 'pagination', 'scrollbar'] as const).forEach((prop) => {
+    if (typeof (breakpointParams as any)[prop] === 'undefined') return;
+    const wasModuleEnabled = (params as any)[prop] && (params as any)[prop].enabled;
+    const isModuleEnabled =
+      (breakpointParams as any)[prop] && (breakpointParams as any)[prop].enabled;
     if (wasModuleEnabled && !isModuleEnabled) {
-      swiper[prop].disable();
+      (swiper as any)[prop].disable();
     }
     if (!wasModuleEnabled && isModuleEnabled) {
-      swiper[prop].enable();
+      (swiper as any)[prop].enable();
     }
   });
 

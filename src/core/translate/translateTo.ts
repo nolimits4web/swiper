@@ -1,10 +1,13 @@
+import type { Swiper } from '../core';
+
 export default function translateTo(
+  this: Swiper,
   translate = 0,
-  speed = this.params.speed,
+  speed: number = this.params.speed!,
   runCallbacks = true,
   translateBounds = true,
-  internal,
-) {
+  internal?: boolean,
+): boolean {
   const swiper = this;
 
   const { params, wrapperEl } = swiper;
@@ -15,7 +18,7 @@ export default function translateTo(
 
   const minTranslate = swiper.minTranslate();
   const maxTranslate = swiper.maxTranslate();
-  let newTranslate;
+  let newTranslate: number;
   if (translateBounds && translate > minTranslate) newTranslate = minTranslate;
   else if (translateBounds && translate < maxTranslate) newTranslate = maxTranslate;
   else newTranslate = translate;
@@ -53,12 +56,15 @@ export default function translateTo(
     if (!swiper.animating) {
       swiper.animating = true;
       if (!swiper.onTranslateToWrapperTransitionEnd) {
-        swiper.onTranslateToWrapperTransitionEnd = function transitionEnd(e) {
+        swiper.onTranslateToWrapperTransitionEnd = function transitionEnd(
+          this: HTMLElement,
+          e: TransitionEvent,
+        ) {
           if (!swiper || swiper.destroyed) return;
           if (e.target !== this) return;
           swiper.wrapperEl.removeEventListener(
             'transitionend',
-            swiper.onTranslateToWrapperTransitionEnd,
+            swiper.onTranslateToWrapperTransitionEnd as EventListener,
           );
           swiper.onTranslateToWrapperTransitionEnd = null;
           delete swiper.onTranslateToWrapperTransitionEnd;
@@ -66,9 +72,12 @@ export default function translateTo(
           if (runCallbacks) {
             swiper.emit('transitionEnd');
           }
-        };
+        } as any;
       }
-      swiper.wrapperEl.addEventListener('transitionend', swiper.onTranslateToWrapperTransitionEnd);
+      swiper.wrapperEl.addEventListener(
+        'transitionend',
+        swiper.onTranslateToWrapperTransitionEnd as EventListener,
+      );
     }
   }
 

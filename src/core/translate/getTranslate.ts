@@ -1,6 +1,10 @@
 import { getTranslate } from '../../shared/utils';
+import type { Swiper } from '../core';
 
-export default function getSwiperTranslate(axis = this.isHorizontal() ? 'x' : 'y') {
+export default function getSwiperTranslate(
+  this: Swiper,
+  axis: 'x' | 'y' = this.isHorizontal() ? 'x' : 'y',
+): number {
   const swiper = this;
 
   const { params, rtlTranslate: rtl, translate, wrapperEl } = swiper;

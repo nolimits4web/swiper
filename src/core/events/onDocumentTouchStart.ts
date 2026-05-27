@@ -1,4 +1,6 @@
-export default function onDocumentTouchStart() {
+import type { Swiper } from '../core';
+
+export default function onDocumentTouchStart(this: Swiper): void {
   const swiper = this;
   if (swiper.destroyed) return;
   if (swiper.documentTouchHandlerProceeded) return;

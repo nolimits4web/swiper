@@ -1,19 +1,20 @@
 import { createElement, elementChildren, showWarning } from '../../shared/utils';
+import type { Swiper } from '../core';
 
-export default function loopCreate(slideRealIndex, initial) {
+export default function loopCreate(this: Swiper, slideRealIndex?: number, initial?: boolean): void {
   const swiper = this;
   const { params, slidesEl } = swiper;
-  if (!params.loop || (swiper.virtual && swiper.params.virtual.enabled)) return;
+  if (!params.loop || (swiper.virtual && (swiper.params.virtual as any).enabled)) return;
 
-  const initSlides = () => {
+  const initSlides = (): void => {
     const slides = elementChildren(slidesEl, `.${params.slideClass}, swiper-slide`);
 
     slides.forEach((el, index) => {
-      el.setAttribute('data-swiper-slide-index', index);
+      el.setAttribute('data-swiper-slide-index', String(index));
     });
   };
 
-  const clearBlankSlides = () => {
+  const clearBlankSlides = (): void => {
     const slides = elementChildren(slidesEl, `.${params.slideBlankClass}`);
 
     slides.forEach((el) => {
@@ -25,21 +26,21 @@ export default function loopCreate(slideRealIndex, initial) {
     }
   };
 
-  const gridEnabled = swiper.grid && params.grid && params.grid.rows > 1;
-  if (params.loopAddBlankSlides && (params.slidesPerGroup > 1 || gridEnabled)) {
+  const gridEnabled = swiper.grid && params.grid && params.grid.rows! > 1;
+  if (params.loopAddBlankSlides && (params.slidesPerGroup! > 1 || gridEnabled)) {
     clearBlankSlides();
   }
 
-  const slidesPerGroup = params.slidesPerGroup * (gridEnabled ? params.grid.rows : 1);
+  const slidesPerGroup = params.slidesPerGroup! * (gridEnabled ? params.grid!.rows! : 1);
 
   const shouldFillGroup = swiper.slides.length % slidesPerGroup !== 0;
-  const shouldFillGrid = gridEnabled && swiper.slides.length % params.grid.rows !== 0;
+  const shouldFillGrid = gridEnabled && swiper.slides.length % params.grid!.rows! !== 0;
 
-  const addBlankSlides = (amountOfSlides) => {
+  const addBlankSlides = (amountOfSlides: number): void => {
     for (let i = 0; i < amountOfSlides; i += 1) {
       const slideEl = swiper.isElement
-        ? createElement('swiper-slide', [params.slideBlankClass])
-        : createElement('div', [params.slideClass, params.slideBlankClass]);
+        ? createElement('swiper-slide' as any, [params.slideBlankClass!])
+        : createElement('div', [params.slideClass!, params.slideBlankClass!]);
       swiper.slidesEl.append(slideEl);
     }
   };
@@ -59,7 +60,7 @@ export default function loopCreate(slideRealIndex, initial) {
     initSlides();
   } else if (shouldFillGrid) {
     if (params.loopAddBlankSlides) {
-      const slidesToAdd = params.grid.rows - (swiper.slides.length % params.grid.rows);
+      const slidesToAdd = params.grid!.rows! - (swiper.slides.length % params.grid!.rows!);
       addBlankSlides(slidesToAdd);
       swiper.recalcSlides();
       swiper.updateSlides();
@@ -79,5 +80,5 @@ export default function loopCreate(slideRealIndex, initial) {
     slideRealIndex,
     direction: bothDirections ? undefined : 'next',
     initial,
-  });
+  } as any);
 }

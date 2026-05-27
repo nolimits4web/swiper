@@ -1,4 +1,10 @@
-export default function setTransition(duration, byController) {
+import type { Swiper } from '../core';
+
+export default function setTransition(
+  this: Swiper,
+  duration: number,
+  byController?: boolean,
+): void {
   const swiper = this;
 
   if (!swiper.params.cssMode) {

@@ -1,28 +1,30 @@
-export default function Resize({ swiper, on, emit }) {
-  let observer = null;
-  let animationFrame = null;
+import type { Swiper, SwiperModuleFn } from '../../core';
 
-  const resizeHandler = () => {
+const Resize: SwiperModuleFn = ({ swiper, on, emit }) => {
+  let observer: ResizeObserver | null = null;
+  let animationFrame: number | null = null;
+
+  const resizeHandler = (): void => {
     if (!swiper || swiper.destroyed || !swiper.initialized) return;
     emit('beforeResize');
     emit('resize');
   };
 
-  const createObserver = () => {
+  const createObserver = (): void => {
     if (!swiper || swiper.destroyed || !swiper.initialized) return;
     observer = new ResizeObserver((entries) => {
       animationFrame = window.requestAnimationFrame(() => {
-        const { width, height } = swiper;
+        const { width, height } = swiper as Swiper;
         let newWidth = width;
         let newHeight = height;
         entries.forEach(({ contentBoxSize, contentRect, target }) => {
           if (target && target !== swiper.el) return;
           newWidth = contentRect
             ? contentRect.width
-            : (contentBoxSize[0] || contentBoxSize).inlineSize;
+            : ((contentBoxSize as any)[0] || contentBoxSize).inlineSize;
           newHeight = contentRect
             ? contentRect.height
-            : (contentBoxSize[0] || contentBoxSize).blockSize;
+            : ((contentBoxSize as any)[0] || contentBoxSize).blockSize;
         });
         if (newWidth !== width || newHeight !== height) {
           resizeHandler();
@@ -32,7 +34,7 @@ export default function Resize({ swiper, on, emit }) {
     observer.observe(swiper.el);
   };
 
-  const removeObserver = () => {
+  const removeObserver = (): void => {
     if (animationFrame) {
       window.cancelAnimationFrame(animationFrame);
     }
@@ -42,7 +44,7 @@ export default function Resize({ swiper, on, emit }) {
     }
   };
 
-  const orientationChangeHandler = () => {
+  const orientationChangeHandler = (): void => {
     if (!swiper || swiper.destroyed || !swiper.initialized) return;
     emit('orientationchange');
   };
@@ -61,4 +63,6 @@ export default function Resize({ swiper, on, emit }) {
     window.removeEventListener('resize', resizeHandler);
     window.removeEventListener('orientationchange', orientationChangeHandler);
   });
-}
+};
+
+export default Resize;

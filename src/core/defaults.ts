@@ -1,4 +1,6 @@
-export default {
+import type { SwiperOptions } from '../types/swiper-options.d.ts';
+
+const defaults = {
   init: true,
   direction: 'horizontal',
   oneWayMovement: false,
@@ -40,7 +42,7 @@ export default {
   virtualTranslate: false,
 
   // Effects
-  effect: 'slide', // 'slide' or 'fade' or 'cube' or 'coverflow' or 'flip'
+  effect: 'slide',
 
   // Breakpoints
   breakpoints: undefined,
@@ -54,8 +56,8 @@ export default {
   slidesPerGroupAuto: false,
   centeredSlides: false,
   centeredSlidesBounds: false,
-  slidesOffsetBefore: 0, // in px
-  slidesOffsetAfter: 0, // in px
+  slidesOffsetBefore: 0,
+  slidesOffsetAfter: 0,
   normalizeSlideIndex: true,
   centerInsufficientSlides: false,
   snapToSlideEdge: false,
@@ -112,7 +114,7 @@ export default {
   // Swiping/no swiping
   allowSlidePrev: true,
   allowSlideNext: true,
-  swipeHandler: null, // '.swipe-handler',
+  swipeHandler: null,
   noSwiping: true,
   noSwipingClass: 'swiper-no-swiping',
   noSwipingSelector: null,
@@ -123,7 +125,7 @@ export default {
   maxBackfaceHiddenSlides: 10,
 
   // NS
-  containerModifierClass: 'swiper-', // NEW
+  containerModifierClass: 'swiper-',
   slideClass: 'swiper-slide',
   slideBlankClass: 'swiper-slide-blank',
   slideActiveClass: 'swiper-slide-active',
@@ -140,4 +142,6 @@ export default {
 
   // Internals
   _emitClasses: false,
-};
+} as unknown as SwiperOptions;
+
+export default defaults;

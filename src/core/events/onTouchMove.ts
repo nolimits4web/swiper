@@ -1,14 +1,19 @@
 import { now } from '../../shared/utils';
+import type { Swiper } from '../core';
 
-export default function onTouchMove(event) {
+export default function onTouchMove(
+  this: Swiper,
+  event: TouchEvent | PointerEvent | MouseEvent,
+): void {
   const swiper = this;
   if (swiper.destroyed) return;
-  const data = swiper.touchEventsData;
-  const { params, touches, rtlTranslate: rtl, enabled } = swiper;
+  const data = swiper.touchEventsData as any;
+  const { params, touches: touchesObj, rtlTranslate: rtl, enabled } = swiper;
+  const touches = touchesObj as any;
   if (!enabled) return;
-  if (!params.simulateTouch && event.pointerType === 'mouse') return;
+  if (!params.simulateTouch && (event as PointerEvent).pointerType === 'mouse') return;
 
-  let e = event;
+  let e: any = event;
   if (e.originalEvent) e = e.originalEvent;
 
   if (e.type === 'pointermove') {
@@ -17,9 +22,9 @@ export default function onTouchMove(event) {
     if (id !== data.pointerId) return;
   }
 
-  let targetTouch;
+  let targetTouch: any;
   if (e.type === 'touchmove') {
-    targetTouch = [...e.changedTouches].find((t) => t.identifier === data.touchId);
+    targetTouch = [...e.changedTouches].find((t: any) => t.identifier === data.touchId);
     if (!targetTouch || targetTouch.identifier !== data.touchId) return;
   } else {
     targetTouch = e;
@@ -42,7 +47,7 @@ export default function onTouchMove(event) {
   }
 
   if (!swiper.allowTouchMove) {
-    if (!e.target.matches(data.focusableElements)) {
+    if (!(e.target as HTMLElement).matches(data.focusableElements)) {
       swiper.allowClick = false;
     }
     if (data.isTouched) {
@@ -83,14 +88,17 @@ export default function onTouchMove(event) {
   }
   if (
     document.activeElement &&
-    document.activeElement.matches(data.focusableElements) &&
+    (document.activeElement as Element).matches(data.focusableElements) &&
     document.activeElement !== e.target &&
     e.pointerType !== 'mouse'
   ) {
-    document.activeElement.blur();
+    (document.activeElement as HTMLElement).blur();
   }
   if (document.activeElement) {
-    if (e.target === document.activeElement && e.target.matches(data.focusableElements)) {
+    if (
+      e.target === document.activeElement &&
+      (e.target as Element).matches(data.focusableElements)
+    ) {
       data.isMoved = true;
       swiper.allowClick = false;
       return;
@@ -112,7 +120,7 @@ export default function onTouchMove(event) {
     return;
 
   if (typeof data.isScrolling === 'undefined') {
-    let touchAngle;
+    let touchAngle: number | undefined;
     if (
       (swiper.isHorizontal() && touches.currentY === touches.startY) ||
       (swiper.isVertical() && touches.currentX === touches.startX)
@@ -123,8 +131,8 @@ export default function onTouchMove(event) {
       if (diffX * diffX + diffY * diffY >= 25) {
         touchAngle = (Math.atan2(Math.abs(diffY), Math.abs(diffX)) * 180) / Math.PI;
         data.isScrolling = swiper.isHorizontal()
-          ? touchAngle > params.touchAngle
-          : 90 - touchAngle > params.touchAngle;
+          ? touchAngle > params.touchAngle!
+          : 90 - touchAngle > params.touchAngle!;
       }
     }
   }
@@ -162,7 +170,7 @@ export default function onTouchMove(event) {
   }
   touches.diff = diff;
 
-  diff *= params.touchRatio;
+  diff *= params.touchRatio!;
   if (rtl) {
     diff = -diff;
     touchesDiff = -touchesDiff;
@@ -199,11 +207,13 @@ export default function onTouchMove(event) {
     }
     swiper.emit('sliderFirstMove', e);
   }
-  let loopFixed;
+  let loopFixed: boolean | undefined;
   let time = new Date().getTime();
+  // suppress unused
+  void time;
 
   if (
-    params._loopSwapReset !== false &&
+    (params as any)._loopSwapReset !== false &&
     data.isMoved &&
     data.allowThresholdMove &&
     prevTouchesDirection !== swiper.touchesDirection &&
@@ -227,7 +237,7 @@ export default function onTouchMove(event) {
 
   data.currentTranslate = diff + data.startTranslate;
   let disableParentSwiper = true;
-  let resistanceRatio = params.resistanceRatio;
+  let resistanceRatio: number = params.resistanceRatio!;
   if (params.touchReleaseOnEdges) {
     resistanceRatio = 0;
   }
@@ -240,11 +250,13 @@ export default function onTouchMove(event) {
       data.currentTranslate >
         (params.centeredSlides
           ? swiper.minTranslate() -
-            swiper.slidesSizesGrid[swiper.activeIndex + 1] -
-            (params.slidesPerView !== 'auto' && swiper.slides.length - params.slidesPerView >= 2
-              ? swiper.slidesSizesGrid[swiper.activeIndex + 1] + swiper.params.spaceBetween
+            swiper.slidesSizesGrid[swiper.activeIndex + 1]! -
+            (params.slidesPerView !== 'auto' &&
+            swiper.slides.length - (params.slidesPerView as number) >= 2
+              ? swiper.slidesSizesGrid[swiper.activeIndex + 1]! +
+                (swiper.params.spaceBetween as number)
               : 0) -
-            swiper.params.spaceBetween
+            (swiper.params.spaceBetween as number)
           : swiper.minTranslate())
     ) {
       swiper.loopFix({ direction: 'prev', setTranslate: true, activeSlideIndex: 0 });
@@ -267,11 +279,12 @@ export default function onTouchMove(event) {
       data.currentTranslate <
         (params.centeredSlides
           ? swiper.maxTranslate() +
-            swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1] +
-            swiper.params.spaceBetween +
-            (params.slidesPerView !== 'auto' && swiper.slides.length - params.slidesPerView >= 2
-              ? swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1] +
-                swiper.params.spaceBetween
+            swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1]! +
+            (swiper.params.spaceBetween as number) +
+            (params.slidesPerView !== 'auto' &&
+            swiper.slides.length - (params.slidesPerView as number) >= 2
+              ? swiper.slidesSizesGrid[swiper.slidesSizesGrid.length - 1]! +
+                (swiper.params.spaceBetween as number)
               : 0)
           : swiper.maxTranslate())
     ) {
@@ -282,7 +295,7 @@ export default function onTouchMove(event) {
           swiper.slides.length -
           (params.slidesPerView === 'auto'
             ? swiper.slidesPerViewDynamic()
-            : Math.ceil(parseFloat(params.slidesPerView, 10))),
+            : Math.ceil(parseFloat(String(params.slidesPerView)))),
       });
     }
     if (data.currentTranslate < swiper.maxTranslate()) {
@@ -320,8 +333,8 @@ export default function onTouchMove(event) {
   }
 
   // Threshold
-  if (params.threshold > 0) {
-    if (Math.abs(diff) > params.threshold || data.allowThresholdMove) {
+  if (params.threshold! > 0) {
+    if (Math.abs(diff) > params.threshold! || data.allowThresholdMove) {
       if (!data.allowThresholdMove) {
         data.allowThresholdMove = true;
         touches.startX = touches.currentX;
@@ -342,14 +355,14 @@ export default function onTouchMove(event) {
 
   // Update active index in free mode
   if (
-    (params.freeMode && params.freeMode.enabled && swiper.freeMode) ||
+    (params.freeMode && (params.freeMode as any).enabled && swiper.freeMode) ||
     params.watchSlidesProgress
   ) {
     swiper.updateActiveIndex();
     swiper.updateSlidesClasses();
   }
-  if (params.freeMode && params.freeMode.enabled && swiper.freeMode) {
-    swiper.freeMode.onTouchMove();
+  if (params.freeMode && (params.freeMode as any).enabled && swiper.freeMode) {
+    (swiper.freeMode as any).onTouchMove();
   }
   // Update progress
   swiper.updateProgress(data.currentTranslate);

@@ -1,8 +1,9 @@
 import { now, elementIsChildOf } from '../../shared/utils';
+import type { Swiper } from '../core';
 
 // Modified from https://stackoverflow.com/questions/54520554/custom-element-getrootnode-closest-function-crossing-multiple-parent-shadowd
-function closestElement(selector, base = this) {
-  function __closestFrom(el) {
+function closestElement(selector: string, base: Element): Element | null {
+  function __closestFrom(el: any): Element | null {
     if (!el || el === document || el === window) return null;
     if (el.assignedSlot) el = el.assignedSlot;
     const found = el.closest(selector);
@@ -14,10 +15,10 @@ function closestElement(selector, base = this) {
   return __closestFrom(base);
 }
 
-function preventEdgeSwipe(swiper, event, startX) {
+function preventEdgeSwipe(swiper: Swiper, event: Event, startX: number): boolean {
   const { params } = swiper;
   const edgeSwipeDetection = params.edgeSwipeDetection;
-  const edgeSwipeThreshold = params.edgeSwipeThreshold;
+  const edgeSwipeThreshold = params.edgeSwipeThreshold!;
   if (
     edgeSwipeDetection &&
     (startX <= edgeSwipeThreshold || startX >= window.innerWidth - edgeSwipeThreshold)
@@ -31,11 +32,14 @@ function preventEdgeSwipe(swiper, event, startX) {
   return true;
 }
 
-export default function onTouchStart(event) {
+export default function onTouchStart(
+  this: Swiper,
+  event: TouchEvent | PointerEvent | MouseEvent,
+): void {
   const swiper = this;
   if (swiper.destroyed) return;
-  let e = event;
-  if (e.originalEvent) e = e.originalEvent;
+  let e: any = event;
+  if ((e as any).originalEvent) e = (e as any).originalEvent;
   const data = swiper.touchEventsData;
   if (e.type === 'pointerdown') {
     if (data.pointerId !== null && data.pointerId !== e.pointerId) {
@@ -62,27 +66,27 @@ export default function onTouchStart(event) {
     swiper.loopFix();
   }
 
-  let targetEl = e.target;
+  let targetEl: HTMLElement = e.target;
 
   if (params.touchEventsTarget === 'wrapper') {
     if (!elementIsChildOf(targetEl, swiper.wrapperEl)) return;
   }
-  if ('which' in e && e.which === 3) return;
-  if ('button' in e && e.button > 0) return;
+  if ('which' in e && (e as any).which === 3) return;
+  if ('button' in e && (e as any).button > 0) return;
   if (data.isTouched && data.isMoved) return;
 
   // change target el for shadow root component
   const swipingClassHasValue = !!params.noSwipingClass && params.noSwipingClass !== '';
   // eslint-disable-next-line
-  const eventPath = e.composedPath ? e.composedPath() : e.path;
-  if (swipingClassHasValue && e.target && e.target.shadowRoot && eventPath) {
+  const eventPath = e.composedPath ? e.composedPath() : (e as any).path;
+  if (swipingClassHasValue && e.target && (e.target as any).shadowRoot && eventPath) {
     targetEl = eventPath[0];
   }
 
   const noSwipingSelector = params.noSwipingSelector
     ? params.noSwipingSelector
     : `.${params.noSwipingClass}`;
-  const isTargetShadow = !!(e.target && e.target.shadowRoot);
+  const isTargetShadow = !!(e.target && (e.target as any).shadowRoot);
 
   // use closestElement for shadow root element to get the actual closest for nested shadow root element
   if (
@@ -96,7 +100,7 @@ export default function onTouchStart(event) {
   }
 
   if (params.swipeHandler) {
-    if (!targetEl.closest(params.swipeHandler)) return;
+    if (!targetEl.closest(params.swipeHandler as string)) return;
   }
 
   touches.currentX = e.pageX;
@@ -123,8 +127,8 @@ export default function onTouchStart(event) {
   data.touchStartTime = now();
   swiper.allowClick = true;
   swiper.updateSize();
-  swiper.swipeDirection = undefined;
-  if (params.threshold > 0) data.allowThresholdMove = false;
+  swiper.swipeDirection = undefined as any;
+  if (params.threshold! > 0) data.allowThresholdMove = false;
   let preventDefault = true;
   if (targetEl.matches(data.focusableElements)) {
     preventDefault = false;
@@ -135,12 +139,12 @@ export default function onTouchStart(event) {
 
   if (
     document.activeElement &&
-    document.activeElement.matches(data.focusableElements) &&
+    (document.activeElement as Element).matches(data.focusableElements) &&
     document.activeElement !== targetEl &&
     (e.pointerType === 'mouse' ||
       (e.pointerType !== 'mouse' && !targetEl.matches(data.focusableElements)))
   ) {
-    document.activeElement.blur();
+    (document.activeElement as HTMLElement).blur();
   }
 
   const shouldPreventDefault =
@@ -153,12 +157,12 @@ export default function onTouchStart(event) {
   }
   if (
     params.freeMode &&
-    params.freeMode.enabled &&
+    (params.freeMode as any).enabled &&
     swiper.freeMode &&
     swiper.animating &&
     !params.cssMode
   ) {
-    swiper.freeMode.onTouchStart();
+    (swiper.freeMode as any).onTouchStart();
   }
   swiper.emit('touchStart', e);
 }

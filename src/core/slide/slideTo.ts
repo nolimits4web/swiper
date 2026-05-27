@@ -1,13 +1,21 @@
 import { getBrowser } from '../../shared/get-browser';
+import type { Swiper } from '../core';
 
-export default function slideTo(index = 0, speed, runCallbacks = true, internal, initial) {
+export default function slideTo(
+  this: Swiper,
+  index: number | string = 0,
+  speed?: number,
+  runCallbacks = true,
+  internal?: boolean,
+  initial?: boolean,
+): boolean {
   if (typeof index === 'string') {
     index = parseInt(index, 10);
   }
 
   const swiper = this;
 
-  let slideIndex = index;
+  let slideIndex: number = index as number;
   if (slideIndex < 0) slideIndex = 0;
 
   const {
@@ -32,17 +40,17 @@ export default function slideTo(index = 0, speed, runCallbacks = true, internal,
     speed = swiper.params.speed;
   }
 
-  const skip = Math.min(swiper.params.slidesPerGroupSkip, slideIndex);
-  let snapIndex = skip + Math.floor((slideIndex - skip) / swiper.params.slidesPerGroup);
+  const skip = Math.min(swiper.params.slidesPerGroupSkip!, slideIndex);
+  let snapIndex = skip + Math.floor((slideIndex - skip) / swiper.params.slidesPerGroup!);
   if (snapIndex >= snapGrid.length) snapIndex = snapGrid.length - 1;
 
-  const translate = -snapGrid[snapIndex];
+  const translate = -snapGrid[snapIndex]!;
   // Normalize slideIndex
   if (params.normalizeSlideIndex) {
     for (let i = 0; i < slidesGrid.length; i += 1) {
       const normalizedTranslate = -Math.floor(translate * 100);
-      const normalizedGrid = Math.floor(slidesGrid[i] * 100);
-      const normalizedGridNext = Math.floor(slidesGrid[i + 1] * 100);
+      const normalizedGrid = Math.floor(slidesGrid[i]! * 100);
+      const normalizedGridNext = Math.floor(slidesGrid[i + 1]! * 100);
       if (typeof slidesGrid[i + 1] !== 'undefined') {
         if (
           normalizedTranslate >= normalizedGrid &&
@@ -88,13 +96,13 @@ export default function slideTo(index = 0, speed, runCallbacks = true, internal,
   // Update progress
   swiper.updateProgress(translate);
 
-  let direction;
+  let direction: 'next' | 'prev' | 'reset';
   if (slideIndex > activeIndex) direction = 'next';
   else if (slideIndex < activeIndex) direction = 'prev';
   else direction = 'reset';
 
   // initial virtual
-  const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
+  const isVirtual = swiper.virtual && (swiper.params.virtual as any).enabled;
   const isInitialVirtual = isVirtual && initial;
   // Update Index
   if (
@@ -125,7 +133,7 @@ export default function slideTo(index = 0, speed, runCallbacks = true, internal,
         swiper._immediateVirtual = true;
       }
 
-      if (isVirtual && !swiper._cssModeVirtualInitialSet && swiper.params.initialSlide > 0) {
+      if (isVirtual && !swiper._cssModeVirtualInitialSet && (swiper.params.initialSlide ?? 0) > 0) {
         swiper._cssModeVirtualInitialSet = true;
         requestAnimationFrame(() => {
           wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = t;
@@ -151,9 +159,9 @@ export default function slideTo(index = 0, speed, runCallbacks = true, internal,
   const browser = getBrowser();
   const isSafari = browser.isSafari;
   if (isVirtual && !initial && isSafari && swiper.isElement) {
-    swiper.virtual.update(false, false, slideIndex);
+    (swiper.virtual as any).update(false, false, slideIndex);
   }
-  swiper.setTransition(speed);
+  swiper.setTransition(speed!);
   swiper.setTranslate(translate);
   swiper.updateActiveIndex(slideIndex);
   swiper.updateSlidesClasses();
@@ -165,16 +173,25 @@ export default function slideTo(index = 0, speed, runCallbacks = true, internal,
   } else if (!swiper.animating) {
     swiper.animating = true;
     if (!swiper.onSlideToWrapperTransitionEnd) {
-      swiper.onSlideToWrapperTransitionEnd = function transitionEnd(e) {
+      swiper.onSlideToWrapperTransitionEnd = function transitionEnd(
+        this: HTMLElement,
+        e: TransitionEvent,
+      ) {
         if (!swiper || swiper.destroyed) return;
         if (e.target !== this) return;
-        swiper.wrapperEl.removeEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
+        swiper.wrapperEl.removeEventListener(
+          'transitionend',
+          swiper.onSlideToWrapperTransitionEnd as EventListener,
+        );
         swiper.onSlideToWrapperTransitionEnd = null;
         delete swiper.onSlideToWrapperTransitionEnd;
         swiper.transitionEnd(runCallbacks, direction);
-      };
+      } as any;
     }
-    swiper.wrapperEl.addEventListener('transitionend', swiper.onSlideToWrapperTransitionEnd);
+    swiper.wrapperEl.addEventListener(
+      'transitionend',
+      swiper.onSlideToWrapperTransitionEnd as EventListener,
+    );
   }
 
   return true;

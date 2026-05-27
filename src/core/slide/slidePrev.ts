@@ -1,5 +1,12 @@
 /* eslint no-unused-vars: "off" */
-export default function slidePrev(speed, runCallbacks = true, internal) {
+import type { Swiper } from '../core';
+
+export default function slidePrev(
+  this: Swiper,
+  speed?: number,
+  runCallbacks = true,
+  internal?: boolean,
+): boolean | Swiper {
   const swiper = this;
   const { params, snapGrid, slidesGrid, rtlTranslate, enabled, animating } = swiper;
   if (!enabled || swiper.destroyed) return swiper;
@@ -7,7 +14,7 @@ export default function slidePrev(speed, runCallbacks = true, internal) {
     speed = swiper.params.speed;
   }
 
-  const isVirtual = swiper.virtual && params.virtual.enabled;
+  const isVirtual = swiper.virtual && (params.virtual as any).enabled;
 
   if (params.loop) {
     if (animating && !isVirtual && params.loopPreventsSliding) return false;
@@ -18,20 +25,19 @@ export default function slidePrev(speed, runCallbacks = true, internal) {
   }
   const translate = rtlTranslate ? swiper.translate : -swiper.translate;
 
-  function normalize(val) {
+  function normalize(val: number): number {
     if (val < 0) return -Math.floor(Math.abs(val));
     return Math.floor(val);
   }
   const normalizedTranslate = normalize(translate);
   const normalizedSnapGrid = snapGrid.map((val) => normalize(val));
 
-  const isFreeMode = params.freeMode && params.freeMode.enabled;
-  let prevSnap = snapGrid[normalizedSnapGrid.indexOf(normalizedTranslate) - 1];
+  const isFreeMode = params.freeMode && (params.freeMode as any).enabled;
+  let prevSnap: number | undefined = snapGrid[normalizedSnapGrid.indexOf(normalizedTranslate) - 1];
   if (typeof prevSnap === 'undefined' && (params.cssMode || isFreeMode)) {
-    let prevSnapIndex;
+    let prevSnapIndex: number | undefined;
     snapGrid.forEach((snap, snapIndex) => {
       if (normalizedTranslate >= snap) {
-        // prevSnap = snap;
         prevSnapIndex = snapIndex;
       }
     });
@@ -56,8 +62,8 @@ export default function slidePrev(speed, runCallbacks = true, internal) {
   }
   if (params.rewind && swiper.isBeginning) {
     const lastIndex =
-      swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual
-        ? swiper.virtual.slides.length - 1
+      swiper.params.virtual && (swiper.params.virtual as any).enabled && swiper.virtual
+        ? (swiper.virtual as any).slides.length - 1
         : swiper.slides.length - 1;
     return swiper.slideTo(lastIndex, speed, runCallbacks, internal);
   } else if (params.loop && swiper.activeIndex === 0 && params.cssMode) {

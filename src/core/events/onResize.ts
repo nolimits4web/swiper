@@ -1,4 +1,6 @@
-export default function onResize() {
+import type { Swiper } from '../core';
+
+export default function onResize(this: Swiper): void {
   const swiper = this;
 
   const { params, el } = swiper;
@@ -13,7 +15,7 @@ export default function onResize() {
   // Save locks
   const { allowSlideNext, allowSlidePrev, snapGrid } = swiper;
 
-  const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
+  const isVirtual = swiper.virtual && (swiper.params.virtual as any).enabled;
 
   // Disable locks on resize
   swiper.allowSlideNext = true;
@@ -25,13 +27,13 @@ export default function onResize() {
   swiper.updateSlidesClasses();
   const isVirtualLoop = isVirtual && params.loop;
   if (
-    (params.slidesPerView === 'auto' || params.slidesPerView > 1) &&
+    (params.slidesPerView === 'auto' || (params.slidesPerView as number) > 1) &&
     swiper.isEnd &&
     !swiper.isBeginning &&
     !swiper.params.centeredSlides &&
     !isVirtualLoop
   ) {
-    const slides = isVirtual ? swiper.virtual.slides : swiper.slides;
+    const slides = isVirtual ? (swiper.virtual as any).slides : swiper.slides;
     swiper.slideTo(slides.length - 1, 0, false, true);
   } else {
     if (swiper.params.loop && !isVirtual) {
@@ -41,11 +43,11 @@ export default function onResize() {
     }
   }
 
-  if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {
-    clearTimeout(swiper.autoplay.resizeTimeout);
-    swiper.autoplay.resizeTimeout = setTimeout(() => {
-      if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {
-        swiper.autoplay.resume();
+  if (swiper.autoplay && (swiper.autoplay as any).running && (swiper.autoplay as any).paused) {
+    clearTimeout((swiper.autoplay as any).resizeTimeout);
+    (swiper.autoplay as any).resizeTimeout = setTimeout(() => {
+      if (swiper.autoplay && (swiper.autoplay as any).running && (swiper.autoplay as any).paused) {
+        (swiper.autoplay as any).resume();
       }
     }, 500);
   }

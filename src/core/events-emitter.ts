@@ -1,45 +1,61 @@
 /* eslint-disable no-underscore-dangle */
+import type { Swiper, SwiperEventHandler } from './core';
+import type { SwiperEvents } from '../types/swiper-events.d.ts';
+
+interface OnceHandler extends SwiperEventHandler {
+  __emitterProxy?: SwiperEventHandler;
+}
 
 export default {
-  on(events, handler, priority) {
+  on(
+    this: Swiper,
+    events: keyof SwiperEvents | string,
+    handler: SwiperEventHandler,
+    priority?: boolean,
+  ): Swiper {
     const self = this;
     if (!self.eventsListeners || self.destroyed) return self;
     if (typeof handler !== 'function') return self;
-    const method = priority ? 'unshift' : 'push';
-    events.split(' ').forEach((event) => {
+    const method: 'unshift' | 'push' = priority ? 'unshift' : 'push';
+    (events as string).split(' ').forEach((event) => {
       if (!self.eventsListeners[event]) self.eventsListeners[event] = [];
-      self.eventsListeners[event][method](handler);
+      self.eventsListeners[event]![method](handler);
     });
     return self;
   },
 
-  once(events, handler, priority) {
+  once(
+    this: Swiper,
+    events: keyof SwiperEvents | string,
+    handler: SwiperEventHandler,
+    priority?: boolean,
+  ): Swiper {
     const self = this;
     if (!self.eventsListeners || self.destroyed) return self;
     if (typeof handler !== 'function') return self;
-    function onceHandler(...args) {
+    const onceHandler: OnceHandler = function onceHandlerFn(...args: any[]) {
       self.off(events, onceHandler);
       if (onceHandler.__emitterProxy) {
         delete onceHandler.__emitterProxy;
       }
       handler.apply(self, args);
-    }
+    };
     onceHandler.__emitterProxy = handler;
-    return self.on(events, onceHandler, priority);
+    return self.on(events as any, onceHandler, priority);
   },
 
-  onAny(handler, priority) {
+  onAny(this: Swiper, handler: SwiperEventHandler, priority?: boolean): Swiper {
     const self = this;
     if (!self.eventsListeners || self.destroyed) return self;
     if (typeof handler !== 'function') return self;
-    const method = priority ? 'unshift' : 'push';
+    const method: 'unshift' | 'push' = priority ? 'unshift' : 'push';
     if (self.eventsAnyListeners.indexOf(handler) < 0) {
       self.eventsAnyListeners[method](handler);
     }
     return self;
   },
 
-  offAny(handler) {
+  offAny(this: Swiper, handler: SwiperEventHandler): Swiper {
     const self = this;
     if (!self.eventsListeners || self.destroyed) return self;
     if (!self.eventsAnyListeners) return self;
@@ -50,20 +66,20 @@ export default {
     return self;
   },
 
-  off(events, handler) {
+  off(this: Swiper, events: keyof SwiperEvents | string, handler?: SwiperEventHandler): Swiper {
     const self = this;
     if (!self.eventsListeners || self.destroyed) return self;
     if (!self.eventsListeners) return self;
-    events.split(' ').forEach((event) => {
+    (events as string).split(' ').forEach((event) => {
       if (typeof handler === 'undefined') {
         self.eventsListeners[event] = [];
       } else if (self.eventsListeners[event]) {
-        self.eventsListeners[event].forEach((eventHandler, index) => {
+        self.eventsListeners[event]!.forEach((eventHandler: OnceHandler, index) => {
           if (
             eventHandler === handler ||
             (eventHandler.__emitterProxy && eventHandler.__emitterProxy === handler)
           ) {
-            self.eventsListeners[event].splice(index, 1);
+            self.eventsListeners[event]!.splice(index, 1);
           }
         });
       }
@@ -71,13 +87,13 @@ export default {
     return self;
   },
 
-  emit(...args) {
+  emit(this: Swiper, ...args: any[]): Swiper {
     const self = this;
     if (!self.eventsListeners || self.destroyed) return self;
     if (!self.eventsListeners) return self;
-    let events;
-    let data;
-    let context;
+    let events: string | string[];
+    let data: any[];
+    let context: any;
     if (typeof args[0] === 'string' || Array.isArray(args[0])) {
       events = args[0];
       data = args.slice(1, args.length);
@@ -88,7 +104,7 @@ export default {
       context = args[0].context || self;
     }
     data.unshift(context);
-    const eventsArray = Array.isArray(events) ? events : events.split(' ');
+    const eventsArray = Array.isArray(events) ? events : (events as string).split(' ');
 
     eventsArray.forEach((event) => {
       if (self.eventsAnyListeners && self.eventsAnyListeners.length) {
@@ -97,7 +113,7 @@ export default {
         });
       }
       if (self.eventsListeners && self.eventsListeners[event]) {
-        self.eventsListeners[event].forEach((eventHandler) => {
+        self.eventsListeners[event]!.forEach((eventHandler) => {
           eventHandler.apply(context, data);
         });
       }

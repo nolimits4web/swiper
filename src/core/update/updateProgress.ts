@@ -1,4 +1,6 @@
-export default function updateProgress(translate) {
+import type { Swiper } from '../core';
+
+export default function updateProgress(this: Swiper, translate?: number): void {
   const swiper = this;
   if (typeof translate === 'undefined') {
     const multiplier = swiper.rtlTranslate ? -1 : 1;
@@ -7,7 +9,8 @@ export default function updateProgress(translate) {
   }
   const params = swiper.params;
   const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
-  let { progress, isBeginning, isEnd, progressLoop } = swiper;
+  let { progress, isBeginning, isEnd } = swiper;
+  let progressLoop = (swiper as any).progressLoop as number | undefined;
   const wasBeginning = isBeginning;
   const wasEnd = isEnd;
   if (translatesDiff === 0) {
@@ -27,16 +30,16 @@ export default function updateProgress(translate) {
   if (params.loop) {
     const firstSlideIndex = swiper.getSlideIndexByData(0);
     const lastSlideIndex = swiper.getSlideIndexByData(swiper.slides.length - 1);
-    const firstSlideTranslate = swiper.slidesGrid[firstSlideIndex];
-    const lastSlideTranslate = swiper.slidesGrid[lastSlideIndex];
-    const translateMax = swiper.slidesGrid[swiper.slidesGrid.length - 1];
+    const firstSlideTranslate = swiper.slidesGrid[firstSlideIndex]!;
+    const lastSlideTranslate = swiper.slidesGrid[lastSlideIndex]!;
+    const translateMax = swiper.slidesGrid[swiper.slidesGrid.length - 1]!;
     const translateAbs = Math.abs(translate);
     if (translateAbs >= firstSlideTranslate) {
       progressLoop = (translateAbs - firstSlideTranslate) / translateMax;
     } else {
       progressLoop = (translateAbs + translateMax - lastSlideTranslate) / translateMax;
     }
-    if (progressLoop > 1) progressLoop -= 1;
+    if ((progressLoop as number) > 1) progressLoop = (progressLoop as number) - 1;
   }
 
   Object.assign(swiper, {
