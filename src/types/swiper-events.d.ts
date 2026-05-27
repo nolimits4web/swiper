@@ -3,19 +3,13 @@ import type Swiper from './swiper-class.d.ts';
 
 // Migrated module events live in their own .ts module and augment SwiperEvents
 // via `declare module '../../core/core'`. Phase 5 deletes src/types/ entirely.
-import type { AutoplayEvents } from './modules/autoplay.d.ts';
-import type { ControllerEvents } from './modules/controller.d.ts';
 import type { CoverflowEffectEvents } from './modules/effect-coverflow.d.ts';
 import type { CubeEffectEvents } from './modules/effect-cube.d.ts';
 import type { FadeEffectEvents } from './modules/effect-fade.d.ts';
 import type { FlipEffectEvents } from './modules/effect-flip.d.ts';
 import type { CreativeEffectEvents } from './modules/effect-creative.d.ts';
 import type { CardsEffectEvents } from './modules/effect-cards.d.ts';
-import type { ParallaxEvents } from './modules/parallax.d.ts';
-import type { ThumbsEvents } from './modules/thumbs.d.ts';
 import type { VirtualEvents } from './modules/virtual.d.ts';
-import type { ZoomEvents } from './modules/zoom.d.ts';
-import type { FreeModeEvents } from './modules/free-mode.d.ts';
 
 export interface SwiperEvents {
   // CORE_EVENTS_START
@@ -172,14 +166,14 @@ export interface SwiperEvents {
   fromEdge: (swiper: Swiper) => void;
 
   /**
-   * Event will be fired when swiper's wrapper change its position. Receives current translate value as an arguments
+   * Event will be fired when swiper's wrapper change its position. Receives current translate value as an arguments. The optional third argument is set by the Controller module to short-circuit re-propagation between linked Swipers.
    */
-  setTranslate: (swiper: Swiper, translate: number) => void;
+  setTranslate: (swiper: Swiper, translate: number, byController?: boolean | Swiper) => void;
 
   /**
-   * Event will be fired everytime when swiper starts animation. Receives current transition duration (in ms) as an arguments
+   * Event will be fired everytime when swiper starts animation. Receives current transition duration (in ms) as an arguments. The optional third argument is set by the Controller module to short-circuit re-propagation between linked Swipers.
    */
-  setTransition: (swiper: Swiper, transition: number) => void;
+  setTransition: (swiper: Swiper, transition: number, byController?: boolean | Swiper) => void;
 
   /**
    * Event will be fired on window resize right before swiper's onresize manipulation
@@ -330,16 +324,10 @@ export interface SwiperEvents {
   // CORE_EVENTS_END
 }
 
-interface SwiperEvents extends AutoplayEvents {}
-interface SwiperEvents extends ControllerEvents {}
 interface SwiperEvents extends CoverflowEffectEvents {}
 interface SwiperEvents extends CubeEffectEvents {}
 interface SwiperEvents extends FadeEffectEvents {}
 interface SwiperEvents extends FlipEffectEvents {}
 interface SwiperEvents extends CreativeEffectEvents {}
 interface SwiperEvents extends CardsEffectEvents {}
-interface SwiperEvents extends ParallaxEvents {}
-interface SwiperEvents extends ThumbsEvents {}
 interface SwiperEvents extends VirtualEvents {}
-interface SwiperEvents extends ZoomEvents {}
-interface SwiperEvents extends FreeModeEvents {}

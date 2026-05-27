@@ -3,7 +3,7 @@ import type { Swiper } from '../core';
 export default function setTransition(
   this: Swiper,
   duration: number,
-  byController?: boolean,
+  byController?: boolean | Swiper,
 ): void {
   const swiper = this;
 

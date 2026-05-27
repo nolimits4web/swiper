@@ -3,7 +3,7 @@ import type { Swiper } from '../core';
 export default function setTranslate(
   this: Swiper,
   translate: number,
-  byController?: boolean,
+  byController?: boolean | Swiper,
 ): void {
   const swiper = this;
   const { rtlTranslate: rtl, params, wrapperEl, progress } = swiper;

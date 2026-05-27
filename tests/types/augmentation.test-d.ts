@@ -22,6 +22,12 @@ import '../../src/modules/keyboard/keyboard';
 import '../../src/modules/mousewheel/mousewheel';
 import '../../src/modules/hash-navigation/hash-navigation';
 import '../../src/modules/history/history';
+import '../../src/modules/autoplay/autoplay';
+import '../../src/modules/free-mode/free-mode';
+import '../../src/modules/controller/controller';
+import '../../src/modules/thumbs/thumbs';
+import '../../src/modules/parallax/parallax';
+import '../../src/modules/zoom/zoom';
 
 // `Expect<T>` errors at compile time if T is not literal `true`.
 type Expect<T extends true> = T;
@@ -40,6 +46,12 @@ type _S_mousewheel = Expect<HasKey<Swiper, 'mousewheel'>>;
 type _S_navigation = Expect<HasKey<Swiper, 'navigation'>>;
 type _S_pagination = Expect<HasKey<Swiper, 'pagination'>>;
 type _S_scrollbar = Expect<HasKey<Swiper, 'scrollbar'>>;
+type _S_autoplay = Expect<HasKey<Swiper, 'autoplay'>>;
+type _S_freeMode = Expect<HasKey<Swiper, 'freeMode'>>;
+type _S_controller = Expect<HasKey<Swiper, 'controller'>>;
+type _S_thumbs = Expect<HasKey<Swiper, 'thumbs'>>;
+type _S_parallax = Expect<HasKey<Swiper, 'parallax'>>;
+type _S_zoom = Expect<HasKey<Swiper, 'zoom'>>;
 
 // Internal-only members of Swiper.<module> (declared in *Internals interfaces
 // in each module, beyond the published *Methods surface) are reachable.
@@ -55,13 +67,26 @@ void swiper.pagination.render; // () => void
 void swiper.scrollbar.updateSize; // () => void
 void swiper.keyboard.disable; // () => void
 void swiper.mousewheel.enable; // () => void
+void swiper.autoplay.start; // () => boolean
+void swiper.autoplay.running; // boolean
+void swiper.freeMode.onTouchEnd; // (...args) => void (Internals widens the signature)
+void swiper.controller.control; // Swiper | Swiper[] | undefined
+void swiper.thumbs.update; // (initial?, p?) => void
+void swiper.zoom.in; // (ratio?: number) => void
+void swiper.zoom.scale; // number
 
 // --- SwiperOptions.<module> accepts the boolean form (public surface) ---
 const _o1: SwiperOptions = { navigation: true };
 const _o2: SwiperOptions = { pagination: { el: '.p', clickable: true } };
 const _o3: SwiperOptions = { a11y: false };
 const _o4: SwiperOptions = { history: { key: 'slides' } };
-void [_o1, _o2, _o3, _o4];
+const _o5: SwiperOptions = { autoplay: true };
+const _o6: SwiperOptions = { autoplay: { delay: 5000 } };
+const _o7: SwiperOptions = { freeMode: true };
+const _o8: SwiperOptions = { controller: true };
+const _o9: SwiperOptions = { zoom: { maxRatio: 5 } };
+const _o10: SwiperOptions = { parallax: true };
+void [_o1, _o2, _o3, _o4, _o5, _o6, _o7, _o8, _o9, _o10];
 
 // --- SwiperParams.<module> is the normalized object form (internal) ---
 // `swiper.params.navigation` is `NavigationOptions | undefined` — never the
@@ -88,8 +113,14 @@ type _E_pageRender = Expect<HasKey<SwiperEvents, 'paginationRender'>>;
 type _E_scrollDrag = Expect<HasKey<SwiperEvents, 'scrollbarDragStart'>>;
 type _E_keyPress = Expect<HasKey<SwiperEvents, 'keyPress'>>;
 type _E_hashChange = Expect<HasKey<SwiperEvents, 'hashChange'>>;
+type _E_autoplay = Expect<HasKey<SwiperEvents, 'autoplay'>>;
+type _E_autoplayStart = Expect<HasKey<SwiperEvents, 'autoplayStart'>>;
+type _E_zoomChange = Expect<HasKey<SwiperEvents, 'zoomChange'>>;
+type _E_freeModeStaticRelease = Expect<HasKey<SwiperEvents, '_freeModeStaticRelease'>>;
 
 // .on() / .emit() against augmented event names type-check.
 swiper.on('navigationShow', (s) => void s);
 swiper.on('paginationRender', (s) => void s);
 swiper.emit('hashChange');
+swiper.on('autoplayStart', (s) => void s);
+swiper.on('zoomChange', (s, scale) => void [s, scale]);

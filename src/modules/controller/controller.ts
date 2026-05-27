@@ -1,7 +1,129 @@
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
+import type { Swiper, SwiperModuleFn } from '../../core/core';
 import { elementTransitionEnd, nextTick } from '../../shared/utils';
 
-export default function Controller({ swiper, extendParams, on }) {
+export interface ControllerOptions {
+  /**
+   * Pass here another Swiper instance or array with Swiper instances that should be controlled
+   * by this Swiper. Also accepts string with CSS selector of Swiper element, or HTMLElement of Swiper element
+   */
+  control?: Swiper | Swiper[] | string | HTMLElement | null;
+
+  /**
+   * Set to `true` and controlling will be in inverse direction
+   *
+   * @default false
+   */
+  inverse?: boolean;
+
+  /**
+   * Defines a way how to control another slider: slide by slide
+   * (with respect to other slider's grid) or depending on all slides/container
+   * (depending on total slider percentage).
+   *
+   * @default 'slide'
+   */
+  by?: 'slide' | 'container';
+}
+
+export interface ControllerMethods {
+  /**
+   * Pass here another Swiper instance or array with Swiper instances that should be controlled
+   * by this Swiper
+   */
+  control?: Swiper | Swiper[];
+}
+
+export interface ControllerEvents {}
+
+class LinearSpline {
+  x: number[];
+  y: number[];
+  lastIndex: number;
+  private binarySearch: (array: number[], val: number) => number;
+
+  constructor(x: number[], y: number[]) {
+    let maxIndex: number;
+    let minIndex: number;
+    let guess: number;
+    this.binarySearch = (array, val) => {
+      minIndex = -1;
+      maxIndex = array.length;
+      while (maxIndex - minIndex > 1) {
+        guess = (maxIndex + minIndex) >> 1;
+        if (array[guess]! <= val) {
+          minIndex = guess;
+        } else {
+          maxIndex = guess;
+        }
+      }
+      return maxIndex;
+    };
+    this.x = x;
+    this.y = y;
+    this.lastIndex = x.length - 1;
+  }
+
+  interpolate(x2: number): number {
+    if (!x2) return 0;
+    const i3 = this.binarySearch(this.x, x2);
+    const i1 = i3 - 1;
+    // Given an x value (x2), return the expected y2 value:
+    // (x1,y1) is the known point before given value,
+    // (x3,y3) is the known point after given value.
+    // y2 := ((x2−x1) × (y3−y1)) ÷ (x3−x1) + y1
+    return (
+      ((x2 - this.x[i1]!) * (this.y[i3]! - this.y[i1]!)) / (this.x[i3]! - this.x[i1]!) + this.y[i1]!
+    );
+  }
+}
+
+// Runtime-only members attached to swiper.controller beyond the published API.
+// byController is whatever was passed through the setTranslate / setTransition
+// event — boolean from core, Swiper from another controller — both forms are
+// only used for an identity check, never read for their value.
+interface ControllerInternals extends ControllerMethods {
+  spline?: LinearSpline;
+  setTranslate(translate: number, byController?: boolean | Swiper): void;
+  setTransition(duration: number, byController?: boolean | Swiper): void;
+}
+
+type ControllerParamsRuntime = Required<Omit<ControllerOptions, 'control'>> &
+  Pick<ControllerOptions, 'control'>;
+
+declare module '../../core/core' {
+  interface Swiper {
+    controller: ControllerInternals;
+  }
+  interface SwiperOptions {
+    /**
+     * Object with controller parameters or boolean `true` to enable with default settings
+     *
+     * @example
+     * ```js
+     * const swiper = new Swiper('.swiper', {
+     *   controller: {
+     *     inverse: true,
+     *   },
+     * });
+     * ```
+     */
+    controller?: ControllerOptions | boolean;
+  }
+  interface SwiperParams {
+    controller?: ControllerOptions;
+  }
+  interface SwiperEvents extends ControllerEvents {}
+}
+
+// Custom-element <swiper-container> attaches the Swiper instance back onto the
+// host element. controller can target the element via CSS selector or direct
+// reference, so we narrow that path through this minimal interface.
+interface SwiperHostElement extends HTMLElement {
+  swiper?: Swiper;
+}
+
+const Controller: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   extendParams({
     controller: {
       control: undefined,
@@ -12,62 +134,23 @@ export default function Controller({ swiper, extendParams, on }) {
 
   swiper.controller = {
     control: undefined,
-  };
+  } as ControllerInternals;
 
-  function LinearSpline(x, y) {
-    const binarySearch = (function search() {
-      let maxIndex;
-      let minIndex;
-      let guess;
-      return (array, val) => {
-        minIndex = -1;
-        maxIndex = array.length;
-        while (maxIndex - minIndex > 1) {
-          guess = (maxIndex + minIndex) >> 1;
-          if (array[guess] <= val) {
-            minIndex = guess;
-          } else {
-            maxIndex = guess;
-          }
-        }
-        return maxIndex;
-      };
-    })();
-    this.x = x;
-    this.y = y;
-    this.lastIndex = x.length - 1;
-    // Given an x value (x2), return the expected y2 value:
-    // (x1,y1) is the known point before given value,
-    // (x3,y3) is the known point after given value.
-    let i1;
-    let i3;
-
-    this.interpolate = function interpolate(x2) {
-      if (!x2) return 0;
-
-      // Get the indexes of x1 and x3 (the array indexes before and after given x2):
-      i3 = binarySearch(this.x, x2);
-      i1 = i3 - 1;
-
-      // We have our indexes i1 & i3, so we can calculate already:
-      // y2 := ((x2−x1) × (y3−y1)) ÷ (x3−x1) + y1
-      return (
-        ((x2 - this.x[i1]) * (this.y[i3] - this.y[i1])) / (this.x[i3] - this.x[i1]) + this.y[i1]
-      );
-    };
-    return this;
+  function getParams(): ControllerParamsRuntime {
+    return swiper.params.controller as ControllerParamsRuntime;
   }
-  function getInterpolateFunction(c) {
+
+  function getInterpolateFunction(c: Swiper): void {
     swiper.controller.spline = swiper.params.loop
       ? new LinearSpline(swiper.slidesGrid, c.slidesGrid)
       : new LinearSpline(swiper.snapGrid, c.snapGrid);
   }
-  function setTranslate(_t, byController) {
+  function setTranslate(_t: number, byController?: boolean | Swiper): void {
     const controlled = swiper.controller.control;
-    let multiplier;
-    let controlledTranslate;
-    const Swiper = swiper.constructor;
-    function setControlledTranslate(c) {
+    let multiplier: number;
+    let controlledTranslate: number;
+    const SwiperCtor = swiper.constructor as typeof Swiper;
+    function setControlledTranslate(c: Swiper): void {
       if (c.destroyed) return;
 
       // this will create an Interpolate function based on the snapGrids
@@ -75,14 +158,17 @@ export default function Controller({ swiper, extendParams, on }) {
       // it makes sense to create this only once and recall it for the interpolation
       // the function does a lot of value caching for performance
       const translate = swiper.rtlTranslate ? -swiper.translate : swiper.translate;
-      if (swiper.params.controller.by === 'slide') {
+      const controllerParams = getParams();
+      if (controllerParams.by === 'slide') {
         getInterpolateFunction(c);
         // i am not sure why the values have to be multiplicated this way, tried to invert the snapGrid
         // but it did not work out
-        controlledTranslate = -swiper.controller.spline.interpolate(-translate);
+        controlledTranslate = -swiper.controller.spline!.interpolate(-translate);
+      } else {
+        controlledTranslate = 0;
       }
 
-      if (!controlledTranslate || swiper.params.controller.by === 'container') {
+      if (!controlledTranslate || controllerParams.by === 'container') {
         multiplier =
           (c.maxTranslate() - c.minTranslate()) / (swiper.maxTranslate() - swiper.minTranslate());
         if (Number.isNaN(multiplier) || !Number.isFinite(multiplier)) {
@@ -91,7 +177,7 @@ export default function Controller({ swiper, extendParams, on }) {
         controlledTranslate = (translate - swiper.minTranslate()) * multiplier + c.minTranslate();
       }
 
-      if (swiper.params.controller.inverse) {
+      if (controllerParams.inverse) {
         controlledTranslate = c.maxTranslate() - controlledTranslate;
       }
       c.updateProgress(controlledTranslate);
@@ -101,19 +187,19 @@ export default function Controller({ swiper, extendParams, on }) {
     }
     if (Array.isArray(controlled)) {
       for (let i = 0; i < controlled.length; i += 1) {
-        if (controlled[i] !== byController && controlled[i] instanceof Swiper) {
-          setControlledTranslate(controlled[i]);
+        const target = controlled[i];
+        if (target && target !== byController && target instanceof SwiperCtor) {
+          setControlledTranslate(target);
         }
       }
-    } else if (controlled instanceof Swiper && byController !== controlled) {
+    } else if (controlled instanceof SwiperCtor && byController !== controlled) {
       setControlledTranslate(controlled);
     }
   }
-  function setTransition(duration, byController) {
-    const Swiper = swiper.constructor;
+  function setTransition(duration: number, byController?: boolean | Swiper): void {
+    const SwiperCtor = swiper.constructor as typeof Swiper;
     const controlled = swiper.controller.control;
-    let i;
-    function setControlledTransition(c) {
+    function setControlledTransition(c: Swiper): void {
       if (c.destroyed) return;
 
       c.setTransition(duration, swiper);
@@ -131,17 +217,18 @@ export default function Controller({ swiper, extendParams, on }) {
       }
     }
     if (Array.isArray(controlled)) {
-      for (i = 0; i < controlled.length; i += 1) {
-        if (controlled[i] !== byController && controlled[i] instanceof Swiper) {
-          setControlledTransition(controlled[i]);
+      for (let i = 0; i < controlled.length; i += 1) {
+        const target = controlled[i];
+        if (target && target !== byController && target instanceof SwiperCtor) {
+          setControlledTransition(target);
         }
       }
-    } else if (controlled instanceof Swiper && byController !== controlled) {
+    } else if (controlled instanceof SwiperCtor && byController !== controlled) {
       setControlledTransition(controlled);
     }
   }
 
-  function removeSpline() {
+  function removeSpline(): void {
     if (!swiper.controller.control) return;
     if (swiper.controller.spline) {
       swiper.controller.spline = undefined;
@@ -149,24 +236,26 @@ export default function Controller({ swiper, extendParams, on }) {
     }
   }
   on('beforeInit', () => {
+    const controllerParam = getParams().control;
     if (
-      typeof window !== 'undefined' && // eslint-disable-line
-      (typeof swiper.params.controller.control === 'string' ||
-        swiper.params.controller.control instanceof HTMLElement)
+      typeof window !== 'undefined' &&
+      (typeof controllerParam === 'string' || controllerParam instanceof HTMLElement)
     ) {
-      const controlElements =
-        typeof swiper.params.controller.control === 'string'
-          ? [...document.querySelectorAll(swiper.params.controller.control)]
-          : [swiper.params.controller.control];
+      const controlElements: SwiperHostElement[] =
+        typeof controllerParam === 'string'
+          ? [...document.querySelectorAll<SwiperHostElement>(controllerParam)]
+          : [controllerParam as SwiperHostElement];
 
       controlElements.forEach((controlElement) => {
         if (!swiper.controller.control) swiper.controller.control = [];
+        const list = swiper.controller.control as Swiper[];
         if (controlElement && controlElement.swiper) {
-          swiper.controller.control.push(controlElement.swiper);
+          list.push(controlElement.swiper);
         } else if (controlElement) {
           const eventName = `${swiper.params.eventsPrefix}init`;
-          const onControllerSwiper = (e) => {
-            swiper.controller.control.push(e.detail[0]);
+          const onControllerSwiper = (e: Event): void => {
+            const detail = (e as CustomEvent<Swiper[]>).detail;
+            if (detail && detail[0]) list.push(detail[0]);
             swiper.update();
             controlElement.removeEventListener(eventName, onControllerSwiper);
           };
@@ -176,7 +265,9 @@ export default function Controller({ swiper, extendParams, on }) {
 
       return;
     }
-    swiper.controller.control = swiper.params.controller.control;
+    // After this point control is either Swiper or Swiper[] (or null/undefined),
+    // never the string/HTMLElement forms that the public option accepts.
+    swiper.controller.control = controllerParam as Swiper | Swiper[] | undefined;
   });
   on('update', () => {
     removeSpline();
@@ -187,17 +278,25 @@ export default function Controller({ swiper, extendParams, on }) {
   on('observerUpdate', () => {
     removeSpline();
   });
+  // Event payloads come typed against the legacy public Swiper class
+  // (src/types/swiper-class.d.ts) until Phase 5 deletes src/types/; cast the
+  // forwarded byController back to the core Swiper so it lines up with the
+  // controller-internal signatures.
   on('setTranslate', (_s, translate, byController) => {
-    if (!swiper.controller.control || swiper.controller.control.destroyed) return;
-    swiper.controller.setTranslate(translate, byController);
+    if (!swiper.controller.control) return;
+    if (!Array.isArray(swiper.controller.control) && swiper.controller.control.destroyed) return;
+    swiper.controller.setTranslate(translate, byController as boolean | Swiper | undefined);
   });
   on('setTransition', (_s, duration, byController) => {
-    if (!swiper.controller.control || swiper.controller.control.destroyed) return;
-    swiper.controller.setTransition(duration, byController);
+    if (!swiper.controller.control) return;
+    if (!Array.isArray(swiper.controller.control) && swiper.controller.control.destroyed) return;
+    swiper.controller.setTransition(duration, byController as boolean | Swiper | undefined);
   });
 
   Object.assign(swiper.controller, {
     setTranslate,
     setTransition,
   });
-}
+};
+
+export default Controller;

@@ -39,19 +39,13 @@ import type { CSSSelector } from '../types/shared.d.ts';
 // augmentation yet. Each migrated module removes itself from this list and
 // instead `declare module '../../core/core'` to augment `Swiper`,
 // `SwiperOptions`, `SwiperParams`, and `SwiperEvents` from its own .ts file.
-import type { AutoplayMethods } from '../types/modules/autoplay.d.ts';
-import type { ControllerMethods } from '../types/modules/controller.d.ts';
 import type { CoverflowEffectMethods } from '../types/modules/effect-coverflow.d.ts';
 import type { CubeEffectMethods } from '../types/modules/effect-cube.d.ts';
 import type { FadeEffectMethods } from '../types/modules/effect-fade.d.ts';
 import type { FlipEffectMethods } from '../types/modules/effect-flip.d.ts';
 import type { CreativeEffectMethods } from '../types/modules/effect-creative.d.ts';
 import type { CardsEffectMethods } from '../types/modules/effect-cards.d.ts';
-import type { ParallaxMethods } from '../types/modules/parallax.d.ts';
-import type { ThumbsMethods } from '../types/modules/thumbs.d.ts';
 import type { VirtualMethods } from '../types/modules/virtual.d.ts';
-import type { ZoomMethods } from '../types/modules/zoom.d.ts';
-import type { FreeModeMethods } from '../types/modules/free-mode.d.ts';
 import type { ManipulationMethods } from '../types/modules/manipulation.d.ts';
 
 // Canonical SwiperOptions / SwiperEvents — declared in core.ts so individual
@@ -232,7 +226,7 @@ export interface Swiper {
 
   // Translate methods (prototype mixin: src/core/translate)
   getTranslate(axis?: 'x' | 'y'): number;
-  setTranslate(translate: number, byController?: boolean): void;
+  setTranslate(translate: number, byController?: boolean | Swiper): void;
   minTranslate(): number;
   maxTranslate(): number;
   translateTo(
@@ -244,7 +238,7 @@ export interface Swiper {
   ): boolean;
 
   // Transition methods (prototype mixin: src/core/transition)
-  setTransition(duration: number, byController?: boolean): void;
+  setTransition(duration: number, byController?: boolean | Swiper): void;
   transitionStart(runCallbacks?: boolean, direction?: 'reset' | 'prev' | 'next'): void;
   transitionEnd(runCallbacks?: boolean, direction?: 'reset' | 'prev' | 'next'): void;
 
@@ -337,21 +331,16 @@ export interface Swiper {
   // Module-injected methods. Typed modules augment these via
   // `declare module '../../core/core'` from their own .ts file; untyped
   // modules still appear here until they migrate. Removed entries (one
-  // per migrated module): a11y, hashNavigation, history, keyboard,
-  // mousewheel, navigation, pagination, scrollbar.
-  autoplay: AutoplayMethods;
-  controller: ControllerMethods;
+  // per migrated module): a11y, autoplay, controller, freeMode,
+  // hashNavigation, history, keyboard, mousewheel, navigation, pagination,
+  // parallax, scrollbar, thumbs, zoom.
   coverflowEffect: CoverflowEffectMethods;
   cubeEffect: CubeEffectMethods;
   fadeEffect: FadeEffectMethods;
   flipEffect: FlipEffectMethods;
   creativeEffect: CreativeEffectMethods;
   cardsEffect: CardsEffectMethods;
-  parallax: ParallaxMethods;
-  thumbs: ThumbsMethods;
   virtual: VirtualMethods;
-  zoom: ZoomMethods;
-  freeMode: FreeModeMethods;
   grid: any;
 }
 

@@ -1,6 +1,105 @@
+import type { Swiper, SwiperModuleFn } from '../../core/core';
 import { elementChildren, isObject } from '../../shared/utils';
 
-export default function Thumb({ swiper, extendParams, on }) {
+export interface ThumbsOptions {
+  /**
+   * Swiper instance of swiper used as thumbs or object with Swiper parameters to initialize thumbs swiper
+   *
+   * @default null
+   */
+  swiper?: Swiper | string | HTMLElement | null;
+  /**
+   * Additional class that will be added to activated thumbs swiper slide
+   *
+   * @default 'swiper-slide-thumb-active'
+   */
+  slideThumbActiveClass?: string;
+  /**
+   * Additional class that will be added to thumbs swiper
+   *
+   * @default 'swiper-thumbs'
+   */
+  thumbsContainerClass?: string;
+  /**
+   * When enabled multiple thumbnail slides may get activated
+   *
+   * @default true
+   */
+  multipleActiveThumbs?: boolean;
+  /**
+   * Allows to set on which thumbs active slide from edge it should automatically move scroll thumbs. For example, if set to 1 and last visible thumb will be activated (1 from edge) it will auto scroll thumbs
+   *
+   * @default 0
+   */
+  autoScrollOffset?: number;
+}
+
+export interface ThumbsMethods {
+  /**
+   * Swiper instance of thumbs swiper
+   */
+  swiper: Swiper;
+
+  /**
+   * Update thumbs
+   */
+  update(initial: boolean, p?: { autoScroll?: boolean }): void;
+
+  /**
+   * Initialize thumbs
+   */
+  init(): boolean;
+}
+
+export interface ThumbsEvents {}
+
+// Runtime-only members. The published surface keeps swiper: Swiper non-null
+// for consumer convenience; the runtime initializes it as null and updates
+// only after the thumbs Swiper resolves.
+interface ThumbsInternals {
+  swiper: Swiper | null;
+  update(initial?: boolean, p?: { autoScroll?: boolean }): void;
+  init(): boolean;
+}
+
+// All ThumbsOptions fields are optional in the public type, but extendParams
+// fills them in at module init time. Use this view internally to access defaults
+// without proliferating `!` non-null assertions through the module.
+type ThumbsParamsRuntime = Required<Omit<ThumbsOptions, 'swiper'>> & Pick<ThumbsOptions, 'swiper'>;
+
+declare module '../../core/core' {
+  interface Swiper {
+    thumbs: ThumbsInternals;
+  }
+  interface SwiperOptions {
+    /**
+     * Object with thumbs component parameters
+     *
+     * @example
+     * ```js
+     * const swiper = new Swiper('.swiper', {
+     *   ...
+     *   thumbs: {
+     *     swiper: thumbsSwiper
+     *   }
+     * });
+     * ```
+     */
+    thumbs?: ThumbsOptions;
+  }
+  interface SwiperParams {
+    thumbs?: ThumbsOptions;
+  }
+  interface SwiperEvents extends ThumbsEvents {}
+}
+
+// Hosts that can hand back a Swiper instance via the .swiper property on the
+// custom <swiper-container> element.
+interface SwiperHostElement extends HTMLElement {
+  swiper?: Swiper;
+}
+
+const Thumb: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   extendParams({
     thumbs: {
       swiper: null,
@@ -16,30 +115,33 @@ export default function Thumb({ swiper, extendParams, on }) {
 
   swiper.thumbs = {
     swiper: null,
-  };
+  } as ThumbsInternals;
 
-  function isVirtualEnabled() {
+  function getParams(): ThumbsParamsRuntime {
+    return swiper.params.thumbs as ThumbsParamsRuntime;
+  }
+
+  function isVirtualEnabled(): boolean {
     const thumbsSwiper = swiper.thumbs.swiper;
     if (!thumbsSwiper || thumbsSwiper.destroyed) return false;
 
-    return thumbsSwiper.params.virtual && thumbsSwiper.params.virtual.enabled;
+    const virtual = thumbsSwiper.params.virtual as { enabled?: boolean } | undefined;
+    return !!virtual && !!virtual.enabled;
   }
 
-  function onThumbClick() {
+  function onThumbClick(): void {
     const thumbsSwiper = swiper.thumbs.swiper;
     if (!thumbsSwiper || thumbsSwiper.destroyed) return;
 
     const clickedIndex = thumbsSwiper.clickedIndex;
     const clickedSlide = thumbsSwiper.clickedSlide;
-    if (clickedSlide && clickedSlide.classList.contains(swiper.params.thumbs.slideThumbActiveClass))
-      return;
+    const thumbsParams = getParams();
+    if (clickedSlide && clickedSlide.classList.contains(thumbsParams.slideThumbActiveClass)) return;
     if (typeof clickedIndex === 'undefined' || clickedIndex === null) return;
-    let slideToIndex;
+    let slideToIndex: number;
     if (thumbsSwiper.params.loop) {
-      slideToIndex = parseInt(
-        thumbsSwiper.clickedSlide.getAttribute('data-swiper-slide-index'),
-        10,
-      );
+      const attr = thumbsSwiper.clickedSlide?.getAttribute('data-swiper-slide-index');
+      slideToIndex = attr == null ? clickedIndex : parseInt(attr, 10);
     } else {
       slideToIndex = clickedIndex;
     }
@@ -50,27 +152,28 @@ export default function Thumb({ swiper, extendParams, on }) {
     }
   }
 
-  function init() {
-    const { thumbs: thumbsParams } = swiper.params;
+  function init(): boolean {
+    const thumbsParams = getParams();
     if (initialized) return false;
     initialized = true;
-    const SwiperClass = swiper.constructor;
+    const SwiperClass = swiper.constructor as typeof Swiper;
 
     if (thumbsParams.swiper instanceof SwiperClass) {
       if (thumbsParams.swiper.destroyed) {
         initialized = false;
         return false;
       }
-      swiper.thumbs.swiper = thumbsParams.swiper;
-      Object.assign(swiper.thumbs.swiper.originalParams, {
+      const thumbsSwiper = thumbsParams.swiper;
+      swiper.thumbs.swiper = thumbsSwiper;
+      Object.assign(thumbsSwiper.originalParams, {
         watchSlidesProgress: true,
         slideToClickedSlide: false,
       });
-      Object.assign(swiper.thumbs.swiper.params, {
+      Object.assign(thumbsSwiper.params, {
         watchSlidesProgress: true,
         slideToClickedSlide: false,
       });
-      swiper.thumbs.swiper.update();
+      thumbsSwiper.update();
     } else if (isObject(thumbsParams.swiper)) {
       const thumbsSwiperParams = Object.assign({}, thumbsParams.swiper);
       Object.assign(thumbsSwiperParams, {
@@ -80,11 +183,13 @@ export default function Thumb({ swiper, extendParams, on }) {
       swiper.thumbs.swiper = new SwiperClass(thumbsSwiperParams);
       swiperCreated = true;
     }
-    swiper.thumbs.swiper.el.classList.add(swiper.params.thumbs.thumbsContainerClass);
-    swiper.thumbs.swiper.on('tap', onThumbClick);
+    const thumbsSwiper = swiper.thumbs.swiper;
+    if (!thumbsSwiper) return false;
+    thumbsSwiper.el.classList.add(thumbsParams.thumbsContainerClass);
+    thumbsSwiper.on('tap', onThumbClick);
 
     if (isVirtualEnabled()) {
-      swiper.thumbs.swiper.on('virtualUpdate', () => {
+      thumbsSwiper.on('virtualUpdate', () => {
         update(false, { autoScroll: false });
       });
     }
@@ -92,19 +197,21 @@ export default function Thumb({ swiper, extendParams, on }) {
     return true;
   }
 
-  function update(initial, p) {
+  function update(initial?: boolean, p?: { autoScroll?: boolean }): void {
     const thumbsSwiper = swiper.thumbs.swiper;
     if (!thumbsSwiper || thumbsSwiper.destroyed) return;
 
     // Activate thumbs
     let thumbsToActivate = 1;
-    const thumbActiveClass = swiper.params.thumbs.slideThumbActiveClass;
+    const thumbsParams = getParams();
+    const thumbActiveClass = thumbsParams.slideThumbActiveClass;
 
-    if (swiper.params.slidesPerView > 1 && !swiper.params.centeredSlides) {
-      thumbsToActivate = swiper.params.slidesPerView;
+    const slidesPerView = swiper.params.slidesPerView;
+    if (typeof slidesPerView === 'number' && slidesPerView > 1 && !swiper.params.centeredSlides) {
+      thumbsToActivate = slidesPerView;
     }
 
-    if (!swiper.params.thumbs.multipleActiveThumbs) {
+    if (!thumbsParams.multipleActiveThumbs) {
       thumbsToActivate = 1;
     }
 
@@ -122,8 +229,9 @@ export default function Thumb({ swiper, extendParams, on }) {
       }
     } else {
       for (let i = 0; i < thumbsToActivate; i += 1) {
-        if (thumbsSwiper.slides[swiper.realIndex + i]) {
-          thumbsSwiper.slides[swiper.realIndex + i].classList.add(thumbActiveClass);
+        const slide = thumbsSwiper.slides[swiper.realIndex + i];
+        if (slide) {
+          slide.classList.add(thumbActiveClass);
         }
       }
     }
@@ -133,26 +241,27 @@ export default function Thumb({ swiper, extendParams, on }) {
     }
   }
 
-  function autoScroll(slideSpeed) {
+  function autoScroll(slideSpeed?: number): void {
     const thumbsSwiper = swiper.thumbs.swiper;
     if (!thumbsSwiper || thumbsSwiper.destroyed) return;
 
-    const slidesPerView =
-      thumbsSwiper.params.slidesPerView === 'auto'
+    const thumbsSlidesPerView = thumbsSwiper.params.slidesPerView;
+    const slidesPerView: number =
+      thumbsSlidesPerView === 'auto'
         ? thumbsSwiper.slidesPerViewDynamic()
-        : thumbsSwiper.params.slidesPerView;
+        : thumbsSlidesPerView ?? 1;
 
-    const autoScrollOffset = swiper.params.thumbs.autoScrollOffset;
+    const autoScrollOffset = getParams().autoScrollOffset;
     const useOffset = autoScrollOffset && !thumbsSwiper.params.loop;
     if (swiper.realIndex !== thumbsSwiper.realIndex || useOffset) {
       const currentThumbsIndex = thumbsSwiper.activeIndex;
-      let newThumbsIndex;
-      let direction;
+      let newThumbsIndex: number;
+      let direction: 'next' | 'prev';
       if (thumbsSwiper.params.loop) {
         const newThumbsSlide = thumbsSwiper.slides.find(
           (slideEl) => slideEl.getAttribute('data-swiper-slide-index') === `${swiper.realIndex}`,
         );
-        newThumbsIndex = thumbsSwiper.slides.indexOf(newThumbsSlide);
+        newThumbsIndex = newThumbsSlide ? thumbsSwiper.slides.indexOf(newThumbsSlide) : -1;
 
         direction = swiper.activeIndex > swiper.previousIndex ? 'next' : 'prev';
       } else {
@@ -185,24 +294,27 @@ export default function Thumb({ swiper, extendParams, on }) {
   }
 
   on('beforeInit', () => {
-    const { thumbs } = swiper.params;
+    const thumbs = swiper.params.thumbs;
     if (!thumbs || !thumbs.swiper) return;
     if (typeof thumbs.swiper === 'string' || thumbs.swiper instanceof HTMLElement) {
-      const getThumbsElementAndInit = () => {
-        const thumbsElement =
-          typeof thumbs.swiper === 'string' ? document.querySelector(thumbs.swiper) : thumbs.swiper;
+      const getThumbsElementAndInit = (): SwiperHostElement | null => {
+        const thumbsElement: SwiperHostElement | null =
+          typeof thumbs.swiper === 'string'
+            ? document.querySelector<SwiperHostElement>(thumbs.swiper)
+            : (thumbs.swiper as SwiperHostElement);
         if (thumbsElement && thumbsElement.swiper) {
           thumbs.swiper = thumbsElement.swiper;
           init();
           update(true);
         } else if (thumbsElement) {
           const eventName = `${swiper.params.eventsPrefix}init`;
-          const onThumbsSwiper = (e) => {
-            thumbs.swiper = e.detail[0];
+          const onThumbsSwiper = (e: Event): void => {
+            const detail = (e as CustomEvent<Swiper[]>).detail;
+            thumbs.swiper = detail[0];
             thumbsElement.removeEventListener(eventName, onThumbsSwiper);
             init();
             update(true);
-            thumbs.swiper.update();
+            (thumbs.swiper as Swiper).update();
             swiper.update();
           };
           thumbsElement.addEventListener(eventName, onThumbsSwiper);
@@ -210,7 +322,7 @@ export default function Thumb({ swiper, extendParams, on }) {
         return thumbsElement;
       };
 
-      const watchForThumbsToAppear = () => {
+      const watchForThumbsToAppear = (): void => {
         if (swiper.destroyed) return;
         const thumbsElement = getThumbsElementAndInit();
         if (!thumbsElement) {
@@ -243,4 +355,6 @@ export default function Thumb({ swiper, extendParams, on }) {
     init,
     update,
   });
-}
+};
+
+export default Thumb;

@@ -1,18 +1,12 @@
 // Migrated module options live in their own .ts module and augment SwiperOptions
 // via `declare module '../../core/core'`. Phase 5 deletes src/types/ entirely.
-import type { AutoplayOptions } from './modules/autoplay.d.ts';
-import type { ControllerOptions } from './modules/controller.d.ts';
 import type { CoverflowEffectOptions } from './modules/effect-coverflow.d.ts';
 import type { CubeEffectOptions } from './modules/effect-cube.d.ts';
 import type { FadeEffectOptions } from './modules/effect-fade.d.ts';
 import type { FlipEffectOptions } from './modules/effect-flip.d.ts';
 import type { CreativeEffectOptions } from './modules/effect-creative.d.ts';
 import type { CardsEffectOptions } from './modules/effect-cards.d.ts';
-import type { ParallaxOptions } from './modules/parallax.d.ts';
-import type { ThumbsOptions } from './modules/thumbs.d.ts';
 import type { VirtualOptions } from './modules/virtual.d.ts';
-import type { ZoomOptions } from './modules/zoom.d.ts';
-import type { FreeModeOptions } from './modules/free-mode.d.ts';
 import type { GridOptions } from './modules/grid.d.ts';
 
 import type { CSSSelector, SwiperModule } from './shared.d.ts';
@@ -855,34 +849,8 @@ export interface SwiperOptions {
   lazyPreloadPrevNext?: number;
 
   // a11y option contributed by src/modules/a11y/a11y.ts via declaration merging.
-
-  /**
-   * Object with autoplay parameters or boolean `true` to enable with default settings
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *  autoplay: {
-   *    delay: 5000,
-   *  },
-   *});
-   * ```
-   */
-  autoplay?: AutoplayOptions | boolean;
-
-  /**
-   * Object with controller parameters or boolean `true` to enable with default settings
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   controller: {
-   *     inverse: true,
-   *   },
-   * });
-   * ```
-   */
-  controller?: ControllerOptions | boolean;
+  // autoplay option contributed by src/modules/autoplay/autoplay.ts via declaration merging.
+  // controller option contributed by src/modules/controller/controller.ts via declaration merging.
 
   /**
    * Object with Coverflow-effect parameters.
@@ -982,37 +950,12 @@ export interface SwiperOptions {
    */
   cardsEffect?: CardsEffectOptions;
 
-  // hashNavigation, history, keyboard, mousewheel, navigation, pagination options
-  // contributed by their respective src/modules/*/*.ts via declaration merging.
-
-  /**
-   * Object with parallax parameters or boolean `true` to enable with default settings.
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   parallax: true,
-   * });
-   * ```
-   */
-  parallax?: ParallaxOptions | boolean;
+  // hashNavigation, history, keyboard, mousewheel, navigation, pagination,
+  // parallax options contributed by their respective src/modules/*/*.ts via
+  // declaration merging.
 
   // scrollbar option contributed by src/modules/scrollbar/scrollbar.ts via declaration merging.
-
-  /**
-   * Object with thumbs component parameters
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   ...
-   *   thumbs: {
-   *     swiper: thumbsSwiper
-   *   }
-   * });
-   * ```
-   */
-  thumbs?: ThumbsOptions;
+  // thumbs option contributed by src/modules/thumbs/thumbs.ts via declaration merging.
 
   /**
    * Enables virtual slides functionality. Object with virtual slides parameters or boolean `true` to enable with default settings.
@@ -1028,38 +971,8 @@ export interface SwiperOptions {
    */
   virtual?: VirtualOptions | boolean;
 
-  /**
-   * Enables zooming functionality. Object with zoom parameters or boolean `true` to enable with default settings
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   zoom: {
-   *     maxRatio: 5,
-   *   },
-   * });
-   * ```
-   */
-  zoom?: ZoomOptions | boolean;
-
-  /**
-   * Enables free mode functionality. Object with free mode parameters or boolean `true` to enable with default settings.
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   freeMode: true,
-   * });
-   *
-   * const swiper = new Swiper('.swiper', {
-   *   freeMode: {
-   *     enabled: true,
-   *     sticky: true,
-   *   },
-   * });
-   * ```
-   */
-  freeMode?: FreeModeOptions | boolean;
+  // zoom option contributed by src/modules/zoom/zoom.ts via declaration merging.
+  // freeMode option contributed by src/modules/free-mode/free-mode.ts via declaration merging.
 
   /**
    * Object with grid parameters to enable "multirow" slider.
