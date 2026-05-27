@@ -20,7 +20,7 @@ export default async function buildModules() {
   const modules = [];
   configModules.forEach((name) => {
     const capitalized = capitalizeString(name);
-    const jsFilePath = `./src/modules/${name}/${name}.mjs`;
+    const jsFilePath = `./src/modules/${name}/${name}.ts`;
     if (fs.existsSync(jsFilePath)) {
       modules.push({ name, capitalized });
     }
@@ -28,7 +28,7 @@ export default async function buildModules() {
 
   // eslint-disable-next-line
   const modulesPaths = configModules.map((name) => {
-    return `./src/modules/${name}/${name}.mjs`;
+    return `./src/modules/${name}/${name}.ts`;
   });
 
   // Create element bundle
@@ -47,13 +47,13 @@ export default async function buildModules() {
       './src/swiper-vue.mjs',
       './src/swiper-react.mjs',
       ...modulesPaths,
-      './src/swiper-effect-utils.mjs',
+      './src/swiper-effect-utils.ts',
     ],
     plugins: [
       replace({
         delimiters: ['', ''],
         '//IMPORT_MODULES': modules
-          .map((mod) => `import ${mod.capitalized} from './modules/${mod.name}/${mod.name}.mjs';`)
+          .map((mod) => `import ${mod.capitalized} from './modules/${mod.name}/${mod.name}';`)
           .join('\n'),
         '//INSTALL_MODULES': modules.map((mod) => `${mod.capitalized}`).join(',\n  '),
         '//EXPORT': 'export default Swiper; export { Swiper }',

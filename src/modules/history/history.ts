@@ -1,4 +1,11 @@
-export default function History({ swiper, extendParams, on }) {
+import type { SwiperModuleFn } from '../../core/core';
+
+interface PathValues {
+  key: string | undefined;
+  value: string | undefined;
+}
+
+const History: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   extendParams({
     history: {
       enabled: false,
@@ -10,9 +17,9 @@ export default function History({ swiper, extendParams, on }) {
   });
 
   let initialized = false;
-  let paths = {};
+  let paths: PathValues = { key: undefined, value: undefined };
 
-  const slugify = (text) => {
+  const slugify = (text: string): string => {
     return text
       .toString()
       .replace(/\s+/g, '-')
@@ -22,8 +29,8 @@ export default function History({ swiper, extendParams, on }) {
       .replace(/-+$/, '');
   };
 
-  const getPathValues = (urlOverride) => {
-    let location;
+  const getPathValues = (urlOverride?: string): PathValues => {
+    let location: URL | Location;
     if (urlOverride) {
       location = new URL(urlOverride);
     } else {
@@ -38,45 +45,51 @@ export default function History({ swiper, extendParams, on }) {
     const value = pathArray[total - 1];
     return { key, value };
   };
-  const setHistory = (key, index) => {
-    if (!initialized || !swiper.params.history.enabled) return;
-    let location;
-    if (swiper.params.url) {
-      location = new URL(swiper.params.url);
+  const setHistory = (key: string | undefined, index: number): void => {
+    const histParams = swiper.params.history as any;
+    if (!initialized || !histParams.enabled) return;
+    let location: URL | Location;
+    if ((swiper.params as any).url) {
+      location = new URL((swiper.params as any).url);
     } else {
       location = window.location;
     }
     const slide =
-      swiper.virtual && swiper.params.virtual.enabled
+      swiper.virtual && (swiper.params.virtual as any).enabled
         ? swiper.slidesEl.querySelector(`[data-swiper-slide-index="${index}"]`)
         : swiper.slides[index];
-    let value = slugify(slide.getAttribute('data-history'));
-    if (swiper.params.history.root.length > 0) {
-      let root = swiper.params.history.root;
+    if (!slide) return;
+    let value = slugify(slide.getAttribute('data-history') || '');
+    if (histParams.root.length > 0) {
+      let root: string = histParams.root;
       if (root[root.length - 1] === '/') root = root.slice(0, root.length - 1);
       value = `${root}/${key ? `${key}/` : ''}${value}`;
-    } else if (!location.pathname.includes(key)) {
+    } else if (!location.pathname.includes(key || '')) {
       value = `${key ? `${key}/` : ''}${value}`;
     }
-    if (swiper.params.history.keepQuery) {
+    if (histParams.keepQuery) {
       value += location.search;
     }
-    const currentState = window.history.state;
+    const currentState = window.history.state as { value?: string } | null;
     if (currentState && currentState.value === value) {
       return;
     }
-    if (swiper.params.history.replaceState) {
-      window.history.replaceState({ value }, null, value);
+    if (histParams.replaceState) {
+      window.history.replaceState({ value }, '', value);
     } else {
-      window.history.pushState({ value }, null, value);
+      window.history.pushState({ value }, '', value);
     }
   };
 
-  const scrollToSlide = (speed, value, runCallbacks) => {
+  const scrollToSlide = (
+    speed: number,
+    value: string | undefined,
+    runCallbacks?: boolean,
+  ): void => {
     if (value) {
       for (let i = 0, length = swiper.slides.length; i < length; i += 1) {
-        const slide = swiper.slides[i];
-        const slideHistory = slugify(slide.getAttribute('data-history'));
+        const slide = swiper.slides[i]!;
+        const slideHistory = slugify(slide.getAttribute('data-history') || '');
         if (slideHistory === value) {
           const index = swiper.getSlideIndex(slide);
           swiper.slideTo(index, speed, runCallbacks);
@@ -87,55 +100,59 @@ export default function History({ swiper, extendParams, on }) {
     }
   };
 
-  const setHistoryPopState = () => {
-    paths = getPathValues(swiper.params.url);
-    scrollToSlide(swiper.params.speed, paths.value, false);
+  const setHistoryPopState = (): void => {
+    paths = getPathValues((swiper.params as any).url);
+    scrollToSlide(swiper.params.speed!, paths.value, false);
   };
 
-  const init = () => {
-    if (!swiper.params.history) return;
+  const init = (): void => {
+    const histParams = swiper.params.history as any;
+    if (!histParams) return;
     if (!window.history || !window.history.pushState) {
-      swiper.params.history.enabled = false;
-      swiper.params.hashNavigation.enabled = true;
+      histParams.enabled = false;
+      (swiper.params.hashNavigation as any).enabled = true;
       return;
     }
     initialized = true;
-    paths = getPathValues(swiper.params.url);
+    paths = getPathValues((swiper.params as any).url);
     if (!paths.key && !paths.value) {
-      if (!swiper.params.history.replaceState) {
+      if (!histParams.replaceState) {
         window.addEventListener('popstate', setHistoryPopState);
       }
       return;
     }
     scrollToSlide(0, paths.value, swiper.params.runCallbacksOnInit);
-    if (!swiper.params.history.replaceState) {
+    if (!histParams.replaceState) {
       window.addEventListener('popstate', setHistoryPopState);
     }
   };
-  const destroy = () => {
-    if (!swiper.params.history.replaceState) {
+  const destroy = (): void => {
+    const histParams = swiper.params.history as any;
+    if (!histParams.replaceState) {
       window.removeEventListener('popstate', setHistoryPopState);
     }
   };
 
   on('init', () => {
-    if (swiper.params.history.enabled) {
+    if ((swiper.params.history as any).enabled) {
       init();
     }
   });
   on('destroy', () => {
-    if (swiper.params.history.enabled) {
+    if ((swiper.params.history as any).enabled) {
       destroy();
     }
   });
   on('transitionEnd _freeModeNoMomentumRelease', () => {
     if (initialized) {
-      setHistory(swiper.params.history.key, swiper.activeIndex);
+      setHistory((swiper.params.history as any).key, swiper.activeIndex);
     }
   });
   on('slideChange', () => {
     if (initialized && swiper.params.cssMode) {
-      setHistory(swiper.params.history.key, swiper.activeIndex);
+      setHistory((swiper.params.history as any).key, swiper.activeIndex);
     }
   });
-}
+};
+
+export default History;

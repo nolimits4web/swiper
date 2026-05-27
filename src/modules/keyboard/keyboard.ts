@@ -1,8 +1,9 @@
 /* eslint-disable consistent-return */
+import type { SwiperModuleFn } from '../../core/core';
 import { elementOffset, elementParents } from '../../shared/utils';
 
-export default function Keyboard({ swiper, extendParams, on, emit }) {
-  swiper.keyboard = {
+const Keyboard: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
+  (swiper as any).keyboard = {
     enabled: false,
   };
   extendParams({
@@ -14,14 +15,15 @@ export default function Keyboard({ swiper, extendParams, on, emit }) {
     },
   });
 
-  function handle(event) {
+  function handle(event: KeyboardEvent | (KeyboardEvent & { originalEvent?: KeyboardEvent })) {
     if (!swiper.enabled) return;
 
     const { rtlTranslate: rtl } = swiper;
-    let e = event;
-    if (e.originalEvent) e = e.originalEvent; // jquery fix
+    let e: KeyboardEvent = event as KeyboardEvent;
+    if ((event as any).originalEvent) e = (event as any).originalEvent;
     const kc = e.keyCode || e.charCode;
-    const pageUpDown = swiper.params.keyboard.pageUpDown;
+    const keyboardParams = swiper.params.keyboard as any;
+    const pageUpDown: boolean = keyboardParams.pageUpDown;
     const isPageUp = pageUpDown && kc === 33;
     const isPageDown = pageUpDown && kc === 34;
     const isArrowLeft = kc === 37;
@@ -46,17 +48,18 @@ export default function Keyboard({ swiper, extendParams, on, emit }) {
     if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) {
       return undefined;
     }
+    const activeElement = document.activeElement as HTMLElement | null;
     if (
-      document.activeElement &&
-      (document.activeElement.isContentEditable ||
-        (document.activeElement.nodeName &&
-          (document.activeElement.nodeName.toLowerCase() === 'input' ||
-            document.activeElement.nodeName.toLowerCase() === 'textarea')))
+      activeElement &&
+      (activeElement.isContentEditable ||
+        (activeElement.nodeName &&
+          (activeElement.nodeName.toLowerCase() === 'input' ||
+            activeElement.nodeName.toLowerCase() === 'textarea')))
     ) {
       return undefined;
     }
     if (
-      swiper.params.keyboard.onlyInViewport &&
+      keyboardParams.onlyInViewport &&
       (isPageUp || isPageDown || isArrowLeft || isArrowRight || isArrowUp || isArrowDown)
     ) {
       let inView = false;
@@ -75,14 +78,14 @@ export default function Keyboard({ swiper, extendParams, on, emit }) {
       const windowHeight = window.innerHeight;
       const swiperOffset = elementOffset(el);
       if (rtl) swiperOffset.left -= el.scrollLeft;
-      const swiperCoord = [
+      const swiperCoord: Array<[number, number]> = [
         [swiperOffset.left, swiperOffset.top],
         [swiperOffset.left + swiperWidth, swiperOffset.top],
         [swiperOffset.left, swiperOffset.top + swiperHeight],
         [swiperOffset.left + swiperWidth, swiperOffset.top + swiperHeight],
       ];
       for (let i = 0; i < swiperCoord.length; i += 1) {
-        const point = swiperCoord[i];
+        const point = swiperCoord[i]!;
         if (point[0] >= 0 && point[0] <= windowWidth && point[1] >= 0 && point[1] <= windowHeight) {
           if (point[0] === 0 && point[1] === 0) continue; // eslint-disable-line
           inView = true;
@@ -90,11 +93,11 @@ export default function Keyboard({ swiper, extendParams, on, emit }) {
       }
       if (!inView) return undefined;
     }
-    const speed = swiper.params.keyboard.speed;
+    const speed: number | undefined = keyboardParams.speed;
     if (swiper.isHorizontal()) {
       if (isPageUp || isPageDown || isArrowLeft || isArrowRight) {
         if (e.preventDefault) e.preventDefault();
-        else e.returnValue = false;
+        else (e as any).returnValue = false;
       }
       if (((isPageDown || isArrowRight) && !rtl) || ((isPageUp || isArrowLeft) && rtl))
         swiper.slideNext(speed);
@@ -103,7 +106,7 @@ export default function Keyboard({ swiper, extendParams, on, emit }) {
     } else {
       if (isPageUp || isPageDown || isArrowUp || isArrowDown) {
         if (e.preventDefault) e.preventDefault();
-        else e.returnValue = false;
+        else (e as any).returnValue = false;
       }
       if (isPageDown || isArrowDown) swiper.slideNext(speed);
       if (isPageUp || isArrowUp) swiper.slidePrev(speed);
@@ -111,19 +114,19 @@ export default function Keyboard({ swiper, extendParams, on, emit }) {
     emit('keyPress', kc);
     return undefined;
   }
-  function enable() {
+  function enable(): void {
     if (swiper.keyboard.enabled) return;
     document.addEventListener('keydown', handle);
     swiper.keyboard.enabled = true;
   }
-  function disable() {
+  function disable(): void {
     if (!swiper.keyboard.enabled) return;
     document.removeEventListener('keydown', handle);
     swiper.keyboard.enabled = false;
   }
 
   on('init', () => {
-    if (swiper.params.keyboard.enabled) {
+    if ((swiper.params.keyboard as any).enabled) {
       enable();
     }
   });
@@ -137,4 +140,6 @@ export default function Keyboard({ swiper, extendParams, on, emit }) {
     enable,
     disable,
   });
-}
+};
+
+export default Keyboard;

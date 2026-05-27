@@ -229,8 +229,8 @@ export function elementOuterSize(
   return el.offsetWidth;
 }
 
-export function makeElementsArray<T>(el: T | T[]): T[] {
-  return (Array.isArray(el) ? el : [el]).filter((e): e is T => !!e);
+export function makeElementsArray<T>(el: T | T[]): NonNullable<T>[] {
+  return (Array.isArray(el) ? el : [el]).filter((e): e is NonNullable<T> => !!e);
 }
 
 export function getRotateFix(swiper: { browser?: { need3dFix?: boolean } }) {
