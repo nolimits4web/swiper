@@ -1,5 +1,4 @@
-import { getBrowser } from '../../shared/get-browser.mjs';
-import { animateCSSModeScroll } from '../../shared/utils.mjs';
+import { getBrowser } from '../../shared/get-browser';
 
 export default function slideTo(index = 0, speed, runCallbacks = true, internal, initial) {
   if (typeof index === 'string') {
@@ -141,10 +140,6 @@ export default function slideTo(index = 0, speed, runCallbacks = true, internal,
         });
       }
     } else {
-      if (!swiper.support.smoothScroll) {
-        animateCSSModeScroll({ swiper, targetPosition: t, side: isH ? 'left' : 'top' });
-        return true;
-      }
       wrapperEl.scrollTo({
         [isH ? 'left' : 'top']: t,
         behavior: 'smooth',

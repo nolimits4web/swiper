@@ -1,6 +1,5 @@
 /* eslint no-underscore-dangle: "off" */
 /* eslint no-use-before-define: "off" */
-import { getDocument } from 'ssr-window';
 
 export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   swiper.autoplay = {
@@ -204,7 +203,6 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
 
   const onVisibilityChange = () => {
     if (swiper.destroyed || !swiper.autoplay.running) return;
-    const document = getDocument();
     if (document.visibilityState === 'hidden') {
       pausedByInteraction = true;
       pause(true);
@@ -245,12 +243,10 @@ export default function Autoplay({ swiper, extendParams, on, emit, params }) {
   };
 
   const attachDocumentEvents = () => {
-    const document = getDocument();
     document.addEventListener('visibilitychange', onVisibilityChange);
   };
 
   const detachDocumentEvents = () => {
-    const document = getDocument();
     document.removeEventListener('visibilitychange', onVisibilityChange);
   };
 

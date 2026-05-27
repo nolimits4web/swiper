@@ -1,5 +1,5 @@
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
-import { elementTransitionEnd, nextTick } from '../../shared/utils.mjs';
+import { elementTransitionEnd, nextTick } from '../../shared/utils';
 
 export default function Controller({ swiper, extendParams, on }) {
   extendParams({

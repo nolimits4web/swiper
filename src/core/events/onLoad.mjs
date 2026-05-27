@@ -1,4 +1,4 @@
-import { processLazyPreloader } from '../../shared/process-lazy-preloader.mjs';
+import { processLazyPreloader } from '../../shared/process-lazy-preloader';
 
 export default function onLoad(e) {
   const swiper = this;

@@ -1,4 +1,16 @@
-export default function effectInit(params) {
+interface EffectInitParams {
+  effect: string;
+  swiper: any;
+  on: (event: string, handler: (...args: any[]) => void) => void;
+  setTranslate: () => void;
+  setTransition: (duration: number) => void;
+  overwriteParams?: () => Record<string, any>;
+  perspective?: () => boolean;
+  recreateShadows?: () => void;
+  getEffectParams?: () => { slideShadows?: boolean };
+}
+
+export default function effectInit(params: EffectInitParams): void {
   const {
     effect,
     swiper,
@@ -27,7 +39,7 @@ export default function effectInit(params) {
     if (swiper.params.effect !== effect) return;
     setTranslate();
   });
-  on('setTransition', (_s, duration) => {
+  on('setTransition', (_s: any, duration: number) => {
     if (swiper.params.effect !== effect) return;
     setTransition(duration);
   });
@@ -36,20 +48,18 @@ export default function effectInit(params) {
     if (swiper.params.effect !== effect) return;
     if (recreateShadows) {
       if (!getEffectParams || !getEffectParams().slideShadows) return;
-      // remove shadows
-      swiper.slides.forEach((slideEl) => {
+      swiper.slides.forEach((slideEl: Element) => {
         slideEl
           .querySelectorAll(
             '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
           )
           .forEach((shadowEl) => shadowEl.remove());
       });
-      // create new one
       recreateShadows();
     }
   });
 
-  let requireUpdateOnVirtual;
+  let requireUpdateOnVirtual = false;
   on('virtualUpdate', () => {
     if (swiper.params.effect !== effect) return;
     if (!swiper.slides.length) {

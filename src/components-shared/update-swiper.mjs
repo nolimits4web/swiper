@@ -1,4 +1,4 @@
-import { setInnerHTML } from '../shared/utils.mjs';
+import { setInnerHTML } from '../shared/utils';
 import { isObject } from './utils.mjs';
 
 function updateSwiper({

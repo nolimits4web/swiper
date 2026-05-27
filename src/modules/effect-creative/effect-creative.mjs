@@ -1,8 +1,8 @@
-import createShadow from '../../shared/create-shadow.mjs';
-import effectInit from '../../shared/effect-init.mjs';
-import effectTarget from '../../shared/effect-target.mjs';
-import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end.mjs';
-import { getRotateFix, getSlideTransformEl } from '../../shared/utils.mjs';
+import createShadow from '../../shared/create-shadow';
+import effectInit from '../../shared/effect-init';
+import effectTarget from '../../shared/effect-target';
+import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end';
+import { getRotateFix, getSlideTransformEl } from '../../shared/utils';
 
 export default function EffectCreative({ swiper, extendParams, on }) {
   extendParams({

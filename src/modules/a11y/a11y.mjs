@@ -1,11 +1,5 @@
-import { getDocument } from 'ssr-window';
-import classesToSelector from '../../shared/classes-to-selector.mjs';
-import {
-  createElement,
-  elementIndex,
-  makeElementsArray,
-  setInnerHTML,
-} from '../../shared/utils.mjs';
+import classesToSelector from '../../shared/classes-to-selector';
+import { createElement, elementIndex, makeElementsArray, setInnerHTML } from '../../shared/utils';
 
 export default function A11y({ swiper, extendParams, on }) {
   extendParams({
@@ -359,7 +353,6 @@ export default function A11y({ swiper, extendParams, on }) {
     }
 
     // Tab focus
-    const document = getDocument();
     document.addEventListener('visibilitychange', onVisibilityChange);
     swiper.el.addEventListener('focus', handleFocus, true);
     swiper.el.addEventListener('pointerdown', handlePointerDown, true);
@@ -385,7 +378,6 @@ export default function A11y({ swiper, extendParams, on }) {
       });
     }
 
-    const document = getDocument();
     document.removeEventListener('visibilitychange', onVisibilityChange);
     // Tab focus
     if (swiper.el && typeof swiper.el !== 'string') {

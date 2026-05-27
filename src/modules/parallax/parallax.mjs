@@ -1,4 +1,4 @@
-import { elementChildren } from '../../shared/utils.mjs';
+import { elementChildren } from '../../shared/utils';
 
 export default function Parallax({ swiper, extendParams, on }) {
   extendParams({

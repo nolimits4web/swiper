@@ -1,13 +1,6 @@
-import { getWindow } from 'ssr-window';
-import {
-  elementChildren,
-  elementOffset,
-  elementParents,
-  getTranslate,
-} from '../../shared/utils.mjs';
+import { elementChildren, elementOffset, elementParents, getTranslate } from '../../shared/utils';
 
 export default function Zoom({ swiper, extendParams, on, emit }) {
-  const window = getWindow();
   extendParams({
     zoom: {
       enabled: false,

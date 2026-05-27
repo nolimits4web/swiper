@@ -1,10 +1,7 @@
 /* eslint-disable consistent-return */
-import { getWindow, getDocument } from 'ssr-window';
-import { elementOffset, elementParents } from '../../shared/utils.mjs';
+import { elementOffset, elementParents } from '../../shared/utils';
 
 export default function Keyboard({ swiper, extendParams, on, emit }) {
-  const document = getDocument();
-  const window = getWindow();
   swiper.keyboard = {
     enabled: false,
   };

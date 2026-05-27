@@ -1,10 +1,7 @@
-import { getWindow } from 'ssr-window';
-
 export default function getBreakpoint(breakpoints, base = 'window', containerEl) {
   if (!breakpoints || (base === 'container' && !containerEl)) return undefined;
   let breakpoint = false;
 
-  const window = getWindow();
   const currentHeight = base === 'window' ? window.innerHeight : containerEl.clientHeight;
 
   const points = Object.keys(breakpoints).map((point) => {

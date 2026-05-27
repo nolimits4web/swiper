@@ -3,7 +3,7 @@ import {
   elementOuterSize,
   elementStyle,
   setCSSProperty,
-} from '../../shared/utils.mjs';
+} from '../../shared/utils';
 
 export default function updateSlides() {
   const swiper = this;

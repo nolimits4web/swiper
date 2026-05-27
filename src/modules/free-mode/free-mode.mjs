@@ -1,4 +1,4 @@
-import { elementTransitionEnd, now } from '../../shared/utils.mjs';
+import { elementTransitionEnd, now } from '../../shared/utils';
 
 export default function freeMode({ swiper, extendParams, emit, once }) {
   extendParams({

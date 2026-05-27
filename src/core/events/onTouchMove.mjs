@@ -1,8 +1,6 @@
-import { getDocument } from 'ssr-window';
-import { now } from '../../shared/utils.mjs';
+import { now } from '../../shared/utils';
 
 export default function onTouchMove(event) {
-  const document = getDocument();
   const swiper = this;
   if (swiper.destroyed) return;
   const data = swiper.touchEventsData;

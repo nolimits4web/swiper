@@ -1,4 +1,4 @@
-import { now, nextTick } from '../../shared/utils.mjs';
+import { now, nextTick } from '../../shared/utils';
 
 export default function onTouchEnd(event) {
   const swiper = this;

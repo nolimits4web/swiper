@@ -1,5 +1,3 @@
-import { getDocument } from 'ssr-window';
-
 import onTouchStart from './onTouchStart.mjs';
 import onTouchMove from './onTouchMove.mjs';
 import onTouchEnd from './onTouchEnd.mjs';
@@ -10,7 +8,6 @@ import onLoad from './onLoad.mjs';
 import onDocumentTouchStart from './onDocumentTouchStart.mjs';
 
 const events = (swiper, method) => {
-  const document = getDocument();
   const { params, el, wrapperEl, device } = swiper;
   const capture = !!params.nested;
   const domMethod = method === 'on' ? 'addEventListener' : 'removeEventListener';

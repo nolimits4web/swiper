@@ -1,4 +1,4 @@
-import { createElement, elementChildren, showWarning } from '../../shared/utils.mjs';
+import { createElement, elementChildren, showWarning } from '../../shared/utils';
 
 export default function loopCreate(slideRealIndex, initial) {
   const swiper = this;

@@ -1,5 +1,4 @@
-import { getDocument } from 'ssr-window';
-import { extend } from '../../shared/utils.mjs';
+import { extend } from '../../shared/utils';
 
 const isGridEnabled = (swiper, params) => {
   return swiper.grid && params.grid && params.grid.rows > 1;
@@ -10,7 +9,6 @@ export default function setBreakpoint() {
   const { realIndex, initialized, params, el } = swiper;
   const breakpoints = params.breakpoints;
   if (!breakpoints || (breakpoints && Object.keys(breakpoints).length === 0)) return;
-  const document = getDocument();
 
   // Get breakpoint for window/container width and update parameters
   const breakpointsBase =

@@ -1,4 +1,4 @@
-import { setInnerHTML } from '../../../shared/utils.mjs';
+import { setInnerHTML } from '../../../shared/utils';
 
 export default function prependSlide(slides) {
   const swiper = this;

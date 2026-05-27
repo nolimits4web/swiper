@@ -1,5 +1,3 @@
-import { getWindow } from 'ssr-window';
-
 export default function History({ swiper, extendParams, on }) {
   extendParams({
     history: {
@@ -25,7 +23,6 @@ export default function History({ swiper, extendParams, on }) {
   };
 
   const getPathValues = (urlOverride) => {
-    const window = getWindow();
     let location;
     if (urlOverride) {
       location = new URL(urlOverride);
@@ -42,7 +39,6 @@ export default function History({ swiper, extendParams, on }) {
     return { key, value };
   };
   const setHistory = (key, index) => {
-    const window = getWindow();
     if (!initialized || !swiper.params.history.enabled) return;
     let location;
     if (swiper.params.url) {
@@ -97,7 +93,6 @@ export default function History({ swiper, extendParams, on }) {
   };
 
   const init = () => {
-    const window = getWindow();
     if (!swiper.params.history) return;
     if (!window.history || !window.history.pushState) {
       swiper.params.history.enabled = false;
@@ -118,7 +113,6 @@ export default function History({ swiper, extendParams, on }) {
     }
   };
   const destroy = () => {
-    const window = getWindow();
     if (!swiper.params.history.replaceState) {
       window.removeEventListener('popstate', setHistoryPopState);
     }

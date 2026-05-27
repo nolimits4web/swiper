@@ -1,4 +1,4 @@
-export default function classesToTokens(classes = '') {
+export default function classesToTokens(classes = ''): string[] {
   return classes
     .trim()
     .split(' ')

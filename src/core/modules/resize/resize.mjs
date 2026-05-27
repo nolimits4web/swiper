@@ -1,7 +1,4 @@
-import { getWindow } from 'ssr-window';
-
 export default function Resize({ swiper, on, emit }) {
-  const window = getWindow();
   let observer = null;
   let animationFrame = null;
 

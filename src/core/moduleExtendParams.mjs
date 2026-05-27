@@ -1,4 +1,4 @@
-import { extend } from '../shared/utils.mjs';
+import { extend } from '../shared/utils';
 
 export default function moduleExtendParams(params, allModulesParams) {
   return function extendParams(obj = {}) {

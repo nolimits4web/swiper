@@ -1,9 +1,7 @@
-import { getWindow } from 'ssr-window';
-import { elementParents } from '../../../shared/utils.mjs';
+import { elementParents } from '../../../shared/utils';
 
 export default function Observer({ swiper, extendParams, on, emit }) {
   const observers = [];
-  const window = getWindow();
   const attach = (target, options = {}) => {
     const ObserverFunc = window.MutationObserver || window.WebkitMutationObserver;
     const observer = new ObserverFunc((mutations) => {

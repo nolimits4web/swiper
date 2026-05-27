@@ -1,5 +1,4 @@
-import { getDocument } from 'ssr-window';
-import { elementChildren, isObject } from '../../shared/utils.mjs';
+import { elementChildren, isObject } from '../../shared/utils';
 
 export default function Thumb({ swiper, extendParams, on }) {
   extendParams({
@@ -189,7 +188,6 @@ export default function Thumb({ swiper, extendParams, on }) {
     const { thumbs } = swiper.params;
     if (!thumbs || !thumbs.swiper) return;
     if (typeof thumbs.swiper === 'string' || thumbs.swiper instanceof HTMLElement) {
-      const document = getDocument();
       const getThumbsElementAndInit = () => {
         const thumbsElement =
           typeof thumbs.swiper === 'string' ? document.querySelector(thumbs.swiper) : thumbs.swiper;

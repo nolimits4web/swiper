@@ -1,10 +1,7 @@
 /* eslint-disable consistent-return */
-import { getWindow } from 'ssr-window';
-import { now, nextTick } from '../../shared/utils.mjs';
+import { now, nextTick } from '../../shared/utils';
 
 export default function Mousewheel({ swiper, extendParams, on, emit }) {
-  const window = getWindow();
-
   extendParams({
     mousewheel: {
       enabled: false,

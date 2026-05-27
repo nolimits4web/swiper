@@ -1,10 +1,7 @@
-import { getWindow, getDocument } from 'ssr-window';
-import { elementChildren } from '../../shared/utils.mjs';
+import { elementChildren } from '../../shared/utils';
 
 export default function HashNavigation({ swiper, extendParams, emit, on }) {
   let initialized = false;
-  const document = getDocument();
-  const window = getWindow();
   extendParams({
     hashNavigation: {
       enabled: false,

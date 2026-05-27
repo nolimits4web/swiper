@@ -4,6 +4,7 @@ import { rollup } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import { babel } from '@rollup/plugin-babel';
+import typescript from '@rollup/plugin-typescript';
 import elapsed from 'elapsed-time-logger';
 import chalk from 'chalk';
 import getElementStyles from './utils/get-element-styles.js';
@@ -57,8 +58,22 @@ export default async function buildModules() {
         '//INSTALL_MODULES': modules.map((mod) => `${mod.capitalized}`).join(',\n  '),
         '//EXPORT': 'export default Swiper; export { Swiper }',
       }),
-      nodeResolve({ mainFields: ['module', 'main', 'jsnext'], rootDir: './src' }),
-      babel({ babelHelpers: 'bundled' }),
+      nodeResolve({
+        mainFields: ['module', 'main', 'jsnext'],
+        rootDir: './src',
+        extensions: ['.mjs', '.js', '.ts', '.json', '.node'],
+      }),
+      typescript({
+        tsconfig: './tsconfig.json',
+        noEmitOnError: true,
+        outDir: './dist/tmp',
+        compilerOptions: {
+          declaration: false,
+          declarationMap: false,
+          sourceMap: !isProd,
+        },
+      }),
+      babel({ babelHelpers: 'bundled', extensions: ['.js', '.mjs', '.ts'] }),
     ],
     onwarn() {},
   });

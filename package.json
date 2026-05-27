@@ -108,7 +108,6 @@
     "react-dom": "^19.2.6",
     "rimraf": "^5.0.5",
     "rollup": "^4.60.4",
-    "ssr-window": "^5.0.1",
     "terser": "^5.44.0",
     "tslib": "^2.8.1",
     "typescript": "^6.0.3",

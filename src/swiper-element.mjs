@@ -9,7 +9,7 @@ import {
   attrToProp,
 } from './components-shared/utils.mjs';
 import { updateSwiper } from './components-shared/update-swiper.mjs';
-import { setInnerHTML } from './shared/utils.mjs';
+import { setInnerHTML } from './shared/utils';
 
 //SWIPER_STYLES
 //SWIPER_SLIDE_STYLES

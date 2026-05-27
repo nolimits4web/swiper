@@ -1,6 +1,6 @@
-import { createElement, getSlideTransformEl } from './utils.mjs';
+import { createElement, getSlideTransformEl } from './utils';
 
-export default function createShadow(suffix, slideEl, side) {
+export default function createShadow(suffix: string, slideEl: Element, side?: string): Element {
   const shadowClass = `swiper-slide-shadow${side ? `-${side}` : ''}${
     suffix ? ` swiper-slide-shadow-${suffix}` : ''
   }`;

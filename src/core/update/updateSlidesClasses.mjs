@@ -1,4 +1,4 @@
-import { elementChildren, elementNextAll, elementPrevAll } from '../../shared/utils.mjs';
+import { elementChildren, elementNextAll, elementPrevAll } from '../../shared/utils';
 
 const toggleSlideClasses = (slideEl, condition, className) => {
   if (condition && !slideEl.classList.contains(className)) {

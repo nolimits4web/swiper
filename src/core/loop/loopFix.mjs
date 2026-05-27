@@ -1,4 +1,4 @@
-import { showWarning } from '../../shared/utils.mjs';
+import { showWarning } from '../../shared/utils';
 
 export default function loopFix({
   slideRealIndex,

@@ -1,25 +1,31 @@
-import { elementTransitionEnd } from './utils.mjs';
+import { elementTransitionEnd } from './utils';
+
+interface EffectVirtualTransitionEndParams {
+  swiper: any;
+  duration: number;
+  transformElements: Element[];
+  allSlides?: boolean;
+}
 
 export default function effectVirtualTransitionEnd({
   swiper,
   duration,
   transformElements,
   allSlides,
-}) {
+}: EffectVirtualTransitionEndParams): void {
   const { activeIndex } = swiper;
-  const getSlide = (el) => {
+  const getSlide = (el: Element): Element | undefined => {
     if (!el.parentElement) {
       // assume shadow root
-      const slide = swiper.slides.find(
-        (slideEl) => slideEl.shadowRoot && slideEl.shadowRoot === el.parentNode,
+      return swiper.slides.find(
+        (slideEl: Element) => slideEl.shadowRoot && slideEl.shadowRoot === el.parentNode,
       );
-      return slide;
     }
     return el.parentElement;
   };
   if (swiper.params.virtualTranslate && duration !== 0) {
     let eventTriggered = false;
-    let transitionEndTarget;
+    let transitionEndTarget: Element[];
     if (allSlides) {
       transitionEndTarget = transformElements;
     } else {
@@ -36,10 +42,7 @@ export default function effectVirtualTransitionEnd({
         if (!swiper || swiper.destroyed) return;
         eventTriggered = true;
         swiper.animating = false;
-        const evt = new window.CustomEvent('transitionend', {
-          bubbles: true,
-          cancelable: true,
-        });
+        const evt = new CustomEvent('transitionend', { bubbles: true, cancelable: true });
         swiper.wrapperEl.dispatchEvent(evt);
       });
     });

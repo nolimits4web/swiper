@@ -1,5 +1,4 @@
 /* eslint no-param-reassign: "off" */
-import { getDocument } from 'ssr-window';
 import {
   extend,
   deleteProps,
@@ -7,10 +6,10 @@ import {
   elementChildren,
   elementStyle,
   elementIndex,
-} from '../shared/utils.mjs';
-import { getSupport } from '../shared/get-support.mjs';
-import { getDevice } from '../shared/get-device.mjs';
-import { getBrowser } from '../shared/get-browser.mjs';
+} from '../shared/utils';
+import { getSupport } from '../shared/get-support';
+import { getDevice } from '../shared/get-device';
+import { getBrowser } from '../shared/get-browser';
 
 import Resize from './modules/resize/resize.mjs';
 import Observer from './modules/observer/observer.mjs';
@@ -30,7 +29,7 @@ import checkOverflow from './check-overflow/index.mjs';
 
 import defaults from './defaults.mjs';
 import moduleExtendParams from './moduleExtendParams.mjs';
-import { processLazyPreloader, preload } from '../shared/process-lazy-preloader.mjs';
+import { processLazyPreloader, preload } from '../shared/process-lazy-preloader';
 
 const prototypes = {
   eventsEmitter,
@@ -65,8 +64,6 @@ class Swiper {
 
     params = extend({}, params);
     if (el && !params.el) params.el = el;
-
-    const document = getDocument();
 
     if (
       params.el &&

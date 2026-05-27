@@ -1,12 +1,12 @@
-import classesToSelector from '../../shared/classes-to-selector.mjs';
-import createElementIfNotDefined from '../../shared/create-element-if-not-defined.mjs';
+import classesToSelector from '../../shared/classes-to-selector';
+import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
 import {
   elementIndex,
   elementOuterSize,
   elementParents,
   makeElementsArray,
   setInnerHTML,
-} from '../../shared/utils.mjs';
+} from '../../shared/utils';
 
 export default function Pagination({ swiper, extendParams, on, emit }) {
   const pfx = 'swiper-pagination';

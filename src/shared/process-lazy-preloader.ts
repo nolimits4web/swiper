@@ -1,34 +1,40 @@
-export const processLazyPreloader = (swiper, imageEl) => {
+type AnySwiper = any;
+
+export const processLazyPreloader = (swiper: AnySwiper, imageEl: HTMLElement): void => {
   if (!swiper || swiper.destroyed || !swiper.params) return;
-  const slideSelector = () => (swiper.isElement ? `swiper-slide` : `.${swiper.params.slideClass}`);
-  const slideEl = imageEl.closest(slideSelector());
+  const slideSelector = () => (swiper.isElement ? 'swiper-slide' : `.${swiper.params.slideClass}`);
+  const slideEl = imageEl.closest(slideSelector()) as HTMLElement | null;
   if (slideEl) {
-    let lazyEl = slideEl.querySelector(`.${swiper.params.lazyPreloaderClass}`);
+    let lazyEl = slideEl.querySelector(`.${swiper.params.lazyPreloaderClass}`) as
+      | (HTMLElement & { lazyPreloaderManaged?: boolean })
+      | null;
     if (!lazyEl && swiper.isElement) {
       if (slideEl.shadowRoot) {
-        lazyEl = slideEl.shadowRoot.querySelector(`.${swiper.params.lazyPreloaderClass}`);
+        lazyEl = slideEl.shadowRoot.querySelector(
+          `.${swiper.params.lazyPreloaderClass}`,
+        ) as typeof lazyEl;
       } else {
-        // init later
         requestAnimationFrame(() => {
           if (slideEl.shadowRoot) {
-            lazyEl = slideEl.shadowRoot.querySelector(`.${swiper.params.lazyPreloaderClass}`);
-            if (lazyEl && !lazyEl.lazyPreloaderManaged) lazyEl.remove();
+            const innerLazy = slideEl.shadowRoot.querySelector(
+              `.${swiper.params.lazyPreloaderClass}`,
+            ) as typeof lazyEl;
+            if (innerLazy && !innerLazy.lazyPreloaderManaged) innerLazy.remove();
           }
         });
       }
     }
-    // Skip removal if managed by React/Vue component
     if (lazyEl && !lazyEl.lazyPreloaderManaged) lazyEl.remove();
   }
 };
 
-const unlazy = (swiper, index) => {
+const unlazy = (swiper: AnySwiper, index: number): void => {
   if (!swiper.slides[index]) return;
-  const imageEl = swiper.slides[index].querySelector('[loading="lazy"]');
+  const imageEl = swiper.slides[index].querySelector('[loading="lazy"]') as HTMLElement | null;
   if (imageEl) imageEl.removeAttribute('loading');
 };
 
-export const preload = (swiper) => {
+export const preload = (swiper: AnySwiper): void => {
   if (!swiper || swiper.destroyed || !swiper.params) return;
   let amount = swiper.params.lazyPreloadPrevNext;
   const len = swiper.slides.length;
@@ -43,11 +49,9 @@ export const preload = (swiper) => {
     const activeColumn = activeIndex;
     const preloadColumns = [activeColumn - amount];
     preloadColumns.push(
-      ...Array.from({ length: amount }).map((_, i) => {
-        return activeColumn + slidesPerView + i;
-      }),
+      ...Array.from({ length: amount }).map((_, i) => activeColumn + slidesPerView + i),
     );
-    swiper.slides.forEach((slideEl, i) => {
+    swiper.slides.forEach((slideEl: any, i: number) => {
       if (preloadColumns.includes(slideEl.column)) unlazy(swiper, i);
     });
     return;

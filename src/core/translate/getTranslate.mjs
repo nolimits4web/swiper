@@ -1,4 +1,4 @@
-import { getTranslate } from '../../shared/utils.mjs';
+import { getTranslate } from '../../shared/utils';
 
 export default function getSwiperTranslate(axis = this.isHorizontal() ? 'x' : 'y') {
   const swiper = this;

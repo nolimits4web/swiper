@@ -1,10 +1,4 @@
-import { getDocument } from 'ssr-window';
-import {
-  createElement,
-  elementChildren,
-  setCSSProperty,
-  setInnerHTML,
-} from '../../shared/utils.mjs';
+import { createElement, elementChildren, setCSSProperty, setInnerHTML } from '../../shared/utils';
 
 export default function Virtual({ swiper, extendParams, on, emit }) {
   extendParams({
@@ -22,7 +16,6 @@ export default function Virtual({ swiper, extendParams, on, emit }) {
   });
 
   let cssModeTimeout;
-  const document = getDocument();
 
   swiper.virtual = {
     cache: {},

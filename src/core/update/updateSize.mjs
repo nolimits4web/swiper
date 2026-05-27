@@ -1,4 +1,4 @@
-import { elementStyle } from '../../shared/utils.mjs';
+import { elementStyle } from '../../shared/utils';
 
 export default function updateSize() {
   const swiper = this;

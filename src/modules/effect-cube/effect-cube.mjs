@@ -1,5 +1,5 @@
-import effectInit from '../../shared/effect-init.mjs';
-import { createElement, getRotateFix } from '../../shared/utils.mjs';
+import effectInit from '../../shared/effect-init';
+import { createElement, getRotateFix } from '../../shared/utils';
 
 export default function EffectCube({ swiper, extendParams, on }) {
   extendParams({
@@ -56,7 +56,6 @@ export default function EffectCube({ swiper, extendParams, on }) {
       height: swiperHeight,
       rtlTranslate: rtl,
       size: swiperSize,
-      browser,
     } = swiper;
     const r = getRotateFix(swiper);
     const params = swiper.params.cubeEffect;
@@ -153,13 +152,11 @@ export default function EffectCube({ swiper, extendParams, on }) {
         }px, ${-swiperHeight / 2 / scale2}px) rotateX(-89.99deg)`;
       }
     }
-    const zFactor =
-      (browser.isSafari || browser.isWebView) && browser.needPerspectiveFix ? -swiperSize / 2 : 0;
-    wrapperEl.style.transform = `translate3d(0px,0,${zFactor}px) rotateX(${r(
+    wrapperEl.style.transform = `translate3d(0px,0,0px) rotateX(${r(
       swiper.isHorizontal() ? 0 : wrapperRotate,
     )}deg) rotateY(${r(swiper.isHorizontal() ? -wrapperRotate : 0)}deg)`;
 
-    wrapperEl.style.setProperty('--swiper-cube-translate-z', `${zFactor}px`);
+    wrapperEl.style.setProperty('--swiper-cube-translate-z', '0px');
   };
   const setTransition = (duration) => {
     const { el, slides } = swiper;

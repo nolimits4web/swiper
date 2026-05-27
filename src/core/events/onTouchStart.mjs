@@ -1,10 +1,9 @@
-import { getWindow, getDocument } from 'ssr-window';
-import { now, elementIsChildOf } from '../../shared/utils.mjs';
+import { now, elementIsChildOf } from '../../shared/utils';
 
 // Modified from https://stackoverflow.com/questions/54520554/custom-element-getrootnode-closest-function-crossing-multiple-parent-shadowd
 function closestElement(selector, base = this) {
   function __closestFrom(el) {
-    if (!el || el === getDocument() || el === getWindow()) return null;
+    if (!el || el === document || el === window) return null;
     if (el.assignedSlot) el = el.assignedSlot;
     const found = el.closest(selector);
     if (!found && !el.getRootNode) {
@@ -16,7 +15,6 @@ function closestElement(selector, base = this) {
 }
 
 function preventEdgeSwipe(swiper, event, startX) {
-  const window = getWindow();
   const { params } = swiper;
   const edgeSwipeDetection = params.edgeSwipeDetection;
   const edgeSwipeThreshold = params.edgeSwipeThreshold;
@@ -36,7 +34,6 @@ function preventEdgeSwipe(swiper, event, startX) {
 export default function onTouchStart(event) {
   const swiper = this;
   if (swiper.destroyed) return;
-  const document = getDocument();
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
   const data = swiper.touchEventsData;

@@ -1,12 +1,9 @@
-import { getDocument } from 'ssr-window';
-import { createElement, elementOffset, makeElementsArray, nextTick } from '../../shared/utils.mjs';
-import createElementIfNotDefined from '../../shared/create-element-if-not-defined.mjs';
-import classesToSelector from '../../shared/classes-to-selector.mjs';
-import classesToTokens from '../../shared/classes-to-tokens.mjs';
+import { createElement, elementOffset, makeElementsArray, nextTick } from '../../shared/utils';
+import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
+import classesToSelector from '../../shared/classes-to-selector';
+import classesToTokens from '../../shared/classes-to-tokens';
 
 export default function Scrollbar({ swiper, extendParams, on, emit }) {
-  const document = getDocument();
-
   let isTouched = false;
   let timeout = null;
   let dragTimeout = null;
