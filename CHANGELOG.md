@@ -1,5 +1,16 @@
 # Changelog
 
+# [12.2.0](https://github.com/nolimits4web/Swiper/compare/v12.1.4...v12.2.0) (2026-05-27)
+
+
+### Bug Fixes
+
+* avoid duplicate css type resolutions ([aaf6014](https://github.com/nolimits4web/Swiper/commit/aaf60141d2af8a0dcfd4f06951de4e606c7a59d5))
+* **core:** guard against stale event listeners in onTouchEnd and onTouchMove ([00fe610](https://github.com/nolimits4web/Swiper/commit/00fe610b034edba92ef09a3f78b521673871b5f5))
+* **core:** guard all event handlers against stale invocations on destroyed swiper ([3b2b85f](https://github.com/nolimits4web/Swiper/commit/3b2b85f904789b14628f65c89edb4991c3bf5859))
+* **types:** support boolean as controller type ([b10f9e0](https://github.com/nolimits4web/Swiper/commit/b10f9e0d6d62303d16d9364be93ab454f6c3d038))
+
+
 # [12.1.4](https://github.com/nolimits4web/Swiper/compare/v12.1.3...v12.1.4) (2026-04-29)
 
 ### Bug Fixes
