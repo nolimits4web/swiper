@@ -4,6 +4,7 @@ import type {
   NavigationMethods,
   NavigationOptions,
 } from '../../types/modules/navigation.d.ts';
+import type { CSSSelector } from '../../types/shared.d.ts';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
 import { makeElementsArray, setInnerHTML } from '../../shared/utils';
 
@@ -31,7 +32,7 @@ declare module '../../core/core' {
 
 const arrowSvg = `<svg class="swiper-navigation-icon" width="11" height="20" viewBox="0 0 11 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.38296 20.0762C0.111788 19.805 0.111788 19.3654 0.38296 19.0942L9.19758 10.2796L0.38296 1.46497C0.111788 1.19379 0.111788 0.754138 0.38296 0.482966C0.654131 0.211794 1.09379 0.211794 1.36496 0.482966L10.4341 9.55214C10.8359 9.9539 10.8359 10.6053 10.4341 11.007L1.36496 20.0762C1.09379 20.3474 0.654131 20.3474 0.38296 20.0762Z" fill="currentColor"/></svg>`;
 
-type NavEl = HTMLElement | HTMLElement[] | string | null | undefined;
+type NavEl = HTMLElement | HTMLElement[] | CSSSelector | null | undefined;
 
 const Navigation: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   extendParams({
@@ -47,11 +48,13 @@ const Navigation: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     },
   });
 
-  (swiper as any).navigation = {
-    nextEl: null,
-    prevEl: null,
+  // Initialized as a partial; remaining methods (update, init, destroy,
+  // enable, disable) attach after their definitions below.
+  swiper.navigation = {
+    nextEl: null as unknown as HTMLElement,
+    prevEl: null as unknown as HTMLElement,
     arrowSvg,
-  };
+  } as NavigationInternals;
 
   function getEl(el: NavEl): HTMLElement | HTMLElement[] | NavEl {
     let res: HTMLElement | HTMLElement[] | null | undefined;
@@ -62,7 +65,7 @@ const Navigation: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     if (el) {
       if (typeof el === 'string') res = [...document.querySelectorAll<HTMLElement>(el)];
       if (
-        (swiper.params as any).uniqueNavElements &&
+        swiper.params.uniqueNavElements &&
         typeof el === 'string' &&
         res &&
         (res as HTMLElement[]).length > 1 &&
@@ -78,21 +81,21 @@ const Navigation: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   }
 
   function toggleEl(el: NavEl, disabled: boolean): void {
-    const params = swiper.params.navigation as any;
+    const params = swiper.params.navigation!;
     const els = makeElementsArray(el as HTMLElement | HTMLElement[]);
     els.forEach((subEl) => {
       if (subEl) {
-        subEl.classList[disabled ? 'add' : 'remove'](...params.disabledClass.split(' '));
+        subEl.classList[disabled ? 'add' : 'remove'](...params.disabledClass!.split(' '));
         if (subEl.tagName === 'BUTTON') (subEl as HTMLButtonElement).disabled = disabled;
         if (swiper.params.watchOverflow && swiper.enabled) {
-          subEl.classList[swiper.isLocked ? 'add' : 'remove'](params.lockClass);
+          subEl.classList[swiper.isLocked ? 'add' : 'remove'](params.lockClass!);
         }
       }
     });
   }
   function update(): void {
     // Update Navigation Buttons
-    const { nextEl, prevEl } = swiper.navigation as any;
+    const { nextEl, prevEl } = swiper.navigation;
     if (swiper.params.loop) {
       toggleEl(prevEl, false);
       toggleEl(nextEl, false);
@@ -115,11 +118,11 @@ const Navigation: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     emit('navigationNext');
   }
   function init(): void {
-    const params = swiper.params.navigation as any;
+    const params = swiper.params.navigation!;
 
     swiper.params.navigation = createElementIfNotDefined(
       swiper,
-      (swiper.originalParams as any).navigation,
+      swiper.originalParams.navigation as any,
       swiper.params.navigation as any,
       {
         nextEl: 'swiper-button-next',
@@ -153,7 +156,7 @@ const Navigation: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
         el.addEventListener('click', dir === 'next' ? onNextClick : onPrevClick);
       }
       if (!swiper.enabled && el) {
-        el.classList.add(...params.lockClass.split(' '));
+        el.classList.add(...params.lockClass!.split(' '));
       }
     };
 
@@ -161,19 +164,19 @@ const Navigation: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     prevEls.forEach((el) => initButton(el, 'prev'));
   }
   function destroy(): void {
-    const { nextEl, prevEl } = swiper.navigation as any;
+    const { nextEl, prevEl } = swiper.navigation;
     const nextEls = makeElementsArray(nextEl as HTMLElement | HTMLElement[]);
     const prevEls = makeElementsArray(prevEl as HTMLElement | HTMLElement[]);
     const destroyButton = (el: HTMLElement, dir: 'next' | 'prev'): void => {
       el.removeEventListener('click', dir === 'next' ? onNextClick : onPrevClick);
-      el.classList.remove(...(swiper.params.navigation as any).disabledClass.split(' '));
+      el.classList.remove(...swiper.params.navigation!.disabledClass!.split(' '));
     };
     nextEls.forEach((el) => destroyButton(el, 'next'));
     prevEls.forEach((el) => destroyButton(el, 'prev'));
   }
 
   on('init', () => {
-    if ((swiper.params.navigation as any).enabled === false) {
+    if (swiper.params.navigation!.enabled === false) {
       // eslint-disable-next-line
       disable();
     } else {
@@ -188,7 +191,7 @@ const Navigation: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     destroy();
   });
   on('enable disable', () => {
-    const { nextEl, prevEl } = swiper.navigation as any;
+    const { nextEl, prevEl } = swiper.navigation;
     const nextEls = makeElementsArray(nextEl as HTMLElement | HTMLElement[]);
     const prevEls = makeElementsArray(prevEl as HTMLElement | HTMLElement[]);
     if (swiper.enabled) {
@@ -197,10 +200,10 @@ const Navigation: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     }
     [...nextEls, ...prevEls]
       .filter((el) => !!el)
-      .forEach((el) => el.classList.add((swiper.params.navigation as any).lockClass));
+      .forEach((el) => el.classList.add(swiper.params.navigation!.lockClass!));
   });
   on('click', (_s, e: Event) => {
-    const { nextEl, prevEl } = swiper.navigation as any;
+    const { nextEl, prevEl } = swiper.navigation;
     const nextEls = makeElementsArray(nextEl as HTMLElement | HTMLElement[]);
     const prevEls = makeElementsArray(prevEl as HTMLElement | HTMLElement[]);
     const targetEl = (e as Event).target as HTMLElement;
@@ -216,19 +219,19 @@ const Navigation: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
         );
       }
     }
-    if ((swiper.params.navigation as any).hideOnClick && !targetIsButton) {
+    if (swiper.params.navigation!.hideOnClick && !targetIsButton) {
       if (
         swiper.pagination &&
         swiper.params.pagination &&
-        (swiper.params.pagination as any).clickable &&
+        swiper.params.pagination!.clickable &&
         (swiper.pagination.el === targetEl || swiper.pagination.el.contains(targetEl))
       )
         return;
       let isHidden: boolean | undefined;
       if (nextEls.length) {
-        isHidden = nextEls[0]!.classList.contains((swiper.params.navigation as any).hiddenClass);
+        isHidden = nextEls[0]!.classList.contains(swiper.params.navigation!.hiddenClass!);
       } else if (prevEls.length) {
-        isHidden = prevEls[0]!.classList.contains((swiper.params.navigation as any).hiddenClass);
+        isHidden = prevEls[0]!.classList.contains(swiper.params.navigation!.hiddenClass!);
       }
       if (isHidden === true) {
         emit('navigationShow');
@@ -237,22 +240,18 @@ const Navigation: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
       }
       [...nextEls, ...prevEls]
         .filter((el) => !!el)
-        .forEach((el) => el.classList.toggle((swiper.params.navigation as any).hiddenClass));
+        .forEach((el) => el.classList.toggle(swiper.params.navigation!.hiddenClass!));
     }
   });
 
   const enable = (): void => {
-    swiper.el.classList.remove(
-      ...(swiper.params.navigation as any).navigationDisabledClass.split(' '),
-    );
+    swiper.el.classList.remove(...swiper.params.navigation!.navigationDisabledClass!.split(' '));
     init();
     update();
   };
 
   const disable = (): void => {
-    swiper.el.classList.add(
-      ...(swiper.params.navigation as any).navigationDisabledClass.split(' '),
-    );
+    swiper.el.classList.add(...swiper.params.navigation!.navigationDisabledClass!.split(' '));
     destroy();
   };
 
