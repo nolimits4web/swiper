@@ -1,8 +1,8 @@
-import appendSlide from './methods/appendSlide.mjs';
-import prependSlide from './methods/prependSlide.mjs';
-import addSlide from './methods/addSlide.mjs';
-import removeSlide from './methods/removeSlide.mjs';
-import removeAllSlides from './methods/removeAllSlides.mjs';
+import appendSlide from './methods/appendSlide';
+import prependSlide from './methods/prependSlide';
+import addSlide from './methods/addSlide';
+import removeSlide from './methods/removeSlide';
+import removeAllSlides from './methods/removeAllSlides';
 
 export default function Manipulation({ swiper }) {
   Object.assign(swiper, {
