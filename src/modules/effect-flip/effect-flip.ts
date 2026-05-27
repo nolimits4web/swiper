@@ -1,10 +1,58 @@
+import type { SwiperModuleFn } from '../../core/core';
 import createShadow from '../../shared/create-shadow';
 import effectInit from '../../shared/effect-init';
 import effectTarget from '../../shared/effect-target';
 import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end';
 import { getRotateFix, getSlideTransformEl } from '../../shared/utils';
 
-export default function EffectFlip({ swiper, extendParams, on }) {
+export interface FlipEffectOptions {
+  /**
+   * Enables slides shadows
+   *
+   * @default true
+   */
+  slideShadows?: boolean;
+  /**
+   * Limit edge slides rotation
+   *
+   * @default true
+   */
+  limitRotation?: boolean;
+}
+
+export interface FlipEffectMethods {}
+
+export interface FlipEffectEvents {}
+
+type FlipEffectParamsRuntime = Required<FlipEffectOptions>;
+
+declare module '../../core/core' {
+  interface Swiper {
+    flipEffect: FlipEffectMethods;
+  }
+  interface SwiperOptions {
+    /**
+     * Object with Flip-effect parameters
+     *
+     * @example
+     * ```js
+     * const swiper = new Swiper('.swiper', {
+     *   effect: 'flip',
+     *   flipEffect: {
+     *     slideShadows: false,
+     *   },
+     * });
+     * ```
+     */
+    flipEffect?: FlipEffectOptions;
+  }
+  interface SwiperParams {
+    flipEffect?: FlipEffectOptions;
+  }
+  interface SwiperEvents extends FlipEffectEvents {}
+}
+
+const EffectFlip: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   extendParams({
     flipEffect: {
       slideShadows: true,
@@ -12,46 +60,50 @@ export default function EffectFlip({ swiper, extendParams, on }) {
     },
   });
 
-  const createSlideShadows = (slideEl, progress) => {
+  function getParams(): FlipEffectParamsRuntime {
+    return swiper.params.flipEffect as FlipEffectParamsRuntime;
+  }
+
+  const createSlideShadows = (slideEl: HTMLElement, progress: number): void => {
     let shadowBefore = swiper.isHorizontal()
-      ? slideEl.querySelector('.swiper-slide-shadow-left')
-      : slideEl.querySelector('.swiper-slide-shadow-top');
+      ? slideEl.querySelector<HTMLElement>('.swiper-slide-shadow-left')
+      : slideEl.querySelector<HTMLElement>('.swiper-slide-shadow-top');
     let shadowAfter = swiper.isHorizontal()
-      ? slideEl.querySelector('.swiper-slide-shadow-right')
-      : slideEl.querySelector('.swiper-slide-shadow-bottom');
+      ? slideEl.querySelector<HTMLElement>('.swiper-slide-shadow-right')
+      : slideEl.querySelector<HTMLElement>('.swiper-slide-shadow-bottom');
     if (!shadowBefore) {
       shadowBefore = createShadow('flip', slideEl, swiper.isHorizontal() ? 'left' : 'top');
     }
     if (!shadowAfter) {
       shadowAfter = createShadow('flip', slideEl, swiper.isHorizontal() ? 'right' : 'bottom');
     }
-    if (shadowBefore) shadowBefore.style.opacity = Math.max(-progress, 0);
-    if (shadowAfter) shadowAfter.style.opacity = Math.max(progress, 0);
+    if (shadowBefore) shadowBefore.style.opacity = String(Math.max(-progress, 0));
+    if (shadowAfter) shadowAfter.style.opacity = String(Math.max(progress, 0));
   };
 
-  const recreateShadows = () => {
+  const recreateShadows = (): void => {
     // Set shadows
-    const params = swiper.params.flipEffect;
+    const params = getParams();
     swiper.slides.forEach((slideEl) => {
-      let progress = slideEl.progress;
-      if (swiper.params.flipEffect.limitRotation) {
-        progress = Math.max(Math.min(slideEl.progress, 1), -1);
+      let progress = slideEl.progress ?? 0;
+      if (params.limitRotation) {
+        progress = Math.max(Math.min(progress, 1), -1);
       }
-      createSlideShadows(slideEl, progress, params);
+      createSlideShadows(slideEl, progress);
     });
   };
 
-  const setTranslate = () => {
+  const setTranslate = (): void => {
     const { slides, rtlTranslate: rtl } = swiper;
-    const params = swiper.params.flipEffect;
+    const params = getParams();
     const rotateFix = getRotateFix(swiper);
     for (let i = 0; i < slides.length; i += 1) {
-      const slideEl = slides[i];
-      let progress = slideEl.progress;
-      if (swiper.params.flipEffect.limitRotation) {
-        progress = Math.max(Math.min(slideEl.progress, 1), -1);
+      const slideEl = slides[i]!;
+      let progress = slideEl.progress ?? 0;
+      if (params.limitRotation) {
+        progress = Math.max(Math.min(progress, 1), -1);
       }
-      const offset = slideEl.swiperSlideOffset;
+      const offset = slideEl.swiperSlideOffset ?? 0;
       const rotate = -180 * progress;
       let rotateY = rotate;
       let rotateX = 0;
@@ -66,10 +118,10 @@ export default function EffectFlip({ swiper, extendParams, on }) {
         rotateY = -rotateY;
       }
 
-      slideEl.style.zIndex = -Math.abs(Math.round(progress)) + slides.length;
+      slideEl.style.zIndex = String(-Math.abs(Math.round(progress)) + slides.length);
 
       if (params.slideShadows) {
-        createSlideShadows(slideEl, progress, params);
+        createSlideShadows(slideEl, progress);
       }
       const transform = `translate3d(${tx}px, ${ty}px, 0px) rotateX(${rotateFix(
         rotateX,
@@ -79,12 +131,12 @@ export default function EffectFlip({ swiper, extendParams, on }) {
     }
   };
 
-  const setTransition = (duration) => {
+  const setTransition = (duration: number): void => {
     const transformElements = swiper.slides.map((slideEl) => getSlideTransformEl(slideEl));
 
     transformElements.forEach((el) => {
       el.style.transitionDuration = `${duration}ms`;
-      el.querySelectorAll(
+      el.querySelectorAll<HTMLElement>(
         '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
       ).forEach((shadowEl) => {
         shadowEl.style.transitionDuration = `${duration}ms`;
@@ -111,4 +163,6 @@ export default function EffectFlip({ swiper, extendParams, on }) {
       virtualTranslate: !swiper.params.cssMode,
     }),
   });
-}
+};
+
+export default EffectFlip;

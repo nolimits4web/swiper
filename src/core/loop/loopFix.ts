@@ -134,8 +134,7 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
       if (gridEnabled) {
         const colIndexToPrepend = cols - index - 1;
         for (let j = slides.length - 1; j >= 0; j -= 1) {
-          if ((slides[j] as LoopSlideEl).column === colIndexToPrepend)
-            prependSlidesIndexes.push(j);
+          if ((slides[j] as LoopSlideEl).column === colIndexToPrepend) prependSlidesIndexes.push(j);
         }
       } else {
         prependSlidesIndexes.push(cols - index - 1);
@@ -282,10 +281,7 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
     ) {
       controlled.loopFix({
         ...loopParams,
-        slideTo:
-          controlled.params.slidesPerView === params.slidesPerView
-            ? slideTo
-            : false,
+        slideTo: controlled.params.slidesPerView === params.slidesPerView ? slideTo : false,
       });
     }
   }

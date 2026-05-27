@@ -166,10 +166,7 @@ const Grid: SwiperModuleFn = ({ swiper, extendParams, on }) => {
       const columnsInGroup =
         groupIndex === 0
           ? groupsPer
-          : Math.min(
-              Math.ceil((slidesLength - groupIndex * rows * groupsPer) / rows),
-              groupsPer,
-            );
+          : Math.min(Math.ceil((slidesLength - groupIndex * rows * groupsPer) / rows), groupsPer);
       row = Math.floor(slideIndexInGroup / columnsInGroup);
       column = slideIndexInGroup - row * columnsInGroup + groupIndex * groupsPer;
 

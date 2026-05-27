@@ -35,16 +35,9 @@ import type { SwiperOptions as LegacySwiperOptions } from '../types/swiper-optio
 import type { SwiperEvents as LegacySwiperEvents } from '../types/swiper-events.d.ts';
 import type { CSSSelector } from '../types/shared.d.ts';
 
-// Module Methods for modules that haven't been migrated to per-module type
-// augmentation yet. Each migrated module removes itself from this list and
-// instead `declare module '../../core/core'` to augment `Swiper`,
-// `SwiperOptions`, `SwiperParams`, and `SwiperEvents` from its own .ts file.
-import type { CoverflowEffectMethods } from '../types/modules/effect-coverflow.d.ts';
-import type { CubeEffectMethods } from '../types/modules/effect-cube.d.ts';
-import type { FadeEffectMethods } from '../types/modules/effect-fade.d.ts';
-import type { FlipEffectMethods } from '../types/modules/effect-flip.d.ts';
-import type { CreativeEffectMethods } from '../types/modules/effect-creative.d.ts';
-import type { CardsEffectMethods } from '../types/modules/effect-cards.d.ts';
+// All bundled modules now own their `*Methods`, `*Options`, and `*Events`
+// types in their own .ts files and augment `Swiper`, `SwiperOptions`,
+// `SwiperParams`, and `SwiperEvents` via `declare module '../../core/core'`.
 
 // Canonical SwiperOptions / SwiperEvents — declared in core.ts so individual
 // modules can augment them via `declare module '../../core/core'`. The bodies
@@ -59,6 +52,18 @@ export interface SwiperEvents extends LegacySwiperEvents {}
 
 export type SwiperEventHandler = (...args: any[]) => any;
 export type SwiperEventName = keyof SwiperEvents;
+
+// Runtime-managed slide element. The core's update/updateSlidesOffset +
+// update/updateSlidesProgress write `swiperSlideOffset`, `swiperSlideSize`,
+// `progress`, and `originalProgress` onto each slide; effect modules read
+// them. Modules (e.g. grid) may extend slides with their own internal
+// tags via local sub-interfaces.
+export interface SwiperSlideElement extends HTMLElement {
+  swiperSlideOffset?: number;
+  swiperSlideSize?: number;
+  progress?: number;
+  originalProgress?: number;
+}
 
 // Runtime params extend SwiperOptions with internal-only properties not
 // exposed in the public type surface. Declared as `interface` (not `type`)
@@ -135,11 +140,11 @@ export interface Swiper {
   classNames: string[];
 
   // Slides
-  slides: HTMLElement[];
+  slides: SwiperSlideElement[];
   slidesGrid: number[];
   snapGrid: number[];
   slidesSizesGrid: number[];
-  visibleSlides: HTMLElement[];
+  visibleSlides: SwiperSlideElement[];
   visibleSlidesIndexes: number[];
   loopedSlides: number | null;
 
@@ -157,7 +162,7 @@ export interface Swiper {
   previousSnapIndex?: number;
   previousRealIndex?: number;
   clickedIndex: number;
-  clickedSlide: HTMLElement;
+  clickedSlide: SwiperSlideElement;
 
   // Direction / RTL
   rtl: boolean;
@@ -327,18 +332,8 @@ export interface Swiper {
   onScroll: () => void;
   onLoad: (event: Event) => void;
 
-  // Module-injected methods. Typed modules augment these via
-  // `declare module '../../core/core'` from their own .ts file; untyped
-  // modules still appear here until they migrate. Removed entries (one
-  // per migrated module): a11y, autoplay, controller, freeMode, grid,
-  // hashNavigation, history, keyboard, mousewheel, navigation, pagination,
-  // parallax, scrollbar, thumbs, virtual, zoom.
-  coverflowEffect: CoverflowEffectMethods;
-  cubeEffect: CubeEffectMethods;
-  fadeEffect: FadeEffectMethods;
-  flipEffect: FlipEffectMethods;
-  creativeEffect: CreativeEffectMethods;
-  cardsEffect: CardsEffectMethods;
+  // Module-injected methods are contributed via `declare module
+  // '../../core/core'` from each module's own .ts file.
 }
 
 const prototypes = {
@@ -600,7 +595,10 @@ export class Swiper {
 
   recalcSlides(this: Swiper): void {
     const { slidesEl, params } = this;
-    this.slides = elementChildren(slidesEl, `.${params.slideClass}, swiper-slide`) as HTMLElement[];
+    this.slides = elementChildren(
+      slidesEl,
+      `.${params.slideClass}, swiper-slide`,
+    ) as SwiperSlideElement[];
   }
 
   enable(this: Swiper): void {
@@ -677,20 +675,18 @@ export class Swiper {
     if (typeof params.slidesPerView === 'number') return params.slidesPerView;
 
     if (params.centeredSlides) {
-      let slideSize = slides[activeIndex]
-        ? Math.ceil((slides[activeIndex] as any).swiperSlideSize)
-        : 0;
+      let slideSize = slides[activeIndex] ? Math.ceil(slides[activeIndex].swiperSlideSize ?? 0) : 0;
       let breakLoop = false;
       for (let i = activeIndex + 1; i < slides.length; i += 1) {
         if (slides[i] && !breakLoop) {
-          slideSize += Math.ceil((slides[i] as any).swiperSlideSize);
+          slideSize += Math.ceil(slides[i]!.swiperSlideSize ?? 0);
           spv += 1;
           if (slideSize > swiperSize) breakLoop = true;
         }
       }
       for (let i = activeIndex - 1; i >= 0; i -= 1) {
         if (slides[i] && !breakLoop) {
-          slideSize += (slides[i] as any).swiperSlideSize;
+          slideSize += slides[i]!.swiperSlideSize ?? 0;
           spv += 1;
           if (slideSize > swiperSize) breakLoop = true;
         }

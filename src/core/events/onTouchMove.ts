@@ -213,7 +213,7 @@ export default function onTouchMove(
   void time;
 
   if (
-    (params as any)._loopSwapReset !== false &&
+    params._loopSwapReset !== false &&
     data.isMoved &&
     data.allowThresholdMove &&
     prevTouchesDirection !== swiper.touchesDirection &&

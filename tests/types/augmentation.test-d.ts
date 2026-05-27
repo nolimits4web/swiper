@@ -31,6 +31,12 @@ import '../../src/modules/zoom/zoom';
 import '../../src/modules/grid/grid';
 import '../../src/modules/virtual/virtual';
 import '../../src/modules/manipulation/manipulation';
+import '../../src/modules/effect-fade/effect-fade';
+import '../../src/modules/effect-cube/effect-cube';
+import '../../src/modules/effect-coverflow/effect-coverflow';
+import '../../src/modules/effect-flip/effect-flip';
+import '../../src/modules/effect-creative/effect-creative';
+import '../../src/modules/effect-cards/effect-cards';
 
 // `Expect<T>` errors at compile time if T is not literal `true`.
 type Expect<T extends true> = T;
@@ -59,6 +65,12 @@ type _S_grid = Expect<HasKey<Swiper, 'grid'>>;
 type _S_virtual = Expect<HasKey<Swiper, 'virtual'>>;
 type _S_appendSlide = Expect<HasKey<Swiper, 'appendSlide'>>;
 type _S_removeAllSlides = Expect<HasKey<Swiper, 'removeAllSlides'>>;
+type _S_fadeEffect = Expect<HasKey<Swiper, 'fadeEffect'>>;
+type _S_cubeEffect = Expect<HasKey<Swiper, 'cubeEffect'>>;
+type _S_coverflowEffect = Expect<HasKey<Swiper, 'coverflowEffect'>>;
+type _S_flipEffect = Expect<HasKey<Swiper, 'flipEffect'>>;
+type _S_creativeEffect = Expect<HasKey<Swiper, 'creativeEffect'>>;
+type _S_cardsEffect = Expect<HasKey<Swiper, 'cardsEffect'>>;
 
 // Internal-only members of Swiper.<module> (declared in *Internals interfaces
 // in each module, beyond the published *Methods surface) are reachable.
@@ -112,7 +124,23 @@ const _o10: SwiperOptions = { parallax: true };
 const _o11: SwiperOptions = { grid: { rows: 2, fill: 'row' } };
 const _o12: SwiperOptions = { virtual: true };
 const _o13: SwiperOptions = { virtual: { enabled: true, slides: ['a', 'b'] } };
+const _o14: SwiperOptions = { effect: 'fade', fadeEffect: { crossFade: true } };
+const _o15: SwiperOptions = { effect: 'cube', cubeEffect: { slideShadows: false } };
+const _o16: SwiperOptions = {
+  effect: 'coverflow',
+  coverflowEffect: { rotate: 30, stretch: '50%' },
+};
+const _o17: SwiperOptions = { effect: 'flip', flipEffect: { limitRotation: false } };
+const _o18: SwiperOptions = {
+  effect: 'creative',
+  creativeEffect: {
+    prev: { translate: [0, 0, -400], rotate: [0, 0, 0], opacity: 1, scale: 1 },
+    next: { translate: ['100%', 0, 0] },
+  },
+};
+const _o19: SwiperOptions = { effect: 'cards', cardsEffect: { perSlideOffset: 6 } };
 void [_o1, _o2, _o3, _o4, _o5, _o6, _o7, _o8, _o9, _o10, _o11, _o12, _o13];
+void [_o14, _o15, _o16, _o17, _o18, _o19];
 
 // --- SwiperParams.<module> is the normalized object form (internal) ---
 // `swiper.params.navigation` is `NavigationOptions | undefined` — never the
@@ -152,6 +180,16 @@ type _P_virtual_enabled = Expect<HasKey<_P_virtual_kind, 'enabled'>>;
 type _P_virtual_no_boolean = Expect<
   _IsBoolean<NonNullable<typeof params.virtual>> extends true ? false : true
 >;
+
+// Effect option shapes survive the augmentation round-trip.
+type _P_fadeEffect_kind = NonNullable<typeof params.fadeEffect>;
+type _P_fadeEffect_crossFade = Expect<HasKey<_P_fadeEffect_kind, 'crossFade'>>;
+type _P_coverflow_kind = NonNullable<typeof params.coverflowEffect>;
+type _P_coverflow_modifier = Expect<HasKey<_P_coverflow_kind, 'modifier'>>;
+type _P_creative_kind = NonNullable<typeof params.creativeEffect>;
+type _P_creative_prev = Expect<HasKey<_P_creative_kind, 'prev'>>;
+type _P_cards_kind = NonNullable<typeof params.cardsEffect>;
+type _P_cards_perSlideRotate = Expect<HasKey<_P_cards_kind, 'perSlideRotate'>>;
 
 // .on() / .emit() against augmented event names type-check.
 swiper.on('navigationShow', (s) => void s);

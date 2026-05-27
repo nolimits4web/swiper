@@ -18,7 +18,7 @@ export default function updateSlidesProgress(
   const { slides, rtlTranslate: rtl, snapGrid } = swiper;
 
   if (slides.length === 0) return;
-  if (typeof (slides[0] as any).swiperSlideOffset === 'undefined') swiper.updateSlidesOffset();
+  if (typeof slides[0]!.swiperSlideOffset === 'undefined') swiper.updateSlidesOffset();
 
   let offsetCenter = -translate;
   if (rtl) offsetCenter = translate;
@@ -34,21 +34,22 @@ export default function updateSlidesProgress(
   }
 
   for (let i = 0; i < slides.length; i += 1) {
-    const slide = slides[i] as any;
-    let slideOffset: number = slide.swiperSlideOffset;
+    const slide = slides[i]!;
+    let slideOffset = slide.swiperSlideOffset ?? 0;
     if (params.cssMode && params.centeredSlides) {
-      slideOffset -= (slides[0] as any).swiperSlideOffset;
+      slideOffset -= slides[0]!.swiperSlideOffset ?? 0;
     }
 
+    const slideSize = slide.swiperSlideSize ?? 0;
     const slideProgress =
       (offsetCenter + (params.centeredSlides ? swiper.minTranslate() : 0) - slideOffset) /
-      (slide.swiperSlideSize + (spaceBetween as number));
+      (slideSize + (spaceBetween as number));
     const originalSlideProgress =
       (offsetCenter -
         snapGrid[0]! +
         (params.centeredSlides ? swiper.minTranslate() : 0) -
         slideOffset) /
-      (slide.swiperSlideSize + (spaceBetween as number));
+      (slideSize + (spaceBetween as number));
     const slideBefore = -(offsetCenter - slideOffset);
     const slideAfter = slideBefore + swiper.slidesSizesGrid[i]!;
 

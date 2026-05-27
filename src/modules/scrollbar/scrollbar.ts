@@ -222,7 +222,7 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     if (!params.el || !swiper.scrollbar.el) return;
     const { scrollbar, rtlTranslate: rtl } = swiper;
     const { dragEl, el } = scrollbar;
-    const progress = swiper.params.loop ? (swiper.progressLoop ?? 0) : swiper.progress;
+    const progress = swiper.params.loop ? swiper.progressLoop ?? 0 : swiper.progress;
 
     let newSize = dragSize;
     let newPos = (trackSize - dragSize) * progress;

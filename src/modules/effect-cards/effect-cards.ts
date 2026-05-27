@@ -1,10 +1,73 @@
+import type { SwiperModuleFn } from '../../core/core';
 import createShadow from '../../shared/create-shadow';
 import effectInit from '../../shared/effect-init';
 import effectTarget from '../../shared/effect-target';
 import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end';
 import { getSlideTransformEl } from '../../shared/utils';
 
-export default function EffectCards({ swiper, extendParams, on }) {
+export interface CardsEffectOptions {
+  /**
+   * Enables slides shadows
+   *
+   * @default true
+   */
+  slideShadows?: boolean;
+
+  /**
+   * Enables cards rotation
+   *
+   * @default true
+   */
+  rotate?: boolean;
+
+  /**
+   * Rotate angle per slide (in degrees)
+   *
+   * @default 2
+   */
+  perSlideRotate?: number;
+
+  /**
+   * Offset distance per slide (in px)
+   *
+   * @default 8
+   */
+  perSlideOffset?: number;
+}
+
+export interface CardsEffectMethods {}
+
+export interface CardsEffectEvents {}
+
+type CardsEffectParamsRuntime = Required<CardsEffectOptions>;
+
+declare module '../../core/core' {
+  interface Swiper {
+    cardsEffect: CardsEffectMethods;
+  }
+  interface SwiperOptions {
+    /**
+     * Object with Cards-effect parameters
+     *
+     * @example
+     * ```js
+     * const swiper = new Swiper('.swiper', {
+     *   effect: 'cards',
+     *   cardsEffect: {
+     *     // ...
+     *   },
+     * });
+     * ```
+     */
+    cardsEffect?: CardsEffectOptions;
+  }
+  interface SwiperParams {
+    cardsEffect?: CardsEffectOptions;
+  }
+  interface SwiperEvents extends CardsEffectEvents {}
+}
+
+const EffectCards: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   extendParams({
     cardsEffect: {
       slideShadows: true,
@@ -14,24 +77,28 @@ export default function EffectCards({ swiper, extendParams, on }) {
     },
   });
 
-  const setTranslate = () => {
+  function getParams(): CardsEffectParamsRuntime {
+    return swiper.params.cardsEffect as CardsEffectParamsRuntime;
+  }
+
+  const setTranslate = (): void => {
     const { slides, activeIndex, rtlTranslate: rtl } = swiper;
-    const params = swiper.params.cardsEffect;
+    const params = getParams();
     const { startTranslate, isTouched } = swiper.touchEventsData;
     const currentTranslate = rtl ? -swiper.translate : swiper.translate;
     for (let i = 0; i < slides.length; i += 1) {
-      const slideEl = slides[i];
-      const slideProgress = slideEl.progress;
+      const slideEl = slides[i]!;
+      const slideProgress = slideEl.progress ?? 0;
       const progress = Math.min(Math.max(slideProgress, -4), 4);
-      let offset = slideEl.swiperSlideOffset;
+      let offset = slideEl.swiperSlideOffset ?? 0;
       if (swiper.params.centeredSlides && !swiper.params.cssMode) {
         swiper.wrapperEl.style.transform = `translateX(${swiper.minTranslate()}px)`;
       }
       if (swiper.params.centeredSlides && swiper.params.cssMode) {
-        offset -= slides[0].swiperSlideOffset;
+        offset -= slides[0]!.swiperSlideOffset ?? 0;
       }
-      let tX = swiper.params.cssMode ? -offset - swiper.translate : -offset;
-      let tY = 0;
+      let tX: number | string = swiper.params.cssMode ? -offset - swiper.translate : -offset;
+      let tY: number | string = 0;
       const tZ = -100 * Math.abs(progress);
       let scale = 1;
       let rotate = -params.perSlideRotate * progress;
@@ -39,20 +106,20 @@ export default function EffectCards({ swiper, extendParams, on }) {
       let tXAdd = params.perSlideOffset - Math.abs(progress) * 0.75;
 
       const slideIndex =
-        swiper.virtual && swiper.params.virtual.enabled ? swiper.virtual.from + i : i;
+        swiper.virtual && swiper.params.virtual?.enabled ? swiper.virtual.from + i : i;
 
       const isSwipeToNext =
         (slideIndex === activeIndex || slideIndex === activeIndex - 1) &&
         progress > 0 &&
         progress < 1 &&
         (isTouched || swiper.params.cssMode) &&
-        currentTranslate < startTranslate;
+        (currentTranslate ?? 0) < (startTranslate ?? 0);
       const isSwipeToPrev =
         (slideIndex === activeIndex || slideIndex === activeIndex + 1) &&
         progress < 0 &&
         progress > -1 &&
         (isTouched || swiper.params.cssMode) &&
-        currentTranslate > startTranslate;
+        (currentTranslate ?? 0) > (startTranslate ?? 0);
 
       if (isSwipeToNext || isSwipeToPrev) {
         const subProgress = (1 - Math.abs((Math.abs(progress) - 0.5) / 0.5)) ** 0.5;
@@ -91,25 +158,27 @@ export default function EffectCards({ swiper, extendParams, on }) {
 
       if (params.slideShadows) {
         // Set shadows
-        let shadowEl = slideEl.querySelector('.swiper-slide-shadow');
+        let shadowEl = slideEl.querySelector<HTMLElement>('.swiper-slide-shadow');
         if (!shadowEl) {
           shadowEl = createShadow('cards', slideEl);
         }
         if (shadowEl)
-          shadowEl.style.opacity = Math.min(Math.max((Math.abs(progress) - 0.5) / 0.5, 0), 1);
+          shadowEl.style.opacity = String(
+            Math.min(Math.max((Math.abs(progress) - 0.5) / 0.5, 0), 1),
+          );
       }
 
-      slideEl.style.zIndex = -Math.abs(Math.round(slideProgress)) + slides.length;
+      slideEl.style.zIndex = String(-Math.abs(Math.round(slideProgress)) + slides.length);
       const targetEl = effectTarget(params, slideEl);
       targetEl.style.transform = transform;
     }
   };
 
-  const setTransition = (duration) => {
+  const setTransition = (duration: number): void => {
     const transformElements = swiper.slides.map((slideEl) => getSlideTransformEl(slideEl));
     transformElements.forEach((el) => {
       el.style.transitionDuration = `${duration}ms`;
-      el.querySelectorAll('.swiper-slide-shadow').forEach((shadowEl) => {
+      el.querySelectorAll<HTMLElement>('.swiper-slide-shadow').forEach((shadowEl) => {
         shadowEl.style.transitionDuration = `${duration}ms`;
       });
     });
@@ -127,9 +196,11 @@ export default function EffectCards({ swiper, extendParams, on }) {
     overwriteParams: () => ({
       _loopSwapReset: false,
       watchSlidesProgress: true,
-      loopAdditionalSlides: swiper.params.cardsEffect.rotate ? 3 : 2,
+      loopAdditionalSlides: getParams().rotate ? 3 : 2,
       centeredSlides: true,
       virtualTranslate: !swiper.params.cssMode,
     }),
   });
-}
+};
+
+export default EffectCards;

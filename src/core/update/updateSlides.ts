@@ -4,7 +4,7 @@ import {
   elementStyle,
   setCSSProperty,
 } from '../../shared/utils';
-import type { Swiper } from '../core';
+import type { Swiper, SwiperSlideElement } from '../core';
 
 export default function updateSlides(this: Swiper): void {
   const swiper = this;
@@ -21,7 +21,7 @@ export default function updateSlides(this: Swiper): void {
   const slides = elementChildren(
     slidesEl,
     `.${swiper.params.slideClass}, swiper-slide`,
-  ) as HTMLElement[];
+  ) as SwiperSlideElement[];
   const slidesLength: number = isVirtual ? swiper.virtual.slides.length : slides.length;
   let snapGrid: number[] = [];
   const slidesGrid: number[] = [];
@@ -172,7 +172,7 @@ export default function updateSlides(this: Swiper): void {
       }
     }
     if (slide) {
-      (slide as any).swiperSlideSize = slideSize;
+      slide.swiperSlideSize = slideSize;
     }
     slidesSizesGrid.push(slideSize);
 

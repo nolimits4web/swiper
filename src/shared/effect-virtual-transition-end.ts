@@ -1,9 +1,10 @@
+import type { Swiper } from '../core/core';
 import { elementTransitionEnd } from './utils';
 
 interface EffectVirtualTransitionEndParams {
-  swiper: any;
+  swiper: Swiper;
   duration: number;
-  transformElements: Element[];
+  transformElements: HTMLElement[];
   allSlides?: boolean;
 }
 
@@ -14,18 +15,19 @@ export default function effectVirtualTransitionEnd({
   allSlides,
 }: EffectVirtualTransitionEndParams): void {
   const { activeIndex } = swiper;
-  const getSlide = (el: Element): Element | undefined => {
+  const getSlide = (el: HTMLElement): HTMLElement | undefined => {
     if (!el.parentElement) {
       // assume shadow root
       return swiper.slides.find(
-        (slideEl: Element) => slideEl.shadowRoot && slideEl.shadowRoot === el.parentNode,
+        (slideEl) => slideEl.shadowRoot && slideEl.shadowRoot === el.parentNode,
       );
     }
-    return el.parentElement;
+    if (el.parentElement instanceof HTMLElement) return el.parentElement;
+    return undefined;
   };
   if (swiper.params.virtualTranslate && duration !== 0) {
     let eventTriggered = false;
-    let transitionEndTarget: Element[];
+    let transitionEndTarget: HTMLElement[];
     if (allSlides) {
       transitionEndTarget = transformElements;
     } else {
@@ -33,7 +35,7 @@ export default function effectVirtualTransitionEnd({
         const el = transformEl.classList.contains('swiper-slide-transform')
           ? getSlide(transformEl)
           : transformEl;
-        return swiper.getSlideIndex(el) === activeIndex;
+        return !!el && swiper.getSlideIndex(el) === activeIndex;
       });
     }
     transitionEndTarget.forEach((el) => {

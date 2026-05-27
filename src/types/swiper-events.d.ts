@@ -3,12 +3,6 @@ import type Swiper from './swiper-class.d.ts';
 
 // Migrated module events live in their own .ts module and augment SwiperEvents
 // via `declare module '../../core/core'`. Phase 5 deletes src/types/ entirely.
-import type { CoverflowEffectEvents } from './modules/effect-coverflow.d.ts';
-import type { CubeEffectEvents } from './modules/effect-cube.d.ts';
-import type { FadeEffectEvents } from './modules/effect-fade.d.ts';
-import type { FlipEffectEvents } from './modules/effect-flip.d.ts';
-import type { CreativeEffectEvents } from './modules/effect-creative.d.ts';
-import type { CardsEffectEvents } from './modules/effect-cards.d.ts';
 
 export interface SwiperEvents {
   // CORE_EVENTS_START
@@ -322,10 +316,3 @@ export interface SwiperEvents {
   unlock: (swiper: Swiper) => void;
   // CORE_EVENTS_END
 }
-
-interface SwiperEvents extends CoverflowEffectEvents {}
-interface SwiperEvents extends CubeEffectEvents {}
-interface SwiperEvents extends FadeEffectEvents {}
-interface SwiperEvents extends FlipEffectEvents {}
-interface SwiperEvents extends CreativeEffectEvents {}
-interface SwiperEvents extends CardsEffectEvents {}

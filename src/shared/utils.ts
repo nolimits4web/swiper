@@ -91,12 +91,14 @@ export function setCSSProperty(el: HTMLElement, varName: string, varValue: strin
   el.style.setProperty(varName, varValue);
 }
 
-export function getSlideTransformEl(slideEl: Element): Element {
-  return (
-    slideEl.querySelector('.swiper-slide-transform') ||
-    (slideEl.shadowRoot && slideEl.shadowRoot.querySelector('.swiper-slide-transform')) ||
-    slideEl
-  );
+export function getSlideTransformEl(slideEl: HTMLElement): HTMLElement {
+  const direct = slideEl.querySelector<HTMLElement>('.swiper-slide-transform');
+  if (direct) return direct;
+  if (slideEl.shadowRoot) {
+    const shadowed = slideEl.shadowRoot.querySelector<HTMLElement>('.swiper-slide-transform');
+    if (shadowed) return shadowed;
+  }
+  return slideEl;
 }
 
 export function findElementsInElements(elements: Element[] = [], selector = ''): Element[] {

@@ -855,9 +855,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     if (el) {
       const params = getParams();
       const els = makeElementsArray(el as HTMLElement | HTMLElement[]);
-      els.forEach((subEl) =>
-        subEl.classList[swiper.enabled ? 'remove' : 'add'](params.lockClass),
-      );
+      els.forEach((subEl) => subEl.classList[swiper.enabled ? 'remove' : 'add'](params.lockClass));
     }
   });
   on('lock unlock', () => {

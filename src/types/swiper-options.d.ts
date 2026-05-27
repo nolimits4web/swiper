@@ -1,11 +1,5 @@
 // Migrated module options live in their own .ts module and augment SwiperOptions
 // via `declare module '../../core/core'`. Phase 5 deletes src/types/ entirely.
-import type { CoverflowEffectOptions } from './modules/effect-coverflow.d.ts';
-import type { CubeEffectOptions } from './modules/effect-cube.d.ts';
-import type { FadeEffectOptions } from './modules/effect-fade.d.ts';
-import type { FlipEffectOptions } from './modules/effect-flip.d.ts';
-import type { CreativeEffectOptions } from './modules/effect-creative.d.ts';
-import type { CardsEffectOptions } from './modules/effect-cards.d.ts';
 import type { CSSSelector, SwiperModule } from './shared.d.ts';
 
 export interface SwiperOptions {
@@ -849,103 +843,9 @@ export interface SwiperOptions {
   // autoplay option contributed by src/modules/autoplay/autoplay.ts via declaration merging.
   // controller option contributed by src/modules/controller/controller.ts via declaration merging.
 
-  /**
-   * Object with Coverflow-effect parameters.
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   effect: 'coverflow',
-   *   coverflowEffect: {
-   *     rotate: 30,
-   *     slideShadows: false,
-   *   },
-   * });
-   * ```
-   */
-  coverflowEffect?: CoverflowEffectOptions;
-
-  /**
-   * Object with Cube-effect parameters
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   effect: 'cube',
-   *   cubeEffect: {
-   *     slideShadows: false,
-   *   },
-   * });
-   * ```
-   */
-  cubeEffect?: CubeEffectOptions;
-
-  /**
-   * Object with Fade-effect parameters
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   effect: 'fade',
-   *   fadeEffect: {
-   *     crossFade: true
-   *   },
-   * });
-   * ```
-   */
-  fadeEffect?: FadeEffectOptions;
-
-  /**
-   * Object with Flip-effect parameters
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   effect: 'flip',
-   *   flipEffect: {
-   *     slideShadows: false,
-   *   },
-   * });
-   * ```
-   */
-  flipEffect?: FlipEffectOptions;
-
-  /**
-   * Object with Creative-effect parameters
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   effect: 'creative',
-   *   creativeEffect: {
-   *     prev: {
-   *       // will set `translateZ(-400px)` on previous slides
-   *       translate: [0, 0, -400],
-   *     },
-   *     next: {
-   *       // will set `translateX(100%)` on next slides
-   *       translate: ['100%', 0, 0],
-   *     },
-   *   },
-   * });
-   * ```
-   */
-  creativeEffect?: CreativeEffectOptions;
-
-  /**
-   * Object with Cards-effect parameters
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   effect: 'cards',
-   *   cardsEffect: {
-   *     // ...
-   *   },
-   * });
-   * ```
-   */
-  cardsEffect?: CardsEffectOptions;
+  // cardsEffect, coverflowEffect, creativeEffect, cubeEffect, fadeEffect, and
+  // flipEffect options contributed by src/modules/effect-*/effect-*.ts via
+  // declaration merging.
 
   // hashNavigation, history, keyboard, mousewheel, navigation, pagination,
   // parallax options contributed by their respective src/modules/*/*.ts via
@@ -963,4 +863,10 @@ export interface SwiperOptions {
    * !INTERNAL When enabled will emit "_containerClasses" and "_slideClass" events
    */
   _emitClasses?: boolean;
+
+  /**
+   * !INTERNAL Set by `effect-cards.overwriteParams` to opt the cards effect
+   * out of the loop-swap reset that runs on the touch-move boundary.
+   */
+  _loopSwapReset?: boolean;
 }

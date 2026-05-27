@@ -1,13 +1,15 @@
+import type { Swiper, SwiperOptions } from '../core/core';
+
 interface EffectInitParams {
   effect: string;
-  swiper: any;
-  on: (event: string, handler: (...args: any[]) => void) => void;
+  swiper: Swiper;
+  on: Swiper['on'];
   setTranslate: () => void;
   setTransition: (duration: number) => void;
-  overwriteParams?: () => Record<string, any>;
+  overwriteParams?: () => Partial<SwiperOptions>;
   perspective?: () => boolean;
   recreateShadows?: () => void;
-  getEffectParams?: () => { slideShadows?: boolean };
+  getEffectParams?: () => { slideShadows?: boolean } | undefined;
 }
 
 export default function effectInit(params: EffectInitParams): void {
@@ -39,7 +41,7 @@ export default function effectInit(params: EffectInitParams): void {
     if (swiper.params.effect !== effect) return;
     setTranslate();
   });
-  on('setTransition', (_s: any, duration: number) => {
+  on('setTransition', (_s, duration) => {
     if (swiper.params.effect !== effect) return;
     setTransition(duration);
   });
@@ -47,8 +49,9 @@ export default function effectInit(params: EffectInitParams): void {
   on('transitionEnd', () => {
     if (swiper.params.effect !== effect) return;
     if (recreateShadows) {
-      if (!getEffectParams || !getEffectParams().slideShadows) return;
-      swiper.slides.forEach((slideEl: Element) => {
+      const effectParams = getEffectParams ? getEffectParams() : undefined;
+      if (!effectParams || !effectParams.slideShadows) return;
+      swiper.slides.forEach((slideEl) => {
         slideEl
           .querySelectorAll(
             '.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left',
