@@ -1,3 +1,4 @@
+import type { SwiperModuleFn } from '../../core/core';
 import classesToSelector from '../../shared/classes-to-selector';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
 import {
@@ -8,7 +9,7 @@ import {
   setInnerHTML,
 } from '../../shared/utils';
 
-export default function Pagination({ swiper, extendParams, on, emit }) {
+const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   const pfx = 'swiper-pagination';
   extendParams({
     pagination: {
@@ -24,8 +25,8 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       type: 'bullets', // 'bullets' or 'progressbar' or 'fraction' or 'custom'
       dynamicBullets: false,
       dynamicMainBullets: 1,
-      formatFractionCurrent: (number) => number,
-      formatFractionTotal: (number) => number,
+      formatFractionCurrent: (number: number) => number,
+      formatFractionTotal: (number: number) => number,
       bulletClass: `${pfx}-bullet`,
       bulletActiveClass: `${pfx}-bullet-active`,
       modifierClass: `${pfx}-`,
@@ -42,36 +43,46 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     },
   });
 
-  swiper.pagination = {
+  (swiper as any).pagination = {
     el: null,
     bullets: [],
   };
 
-  let bulletSize;
+  let bulletSize: number | undefined;
   let dynamicBulletIndex = 0;
 
-  function isPaginationDisabled() {
+  function isPaginationDisabled(): boolean {
+    const elParam = (swiper.params.pagination as any).el;
     return (
-      !swiper.params.pagination.el ||
+      !elParam ||
       !swiper.pagination.el ||
-      (Array.isArray(swiper.pagination.el) && swiper.pagination.el.length === 0)
+      (Array.isArray(swiper.pagination.el) &&
+        (swiper.pagination.el as unknown as HTMLElement[]).length === 0)
     );
   }
 
-  function setSideBullets(bulletEl, position) {
-    const { bulletActiveClass } = swiper.params.pagination;
+  function setSideBullets(
+    bulletEl: HTMLElement | null | undefined,
+    position: 'prev' | 'next',
+  ): void {
+    const { bulletActiveClass } = swiper.params.pagination as any;
     if (!bulletEl) return;
-    bulletEl = bulletEl[`${position === 'prev' ? 'previous' : 'next'}ElementSibling`];
-    if (bulletEl) {
-      bulletEl.classList.add(`${bulletActiveClass}-${position}`);
-      bulletEl = bulletEl[`${position === 'prev' ? 'previous' : 'next'}ElementSibling`];
-      if (bulletEl) {
-        bulletEl.classList.add(`${bulletActiveClass}-${position}-${position}`);
+    let current: Element | null =
+      bulletEl[`${position === 'prev' ? 'previous' : 'next'}ElementSibling`];
+    if (current) {
+      current.classList.add(`${bulletActiveClass}-${position}`);
+      current = current[`${position === 'prev' ? 'previous' : 'next'}ElementSibling`];
+      if (current) {
+        current.classList.add(`${bulletActiveClass}-${position}-${position}`);
       }
     }
   }
 
-  function getMoveDirection(prevIndex, nextIndex, length) {
+  function getMoveDirection(
+    prevIndex: number,
+    nextIndex: number,
+    length: number,
+  ): 'next' | 'previous' | undefined {
     prevIndex = prevIndex % length;
     nextIndex = nextIndex % length;
     if (nextIndex === prevIndex + 1) {
@@ -79,15 +90,18 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     } else if (nextIndex === prevIndex - 1) {
       return 'previous';
     }
-    return;
+    return undefined;
   }
-  function onBulletClick(e) {
-    const bulletEl = e.target.closest(classesToSelector(swiper.params.pagination.bulletClass));
+  function onBulletClick(e: Event): void {
+    const targetEl = e.target as HTMLElement;
+    const bulletEl = targetEl.closest(
+      classesToSelector((swiper.params.pagination as any).bulletClass),
+    ) as HTMLElement | null;
     if (!bulletEl) {
       return;
     }
     e.preventDefault();
-    const index = elementIndex(bulletEl) * swiper.params.slidesPerGroup;
+    const index = (elementIndex(bulletEl) ?? 0) * (swiper.params.slidesPerGroup ?? 1);
     if (swiper.params.loop) {
       if (swiper.realIndex === index) return;
       const moveDirection = getMoveDirection(swiper.realIndex, index, swiper.slides.length);
@@ -103,29 +117,28 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     }
   }
 
-  function update() {
+  function update(): void {
     // Render || Update Pagination bullets/items
     const rtl = swiper.rtl;
-    const params = swiper.params.pagination;
+    const params = swiper.params.pagination as any;
     if (isPaginationDisabled()) return;
 
-    let el = swiper.pagination.el;
-    el = makeElementsArray(el);
+    const els = makeElementsArray(swiper.pagination.el as HTMLElement | HTMLElement[]);
     // Current/Total
-    let current;
-    let previousIndex;
+    let current: number;
+    let previousIndex: number | undefined;
     const slidesLength =
-      swiper.virtual && swiper.params.virtual.enabled
+      swiper.virtual && (swiper.params.virtual as any).enabled
         ? swiper.virtual.slides.length
         : swiper.slides.length;
     const total = swiper.params.loop
-      ? Math.ceil(slidesLength / swiper.params.slidesPerGroup)
+      ? Math.ceil(slidesLength / (swiper.params.slidesPerGroup ?? 1))
       : swiper.snapGrid.length;
     if (swiper.params.loop) {
       previousIndex = swiper.previousRealIndex || 0;
       current =
-        swiper.params.slidesPerGroup > 1
-          ? Math.floor(swiper.realIndex / swiper.params.slidesPerGroup)
+        (swiper.params.slidesPerGroup ?? 1) > 1
+          ? Math.floor(swiper.realIndex / (swiper.params.slidesPerGroup ?? 1))
           : swiper.realIndex;
     } else if (typeof swiper.snapIndex !== 'undefined') {
       current = swiper.snapIndex;
@@ -141,14 +154,18 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       swiper.pagination.bullets.length > 0
     ) {
       const bullets = swiper.pagination.bullets;
-      let firstIndex;
-      let lastIndex;
-      let midIndex;
+      let firstIndex: number = 0;
+      let lastIndex: number = 0;
+      let midIndex: number = 0;
       if (params.dynamicBullets) {
-        bulletSize = elementOuterSize(bullets[0], swiper.isHorizontal() ? 'width' : 'height', true);
-        el.forEach((subEl) => {
-          subEl.style[swiper.isHorizontal() ? 'width' : 'height'] = `${
-            bulletSize * (params.dynamicMainBullets + 4)
+        bulletSize = elementOuterSize(
+          bullets[0]!,
+          swiper.isHorizontal() ? 'width' : 'height',
+          true,
+        );
+        els.forEach((subEl) => {
+          (subEl.style as any)[swiper.isHorizontal() ? 'width' : 'height'] = `${
+            (bulletSize ?? 0) * (params.dynamicMainBullets + 4)
           }px`;
         });
         if (params.dynamicMainBullets > 1 && previousIndex !== undefined) {
@@ -163,26 +180,29 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
         lastIndex = firstIndex + (Math.min(bullets.length, params.dynamicMainBullets) - 1);
         midIndex = (lastIndex + firstIndex) / 2;
       }
-      bullets.forEach((bulletEl) => {
-        const classesToRemove = [
-          ...['', '-next', '-next-next', '-prev', '-prev-prev', '-main'].map(
-            (suffix) => `${params.bulletActiveClass}${suffix}`,
-          ),
+      bullets.forEach((bulletEl: HTMLElement) => {
+        const classesToRemove: string[] = [
+          '',
+          '-next',
+          '-next-next',
+          '-prev',
+          '-prev-prev',
+          '-main',
         ]
-          .map((s) => (typeof s === 'string' && s.includes(' ') ? s.split(' ') : s))
-          .flat();
+          .map((suffix) => `${params.bulletActiveClass}${suffix}`)
+          .flatMap((s) => (typeof s === 'string' && s.includes(' ') ? s.split(' ') : [s]));
         bulletEl.classList.remove(...classesToRemove);
       });
 
-      if (el.length > 1) {
-        bullets.forEach((bullet) => {
+      if (els.length > 1) {
+        bullets.forEach((bullet: HTMLElement) => {
           const bulletIndex = elementIndex(bullet);
           if (bulletIndex === current) {
             bullet.classList.add(...params.bulletActiveClass.split(' '));
           } else if (swiper.isElement) {
             bullet.setAttribute('part', 'bullet');
           }
-          if (params.dynamicBullets) {
+          if (params.dynamicBullets && bulletIndex !== undefined) {
             if (bulletIndex >= firstIndex && bulletIndex <= lastIndex) {
               bullet.classList.add(...`${params.bulletActiveClass}-main`.split(' '));
             }
@@ -200,7 +220,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
           bullet.classList.add(...params.bulletActiveClass.split(' '));
         }
         if (swiper.isElement) {
-          bullets.forEach((bulletEl, bulletIndex) => {
+          bullets.forEach((bulletEl: HTMLElement, bulletIndex: number) => {
             bulletEl.setAttribute('part', bulletIndex === current ? 'bullet-active' : 'bullet');
           });
         }
@@ -209,7 +229,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
           const lastDisplayedBullet = bullets[lastIndex];
           for (let i = firstIndex; i <= lastIndex; i += 1) {
             if (bullets[i]) {
-              bullets[i].classList.add(...`${params.bulletActiveClass}-main`.split(' '));
+              bullets[i]!.classList.add(...`${params.bulletActiveClass}-main`.split(' '));
             }
           }
 
@@ -220,24 +240,25 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       if (params.dynamicBullets) {
         const dynamicBulletsLength = Math.min(bullets.length, params.dynamicMainBullets + 4);
         const bulletsOffset =
-          (bulletSize * dynamicBulletsLength - bulletSize) / 2 - midIndex * bulletSize;
+          ((bulletSize ?? 0) * dynamicBulletsLength - (bulletSize ?? 0)) / 2 -
+          midIndex * (bulletSize ?? 0);
         const offsetProp = rtl ? 'right' : 'left';
-        bullets.forEach((bullet) => {
-          bullet.style[swiper.isHorizontal() ? offsetProp : 'top'] = `${bulletsOffset}px`;
+        bullets.forEach((bullet: HTMLElement) => {
+          (bullet.style as any)[swiper.isHorizontal() ? offsetProp : 'top'] = `${bulletsOffset}px`;
         });
       }
     }
-    el.forEach((subEl, subElIndex) => {
+    els.forEach((subEl, subElIndex) => {
       if (params.type === 'fraction') {
         subEl.querySelectorAll(classesToSelector(params.currentClass)).forEach((fractionEl) => {
-          fractionEl.textContent = params.formatFractionCurrent(current + 1);
+          (fractionEl as HTMLElement).textContent = params.formatFractionCurrent(current + 1);
         });
         subEl.querySelectorAll(classesToSelector(params.totalClass)).forEach((totalEl) => {
-          totalEl.textContent = params.formatFractionTotal(total);
+          (totalEl as HTMLElement).textContent = params.formatFractionTotal(total);
         });
       }
       if (params.type === 'progressbar') {
-        let progressbarDirection;
+        let progressbarDirection: 'horizontal' | 'vertical';
         if (params.progressbarOpposite) {
           progressbarDirection = swiper.isHorizontal() ? 'vertical' : 'horizontal';
         } else {
@@ -252,7 +273,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
           scaleY = scale;
         }
         subEl
-          .querySelectorAll(classesToSelector(params.progressbarFillClass))
+          .querySelectorAll<HTMLElement>(classesToSelector(params.progressbarFillClass))
           .forEach((progressEl) => {
             progressEl.style.transform = `translate3d(0,0,0) scaleX(${scaleX}) scaleY(${scaleY})`;
             progressEl.style.transitionDuration = `${swiper.params.speed}ms`;
@@ -270,27 +291,26 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       }
     });
   }
-  function render() {
+  function render(): void {
     // Render Container
-    const params = swiper.params.pagination;
+    const params = swiper.params.pagination as any;
     if (isPaginationDisabled()) return;
     const slidesLength =
-      swiper.virtual && swiper.params.virtual.enabled
+      swiper.virtual && (swiper.params.virtual as any).enabled
         ? swiper.virtual.slides.length
-        : swiper.grid && swiper.params.grid.rows > 1
-        ? swiper.slides.length / Math.ceil(swiper.params.grid.rows)
+        : (swiper as any).grid && (swiper.params as any).grid?.rows > 1
+        ? swiper.slides.length / Math.ceil((swiper.params as any).grid.rows)
         : swiper.slides.length;
 
-    let el = swiper.pagination.el;
-    el = makeElementsArray(el);
+    const els = makeElementsArray(swiper.pagination.el as HTMLElement | HTMLElement[]);
     let paginationHTML = '';
     if (params.type === 'bullets') {
       let numberOfBullets = swiper.params.loop
-        ? Math.ceil(slidesLength / swiper.params.slidesPerGroup)
+        ? Math.ceil(slidesLength / (swiper.params.slidesPerGroup ?? 1))
         : swiper.snapGrid.length;
       if (
         swiper.params.freeMode &&
-        swiper.params.freeMode.enabled &&
+        (swiper.params.freeMode as any).enabled &&
         numberOfBullets > slidesLength
       ) {
         numberOfBullets = slidesLength;
@@ -322,54 +342,55 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       }
     }
     swiper.pagination.bullets = [];
-    el.forEach((subEl) => {
+    els.forEach((subEl) => {
       if (params.type !== 'custom') {
         setInnerHTML(subEl, paginationHTML || '');
       }
       if (params.type === 'bullets') {
         swiper.pagination.bullets.push(
-          ...subEl.querySelectorAll(classesToSelector(params.bulletClass)),
+          ...(subEl.querySelectorAll<HTMLElement>(classesToSelector(params.bulletClass)) as any),
         );
       }
     });
     if (params.type !== 'custom') {
-      emit('paginationRender', el[0]);
+      emit('paginationRender', els[0]);
     }
   }
-  function init() {
+  function init(): void {
     swiper.params.pagination = createElementIfNotDefined(
       swiper,
-      swiper.originalParams.pagination,
-      swiper.params.pagination,
+      (swiper.originalParams as any).pagination,
+      swiper.params.pagination as any,
       { el: 'swiper-pagination' },
     );
-    const params = swiper.params.pagination;
+    const params = swiper.params.pagination as any;
     if (!params.el) return;
-    let el;
+    let el: HTMLElement | HTMLElement[] | null | undefined;
     if (typeof params.el === 'string' && swiper.isElement) {
-      el = swiper.el.querySelector(params.el);
+      el = swiper.el.querySelector(params.el) as HTMLElement | null;
     }
     if (!el && typeof params.el === 'string') {
-      el = [...document.querySelectorAll(params.el)];
+      el = [...document.querySelectorAll<HTMLElement>(params.el)];
     }
     if (!el) {
       el = params.el;
     }
-    if (!el || el.length === 0) return;
+    if (!el || (Array.isArray(el) && el.length === 0)) return;
 
     if (
-      swiper.params.uniqueNavElements &&
+      (swiper.params as any).uniqueNavElements &&
       typeof params.el === 'string' &&
       Array.isArray(el) &&
       el.length > 1
     ) {
-      el = [...swiper.el.querySelectorAll(params.el)];
+      el = [...swiper.el.querySelectorAll<HTMLElement>(params.el)];
       // check if it belongs to another nested Swiper
       if (el.length > 1) {
-        el = el.find((subEl) => {
+        const found = (el as HTMLElement[]).find((subEl) => {
           if (elementParents(subEl, '.swiper')[0] !== swiper.el) return false;
           return true;
         });
+        if (found) el = found;
       }
     }
     if (Array.isArray(el) && el.length === 1) el = el[0];
@@ -378,8 +399,8 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       el,
     });
 
-    el = makeElementsArray(el);
-    el.forEach((subEl) => {
+    const els = makeElementsArray(el as HTMLElement | HTMLElement[]);
+    els.forEach((subEl) => {
       if (params.type === 'bullets' && params.clickable) {
         subEl.classList.add(...(params.clickableClass || '').split(' '));
       }
@@ -408,13 +429,13 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     });
   }
 
-  function destroy() {
-    const params = swiper.params.pagination;
+  function destroy(): void {
+    const params = swiper.params.pagination as any;
     if (isPaginationDisabled()) return;
-    let el = swiper.pagination.el;
+    const el = swiper.pagination.el;
     if (el) {
-      el = makeElementsArray(el);
-      el.forEach((subEl) => {
+      const els = makeElementsArray(el as HTMLElement | HTMLElement[]);
+      els.forEach((subEl) => {
         subEl.classList.remove(params.hiddenClass);
         subEl.classList.remove(params.modifierClass + params.type);
         subEl.classList.remove(
@@ -428,24 +449,23 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     }
 
     if (swiper.pagination.bullets)
-      swiper.pagination.bullets.forEach((subEl) =>
+      swiper.pagination.bullets.forEach((subEl: HTMLElement) =>
         subEl.classList.remove(...params.bulletActiveClass.split(' ')),
       );
   }
 
   on('changeDirection', () => {
     if (!swiper.pagination || !swiper.pagination.el) return;
-    const params = swiper.params.pagination;
-    let { el } = swiper.pagination;
-    el = makeElementsArray(el);
-    el.forEach((subEl) => {
+    const params = swiper.params.pagination as any;
+    const els = makeElementsArray(swiper.pagination.el as HTMLElement | HTMLElement[]);
+    els.forEach((subEl) => {
       subEl.classList.remove(params.horizontalClass, params.verticalClass);
       subEl.classList.add(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
     });
   });
 
   on('init', () => {
-    if (swiper.params.pagination.enabled === false) {
+    if ((swiper.params.pagination as any).enabled === false) {
       // eslint-disable-next-line
       disable();
     } else {
@@ -470,26 +490,29 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     destroy();
   });
   on('enable disable', () => {
-    let { el } = swiper.pagination;
+    const { el } = swiper.pagination;
     if (el) {
-      el = makeElementsArray(el);
-      el.forEach((subEl) =>
-        subEl.classList[swiper.enabled ? 'remove' : 'add'](swiper.params.pagination.lockClass),
+      const els = makeElementsArray(el as HTMLElement | HTMLElement[]);
+      els.forEach((subEl) =>
+        subEl.classList[swiper.enabled ? 'remove' : 'add'](
+          (swiper.params.pagination as any).lockClass,
+        ),
       );
     }
   });
   on('lock unlock', () => {
     update();
   });
-  on('click', (_s, e) => {
-    const targetEl = e.target;
-    const el = makeElementsArray(swiper.pagination.el);
+  on('click', (_s, e: Event) => {
+    const targetEl = e.target as HTMLElement;
+    const els = makeElementsArray(swiper.pagination.el as HTMLElement | HTMLElement[]);
+    const params = swiper.params.pagination as any;
     if (
-      swiper.params.pagination.el &&
-      swiper.params.pagination.hideOnClick &&
-      el &&
-      el.length > 0 &&
-      !targetEl.classList.contains(swiper.params.pagination.bulletClass)
+      params.el &&
+      params.hideOnClick &&
+      els &&
+      els.length > 0 &&
+      !targetEl.classList.contains(params.bulletClass)
     ) {
       if (
         swiper.navigation &&
@@ -497,23 +520,23 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
           (swiper.navigation.prevEl && targetEl === swiper.navigation.prevEl))
       )
         return;
-      const isHidden = el[0].classList.contains(swiper.params.pagination.hiddenClass);
+      const isHidden = els[0]!.classList.contains(params.hiddenClass);
       if (isHidden === true) {
         emit('paginationShow');
       } else {
         emit('paginationHide');
       }
-      el.forEach((subEl) => subEl.classList.toggle(swiper.params.pagination.hiddenClass));
+      els.forEach((subEl) => subEl.classList.toggle(params.hiddenClass));
     }
   });
 
-  const enable = () => {
-    swiper.el.classList.remove(swiper.params.pagination.paginationDisabledClass);
-    let { el } = swiper.pagination;
+  const enable = (): void => {
+    swiper.el.classList.remove((swiper.params.pagination as any).paginationDisabledClass);
+    const { el } = swiper.pagination;
     if (el) {
-      el = makeElementsArray(el);
-      el.forEach((subEl) =>
-        subEl.classList.remove(swiper.params.pagination.paginationDisabledClass),
+      const els = makeElementsArray(el as HTMLElement | HTMLElement[]);
+      els.forEach((subEl) =>
+        subEl.classList.remove((swiper.params.pagination as any).paginationDisabledClass),
       );
     }
     init();
@@ -521,12 +544,14 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     update();
   };
 
-  const disable = () => {
-    swiper.el.classList.add(swiper.params.pagination.paginationDisabledClass);
-    let { el } = swiper.pagination;
+  const disable = (): void => {
+    swiper.el.classList.add((swiper.params.pagination as any).paginationDisabledClass);
+    const { el } = swiper.pagination;
     if (el) {
-      el = makeElementsArray(el);
-      el.forEach((subEl) => subEl.classList.add(swiper.params.pagination.paginationDisabledClass));
+      const els = makeElementsArray(el as HTMLElement | HTMLElement[]);
+      els.forEach((subEl) =>
+        subEl.classList.add((swiper.params.pagination as any).paginationDisabledClass),
+      );
     }
     destroy();
   };
@@ -539,4 +564,6 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     init,
     destroy,
   });
-}
+};
+
+export default Pagination;
