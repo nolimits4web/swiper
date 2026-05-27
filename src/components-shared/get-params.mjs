@@ -1,6 +1,6 @@
 import { isObject, extend } from './utils.mjs';
 import { paramsList } from './params-list.mjs';
-import defaults from '../core/defaults.mjs';
+import defaults from '../core/defaults';
 
 function getParams(obj = {}, splitEvents = true) {
   const params = {

@@ -1,4 +1,4 @@
-import transitionEmit from './transitionEmit.mjs';
+import transitionEmit from './transitionEmit';
 
 export default function transitionEnd(runCallbacks = true, direction) {
   const swiper = this;

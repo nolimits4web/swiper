@@ -11,24 +11,24 @@ import { getSupport } from '../shared/get-support';
 import { getDevice } from '../shared/get-device';
 import { getBrowser } from '../shared/get-browser';
 
-import Resize from './modules/resize/resize.mjs';
-import Observer from './modules/observer/observer.mjs';
+import Resize from './modules/resize/resize';
+import Observer from './modules/observer/observer';
 
-import eventsEmitter from './events-emitter.mjs';
+import eventsEmitter from './events-emitter';
 
-import update from './update/index.mjs';
-import translate from './translate/index.mjs';
-import transition from './transition/index.mjs';
-import slide from './slide/index.mjs';
-import loop from './loop/index.mjs';
-import grabCursor from './grab-cursor/index.mjs';
-import events from './events/index.mjs';
-import breakpoints from './breakpoints/index.mjs';
-import classes from './classes/index.mjs';
-import checkOverflow from './check-overflow/index.mjs';
+import update from './update/index';
+import translate from './translate/index';
+import transition from './transition/index';
+import slide from './slide/index';
+import loop from './loop/index';
+import grabCursor from './grab-cursor/index';
+import events from './events/index';
+import breakpoints from './breakpoints/index';
+import classes from './classes/index';
+import checkOverflow from './check-overflow/index';
 
-import defaults from './defaults.mjs';
-import moduleExtendParams from './moduleExtendParams.mjs';
+import defaults from './defaults';
+import moduleExtendParams from './moduleExtendParams';
 import { processLazyPreloader, preload } from '../shared/process-lazy-preloader';
 
 const prototypes = {

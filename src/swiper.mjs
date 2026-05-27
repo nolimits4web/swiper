@@ -1,1 +1,1 @@
-export { default as Swiper, default } from './core/core.mjs';
+export { default as Swiper, default } from './core/core';

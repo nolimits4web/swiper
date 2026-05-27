@@ -1,6 +1,6 @@
 import { attrToProp, extend, isObject } from './utils.mjs';
 import { paramsList } from './params-list.mjs';
-import defaults from '../core/defaults.mjs';
+import defaults from '../core/defaults';
 
 const formatValue = (val) => {
   if (parseFloat(val) === Number(val)) return Number(val);

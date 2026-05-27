@@ -1,11 +1,11 @@
-import onTouchStart from './onTouchStart.mjs';
-import onTouchMove from './onTouchMove.mjs';
-import onTouchEnd from './onTouchEnd.mjs';
-import onResize from './onResize.mjs';
-import onClick from './onClick.mjs';
-import onScroll from './onScroll.mjs';
-import onLoad from './onLoad.mjs';
-import onDocumentTouchStart from './onDocumentTouchStart.mjs';
+import onTouchStart from './onTouchStart';
+import onTouchMove from './onTouchMove';
+import onTouchEnd from './onTouchEnd';
+import onResize from './onResize';
+import onClick from './onClick';
+import onScroll from './onScroll';
+import onLoad from './onLoad';
+import onDocumentTouchStart from './onDocumentTouchStart';
 
 const events = (swiper, method) => {
   const { params, el, wrapperEl, device } = swiper;
