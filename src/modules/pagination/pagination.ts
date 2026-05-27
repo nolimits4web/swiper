@@ -22,6 +22,20 @@ interface PaginationInternals extends PaginationMethods {
   disable: () => void;
 }
 
+// All PaginationOptions fields are optional in the public type, but extendParams
+// fills them in at module init time. Use this view internally to access defaults
+// without proliferating `!` non-null assertions through the module.
+type PaginationParamsRuntime = Required<
+  Omit<
+    PaginationOptions,
+    'el' | 'renderBullet' | 'renderProgressbar' | 'renderFraction' | 'renderCustom'
+  >
+> &
+  Pick<
+    PaginationOptions,
+    'el' | 'renderBullet' | 'renderProgressbar' | 'renderFraction' | 'renderCustom'
+  >;
+
 declare module '../../core/core' {
   interface Swiper {
     pagination: PaginationInternals;
@@ -69,16 +83,18 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     },
   });
 
-  (swiper as any).pagination = {
-    el: null,
+  // Initialized as a partial; remaining methods (render, update, init,
+  // destroy, enable, disable) attach after their definitions below.
+  swiper.pagination = {
+    el: null as unknown as HTMLElement,
     bullets: [],
-  };
+  } as unknown as PaginationInternals;
 
   let bulletSize: number | undefined;
   let dynamicBulletIndex = 0;
 
   function isPaginationDisabled(): boolean {
-    const elParam = (swiper.params.pagination as any).el;
+    const elParam = swiper.params.pagination!.el;
     return (
       !elParam ||
       !swiper.pagination.el ||
@@ -91,7 +107,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     bulletEl: HTMLElement | null | undefined,
     position: 'prev' | 'next',
   ): void {
-    const { bulletActiveClass } = swiper.params.pagination as any;
+    const { bulletActiveClass } = swiper.params.pagination!;
     if (!bulletEl) return;
     let current: Element | null =
       bulletEl[`${position === 'prev' ? 'previous' : 'next'}ElementSibling`];
@@ -121,7 +137,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   function onBulletClick(e: Event): void {
     const targetEl = e.target as HTMLElement;
     const bulletEl = targetEl.closest(
-      classesToSelector((swiper.params.pagination as any).bulletClass),
+      classesToSelector(swiper.params.pagination!.bulletClass),
     ) as HTMLElement | null;
     if (!bulletEl) {
       return;
@@ -146,7 +162,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   function update(): void {
     // Render || Update Pagination bullets/items
     const rtl = swiper.rtl;
-    const params = swiper.params.pagination as any;
+    const params = swiper.params.pagination! as PaginationParamsRuntime;
     if (isPaginationDisabled()) return;
 
     const els = makeElementsArray(swiper.pagination.el as HTMLElement | HTMLElement[]);
@@ -277,10 +293,12 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     els.forEach((subEl, subElIndex) => {
       if (params.type === 'fraction') {
         subEl.querySelectorAll(classesToSelector(params.currentClass)).forEach((fractionEl) => {
-          (fractionEl as HTMLElement).textContent = params.formatFractionCurrent(current + 1);
+          (fractionEl as HTMLElement).textContent = String(
+            params.formatFractionCurrent(current + 1),
+          );
         });
         subEl.querySelectorAll(classesToSelector(params.totalClass)).forEach((totalEl) => {
-          (totalEl as HTMLElement).textContent = params.formatFractionTotal(total);
+          (totalEl as HTMLElement).textContent = String(params.formatFractionTotal(total));
         });
       }
       if (params.type === 'progressbar') {
@@ -306,7 +324,9 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
           });
       }
       if (params.type === 'custom' && params.renderCustom) {
-        setInnerHTML(subEl, params.renderCustom(swiper, current + 1, total));
+        // `swiper as any` bridges core/core Swiper with legacy Swiper in the
+        // user-supplied renderCustom signature. Drops in Phase 5.
+        setInnerHTML(subEl, params.renderCustom(swiper as any, current + 1, total));
         if (subElIndex === 0) emit('paginationRender', subEl);
       } else {
         if (subElIndex === 0) emit('paginationRender', subEl);
@@ -319,7 +339,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   }
   function render(): void {
     // Render Container
-    const params = swiper.params.pagination as any;
+    const params = swiper.params.pagination! as PaginationParamsRuntime;
     if (isPaginationDisabled()) return;
     const slidesLength =
       swiper.virtual && (swiper.params.virtual as any).enabled
@@ -374,7 +394,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
       }
       if (params.type === 'bullets') {
         swiper.pagination.bullets.push(
-          ...(subEl.querySelectorAll<HTMLElement>(classesToSelector(params.bulletClass)) as any),
+          ...Array.from(subEl.querySelectorAll<HTMLElement>(classesToSelector(params.bulletClass))),
         );
       }
     });
@@ -385,11 +405,11 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   function init(): void {
     swiper.params.pagination = createElementIfNotDefined(
       swiper,
-      (swiper.originalParams as any).pagination,
+      swiper.originalParams.pagination as any,
       swiper.params.pagination as any,
       { el: 'swiper-pagination' },
     );
-    const params = swiper.params.pagination as any;
+    const params = swiper.params.pagination! as PaginationParamsRuntime;
     if (!params.el) return;
     let el: HTMLElement | HTMLElement[] | null | undefined;
     if (typeof params.el === 'string' && swiper.isElement) {
@@ -399,12 +419,12 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
       el = [...document.querySelectorAll<HTMLElement>(params.el)];
     }
     if (!el) {
-      el = params.el;
+      el = params.el as HTMLElement | HTMLElement[] | null | undefined;
     }
     if (!el || (Array.isArray(el) && el.length === 0)) return;
 
     if (
-      (swiper.params as any).uniqueNavElements &&
+      swiper.params.uniqueNavElements &&
       typeof params.el === 'string' &&
       Array.isArray(el) &&
       el.length > 1
@@ -456,7 +476,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   }
 
   function destroy(): void {
-    const params = swiper.params.pagination as any;
+    const params = swiper.params.pagination! as PaginationParamsRuntime;
     if (isPaginationDisabled()) return;
     const el = swiper.pagination.el;
     if (el) {
@@ -482,7 +502,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
 
   on('changeDirection', () => {
     if (!swiper.pagination || !swiper.pagination.el) return;
-    const params = swiper.params.pagination as any;
+    const params = swiper.params.pagination! as PaginationParamsRuntime;
     const els = makeElementsArray(swiper.pagination.el as HTMLElement | HTMLElement[]);
     els.forEach((subEl) => {
       subEl.classList.remove(params.horizontalClass, params.verticalClass);
@@ -491,7 +511,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   });
 
   on('init', () => {
-    if ((swiper.params.pagination as any).enabled === false) {
+    if (swiper.params.pagination!.enabled === false) {
       // eslint-disable-next-line
       disable();
     } else {
@@ -520,9 +540,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     if (el) {
       const els = makeElementsArray(el as HTMLElement | HTMLElement[]);
       els.forEach((subEl) =>
-        subEl.classList[swiper.enabled ? 'remove' : 'add'](
-          (swiper.params.pagination as any).lockClass,
-        ),
+        subEl.classList[swiper.enabled ? 'remove' : 'add'](swiper.params.pagination!.lockClass!),
       );
     }
   });
@@ -532,7 +550,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   on('click', (_s, e: Event) => {
     const targetEl = e.target as HTMLElement;
     const els = makeElementsArray(swiper.pagination.el as HTMLElement | HTMLElement[]);
-    const params = swiper.params.pagination as any;
+    const params = swiper.params.pagination! as PaginationParamsRuntime;
     if (
       params.el &&
       params.hideOnClick &&
@@ -557,12 +575,12 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   });
 
   const enable = (): void => {
-    swiper.el.classList.remove((swiper.params.pagination as any).paginationDisabledClass);
+    swiper.el.classList.remove(swiper.params.pagination!.paginationDisabledClass!);
     const { el } = swiper.pagination;
     if (el) {
       const els = makeElementsArray(el as HTMLElement | HTMLElement[]);
       els.forEach((subEl) =>
-        subEl.classList.remove((swiper.params.pagination as any).paginationDisabledClass),
+        subEl.classList.remove(swiper.params.pagination!.paginationDisabledClass!),
       );
     }
     init();
@@ -571,12 +589,12 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   };
 
   const disable = (): void => {
-    swiper.el.classList.add((swiper.params.pagination as any).paginationDisabledClass);
+    swiper.el.classList.add(swiper.params.pagination!.paginationDisabledClass!);
     const { el } = swiper.pagination;
     if (el) {
       const els = makeElementsArray(el as HTMLElement | HTMLElement[]);
       els.forEach((subEl) =>
-        subEl.classList.add((swiper.params.pagination as any).paginationDisabledClass),
+        subEl.classList.add(swiper.params.pagination!.paginationDisabledClass!),
       );
     }
     destroy();
