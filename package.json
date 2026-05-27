@@ -66,7 +66,7 @@
     }
   ],
   "engines": {
-    "node": ">= 4.7.0"
+    "node": ">= 20.19.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.0",
@@ -78,7 +78,7 @@
     "@rollup/plugin-replace": "^6.0.3",
     "@rollup/plugin-typescript": "^12.3.0",
     "@types/node": "^25.9.1",
-    "@types/react": "^18.2.31",
+    "@types/react": "^19.2.15",
     "@vitejs/plugin-vue": "^4.4.0",
     "autoprefixer": "^10.4.21",
     "chalk": "^5.3.0",
@@ -104,8 +104,8 @@
     "postcss": "^8.5.6",
     "postcss-nested": "^7.0.2",
     "prettier": "^3.0.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "rimraf": "^5.0.5",
     "rollup": "^4.60.4",
     "ssr-window": "^5.0.1",
