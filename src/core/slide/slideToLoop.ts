@@ -1,5 +1,11 @@
 import type { Swiper } from '../core';
 
+// Grid module tags slide elements with their column index at layout time
+// (see src/modules/grid/grid.ts → updateSlide). Read-only here.
+interface GridSlideEl extends HTMLElement {
+  column?: number;
+}
+
 export default function slideToLoop(
   this: Swiper,
   index: number | string = 0,
@@ -21,18 +27,16 @@ export default function slideToLoop(
   const gridEnabled = swiper.grid && swiper.params.grid && swiper.params.grid.rows! > 1;
   let newIndex: number = index as number;
   if (swiper.params.loop) {
-    if (swiper.virtual && (swiper.params.virtual as any).enabled) {
-      // eslint-disable-next-line
-      newIndex = newIndex + (swiper.virtual as any).slidesBefore;
+    if (swiper.virtual && swiper.params.virtual?.enabled) {
+      newIndex = newIndex + (swiper.virtual.slidesBefore ?? 0);
     } else {
       let targetSlideIndex: number;
       if (gridEnabled) {
         const slideIndex = newIndex * swiper.params.grid!.rows!;
-        targetSlideIndex = (
-          swiper.slides.find(
-            (slideEl) => Number(slideEl.getAttribute('data-swiper-slide-index')) === slideIndex,
-          ) as any
-        ).column;
+        const targetSlideEl = swiper.slides.find(
+          (slideEl) => Number(slideEl.getAttribute('data-swiper-slide-index')) === slideIndex,
+        ) as GridSlideEl | undefined;
+        targetSlideIndex = targetSlideEl?.column ?? 0;
       } else {
         targetSlideIndex = swiper.getSlideIndexByData(newIndex);
       }
@@ -79,11 +83,10 @@ export default function slideToLoop(
 
       if (gridEnabled) {
         const slideIndex = newIndex * swiper.params.grid!.rows!;
-        newIndex = (
-          swiper.slides.find(
-            (slideEl) => Number(slideEl.getAttribute('data-swiper-slide-index')) === slideIndex,
-          ) as any
-        ).column;
+        const targetSlideEl = swiper.slides.find(
+          (slideEl) => Number(slideEl.getAttribute('data-swiper-slide-index')) === slideIndex,
+        ) as GridSlideEl | undefined;
+        newIndex = targetSlideEl?.column ?? 0;
       } else {
         newIndex = swiper.getSlideIndexByData(newIndex);
       }

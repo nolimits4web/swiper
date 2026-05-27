@@ -141,8 +141,8 @@ export default function onTouchEnd(
   if (params.rewind) {
     if (swiper.isBeginning) {
       rewindLastIndex =
-        params.virtual && (params.virtual as any).enabled && swiper.virtual
-          ? (swiper.virtual as any).slides.length - 1
+        params.virtual?.enabled && swiper.virtual
+          ? swiper.virtual.slides.length - 1
           : swiper.slides.length - 1;
     } else if (swiper.isEnd) {
       rewindFirstIndex = 0;

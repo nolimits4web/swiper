@@ -1,6 +1,5 @@
 import { extend } from '../../shared/utils';
-import type { Swiper } from '../core';
-import type { SwiperOptions } from '../../types/swiper-options.d.ts';
+import type { Swiper, SwiperOptions } from '../core';
 
 const isGridEnabled = (swiper: Swiper, params: SwiperOptions): boolean => {
   return !!(swiper.grid && params.grid && params.grid.rows! > 1);

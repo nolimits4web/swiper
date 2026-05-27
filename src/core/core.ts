@@ -45,8 +45,6 @@ import type { FadeEffectMethods } from '../types/modules/effect-fade.d.ts';
 import type { FlipEffectMethods } from '../types/modules/effect-flip.d.ts';
 import type { CreativeEffectMethods } from '../types/modules/effect-creative.d.ts';
 import type { CardsEffectMethods } from '../types/modules/effect-cards.d.ts';
-import type { VirtualMethods } from '../types/modules/virtual.d.ts';
-import type { ManipulationMethods } from '../types/modules/manipulation.d.ts';
 
 // Canonical SwiperOptions / SwiperEvents — declared in core.ts so individual
 // modules can augment them via `declare module '../../core/core'`. The bodies
@@ -275,6 +273,7 @@ export interface Swiper {
     direction?: 'next' | 'prev';
     setTranslate?: boolean;
     activeSlideIndex?: number;
+    initial?: boolean;
     byController?: boolean;
     byMousewheel?: boolean;
   }): void;
@@ -331,20 +330,16 @@ export interface Swiper {
   // Module-injected methods. Typed modules augment these via
   // `declare module '../../core/core'` from their own .ts file; untyped
   // modules still appear here until they migrate. Removed entries (one
-  // per migrated module): a11y, autoplay, controller, freeMode,
+  // per migrated module): a11y, autoplay, controller, freeMode, grid,
   // hashNavigation, history, keyboard, mousewheel, navigation, pagination,
-  // parallax, scrollbar, thumbs, zoom.
+  // parallax, scrollbar, thumbs, virtual, zoom.
   coverflowEffect: CoverflowEffectMethods;
   cubeEffect: CubeEffectMethods;
   fadeEffect: FadeEffectMethods;
   flipEffect: FlipEffectMethods;
   creativeEffect: CreativeEffectMethods;
   cardsEffect: CardsEffectMethods;
-  virtual: VirtualMethods;
-  grid: any;
 }
-
-export interface Swiper extends ManipulationMethods {}
 
 const prototypes = {
   eventsEmitter,
@@ -752,7 +747,7 @@ export class Swiper {
       swiper.updateSlidesClasses();
     }
     let translated;
-    if (params.freeMode && (params.freeMode as any).enabled && !params.cssMode) {
+    if (params.freeMode?.enabled && !params.cssMode) {
       setTranslate();
       if (params.autoHeight) {
         swiper.updateAutoHeight();
@@ -763,11 +758,11 @@ export class Swiper {
         swiper.isEnd &&
         !params.centeredSlides
       ) {
-        const slides =
-          swiper.virtual && params.virtual && (params.virtual as any).enabled
-            ? (swiper.virtual as any).slides
-            : swiper.slides;
-        translated = swiper.slideTo(slides.length - 1, 0, false, true);
+        const slidesLength =
+          swiper.virtual && params.virtual?.enabled
+            ? swiper.virtual.slides.length
+            : swiper.slides.length;
+        translated = swiper.slideTo(slidesLength - 1, 0, false, true);
       } else {
         translated = swiper.slideTo(swiper.activeIndex, 0, false, true);
       }
@@ -934,9 +929,9 @@ export class Swiper {
     }
 
     // Slide To Initial Slide
-    if (swiper.params.loop && swiper.virtual && (swiper.params.virtual as any)?.enabled) {
+    if (swiper.params.loop && swiper.virtual && swiper.params.virtual?.enabled) {
       swiper.slideTo(
-        (swiper.params.initialSlide ?? 0) + (swiper.virtual as any).slidesBefore,
+        (swiper.params.initialSlide ?? 0) + (swiper.virtual.slidesBefore ?? 0),
         0,
         swiper.params.runCallbacksOnInit,
         false,

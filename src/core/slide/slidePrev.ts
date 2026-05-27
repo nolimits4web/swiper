@@ -14,7 +14,7 @@ export default function slidePrev(
     speed = swiper.params.speed;
   }
 
-  const isVirtual = swiper.virtual && (params.virtual as any).enabled;
+  const isVirtual = swiper.virtual && params.virtual?.enabled;
 
   if (params.loop) {
     if (animating && !isVirtual && params.loopPreventsSliding) return false;
@@ -62,8 +62,8 @@ export default function slidePrev(
   }
   if (params.rewind && swiper.isBeginning) {
     const lastIndex =
-      swiper.params.virtual && (swiper.params.virtual as any).enabled && swiper.virtual
-        ? (swiper.virtual as any).slides.length - 1
+      swiper.params.virtual?.enabled && swiper.virtual
+        ? swiper.virtual.slides.length - 1
         : swiper.slides.length - 1;
     return swiper.slideTo(lastIndex, speed, runCallbacks, internal);
   } else if (params.loop && swiper.activeIndex === 0 && params.cssMode) {

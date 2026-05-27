@@ -1,4 +1,4 @@
-import type { SwiperOptions } from '../../types/swiper-options.d.ts';
+import type { SwiperOptions } from '../core';
 
 export default function getBreakpoint(
   breakpoints: SwiperOptions['breakpoints'],

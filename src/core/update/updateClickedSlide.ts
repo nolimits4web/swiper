@@ -34,7 +34,7 @@ export default function updateClickedSlide(
 
   if (slide && slideFound) {
     swiper.clickedSlide = slide;
-    if (swiper.virtual && (swiper.params.virtual as any).enabled) {
+    if (swiper.virtual && swiper.params.virtual?.enabled) {
       swiper.clickedIndex = parseInt(
         (slide as HTMLElement).getAttribute('data-swiper-slide-index')!,
         10,

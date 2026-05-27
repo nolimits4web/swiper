@@ -4,7 +4,7 @@ import type { Swiper } from '../core';
 export default function loopCreate(this: Swiper, slideRealIndex?: number, initial?: boolean): void {
   const swiper = this;
   const { params, slidesEl } = swiper;
-  if (!params.loop || (swiper.virtual && (swiper.params.virtual as any).enabled)) return;
+  if (!params.loop || (swiper.virtual && swiper.params.virtual?.enabled)) return;
 
   const initSlides = (): void => {
     const slides = elementChildren(slidesEl, `.${params.slideClass}, swiper-slide`);
@@ -80,5 +80,5 @@ export default function loopCreate(this: Swiper, slideRealIndex?: number, initia
     slideRealIndex,
     direction: bothDirections ? undefined : 'next',
     initial,
-  } as any);
+  });
 }

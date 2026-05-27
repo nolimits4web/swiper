@@ -45,14 +45,15 @@ export const preload = (swiper: AnySwiper): void => {
       ? swiper.slidesPerViewDynamic()
       : Math.ceil(swiper.params.slidesPerView);
   const activeIndex = swiper.activeIndex;
-  if (swiper.params.grid && swiper.params.grid.rows > 1) {
+  if (swiper.params.grid && (swiper.params.grid.rows ?? 1) > 1) {
     const activeColumn = activeIndex;
     const preloadColumns = [activeColumn - amount];
     preloadColumns.push(
       ...Array.from({ length: amount }).map((_, i) => activeColumn + slidesPerView + i),
     );
-    swiper.slides.forEach((slideEl: any, i: number) => {
-      if (preloadColumns.includes(slideEl.column)) unlazy(swiper, i);
+    swiper.slides.forEach((slideEl: HTMLElement & { column?: number }, i: number) => {
+      if (slideEl.column !== undefined && preloadColumns.includes(slideEl.column))
+        unlazy(swiper, i);
     });
     return;
   }

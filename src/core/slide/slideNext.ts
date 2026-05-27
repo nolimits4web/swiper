@@ -18,7 +18,7 @@ export default function slideNext(
     perGroup = Math.max(swiper.slidesPerViewDynamic('current', true), 1);
   }
   const increment = swiper.activeIndex < params.slidesPerGroupSkip! ? 1 : perGroup;
-  const isVirtual = swiper.virtual && (params.virtual as any).enabled;
+  const isVirtual = swiper.virtual && params.virtual?.enabled;
   if (params.loop) {
     if (animating && !isVirtual && params.loopPreventsSliding) return false;
     swiper.loopFix({ direction: 'next' });

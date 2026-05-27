@@ -1,6 +1,12 @@
 import { elementChildren, elementNextAll, elementPrevAll } from '../../shared/utils';
 import type { Swiper } from '../core';
 
+// Grid module tags slide elements with their column index at layout time
+// (see src/modules/grid/grid.ts → updateSlide).
+interface GridSlideEl extends HTMLElement {
+  column?: number;
+}
+
 const toggleSlideClasses = (slideEl: HTMLElement, condition: boolean, className: string): void => {
   if (condition && !slideEl.classList.contains(className)) {
     slideEl.classList.add(className);
@@ -13,7 +19,7 @@ export default function updateSlidesClasses(this: Swiper): void {
   const swiper = this;
 
   const { slides, params, slidesEl, activeIndex } = swiper;
-  const isVirtual = swiper.virtual && (params.virtual as any).enabled;
+  const isVirtual = !!(swiper.virtual && params.virtual?.enabled);
   const gridEnabled = swiper.grid && params.grid && params.grid.rows! > 1;
 
   const getFilteredSlide = (selector: string): HTMLElement | undefined => {
@@ -28,18 +34,18 @@ export default function updateSlidesClasses(this: Swiper): void {
   let nextSlide: HTMLElement | undefined;
   if (isVirtual) {
     if (params.loop) {
-      let slideIndex = activeIndex - (swiper.virtual as any).slidesBefore;
-      if (slideIndex < 0) slideIndex = (swiper.virtual as any).slides.length + slideIndex;
-      if (slideIndex >= (swiper.virtual as any).slides.length)
-        slideIndex -= (swiper.virtual as any).slides.length;
+      const virtualSlides = swiper.virtual.slides;
+      let slideIndex = activeIndex - (swiper.virtual.slidesBefore ?? 0);
+      if (slideIndex < 0) slideIndex = virtualSlides.length + slideIndex;
+      if (slideIndex >= virtualSlides.length) slideIndex -= virtualSlides.length;
       activeSlide = getFilteredSlide(`[data-swiper-slide-index="${slideIndex}"]`);
     } else {
       activeSlide = getFilteredSlide(`[data-swiper-slide-index="${activeIndex}"]`);
     }
   } else if (gridEnabled) {
-    activeSlide = slides.find((slideEl) => (slideEl as any).column === activeIndex);
-    nextSlide = slides.find((slideEl) => (slideEl as any).column === activeIndex + 1);
-    prevSlide = slides.find((slideEl) => (slideEl as any).column === activeIndex - 1);
+    activeSlide = slides.find((slideEl) => (slideEl as GridSlideEl).column === activeIndex);
+    nextSlide = slides.find((slideEl) => (slideEl as GridSlideEl).column === activeIndex + 1);
+    prevSlide = slides.find((slideEl) => (slideEl as GridSlideEl).column === activeIndex - 1);
   } else {
     activeSlide = slides[activeIndex];
   }

@@ -1,6 +1,15 @@
 import { showWarning } from '../../shared/utils';
 import type { Swiper } from '../core';
 
+// Grid module tags slide elements with their column index at layout time
+// (see src/modules/grid/grid.ts → updateSlide); loop also stamps a
+// short-lived `swiperLoopMoveDOM` flag so the observer can ignore the
+// shuffle.
+interface LoopSlideEl extends HTMLElement {
+  column?: number;
+  swiperLoopMoveDOM?: boolean;
+}
+
 interface LoopFixOptions {
   slideRealIndex?: number;
   slideTo?: boolean;
@@ -35,14 +44,16 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
   swiper.allowSlidePrev = true;
   swiper.allowSlideNext = true;
 
-  if (swiper.virtual && (params.virtual as any).enabled) {
+  if (swiper.virtual && params.virtual?.enabled) {
     if (slideTo) {
+      const virtualSlidesLength = swiper.virtual.slides.length;
+      const virtualSlidesBefore = swiper.virtual.slidesBefore ?? 0;
       if (!bothDirections && swiper.snapIndex === 0) {
-        swiper.slideTo((swiper.virtual as any).slides.length, 0, false, true);
+        swiper.slideTo(virtualSlidesLength, 0, false, true);
       } else if (bothDirections && swiper.snapIndex < (params.slidesPerView as number)) {
-        swiper.slideTo((swiper.virtual as any).slides.length + swiper.snapIndex, 0, false, true);
+        swiper.slideTo(virtualSlidesLength + swiper.snapIndex, 0, false, true);
       } else if (swiper.snapIndex === swiper.snapGrid.length - 1) {
-        swiper.slideTo((swiper.virtual as any).slidesBefore, 0, false, true);
+        swiper.slideTo(virtualSlidesBefore, 0, false, true);
       }
     }
     swiper.allowSlidePrev = allowSlidePrev;
@@ -109,7 +120,9 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
   let slidesPrepended = 0;
   let slidesAppended = 0;
 
-  const activeColIndex = gridEnabled ? (slides[activeSlideIndex] as any).column : activeSlideIndex;
+  const activeColIndex = gridEnabled
+    ? (slides[activeSlideIndex] as LoopSlideEl).column ?? 0
+    : activeSlideIndex;
   const activeColIndexWithShift =
     activeColIndex +
     (bothDirections && typeof setTranslate === 'undefined' ? -slidesPerView / 2 + 0.5 : 0);
@@ -121,7 +134,8 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
       if (gridEnabled) {
         const colIndexToPrepend = cols - index - 1;
         for (let j = slides.length - 1; j >= 0; j -= 1) {
-          if ((slides[j] as any).column === colIndexToPrepend) prependSlidesIndexes.push(j);
+          if ((slides[j] as LoopSlideEl).column === colIndexToPrepend)
+            prependSlidesIndexes.push(j);
         }
       } else {
         prependSlidesIndexes.push(cols - index - 1);
@@ -140,7 +154,7 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
       const index = i - Math.floor(i / cols) * cols;
       if (gridEnabled) {
         slides.forEach((slide, slideIndex) => {
-          if ((slide as any).column === index) appendSlidesIndexes.push(slideIndex);
+          if ((slide as LoopSlideEl).column === index) appendSlidesIndexes.push(slideIndex);
         });
       } else {
         appendSlidesIndexes.push(index);
@@ -162,16 +176,18 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
 
   if (isPrev) {
     prependSlidesIndexes.forEach((index) => {
-      (slides[index] as any).swiperLoopMoveDOM = true;
-      slidesEl.prepend(slides[index]!);
-      (slides[index] as any).swiperLoopMoveDOM = false;
+      const slideEl = slides[index] as LoopSlideEl;
+      slideEl.swiperLoopMoveDOM = true;
+      slidesEl.prepend(slideEl);
+      slideEl.swiperLoopMoveDOM = false;
     });
   }
   if (isNext) {
     appendSlidesIndexes.forEach((index) => {
-      (slides[index] as any).swiperLoopMoveDOM = true;
-      slidesEl.append(slides[index]!);
-      (slides[index] as any).swiperLoopMoveDOM = false;
+      const slideEl = slides[index] as LoopSlideEl;
+      slideEl.swiperLoopMoveDOM = true;
+      slidesEl.append(slideEl);
+      slideEl.swiperLoopMoveDOM = false;
     });
   }
 
@@ -183,7 +199,7 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
     ((prependSlidesIndexes.length > 0 && isPrev) || (appendSlidesIndexes.length > 0 && isNext))
   ) {
     swiper.slides.forEach((slide, slideIndex) => {
-      (swiper.grid as any).updateSlide(slideIndex, slide, swiper.slides);
+      swiper.grid.updateSlide(slideIndex, slide, swiper.slides);
     });
   }
   if (params.watchSlidesProgress) {
@@ -243,7 +259,8 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
   swiper.allowSlidePrev = allowSlidePrev;
   swiper.allowSlideNext = allowSlideNext;
 
-  if ((swiper.controller as any) && (swiper.controller as any).control && !byController) {
+  const controlled = swiper.controller?.control;
+  if (controlled && !byController) {
     const loopParams = {
       slideRealIndex,
       direction,
@@ -251,22 +268,22 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
       activeSlideIndex,
       byController: true,
     };
-    if (Array.isArray((swiper.controller as any).control)) {
-      (swiper.controller as any).control.forEach((c: Swiper) => {
+    if (Array.isArray(controlled)) {
+      controlled.forEach((c: Swiper) => {
         if (!c.destroyed && c.params.loop)
           c.loopFix({
             ...loopParams,
             slideTo: c.params.slidesPerView === params.slidesPerView ? slideTo : false,
-          } as any);
+          });
       });
     } else if (
-      (swiper.controller as any).control instanceof (swiper as any).constructor &&
-      (swiper.controller as any).control.params.loop
+      controlled instanceof (swiper.constructor as typeof Swiper) &&
+      controlled.params.loop
     ) {
-      (swiper.controller as any).control.loopFix({
+      controlled.loopFix({
         ...loopParams,
         slideTo:
-          (swiper.controller as any).control.params.slidesPerView === params.slidesPerView
+          controlled.params.slidesPerView === params.slidesPerView
             ? slideTo
             : false,
       });

@@ -1,9 +1,13 @@
-export default function addSlide(index, slides) {
+import type { Swiper } from '../../../core/core';
+
+type SlideInput = HTMLElement | string | Array<HTMLElement | string>;
+
+export default function addSlide(this: Swiper, index: number, slides: SlideInput): void {
   const swiper = this;
   const { params, activeIndex, slidesEl } = swiper;
   let activeIndexBuffer = activeIndex;
   if (params.loop) {
-    activeIndexBuffer -= swiper.loopedSlides;
+    activeIndexBuffer -= swiper.loopedSlides ?? 0;
     swiper.loopDestroy();
     swiper.recalcSlides();
   }
@@ -18,16 +22,18 @@ export default function addSlide(index, slides) {
   }
   let newActiveIndex = activeIndexBuffer > index ? activeIndexBuffer + 1 : activeIndexBuffer;
 
-  const slidesBuffer = [];
+  const slidesBuffer: HTMLElement[] = [];
   for (let i = baseLength - 1; i >= index; i -= 1) {
     const currentSlide = swiper.slides[i];
+    if (!currentSlide) continue;
     currentSlide.remove();
     slidesBuffer.unshift(currentSlide);
   }
 
-  if (typeof slides === 'object' && 'length' in slides) {
+  if (Array.isArray(slides)) {
     for (let i = 0; i < slides.length; i += 1) {
-      if (slides[i]) slidesEl.append(slides[i]);
+      const slide = slides[i];
+      if (slide) slidesEl.append(slide);
     }
     newActiveIndex =
       activeIndexBuffer > index ? activeIndexBuffer + slides.length : activeIndexBuffer;
@@ -36,7 +42,7 @@ export default function addSlide(index, slides) {
   }
 
   for (let i = 0; i < slidesBuffer.length; i += 1) {
-    slidesEl.append(slidesBuffer[i]);
+    slidesEl.append(slidesBuffer[i]!);
   }
 
   swiper.recalcSlides();
@@ -48,7 +54,7 @@ export default function addSlide(index, slides) {
     swiper.update();
   }
   if (params.loop) {
-    swiper.slideTo(newActiveIndex + swiper.loopedSlides, 0, false);
+    swiper.slideTo(newActiveIndex + (swiper.loopedSlides ?? 0), 0, false);
   } else {
     swiper.slideTo(newActiveIndex, 0, false);
   }

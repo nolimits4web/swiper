@@ -1,6 +1,9 @@
+import type { Swiper } from '../../../core/core';
 import { setInnerHTML } from '../../../shared/utils';
 
-export default function appendSlide(slides) {
+type SlideInput = HTMLElement | string | Array<HTMLElement | string>;
+
+export default function appendSlide(this: Swiper, slides: SlideInput): void {
   const swiper = this;
   const { params, slidesEl } = swiper;
 
@@ -8,20 +11,22 @@ export default function appendSlide(slides) {
     swiper.loopDestroy();
   }
 
-  const appendElement = (slideEl) => {
+  const appendElement = (slideEl: HTMLElement | string): void => {
     if (typeof slideEl === 'string') {
       const tempDOM = document.createElement('div');
       setInnerHTML(tempDOM, slideEl);
-      slidesEl.append(tempDOM.children[0]);
+      const child = tempDOM.children[0];
+      if (child) slidesEl.append(child);
       setInnerHTML(tempDOM, '');
     } else {
       slidesEl.append(slideEl);
     }
   };
 
-  if (typeof slides === 'object' && 'length' in slides) {
+  if (Array.isArray(slides)) {
     for (let i = 0; i < slides.length; i += 1) {
-      if (slides[i]) appendElement(slides[i]);
+      const slide = slides[i];
+      if (slide) appendElement(slide);
     }
   } else {
     appendElement(slides);

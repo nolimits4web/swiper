@@ -3,7 +3,7 @@ import type { Swiper } from '../core';
 export default function updateAutoHeight(this: Swiper, speed?: number | boolean): void {
   const swiper = this;
   const activeSlides: HTMLElement[] = [];
-  const isVirtual = swiper.virtual && (swiper.params.virtual as any).enabled;
+  const isVirtual = swiper.virtual && swiper.params.virtual?.enabled;
   let newHeight = 0;
   let i: number;
   if (typeof speed === 'number') {

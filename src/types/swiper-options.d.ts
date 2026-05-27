@@ -6,9 +6,6 @@ import type { FadeEffectOptions } from './modules/effect-fade.d.ts';
 import type { FlipEffectOptions } from './modules/effect-flip.d.ts';
 import type { CreativeEffectOptions } from './modules/effect-creative.d.ts';
 import type { CardsEffectOptions } from './modules/effect-cards.d.ts';
-import type { VirtualOptions } from './modules/virtual.d.ts';
-import type { GridOptions } from './modules/grid.d.ts';
-
 import type { CSSSelector, SwiperModule } from './shared.d.ts';
 
 export interface SwiperOptions {
@@ -957,36 +954,10 @@ export interface SwiperOptions {
   // scrollbar option contributed by src/modules/scrollbar/scrollbar.ts via declaration merging.
   // thumbs option contributed by src/modules/thumbs/thumbs.ts via declaration merging.
 
-  /**
-   * Enables virtual slides functionality. Object with virtual slides parameters or boolean `true` to enable with default settings.
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   virtual: {
-   *     slides: ['Slide 1', 'Slide 2', 'Slide 3', 'Slide 4', 'Slide 5'],
-   *   },
-   * });
-   * ```
-   */
-  virtual?: VirtualOptions | boolean;
-
+  // virtual option contributed by src/modules/virtual/virtual.ts via declaration merging.
   // zoom option contributed by src/modules/zoom/zoom.ts via declaration merging.
   // freeMode option contributed by src/modules/free-mode/free-mode.ts via declaration merging.
-
-  /**
-   * Object with grid parameters to enable "multirow" slider.
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   grid: {
-   *     rows: 2,
-   *   },
-   * });
-   * ```
-   */
-  grid?: GridOptions;
+  // grid option contributed by src/modules/grid/grid.ts via declaration merging.
 
   /**
    * !INTERNAL When enabled will emit "_containerClasses" and "_slideClass" events

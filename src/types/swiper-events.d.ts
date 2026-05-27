@@ -9,7 +9,6 @@ import type { FadeEffectEvents } from './modules/effect-fade.d.ts';
 import type { FlipEffectEvents } from './modules/effect-flip.d.ts';
 import type { CreativeEffectEvents } from './modules/effect-creative.d.ts';
 import type { CardsEffectEvents } from './modules/effect-cards.d.ts';
-import type { VirtualEvents } from './modules/virtual.d.ts';
 
 export interface SwiperEvents {
   // CORE_EVENTS_START
@@ -330,4 +329,3 @@ interface SwiperEvents extends FadeEffectEvents {}
 interface SwiperEvents extends FlipEffectEvents {}
 interface SwiperEvents extends CreativeEffectEvents {}
 interface SwiperEvents extends CardsEffectEvents {}
-interface SwiperEvents extends VirtualEvents {}

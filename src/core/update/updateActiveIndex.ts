@@ -1,6 +1,12 @@
 import { preload } from '../../shared/process-lazy-preloader';
 import type { Swiper } from '../core';
 
+// Grid module tags slide elements with their column index at layout time
+// (see src/modules/grid/grid.ts → updateSlide).
+interface GridSlideEl extends HTMLElement {
+  column?: number;
+}
+
 export function getActiveIndexByTranslate(swiper: Swiper): number {
   const { slidesGrid, params } = swiper;
   const translate = swiper.rtlTranslate ? swiper.translate : -swiper.translate;
@@ -40,12 +46,13 @@ export default function updateActiveIndex(this: Swiper, newActiveIndex?: number)
   let snapIndex: number;
 
   const getVirtualRealIndex = (aIndex: number): number => {
-    let realIndex = aIndex - (swiper.virtual as any).slidesBefore;
+    const virtualSlides = swiper.virtual.slides;
+    let realIndex = aIndex - (swiper.virtual.slidesBefore ?? 0);
     if (realIndex < 0) {
-      realIndex = (swiper.virtual as any).slides.length + realIndex;
+      realIndex = virtualSlides.length + realIndex;
     }
-    if (realIndex >= (swiper.virtual as any).slides.length) {
-      realIndex -= (swiper.virtual as any).slides.length;
+    if (realIndex >= virtualSlides.length) {
+      realIndex -= virtualSlides.length;
     }
     return realIndex;
   };
@@ -70,7 +77,7 @@ export default function updateActiveIndex(this: Swiper, newActiveIndex?: number)
     activeIndex === previousIndex &&
     swiper.params.loop &&
     swiper.virtual &&
-    (swiper.params.virtual as any).enabled
+    swiper.params.virtual?.enabled
   ) {
     swiper.realIndex = getVirtualRealIndex(activeIndex);
     return;
@@ -87,7 +94,7 @@ export default function updateActiveIndex(this: Swiper, newActiveIndex?: number)
 
   // Get real index
   let realIndex: number;
-  if (swiper.virtual && (params.virtual as any).enabled) {
+  if (swiper.virtual && params.virtual?.enabled) {
     if (params.loop) {
       realIndex = getVirtualRealIndex(activeIndex);
     } else {
@@ -95,7 +102,7 @@ export default function updateActiveIndex(this: Swiper, newActiveIndex?: number)
     }
   } else if (gridEnabled) {
     const firstSlideInColumn = swiper.slides.find(
-      (slideEl) => (slideEl as any).column === activeIndex,
+      (slideEl) => (slideEl as GridSlideEl).column === activeIndex,
     )!;
     let activeSlideIndex = parseInt(
       firstSlideInColumn.getAttribute('data-swiper-slide-index')!,

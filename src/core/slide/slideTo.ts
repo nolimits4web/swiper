@@ -102,7 +102,7 @@ export default function slideTo(
   else direction = 'reset';
 
   // initial virtual
-  const isVirtual = swiper.virtual && (swiper.params.virtual as any).enabled;
+  const isVirtual = swiper.virtual && swiper.params.virtual?.enabled;
   const isInitialVirtual = isVirtual && initial;
   // Update Index
   if (
@@ -159,7 +159,7 @@ export default function slideTo(
   const browser = getBrowser();
   const isSafari = browser.isSafari;
   if (isVirtual && !initial && isSafari && swiper.isElement) {
-    (swiper.virtual as any).update(false, false, slideIndex);
+    swiper.virtual.update(false, false, slideIndex);
   }
   swiper.setTransition(speed!);
   swiper.setTranslate(translate);

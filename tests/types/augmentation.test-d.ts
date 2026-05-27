@@ -28,6 +28,9 @@ import '../../src/modules/controller/controller';
 import '../../src/modules/thumbs/thumbs';
 import '../../src/modules/parallax/parallax';
 import '../../src/modules/zoom/zoom';
+import '../../src/modules/grid/grid';
+import '../../src/modules/virtual/virtual';
+import '../../src/modules/manipulation/manipulation';
 
 // `Expect<T>` errors at compile time if T is not literal `true`.
 type Expect<T extends true> = T;
@@ -52,6 +55,10 @@ type _S_controller = Expect<HasKey<Swiper, 'controller'>>;
 type _S_thumbs = Expect<HasKey<Swiper, 'thumbs'>>;
 type _S_parallax = Expect<HasKey<Swiper, 'parallax'>>;
 type _S_zoom = Expect<HasKey<Swiper, 'zoom'>>;
+type _S_grid = Expect<HasKey<Swiper, 'grid'>>;
+type _S_virtual = Expect<HasKey<Swiper, 'virtual'>>;
+type _S_appendSlide = Expect<HasKey<Swiper, 'appendSlide'>>;
+type _S_removeAllSlides = Expect<HasKey<Swiper, 'removeAllSlides'>>;
 
 // Internal-only members of Swiper.<module> (declared in *Internals interfaces
 // in each module, beyond the published *Methods surface) are reachable.
@@ -75,6 +82,22 @@ void swiper.thumbs.update; // (initial?, p?) => void
 void swiper.zoom.in; // (ratio?: number) => void
 void swiper.zoom.scale; // number
 
+// Grid published methods + Virtual internals reachability.
+void swiper.grid.initSlides; // (slides: HTMLElement[]) => void
+void swiper.grid.updateWrapperSize; // (slideSize: number, snapGrid: number[]) => void
+void swiper.virtual.slides; // unknown[]
+void swiper.virtual.cache; // Record<number, HTMLElement>
+void swiper.virtual.slidesBefore; // number | undefined (internal)
+void swiper.virtual.appendSlide; // (slide) => void
+void swiper.virtual.update; // (force?, beforeInit?, forceActiveIndex?) => void
+
+// Manipulation methods land on Swiper itself via declaration merging.
+void swiper.appendSlide; // (slides) => void
+void swiper.prependSlide;
+void swiper.addSlide;
+void swiper.removeSlide;
+void swiper.removeAllSlides;
+
 // --- SwiperOptions.<module> accepts the boolean form (public surface) ---
 const _o1: SwiperOptions = { navigation: true };
 const _o2: SwiperOptions = { pagination: { el: '.p', clickable: true } };
@@ -86,7 +109,10 @@ const _o7: SwiperOptions = { freeMode: true };
 const _o8: SwiperOptions = { controller: true };
 const _o9: SwiperOptions = { zoom: { maxRatio: 5 } };
 const _o10: SwiperOptions = { parallax: true };
-void [_o1, _o2, _o3, _o4, _o5, _o6, _o7, _o8, _o9, _o10];
+const _o11: SwiperOptions = { grid: { rows: 2, fill: 'row' } };
+const _o12: SwiperOptions = { virtual: true };
+const _o13: SwiperOptions = { virtual: { enabled: true, slides: ['a', 'b'] } };
+void [_o1, _o2, _o3, _o4, _o5, _o6, _o7, _o8, _o9, _o10, _o11, _o12, _o13];
 
 // --- SwiperParams.<module> is the normalized object form (internal) ---
 // `swiper.params.navigation` is `NavigationOptions | undefined` — never the
@@ -117,6 +143,15 @@ type _E_autoplay = Expect<HasKey<SwiperEvents, 'autoplay'>>;
 type _E_autoplayStart = Expect<HasKey<SwiperEvents, 'autoplayStart'>>;
 type _E_zoomChange = Expect<HasKey<SwiperEvents, 'zoomChange'>>;
 type _E_freeModeStaticRelease = Expect<HasKey<SwiperEvents, '_freeModeStaticRelease'>>;
+type _E_virtualUpdate = Expect<HasKey<SwiperEvents, 'virtualUpdate'>>;
+
+// SwiperParams narrows `virtual` from `VirtualOptions | boolean` to just the
+// object form (boolean union must NOT leak past the user-facing options).
+type _P_virtual_kind = NonNullable<typeof params.virtual>;
+type _P_virtual_enabled = Expect<HasKey<_P_virtual_kind, 'enabled'>>;
+type _P_virtual_no_boolean = Expect<
+  _IsBoolean<NonNullable<typeof params.virtual>> extends true ? false : true
+>;
 
 // .on() / .emit() against augmented event names type-check.
 swiper.on('navigationShow', (s) => void s);
@@ -124,3 +159,4 @@ swiper.on('paginationRender', (s) => void s);
 swiper.emit('hashChange');
 swiper.on('autoplayStart', (s) => void s);
 swiper.on('zoomChange', (s, scale) => void [s, scale]);
+swiper.on('virtualUpdate', (s) => void s);

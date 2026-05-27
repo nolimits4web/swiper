@@ -1,6 +1,9 @@
+import type { Swiper } from '../../../core/core';
 import { setInnerHTML } from '../../../shared/utils';
 
-export default function prependSlide(slides) {
+type SlideInput = HTMLElement | string | Array<HTMLElement | string>;
+
+export default function prependSlide(this: Swiper, slides: SlideInput): void {
   const swiper = this;
   const { params, activeIndex, slidesEl } = swiper;
 
@@ -8,19 +11,21 @@ export default function prependSlide(slides) {
     swiper.loopDestroy();
   }
   let newActiveIndex = activeIndex + 1;
-  const prependElement = (slideEl) => {
+  const prependElement = (slideEl: HTMLElement | string): void => {
     if (typeof slideEl === 'string') {
       const tempDOM = document.createElement('div');
       setInnerHTML(tempDOM, slideEl);
-      slidesEl.prepend(tempDOM.children[0]);
+      const child = tempDOM.children[0];
+      if (child) slidesEl.prepend(child);
       setInnerHTML(tempDOM, '');
     } else {
       slidesEl.prepend(slideEl);
     }
   };
-  if (typeof slides === 'object' && 'length' in slides) {
+  if (Array.isArray(slides)) {
     for (let i = 0; i < slides.length; i += 1) {
-      if (slides[i]) prependElement(slides[i]);
+      const slide = slides[i];
+      if (slide) prependElement(slide);
     }
     newActiveIndex = activeIndex + slides.length;
   } else {

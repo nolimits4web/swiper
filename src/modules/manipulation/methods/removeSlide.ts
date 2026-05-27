@@ -1,25 +1,26 @@
-export default function removeSlide(slidesIndexes) {
+import type { Swiper } from '../../../core/core';
+
+export default function removeSlide(this: Swiper, slidesIndexes: number | number[]): void {
   const swiper = this;
   const { params, activeIndex } = swiper;
 
   let activeIndexBuffer = activeIndex;
   if (params.loop) {
-    activeIndexBuffer -= swiper.loopedSlides;
+    activeIndexBuffer -= swiper.loopedSlides ?? 0;
     swiper.loopDestroy();
   }
   let newActiveIndex = activeIndexBuffer;
-  let indexToRemove;
 
-  if (typeof slidesIndexes === 'object' && 'length' in slidesIndexes) {
+  if (Array.isArray(slidesIndexes)) {
     for (let i = 0; i < slidesIndexes.length; i += 1) {
-      indexToRemove = slidesIndexes[i];
-      if (swiper.slides[indexToRemove]) swiper.slides[indexToRemove].remove();
+      const indexToRemove = slidesIndexes[i]!;
+      if (swiper.slides[indexToRemove]) swiper.slides[indexToRemove]!.remove();
       if (indexToRemove < newActiveIndex) newActiveIndex -= 1;
     }
     newActiveIndex = Math.max(newActiveIndex, 0);
   } else {
-    indexToRemove = slidesIndexes;
-    if (swiper.slides[indexToRemove]) swiper.slides[indexToRemove].remove();
+    const indexToRemove = slidesIndexes;
+    if (swiper.slides[indexToRemove]) swiper.slides[indexToRemove]!.remove();
     if (indexToRemove < newActiveIndex) newActiveIndex -= 1;
     newActiveIndex = Math.max(newActiveIndex, 0);
   }
@@ -33,7 +34,7 @@ export default function removeSlide(slidesIndexes) {
     swiper.update();
   }
   if (params.loop) {
-    swiper.slideTo(newActiveIndex + swiper.loopedSlides, 0, false);
+    swiper.slideTo(newActiveIndex + (swiper.loopedSlides ?? 0), 0, false);
   } else {
     swiper.slideTo(newActiveIndex, 0, false);
   }

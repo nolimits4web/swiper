@@ -16,15 +16,13 @@ export default function updateSlides(this: Swiper): void {
   const params = swiper.params;
 
   const { wrapperEl, slidesEl, rtlTranslate: rtl, wrongRTL } = swiper;
-  const isVirtual = swiper.virtual && (params.virtual as any).enabled;
-  const previousSlidesLength = isVirtual
-    ? (swiper.virtual as any).slides.length
-    : swiper.slides.length;
+  const isVirtual = !!(swiper.virtual && params.virtual?.enabled);
+  const previousSlidesLength = isVirtual ? swiper.virtual.slides.length : swiper.slides.length;
   const slides = elementChildren(
     slidesEl,
     `.${swiper.params.slideClass}, swiper-slide`,
   ) as HTMLElement[];
-  const slidesLength: number = isVirtual ? (swiper.virtual as any).slides.length : slides.length;
+  const slidesLength: number = isVirtual ? swiper.virtual.slides.length : slides.length;
   let snapGrid: number[] = [];
   const slidesGrid: number[] = [];
   const slidesSizesGrid: number[] = [];
@@ -84,9 +82,9 @@ export default function updateSlides(this: Swiper): void {
 
   const gridEnabled = params.grid && params.grid.rows! > 1 && swiper.grid;
   if (gridEnabled) {
-    (swiper.grid as any).initSlides(slides);
+    swiper.grid.initSlides(slides);
   } else if (swiper.grid) {
-    (swiper.grid as any).unsetSlides();
+    swiper.grid.unsetSlides();
   }
 
   // Calc slides
@@ -104,14 +102,14 @@ export default function updateSlides(this: Swiper): void {
     const slide = slides[i];
     if (slide) {
       if (gridEnabled) {
-        (swiper.grid as any).updateSlide(i, slide, slides);
+        swiper.grid.updateSlide(i, slide, slides);
       }
       if (elementStyle(slide, 'display') === 'none') continue; // eslint-disable-line
     }
 
     if (isVirtual && params.slidesPerView === 'auto') {
-      if ((params.virtual as any).slidesPerViewAutoSlideSize) {
-        slideSize = (params.virtual as any).slidesPerViewAutoSlideSize;
+      if (params.virtual?.slidesPerViewAutoSlideSize) {
+        slideSize = params.virtual.slidesPerViewAutoSlideSize;
       }
       if (slideSize && slide) {
         if (params.roundLengths) slideSize = Math.floor(slideSize);
@@ -218,7 +216,7 @@ export default function updateSlides(this: Swiper): void {
   }
 
   if (gridEnabled) {
-    (swiper.grid as any).updateWrapperSize(slideSize, snapGrid);
+    swiper.grid.updateWrapperSize(slideSize, snapGrid);
   }
 
   // Remove last grid elements depending on width
@@ -283,21 +281,17 @@ export default function updateSlides(this: Swiper): void {
   }
   if (isVirtual && params.loop) {
     const size = slidesSizesGrid[0]! + (spaceBetween as number);
+    const slidesBefore = swiper.virtual.slidesBefore ?? 0;
+    const slidesAfter = swiper.virtual.slidesAfter ?? 0;
+    const virtualLoopCount = slidesBefore + slidesAfter;
     if (params.slidesPerGroup! > 1) {
-      const groups = Math.ceil(
-        ((swiper.virtual as any).slidesBefore + (swiper.virtual as any).slidesAfter) /
-          params.slidesPerGroup!,
-      );
+      const groups = Math.ceil(virtualLoopCount / params.slidesPerGroup!);
       const groupSize = size * params.slidesPerGroup!;
       for (let i = 0; i < groups; i += 1) {
         snapGrid.push(snapGrid[snapGrid.length - 1]! + groupSize);
       }
     }
-    for (
-      let i = 0;
-      i < (swiper.virtual as any).slidesBefore + (swiper.virtual as any).slidesAfter;
-      i += 1
-    ) {
+    for (let i = 0; i < virtualLoopCount; i += 1) {
       if (params.slidesPerGroup === 1) {
         snapGrid.push(snapGrid[snapGrid.length - 1]! + size);
       }
