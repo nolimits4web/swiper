@@ -1,0 +1,374 @@
+{
+  "modules/a11y-element.min.css": {
+    "raw": 104,
+    "gzip": 104
+  },
+  "modules/a11y.min.css": {
+    "raw": 104,
+    "gzip": 104
+  },
+  "modules/a11y.min.mjs": {
+    "raw": 6584,
+    "gzip": 2124
+  },
+  "modules/autoplay-element.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/autoplay.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/autoplay.min.mjs": {
+    "raw": 4071,
+    "gzip": 1477
+  },
+  "modules/controller-element.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/controller.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/controller.min.mjs": {
+    "raw": 2885,
+    "gzip": 1141
+  },
+  "modules/effect-cards-element.min.css": {
+    "raw": 150,
+    "gzip": 125
+  },
+  "modules/effect-cards.min.css": {
+    "raw": 141,
+    "gzip": 116
+  },
+  "modules/effect-cards.min.mjs": {
+    "raw": 2535,
+    "gzip": 1145
+  },
+  "modules/effect-coverflow-element.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/effect-coverflow.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/effect-coverflow.min.mjs": {
+    "raw": 2116,
+    "gzip": 971
+  },
+  "modules/effect-creative-element.min.css": {
+    "raw": 129,
+    "gzip": 120
+  },
+  "modules/effect-creative.min.css": {
+    "raw": 120,
+    "gzip": 110
+  },
+  "modules/effect-creative.min.mjs": {
+    "raw": 2686,
+    "gzip": 1179
+  },
+  "modules/effect-cube-element.min.css": {
+    "raw": 1008,
+    "gzip": 316
+  },
+  "modules/effect-cube.min.css": {
+    "raw": 979,
+    "gzip": 334
+  },
+  "modules/effect-cube.min.mjs": {
+    "raw": 3438,
+    "gzip": 1435
+  },
+  "modules/effect-fade-element.min.css": {
+    "raw": 418,
+    "gzip": 149
+  },
+  "modules/effect-fade.min.css": {
+    "raw": 266,
+    "gzip": 139
+  },
+  "modules/effect-fade.min.mjs": {
+    "raw": 1227,
+    "gzip": 621
+  },
+  "modules/effect-flip-element.min.css": {
+    "raw": 354,
+    "gzip": 150
+  },
+  "modules/effect-flip.min.css": {
+    "raw": 481,
+    "gzip": 175
+  },
+  "modules/effect-flip.min.mjs": {
+    "raw": 2287,
+    "gzip": 930
+  },
+  "modules/free-mode-element.min.css": {
+    "raw": 84,
+    "gzip": 93
+  },
+  "modules/free-mode.min.css": {
+    "raw": 84,
+    "gzip": 93
+  },
+  "modules/free-mode.min.mjs": {
+    "raw": 3533,
+    "gzip": 1267
+  },
+  "modules/grid-element.min.css": {
+    "raw": 117,
+    "gzip": 80
+  },
+  "modules/grid.min.css": {
+    "raw": 117,
+    "gzip": 80
+  },
+  "modules/grid.min.mjs": {
+    "raw": 2181,
+    "gzip": 1040
+  },
+  "modules/hash-navigation-element.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/hash-navigation.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/hash-navigation.min.mjs": {
+    "raw": 2105,
+    "gzip": 817
+  },
+  "modules/history-element.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/history.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/history.min.mjs": {
+    "raw": 2193,
+    "gzip": 973
+  },
+  "modules/index.min.mjs": {
+    "raw": 1293,
+    "gzip": 351
+  },
+  "modules/keyboard-element.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/keyboard.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/keyboard.min.mjs": {
+    "raw": 2228,
+    "gzip": 1005
+  },
+  "modules/manipulation-element.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/manipulation.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/manipulation.min.mjs": {
+    "raw": 2424,
+    "gzip": 844
+  },
+  "modules/mousewheel-element.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/mousewheel.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/mousewheel.min.mjs": {
+    "raw": 4954,
+    "gzip": 1862
+  },
+  "modules/navigation-element.min.css": {
+    "raw": 4175,
+    "gzip": 656
+  },
+  "modules/navigation.min.css": {
+    "raw": 2516,
+    "gzip": 555
+  },
+  "modules/navigation.min.mjs": {
+    "raw": 4443,
+    "gzip": 1724
+  },
+  "modules/pagination-element.min.css": {
+    "raw": 5091,
+    "gzip": 904
+  },
+  "modules/pagination.min.css": {
+    "raw": 3637,
+    "gzip": 857
+  },
+  "modules/pagination.min.mjs": {
+    "raw": 9330,
+    "gzip": 2898
+  },
+  "modules/parallax-element.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/parallax.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/parallax.min.mjs": {
+    "raw": 1999,
+    "gzip": 879
+  },
+  "modules/scrollbar-element.min.css": {
+    "raw": 1219,
+    "gzip": 359
+  },
+  "modules/scrollbar.min.css": {
+    "raw": 1124,
+    "gzip": 359
+  },
+  "modules/scrollbar.min.mjs": {
+    "raw": 6161,
+    "gzip": 2085
+  },
+  "modules/thumbs-element.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/thumbs.min.css": {
+    "raw": 0,
+    "gzip": 20
+  },
+  "modules/thumbs.min.mjs": {
+    "raw": 3673,
+    "gzip": 1412
+  },
+  "modules/virtual-element.min.css": {
+    "raw": 445,
+    "gzip": 220
+  },
+  "modules/virtual.min.css": {
+    "raw": 438,
+    "gzip": 215
+  },
+  "modules/virtual.min.mjs": {
+    "raw": 5683,
+    "gzip": 2095
+  },
+  "modules/zoom-element.min.css": {
+    "raw": 62,
+    "gzip": 81
+  },
+  "modules/zoom.min.css": {
+    "raw": 239,
+    "gzip": 173
+  },
+  "modules/zoom.min.mjs": {
+    "raw": 12745,
+    "gzip": 3669
+  },
+  "shared/classes-to-selector.min.mjs": {
+    "raw": 208,
+    "gzip": 181
+  },
+  "shared/create-element-if-not-defined.min.mjs": {
+    "raw": 423,
+    "gzip": 289
+  },
+  "shared/create-shadow.min.mjs": {
+    "raw": 394,
+    "gzip": 268
+  },
+  "shared/effect-init.min.mjs": {
+    "raw": 1011,
+    "gzip": 512
+  },
+  "shared/effect-target.min.mjs": {
+    "raw": 287,
+    "gzip": 216
+  },
+  "shared/effect-virtual-transition-end.min.mjs": {
+    "raw": 757,
+    "gzip": 456
+  },
+  "shared/get-element-params.min.mjs": {
+    "raw": 2029,
+    "gzip": 923
+  },
+  "shared/ssr-window.esm.min.mjs": {
+    "raw": 1650,
+    "gzip": 767
+  },
+  "shared/swiper-core.min.mjs": {
+    "raw": 66788,
+    "gzip": 19754
+  },
+  "shared/update-on-virtual-data.min.mjs": {
+    "raw": 2192,
+    "gzip": 991
+  },
+  "shared/update-swiper.min.mjs": {
+    "raw": 6327,
+    "gzip": 2367
+  },
+  "shared/utils.min.mjs": {
+    "raw": 5867,
+    "gzip": 2255
+  },
+  "swiper-bundle.min.css": {
+    "raw": 14609,
+    "gzip": 2928
+  },
+  "swiper-bundle.min.js": {
+    "raw": 155272,
+    "gzip": 43554
+  },
+  "swiper-bundle.min.mjs": {
+    "raw": 1838,
+    "gzip": 645
+  },
+  "swiper-effect-utils.min.mjs": {
+    "raw": 659,
+    "gzip": 361
+  },
+  "swiper-element-bundle.min.js": {
+    "raw": 186582,
+    "gzip": 50294
+  },
+  "swiper-element-bundle.min.mjs": {
+    "raw": 25025,
+    "gzip": 5107
+  },
+  "swiper-element.min.js": {
+    "raw": 87013,
+    "gzip": 25517
+  },
+  "swiper-element.min.mjs": {
+    "raw": 11634,
+    "gzip": 3351
+  },
+  "swiper.min.css": {
+    "raw": 4363,
+    "gzip": 1256
+  },
+  "swiper.min.js": {
+    "raw": 68916,
+    "gzip": 20884
+  },
+  "swiper.min.mjs": {
+    "raw": 360,
+    "gzip": 270
+  }
+}
