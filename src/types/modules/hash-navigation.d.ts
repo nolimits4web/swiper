@@ -15,6 +15,13 @@ export interface HashNavigationEvents {
 
 export interface HashNavigationOptions {
   /**
+   * Boolean property to use with breakpoints to enable/disable hash navigation on certain breakpoints
+   *
+   * @default false
+   */
+  enabled?: boolean;
+
+  /**
    * Set to `true` to enable also navigation through slides (when hashnav
    * is enabled) by browser history or by setting directly hash on document location
    *
