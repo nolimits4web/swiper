@@ -9,9 +9,18 @@ import { now, nextTick } from '../../shared/utils';
 
 export type { MousewheelEvents, MousewheelMethods, MousewheelOptions };
 
+// Runtime-only members: enable()/disable() return a boolean internally
+// (the legacy code uses the return to short-circuit re-enable calls), but
+// the published MousewheelMethods declares them as `() => void`. Mirror
+// the public shape in the public type, and override internally.
+interface MousewheelInternals extends Omit<MousewheelMethods, 'enable' | 'disable'> {
+  enable: () => boolean;
+  disable: () => boolean;
+}
+
 declare module '../../core/core' {
   interface Swiper {
-    mousewheel: MousewheelMethods;
+    mousewheel: MousewheelInternals;
   }
   interface SwiperOptions {
     mousewheel?: MousewheelOptions | boolean;
@@ -51,13 +60,10 @@ const Mousewheel: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     },
   });
 
-  (swiper as any).mousewheel = {
-    enabled: false,
-  };
-
   let timeout: ReturnType<typeof setTimeout> | undefined;
   let lastScrollTime = now();
   let lastEventBeforeSnap: WheelEventRecord | undefined;
+  let mouseEntered = false;
   const recentWheelEvents: WheelEventRecord[] = [];
 
   function normalize(e: WheelEvent | (WheelEvent & Record<string, any>)): NormalizedWheel {
@@ -137,14 +143,14 @@ const Mousewheel: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   }
   function handleMouseEnter(): void {
     if (!swiper.enabled) return;
-    (swiper as any).mouseEntered = true;
+    mouseEntered = true;
   }
   function handleMouseLeave(): void {
     if (!swiper.enabled) return;
-    (swiper as any).mouseEntered = false;
+    mouseEntered = false;
   }
   function animateSlider(newEvent: WheelEventRecord): boolean {
-    const params = swiper.params.mousewheel as any;
+    const params = swiper.params.mousewheel!;
     if (params.thresholdDelta && newEvent.delta < params.thresholdDelta) {
       // Prevent if delta of wheel scroll delta is below configured threshold
       return false;
@@ -177,7 +183,7 @@ const Mousewheel: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     return false;
   }
   function releaseScroll(newEvent: WheelEventRecord): boolean {
-    const params = swiper.params.mousewheel as any;
+    const params = swiper.params.mousewheel!;
     if (newEvent.direction < 0) {
       if (swiper.isEnd && !swiper.params.loop && params.releaseOnEdges) {
         // Return true to animate scroll on edges
@@ -195,7 +201,7 @@ const Mousewheel: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     if (!swiper.enabled) return false;
 
     // Ignore event if the target or its parents have the swiper-no-mousewheel class
-    const params = swiper.params.mousewheel as any;
+    const params = swiper.params.mousewheel!;
     if ((event.target as Element).closest(`.${params.noMousewheelClass}`)) return false;
 
     if (swiper.params.cssMode) {
@@ -204,11 +210,10 @@ const Mousewheel: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
 
     let targetEl: Element | HTMLElement | null = swiper.el;
     if (params.eventsTarget !== 'container') {
-      targetEl = document.querySelector(params.eventsTarget);
+      targetEl = document.querySelector(params.eventsTarget as string);
     }
     const targetElContainsTarget = targetEl && targetEl.contains(e.target as Node);
-    if (!(swiper as any).mouseEntered && !targetElContainsTarget && !params.releaseOnEdges)
-      return true;
+    if (!mouseEntered && !targetElContainsTarget && !params.releaseOnEdges) return true;
 
     if ((event as any).originalEvent) e = (event as any).originalEvent;
     let delta = 0;
@@ -232,7 +237,7 @@ const Mousewheel: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     if (params.invert) delta = -delta;
 
     // Get the scroll positions
-    let positions = swiper.getTranslate() + delta * params.sensitivity;
+    let positions = swiper.getTranslate() + delta * (params.sensitivity ?? 1);
 
     if (positions >= swiper.minTranslate()) positions = swiper.minTranslate();
     if (positions <= swiper.maxTranslate()) positions = swiper.maxTranslate();
@@ -301,7 +306,7 @@ const Mousewheel: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
       if (!ignoreWheelEvents) {
         lastEventBeforeSnap = undefined;
 
-        let position = swiper.getTranslate() + delta * params.sensitivity;
+        let position = swiper.getTranslate() + delta * (params.sensitivity ?? 1);
         const wasBeginning = swiper.isBeginning;
         const wasEnd = swiper.isEnd;
 
@@ -389,10 +394,10 @@ const Mousewheel: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   }
 
   function events(method: 'addEventListener' | 'removeEventListener'): void {
-    const params = swiper.params.mousewheel as any;
+    const params = swiper.params.mousewheel!;
     let targetEl: Element | HTMLElement | null = swiper.el;
     if (params.eventsTarget !== 'container') {
-      targetEl = document.querySelector(params.eventsTarget);
+      targetEl = document.querySelector(params.eventsTarget as string);
     }
     targetEl![method]('mouseenter', handleMouseEnter as EventListener);
     targetEl![method]('mouseleave', handleMouseLeave as EventListener);
@@ -421,21 +426,22 @@ const Mousewheel: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   }
 
   on('init', () => {
-    if (!(swiper.params.mousewheel as any).enabled && swiper.params.cssMode) {
+    if (!swiper.params.mousewheel!.enabled && swiper.params.cssMode) {
       disable();
     }
-    if ((swiper.params.mousewheel as any).enabled) enable();
+    if (swiper.params.mousewheel!.enabled) enable();
   });
+  swiper.mousewheel = {
+    enabled: false,
+    enable,
+    disable,
+  };
+
   on('destroy', () => {
     if (swiper.params.cssMode) {
       enable();
     }
     if (swiper.mousewheel.enabled) disable();
-  });
-
-  Object.assign(swiper.mousewheel, {
-    enable,
-    disable,
   });
 };
 
