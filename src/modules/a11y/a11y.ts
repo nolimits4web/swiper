@@ -47,7 +47,7 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
     },
   });
 
-  (swiper as any).a11y = {
+  swiper.a11y = {
     clicked: false,
   };
 
@@ -56,9 +56,9 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   let focusTargetSlideEl: HTMLElement | undefined;
   let visibilityChangedTimestamp = new Date().getTime();
 
-  function notify(message: string): void {
+  function notify(message: string | undefined): void {
     const notification = liveRegion;
-    if (!notification) return;
+    if (!notification || !message) return;
     setInnerHTML(notification, message);
   }
 
@@ -123,15 +123,14 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
 
   function onEnterOrSpaceKey(e: KeyboardEvent): void {
     if (e.keyCode !== 13 && e.keyCode !== 32) return;
-    const params = swiper.params.a11y as any;
+    const params = swiper.params.a11y!;
     const targetEl = e.target as HTMLElement;
     if (
       swiper.pagination &&
       swiper.pagination.el &&
       (targetEl === swiper.pagination.el || swiper.pagination.el.contains(targetEl))
     ) {
-      if (!targetEl.matches(classesToSelector((swiper.params.pagination as any).bulletClass)))
-        return;
+      if (!targetEl.matches(classesToSelector(swiper.params.pagination!.bulletClass))) return;
     }
     if (swiper.navigation && swiper.navigation.prevEl && swiper.navigation.nextEl) {
       const prevEls = makeElementsArray(swiper.navigation.prevEl);
@@ -160,7 +159,7 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
 
     if (
       swiper.pagination &&
-      targetEl.matches(classesToSelector((swiper.params.pagination as any).bulletClass))
+      targetEl.matches(classesToSelector(swiper.params.pagination!.bulletClass))
     ) {
       targetEl.click();
     }
@@ -195,21 +194,21 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   }
 
   function hasClickablePagination(): boolean {
-    return hasPagination() && (swiper.params.pagination as any).clickable;
+    return hasPagination() && !!swiper.params.pagination!.clickable;
   }
 
   function updatePagination(): void {
-    const params = swiper.params.a11y as any;
+    const params = swiper.params.a11y!;
     if (!hasPagination()) return;
     swiper.pagination.bullets.forEach((bulletEl: HTMLElement) => {
-      const paginationParams = swiper.params.pagination as any;
+      const paginationParams = swiper.params.pagination!;
       if (paginationParams.clickable) {
         makeElFocusable(bulletEl);
         if (!paginationParams.renderBullet) {
           addElRole(bulletEl, 'button');
           addElLabel(
             bulletEl,
-            params.paginationBulletMessage.replace(
+            (params.paginationBulletMessage ?? '').replace(
               /\{\{index\}\}/,
               String((elementIndex(bulletEl) ?? 0) + 1),
             ),
@@ -241,14 +240,14 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
     ) {
       preventFocusHandler = true;
     }
-    (swiper.a11y as any).clicked = true;
+    swiper.a11y.clicked = true;
   };
   const handlePointerUp = (): void => {
     preventFocusHandler = false;
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         if (!swiper.destroyed) {
-          (swiper.a11y as any).clicked = false;
+          swiper.a11y.clicked = false;
         }
       });
     });
@@ -259,7 +258,7 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   };
 
   const handleFocus = (e: FocusEvent): void => {
-    if ((swiper.a11y as any).clicked || !(swiper.params.a11y as any).scrollOnFocus) return;
+    if (swiper.a11y.clicked || !swiper.params.a11y!.scrollOnFocus) return;
     if (new Date().getTime() - visibilityChangedTimestamp < 100) return;
 
     const target = e.target as HTMLElement;
@@ -309,7 +308,7 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   };
 
   const initSlides = (): void => {
-    const params = swiper.params.a11y as any;
+    const params = swiper.params.a11y!;
     if (params.itemRoleDescriptionMessage) {
       addElRoleDescription(swiper.slides, params.itemRoleDescriptionMessage);
     }
@@ -318,12 +317,13 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
     }
 
     const slidesLength = swiper.slides.length;
-    if (params.slideLabelMessage) {
+    const slideLabelMessage = params.slideLabelMessage;
+    if (slideLabelMessage) {
       swiper.slides.forEach((slideEl: HTMLElement, index: number) => {
         const slideIndex = swiper.params.loop
           ? parseInt(slideEl.getAttribute('data-swiper-slide-index') || '0', 10)
           : index;
-        const ariaLabelMessage = params.slideLabelMessage
+        const ariaLabelMessage = slideLabelMessage
           .replace(/\{\{index\}\}/, String(slideIndex + 1))
           .replace(/\{\{slidesLength\}\}/, String(slidesLength));
         addElLabel(slideEl, ariaLabelMessage);
@@ -332,7 +332,7 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   };
 
   const init = (): void => {
-    const params = swiper.params.a11y as any;
+    const params = swiper.params.a11y!;
     if (liveRegion) swiper.el.append(liveRegion);
 
     // Container
@@ -349,8 +349,9 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
 
     // Wrapper
     const wrapperEl = swiper.wrapperEl;
-    const wrapperId =
-      params.id || wrapperEl.getAttribute('id') || `swiper-wrapper-${getRandomNumber(16)}`;
+    const wrapperId = String(
+      params.id || wrapperEl.getAttribute('id') || `swiper-wrapper-${getRandomNumber(16)}`,
+    );
     addElId(wrapperEl, wrapperId);
     if (params.wrapperLiveRegion) {
       const live =
@@ -367,10 +368,10 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
     const prevEls = makeElementsArray(nav.prevEl);
 
     if (nextEls) {
-      nextEls.forEach((el: HTMLElement) => initNavEl(el, wrapperId, params.nextSlideMessage));
+      nextEls.forEach((el: HTMLElement) => initNavEl(el, wrapperId, params.nextSlideMessage ?? ''));
     }
     if (prevEls) {
-      prevEls.forEach((el: HTMLElement) => initNavEl(el, wrapperId, params.prevSlideMessage));
+      prevEls.forEach((el: HTMLElement) => initNavEl(el, wrapperId, params.prevSlideMessage ?? ''));
     }
 
     // Pagination
@@ -417,29 +418,29 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   }
 
   on('beforeInit', () => {
-    liveRegion = createElement('span', (swiper.params.a11y as any).notificationClass);
+    liveRegion = createElement('span', swiper.params.a11y!.notificationClass);
     liveRegion.setAttribute('aria-live', 'assertive');
     liveRegion.setAttribute('aria-atomic', 'true');
   });
 
   on('afterInit', () => {
-    if (!(swiper.params.a11y as any).enabled) return;
+    if (!swiper.params.a11y!.enabled) return;
     init();
   });
   on('slidesLengthChange snapGridLengthChange slidesGridLengthChange', () => {
-    if (!(swiper.params.a11y as any).enabled) return;
+    if (!swiper.params.a11y!.enabled) return;
     initSlides();
   });
   on('fromEdge toEdge afterInit lock unlock', () => {
-    if (!(swiper.params.a11y as any).enabled) return;
+    if (!swiper.params.a11y!.enabled) return;
     updateNavigation();
   });
   on('paginationUpdate', () => {
-    if (!(swiper.params.a11y as any).enabled) return;
+    if (!swiper.params.a11y!.enabled) return;
     updatePagination();
   });
   on('destroy', () => {
-    if (!(swiper.params.a11y as any).enabled) return;
+    if (!swiper.params.a11y!.enabled) return;
     destroy();
   });
 };
