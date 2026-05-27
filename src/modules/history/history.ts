@@ -1,4 +1,24 @@
 import type { SwiperModuleFn } from '../../core/core';
+import type {
+  HistoryEvents,
+  HistoryMethods,
+  HistoryOptions,
+} from '../../types/modules/history.d.ts';
+
+export type { HistoryEvents, HistoryMethods, HistoryOptions };
+
+declare module '../../core/core' {
+  interface Swiper {
+    history: HistoryMethods;
+  }
+  interface SwiperOptions {
+    history?: HistoryOptions | boolean;
+  }
+  interface SwiperParams {
+    history?: HistoryOptions;
+  }
+  interface SwiperEvents extends HistoryEvents {}
+}
 
 interface PathValues {
   key: string | undefined;

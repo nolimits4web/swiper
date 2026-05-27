@@ -1,6 +1,26 @@
 /* eslint-disable consistent-return */
 import type { SwiperModuleFn } from '../../core/core';
+import type {
+  MousewheelEvents,
+  MousewheelMethods,
+  MousewheelOptions,
+} from '../../types/modules/mousewheel.d.ts';
 import { now, nextTick } from '../../shared/utils';
+
+export type { MousewheelEvents, MousewheelMethods, MousewheelOptions };
+
+declare module '../../core/core' {
+  interface Swiper {
+    mousewheel: MousewheelMethods;
+  }
+  interface SwiperOptions {
+    mousewheel?: MousewheelOptions | boolean;
+  }
+  interface SwiperParams {
+    mousewheel?: MousewheelOptions;
+  }
+  interface SwiperEvents extends MousewheelEvents {}
+}
 
 interface NormalizedWheel {
   spinX: number;

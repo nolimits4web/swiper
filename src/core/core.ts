@@ -31,11 +31,14 @@ import defaults from './defaults';
 import moduleExtendParams from './moduleExtendParams';
 import { processLazyPreloader, preload } from '../shared/process-lazy-preloader';
 
-import type { SwiperOptions } from '../types/swiper-options.d.ts';
-import type { SwiperEvents } from '../types/swiper-events.d.ts';
+import type { SwiperOptions as LegacySwiperOptions } from '../types/swiper-options.d.ts';
+import type { SwiperEvents as LegacySwiperEvents } from '../types/swiper-events.d.ts';
 import type { CSSSelector } from '../types/shared.d.ts';
 
-import type { A11yMethods } from '../types/modules/a11y.d.ts';
+// Module Methods for modules that haven't been migrated to per-module type
+// augmentation yet. Each migrated module removes itself from this list and
+// instead `declare module '../../core/core'` to augment `Swiper`,
+// `SwiperOptions`, `SwiperParams`, and `SwiperEvents` from its own .ts file.
 import type { AutoplayMethods } from '../types/modules/autoplay.d.ts';
 import type { ControllerMethods } from '../types/modules/controller.d.ts';
 import type { CoverflowEffectMethods } from '../types/modules/effect-coverflow.d.ts';
@@ -44,28 +47,28 @@ import type { FadeEffectMethods } from '../types/modules/effect-fade.d.ts';
 import type { FlipEffectMethods } from '../types/modules/effect-flip.d.ts';
 import type { CreativeEffectMethods } from '../types/modules/effect-creative.d.ts';
 import type { CardsEffectMethods } from '../types/modules/effect-cards.d.ts';
-import type { HashNavigationMethods } from '../types/modules/hash-navigation.d.ts';
-import type { HistoryMethods } from '../types/modules/history.d.ts';
-import type { KeyboardMethods } from '../types/modules/keyboard.d.ts';
-import type { MousewheelMethods } from '../types/modules/mousewheel.d.ts';
-import type { NavigationMethods } from '../types/modules/navigation.d.ts';
-import type { PaginationMethods } from '../types/modules/pagination.d.ts';
 import type { ParallaxMethods } from '../types/modules/parallax.d.ts';
-import type { ScrollbarMethods } from '../types/modules/scrollbar.d.ts';
 import type { ThumbsMethods } from '../types/modules/thumbs.d.ts';
 import type { VirtualMethods } from '../types/modules/virtual.d.ts';
 import type { ZoomMethods } from '../types/modules/zoom.d.ts';
 import type { FreeModeMethods } from '../types/modules/free-mode.d.ts';
 import type { ManipulationMethods } from '../types/modules/manipulation.d.ts';
 
+// Canonical SwiperOptions / SwiperEvents — declared in core.ts so individual
+// modules can augment them via `declare module '../../core/core'`. The bodies
+// re-derive from the legacy d.ts shapes for now; Phase 5 deletes src/types/.
+export interface SwiperOptions extends LegacySwiperOptions {}
+export interface SwiperEvents extends LegacySwiperEvents {}
+
 export type SwiperEventHandler = (...args: any[]) => any;
 export type SwiperEventName = keyof SwiperEvents;
 
-// Runtime params extend SwiperOptions with internal-only properties that aren't
-// exposed in the public type surface.
-export type SwiperParams = SwiperOptions & {
+// Runtime params extend SwiperOptions with internal-only properties not
+// exposed in the public type surface. Declared as `interface` (not `type`)
+// so modules can narrow module-option fields from `T | boolean` to `T`.
+export interface SwiperParams extends SwiperOptions {
   el?: CSSSelector | HTMLElement;
-};
+}
 export type SwiperModuleFn = (ctx: {
   params: SwiperOptions;
   swiper: Swiper;
@@ -318,8 +321,11 @@ export interface Swiper {
   onScroll: () => void;
   onLoad: (event: Event) => void;
 
-  // Module-injected methods. These get redeclared via module augmentation in v15.
-  a11y: A11yMethods;
+  // Module-injected methods. Typed modules augment these via
+  // `declare module '../../core/core'` from their own .ts file; untyped
+  // modules still appear here until they migrate. Removed entries (one
+  // per migrated module): a11y, hashNavigation, history, keyboard,
+  // mousewheel, navigation, pagination, scrollbar.
   autoplay: AutoplayMethods;
   controller: ControllerMethods;
   coverflowEffect: CoverflowEffectMethods;
@@ -328,14 +334,7 @@ export interface Swiper {
   flipEffect: FlipEffectMethods;
   creativeEffect: CreativeEffectMethods;
   cardsEffect: CardsEffectMethods;
-  hashNavigation: HashNavigationMethods;
-  history: HistoryMethods;
-  keyboard: KeyboardMethods;
-  mousewheel: MousewheelMethods;
-  navigation: NavigationMethods;
-  pagination: PaginationMethods;
   parallax: ParallaxMethods;
-  scrollbar: ScrollbarMethods;
   thumbs: ThumbsMethods;
   virtual: VirtualMethods;
   zoom: ZoomMethods;

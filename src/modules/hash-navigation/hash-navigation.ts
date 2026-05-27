@@ -1,5 +1,25 @@
 import type { SwiperModuleFn, Swiper } from '../../core/core';
+import type {
+  HashNavigationEvents,
+  HashNavigationMethods,
+  HashNavigationOptions,
+} from '../../types/modules/hash-navigation.d.ts';
 import { elementChildren } from '../../shared/utils';
+
+export type { HashNavigationEvents, HashNavigationMethods, HashNavigationOptions };
+
+declare module '../../core/core' {
+  interface Swiper {
+    hashNavigation: HashNavigationMethods;
+  }
+  interface SwiperOptions {
+    hashNavigation?: HashNavigationOptions | boolean;
+  }
+  interface SwiperParams {
+    hashNavigation?: HashNavigationOptions;
+  }
+  interface SwiperEvents extends HashNavigationEvents {}
+}
 
 const HashNavigation: SwiperModuleFn = ({ swiper, extendParams, emit, on }) => {
   let initialized = false;

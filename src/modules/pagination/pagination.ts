@@ -1,4 +1,9 @@
 import type { SwiperModuleFn } from '../../core/core';
+import type {
+  PaginationEvents,
+  PaginationMethods,
+  PaginationOptions,
+} from '../../types/modules/pagination.d.ts';
 import classesToSelector from '../../shared/classes-to-selector';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
 import {
@@ -8,6 +13,27 @@ import {
   makeElementsArray,
   setInnerHTML,
 } from '../../shared/utils';
+
+export type { PaginationEvents, PaginationMethods, PaginationOptions };
+
+// Runtime-only members attached to swiper.pagination beyond the published API.
+interface PaginationInternals extends PaginationMethods {
+  enable: () => void;
+  disable: () => void;
+}
+
+declare module '../../core/core' {
+  interface Swiper {
+    pagination: PaginationInternals;
+  }
+  interface SwiperOptions {
+    pagination?: PaginationOptions | boolean;
+  }
+  interface SwiperParams {
+    pagination?: PaginationOptions;
+  }
+  interface SwiperEvents extends PaginationEvents {}
+}
 
 const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   const pfx = 'swiper-pagination';

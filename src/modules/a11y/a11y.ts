@@ -1,6 +1,27 @@
 import type { SwiperModuleFn } from '../../core/core';
+import type { A11yEvents, A11yMethods, A11yOptions } from '../../types/modules/a11y.d.ts';
 import classesToSelector from '../../shared/classes-to-selector';
 import { createElement, elementIndex, makeElementsArray, setInnerHTML } from '../../shared/utils';
+
+export type { A11yEvents, A11yMethods, A11yOptions };
+
+// Runtime-only state attached to swiper.a11y beyond the published methods.
+interface A11yInternals extends A11yMethods {
+  clicked: boolean;
+}
+
+declare module '../../core/core' {
+  interface Swiper {
+    a11y: A11yInternals;
+  }
+  interface SwiperOptions {
+    a11y?: A11yOptions | boolean;
+  }
+  interface SwiperParams {
+    a11y?: A11yOptions;
+  }
+  interface SwiperEvents extends A11yEvents {}
+}
 
 type ElOrEls = HTMLElement | HTMLElement[] | null | undefined;
 

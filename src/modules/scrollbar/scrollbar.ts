@@ -1,8 +1,34 @@
 import type { SwiperModuleFn } from '../../core/core';
+import type {
+  ScrollbarEvents,
+  ScrollbarMethods,
+  ScrollbarOptions,
+} from '../../types/modules/scrollbar.d.ts';
 import { createElement, elementOffset, makeElementsArray, nextTick } from '../../shared/utils';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
 import classesToSelector from '../../shared/classes-to-selector';
 import classesToTokens from '../../shared/classes-to-tokens';
+
+export type { ScrollbarEvents, ScrollbarMethods, ScrollbarOptions };
+
+// Runtime-only members attached to swiper.scrollbar beyond the published API.
+interface ScrollbarInternals extends ScrollbarMethods {
+  enable: () => void;
+  disable: () => void;
+}
+
+declare module '../../core/core' {
+  interface Swiper {
+    scrollbar: ScrollbarInternals;
+  }
+  interface SwiperOptions {
+    scrollbar?: ScrollbarOptions | boolean;
+  }
+  interface SwiperParams {
+    scrollbar?: ScrollbarOptions;
+  }
+  interface SwiperEvents extends ScrollbarEvents {}
+}
 
 type PointerLike = MouseEvent | PointerEvent | TouchEvent;
 

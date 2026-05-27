@@ -1,6 +1,26 @@
 /* eslint-disable consistent-return */
 import type { SwiperModuleFn } from '../../core/core';
+import type {
+  KeyboardEvents,
+  KeyboardMethods,
+  KeyboardOptions,
+} from '../../types/modules/keyboard.d.ts';
 import { elementOffset, elementParents } from '../../shared/utils';
+
+export type { KeyboardEvents, KeyboardMethods, KeyboardOptions };
+
+declare module '../../core/core' {
+  interface Swiper {
+    keyboard: KeyboardMethods;
+  }
+  interface SwiperOptions {
+    keyboard?: KeyboardOptions | boolean;
+  }
+  interface SwiperParams {
+    keyboard?: KeyboardOptions;
+  }
+  interface SwiperEvents extends KeyboardEvents {}
+}
 
 const Keyboard: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   (swiper as any).keyboard = {
