@@ -1,20 +1,170 @@
-import type { SwiperModuleFn } from '../../core/core';
-import type { A11yEvents, A11yMethods, A11yOptions } from '../../types/modules/a11y.d.ts';
+import type { Swiper, SwiperModuleFn } from '../../core/core';
 import classesToSelector from '../../shared/classes-to-selector';
 import { createElement, elementIndex, makeElementsArray, setInnerHTML } from '../../shared/utils';
 
-export type { A11yEvents, A11yMethods, A11yOptions };
+export interface A11yOptions {
+  /**
+   * Enables A11y
+   *
+   * @default true
+   */
+  enabled?: boolean;
+
+  /**
+   * Message for screen readers for previous button
+   *
+   * @default 'Previous slide'
+   */
+  prevSlideMessage?: string;
+
+  /**
+   * Message for screen readers for next button
+   *
+   * @default 'Next slide'
+   */
+  nextSlideMessage?: string;
+
+  /**
+   * Message for screen readers for previous button when swiper is on first slide
+   *
+   * @default 'This is the first slide'
+   */
+  firstSlideMessage?: string;
+
+  /**
+   * Message for screen readers for next button when swiper is on last slide
+   *
+   * @default 'This is the last slide'
+   */
+  lastSlideMessage?: string;
+
+  /**
+   * Message for screen readers for single pagination bullet
+   *
+   * @default 'Go to slide {{index}}'
+   */
+  paginationBulletMessage?: string;
+
+  /**
+   * CSS class name of A11y notification
+   *
+   * @default 'swiper-notification'
+   */
+  notificationClass?: string;
+
+  /**
+   * Message for screen readers for outer swiper container
+   *
+   * @default null
+   */
+  containerMessage?: string | null;
+
+  /**
+   * Message for screen readers describing the role of outer swiper container
+   *
+   * @default null
+   */
+  containerRoleDescriptionMessage?: string | null;
+
+  /**
+   * Value of the "role" attribute to be set on the swiper container
+   *
+   * @default null
+   */
+  containerRole?: string | null;
+
+  /**
+   * Message for screen readers describing the role of slide element
+   *
+   * @default null
+   */
+  itemRoleDescriptionMessage?: string | null;
+
+  /**
+   * Message for screen readers describing the label of slide element
+   *
+   * @default '{{index}} / {{slidesLength}}'
+   */
+  slideLabelMessage?: string;
+
+  /**
+   * Value of swiper slide `role` attribute
+   *
+   * @default 'group'
+   */
+  slideRole?: string;
+
+  /**
+   * Value of `id` attribute to be set on swiper-wrapper. If `null` will be generated automatically
+   *
+   * @default null
+   */
+  id?: string | number | null;
+
+  /**
+   * Enables scrolling to the slide that has been focused
+   *
+   * @default true
+   */
+  scrollOnFocus?: boolean;
+  /**
+   * Whether or not the swiper-wrapper should have the `aria-live` attribute applied to it.
+   * If true, the value will be `off` when autoplay is enabled, otherwise it will be `polite`
+   *
+   * @default true
+   */
+  wrapperLiveRegion?: boolean;
+}
+
+export interface A11yMethods {}
+
+export interface A11yEvents {}
 
 // Runtime-only state attached to swiper.a11y beyond the published methods.
 interface A11yInternals extends A11yMethods {
   clicked: boolean;
 }
 
+// All A11yOptions fields are optional in the public type, but extendParams fills
+// them in at module init time. Use this view internally to access defaults
+// without proliferating `!` non-null assertions through the module.
+type A11yParamsRuntime = Required<
+  Omit<
+    A11yOptions,
+    | 'containerMessage'
+    | 'containerRoleDescriptionMessage'
+    | 'containerRole'
+    | 'itemRoleDescriptionMessage'
+    | 'id'
+  >
+> &
+  Pick<
+    A11yOptions,
+    | 'containerMessage'
+    | 'containerRoleDescriptionMessage'
+    | 'containerRole'
+    | 'itemRoleDescriptionMessage'
+    | 'id'
+  >;
+
 declare module '../../core/core' {
   interface Swiper {
     a11y: A11yInternals;
   }
   interface SwiperOptions {
+    /**
+     * Object with a11y parameters or boolean `true` to enable with default settings.
+     *
+     * @example
+     * ```js
+     * const swiper = new Swiper('.swiper', {
+     *   a11y: {
+     *     prevSlideMessage: 'Previous slide',
+     *     nextSlideMessage: 'Next slide',
+     *   },
+     * });
+     * ```
+     */
     a11y?: A11yOptions | boolean;
   }
   interface SwiperParams {
@@ -24,6 +174,9 @@ declare module '../../core/core' {
 }
 
 type ElOrEls = HTMLElement | HTMLElement[] | null | undefined;
+
+const isVirtualEnabled = (swiper: Swiper): boolean =>
+  !!swiper.virtual && !!(swiper.params.virtual as { enabled?: boolean } | undefined)?.enabled;
 
 const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   extendParams({
@@ -55,6 +208,10 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   let preventFocusHandler = false;
   let focusTargetSlideEl: HTMLElement | undefined;
   let visibilityChangedTimestamp = new Date().getTime();
+
+  function getParams(): A11yParamsRuntime {
+    return swiper.params.a11y as A11yParamsRuntime;
+  }
 
   function notify(message: string | undefined): void {
     const notification = liveRegion;
@@ -123,14 +280,15 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
 
   function onEnterOrSpaceKey(e: KeyboardEvent): void {
     if (e.keyCode !== 13 && e.keyCode !== 32) return;
-    const params = swiper.params.a11y!;
+    const params = getParams();
+    const paginationParams = swiper.params.pagination as { bulletClass?: string } | undefined;
     const targetEl = e.target as HTMLElement;
     if (
       swiper.pagination &&
       swiper.pagination.el &&
       (targetEl === swiper.pagination.el || swiper.pagination.el.contains(targetEl))
     ) {
-      if (!targetEl.matches(classesToSelector(swiper.params.pagination!.bulletClass))) return;
+      if (!targetEl.matches(classesToSelector(paginationParams?.bulletClass))) return;
     }
     if (swiper.navigation && swiper.navigation.prevEl && swiper.navigation.nextEl) {
       const prevEls = makeElementsArray(swiper.navigation.prevEl);
@@ -157,10 +315,7 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
       }
     }
 
-    if (
-      swiper.pagination &&
-      targetEl.matches(classesToSelector(swiper.params.pagination!.bulletClass))
-    ) {
+    if (swiper.pagination && targetEl.matches(classesToSelector(paginationParams?.bulletClass))) {
       targetEl.click();
     }
   }
@@ -194,21 +349,26 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   }
 
   function hasClickablePagination(): boolean {
-    return hasPagination() && !!swiper.params.pagination!.clickable;
+    const paginationParams = swiper.params.pagination as { clickable?: boolean } | undefined;
+    return hasPagination() && !!paginationParams?.clickable;
   }
 
   function updatePagination(): void {
-    const params = swiper.params.a11y!;
+    const params = getParams();
     if (!hasPagination()) return;
+    const paginationParams = swiper.params.pagination as {
+      clickable?: boolean;
+      renderBullet?: unknown;
+      bulletActiveClass?: string;
+    };
     swiper.pagination.bullets.forEach((bulletEl: HTMLElement) => {
-      const paginationParams = swiper.params.pagination!;
       if (paginationParams.clickable) {
         makeElFocusable(bulletEl);
         if (!paginationParams.renderBullet) {
           addElRole(bulletEl, 'button');
           addElLabel(
             bulletEl,
-            (params.paginationBulletMessage ?? '').replace(
+            params.paginationBulletMessage.replace(
               /\{\{index\}\}/,
               String((elementIndex(bulletEl) ?? 0) + 1),
             ),
@@ -258,7 +418,8 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   };
 
   const handleFocus = (e: FocusEvent): void => {
-    if (swiper.a11y.clicked || !swiper.params.a11y!.scrollOnFocus) return;
+    const params = getParams();
+    if (swiper.a11y.clicked || !params.scrollOnFocus) return;
     if (new Date().getTime() - visibilityChangedTimestamp < 100) return;
 
     const target = e.target as HTMLElement;
@@ -267,7 +428,7 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
     ) as HTMLElement | null;
     if (!slideEl || !swiper.slides.includes(slideEl)) return;
     focusTargetSlideEl = slideEl;
-    const isVirtual = swiper.virtual && (swiper.params.virtual as any).enabled;
+    const isVirtual = isVirtualEnabled(swiper);
     const isActive =
       (isVirtual
         ? parseInt(slideEl.getAttribute('data-swiper-slide-index') || '0', 10)
@@ -277,7 +438,12 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
       swiper.visibleSlides &&
       swiper.visibleSlides.includes(slideEl);
     if (isActive || isVisible) return;
-    if ((e as any).sourceCapabilities && (e as any).sourceCapabilities.firesTouchEvents) return;
+    const sourceCapabilities = (
+      e as FocusEvent & {
+        sourceCapabilities?: { firesTouchEvents?: boolean };
+      }
+    ).sourceCapabilities;
+    if (sourceCapabilities && sourceCapabilities.firesTouchEvents) return;
     if (swiper.isHorizontal()) {
       swiper.el.scrollLeft = 0;
     } else {
@@ -287,20 +453,20 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
       if (preventFocusHandler) return;
       if (swiper.params.loop) {
         swiper.slideToLoop(
-          (swiper as any).getSlideIndexWhenGrid(
+          swiper.getSlideIndexWhenGrid(
             parseInt(slideEl.getAttribute('data-swiper-slide-index') || '0', 10),
           ),
           0,
         );
       } else if (isVirtual) {
         swiper.slideTo(
-          (swiper as any).getSlideIndexWhenGrid(
+          swiper.getSlideIndexWhenGrid(
             parseInt(slideEl.getAttribute('data-swiper-slide-index') || '0', 10),
           ),
           0,
         );
       } else {
-        swiper.slideTo((swiper as any).getSlideIndexWhenGrid(swiper.slides.indexOf(slideEl)), 0);
+        swiper.slideTo(swiper.getSlideIndexWhenGrid(swiper.slides.indexOf(slideEl)), 0);
       }
 
       preventFocusHandler = false;
@@ -308,7 +474,7 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   };
 
   const initSlides = (): void => {
-    const params = swiper.params.a11y!;
+    const params = getParams();
     if (params.itemRoleDescriptionMessage) {
       addElRoleDescription(swiper.slides, params.itemRoleDescriptionMessage);
     }
@@ -332,7 +498,7 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   };
 
   const init = (): void => {
-    const params = swiper.params.a11y!;
+    const params = getParams();
     if (liveRegion) swiper.el.append(liveRegion);
 
     // Container
@@ -354,8 +520,8 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
     );
     addElId(wrapperEl, wrapperId);
     if (params.wrapperLiveRegion) {
-      const live =
-        swiper.params.autoplay && (swiper.params.autoplay as any).enabled ? 'off' : 'polite';
+      const autoplayParams = swiper.params.autoplay as { enabled?: boolean } | undefined;
+      const live = swiper.params.autoplay && autoplayParams?.enabled ? 'off' : 'polite';
       addElLive(wrapperEl, live);
     }
 
@@ -363,15 +529,20 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
     initSlides();
 
     // Navigation
-    const nav = swiper.navigation ? swiper.navigation : ({} as { nextEl?: any; prevEl?: any });
+    const nav = swiper.navigation
+      ? swiper.navigation
+      : ({ nextEl: undefined, prevEl: undefined } as {
+          nextEl?: HTMLElement;
+          prevEl?: HTMLElement;
+        });
     const nextEls = makeElementsArray(nav.nextEl);
     const prevEls = makeElementsArray(nav.prevEl);
 
     if (nextEls) {
-      nextEls.forEach((el: HTMLElement) => initNavEl(el, wrapperId, params.nextSlideMessage ?? ''));
+      nextEls.forEach((el: HTMLElement) => initNavEl(el, wrapperId, params.nextSlideMessage));
     }
     if (prevEls) {
-      prevEls.forEach((el: HTMLElement) => initNavEl(el, wrapperId, params.prevSlideMessage ?? ''));
+      prevEls.forEach((el: HTMLElement) => initNavEl(el, wrapperId, params.prevSlideMessage));
     }
 
     // Pagination
@@ -390,7 +561,12 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   };
   function destroy(): void {
     if (liveRegion) liveRegion.remove();
-    const nav = swiper.navigation ? swiper.navigation : ({} as { nextEl?: any; prevEl?: any });
+    const nav = swiper.navigation
+      ? swiper.navigation
+      : ({ nextEl: undefined, prevEl: undefined } as {
+          nextEl?: HTMLElement;
+          prevEl?: HTMLElement;
+        });
     const nextEls = makeElementsArray(nav.nextEl);
     const prevEls = makeElementsArray(nav.prevEl);
     if (nextEls) {
@@ -418,29 +594,29 @@ const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   }
 
   on('beforeInit', () => {
-    liveRegion = createElement('span', swiper.params.a11y!.notificationClass);
+    liveRegion = createElement('span', getParams().notificationClass);
     liveRegion.setAttribute('aria-live', 'assertive');
     liveRegion.setAttribute('aria-atomic', 'true');
   });
 
   on('afterInit', () => {
-    if (!swiper.params.a11y!.enabled) return;
+    if (!getParams().enabled) return;
     init();
   });
   on('slidesLengthChange snapGridLengthChange slidesGridLengthChange', () => {
-    if (!swiper.params.a11y!.enabled) return;
+    if (!getParams().enabled) return;
     initSlides();
   });
   on('fromEdge toEdge afterInit lock unlock', () => {
-    if (!swiper.params.a11y!.enabled) return;
+    if (!getParams().enabled) return;
     updateNavigation();
   });
   on('paginationUpdate', () => {
-    if (!swiper.params.a11y!.enabled) return;
+    if (!getParams().enabled) return;
     updatePagination();
   });
   on('destroy', () => {
-    if (!swiper.params.a11y!.enabled) return;
+    if (!getParams().enabled) return;
     destroy();
   });
 };

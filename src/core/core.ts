@@ -57,7 +57,12 @@ import type { ManipulationMethods } from '../types/modules/manipulation.d.ts';
 // Canonical SwiperOptions / SwiperEvents — declared in core.ts so individual
 // modules can augment them via `declare module '../../core/core'`. The bodies
 // re-derive from the legacy d.ts shapes for now; Phase 5 deletes src/types/.
-export interface SwiperOptions extends LegacySwiperOptions {}
+export interface SwiperOptions extends LegacySwiperOptions {
+  on?: {
+    [event in keyof SwiperEvents]?: SwiperEvents[event];
+  };
+  onAny?(handler: (eventName: string, ...args: any[]) => void): void;
+}
 export interface SwiperEvents extends LegacySwiperEvents {}
 
 export type SwiperEventHandler = (...args: any[]) => any;
@@ -173,6 +178,7 @@ export interface Swiper {
   translate: number;
   previousTranslate: number;
   progress: number;
+  progressLoop?: number;
   velocity: number;
   animating: boolean;
 
@@ -279,6 +285,13 @@ export interface Swiper {
     byMousewheel?: boolean;
   }): void;
   loopDestroy(): void;
+
+  // Slide-index helpers (defined on the class in src/core/core.ts)
+  cssOverflowAdjustment(): number;
+  getSlideIndex(slideEl: Element): number;
+  getSlideIndexByData(index: number): number;
+  getSlideIndexWhenGrid(index: number): number;
+  getSlideClasses(slideEl: Element): string;
 
   // Update methods (prototype mixin: src/core/update)
   updateSize(): void;

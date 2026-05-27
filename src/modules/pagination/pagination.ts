@@ -1,9 +1,5 @@
-import type { SwiperModuleFn } from '../../core/core';
-import type {
-  PaginationEvents,
-  PaginationMethods,
-  PaginationOptions,
-} from '../../types/modules/pagination.d.ts';
+import type { Swiper, SwiperModuleFn } from '../../core/core';
+import type { CSSSelector } from '../../types/shared.d.ts';
 import classesToSelector from '../../shared/classes-to-selector';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
 import {
@@ -14,7 +10,310 @@ import {
   setInnerHTML,
 } from '../../shared/utils';
 
-export type { PaginationEvents, PaginationMethods, PaginationOptions };
+export interface PaginationOptions {
+  /**
+   * Boolean property to use with breakpoints to enable/disable pagination on certain breakpoints
+   */
+  enabled?: boolean;
+  /**
+   * String with CSS selector or HTML element of the container with pagination
+   *
+   * @default null
+   */
+  el?: CSSSelector | HTMLElement | null;
+
+  /**
+   * String with type of pagination. Can be `'bullets'`, `'fraction'`, `'progressbar'` or `'custom'`
+   *
+   * @default 'bullets'
+   */
+  type?: 'bullets' | 'fraction' | 'progressbar' | 'custom';
+
+  /**
+   * Defines which HTML tag will be used to represent single pagination bullet. Only for `'bullets'` pagination type.
+   *
+   * @default 'span'
+   */
+  bulletElement?: string;
+
+  /**
+   * Good to enable if you use bullets pagination with a lot of slides. So it will keep only few bullets visible at the same time.
+   *
+   * @default false
+   */
+  dynamicBullets?: boolean;
+
+  /**
+   * The number of main bullets visible when `dynamicBullets` enabled.
+   *
+   * @default 1
+   */
+  dynamicMainBullets?: number;
+
+  /**
+   * Toggle (hide/show) pagination container visibility after click on Slider's container
+   *
+   * @default true
+   */
+  hideOnClick?: boolean;
+
+  /**
+   * If `true` then clicking on pagination button will cause transition to appropriate slide. Only for bullets pagination type
+   *
+   * @default false
+   */
+  clickable?: boolean;
+
+  /**
+   * Makes pagination progressbar opposite to Swiper's `direction` parameter, means vertical progressbar for horizontal swiper
+   * direction and horizontal progressbar for vertical swiper direction
+   *
+   * @default false
+   */
+  progressbarOpposite?: boolean;
+
+  /**
+   * format fraction pagination current number. Function receives current number,
+   * and you need to return formatted value
+   */
+  formatFractionCurrent?: (number: number) => number | string;
+
+  /**
+   * format fraction pagination total number. Function receives total number, and you
+   * need to return formatted value
+   */
+  formatFractionTotal?: (number: number) => number | string;
+
+  /**
+   * This parameter allows totally customize pagination bullets, you need to pass here a function that accepts `index` number of
+   * pagination bullet and required element class name (`className`). Only for `'bullets'` pagination type
+   *
+   * @default null
+   *
+   * @example
+   * ```js
+   * const swiper = new Swiper('.swiper', {
+   *   //...
+   *   pagination: {
+   *     //...
+   *     renderBullet: function (index, className) {
+   *       return '<span class="' + className + '">' + (index + 1) + '</span>';
+   *     },
+   *   },
+   * });
+   * ```
+   */
+  renderBullet?: (index: number, className: string) => string;
+
+  /**
+   * This parameter allows to customize "fraction" pagination html. Only for `'fraction'` pagination type
+   *
+   * @default null
+   *
+   * @example
+   * ```js
+   * const swiper = new Swiper('.swiper', {
+   *   //...
+   *   pagination: {
+   *     //...
+   *     renderFraction: function (currentClass, totalClass) {
+   *       return '<span class="' + currentClass + '"></span>' +
+   *               ' of ' +
+   *               '<span class="' + totalClass + '"></span>';
+   *     },
+   *   },
+   * });
+   * ```
+   */
+  renderFraction?: (currentClass: string, totalClass: string) => string;
+
+  /**
+   * This parameter allows to customize "progress" pagination. Only for `'progress'` pagination type
+   *
+   * @default null
+   *
+   * @example
+   * ```js
+   * const swiper = new Swiper('.swiper', {
+   *   //...
+   *   pagination: {
+   *     //...
+   *     renderProgressbar: function (progressbarFillClass) {
+   *       return '<span class="' + progressbarFillClass + '"></span>';
+   *     },
+   *   },
+   * });
+   * ```
+   */
+  renderProgressbar?: (progressbarFillClass: string) => string;
+
+  /**
+   * This parameter is required for `'custom'` pagination type where you have to specify
+   * how it should be rendered.
+   *
+   * @default null
+   *
+   * @example
+   * ```js
+   * const swiper = new Swiper('.swiper', {
+   *   //...
+   *   pagination: {
+   *     //...
+   *     renderCustom: function (swiper, current, total) {
+   *       return current + ' of ' + total;
+   *     },
+   *   },
+   * });
+   * ```
+   */
+  renderCustom?: (swiper: Swiper, current: number, total: number) => string;
+
+  /**
+   * CSS class name of single pagination bullet
+   *
+   * @default 'swiper-pagination-bullet'
+   */
+  bulletClass?: string;
+
+  /**
+   * CSS class name of currently active pagination bullet
+   *
+   * @default 'swiper-pagination-bullet-active'
+   */
+  bulletActiveClass?: string;
+
+  /**
+   * The beginning of the modifier CSS class name that will be added to pagination depending on parameters
+   *
+   * @default 'swiper-pagination-'
+   */
+  modifierClass?: string;
+
+  /**
+   * CSS class name of the element with currently active index in "fraction" pagination
+   *
+   * @default 'swiper-pagination-current'
+   */
+  currentClass?: string;
+
+  /**
+   * CSS class name of the element with total number of "snaps" in "fraction" pagination
+   *
+   * @default 'swiper-pagination-total'
+   */
+  totalClass?: string;
+
+  /**
+   * CSS class name of pagination when it becomes inactive
+   *
+   * @default 'swiper-pagination-hidden'
+   */
+  hiddenClass?: string;
+
+  /**
+   * CSS class name of pagination progressbar fill element
+   *
+   * @default 'swiper-pagination-progressbar-fill'
+   */
+  progressbarFillClass?: string;
+
+  /**
+   * CSS class name of pagination progressbar opposite
+   *
+   * @default 'swiper-pagination-progressbar-opposite'
+   */
+  progressbarOppositeClass?: string;
+  /**
+   * CSS class name set to pagination when it is clickable
+   *
+   * @default 'swiper-pagination-clickable'
+   */
+  clickableClass?: string;
+
+  /**
+   * CSS class name set to pagination when it is disabled
+   *
+   * @default 'swiper-pagination-lock'
+   */
+  lockClass?: string;
+
+  /**
+   * CSS class name set to pagination in horizontal Swiper
+   *
+   * @default 'swiper-pagination-horizontal'
+   */
+  horizontalClass?: string;
+
+  /**
+   * CSS class name set to pagination in vertical Swiper
+   *
+   * @default 'swiper-pagination-vertical'
+   */
+  verticalClass?: string;
+
+  /**
+   * CSS class name added on swiper container and pagination element when pagination is disabled by breakpoint
+   *
+   * @default 'swiper-pagination-disabled'
+   */
+  paginationDisabledClass?: string;
+}
+
+export interface PaginationMethods {
+  /**
+   * HTMLElement of pagination container element
+   */
+  el: HTMLElement;
+
+  /**
+   * Array of pagination bullets
+   * HTML elements. To get specific slide HTMLElement
+   * use `swiper.pagination.bullets[1]`.
+   */
+  bullets: HTMLElement[];
+
+  /**
+   * Render pagination layout
+   */
+  render(): void;
+
+  /**
+   * Update pagination state (enabled/disabled/active)
+   */
+  update(): void;
+
+  /**
+   * Initialize pagination
+   */
+  init(): void;
+
+  /**
+   * Destroy pagination
+   */
+  destroy(): void;
+}
+
+export interface PaginationEvents {
+  /**
+   * Event will be fired after pagination rendered
+   */
+  paginationRender: (swiper: Swiper, paginationEl: HTMLElement) => void;
+
+  /**
+   * Event will be fired when pagination updated
+   */
+  paginationUpdate: (swiper: Swiper, paginationEl: HTMLElement) => void;
+
+  /**
+   * Event will be fired on pagination hide
+   */
+  paginationHide: (swiper: Swiper) => void;
+
+  /**
+   * Event will be fired on pagination show
+   */
+  paginationShow: (swiper: Swiper) => void;
+}
 
 // Runtime-only members attached to swiper.pagination beyond the published API.
 interface PaginationInternals extends PaginationMethods {
@@ -41,6 +340,19 @@ declare module '../../core/core' {
     pagination: PaginationInternals;
   }
   interface SwiperOptions {
+    /**
+     * Object with pagination parameters or boolean `true` to enable with default settings.
+     *
+     * @example
+     * ```js
+     * const swiper = new Swiper('.swiper', {
+     *   pagination: {
+     *     el: '.swiper-pagination',
+     *     type: 'bullets',
+     *   },
+     * });
+     * ```
+     */
     pagination?: PaginationOptions | boolean;
   }
   interface SwiperParams {
@@ -48,6 +360,12 @@ declare module '../../core/core' {
   }
   interface SwiperEvents extends PaginationEvents {}
 }
+
+const isVirtualEnabled = (swiper: Swiper): boolean =>
+  !!swiper.virtual && !!(swiper.params.virtual as { enabled?: boolean } | undefined)?.enabled;
+
+const isFreeModeEnabled = (swiper: Swiper): boolean =>
+  !!(swiper.params.freeMode as { enabled?: boolean } | undefined)?.enabled;
 
 const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   const pfx = 'swiper-pagination';
@@ -93,8 +411,12 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   let bulletSize: number | undefined;
   let dynamicBulletIndex = 0;
 
+  function getParams(): PaginationParamsRuntime {
+    return swiper.params.pagination as PaginationParamsRuntime;
+  }
+
   function isPaginationDisabled(): boolean {
-    const elParam = swiper.params.pagination!.el;
+    const elParam = getParams().el;
     return (
       !elParam ||
       !swiper.pagination.el ||
@@ -107,7 +429,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     bulletEl: HTMLElement | null | undefined,
     position: 'prev' | 'next',
   ): void {
-    const { bulletActiveClass } = swiper.params.pagination!;
+    const { bulletActiveClass } = getParams();
     if (!bulletEl) return;
     let current: Element | null =
       bulletEl[`${position === 'prev' ? 'previous' : 'next'}ElementSibling`];
@@ -137,7 +459,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   function onBulletClick(e: Event): void {
     const targetEl = e.target as HTMLElement;
     const bulletEl = targetEl.closest(
-      classesToSelector(swiper.params.pagination!.bulletClass),
+      classesToSelector(getParams().bulletClass),
     ) as HTMLElement | null;
     if (!bulletEl) {
       return;
@@ -162,17 +484,16 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   function update(): void {
     // Render || Update Pagination bullets/items
     const rtl = swiper.rtl;
-    const params = swiper.params.pagination! as PaginationParamsRuntime;
+    const params = getParams();
     if (isPaginationDisabled()) return;
 
     const els = makeElementsArray(swiper.pagination.el as HTMLElement | HTMLElement[]);
     // Current/Total
     let current: number;
     let previousIndex: number | undefined;
-    const slidesLength =
-      swiper.virtual && (swiper.params.virtual as any).enabled
-        ? swiper.virtual.slides.length
-        : swiper.slides.length;
+    const slidesLength = isVirtualEnabled(swiper)
+      ? swiper.virtual.slides.length
+      : swiper.slides.length;
     const total = swiper.params.loop
       ? Math.ceil(slidesLength / (swiper.params.slidesPerGroup ?? 1))
       : swiper.snapGrid.length;
@@ -205,10 +526,9 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
           swiper.isHorizontal() ? 'width' : 'height',
           true,
         );
+        const dim = swiper.isHorizontal() ? 'width' : 'height';
         els.forEach((subEl) => {
-          (subEl.style as any)[swiper.isHorizontal() ? 'width' : 'height'] = `${
-            (bulletSize ?? 0) * (params.dynamicMainBullets + 4)
-          }px`;
+          subEl.style[dim] = `${(bulletSize ?? 0) * (params.dynamicMainBullets + 4)}px`;
         });
         if (params.dynamicMainBullets > 1 && previousIndex !== undefined) {
           dynamicBulletIndex += current - (previousIndex || 0);
@@ -284,9 +604,10 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
         const bulletsOffset =
           ((bulletSize ?? 0) * dynamicBulletsLength - (bulletSize ?? 0)) / 2 -
           midIndex * (bulletSize ?? 0);
-        const offsetProp = rtl ? 'right' : 'left';
+        const offsetProp: 'right' | 'left' = rtl ? 'right' : 'left';
+        const positionDim = swiper.isHorizontal() ? offsetProp : 'top';
         bullets.forEach((bullet: HTMLElement) => {
-          (bullet.style as any)[swiper.isHorizontal() ? offsetProp : 'top'] = `${bulletsOffset}px`;
+          bullet.style[positionDim] = `${bulletsOffset}px`;
         });
       }
     }
@@ -324,9 +645,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
           });
       }
       if (params.type === 'custom' && params.renderCustom) {
-        // `swiper as any` bridges core/core Swiper with legacy Swiper in the
-        // user-supplied renderCustom signature. Drops in Phase 5.
-        setInnerHTML(subEl, params.renderCustom(swiper as any, current + 1, total));
+        setInnerHTML(subEl, params.renderCustom(swiper, current + 1, total));
         if (subElIndex === 0) emit('paginationRender', subEl);
       } else {
         if (subElIndex === 0) emit('paginationRender', subEl);
@@ -339,14 +658,14 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   }
   function render(): void {
     // Render Container
-    const params = swiper.params.pagination! as PaginationParamsRuntime;
+    const params = getParams();
     if (isPaginationDisabled()) return;
-    const slidesLength =
-      swiper.virtual && (swiper.params.virtual as any).enabled
-        ? swiper.virtual.slides.length
-        : (swiper as any).grid && (swiper.params as any).grid?.rows > 1
-        ? swiper.slides.length / Math.ceil((swiper.params as any).grid.rows)
-        : swiper.slides.length;
+    const gridParams = swiper.params.grid as { rows?: number } | undefined;
+    const slidesLength = isVirtualEnabled(swiper)
+      ? swiper.virtual.slides.length
+      : swiper.grid && gridParams?.rows && gridParams.rows > 1
+      ? swiper.slides.length / Math.ceil(gridParams.rows)
+      : swiper.slides.length;
 
     const els = makeElementsArray(swiper.pagination.el as HTMLElement | HTMLElement[]);
     let paginationHTML = '';
@@ -354,11 +673,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
       let numberOfBullets = swiper.params.loop
         ? Math.ceil(slidesLength / (swiper.params.slidesPerGroup ?? 1))
         : swiper.snapGrid.length;
-      if (
-        swiper.params.freeMode &&
-        (swiper.params.freeMode as any).enabled &&
-        numberOfBullets > slidesLength
-      ) {
+      if (swiper.params.freeMode && isFreeModeEnabled(swiper) && numberOfBullets > slidesLength) {
         numberOfBullets = slidesLength;
       }
       for (let i = 0; i < numberOfBullets; i += 1) {
@@ -403,13 +718,13 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     }
   }
   function init(): void {
-    swiper.params.pagination = createElementIfNotDefined(
+    swiper.params.pagination = createElementIfNotDefined<PaginationOptions>(
       swiper,
-      swiper.originalParams.pagination as any,
-      swiper.params.pagination as any,
+      swiper.originalParams.pagination as PaginationOptions | undefined,
+      swiper.params.pagination as PaginationOptions | undefined,
       { el: 'swiper-pagination' },
     );
-    const params = swiper.params.pagination! as PaginationParamsRuntime;
+    const params = getParams();
     if (!params.el) return;
     let el: HTMLElement | HTMLElement[] | null | undefined;
     if (typeof params.el === 'string' && swiper.isElement) {
@@ -476,7 +791,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   }
 
   function destroy(): void {
-    const params = swiper.params.pagination! as PaginationParamsRuntime;
+    const params = getParams();
     if (isPaginationDisabled()) return;
     const el = swiper.pagination.el;
     if (el) {
@@ -502,7 +817,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
 
   on('changeDirection', () => {
     if (!swiper.pagination || !swiper.pagination.el) return;
-    const params = swiper.params.pagination! as PaginationParamsRuntime;
+    const params = getParams();
     const els = makeElementsArray(swiper.pagination.el as HTMLElement | HTMLElement[]);
     els.forEach((subEl) => {
       subEl.classList.remove(params.horizontalClass, params.verticalClass);
@@ -511,7 +826,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   });
 
   on('init', () => {
-    if (swiper.params.pagination!.enabled === false) {
+    if (getParams().enabled === false) {
       // eslint-disable-next-line
       disable();
     } else {
@@ -538,9 +853,10 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   on('enable disable', () => {
     const { el } = swiper.pagination;
     if (el) {
+      const params = getParams();
       const els = makeElementsArray(el as HTMLElement | HTMLElement[]);
       els.forEach((subEl) =>
-        subEl.classList[swiper.enabled ? 'remove' : 'add'](swiper.params.pagination!.lockClass!),
+        subEl.classList[swiper.enabled ? 'remove' : 'add'](params.lockClass),
       );
     }
   });
@@ -550,7 +866,7 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   on('click', (_s, e: Event) => {
     const targetEl = e.target as HTMLElement;
     const els = makeElementsArray(swiper.pagination.el as HTMLElement | HTMLElement[]);
-    const params = swiper.params.pagination! as PaginationParamsRuntime;
+    const params = getParams();
     if (
       params.el &&
       params.hideOnClick &&
@@ -575,13 +891,12 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   });
 
   const enable = (): void => {
-    swiper.el.classList.remove(swiper.params.pagination!.paginationDisabledClass!);
+    const params = getParams();
+    swiper.el.classList.remove(params.paginationDisabledClass);
     const { el } = swiper.pagination;
     if (el) {
       const els = makeElementsArray(el as HTMLElement | HTMLElement[]);
-      els.forEach((subEl) =>
-        subEl.classList.remove(swiper.params.pagination!.paginationDisabledClass!),
-      );
+      els.forEach((subEl) => subEl.classList.remove(params.paginationDisabledClass));
     }
     init();
     render();
@@ -589,13 +904,12 @@ const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   };
 
   const disable = (): void => {
-    swiper.el.classList.add(swiper.params.pagination!.paginationDisabledClass!);
+    const params = getParams();
+    swiper.el.classList.add(params.paginationDisabledClass);
     const { el } = swiper.pagination;
     if (el) {
       const els = makeElementsArray(el as HTMLElement | HTMLElement[]);
-      els.forEach((subEl) =>
-        subEl.classList.add(swiper.params.pagination!.paginationDisabledClass!),
-      );
+      els.forEach((subEl) => subEl.classList.add(params.paginationDisabledClass));
     }
     destroy();
   };

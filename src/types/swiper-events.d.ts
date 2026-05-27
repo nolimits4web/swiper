@@ -1,7 +1,8 @@
 import type { SwiperOptions } from './swiper-options.d.ts';
 import type Swiper from './swiper-class.d.ts';
 
-import type { A11yEvents } from './modules/a11y.d.ts';
+// Migrated module events live in their own .ts module and augment SwiperEvents
+// via `declare module '../../core/core'`. Phase 5 deletes src/types/ entirely.
 import type { AutoplayEvents } from './modules/autoplay.d.ts';
 import type { ControllerEvents } from './modules/controller.d.ts';
 import type { CoverflowEffectEvents } from './modules/effect-coverflow.d.ts';
@@ -10,14 +11,7 @@ import type { FadeEffectEvents } from './modules/effect-fade.d.ts';
 import type { FlipEffectEvents } from './modules/effect-flip.d.ts';
 import type { CreativeEffectEvents } from './modules/effect-creative.d.ts';
 import type { CardsEffectEvents } from './modules/effect-cards.d.ts';
-import type { HashNavigationEvents } from './modules/hash-navigation.d.ts';
-import type { HistoryEvents } from './modules/history.d.ts';
-import type { KeyboardEvents } from './modules/keyboard.d.ts';
-import type { MousewheelEvents } from './modules/mousewheel.d.ts';
-import type { NavigationEvents } from './modules/navigation.d.ts';
-import type { PaginationEvents } from './modules/pagination.d.ts';
 import type { ParallaxEvents } from './modules/parallax.d.ts';
-import type { ScrollbarEvents } from './modules/scrollbar.d.ts';
 import type { ThumbsEvents } from './modules/thumbs.d.ts';
 import type { VirtualEvents } from './modules/virtual.d.ts';
 import type { ZoomEvents } from './modules/zoom.d.ts';
@@ -336,7 +330,6 @@ export interface SwiperEvents {
   // CORE_EVENTS_END
 }
 
-interface SwiperEvents extends A11yEvents {}
 interface SwiperEvents extends AutoplayEvents {}
 interface SwiperEvents extends ControllerEvents {}
 interface SwiperEvents extends CoverflowEffectEvents {}
@@ -345,14 +338,7 @@ interface SwiperEvents extends FadeEffectEvents {}
 interface SwiperEvents extends FlipEffectEvents {}
 interface SwiperEvents extends CreativeEffectEvents {}
 interface SwiperEvents extends CardsEffectEvents {}
-interface SwiperEvents extends HashNavigationEvents {}
-interface SwiperEvents extends HistoryEvents {}
-interface SwiperEvents extends KeyboardEvents {}
-interface SwiperEvents extends MousewheelEvents {}
-interface SwiperEvents extends NavigationEvents {}
-interface SwiperEvents extends PaginationEvents {}
 interface SwiperEvents extends ParallaxEvents {}
-interface SwiperEvents extends ScrollbarEvents {}
 interface SwiperEvents extends ThumbsEvents {}
 interface SwiperEvents extends VirtualEvents {}
 interface SwiperEvents extends ZoomEvents {}

@@ -10,7 +10,7 @@ export default function updateProgress(this: Swiper, translate?: number): void {
   const params = swiper.params;
   const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
   let { progress, isBeginning, isEnd } = swiper;
-  let progressLoop = (swiper as any).progressLoop as number | undefined;
+  let progressLoop = swiper.progressLoop;
   const wasBeginning = isBeginning;
   const wasEnd = isEnd;
   if (translatesDiff === 0) {
@@ -39,7 +39,7 @@ export default function updateProgress(this: Swiper, translate?: number): void {
     } else {
       progressLoop = (translateAbs + translateMax - lastSlideTranslate) / translateMax;
     }
-    if ((progressLoop as number) > 1) progressLoop = (progressLoop as number) - 1;
+    if (progressLoop > 1) progressLoop -= 1;
   }
 
   Object.assign(swiper, {

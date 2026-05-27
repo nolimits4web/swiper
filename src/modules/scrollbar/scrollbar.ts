@@ -1,15 +1,147 @@
-import type { SwiperModuleFn } from '../../core/core';
-import type {
-  ScrollbarEvents,
-  ScrollbarMethods,
-  ScrollbarOptions,
-} from '../../types/modules/scrollbar.d.ts';
+import type { Swiper, SwiperModuleFn } from '../../core/core';
+import type { CSSSelector } from '../../types/shared.d.ts';
 import { createElement, elementOffset, makeElementsArray, nextTick } from '../../shared/utils';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
 import classesToSelector from '../../shared/classes-to-selector';
 import classesToTokens from '../../shared/classes-to-tokens';
 
-export type { ScrollbarEvents, ScrollbarMethods, ScrollbarOptions };
+/**
+ * Object with scrollbar parameters.
+ *
+ * @example
+ * ```js
+ * const swiper = new Swiper('.swiper', {
+ *   scrollbar: {
+ *     el: '.swiper-scrollbar',
+ *     draggable: true,
+ *   },
+ * });
+ * ```
+ */
+export interface ScrollbarOptions {
+  /**
+   * Boolean property to use with breakpoints to enable/disable scrollbar on certain breakpoints
+   */
+  enabled?: boolean;
+  /**
+   * String with CSS selector or HTML element of the container with scrollbar.
+   *
+   * @default null
+   */
+  el?: CSSSelector | HTMLElement | null;
+
+  /**
+   * Hide scrollbar automatically after user interaction
+   *
+   * @default true
+   */
+  hide?: boolean;
+
+  /**
+   * Set to `true` to enable make scrollbar draggable that allows you to control slider position
+   *
+   * @default false
+   */
+  draggable?: boolean;
+
+  /**
+   * Set to `true` to snap slider position to slides when you release scrollbar
+   *
+   * @default false
+   */
+  snapOnRelease?: boolean;
+
+  /**
+   * Size of scrollbar draggable element in px
+   *
+   * @default 'auto'
+   */
+  dragSize?: 'auto' | number;
+
+  /**
+   * Scrollbar element additional CSS class when it is disabled
+   *
+   * @default 'swiper-scrollbar-lock'
+   */
+  lockClass?: string;
+
+  /**
+   * Scrollbar draggable element CSS class
+   *
+   * @default 'swiper-scrollbar-drag'
+   */
+  dragClass?: string;
+
+  /**
+   * CSS class name added on swiper container and scrollbar element when scrollbar is disabled by breakpoint
+   *
+   * @default 'swiper-scrollbar-disabled'
+   */
+  scrollbarDisabledClass?: string;
+
+  /**
+   * CSS class name set to scrollbar in horizontal Swiper
+   *
+   * @default 'swiper-scrollbar-horizontal'
+   */
+  horizontalClass?: string;
+
+  /**
+   * CSS class name set to scrollbar in vertical Swiper
+   *
+   * @default 'swiper-scrollbar-vertical'
+   */
+  verticalClass?: string;
+}
+
+export interface ScrollbarMethods {
+  /**
+   * HTMLElement of Scrollbar container element
+   */
+  el: HTMLElement;
+
+  /**
+   * HTMLElement of Scrollbar draggable handler element
+   */
+  dragEl: HTMLElement;
+
+  /**
+   * Updates scrollbar track and handler sizes
+   */
+  updateSize(): void;
+
+  /**
+   * Updates scrollbar translate
+   */
+  setTranslate(): void;
+
+  /**
+   * Initialize scrollbar
+   */
+  init(): void;
+
+  /**
+   * Destroy scrollbar
+   */
+  destroy(): void;
+}
+
+export interface ScrollbarEvents {
+  /**
+   * Event will be fired on draggable scrollbar drag start
+   */
+  scrollbarDragStart: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
+
+  /**
+   * Event will be fired on draggable scrollbar drag move
+   */
+  scrollbarDragMove: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
+
+  /**
+   * Event will be fired on draggable scrollbar drag end
+   */
+  scrollbarDragEnd: (swiper: Swiper, event: MouseEvent | TouchEvent | PointerEvent) => void;
+}
 
 // Runtime-only members attached to swiper.scrollbar beyond the published API.
 interface ScrollbarInternals extends ScrollbarMethods {
@@ -17,11 +149,29 @@ interface ScrollbarInternals extends ScrollbarMethods {
   disable: () => void;
 }
 
+// All ScrollbarOptions fields are optional in the public type, but extendParams
+// fills them in at module init time. Use this view internally to access defaults
+// without proliferating `!` non-null assertions through the module.
+type ScrollbarParamsRuntime = Required<Omit<ScrollbarOptions, 'el'>> & Pick<ScrollbarOptions, 'el'>;
+
 declare module '../../core/core' {
   interface Swiper {
     scrollbar: ScrollbarInternals;
   }
   interface SwiperOptions {
+    /**
+     * Object with scrollbar parameters or boolean `true` to enable with default settings.
+     *
+     * @example
+     * ```js
+     * const swiper = new Swiper('.swiper', {
+     *   scrollbar: {
+     *     el: '.swiper-scrollbar',
+     *     draggable: true,
+     *   },
+     * });
+     * ```
+     */
     scrollbar?: ScrollbarOptions | boolean;
   }
   interface SwiperParams {
@@ -63,13 +213,16 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     dragEl: null as unknown as HTMLElement,
   } as ScrollbarInternals;
 
+  function getParams(): ScrollbarParamsRuntime {
+    return swiper.params.scrollbar as ScrollbarParamsRuntime;
+  }
+
   function setTranslate(): void {
-    const scrollbarParams = swiper.params.scrollbar!;
-    if (!scrollbarParams.el || !swiper.scrollbar.el) return;
+    const params = getParams();
+    if (!params.el || !swiper.scrollbar.el) return;
     const { scrollbar, rtlTranslate: rtl } = swiper;
     const { dragEl, el } = scrollbar;
-    const params = scrollbarParams;
-    const progress = swiper.params.loop ? (swiper as any).progressLoop : swiper.progress;
+    const progress = swiper.params.loop ? (swiper.progressLoop ?? 0) : swiper.progress;
 
     let newSize = dragSize;
     let newPos = (trackSize - dragSize) * progress;
@@ -104,11 +257,12 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     }
   }
   function setTransition(duration: number): void {
-    if (!swiper.params.scrollbar!.el || !swiper.scrollbar.el) return;
+    if (!getParams().el || !swiper.scrollbar.el) return;
     swiper.scrollbar.dragEl.style.transitionDuration = `${duration}ms`;
   }
   function updateSize(): void {
-    if (!swiper.params.scrollbar!.el || !swiper.scrollbar.el) return;
+    const params = getParams();
+    if (!params.el || !swiper.scrollbar.el) return;
 
     const { scrollbar } = swiper;
     const { dragEl, el } = scrollbar;
@@ -122,11 +276,10 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
       (swiper.virtualSize +
         (swiper.params.slidesOffsetBefore ?? 0) -
         (swiper.params.centeredSlides ? swiper.snapGrid[0]! : 0));
-    const scrollbarParams = swiper.params.scrollbar!;
-    if (scrollbarParams.dragSize === 'auto') {
+    if (params.dragSize === 'auto') {
       dragSize = trackSize * divider;
     } else {
-      dragSize = parseInt(String(scrollbarParams.dragSize), 10);
+      dragSize = parseInt(String(params.dragSize), 10);
     }
 
     if (swiper.isHorizontal()) {
@@ -140,12 +293,12 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     } else {
       el.style.display = '';
     }
-    if (scrollbarParams.hide) {
+    if (params.hide) {
       el.style.opacity = '0';
     }
 
     if (swiper.params.watchOverflow && swiper.enabled) {
-      scrollbar.el.classList[swiper.isLocked ? 'add' : 'remove'](scrollbarParams.lockClass!);
+      scrollbar.el.classList[swiper.isLocked ? 'add' : 'remove'](params.lockClass);
     }
   }
   function getPointerPosition(e: PointerLike): number {
@@ -178,7 +331,7 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     swiper.updateSlidesClasses();
   }
   function onDragStart(e: PointerEvent): void {
-    const params = swiper.params.scrollbar!;
+    const params = getParams();
     const { scrollbar, wrapperEl } = swiper;
     const { el, dragEl } = scrollbar;
     isTouched = true;
@@ -201,7 +354,7 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
       el.style.opacity = '1';
     }
     if (swiper.params.cssMode) {
-      (swiper.wrapperEl.style as any)['scroll-snap-type'] = 'none';
+      swiper.wrapperEl.style.scrollSnapType = 'none';
     }
     emit('scrollbarDragStart', e);
   }
@@ -210,8 +363,7 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     const { el, dragEl } = scrollbar;
 
     if (!isTouched) return;
-    if (e.preventDefault && e.cancelable) e.preventDefault();
-    else (e as any).returnValue = false;
+    if (e.cancelable) e.preventDefault();
     setDragPosition(e);
     wrapperEl.style.transitionDuration = '0ms';
     el.style.transitionDuration = '0ms';
@@ -219,14 +371,14 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     emit('scrollbarDragMove', e);
   }
   function onDragEnd(e: PointerEvent): void {
-    const params = swiper.params.scrollbar!;
+    const params = getParams();
     const { scrollbar, wrapperEl } = swiper;
     const { el } = scrollbar;
 
     if (!isTouched) return;
     isTouched = false;
     if (swiper.params.cssMode) {
-      (swiper.wrapperEl.style as any)['scroll-snap-type'] = '';
+      swiper.wrapperEl.style.scrollSnapType = '';
       wrapperEl.style.transitionDuration = '';
     }
     if (params.hide) {
@@ -246,45 +398,31 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     const { scrollbar, params } = swiper;
     const el = scrollbar.el;
     if (!el) return;
-    const target = el;
     const activeListener = params.passiveListeners ? { passive: false, capture: false } : false;
     const passiveListener = params.passiveListeners ? { passive: true, capture: false } : false;
-    if (!target) return;
     const eventMethod = method === 'on' ? 'addEventListener' : 'removeEventListener';
-    target[eventMethod](
-      'pointerdown',
-      onDragStart as EventListener,
-      activeListener as AddEventListenerOptions | false,
-    );
-    document[eventMethod](
-      'pointermove',
-      onDragMove as EventListener,
-      activeListener as AddEventListenerOptions | false,
-    );
-    document[eventMethod](
-      'pointerup',
-      onDragEnd as EventListener,
-      passiveListener as AddEventListenerOptions | false,
-    );
+    el[eventMethod]('pointerdown', onDragStart as EventListener, activeListener);
+    document[eventMethod]('pointermove', onDragMove as EventListener, activeListener);
+    document[eventMethod]('pointerup', onDragEnd as EventListener, passiveListener);
   }
 
   function enableDraggable(): void {
-    if (!swiper.params.scrollbar!.el || !swiper.scrollbar.el) return;
+    if (!getParams().el || !swiper.scrollbar.el) return;
     events('on');
   }
   function disableDraggable(): void {
-    if (!swiper.params.scrollbar!.el || !swiper.scrollbar.el) return;
+    if (!getParams().el || !swiper.scrollbar.el) return;
     events('off');
   }
   function init(): void {
     const { scrollbar, el: swiperEl } = swiper;
-    swiper.params.scrollbar = createElementIfNotDefined(
+    swiper.params.scrollbar = createElementIfNotDefined<ScrollbarOptions>(
       swiper,
-      swiper.originalParams.scrollbar as any,
-      swiper.params.scrollbar as any,
+      swiper.originalParams.scrollbar as ScrollbarOptions | undefined,
+      swiper.params.scrollbar as ScrollbarOptions | undefined,
       { el: 'swiper-scrollbar' },
     );
-    const params = swiper.params.scrollbar!;
+    const params = getParams();
     if (!params.el) return;
 
     let el: HTMLElement | NodeListOf<HTMLElement> | HTMLElement[];
@@ -295,7 +433,7 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     }
     if (!el && typeof params.el === 'string') {
       el = document.querySelectorAll<HTMLElement>(params.el);
-      if (!(el as NodeListOf<HTMLElement>).length) return;
+      if (!el.length) return;
     } else if (!el) {
       el = params.el as HTMLElement;
     }
@@ -308,18 +446,18 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     ) {
       el = swiperEl.querySelector(params.el) as HTMLElement;
     }
-    if ((el as ArrayLike<HTMLElement>).length > 0) el = (el as any)[0];
+    if ((el as ArrayLike<HTMLElement>).length > 0) {
+      el = (el as ArrayLike<HTMLElement>)[0]!;
+    }
     const elTyped = el as HTMLElement;
 
-    elTyped.classList.add((swiper.isHorizontal() ? params.horizontalClass : params.verticalClass)!);
+    elTyped.classList.add(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
 
     let dragEl: HTMLElement | null = null;
     if (elTyped) {
-      dragEl = elTyped.querySelector(
-        classesToSelector(swiper.params.scrollbar!.dragClass),
-      ) as HTMLElement | null;
+      dragEl = elTyped.querySelector(classesToSelector(params.dragClass)) as HTMLElement | null;
       if (!dragEl) {
-        dragEl = createElement('div', swiper.params.scrollbar!.dragClass);
+        dragEl = createElement('div', params.dragClass);
         elTyped.append(dragEl);
       }
     }
@@ -334,13 +472,11 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     }
 
     if (elTyped) {
-      elTyped.classList[swiper.enabled ? 'remove' : 'add'](
-        ...classesToTokens(swiper.params.scrollbar!.lockClass),
-      );
+      elTyped.classList[swiper.enabled ? 'remove' : 'add'](...classesToTokens(params.lockClass));
     }
   }
   function destroy(): void {
-    const params = swiper.params.scrollbar!;
+    const params = getParams();
     const el = swiper.scrollbar.el;
     if (el) {
       el.classList.remove(
@@ -353,16 +489,16 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
 
   on('changeDirection', () => {
     if (!swiper.scrollbar || !swiper.scrollbar.el) return;
-    const params = swiper.params.scrollbar!;
+    const params = getParams();
     const els = makeElementsArray(swiper.scrollbar.el as HTMLElement | HTMLElement[]);
     els.forEach((subEl) => {
-      subEl.classList.remove(params.horizontalClass!, params.verticalClass!);
-      subEl.classList.add((swiper.isHorizontal() ? params.horizontalClass : params.verticalClass)!);
+      subEl.classList.remove(params.horizontalClass, params.verticalClass);
+      subEl.classList.add(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
     });
   });
 
   on('init', () => {
-    if (swiper.params.scrollbar!.enabled === false) {
+    if (getParams().enabled === false) {
       // eslint-disable-next-line
       disable();
     } else {
@@ -383,9 +519,7 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   on('enable disable', () => {
     const { el } = swiper.scrollbar;
     if (el) {
-      el.classList[swiper.enabled ? 'remove' : 'add'](
-        ...classesToTokens(swiper.params.scrollbar!.lockClass),
-      );
+      el.classList[swiper.enabled ? 'remove' : 'add'](...classesToTokens(getParams().lockClass));
     }
   });
   on('destroy', () => {
@@ -393,11 +527,10 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   });
 
   const enable = (): void => {
-    swiper.el.classList.remove(...classesToTokens(swiper.params.scrollbar!.scrollbarDisabledClass));
+    const params = getParams();
+    swiper.el.classList.remove(...classesToTokens(params.scrollbarDisabledClass));
     if (swiper.scrollbar.el) {
-      swiper.scrollbar.el.classList.remove(
-        ...classesToTokens(swiper.params.scrollbar!.scrollbarDisabledClass),
-      );
+      swiper.scrollbar.el.classList.remove(...classesToTokens(params.scrollbarDisabledClass));
     }
     init();
     updateSize();
@@ -405,11 +538,10 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   };
 
   const disable = (): void => {
-    swiper.el.classList.add(...classesToTokens(swiper.params.scrollbar!.scrollbarDisabledClass));
+    const params = getParams();
+    swiper.el.classList.add(...classesToTokens(params.scrollbarDisabledClass));
     if (swiper.scrollbar.el) {
-      swiper.scrollbar.el.classList.add(
-        ...classesToTokens(swiper.params.scrollbar!.scrollbarDisabledClass),
-      );
+      swiper.scrollbar.el.classList.add(...classesToTokens(params.scrollbarDisabledClass));
     }
     destroy();
   };

@@ -1,4 +1,5 @@
-import type { A11yOptions } from './modules/a11y.d.ts';
+// Migrated module options live in their own .ts module and augment SwiperOptions
+// via `declare module '../../core/core'`. Phase 5 deletes src/types/ entirely.
 import type { AutoplayOptions } from './modules/autoplay.d.ts';
 import type { ControllerOptions } from './modules/controller.d.ts';
 import type { CoverflowEffectOptions } from './modules/effect-coverflow.d.ts';
@@ -7,14 +8,7 @@ import type { FadeEffectOptions } from './modules/effect-fade.d.ts';
 import type { FlipEffectOptions } from './modules/effect-flip.d.ts';
 import type { CreativeEffectOptions } from './modules/effect-creative.d.ts';
 import type { CardsEffectOptions } from './modules/effect-cards.d.ts';
-import type { HashNavigationOptions } from './modules/hash-navigation.d.ts';
-import type { HistoryOptions } from './modules/history.d.ts';
-import type { KeyboardOptions } from './modules/keyboard.d.ts';
-import type { MousewheelOptions } from './modules/mousewheel.d.ts';
-import type { NavigationOptions } from './modules/navigation.d.ts';
-import type { PaginationOptions } from './modules/pagination.d.ts';
 import type { ParallaxOptions } from './modules/parallax.d.ts';
-import type { ScrollbarOptions } from './modules/scrollbar.d.ts';
 import type { ThumbsOptions } from './modules/thumbs.d.ts';
 import type { VirtualOptions } from './modules/virtual.d.ts';
 import type { ZoomOptions } from './modules/zoom.d.ts';
@@ -22,7 +16,6 @@ import type { FreeModeOptions } from './modules/free-mode.d.ts';
 import type { GridOptions } from './modules/grid.d.ts';
 
 import type { CSSSelector, SwiperModule } from './shared.d.ts';
-import type { SwiperEvents } from './swiper-events.d.ts';
 
 export interface SwiperOptions {
   /**
@@ -242,27 +235,9 @@ export interface SwiperOptions {
    */
   url?: string | null;
 
-  /**
-   * Register event handlers
-   */
-  on?: {
-    [event in keyof SwiperEvents]?: SwiperEvents[event];
-  };
-
-  /**
-   * Add event listener that will be fired on all events
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *    onAny(eventName, ...args) {
-   *      console.log('Event: ', eventName);
-   *      console.log('Event data: ', args);
-   *    }
-   *  });
-   * ```
-   */
-  onAny?(handler: (eventName: string, ...args: any[]) => void): void;
+  // `on?` and `onAny?` are declared in src/core/core.ts so they reference the
+  // augmented SwiperEvents (post-module declaration merging) rather than the
+  // frozen legacy one.
 
   /**
    * When enabled it will use modern CSS Scroll Snap API.
@@ -879,20 +854,7 @@ export interface SwiperOptions {
    */
   lazyPreloadPrevNext?: number;
 
-  /**
-   * Object with a11y parameters or boolean `true` to enable with default settings.
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   a11y: {
-   *     prevSlideMessage: 'Previous slide',
-   *     nextSlideMessage: 'Next slide',
-   *   },
-   * });
-   * ```
-   */
-  a11y?: A11yOptions | boolean;
+  // a11y option contributed by src/modules/a11y/a11y.ts via declaration merging.
 
   /**
    * Object with autoplay parameters or boolean `true` to enable with default settings
@@ -1020,101 +982,8 @@ export interface SwiperOptions {
    */
   cardsEffect?: CardsEffectOptions;
 
-  /**
-   * Enables hash url navigation to for slides.
-   * Object with hash navigation parameters or boolean `true` to enable with default settings
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   hashNavigation: {
-   *     replaceState: true,
-   *   },
-   * });
-   * ```
-   */
-  hashNavigation?: HashNavigationOptions | boolean;
-
-  /**
-   * Enables history push state where every slide will have its own url. In this parameter you have to specify main slides url like `"slides"` and specify every slide url using `data-history` attribute.
-   *
-   * Object with history navigation parameters or boolean `true` to enable with default settings
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   history: {
-   *     replaceState: true,
-   *   },
-   * });
-   * ```
-   *
-   * @example
-   * ```html
-   * <!-- will produce "slides/slide1" url in browser history -->
-   * <div class="swiper-slide" data-history="slide1"></div>
-   * ```
-   */
-  history?: HistoryOptions | boolean;
-
-  /**
-   * Enables navigation through slides using keyboard. Object with keyboard parameters or boolean `true` to enable with default settings
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   keyboard: {
-   *     enabled: true,
-   *     onlyInViewport: false,
-   *   },
-   * });
-   * ```
-   */
-  keyboard?: KeyboardOptions | boolean;
-
-  /**
-   * Enables navigation through slides using mouse wheel. Object with mousewheel parameters or boolean `true` to enable with default settings
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   mousewheel: {
-   *     invert: true,
-   *   },
-   * });
-   * ```
-   */
-  mousewheel?: MousewheelOptions | boolean;
-
-  /**
-   * Object with navigation parameters or boolean `true` to enable with default settings.
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   navigation: {
-   *     nextEl: '.swiper-button-next',
-   *     prevEl: '.swiper-button-prev',
-   *   },
-   * });
-   * ```
-   */
-  navigation?: NavigationOptions | boolean;
-
-  /**
-   * Object with pagination parameters or boolean `true` to enable with default settings.
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   pagination: {
-   *     el: '.swiper-pagination',
-   *     type: 'bullets',
-   *   },
-   * });
-   * ```
-   */
-  pagination?: PaginationOptions | boolean;
+  // hashNavigation, history, keyboard, mousewheel, navigation, pagination options
+  // contributed by their respective src/modules/*/*.ts via declaration merging.
 
   /**
    * Object with parallax parameters or boolean `true` to enable with default settings.
@@ -1128,20 +997,7 @@ export interface SwiperOptions {
    */
   parallax?: ParallaxOptions | boolean;
 
-  /**
-   * Object with scrollbar parameters or boolean `true` to enable with default settings.
-   *
-   * @example
-   * ```js
-   * const swiper = new Swiper('.swiper', {
-   *   scrollbar: {
-   *     el: '.swiper-scrollbar',
-   *     draggable: true,
-   *   },
-   * });
-   * ```
-   */
-  scrollbar?: ScrollbarOptions | boolean;
+  // scrollbar option contributed by src/modules/scrollbar/scrollbar.ts via declaration merging.
 
   /**
    * Object with thumbs component parameters

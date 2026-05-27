@@ -1,19 +1,82 @@
 /* eslint-disable consistent-return */
-import type { SwiperModuleFn } from '../../core/core';
-import type {
-  KeyboardEvents,
-  KeyboardMethods,
-  KeyboardOptions,
-} from '../../types/modules/keyboard.d.ts';
+import type { Swiper, SwiperModuleFn } from '../../core/core';
 import { elementOffset, elementParents } from '../../shared/utils';
 
-export type { KeyboardEvents, KeyboardMethods, KeyboardOptions };
+export interface KeyboardOptions {
+  /**
+   * Set to `true` to enable keyboard control
+   *
+   * @default false
+   */
+  enabled?: boolean;
+  /**
+   * When enabled it will control sliders that are currently in viewport
+   *
+   * @default true
+   */
+  onlyInViewport?: boolean;
+  /**
+   * When enabled it will enable keyboard navigation by Page Up and Page Down keys
+   *
+   * @default true
+   */
+  pageUpDown?: boolean;
+  /**
+   * Set the speed of keyboard navigation transitions (in ms)
+   *
+   * @default undefined
+   */
+  speed?: number;
+}
+
+export interface KeyboardMethods {
+  /**
+   * Whether the keyboard control is enabled
+   */
+  enabled: boolean;
+
+  /**
+   * Enable keyboard control
+   */
+  enable(): void;
+
+  /**
+   * Disable keyboard control
+   */
+  disable(): void;
+}
+
+export interface KeyboardEvents {
+  /**
+   * Event will be fired on key press
+   */
+  keyPress: (swiper: Swiper, keyCode: string) => void;
+}
+
+// All KeyboardOptions fields are optional in the public type, but extendParams
+// fills them in at module init time. Use this view internally to access defaults
+// without proliferating `!` non-null assertions through the module.
+type KeyboardParamsRuntime = Required<Omit<KeyboardOptions, 'speed'>> &
+  Pick<KeyboardOptions, 'speed'>;
 
 declare module '../../core/core' {
   interface Swiper {
     keyboard: KeyboardMethods;
   }
   interface SwiperOptions {
+    /**
+     * Enables navigation through slides using keyboard. Object with keyboard parameters or boolean `true` to enable with default settings
+     *
+     * @example
+     * ```js
+     * const swiper = new Swiper('.swiper', {
+     *   keyboard: {
+     *     enabled: true,
+     *     onlyInViewport: false,
+     *   },
+     * });
+     * ```
+     */
     keyboard?: KeyboardOptions | boolean;
   }
   interface SwiperParams {
@@ -32,15 +95,19 @@ const Keyboard: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     },
   });
 
+  function getParams(): KeyboardParamsRuntime {
+    return swiper.params.keyboard as KeyboardParamsRuntime;
+  }
+
   function handle(event: KeyboardEvent | (KeyboardEvent & { originalEvent?: KeyboardEvent })) {
     if (!swiper.enabled) return;
 
     const { rtlTranslate: rtl } = swiper;
-    let e: KeyboardEvent = event as KeyboardEvent;
-    if ((event as any).originalEvent) e = (event as any).originalEvent;
+    const e: KeyboardEvent =
+      'originalEvent' in event && event.originalEvent ? event.originalEvent : event;
     const kc = e.keyCode || e.charCode;
-    const keyboardParams = swiper.params.keyboard!;
-    const pageUpDown = !!keyboardParams.pageUpDown;
+    const params = getParams();
+    const pageUpDown = !!params.pageUpDown;
     const isPageUp = pageUpDown && kc === 33;
     const isPageDown = pageUpDown && kc === 34;
     const isArrowLeft = kc === 37;
@@ -76,7 +143,7 @@ const Keyboard: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
       return undefined;
     }
     if (
-      keyboardParams.onlyInViewport &&
+      params.onlyInViewport &&
       (isPageUp || isPageDown || isArrowLeft || isArrowRight || isArrowUp || isArrowDown)
     ) {
       let inView = false;
@@ -110,11 +177,10 @@ const Keyboard: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
       }
       if (!inView) return undefined;
     }
-    const speed = keyboardParams.speed;
+    const speed = params.speed;
     if (swiper.isHorizontal()) {
       if (isPageUp || isPageDown || isArrowLeft || isArrowRight) {
-        if (e.preventDefault) e.preventDefault();
-        else (e as any).returnValue = false;
+        if (e.cancelable) e.preventDefault();
       }
       if (((isPageDown || isArrowRight) && !rtl) || ((isPageUp || isArrowLeft) && rtl))
         swiper.slideNext(speed);
@@ -122,8 +188,7 @@ const Keyboard: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
         swiper.slidePrev(speed);
     } else {
       if (isPageUp || isPageDown || isArrowUp || isArrowDown) {
-        if (e.preventDefault) e.preventDefault();
-        else (e as any).returnValue = false;
+        if (e.cancelable) e.preventDefault();
       }
       if (isPageDown || isArrowDown) swiper.slideNext(speed);
       if (isPageUp || isArrowUp) swiper.slidePrev(speed);
@@ -149,7 +214,7 @@ const Keyboard: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   };
 
   on('init', () => {
-    if (swiper.params.keyboard!.enabled) {
+    if (getParams().enabled) {
       enable();
     }
   });
