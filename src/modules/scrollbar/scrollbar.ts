@@ -56,13 +56,15 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     },
   });
 
-  (swiper as any).scrollbar = {
-    el: null,
-    dragEl: null,
-  };
+  // Initialized as a partial; remaining methods (updateSize, setTranslate,
+  // init, destroy, enable, disable) attach after their definitions below.
+  swiper.scrollbar = {
+    el: null as unknown as HTMLElement,
+    dragEl: null as unknown as HTMLElement,
+  } as ScrollbarInternals;
 
   function setTranslate(): void {
-    const scrollbarParams = swiper.params.scrollbar as any;
+    const scrollbarParams = swiper.params.scrollbar!;
     if (!scrollbarParams.el || !swiper.scrollbar.el) return;
     const { scrollbar, rtlTranslate: rtl } = swiper;
     const { dragEl, el } = scrollbar;
@@ -102,11 +104,11 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     }
   }
   function setTransition(duration: number): void {
-    if (!(swiper.params.scrollbar as any).el || !swiper.scrollbar.el) return;
+    if (!swiper.params.scrollbar!.el || !swiper.scrollbar.el) return;
     swiper.scrollbar.dragEl.style.transitionDuration = `${duration}ms`;
   }
   function updateSize(): void {
-    if (!(swiper.params.scrollbar as any).el || !swiper.scrollbar.el) return;
+    if (!swiper.params.scrollbar!.el || !swiper.scrollbar.el) return;
 
     const { scrollbar } = swiper;
     const { dragEl, el } = scrollbar;
@@ -120,11 +122,11 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
       (swiper.virtualSize +
         (swiper.params.slidesOffsetBefore ?? 0) -
         (swiper.params.centeredSlides ? swiper.snapGrid[0]! : 0));
-    const scrollbarParams = swiper.params.scrollbar as any;
+    const scrollbarParams = swiper.params.scrollbar!;
     if (scrollbarParams.dragSize === 'auto') {
       dragSize = trackSize * divider;
     } else {
-      dragSize = parseInt(scrollbarParams.dragSize, 10);
+      dragSize = parseInt(String(scrollbarParams.dragSize), 10);
     }
 
     if (swiper.isHorizontal()) {
@@ -143,7 +145,7 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     }
 
     if (swiper.params.watchOverflow && swiper.enabled) {
-      scrollbar.el.classList[swiper.isLocked ? 'add' : 'remove'](scrollbarParams.lockClass);
+      scrollbar.el.classList[swiper.isLocked ? 'add' : 'remove'](scrollbarParams.lockClass!);
     }
   }
   function getPointerPosition(e: PointerLike): number {
@@ -176,7 +178,7 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     swiper.updateSlidesClasses();
   }
   function onDragStart(e: PointerEvent): void {
-    const params = swiper.params.scrollbar as any;
+    const params = swiper.params.scrollbar!;
     const { scrollbar, wrapperEl } = swiper;
     const { el, dragEl } = scrollbar;
     isTouched = true;
@@ -217,7 +219,7 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     emit('scrollbarDragMove', e);
   }
   function onDragEnd(e: PointerEvent): void {
-    const params = swiper.params.scrollbar as any;
+    const params = swiper.params.scrollbar!;
     const { scrollbar, wrapperEl } = swiper;
     const { el } = scrollbar;
 
@@ -267,22 +269,22 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   }
 
   function enableDraggable(): void {
-    if (!(swiper.params.scrollbar as any).el || !swiper.scrollbar.el) return;
+    if (!swiper.params.scrollbar!.el || !swiper.scrollbar.el) return;
     events('on');
   }
   function disableDraggable(): void {
-    if (!(swiper.params.scrollbar as any).el || !swiper.scrollbar.el) return;
+    if (!swiper.params.scrollbar!.el || !swiper.scrollbar.el) return;
     events('off');
   }
   function init(): void {
     const { scrollbar, el: swiperEl } = swiper;
     swiper.params.scrollbar = createElementIfNotDefined(
       swiper,
-      (swiper.originalParams as any).scrollbar,
+      swiper.originalParams.scrollbar as any,
       swiper.params.scrollbar as any,
       { el: 'swiper-scrollbar' },
     );
-    const params = swiper.params.scrollbar as any;
+    const params = swiper.params.scrollbar!;
     if (!params.el) return;
 
     let el: HTMLElement | NodeListOf<HTMLElement> | HTMLElement[];
@@ -299,7 +301,7 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     }
 
     if (
-      (swiper.params as any).uniqueNavElements &&
+      swiper.params.uniqueNavElements &&
       typeof params.el === 'string' &&
       (el as ArrayLike<HTMLElement>).length > 1 &&
       swiperEl.querySelectorAll(params.el).length === 1
@@ -309,15 +311,15 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     if ((el as ArrayLike<HTMLElement>).length > 0) el = (el as any)[0];
     const elTyped = el as HTMLElement;
 
-    elTyped.classList.add(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
+    elTyped.classList.add((swiper.isHorizontal() ? params.horizontalClass : params.verticalClass)!);
 
     let dragEl: HTMLElement | null = null;
     if (elTyped) {
       dragEl = elTyped.querySelector(
-        classesToSelector((swiper.params.scrollbar as any).dragClass),
+        classesToSelector(swiper.params.scrollbar!.dragClass),
       ) as HTMLElement | null;
       if (!dragEl) {
-        dragEl = createElement('div', (swiper.params.scrollbar as any).dragClass);
+        dragEl = createElement('div', swiper.params.scrollbar!.dragClass);
         elTyped.append(dragEl);
       }
     }
@@ -333,12 +335,12 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
 
     if (elTyped) {
       elTyped.classList[swiper.enabled ? 'remove' : 'add'](
-        ...classesToTokens((swiper.params.scrollbar as any).lockClass),
+        ...classesToTokens(swiper.params.scrollbar!.lockClass),
       );
     }
   }
   function destroy(): void {
-    const params = swiper.params.scrollbar as any;
+    const params = swiper.params.scrollbar!;
     const el = swiper.scrollbar.el;
     if (el) {
       el.classList.remove(
@@ -351,16 +353,16 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
 
   on('changeDirection', () => {
     if (!swiper.scrollbar || !swiper.scrollbar.el) return;
-    const params = swiper.params.scrollbar as any;
+    const params = swiper.params.scrollbar!;
     const els = makeElementsArray(swiper.scrollbar.el as HTMLElement | HTMLElement[]);
     els.forEach((subEl) => {
-      subEl.classList.remove(params.horizontalClass, params.verticalClass);
-      subEl.classList.add(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
+      subEl.classList.remove(params.horizontalClass!, params.verticalClass!);
+      subEl.classList.add((swiper.isHorizontal() ? params.horizontalClass : params.verticalClass)!);
     });
   });
 
   on('init', () => {
-    if ((swiper.params.scrollbar as any).enabled === false) {
+    if (swiper.params.scrollbar!.enabled === false) {
       // eslint-disable-next-line
       disable();
     } else {
@@ -382,7 +384,7 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
     const { el } = swiper.scrollbar;
     if (el) {
       el.classList[swiper.enabled ? 'remove' : 'add'](
-        ...classesToTokens((swiper.params.scrollbar as any).lockClass),
+        ...classesToTokens(swiper.params.scrollbar!.lockClass),
       );
     }
   });
@@ -391,12 +393,10 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   });
 
   const enable = (): void => {
-    swiper.el.classList.remove(
-      ...classesToTokens((swiper.params.scrollbar as any).scrollbarDisabledClass),
-    );
+    swiper.el.classList.remove(...classesToTokens(swiper.params.scrollbar!.scrollbarDisabledClass));
     if (swiper.scrollbar.el) {
       swiper.scrollbar.el.classList.remove(
-        ...classesToTokens((swiper.params.scrollbar as any).scrollbarDisabledClass),
+        ...classesToTokens(swiper.params.scrollbar!.scrollbarDisabledClass),
       );
     }
     init();
@@ -405,12 +405,10 @@ const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
   };
 
   const disable = (): void => {
-    swiper.el.classList.add(
-      ...classesToTokens((swiper.params.scrollbar as any).scrollbarDisabledClass),
-    );
+    swiper.el.classList.add(...classesToTokens(swiper.params.scrollbar!.scrollbarDisabledClass));
     if (swiper.scrollbar.el) {
       swiper.scrollbar.el.classList.add(
-        ...classesToTokens((swiper.params.scrollbar as any).scrollbarDisabledClass),
+        ...classesToTokens(swiper.params.scrollbar!.scrollbarDisabledClass),
       );
     }
     destroy();
