@@ -1,4 +1,4 @@
-import type { SwiperModuleFn } from '../../core/core';
+import type { SwiperModule } from '../../core/core';
 import createShadow from '../../shared/create-shadow';
 import effectInit from '../../shared/effect-init';
 import effectTarget from '../../shared/effect-target';
@@ -52,7 +52,7 @@ declare module '../../core/core' {
   interface SwiperEvents extends FlipEffectEvents {}
 }
 
-const EffectFlip: SwiperModuleFn = ({ swiper, extendParams, on }) => {
+const EffectFlip: SwiperModule = ({ swiper, extendParams, on }) => {
   extendParams({
     flipEffect: {
       slideShadows: true,

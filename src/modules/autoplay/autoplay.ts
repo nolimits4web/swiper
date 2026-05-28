@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: "off" */
 /* eslint no-use-before-define: "off" */
-import type { Swiper, SwiperModuleFn } from '../../core/core';
+import type { Swiper, SwiperModule } from '../../core/core';
 
 export interface AutoplayOptions {
   /**
@@ -158,7 +158,7 @@ declare module '../../core/core' {
   interface SwiperEvents extends AutoplayEvents {}
 }
 
-const Autoplay: SwiperModuleFn = ({ swiper, extendParams, on, emit, params }) => {
+const Autoplay: SwiperModule = ({ swiper, extendParams, on, emit, params }) => {
   swiper.autoplay = {
     running: false,
     paused: false,

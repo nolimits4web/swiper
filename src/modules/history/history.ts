@@ -1,4 +1,4 @@
-import type { SwiperModuleFn } from '../../core/core';
+import type { SwiperModule } from '../../core/core';
 
 export interface HistoryOptions {
   /**
@@ -87,7 +87,7 @@ interface PathValues {
   value: string | undefined;
 }
 
-const History: SwiperModuleFn = ({ swiper, extendParams, on }) => {
+const History: SwiperModule = ({ swiper, extendParams, on }) => {
   extendParams({
     history: {
       enabled: false,

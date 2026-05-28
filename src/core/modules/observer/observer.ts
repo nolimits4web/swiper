@@ -1,5 +1,5 @@
 import { elementParents } from '../../../shared/utils';
-import type { SwiperModuleFn } from '../../core';
+import type { SwiperModule } from '../../core';
 
 interface ObserverAttachOptions {
   attributes?: boolean;
@@ -7,7 +7,7 @@ interface ObserverAttachOptions {
   characterData?: boolean;
 }
 
-const Observer: SwiperModuleFn = ({ swiper, extendParams, on }) => {
+const Observer: SwiperModule = ({ swiper, extendParams, on }) => {
   const observers: MutationObserver[] = [];
   const attach = (target: Node, options: ObserverAttachOptions = {}): void => {
     const ObserverFunc =

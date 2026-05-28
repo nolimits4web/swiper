@@ -1,4 +1,4 @@
-import type { Swiper, SwiperModuleFn } from '../../core/core';
+import type { Swiper, SwiperModule } from '../../core/core';
 import classesToSelector from '../../shared/classes-to-selector';
 import { createElement, elementIndex, makeElementsArray, setInnerHTML } from '../../shared/utils';
 
@@ -178,7 +178,7 @@ type ElOrEls = HTMLElement | HTMLElement[] | null | undefined;
 const isVirtualEnabled = (swiper: Swiper): boolean =>
   !!swiper.virtual && !!(swiper.params.virtual as { enabled?: boolean } | undefined)?.enabled;
 
-const A11y: SwiperModuleFn = ({ swiper, extendParams, on }) => {
+const A11y: SwiperModule = ({ swiper, extendParams, on }) => {
   extendParams({
     a11y: {
       enabled: true,

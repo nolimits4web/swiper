@@ -14,7 +14,7 @@ dist
 .env.test.local
 .env.production.local
 .eslintcache
-src/swiper-element-bundle.mjs
+src/swiper-element-bundle.ts
 
 # Agents
 .claude

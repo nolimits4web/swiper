@@ -1,4 +1,4 @@
-import type { Swiper, SwiperModuleFn } from '../../core/core';
+import type { Swiper, SwiperModule } from '../../core/core';
 import { createElement, elementChildren, setCSSProperty, setInnerHTML } from '../../shared/utils';
 
 export interface VirtualData<T = unknown> {
@@ -202,7 +202,7 @@ declare module '../../core/core' {
 // without proliferating `!` non-null assertions through the module.
 type VirtualParamsRuntime = Required<VirtualOptions>;
 
-const Virtual: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
+const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
   extendParams({
     virtual: {
       enabled: false,

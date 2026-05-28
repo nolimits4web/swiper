@@ -175,6 +175,15 @@ export default async function buildModules() {
       .join('\n'),
   );
 
+  // MODULES_INDEX types — pair with index.mjs so `swiper/modules`
+  // imports also load each module's per-module augmentation block.
+  fs.writeFileSync(
+    './dist/modules/index.d.ts',
+    `${modules
+      .map((mod) => `export { default as ${mod.capitalized} } from './${mod.name}/${mod.name}';`)
+      .join('\n')}\n`,
+  );
+
   // IIFE
   const replaceExports = {};
   ['swiper-bundle.mjs', 'swiper.mjs'].forEach((f) => {

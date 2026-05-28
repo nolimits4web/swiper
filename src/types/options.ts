@@ -1,6 +1,8 @@
-// Migrated module options live in their own .ts module and augment SwiperOptions
-// via `declare module '../../core/core'`. Phase 5 deletes src/types/ entirely.
-import type { CSSSelector, SwiperModule } from './swiper-shared.d.ts';
+// Per-module options are contributed by `declare module '../../core/core'`
+// blocks in each module's runtime .ts (e.g. src/modules/navigation/navigation.ts).
+// The augmentation lands on core/core's SwiperOptions, which re-exports this
+// interface — so the augmentation reaches consumers transparently.
+import type { CSSSelector, SwiperModule } from './shared';
 
 export interface SwiperOptions {
   /**

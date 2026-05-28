@@ -1,5 +1,5 @@
-import type { Swiper, SwiperModuleFn } from '../../core/core';
-import type { CSSSelector } from '../../swiper-shared.d.ts';
+import type { Swiper, SwiperModule } from '../../core/core';
+import type { CSSSelector } from '../../types/shared';
 import classesToSelector from '../../shared/classes-to-selector';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
 import {
@@ -367,7 +367,7 @@ const isVirtualEnabled = (swiper: Swiper): boolean =>
 const isFreeModeEnabled = (swiper: Swiper): boolean =>
   !!(swiper.params.freeMode as { enabled?: boolean } | undefined)?.enabled;
 
-const Pagination: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
+const Pagination: SwiperModule = ({ swiper, extendParams, on, emit }) => {
   const pfx = 'swiper-pagination';
   extendParams({
     pagination: {

@@ -8,6 +8,9 @@ import { outputDir } from './utils/output-dir.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
+// Phase 6: tsc emits `.d.ts` for runtime modules + core + types/.
+// This step only handles the three framework wrappers (whose hand-maintained
+// `.d.ts` carry build-time substitution markers) and the CSS typing shims.
 export default async function buildTypes() {
   elapsed.start('types');
   let coreEventsReact = '';
@@ -24,8 +27,10 @@ export default async function buildTypes() {
       .replace(/swiper: Swiper/g, 'swiper: SwiperClass');
   };
   const getCoreEventsContent = async () => {
+    // Core events live in src/types/events.ts (Phase 6 relocated this file
+    // from src/swiper-events.d.ts).
     let coreEventsContent = await fs.readFile(
-      path.resolve(__dirname, '../src/swiper-events.d.ts'),
+      path.resolve(__dirname, '../src/types/events.ts'),
       'utf-8',
     );
     coreEventsContent = coreEventsContent
@@ -62,14 +67,16 @@ export default async function buildTypes() {
     );
   };
   const getModulesEventsContent = async () => {
-    const eventsFiles = await globby('src/modules/*.d.ts');
+    // Each module's `*Events` interface is now declared in the runtime
+    // src/modules/<name>/<name>.ts. Read directly from source — emitted
+    // dist files may not exist yet when this runs in watch mode.
+    const eventsFiles = await globby('src/modules/*/*.ts');
     await Promise.all(
       eventsFiles.map(async (eventsFile) => {
-        if (eventsFile.indexOf('public-api') > -1 || eventsFile.indexOf('index') > -1) {
-          return;
-        }
         let eventsContent = await fs.readFile(eventsFile, 'utf-8');
-        eventsContent = eventsContent.split('Events {')[1].split('}')[0].trim();
+        const split = eventsContent.split('Events {');
+        if (split.length < 2) return;
+        eventsContent = split[1].split('}')[0].trim();
         if (eventsContent.length) {
           modulesEventsElement += eventsContent.replace(
             / ([a-zA-Z]*): ([^;]*);/g,
@@ -98,39 +105,35 @@ export default async function buildTypes() {
     );
   };
 
-  let files;
-  await Promise.all([
-    getCoreEventsContent(),
-    getModulesEventsContent(),
-    (async () => {
-      files = await globby('**/*.d.ts', { cwd: path.resolve(__dirname, '../src') });
-    })(),
-  ]);
+  await Promise.all([getCoreEventsContent(), getModulesEventsContent()]);
+
+  // Framework wrappers ship with substitution markers in their hand-maintained
+  // src/.d.ts; everything else is emitted by tsc (see scripts/emit-types.js).
+  const wrappers = [
+    {
+      src: 'swiper-element.d.ts',
+      coreEvents: coreEventsElement,
+      moduleEvents: modulesEventsElement,
+    },
+    { src: 'swiper-react.d.ts', coreEvents: coreEventsReact, moduleEvents: modulesEventsReact },
+    { src: 'swiper-vue.d.ts', coreEvents: coreEventsVue, moduleEvents: modulesEventsVue },
+  ];
 
   await Promise.all(
-    files.map(async (file) => {
-      const fileContent = await fs.readFile(path.resolve(__dirname, '../src', file), 'utf-8');
-      const destPath = path.resolve(__dirname, `../${outputDir}`, file);
+    wrappers.map(async ({ src, coreEvents, moduleEvents }) => {
+      const content = await fs.readFile(path.resolve(__dirname, '../src', src), 'utf-8');
+      const destPath = path.resolve(__dirname, `../${outputDir}`, src);
       await fs.ensureDir(path.dirname(destPath));
-      const processTypingFile = async (eventsCode, modulesCode) => {
-        const content = fileContent
-          .replace('// MODULES_EVENTS', eventsCode)
-          .replace('// CORE_EVENTS', modulesCode);
-        return fs.writeFile(destPath, content);
-      };
-      if (file.includes('swiper-element.d.ts')) {
-        return processTypingFile(coreEventsElement, modulesEventsElement);
-      }
-      if (file.includes('swiper-react.d.ts')) {
-        return processTypingFile(coreEventsReact, modulesEventsReact);
-      }
-      if (file.includes('swiper-vue.d.ts')) {
-        return processTypingFile(coreEventsVue, modulesEventsVue);
-      }
-      return fs.writeFile(destPath, fileContent);
+      await fs.writeFile(
+        destPath,
+        content.replace('// MODULES_EVENTS', coreEvents).replace('// CORE_EVENTS', moduleEvents),
+      );
     }),
   );
 
+  // CSS typing shims: package.json's exports map references `.css.d.ts` files
+  // that don't have a corresponding `.ts` source — emit a one-line `export {};`
+  // shim for each so user imports resolve.
   const packageJson = await fs.readJson(path.resolve(__dirname, `../${outputDir}/package.json`));
   const cssTypingFiles = new Set();
   Object.values(packageJson.exports).forEach((entry) => {

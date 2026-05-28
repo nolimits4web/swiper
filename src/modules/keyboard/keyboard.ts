@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import type { Swiper, SwiperModuleFn } from '../../core/core';
+import type { Swiper, SwiperModule } from '../../core/core';
 import { elementOffset, elementParents } from '../../shared/utils';
 
 export interface KeyboardOptions {
@@ -85,7 +85,7 @@ declare module '../../core/core' {
   interface SwiperEvents extends KeyboardEvents {}
 }
 
-const Keyboard: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
+const Keyboard: SwiperModule = ({ swiper, extendParams, on, emit }) => {
   extendParams({
     keyboard: {
       enabled: false,

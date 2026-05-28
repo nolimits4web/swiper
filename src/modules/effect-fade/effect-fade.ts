@@ -1,4 +1,4 @@
-import type { SwiperModuleFn } from '../../core/core';
+import type { SwiperModule } from '../../core/core';
 import effectInit from '../../shared/effect-init';
 import effectTarget from '../../shared/effect-target';
 import effectVirtualTransitionEnd from '../../shared/effect-virtual-transition-end';
@@ -45,7 +45,7 @@ declare module '../../core/core' {
   interface SwiperEvents extends FadeEffectEvents {}
 }
 
-const EffectFade: SwiperModuleFn = ({ swiper, extendParams, on }) => {
+const EffectFade: SwiperModule = ({ swiper, extendParams, on }) => {
   extendParams({
     fadeEffect: {
       crossFade: false,

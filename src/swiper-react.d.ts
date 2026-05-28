@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import type { SwiperOptions, Swiper as SwiperClass } from './swiper-types.d.ts';
+import type { SwiperOptions, Swiper as SwiperClass } from './types/public';
 
 type SwiperProps = Omit<
   React.HTMLAttributes<HTMLElement>,

@@ -30,5 +30,5 @@
     "types": ["node"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "scripts/**/*.ts", "tests/**/*.ts"],
-  "exclude": ["node_modules", "dist", "demos", "playground"]
+  "exclude": ["node_modules", "dist", "demos", "playground", "tests/dist-types"]
 }

@@ -1,8 +1,10 @@
-import type { SwiperOptions } from './swiper-options.d.ts';
-import type Swiper from './swiper.d.ts';
+import type { SwiperOptions } from './options';
+import type { Swiper } from '../core/core';
 
-// Migrated module events live in their own .ts module and augment SwiperEvents
-// via `declare module '../../core/core'`. Phase 5 deletes src/types/ entirely.
+// Per-module events are contributed by `declare module '../../core/core'`
+// blocks in each module's runtime .ts. The augmentation lands on core/core's
+// SwiperEvents, which re-exports this interface — so the augmentation reaches
+// consumers transparently.
 
 export interface SwiperEvents {
   // CORE_EVENTS_START

@@ -1,4 +1,4 @@
-import type { SwiperOptions } from '../swiper-options.d.ts';
+import type { SwiperOptions } from '../types/options';
 
 const defaults = {
   init: true,

@@ -1,4 +1,4 @@
-import type { SwiperModuleFn } from '../../core/core';
+import type { SwiperModule } from '../../core/core';
 import createShadow from '../../shared/create-shadow';
 import effectInit from '../../shared/effect-init';
 import effectTarget from '../../shared/effect-target';
@@ -67,7 +67,7 @@ declare module '../../core/core' {
   interface SwiperEvents extends CardsEffectEvents {}
 }
 
-const EffectCards: SwiperModuleFn = ({ swiper, extendParams, on }) => {
+const EffectCards: SwiperModule = ({ swiper, extendParams, on }) => {
   extendParams({
     cardsEffect: {
       slideShadows: true,

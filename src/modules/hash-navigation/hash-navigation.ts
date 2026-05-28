@@ -1,4 +1,4 @@
-import type { Swiper, SwiperModuleFn } from '../../core/core';
+import type { Swiper, SwiperModule } from '../../core/core';
 import { elementChildren } from '../../shared/utils';
 
 export interface HashNavigationOptions {
@@ -79,7 +79,7 @@ declare module '../../core/core' {
 const isVirtualEnabled = (swiper: Swiper): boolean =>
   !!swiper.virtual && !!(swiper.params.virtual as { enabled?: boolean } | undefined)?.enabled;
 
-const HashNavigation: SwiperModuleFn = ({ swiper, extendParams, emit, on }) => {
+const HashNavigation: SwiperModule = ({ swiper, extendParams, emit, on }) => {
   let initialized = false;
   extendParams({
     hashNavigation: {

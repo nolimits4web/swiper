@@ -1,4 +1,4 @@
-import type { SwiperModuleFn } from '../../core/core';
+import type { SwiperModule } from '../../core/core';
 import { elementChildren } from '../../shared/utils';
 
 export interface ParallaxOptions {
@@ -50,7 +50,7 @@ interface ParallaxSlide extends HTMLElement {
   progress?: number;
 }
 
-const Parallax: SwiperModuleFn = ({ swiper, extendParams, on }) => {
+const Parallax: SwiperModule = ({ swiper, extendParams, on }) => {
   extendParams({
     parallax: {
       enabled: false,

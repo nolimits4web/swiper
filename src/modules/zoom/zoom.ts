@@ -1,4 +1,4 @@
-import type { Swiper, SwiperModuleFn } from '../../core/core';
+import type { Swiper, SwiperModule } from '../../core/core';
 import { elementChildren, elementOffset, elementParents, getTranslate } from '../../shared/utils';
 
 export interface ZoomOptions {
@@ -164,7 +164,7 @@ interface VelocityState {
   prevTime: number | undefined;
 }
 
-const Zoom: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
+const Zoom: SwiperModule = ({ swiper, extendParams, on, emit }) => {
   extendParams({
     zoom: {
       enabled: false,

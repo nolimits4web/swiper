@@ -31,9 +31,13 @@ import defaults from './defaults';
 import moduleExtendParams from './moduleExtendParams';
 import { processLazyPreloader, preload } from '../shared/process-lazy-preloader';
 
-import type { SwiperOptions as PublicSwiperOptions } from '../swiper-options.d.ts';
-import type { SwiperEvents as PublicSwiperEvents } from '../swiper-events.d.ts';
-import type { CSSSelector } from '../swiper-shared.d.ts';
+import type { SwiperOptions as PublicSwiperOptions } from '../types/options';
+import type { SwiperEvents as PublicSwiperEvents } from '../types/events';
+import type { CSSSelector, SwiperModule } from '../types/shared';
+
+// Re-export the canonical shared types so they can be imported via
+// '../../core/core' alongside the runtime types augmented in this file.
+export type { CSSSelector, SwiperModule };
 
 // All bundled modules now own their `*Methods`, `*Options`, and `*Events`
 // types in their own .ts files and augment `Swiper`, `SwiperOptions`,
@@ -41,8 +45,8 @@ import type { CSSSelector } from '../swiper-shared.d.ts';
 
 // Canonical SwiperOptions / SwiperEvents — declared in core.ts so individual
 // modules can augment them via `declare module '../../core/core'`. The bodies
-// extend the public d.ts surface at src/swiper-options.d.ts /
-// src/swiper-events.d.ts.
+// extend the public type surface at src/types/options.ts /
+// src/types/events.ts.
 export interface SwiperOptions extends PublicSwiperOptions {
   on?: {
     [event in keyof SwiperEvents]?: SwiperEvents[event];
@@ -74,16 +78,6 @@ export interface SwiperSlideElement extends HTMLElement {
 export interface SwiperParams extends SwiperOptions {
   el?: CSSSelector | HTMLElement;
 }
-export type SwiperModuleFn = (ctx: {
-  params: SwiperOptions;
-  swiper: Swiper;
-  extendParams: (obj: Record<string, any>) => void;
-  on: Swiper['on'];
-  once: Swiper['once'];
-  off: Swiper['off'];
-  emit: Swiper['emit'];
-}) => void;
-
 export interface SwiperTouchEventsData {
   isTouched?: boolean;
   isMoved?: boolean;
@@ -120,8 +114,17 @@ export interface SwiperTouches {
 
 export interface Swiper {
   // Initialization params
+
+  /**
+   * Object with passed initialization parameters
+   */
   params: SwiperParams;
+
+  /**
+   * Object with original initialization parameters
+   */
   originalParams: SwiperParams;
+
   passedParams: SwiperParams;
 
   // Capabilities
@@ -131,73 +134,209 @@ export interface Swiper {
 
   // Internal flags / state
   __swiper__: true;
-  __modules__?: SwiperModuleFn[];
+  __modules__?: SwiperModule[];
   __preventObserver__?: boolean;
+  /**
+   * !INTERNAL
+   */
   destroyed?: boolean;
   initialized?: boolean;
   mounted?: boolean;
   isElement?: boolean;
   documentTouchHandlerProceeded?: boolean;
+
+  /**
+   * `true` if Swiper is enabled, `false` otherwise
+   */
   enabled: boolean;
 
   // Elements
+
+  /**
+   * Slider container HTML element
+   */
   el: HTMLElement;
+
+  /**
+   * Wrapper HTML element
+   */
   wrapperEl: HTMLElement;
+
+  /**
+   * Slides wrapper HTML element
+   */
   slidesEl: HTMLElement;
+
   hostEl: HTMLElement;
   classNames: string[];
 
   // Slides
+
+  /**
+   * Array of slides HTML elements. To get specific slide HTMLElement use `swiper.slides[1]`
+   */
   slides: SwiperSlideElement[];
+
+  /**
+   * Slides grid
+   */
   slidesGrid: number[];
+
+  /**
+   * Slides snap grid
+   */
   snapGrid: number[];
+
+  /**
+   * Array of widths for slides
+   */
   slidesSizesGrid: number[];
+
   visibleSlides: SwiperSlideElement[];
   visibleSlidesIndexes: number[];
+
+  /**
+   * !INTERNAL
+   */
   loopedSlides: number | null;
 
   // Sizes
   size: number;
+
+  /**
+   * Width of container
+   */
   width: number;
+
+  /**
+   * Height of container
+   */
   height: number;
+
   virtualSize: number;
 
   // Indexes
+
+  /**
+   * Index number of currently active slide
+   *
+   * @note Note, that in loop mode active index value will be always shifted on a number of looped slides
+   */
   activeIndex: number;
+
+  /**
+   * Index number of currently active slide considering rearranged slides in loop mode
+   */
   realIndex: number;
+
+  /**
+   * Index number of previously active slide
+   */
   previousIndex: number;
+
+  /**
+   * Index number of current snap in `snapGrid`
+   */
   snapIndex: number;
+
   previousSnapIndex?: number;
   previousRealIndex?: number;
+
+  /**
+   * Index number of last clicked slide
+   */
   clickedIndex: number | undefined;
+
+  /**
+   * Link to last clicked slide (HTMLElement)
+   */
   clickedSlide: SwiperSlideElement | undefined;
 
   // Direction / RTL
   rtl: boolean;
+
+  /**
+   * !INTERNAL
+   */
   rtlTranslate: boolean;
+
   wrongRTL: boolean;
+
+  /**
+   * Direction of sliding
+   */
   swipeDirection: 'prev' | 'next' | undefined;
+
   touchesDirection?: 'prev' | 'next' | '';
 
   // Translate / progress
+
+  /**
+   * Current value of wrapper translate
+   */
   translate: number;
+
   previousTranslate: number;
+
+  /**
+   * Current progress of wrapper translate (from 0 to 1)
+   */
   progress: number;
+
   progressLoop?: number;
   velocity: number;
+
+  /**
+   * `true` if swiper is in transition
+   */
   animating: boolean;
 
   // Edges
+
+  /**
+   * `true` if slider on most "left"/"top" position
+   */
   isBeginning: boolean;
+
+  /**
+   * `true` if slider on most "right"/"bottom" position
+   */
   isEnd: boolean;
+
+  /**
+   * `true` if slide is "locked" (by `watchOverflow`) and slides can not be, e.g. when amount of slides is less that slides per view
+   */
   isLocked: boolean;
 
   // Touch / interaction
   allowClick: boolean;
+
+  /**
+   * Disable / enable ability move slider by grabbing it with mouse or by touching it with finger (on touch screens) by assigning `false` / `true` to this property
+   */
   allowTouchMove: boolean;
+
+  /**
+   * Disable / enable ability to slide to the next slides by assigning `false` / `true` to this property
+   */
   allowSlideNext: boolean;
+
+  /**
+   * Disable / enable ability to slide to the previous slides by assigning `false` / `true` to this property
+   */
   allowSlidePrev: boolean;
+
+  /**
+   * Object with the following touch event properties:
+   *
+   * - `swiper.touches.startX`
+   * - `swiper.touches.startY`
+   * - `swiper.touches.currentX`
+   * - `swiper.touches.currentY`
+   * - `swiper.touches.diff`
+   */
   touches: SwiperTouches;
+
   touchEventsData: SwiperTouchEventsData;
 
   // Images
@@ -205,10 +344,19 @@ export interface Swiper {
   imagesLoaded: number;
 
   // Breakpoints
+
+  /**
+   * !INTERNAL
+   */
   currentBreakpoint?: string | null;
 
   // Modules + events
-  modules: SwiperModuleFn[];
+
+  /**
+   * !INTERNAL
+   */
+  modules: SwiperModule[];
+
   eventsListeners: Record<string, SwiperEventHandler[]>;
   eventsAnyListeners: SwiperEventHandler[];
 
@@ -221,26 +369,63 @@ export interface Swiper {
   _immediateVirtual?: boolean;
 
   // Event-emitter (prototype mixin: src/core/events-emitter)
+
+  /** Add event handler */
   on<E extends keyof SwiperEvents>(event: E, handler: SwiperEvents[E], priority?: boolean): Swiper;
   on(events: string, handler: SwiperEventHandler, priority?: boolean): Swiper;
+  /** Add event handler that will be removed after it was fired */
   once<E extends keyof SwiperEvents>(
     event: E,
     handler: SwiperEvents[E],
     priority?: boolean,
   ): Swiper;
   once(events: string, handler: SwiperEventHandler, priority?: boolean): Swiper;
+  /**
+   * Add event listener that will be fired on all events
+   */
   onAny(handler: SwiperEventHandler, priority?: boolean): Swiper;
+  /**
+   * Remove event listener that will be fired on all events
+   */
   offAny(handler: SwiperEventHandler): Swiper;
+  /** Remove event handler */
   off<E extends keyof SwiperEvents>(event: E, handler?: SwiperEvents[E]): Swiper;
   off(events: string, handler?: SwiperEventHandler): Swiper;
+  /** Fire event on instance */
   emit(events: string | string[], ...data: any[]): Swiper;
   emit(opts: { events: string | string[]; data?: any[]; context?: any }): Swiper;
 
   // Translate methods (prototype mixin: src/core/translate)
+
+  /**
+   * Get current value of swiper wrapper css3 transform translate
+   */
   getTranslate(axis?: 'x' | 'y'): number;
+
+  /**
+   * Set custom css3 transform's translate value for swiper wrapper
+   */
   setTranslate(translate: number, byController?: boolean | Swiper): void;
+
+  /**
+   * Get current minimal translate value
+   */
   minTranslate(): number;
+
+  /**
+   * Get current maximal translate value
+   */
   maxTranslate(): number;
+
+  /**
+   * Animate custom css3 transform's translate value for swiper wrapper
+   *
+   * @param translate Translate value (in px)
+   * @param speed Transition duration (in ms)
+   * @param runCallbacks Set it to false (by default it is true) and transition will not produce  transition events
+   * @param translateBounds Set it to false (by default it is true) and transition value can extend beyond min and max translate
+   *
+   */
   translateTo(
     translate?: number,
     speed?: number,
@@ -255,6 +440,16 @@ export interface Swiper {
   transitionEnd(runCallbacks?: boolean, direction?: 'reset' | 'prev' | 'next'): void;
 
   // Slide methods (prototype mixin: src/core/slide)
+
+  /**
+   * Run transition to the slide with index number equal to 'index' parameter for the
+   *  duration equal to 'speed' parameter.
+   *
+   * @param index Index number of slide.
+   * @param speed Transition duration (in ms).
+   * @param runCallbacks Set it to false (by default it is true) and transition will
+   *  not produce transition events.
+   */
   slideTo(
     index?: number,
     speed?: number,
@@ -262,24 +457,72 @@ export interface Swiper {
     internal?: boolean,
     initial?: boolean,
   ): boolean;
+
+  /**
+   * Does the same as .slideTo but for the case when used with enabled loop. So this
+   * method will slide to slides with realIndex matching to passed index
+   *
+   * @param index Index number of slide.
+   * @param speed Transition duration (in ms).
+   * @param runCallbacks Set it to false (by default it is true) and transition will
+   *  not produce transition events.
+   */
   slideToLoop(
     index?: number,
     speed?: number,
     runCallbacks?: boolean,
     internal?: boolean,
   ): boolean | Swiper;
+
+  /**
+   * Run transition to next slide.
+   *
+   * @param speed Transition duration (in ms).
+   * @param runCallbacks Set it to false (by default it is true) and transition will
+   *  not produce transition events.
+   */
   slideNext(speed?: number, runCallbacks?: boolean, internal?: boolean): boolean;
+
+  /**
+   * Run transition to previous slide.
+   *
+   * @param speed Transition duration (in ms).
+   * @param runCallbacks Set it to false (by default it is true) and transition will
+   *  not produce transition events.
+   */
   slidePrev(speed?: number, runCallbacks?: boolean, internal?: boolean): boolean;
+
+  /**
+   * Reset swiper position to currently active slide for the duration equal to 'speed'
+   * parameter.
+   *
+   * @param speed Transition duration (in ms).
+   * @param runCallbacks Set it to false (by default it is true) and transition will
+   *  not produce transition events.
+   */
   slideReset(speed?: number, runCallbacks?: boolean, internal?: boolean): boolean;
+
+  /**
+   * Reset swiper position to closest slide/snap point for the duration equal to 'speed' parameter.
+   *
+   * @param speed Transition duration (in ms).
+   * @param runCallbacks Set it to false (by default it is true) and transition will
+   *  not produce transition events.
+   */
   slideToClosest(
     speed?: number,
     runCallbacks?: boolean,
     internal?: boolean,
     threshold?: number,
   ): boolean;
+
   slideToClickedSlide(): void;
 
   // Loop methods (prototype mixin: src/core/loop)
+
+  /**
+   * !INTERNAL
+   */
   loopCreate(slideRealIndex?: number, initial?: boolean): void;
   loopFix(options?: {
     slideRealIndex?: number;
@@ -291,6 +534,9 @@ export interface Swiper {
     byController?: boolean;
     byMousewheel?: boolean;
   }): void;
+  /**
+   * !INTERNAL
+   */
   loopDestroy(): void;
 
   // Slide-index helpers (defined on the class in src/core/core.ts)
@@ -301,18 +547,51 @@ export interface Swiper {
   getSlideClasses(slideEl: Element): string;
 
   // Update methods (prototype mixin: src/core/update)
+
+  /**
+   * recalculate size of swiper container
+   */
   updateSize(): void;
+
+  /**
+   * recalculate number of slides and their offsets. Useful after you add/remove slides with JavaScript
+   */
   updateSlides(): void;
+
+  /**
+   * Force swiper to update its height (when autoHeight enabled) for the duration equal to
+   * 'speed' parameter
+   *
+   * @param speed Transition duration (in ms).
+   */
   updateAutoHeight(speed?: number): void;
+
   updateSlidesOffset(): void;
   updateSlidesProgress(translate?: number): void;
+
+  /**
+   * recalculate swiper progress
+   */
   updateProgress(translate?: number): void;
+
+  /**
+   * update active/prev/next classes on slides and bullets
+   */
   updateSlidesClasses(): void;
+
   updateActiveIndex(newActiveIndex?: number): void;
   updateClickedSlide(el: HTMLElement, path?: EventTarget[]): void;
 
   // Breakpoints methods (prototype mixin: src/core/breakpoints)
+
+  /**
+   * !INTERNAL
+   */
   setBreakpoint(): void;
+
+  /**
+   * !INTERNAL
+   */
   getBreakpoint(
     breakpoints: SwiperOptions['breakpoints'],
     base?: string,
@@ -327,12 +606,29 @@ export interface Swiper {
   checkOverflow(): void;
 
   // Grab cursor (prototype mixin: src/core/grab-cursor)
+
+  /**
+   * Set grab cursor
+   */
   setGrabCursor(moving?: boolean): void;
+
+  /**
+   * Unset grab cursor
+   */
   unsetGrabCursor(): void;
 
   // Events handlers (prototype mixin: src/core/events)
+
+  /**
+   * Attach all events listeners again
+   */
   attachEvents(): void;
+
+  /**
+   * Detach all events listeners
+   */
   detachEvents(): void;
+
   onTouchStart: (event: TouchEvent | PointerEvent | MouseEvent) => void;
   onTouchMove: (event: TouchEvent | PointerEvent | MouseEvent) => void;
   onTouchEnd: (event: TouchEvent | PointerEvent | MouseEvent) => void;
@@ -410,7 +706,7 @@ export class Swiper {
     swiper.modules = [...(swiper.__modules__ || [])];
     if (params.modules && Array.isArray(params.modules)) {
       params.modules.forEach((mod) => {
-        const fn = mod as SwiperModuleFn;
+        const fn = mod as SwiperModule;
         if (typeof fn === 'function' && swiper.modules.indexOf(fn) < 0) {
           swiper.modules.push(fn);
         }
@@ -568,6 +864,9 @@ export class Swiper {
     } as Record<string, string>)[property]!;
   }
 
+  /**
+   * !INTERNAL
+   */
   isHorizontal(this: Swiper): boolean {
     return this.params.direction === 'horizontal';
   }
@@ -614,6 +913,9 @@ export class Swiper {
     ) as SwiperSlideElement[];
   }
 
+  /**
+   * Enable Swiper (if it was disabled)
+   */
   enable(this: Swiper): void {
     if (this.enabled) return;
     this.enabled = true;
@@ -623,6 +925,9 @@ export class Swiper {
     this.emit('enable');
   }
 
+  /**
+   * Disable Swiper (if it was enabled). When Swiper is disabled, it will hide all navigation elements and won't respond to any events and interactions
+   */
   disable(this: Swiper): void {
     if (!this.enabled) return;
     this.enabled = false;
@@ -632,6 +937,12 @@ export class Swiper {
     this.emit('disable');
   }
 
+  /**
+   * Set Swiper translate progress (from 0 to 1). Where 0 - its initial position (offset) on first slide, and 1 - its maximum position (offset) on last slide
+   *
+   * @param progress Swiper translate progress (from 0 to 1).
+   * @param speed Transition duration (in ms).
+   */
   setProgress(this: Swiper, progress: number, speed?: number): void {
     progress = Math.min(Math.max(progress, 0), 1);
     const min = this.minTranslate();
@@ -678,6 +989,9 @@ export class Swiper {
     this.emit('_slideClasses', updates);
   }
 
+  /**
+   * Get dynamically calculated amount of slides per view, useful only when slidesPerView set to `auto`
+   */
   slidesPerViewDynamic(
     this: Swiper,
     view: 'current' | 'previous' = 'current',
@@ -725,6 +1039,13 @@ export class Swiper {
     return spv;
   }
 
+  /**
+   * You should call it after you add/remove slides
+   * manually, or after you hide/show it, or do any
+   * custom DOM modifications with Swiper
+   * This method also includes subcall of the following
+   * methods which you can use separately:
+   */
   update(this: Swiper): void {
     const swiper = this;
     if (!swiper || swiper.destroyed) return;
@@ -785,6 +1106,12 @@ export class Swiper {
     swiper.emit('update');
   }
 
+  /**
+   * Changes slider direction from horizontal to vertical and back.
+   *
+   * @param direction New direction. If not specified, then will automatically changed to opposite direction
+   * @param needUpdate Will call swiper.update(). Default true
+   */
   changeDirection(
     this: Swiper,
     newDirection?: 'horizontal' | 'vertical',
@@ -822,6 +1149,11 @@ export class Swiper {
     return swiper;
   }
 
+  /**
+   * Changes slider language
+   *
+   * @param direction New direction. Should be `rtl` or `ltr`
+   */
   changeLanguageDirection(this: Swiper, direction: 'rtl' | 'ltr'): void {
     const swiper = this;
     if ((swiper.rtl && direction === 'rtl') || (!swiper.rtl && direction === 'ltr')) return;
@@ -909,6 +1241,9 @@ export class Swiper {
     return true;
   }
 
+  /**
+   * Initialize slider
+   */
   init(this: Swiper, el?: HTMLElement | string): Swiper {
     const swiper = this;
     if (swiper.initialized) return swiper;
@@ -990,6 +1325,13 @@ export class Swiper {
     return swiper;
   }
 
+  /**
+   * Destroy slider instance and detach all events listeners
+   *
+   * @param deleteInstance Set it to false (by default it is true) to not to delete Swiper instance
+   * @param cleanStyles Set it to true (by default it is true) and all custom styles will be removed from slides, wrapper and container.
+   * Useful if you need to destroy Swiper and to init again with new options or in different direction
+   */
   destroy(this: Swiper, deleteInstance = true, cleanStyles = true): null {
     const swiper = this;
     const { params, el, wrapperEl, slides } = swiper;
@@ -1057,7 +1399,7 @@ export class Swiper {
     extend(extendedDefaults, newDefaults);
   }
 
-  static installModule(mod: SwiperModuleFn): void {
+  static installModule(mod: SwiperModule): void {
     if (!Swiper.prototype.__modules__) Swiper.prototype.__modules__ = [];
     const modules = Swiper.prototype.__modules__;
 
@@ -1066,7 +1408,7 @@ export class Swiper {
     }
   }
 
-  static use(module: SwiperModuleFn | SwiperModuleFn[]): typeof Swiper {
+  static use(module: SwiperModule | SwiperModule[]): typeof Swiper {
     if (Array.isArray(module)) {
       module.forEach((m) => Swiper.installModule(m));
       return Swiper;

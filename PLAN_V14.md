@@ -160,24 +160,36 @@ Migrate one module at a time. After each, the augmentation should produce correc
 - Update `package.json` `exports` map if anything shifted.
 - Regenerate `CHANGELOG.md`. Note in migration guide: "no source code changes required; types may surface latent issues."
 
-**Phase 6 — tsc declaration emission (close the augmentation gap)**
+**Phase 6 — tsc declaration emission (close the augmentation gap) — DONE 2026-05-28**
 
-Phase 5 relocated `src/types/*` to the top level but the per-module `.d.ts` files (`src/modules/<name>.d.ts`) still hand-duplicate the `*Options` / `*Methods` / `*Events` interfaces that the runtime `.ts` already exports. They exist because the current build only *copies* `.d.ts` files; it does not emit them from `.ts` sources.
+Phase 5 relocated `src/types/*` to the top level but the per-module `.d.ts` files (`src/modules/<name>.d.ts`) still hand-duplicated the `*Options` / `*Methods` / `*Events` interfaces that the runtime `.ts` already exports. They existed because the build only *copied* `.d.ts` files; it did not emit them from `.ts` sources.
 
-That hand-duplication also masks a real shipping gap: each runtime module's `declare module '../../core/core' { interface SwiperOptions { navigation?: ... } }` block never reaches consumers. Today users get the augmented `SwiperOptions` only because the hand-maintained `.d.ts` separately declares those fields — exactly the duplication this phase removes.
+That hand-duplication also masked a real shipping gap: each runtime module's `declare module '../../core/core' { interface SwiperOptions { navigation?: ... } }` block never reached consumers. The runtime `core/core`'s `SwiperOptions` was a separate interface from the public `swiper-options.d.ts`'s `SwiperOptions`, so augmentations landed on the wrong one. Reproduced before the fix as `error TS2353: 'navigation' does not exist in type 'SwiperOptions'` against shipped `dist/` types.
 
-Work:
-- Add a `tsc --emitDeclarationOnly --declaration` step to the build (likely a new `scripts/emit-types.js` invoked from `scripts/build.js`, OR enable `declaration: true` in `@rollup/plugin-typescript` and post-process). The runtime `.ts` files emit `.d.ts` files into `dist/` at their src-mirrored paths.
-- Repoint the shipped public-surface `.d.ts` files so they import directly from the runtime modules' emitted `.d.ts`:
-  - `src/swiper.d.ts` imports `*Methods` from `./modules/<name>/<name>` (runtime path).
-  - `src/swiper-types.d.ts` re-exports types from the same runtime paths.
-- Delete `src/modules/<name>.d.ts` (the per-module duplicates from Phase 5).
-- Verify that module-augmented `SwiperOptions`/`SwiperEvents`/`Swiper` actually reach consumers by extending `tests/types/` to assert e.g. `new Swiper('.x', { navigation: { nextEl: '.n' } })` type-checks **after only `import { Navigation } from 'swiper/modules'`** — no other type imports.
-- Hand-maintained `.d.ts` files that must stay: `src/swiper.d.ts`, `src/swiper-options.d.ts`, `src/swiper-events.d.ts`, `src/swiper-shared.d.ts`, `src/swiper-types.d.ts`, `src/modules.d.ts`, the framework wrappers (`swiper-element.d.ts`, `swiper-react.d.ts`, `swiper-vue.d.ts` — they use the build-types substitution markers).
+**Resolution: consolidate canonical types into `core/core`**, keep the locked §4.2 augmentation pattern unchanged, and emit declarations via `tsc --emitDeclarationOnly` so users hit the augmented type. The structural choice was between (A) retargeting `declare module` paths in 23 modules to point at the hand-maintained public `.d.ts`, or (B) consolidating type declarations into `core/core` and re-exporting them through thin shims. Picked (B) — single source of truth, modules unchanged.
 
-Risk: tsc-emitted `.d.ts` files may surface latent type mismatches that the hand-maintained copies hid. Plan to fix them in source, not patch around in emitted output. Likely candidates: `null as unknown as HTMLElement` runtime sentinels that the method interfaces promised as non-null.
+Done:
+- **`src/types/` folder** holds the four type-only files renamed from `.d.ts` to `.ts` so tsc emits them: `options.ts`, `events.ts`, `shared.ts`, `public.ts` (the `swiper/types` aggregator). Keeps `src/` root limited to entry-point `.ts`/`.tsx` + framework-wrapper `.d.ts` + CSS.
+- **JSDoc migration**: ~500 lines of `Swiper`-interface JSDoc moved from the deleted `src/swiper.d.ts` into `src/core/core.ts`'s existing `interface Swiper` block and class methods. The runtime signatures (which were more accurate than the hand-maintained ones — `getTranslate(): number` vs the old `getTranslate(): any`) stayed; only the docstrings migrated. `core/core.ts` grew from ~1100 → ~1600 lines.
+- **`src/swiper.d.ts` deleted**. tsc emits `dist/swiper.d.ts` from `src/swiper.ts`'s `export { default as Swiper, default } from './core/core'` — a thin re-export that pulls in the canonical (augmented) types.
+- **`src/modules/<name>.d.ts` × 23 deleted**. Each module's `*Options`/`*Methods`/`*Events` interfaces are the runtime declarations in `src/modules/<name>/<name>.ts`; tsc emits them to `dist/modules/<name>/<name>.d.ts` with the `declare module '../../core/core'` augmentation block intact.
+- **`src/modules.d.ts` deleted**. `dist/modules/index.d.ts` is now generated by `scripts/build-modules.js` alongside the existing `index.mjs` (same module list, parallel `export { default as Navigation } from './navigation/navigation';` lines). Importing from `swiper/modules` loads each module's emitted `.d.ts`, which runs the augmentation block.
+- **`SwiperModuleFn` → `SwiperModule` unified**. The two near-duplicate types (`SwiperModule` in `swiper-shared.d.ts`, `SwiperModuleFn` in `core/core.ts`) collapsed into one canonical `SwiperModule` in `src/types/shared.ts`. Project-wide rename across all 30+ runtime files. `core/core.ts` re-exports it for ergonomic `from '../../core/core'` imports.
+- **`scripts/emit-types.js`** runs `npx tsc -p ./tsconfig.emit.json` (a standalone config with `emitDeclarationOnly: true`, `outDir: ./dist`, `rootDir: ./src`). Wired into `scripts/build.js` as the first step before `buildModules`.
+- **`scripts/build-types.js` trimmed** from ~150 lines to ~125. Dropped the file-copy logic entirely (tsc handles it). Kept only the framework-wrapper substitution markers (`// CORE_EVENTS`, `// MODULES_EVENTS` in `swiper-{react,vue,element}.d.ts`) and the CSS typing shims. Module events are now extracted directly from `src/modules/*/*.ts` source (instead of the deleted per-module `.d.ts`) — more reliable, works in watch mode regardless of emit timing.
+- **`package.json` exports updated**: `./modules` → `./modules/index.d.ts` (was `./modules.d.ts`), `./types` → `./types/public.d.ts` (was `./swiper-types.d.ts`).
+- **`tests/dist-types/augmentation.test-d.ts`** (+ dedicated `tsconfig.dist-types.json`) asserts that `new Swiper('.x', { navigation: { nextEl: '.n' } })` type-checks against shipped `dist/` types after only `import { Navigation } from 'swiper/modules'`. Wired into `npm test` after `build:prod`. Kept separate from `tests/types/` (which compiles against source) because it depends on the build output existing.
 
-Out of scope: switching the *runtime* bundler off Babel — the emit step only generates `.d.ts`, runtime stays as-is.
+Hand-maintained files that remain in `src/` root:
+- Framework wrappers (`swiper-element.d.ts`, `swiper-react.d.ts`, `swiper-vue.d.ts`) — they carry build-time substitution markers that tsc can't template.
+- Their paired `.ts`/`.tsx` runtime files.
+
+Verified:
+- Augmentation reaches `dist/` consumers (Phase 6's primary goal). The pre-fix `TS2353` shipping-gap repro now type-checks.
+- `npm test` green: validate + build:prod + contract-test (10/10) + dist-types-test + bundle-size.
+- Bundle size **byte-identical** before vs after Phase 6 (verified by stashing the Phase 6 diff and re-running `bundle-size`; both report `-16985 B (-2.2%) / -2839 B (-1.3%)` vs the Phase 0 baseline). All accumulated savings are from Phases 1–5.
+
+Out of scope (handled separately): switching the runtime bundler off Babel — the emit step only generates `.d.ts`; runtime still uses Babel via `@rollup/plugin-babel`.
 
 ## 7. Bundle-size cleanups (locked for v14)
 
@@ -247,6 +259,12 @@ Captured so future-me doesn't re-litigate. Each entry: date — decision — rea
 - **2026-05-27** — Skip v13 ("unlucky number"). Next major is v14.
 - **2026-05-27** — `ssr-window` is removed in v14. SSR support continues via inline `typeof` guards.
 - **2026-05-27** — Phase 6 added. Phase 5's relocated per-module `.d.ts` files duplicate runtime-`.ts` interfaces and silently mask the module-augmentation shipping gap; Phase 6 enables `tsc --emitDeclarationOnly` to make TS sources truly canonical for shipped types.
+- **2026-05-28** — Phase 6 close-the-gap strategy is **consolidate, don't retarget**. Module augmentations stay on `declare module '../../core/core'` (per §4.2); the user-facing `Swiper`/`SwiperOptions`/`SwiperEvents` are now re-exported from `core/core` rather than being separate hand-maintained interfaces. Reason: single source of truth, modules unchanged, simpler `dist/` shape. The alternative (retarget 23 modules' `declare module` paths to `'../../swiper-options.d.ts'` etc.) would have preserved more files unchanged at the cost of two parallel `SwiperOptions` identities and per-target augmentation overhead.
+- **2026-05-28** — Hand-maintained type-only files moved into **`src/types/`** (`options.ts`, `events.ts`, `shared.ts`, `public.ts`), renamed `.d.ts` → `.ts` so tsc emits them. Keeps `src/` root limited to entry points + framework-wrapper substitution `.d.ts` + CSS. Did NOT split `Swiper`-interface JSDoc out of `core/core.ts` — interface and class belong together; the file growth to ~1600 lines is acceptable.
+- **2026-05-28** — `src/modules.d.ts` **eliminated entirely**, replaced by `dist/modules/index.d.ts` generated alongside `dist/modules/index.mjs` in `scripts/build-modules.js` (same module list, parallel re-export lines). Reason: the hand-maintained list duplicates the build config; auto-generation eliminates drift risk.
+- **2026-05-28** — `SwiperModuleFn` (internal, in `core/core.ts`) and `SwiperModule` (public, in `swiper-shared.d.ts`) **unified to `SwiperModule`** project-wide. They were structurally identical; the dual naming was historical drift.
+- **2026-05-28** — tsc emit strategy is **emit everything to `dist/`, hand-maintained files overwrite after**. `scripts/build-types.js` writes the framework-wrapper substituted `.d.ts` files at the same `dist/swiper-{react,vue,element}.d.ts` paths AFTER tsc emit; later writes win. Simpler than maintaining a tsconfig `exclude` list of wrapper entry files.
+- **2026-05-28** — `tests/dist-types/` is a **separate test directory** with its own `tsconfig.dist-types.json`, excluded from the main `tsconfig.json`. Reason: it imports from `dist/` so it must run AFTER `build:prod`; including it in the main type-check would fail on a clean tree.
 
 ## 12. Open questions (resolve before starting Phase 0)
 

@@ -1,5 +1,5 @@
-import type { Swiper, SwiperModuleFn } from '../../core/core';
-import type { CSSSelector } from '../../swiper-shared.d.ts';
+import type { Swiper, SwiperModule } from '../../core/core';
+import type { CSSSelector } from '../../types/shared';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
 import { makeElementsArray, setInnerHTML } from '../../shared/utils';
 
@@ -156,7 +156,7 @@ const arrowSvg = `<svg class="swiper-navigation-icon" width="11" height="20" vie
 
 type NavEl = HTMLElement | HTMLElement[] | CSSSelector | null | undefined;
 
-const Navigation: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
+const Navigation: SwiperModule = ({ swiper, extendParams, on, emit }) => {
   extendParams({
     navigation: {
       nextEl: null,

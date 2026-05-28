@@ -1,4 +1,4 @@
-import type { SwiperModuleFn } from '../../core/core';
+import type { SwiperModule } from '../../core/core';
 import appendSlide from './methods/appendSlide';
 import prependSlide from './methods/prependSlide';
 import addSlide from './methods/addSlide';
@@ -83,7 +83,7 @@ declare module '../../core/core' {
   interface SwiperEvents extends ManipulationEvents {}
 }
 
-const Manipulation: SwiperModuleFn = ({ swiper }) => {
+const Manipulation: SwiperModule = ({ swiper }) => {
   Object.assign(swiper, {
     appendSlide: appendSlide.bind(swiper),
     prependSlide: prependSlide.bind(swiper),

@@ -1,6 +1,6 @@
-import type { Swiper, SwiperModuleFn } from '../../core';
+import type { Swiper, SwiperModule } from '../../core';
 
-const Resize: SwiperModuleFn = ({ swiper, on, emit }) => {
+const Resize: SwiperModule = ({ swiper, on, emit }) => {
   let observer: ResizeObserver | null = null;
   let animationFrame: number | null = null;
 

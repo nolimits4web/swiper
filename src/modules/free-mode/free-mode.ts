@@ -1,4 +1,4 @@
-import type { SwiperModuleFn } from '../../core/core';
+import type { SwiperModule } from '../../core/core';
 import { elementTransitionEnd, now } from '../../shared/utils';
 
 export interface FreeModeOptions {
@@ -116,7 +116,7 @@ declare module '../../core/core' {
   }
 }
 
-const FreeMode: SwiperModuleFn = ({ swiper, extendParams, emit, once }) => {
+const FreeMode: SwiperModule = ({ swiper, extendParams, emit, once }) => {
   extendParams({
     freeMode: {
       enabled: false,

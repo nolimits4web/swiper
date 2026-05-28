@@ -1,4 +1,4 @@
-import type { SwiperModuleFn } from '../../core/core';
+import type { SwiperModule } from '../../core/core';
 
 export interface GridOptions {
   /**
@@ -82,7 +82,7 @@ interface GridSlide extends HTMLElement {
   swiperSlideGridSet?: boolean;
 }
 
-const Grid: SwiperModuleFn = ({ swiper, extendParams, on }) => {
+const Grid: SwiperModule = ({ swiper, extendParams, on }) => {
   extendParams({
     grid: {
       rows: 1,

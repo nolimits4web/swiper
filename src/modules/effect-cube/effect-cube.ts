@@ -1,4 +1,4 @@
-import type { SwiperModuleFn } from '../../core/core';
+import type { SwiperModule } from '../../core/core';
 import effectInit from '../../shared/effect-init';
 import { createElement, getRotateFix } from '../../shared/utils';
 
@@ -61,7 +61,7 @@ declare module '../../core/core' {
   interface SwiperEvents extends CubeEffectEvents {}
 }
 
-const EffectCube: SwiperModuleFn = ({ swiper, extendParams, on }) => {
+const EffectCube: SwiperModule = ({ swiper, extendParams, on }) => {
   extendParams({
     cubeEffect: {
       slideShadows: true,

@@ -1,5 +1,5 @@
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
-import type { Swiper, SwiperModuleFn } from '../../core/core';
+import type { Swiper, SwiperModule } from '../../core/core';
 import { elementTransitionEnd, nextTick } from '../../shared/utils';
 
 export interface ControllerOptions {
@@ -123,7 +123,7 @@ interface SwiperHostElement extends HTMLElement {
   swiper?: Swiper;
 }
 
-const Controller: SwiperModuleFn = ({ swiper, extendParams, on }) => {
+const Controller: SwiperModule = ({ swiper, extendParams, on }) => {
   extendParams({
     controller: {
       control: undefined,

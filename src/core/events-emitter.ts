@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import type { Swiper, SwiperEventHandler } from './core';
-import type { SwiperEvents } from '../swiper-events.d.ts';
+import type { SwiperEvents } from '../types/events';
 
 interface OnceHandler extends SwiperEventHandler {
   __emitterProxy?: SwiperEventHandler;

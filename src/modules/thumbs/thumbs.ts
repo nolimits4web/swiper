@@ -1,4 +1,4 @@
-import type { Swiper, SwiperModuleFn } from '../../core/core';
+import type { Swiper, SwiperModule } from '../../core/core';
 import { elementChildren, isObject } from '../../shared/utils';
 
 export interface ThumbsOptions {
@@ -99,7 +99,7 @@ interface SwiperHostElement extends HTMLElement {
   swiper?: Swiper;
 }
 
-const Thumb: SwiperModuleFn = ({ swiper, extendParams, on }) => {
+const Thumb: SwiperModule = ({ swiper, extendParams, on }) => {
   extendParams({
     thumbs: {
       swiper: null,

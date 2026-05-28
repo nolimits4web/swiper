@@ -4,6 +4,7 @@ import elapsed from 'elapsed-time-logger';
 import buildTypes from './build-types.js';
 import buildStyles from './build-styles.js';
 import buildModules from './build-modules.js';
+import emitTypes from './emit-types.js';
 import { outputDir } from './utils/output-dir.js';
 import isProd from './utils/isProd.js';
 
@@ -41,6 +42,7 @@ class Build {
   elapsed.start('build');
   const build = new Build();
   await build
+    .add('emit-types', emitTypes)
     .add('modules', buildModules)
     .add('types', buildTypes)
     .add('styles', buildStyles)

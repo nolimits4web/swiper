@@ -1,5 +1,5 @@
-import type { Swiper, SwiperModuleFn } from '../../core/core';
-import type { CSSSelector } from '../../swiper-shared.d.ts';
+import type { Swiper, SwiperModule } from '../../core/core';
+import type { CSSSelector } from '../../types/shared';
 import { createElement, elementOffset, makeElementsArray, nextTick } from '../../shared/utils';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
 import classesToSelector from '../../shared/classes-to-selector';
@@ -182,7 +182,7 @@ declare module '../../core/core' {
 
 type PointerLike = MouseEvent | PointerEvent | TouchEvent;
 
-const Scrollbar: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
+const Scrollbar: SwiperModule = ({ swiper, extendParams, on, emit }) => {
   let isTouched = false;
   let timeout: ReturnType<typeof setTimeout> | null = null;
   let dragTimeout: ReturnType<typeof setTimeout> | null = null;

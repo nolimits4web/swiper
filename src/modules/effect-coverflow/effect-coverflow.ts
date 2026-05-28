@@ -1,4 +1,4 @@
-import type { SwiperModuleFn } from '../../core/core';
+import type { SwiperModule } from '../../core/core';
 import createShadow from '../../shared/create-shadow';
 import effectInit from '../../shared/effect-init';
 import effectTarget from '../../shared/effect-target';
@@ -81,7 +81,7 @@ declare module '../../core/core' {
   interface SwiperEvents extends CoverflowEffectEvents {}
 }
 
-const EffectCoverflow: SwiperModuleFn = ({ swiper, extendParams, on }) => {
+const EffectCoverflow: SwiperModule = ({ swiper, extendParams, on }) => {
   extendParams({
     coverflowEffect: {
       rotate: 50,

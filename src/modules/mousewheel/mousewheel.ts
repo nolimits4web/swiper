@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
-import type { Swiper, SwiperModuleFn } from '../../core/core';
-import type { CSSSelector } from '../../swiper-shared.d.ts';
+import type { Swiper, SwiperModule } from '../../core/core';
+import type { CSSSelector } from '../../types/shared';
 import { now, nextTick } from '../../shared/utils';
 
 export interface MousewheelOptions {
@@ -152,7 +152,7 @@ type LegacyWheelEvent = WheelEvent &
     HORIZONTAL_AXIS: number;
   }>;
 
-const Mousewheel: SwiperModuleFn = ({ swiper, extendParams, on, emit }) => {
+const Mousewheel: SwiperModule = ({ swiper, extendParams, on, emit }) => {
   extendParams({
     mousewheel: {
       enabled: false,

@@ -1,4 +1,4 @@
-import type { SwiperModuleFn } from '../../core/core';
+import type { SwiperModule } from '../../core/core';
 import createShadow from '../../shared/create-shadow';
 import effectInit from '../../shared/effect-init';
 import effectTarget from '../../shared/effect-target';
@@ -105,7 +105,7 @@ type ResolvedTransform = Required<
 > &
   Pick<CreativeEffectTransform, 'shadow' | 'origin'>;
 
-const EffectCreative: SwiperModuleFn = ({ swiper, extendParams, on }) => {
+const EffectCreative: SwiperModule = ({ swiper, extendParams, on }) => {
   extendParams({
     creativeEffect: {
       limitProgress: 1,
