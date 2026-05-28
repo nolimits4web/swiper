@@ -3,7 +3,6 @@ import fs from 'fs';
 import { rollup } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
-import { babel } from '@rollup/plugin-babel';
 import typescript from '@rollup/plugin-typescript';
 import elapsed from 'elapsed-time-logger';
 import chalk from 'chalk';
@@ -71,9 +70,9 @@ export default async function buildModules() {
           declaration: false,
           declarationMap: false,
           sourceMap: !isProd,
+          jsx: 'react',
         },
       }),
-      babel({ babelHelpers: 'bundled', extensions: ['.js', '.mjs', '.ts', '.tsx'] }),
     ],
     onwarn() {},
   });

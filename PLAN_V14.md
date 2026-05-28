@@ -189,7 +189,7 @@ Verified:
 - `npm test` green: validate + build:prod + contract-test (10/10) + dist-types-test + bundle-size.
 - Bundle size **byte-identical** before vs after Phase 6 (verified by stashing the Phase 6 diff and re-running `bundle-size`; both report `-16985 B (-2.2%) / -2839 B (-1.3%)` vs the Phase 0 baseline). All accumulated savings are from Phases 1–5.
 
-Out of scope (handled separately): switching the runtime bundler off Babel — the emit step only generates `.d.ts`; runtime still uses Babel via `@rollup/plugin-babel`.
+**Babel fully removed (follow-up, 2026-05-28).** Initially scoped out of Phase 6 ("emit step only generates `.d.ts`; runtime still uses Babel"). Revisited and dropped entirely: at the v14 baseline `@babel/preset-env` is a no-op (all targets are full ES2022), and `@babel/preset-react`'s only job — the JSX transform in `src/react/*.tsx` — is now handled by `@rollup/plugin-typescript` with `jsx: 'react'`. Removed `babel.config.json` and all 5 Babel deps (`@babel/cli`, `@babel/core`, `@babel/preset-env`, `@babel/preset-react`, `@rollup/plugin-babel`). Verified: runtime bundles byte-identical, React output marginally smaller (TS emits native `{ ...spread }` instead of Babel's `_extends` helper), zero Babel helpers anywhere in `dist/`, `validate` + contract + dist-types all green.
 
 ## 7. Bundle-size cleanups (locked for v14)
 
