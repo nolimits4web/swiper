@@ -19,12 +19,12 @@ const Resize: SwiperModuleFn = ({ swiper, on, emit }) => {
         let newHeight = height;
         entries.forEach(({ contentBoxSize, contentRect, target }) => {
           if (target && target !== swiper.el) return;
-          newWidth = contentRect
-            ? contentRect.width
-            : ((contentBoxSize as any)[0] || contentBoxSize).inlineSize;
-          newHeight = contentRect
-            ? contentRect.height
-            : ((contentBoxSize as any)[0] || contentBoxSize).blockSize;
+          // Older Safari (≤15) exposed `contentBoxSize` as a single object instead of an array.
+          const box = Array.isArray(contentBoxSize)
+            ? contentBoxSize[0]
+            : (contentBoxSize as unknown as ResizeObserverSize);
+          newWidth = contentRect ? contentRect.width : box.inlineSize;
+          newHeight = contentRect ? contentRect.height : box.blockSize;
         });
         if (newWidth !== width || newHeight !== height) {
           resizeHandler();

@@ -29,8 +29,9 @@ export default function setBreakpoint(this: Swiper): void {
 
   if (!breakpoint || swiper.currentBreakpoint === breakpoint) return;
 
+  const breakpointsRecord = breakpoints as Record<string, SwiperOptions>;
   const breakpointOnlyParams =
-    breakpoint in breakpoints ? (breakpoints as any)[breakpoint] : undefined;
+    breakpoint in breakpointsRecord ? breakpointsRecord[breakpoint] : undefined;
   const breakpointParams: SwiperOptions = breakpointOnlyParams || swiper.originalParams;
 
   const wasMultiRow = isGridEnabled(swiper, params);
@@ -64,17 +65,20 @@ export default function setBreakpoint(this: Swiper): void {
   }
 
   // Toggle navigation, pagination, scrollbar
+  type EnableableModuleProp = 'navigation' | 'pagination' | 'scrollbar';
+  type EnableableModuleOptions = { enabled?: boolean } | boolean | undefined;
+  const moduleOpt = (opts: SwiperOptions, prop: EnableableModuleProp): EnableableModuleOptions =>
+    (opts as unknown as Record<EnableableModuleProp, EnableableModuleOptions>)[prop];
   (['navigation', 'pagination', 'scrollbar'] as const).forEach((prop) => {
-    if (typeof (breakpointParams as any)[prop] === 'undefined') return;
-    const wasModuleEnabled = (params as any)[prop] && (params as any)[prop].enabled;
-    const isModuleEnabled =
-      (breakpointParams as any)[prop] && (breakpointParams as any)[prop].enabled;
-    if (wasModuleEnabled && !isModuleEnabled) {
-      (swiper as any)[prop].disable();
-    }
-    if (!wasModuleEnabled && isModuleEnabled) {
-      (swiper as any)[prop].enable();
-    }
+    const bpOpts = moduleOpt(breakpointParams, prop);
+    if (typeof bpOpts === 'undefined') return;
+    const paramsOpts = moduleOpt(params, prop);
+    const wasModuleEnabled =
+      typeof paramsOpts === 'object' && paramsOpts !== null && paramsOpts.enabled;
+    const isModuleEnabled = typeof bpOpts === 'object' && bpOpts !== null && bpOpts.enabled;
+    const moduleApi = swiper[prop] as { enable?: () => void; disable?: () => void } | undefined;
+    if (wasModuleEnabled && !isModuleEnabled) moduleApi?.disable?.();
+    if (!wasModuleEnabled && isModuleEnabled) moduleApi?.enable?.();
   });
 
   const directionChanged =

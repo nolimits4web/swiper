@@ -1,33 +1,42 @@
 import { now } from '../../shared/utils';
 import type { Swiper } from '../core';
 
+// Non-standard fields Swiper attaches to events to coordinate nested instances.
+type SwiperEventExtensions = {
+  originalEvent?: TouchEvent | PointerEvent | MouseEvent;
+  preventedByNestedSwiper?: boolean;
+};
+type DragEvent = (TouchEvent | PointerEvent | MouseEvent) & SwiperEventExtensions;
+
 export default function onTouchMove(
   this: Swiper,
   event: TouchEvent | PointerEvent | MouseEvent,
 ): void {
   const swiper = this;
   if (swiper.destroyed) return;
-  const data = swiper.touchEventsData as any;
-  const { params, touches: touchesObj, rtlTranslate: rtl, enabled } = swiper;
-  const touches = touchesObj as any;
+  const data = swiper.touchEventsData;
+  const { params, touches, rtlTranslate: rtl, enabled } = swiper;
   if (!enabled) return;
   if (!params.simulateTouch && (event as PointerEvent).pointerType === 'mouse') return;
 
-  let e: any = event;
-  if (e.originalEvent) e = e.originalEvent;
+  // Legacy event wrappers nest the native event under .originalEvent.
+  const wrapped = event as DragEvent;
+  const e: DragEvent = (wrapped.originalEvent as DragEvent | undefined) ?? wrapped;
 
   if (e.type === 'pointermove') {
     if (data.touchId !== null) return; // return from pointer if we use touch
-    const id = e.pointerId;
-    if (id !== data.pointerId) return;
+    const pe = e as PointerEvent;
+    if (pe.pointerId !== data.pointerId) return;
   }
 
-  let targetTouch: any;
+  let targetTouch: Touch | PointerEvent | MouseEvent;
   if (e.type === 'touchmove') {
-    targetTouch = [...e.changedTouches].find((t: any) => t.identifier === data.touchId);
-    if (!targetTouch || targetTouch.identifier !== data.touchId) return;
+    const te = e as TouchEvent;
+    const found = [...te.changedTouches].find((t) => t.identifier === data.touchId);
+    if (!found || found.identifier !== data.touchId) return;
+    targetTouch = found;
   } else {
-    targetTouch = e;
+    targetTouch = e as PointerEvent | MouseEvent;
   }
 
   if (!data.isTouched) {
@@ -90,7 +99,7 @@ export default function onTouchMove(
     document.activeElement &&
     (document.activeElement as Element).matches(data.focusableElements) &&
     document.activeElement !== e.target &&
-    e.pointerType !== 'mouse'
+    (e as PointerEvent).pointerType !== 'mouse'
   ) {
     (document.activeElement as HTMLElement).blur();
   }
@@ -235,7 +244,9 @@ export default function onTouchMove(
   swiper.emit('sliderMove', e);
   data.isMoved = true;
 
-  data.currentTranslate = diff + data.startTranslate;
+  // startTranslate is guaranteed to be set by this point (set in onTouchStart-side init).
+  const startTranslate = data.startTranslate ?? 0;
+  data.currentTranslate = diff + startTranslate;
   let disableParentSwiper = true;
   let resistanceRatio: number = params.resistanceRatio!;
   if (params.touchReleaseOnEdges) {
@@ -267,7 +278,7 @@ export default function onTouchMove(
         data.currentTranslate =
           swiper.minTranslate() -
           1 +
-          (-swiper.minTranslate() + data.startTranslate + diff) ** resistanceRatio;
+          (-swiper.minTranslate() + startTranslate + diff) ** resistanceRatio;
       }
     }
   } else if (diff < 0) {
@@ -304,7 +315,7 @@ export default function onTouchMove(
         data.currentTranslate =
           swiper.maxTranslate() +
           1 -
-          (swiper.maxTranslate() - data.startTranslate - diff) ** resistanceRatio;
+          (swiper.maxTranslate() - startTranslate - diff) ** resistanceRatio;
       }
     }
   }
@@ -317,19 +328,19 @@ export default function onTouchMove(
   if (
     !swiper.allowSlideNext &&
     swiper.swipeDirection === 'next' &&
-    data.currentTranslate < data.startTranslate
+    (data.currentTranslate ?? 0) < startTranslate
   ) {
-    data.currentTranslate = data.startTranslate;
+    data.currentTranslate = startTranslate;
   }
   if (
     !swiper.allowSlidePrev &&
     swiper.swipeDirection === 'prev' &&
-    data.currentTranslate > data.startTranslate
+    (data.currentTranslate ?? 0) > startTranslate
   ) {
-    data.currentTranslate = data.startTranslate;
+    data.currentTranslate = startTranslate;
   }
   if (!swiper.allowSlidePrev && !swiper.allowSlideNext) {
-    data.currentTranslate = data.startTranslate;
+    data.currentTranslate = startTranslate;
   }
 
   // Threshold
@@ -355,17 +366,17 @@ export default function onTouchMove(
 
   // Update active index in free mode
   if (
-    (params.freeMode && (params.freeMode as any).enabled && swiper.freeMode) ||
+    (params.freeMode && params.freeMode.enabled && swiper.freeMode) ||
     params.watchSlidesProgress
   ) {
     swiper.updateActiveIndex();
     swiper.updateSlidesClasses();
   }
-  if (params.freeMode && (params.freeMode as any).enabled && swiper.freeMode) {
-    (swiper.freeMode as any).onTouchMove();
+  if (params.freeMode && params.freeMode.enabled && swiper.freeMode) {
+    swiper.freeMode.onTouchMove();
   }
   // Update progress
   swiper.updateProgress(data.currentTranslate);
   // Update translate
-  swiper.setTranslate(data.currentTranslate);
+  swiper.setTranslate(data.currentTranslate ?? 0);
 }

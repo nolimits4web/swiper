@@ -25,7 +25,7 @@ export default function addClasses(this: Swiper): void {
   const suffixes = prepareClasses([
     'initialized',
     params.direction!,
-    { 'free-mode': swiper.params.freeMode && (params.freeMode as any).enabled },
+    { 'free-mode': swiper.params.freeMode && params.freeMode!.enabled },
     { 'autoheight': params.autoHeight },
     { 'rtl': rtl },
     { 'grid': params.grid && params.grid.rows! > 1 },

@@ -10,19 +10,23 @@ interface ObserverAttachOptions {
 const Observer: SwiperModuleFn = ({ swiper, extendParams, on }) => {
   const observers: MutationObserver[] = [];
   const attach = (target: Node, options: ObserverAttachOptions = {}): void => {
-    const ObserverFunc = window.MutationObserver || (window as any).WebkitMutationObserver;
+    const ObserverFunc =
+      window.MutationObserver ||
+      (window as Window & { WebkitMutationObserver?: typeof MutationObserver })
+        .WebkitMutationObserver;
+    if (!ObserverFunc) return;
     const observer = new ObserverFunc((mutations: MutationRecord[]) => {
       // The observerUpdate event should only be triggered
       // once despite the number of mutations.  Additional
       // triggers are redundant and are very costly
       if (swiper.__preventObserver__) return;
       if (mutations.length === 1) {
-        (swiper as any).emit('observerUpdate', mutations[0]);
+        swiper.emit('observerUpdate', mutations[0]!);
         return;
       }
 
       const observerUpdate = function observerUpdate() {
-        (swiper as any).emit('observerUpdate', mutations[0]);
+        swiper.emit('observerUpdate', mutations[0]!);
       };
 
       if (window.requestAnimationFrame) {
@@ -34,8 +38,7 @@ const Observer: SwiperModuleFn = ({ swiper, extendParams, on }) => {
     observer.observe(target, {
       attributes: typeof options.attributes === 'undefined' ? true : options.attributes,
       childList:
-        swiper.isElement ||
-        (typeof options.childList === 'undefined' ? true : (options as any)).childList,
+        swiper.isElement || (typeof options.childList === 'undefined' ? true : options.childList),
       characterData: typeof options.characterData === 'undefined' ? true : options.characterData,
     });
 

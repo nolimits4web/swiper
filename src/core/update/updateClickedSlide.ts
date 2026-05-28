@@ -43,8 +43,8 @@ export default function updateClickedSlide(
       swiper.clickedIndex = slideIndex!;
     }
   } else {
-    swiper.clickedSlide = undefined as any;
-    swiper.clickedIndex = undefined as any;
+    swiper.clickedSlide = undefined;
+    swiper.clickedIndex = undefined;
     return;
   }
   if (

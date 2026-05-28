@@ -7,19 +7,23 @@ export default function onTouchEnd(
 ): void {
   const swiper = this;
   if (swiper.destroyed) return;
-  const data = swiper.touchEventsData as any;
+  const data = swiper.touchEventsData;
 
-  let e: any = event;
-  if (e.originalEvent) e = e.originalEvent;
-  let targetTouch: any;
+  // Some legacy event wrappers (e.g. jQuery) nest the native event under .originalEvent.
+  type LegacyWrapped = { originalEvent?: TouchEvent | PointerEvent | MouseEvent };
+  let e: TouchEvent | PointerEvent | MouseEvent = (event as LegacyWrapped).originalEvent ?? event;
+  let targetTouch: Touch | PointerEvent | MouseEvent;
   const isTouchEvent = e.type === 'touchend' || e.type === 'touchcancel';
   if (!isTouchEvent) {
     if (data.touchId !== null) return; // return from pointer if we use touch
-    if (e.pointerId !== data.pointerId) return;
-    targetTouch = e;
+    const pe = e as PointerEvent;
+    if (pe.pointerId !== data.pointerId) return;
+    targetTouch = pe;
   } else {
-    targetTouch = [...e.changedTouches].find((t: any) => t.identifier === data.touchId);
-    if (!targetTouch || targetTouch.identifier !== data.touchId) return;
+    const te = e as TouchEvent;
+    const found = [...te.changedTouches].find((t) => t.identifier === data.touchId);
+    if (!found || found.identifier !== data.touchId) return;
+    targetTouch = found;
   }
 
   if (['pointercancel', 'pointerout', 'pointerleave', 'contextmenu'].includes(e.type)) {
@@ -35,7 +39,7 @@ export default function onTouchEnd(
   data.touchId = null;
   const { params, touches, rtlTranslate: rtl, slidesGrid, enabled } = swiper;
   if (!enabled) return;
-  if (!params.simulateTouch && e.pointerType === 'mouse') return;
+  if (!params.simulateTouch && (e as PointerEvent).pointerType === 'mouse') return;
 
   if (data.allowTouchCallbacks) {
     swiper.emit('touchEnd', e);
@@ -66,8 +70,10 @@ export default function onTouchEnd(
 
   // Tap, doubleTap, Click
   if (swiper.allowClick) {
-    const pathTree = e.path || (e.composedPath && e.composedPath());
-    swiper.updateClickedSlide((pathTree && pathTree[0]) || e.target, pathTree);
+    // Legacy `e.path` was a non-standard Chrome extension; `composedPath()` is the modern API.
+    const pathTree: EventTarget[] | undefined =
+      (e as Event & { path?: EventTarget[] }).path ?? (e.composedPath && e.composedPath());
+    swiper.updateClickedSlide((pathTree && pathTree[0]) as HTMLElement, pathTree);
     swiper.emit('tap click', e);
     if (timeDiff < 300 && touchEndTime - data.lastClickTime < 300) {
       swiper.emit('doubleTap doubleClick', e);
@@ -100,15 +106,15 @@ export default function onTouchEnd(
   if (params.followFinger) {
     currentPos = rtl ? swiper.translate : -swiper.translate;
   } else {
-    currentPos = -data.currentTranslate;
+    currentPos = -(data.currentTranslate ?? 0);
   }
 
   if (params.cssMode) {
     return;
   }
 
-  if (params.freeMode && (params.freeMode as any).enabled) {
-    (swiper.freeMode as any).onTouchEnd({ currentPos });
+  if (params.freeMode && params.freeMode.enabled) {
+    swiper.freeMode.onTouchEnd({ currentPos });
     return;
   }
 
@@ -183,8 +189,7 @@ export default function onTouchEnd(
     }
     const isNavButtonTarget =
       swiper.navigation &&
-      (e.target === (swiper.navigation as any).nextEl ||
-        e.target === (swiper.navigation as any).prevEl);
+      (e.target === swiper.navigation.nextEl || e.target === swiper.navigation.prevEl);
     if (!isNavButtonTarget) {
       if (swiper.swipeDirection === 'next') {
         swiper.slideTo(rewindFirstIndex !== null ? rewindFirstIndex : stopIndex + increment);
@@ -192,7 +197,7 @@ export default function onTouchEnd(
       if (swiper.swipeDirection === 'prev') {
         swiper.slideTo(rewindLastIndex !== null ? rewindLastIndex : stopIndex);
       }
-    } else if (e.target === (swiper.navigation as any).nextEl) {
+    } else if (e.target === swiper.navigation.nextEl) {
       swiper.slideTo(stopIndex + increment);
     } else {
       swiper.slideTo(stopIndex);

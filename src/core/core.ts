@@ -31,9 +31,9 @@ import defaults from './defaults';
 import moduleExtendParams from './moduleExtendParams';
 import { processLazyPreloader, preload } from '../shared/process-lazy-preloader';
 
-import type { SwiperOptions as LegacySwiperOptions } from '../types/swiper-options.d.ts';
-import type { SwiperEvents as LegacySwiperEvents } from '../types/swiper-events.d.ts';
-import type { CSSSelector } from '../types/shared.d.ts';
+import type { SwiperOptions as PublicSwiperOptions } from '../swiper-options.d.ts';
+import type { SwiperEvents as PublicSwiperEvents } from '../swiper-events.d.ts';
+import type { CSSSelector } from '../swiper-shared.d.ts';
 
 // All bundled modules now own their `*Methods`, `*Options`, and `*Events`
 // types in their own .ts files and augment `Swiper`, `SwiperOptions`,
@@ -41,8 +41,9 @@ import type { CSSSelector } from '../types/shared.d.ts';
 
 // Canonical SwiperOptions / SwiperEvents — declared in core.ts so individual
 // modules can augment them via `declare module '../../core/core'`. The bodies
-// re-derive from the legacy d.ts shapes for now; Phase 5 deletes src/types/.
-export interface SwiperOptions extends LegacySwiperOptions {
+// extend the public d.ts surface at src/swiper-options.d.ts /
+// src/swiper-events.d.ts.
+export interface SwiperOptions extends PublicSwiperOptions {
   on?: {
     [event in keyof SwiperEvents]?: SwiperEvents[event];
   };
@@ -50,7 +51,7 @@ export interface SwiperOptions extends LegacySwiperOptions {
   // Distinct from `Swiper.prototype.onAny`, which is the runtime registrar.
   onAny?(eventName: string, ...args: any[]): void;
 }
-export interface SwiperEvents extends LegacySwiperEvents {}
+export interface SwiperEvents extends PublicSwiperEvents {}
 
 export type SwiperEventHandler = (...args: any[]) => any;
 export type SwiperEventName = keyof SwiperEvents;
@@ -102,6 +103,8 @@ export interface SwiperTouchEventsData {
   touchId: number | null;
   evCache?: PointerEvent[];
   preventTouchMoveFromPointerMove?: boolean;
+  /** Set in onTouchMove when crossing the loop-swap boundary; consumed in onTouchEnd. */
+  loopSwapReset?: boolean;
 }
 
 export interface SwiperTouches {
@@ -110,6 +113,9 @@ export interface SwiperTouches {
   currentX: number;
   currentY: number;
   diff: number;
+  // Previous frame's coordinates — used by velocity tracking in onTouchMove.
+  previousX?: number;
+  previousY?: number;
 }
 
 export interface Swiper {
@@ -163,14 +169,14 @@ export interface Swiper {
   snapIndex: number;
   previousSnapIndex?: number;
   previousRealIndex?: number;
-  clickedIndex: number;
-  clickedSlide: SwiperSlideElement;
+  clickedIndex: number | undefined;
+  clickedSlide: SwiperSlideElement | undefined;
 
   // Direction / RTL
   rtl: boolean;
   rtlTranslate: boolean;
   wrongRTL: boolean;
-  swipeDirection: 'prev' | 'next';
+  swipeDirection: 'prev' | 'next' | undefined;
   touchesDirection?: 'prev' | 'next' | '';
 
   // Translate / progress
@@ -206,9 +212,10 @@ export interface Swiper {
   eventsListeners: Record<string, SwiperEventHandler[]>;
   eventsAnyListeners: SwiperEventHandler[];
 
-  // Internal one-shot helpers attached at runtime
-  onSlideToWrapperTransitionEnd?: ((e: TransitionEvent) => void) | null;
-  onTranslateToWrapperTransitionEnd?: ((e: TransitionEvent) => void) | null;
+  // Internal one-shot helpers attached at runtime; `this` is bound to the wrapper element
+  // when these fire as 'transitionend' listeners on swiper.wrapperEl.
+  onSlideToWrapperTransitionEnd?: ((this: HTMLElement, e: TransitionEvent) => void) | null;
+  onTranslateToWrapperTransitionEnd?: ((this: HTMLElement, e: TransitionEvent) => void) | null;
   _clientLeft?: number;
   _cssModeVirtualInitialSet?: boolean;
   _immediateVirtual?: boolean;
@@ -364,7 +371,8 @@ export class Swiper {
     let params: SwiperParams | undefined;
     if (
       args.length === 1 &&
-      (args[0] as any).constructor &&
+      args[0] !== null &&
+      typeof args[0] === 'object' &&
       Object.prototype.toString.call(args[0]).slice(8, -1) === 'Object'
     ) {
       params = args[0] as SwiperParams;
@@ -379,10 +387,10 @@ export class Swiper {
     if (
       params.el &&
       typeof params.el === 'string' &&
-      document.querySelectorAll(params.el as string).length > 1
+      document.querySelectorAll(params.el).length > 1
     ) {
       const swipers: Swiper[] = [];
-      document.querySelectorAll(params.el as string).forEach((containerEl) => {
+      document.querySelectorAll(params.el).forEach((containerEl) => {
         const newParams = extend({}, params, { el: containerEl });
         swipers.push(new Swiper(newParams));
       });
@@ -402,15 +410,16 @@ export class Swiper {
     swiper.modules = [...(swiper.__modules__ || [])];
     if (params.modules && Array.isArray(params.modules)) {
       params.modules.forEach((mod) => {
-        if (typeof mod === 'function' && swiper.modules.indexOf(mod as any) < 0) {
-          swiper.modules.push(mod as any);
+        const fn = mod as SwiperModuleFn;
+        if (typeof fn === 'function' && swiper.modules.indexOf(fn) < 0) {
+          swiper.modules.push(fn);
         }
       });
     }
 
-    const allModulesParams: Record<string, any> = {};
+    const allModulesParams: Record<string, unknown> = {};
     swiper.modules.forEach((mod) => {
-      (mod as SwiperModuleFn)({
+      mod({
         params: params!,
         swiper,
         extendParams: moduleExtendParams(params!, allModulesParams),
@@ -431,8 +440,10 @@ export class Swiper {
 
     // add event listeners
     if (swiper.params && swiper.params.on) {
-      (Object.keys(swiper.params.on) as Array<keyof SwiperEvents>).forEach((eventName) => {
-        swiper.on(eventName, swiper.params.on![eventName] as any);
+      const onHandlers = swiper.params.on;
+      (Object.keys(onHandlers) as Array<keyof SwiperEvents>).forEach((eventName) => {
+        const handler = onHandlers[eventName];
+        if (handler) swiper.on(eventName, handler as SwiperEvents[typeof eventName]);
       });
     }
     if (swiper.params && swiper.params.onAny) {
@@ -830,20 +841,29 @@ export class Swiper {
     const swiper = this;
     if (swiper.mounted) return true;
 
-    // Find el
-    let el: HTMLElement | string | null | undefined = element || (swiper.params.el as any);
-    if (typeof el === 'string') {
-      el = document.querySelector(el) as HTMLElement | null;
+    // Find el (params.el can be a CSSSelector, HTMLElement, or undefined)
+    const initialEl = element ?? (swiper.params.el as CSSSelector | HTMLElement | undefined);
+    let el: HTMLElement | null = null;
+    if (typeof initialEl === 'string') {
+      el = document.querySelector<HTMLElement>(initialEl);
+    } else if (initialEl instanceof HTMLElement) {
+      el = initialEl;
     }
     if (!el) {
       return false;
     }
 
-    (el as any).swiper = swiper;
+    // The host swiper-element web component stores its instance back-reference on the host element.
+    type SwiperHost = { slideSlots?: number; nodeName: string };
+    type SwiperEl = HTMLElement & { swiper?: Swiper | null };
+    type SwiperShadowParent = ParentNode & { host: SwiperHost };
+
+    (el as SwiperEl).swiper = swiper;
+    const parent = el.parentNode as SwiperShadowParent | null;
     if (
-      el.parentNode &&
-      (el.parentNode as any).host &&
-      (el.parentNode as any).host.nodeName === swiper.params.swiperElementNodeName!.toUpperCase()
+      parent &&
+      parent.host &&
+      parent.host.nodeName === swiper.params.swiperElementNodeName!.toUpperCase()
     ) {
       swiper.isElement = true;
     }
@@ -853,41 +873,36 @@ export class Swiper {
     };
 
     const getWrapper = () => {
-      if (el && (el as HTMLElement).shadowRoot) {
-        const res = (el as HTMLElement).shadowRoot!.querySelector(getWrapperSelector());
+      if (el && el.shadowRoot) {
+        const res = el.shadowRoot.querySelector(getWrapperSelector());
         // Children needs to return slot items
         return res as HTMLElement | null;
       }
-      return elementChildren(el as HTMLElement, getWrapperSelector())[0] as HTMLElement | undefined;
+      return elementChildren(el, getWrapperSelector())[0] as HTMLElement | undefined;
     };
     // Find Wrapper
     let wrapperEl = getWrapper();
     if (!wrapperEl && swiper.params.createElements) {
       wrapperEl = createElement('div', swiper.params.wrapperClass) as HTMLElement;
-      (el as HTMLElement).append(wrapperEl);
-      elementChildren(el as HTMLElement, `.${swiper.params.slideClass}`).forEach((slideEl) => {
+      el.append(wrapperEl);
+      elementChildren(el, `.${swiper.params.slideClass}`).forEach((slideEl) => {
         wrapperEl!.append(slideEl);
       });
     }
 
+    const host = swiper.isElement ? (el.parentNode as SwiperShadowParent).host : null;
     Object.assign(swiper, {
       el,
       wrapperEl,
-      slidesEl:
-        swiper.isElement && !((el as HTMLElement).parentNode as any).host.slideSlots
-          ? (el as HTMLElement).parentNode!
-          : wrapperEl,
-      hostEl: swiper.isElement ? ((el as HTMLElement).parentNode as any).host : el,
+      slidesEl: swiper.isElement && !host!.slideSlots ? el.parentNode! : wrapperEl,
+      hostEl: swiper.isElement ? host : el,
       mounted: true,
 
       // RTL
-      rtl:
-        (el as HTMLElement).dir.toLowerCase() === 'rtl' ||
-        elementStyle(el as HTMLElement, 'direction') === 'rtl',
+      rtl: el.dir.toLowerCase() === 'rtl' || elementStyle(el, 'direction') === 'rtl',
       rtlTranslate:
         swiper.params.direction === 'horizontal' &&
-        ((el as HTMLElement).dir.toLowerCase() === 'rtl' ||
-          elementStyle(el as HTMLElement, 'direction') === 'rtl'),
+        (el.dir.toLowerCase() === 'rtl' || elementStyle(el, 'direction') === 'rtl'),
       wrongRTL: elementStyle(wrapperEl!, 'display') === '-webkit-box',
     });
 
@@ -1029,7 +1044,7 @@ export class Swiper {
 
     if (deleteInstance !== false) {
       if (swiper.el && typeof swiper.el !== 'string') {
-        (swiper.el as any).swiper = null;
+        (swiper.el as HTMLElement & { swiper?: Swiper | null }).swiper = null;
       }
       deleteProps(swiper as unknown as Record<string, unknown>);
     }
@@ -1043,8 +1058,8 @@ export class Swiper {
   }
 
   static installModule(mod: SwiperModuleFn): void {
-    if (!Swiper.prototype.__modules__) (Swiper.prototype as any).__modules__ = [];
-    const modules = Swiper.prototype.__modules__!;
+    if (!Swiper.prototype.__modules__) Swiper.prototype.__modules__ = [];
+    const modules = Swiper.prototype.__modules__;
 
     if (typeof mod === 'function' && modules.indexOf(mod) < 0) {
       modules.push(mod);
@@ -1073,10 +1088,14 @@ Object.defineProperty(Swiper, 'defaults', {
   },
 });
 
-Object.keys(prototypes).forEach((prototypeGroup) => {
-  const group = (prototypes as Record<string, Record<string, any>>)[prototypeGroup]!;
+// Attach prototype-mixin method groups onto Swiper.prototype. Each group is a
+// plain record of method-name → function; we copy them across as-is.
+const prototypeRecord = prototypes as unknown as Record<string, Record<string, unknown>>;
+const swiperProto = Swiper.prototype as unknown as Record<string, unknown>;
+Object.keys(prototypeRecord).forEach((prototypeGroup) => {
+  const group = prototypeRecord[prototypeGroup]!;
   Object.keys(group).forEach((protoMethod) => {
-    (Swiper.prototype as any)[protoMethod] = group[protoMethod];
+    swiperProto[protoMethod] = group[protoMethod];
   });
 });
 

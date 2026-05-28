@@ -21,9 +21,9 @@ import type {
   ZoomOptions,
   FreeModeOptions,
   GridOptions,
-} from './types/index.d.ts';
+} from './swiper-types.d.ts';
 import { ComponentOptionsMixin, DefineComponent, PropType, Ref } from 'vue';
-import type { SwiperOptions, Swiper as SwiperClass } from './types/index.d.ts';
+import type { SwiperOptions, Swiper as SwiperClass } from './swiper-types.d.ts';
 
 declare const Swiper: DefineComponent<
   {

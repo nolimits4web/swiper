@@ -1,4 +1,4 @@
-import type { SwiperModule } from '../shared.d.ts';
+import type { SwiperModule } from './swiper-shared.d.ts';
 
 declare const A11y: SwiperModule;
 declare const Autoplay: SwiperModule;

@@ -64,8 +64,10 @@ export default function updateSlidesClasses(this: Swiper): void {
       prevSlide = elementPrevAll(activeSlide, `.${params.slideClass}, swiper-slide`)[0] as
         | HTMLElement
         | undefined;
+      // NOTE: legacy guard from v9; `(!prevSlide) === 0` is always false, but we preserve
+      // the original behaviour (no-op) to avoid runtime changes in v14. Audit candidate.
       // eslint-disable-next-line
-      if (params.loop && (!prevSlide as any) === 0) {
+      if (params.loop && (!prevSlide as unknown as number) === 0) {
         prevSlide = slides[slides.length - 1];
       }
     }

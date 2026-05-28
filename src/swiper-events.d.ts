@@ -1,5 +1,5 @@
 import type { SwiperOptions } from './swiper-options.d.ts';
-import type Swiper from './swiper-class.d.ts';
+import type Swiper from './swiper.d.ts';
 
 // Migrated module events live in their own .ts module and augment SwiperEvents
 // via `declare module '../../core/core'`. Phase 5 deletes src/types/ entirely.
@@ -257,7 +257,7 @@ export interface SwiperEvents {
   /**
    * Event will fired before transition start
    */
-  beforeTransitionStart: (swiper: Swiper, speed: number, internal: any) => void; // what is internal?
+  beforeTransitionStart: (swiper: Swiper, speed: number, internal: unknown) => void;
   /**
    * Event will fired on direction change
    */

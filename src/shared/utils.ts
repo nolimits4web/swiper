@@ -54,27 +54,30 @@ function isNode(node: unknown): boolean {
   );
 }
 
-export function extend<T extends object>(target: T, ...sources: any[]): T {
-  const to = Object(target) as Record<string, any>;
+type SwiperBranded = { __swiper__?: unknown };
+
+export function extend<T extends object>(target: T, ...sources: unknown[]): T {
+  const to = Object(target) as Record<string, unknown>;
   for (let i = 0; i < sources.length; i += 1) {
     const nextSource = sources[i];
     if (nextSource === undefined || nextSource === null || isNode(nextSource)) continue;
-    const keysArray = Object.keys(Object(nextSource)).filter(
+    const sourceObj = nextSource as Record<string, unknown>;
+    const keysArray = Object.keys(Object(sourceObj)).filter(
       (key) => key !== '__proto__' && key !== 'constructor' && key !== 'prototype',
     );
     for (const nextKey of keysArray) {
-      const desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+      const desc = Object.getOwnPropertyDescriptor(sourceObj, nextKey);
       if (!desc || !desc.enumerable) continue;
-      const sourceVal = nextSource[nextKey];
+      const sourceVal = sourceObj[nextKey];
       if (isObject(to[nextKey]) && isObject(sourceVal)) {
-        if ((sourceVal as any).__swiper__) {
+        if ((sourceVal as SwiperBranded).__swiper__) {
           to[nextKey] = sourceVal;
         } else {
           extend(to[nextKey] as object, sourceVal);
         }
       } else if (!isObject(to[nextKey]) && isObject(sourceVal)) {
         to[nextKey] = {};
-        if ((sourceVal as any).__swiper__) {
+        if ((sourceVal as SwiperBranded).__swiper__) {
           to[nextKey] = sourceVal;
         } else {
           extend(to[nextKey] as object, sourceVal);
@@ -246,8 +249,15 @@ export function getRotateFix(swiper: { browser?: { need3dFix?: boolean } }) {
   };
 }
 
+interface TrustedTypePolicy {
+  createHTML: (s: string) => string;
+}
+interface TrustedTypePolicyFactory {
+  createPolicy: (name: string, rules: { createHTML: (s: string) => string }) => TrustedTypePolicy;
+}
+
 export function setInnerHTML(el: Element, html = ''): void {
-  const tt = (globalThis as any).trustedTypes;
+  const tt = (globalThis as { trustedTypes?: TrustedTypePolicyFactory }).trustedTypes;
   if (typeof tt !== 'undefined') {
     el.innerHTML = tt.createPolicy('html', { createHTML: (s: string) => s }).createHTML(html);
   } else {

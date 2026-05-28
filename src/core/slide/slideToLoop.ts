@@ -47,8 +47,8 @@ export default function slideToLoop(
 
       const { centeredSlides, slidesOffsetBefore, slidesOffsetAfter } = swiper.params;
       const bothDirections = centeredSlides || !!slidesOffsetBefore || !!slidesOffsetAfter;
-      let slidesPerView: number = swiper.params.slidesPerView as number;
-      if (slidesPerView === ('auto' as any)) {
+      let slidesPerView: number;
+      if (swiper.params.slidesPerView === 'auto') {
         slidesPerView = swiper.slidesPerViewDynamic();
       } else {
         slidesPerView = Math.ceil(parseFloat(String(swiper.params.slidesPerView)));

@@ -122,7 +122,7 @@ export interface VirtualOptions<T = any> {
    *
    * @default null
    */
-  renderSlide?: (slide: T, index: any) => any | null;
+  renderSlide?: (slide: T, index: number) => string | HTMLElement | null;
   /**
    * Function for external rendering (e.g. using some other library to handle DOM manipulations and state like React.js or Vue.js). As an argument it accepts `data` object with the following properties:
    *

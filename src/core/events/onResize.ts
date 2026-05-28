@@ -43,11 +43,13 @@ export default function onResize(this: Swiper): void {
     }
   }
 
-  if (swiper.autoplay && (swiper.autoplay as any).running && (swiper.autoplay as any).paused) {
-    clearTimeout((swiper.autoplay as any).resizeTimeout);
-    (swiper.autoplay as any).resizeTimeout = setTimeout(() => {
-      if (swiper.autoplay && (swiper.autoplay as any).running && (swiper.autoplay as any).paused) {
-        (swiper.autoplay as any).resume();
+  if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {
+    type AutoplayResize = { resizeTimeout?: ReturnType<typeof setTimeout> };
+    const autoplay = swiper.autoplay as typeof swiper.autoplay & AutoplayResize;
+    clearTimeout(autoplay.resizeTimeout);
+    autoplay.resizeTimeout = setTimeout(() => {
+      if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {
+        swiper.autoplay.resume();
       }
     }, 500);
   }

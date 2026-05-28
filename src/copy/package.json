@@ -244,16 +244,16 @@
       "default": "./swiper-vue.mjs"
     },
     "./modules": {
-      "types": "./types/modules/index.d.ts",
+      "types": "./modules.d.ts",
       "default": "./modules/index.mjs"
     },
-    "./types": "./types/index.d.ts",
+    "./types": "./swiper-types.d.ts",
     "./package.json": "./package.json"
   },
   "typesVersions": {
     "*": {
       "modules": [
-        "./types/modules/index.d.ts"
+        "./modules.d.ts"
       ],
       "element": [
         "./swiper-element.d.ts"

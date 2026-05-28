@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import type { Swiper, SwiperModuleFn } from '../../core/core';
-import type { CSSSelector } from '../../types/shared.d.ts';
+import type { CSSSelector } from '../../swiper-shared.d.ts';
 import { now, nextTick } from '../../shared/utils';
 
 export interface MousewheelOptions {

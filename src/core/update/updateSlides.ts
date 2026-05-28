@@ -27,15 +27,13 @@ export default function updateSlides(this: Swiper): void {
   const slidesGrid: number[] = [];
   const slidesSizesGrid: number[] = [];
 
-  let offsetBefore: number | ((this: Swiper) => number) | undefined = params.slidesOffsetBefore;
-  if (typeof offsetBefore === 'function') {
-    offsetBefore = (params.slidesOffsetBefore as any).call(swiper);
-  }
-
-  let offsetAfter: number | ((this: Swiper) => number) | undefined = params.slidesOffsetAfter;
-  if (typeof offsetAfter === 'function') {
-    offsetAfter = (params.slidesOffsetAfter as any).call(swiper);
-  }
+  // Legacy: `slidesOffsetBefore`/`slidesOffsetAfter` accepted a function form at runtime that
+  // returned the actual offset. Public type is `number`, so narrow defensively here.
+  type OffsetParam = number | ((this: Swiper) => number) | undefined;
+  const resolveOffset = (value: OffsetParam): number | undefined =>
+    typeof value === 'function' ? value.call(swiper) : value;
+  const offsetBefore = resolveOffset(params.slidesOffsetBefore as OffsetParam);
+  const offsetAfter = resolveOffset(params.slidesOffsetAfter as OffsetParam);
 
   const previousSnapGridLength = swiper.snapGrid.length;
   const previousSlidesGridLength = swiper.slidesGrid.length;
@@ -94,7 +92,8 @@ export default function updateSlides(this: Swiper): void {
     params.slidesPerView === 'auto' &&
     params.breakpoints &&
     Object.keys(params.breakpoints).filter((key) => {
-      return typeof (params.breakpoints as any)[key].slidesPerView !== 'undefined';
+      const bp = (params.breakpoints as Record<string, { slidesPerView?: unknown }>)[key];
+      return typeof bp?.slidesPerView !== 'undefined';
     }).length > 0;
 
   for (let i = 0; i < slidesLength; i += 1) {
@@ -114,20 +113,25 @@ export default function updateSlides(this: Swiper): void {
       if (slideSize && slide) {
         if (params.roundLengths) slideSize = Math.floor(slideSize);
 
-        (slide.style as any)[swiper.getDirectionLabel('width')] = `${slideSize}px`;
+        (slide.style as unknown as Record<string, string>)[
+          swiper.getDirectionLabel('width')
+        ] = `${slideSize}px`;
       }
     } else if (params.slidesPerView === 'auto') {
       if (shouldResetSlideSize) {
-        (slide!.style as any)[swiper.getDirectionLabel('width')] = ``;
+        (slide!.style as unknown as Record<string, string>)[swiper.getDirectionLabel('width')] = ``;
       }
       const slideStyles = getComputedStyle(slide!);
       const currentTransform = slide!.style.transform;
-      const currentWebKitTransform = (slide!.style as any).webkitTransform;
+      const currentWebKitTransform = (
+        slide!.style as CSSStyleDeclaration & { webkitTransform?: string }
+      ).webkitTransform;
       if (currentTransform) {
         slide!.style.transform = 'none';
       }
       if (currentWebKitTransform) {
-        (slide!.style as any).webkitTransform = 'none';
+        (slide!.style as CSSStyleDeclaration & { webkitTransform?: string }).webkitTransform =
+          'none';
       }
       if (params.roundLengths) {
         slideSize = swiper.isHorizontal()
@@ -158,7 +162,8 @@ export default function updateSlides(this: Swiper): void {
         slide!.style.transform = currentTransform;
       }
       if (currentWebKitTransform) {
-        (slide!.style as any).webkitTransform = currentWebKitTransform;
+        (slide!.style as CSSStyleDeclaration & { webkitTransform?: string }).webkitTransform =
+          currentWebKitTransform;
       }
       if (params.roundLengths) slideSize = Math.floor(slideSize);
     } else {
@@ -168,7 +173,9 @@ export default function updateSlides(this: Swiper): void {
       if (params.roundLengths) slideSize = Math.floor(slideSize);
 
       if (slide) {
-        (slide.style as any)[swiper.getDirectionLabel('width')] = `${slideSize}px`;
+        (slide.style as unknown as Record<string, string>)[
+          swiper.getDirectionLabel('width')
+        ] = `${slideSize}px`;
       }
     }
     if (slide) {
@@ -210,7 +217,7 @@ export default function updateSlides(this: Swiper): void {
     wrapperEl.style.width = `${swiper.virtualSize + (spaceBetween as number)}px`;
   }
   if (params.setWrapperSize) {
-    (wrapperEl.style as any)[swiper.getDirectionLabel('width')] = `${
+    (wrapperEl.style as unknown as Record<string, string>)[swiper.getDirectionLabel('width')] = `${
       swiper.virtualSize + (spaceBetween as number)
     }px`;
   }
@@ -313,7 +320,7 @@ export default function updateSlides(this: Swiper): void {
         return true;
       })
       .forEach((slideEl) => {
-        (slideEl.style as any)[key] = `${spaceBetween}px`;
+        (slideEl.style as unknown as Record<string, string>)[key] = `${spaceBetween}px`;
       });
   }
 

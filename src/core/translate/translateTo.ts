@@ -72,7 +72,7 @@ export default function translateTo(
           if (runCallbacks) {
             swiper.emit('transitionEnd');
           }
-        } as any;
+        };
       }
       swiper.wrapperEl.addEventListener(
         'transitionend',

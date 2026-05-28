@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import type { Swiper, SwiperEventHandler } from './core';
-import type { SwiperEvents } from '../types/swiper-events.d.ts';
+import type { SwiperEvents } from '../swiper-events.d.ts';
 
 interface OnceHandler extends SwiperEventHandler {
   __emitterProxy?: SwiperEventHandler;
@@ -41,7 +41,7 @@ export default {
       handler.apply(self, args);
     };
     onceHandler.__emitterProxy = handler;
-    return self.on(events as any, onceHandler, priority);
+    return self.on(events, onceHandler, priority);
   },
 
   onAny(this: Swiper, handler: SwiperEventHandler, priority?: boolean): Swiper {
@@ -87,21 +87,22 @@ export default {
     return self;
   },
 
-  emit(this: Swiper, ...args: any[]): Swiper {
+  emit(this: Swiper, ...args: unknown[]): Swiper {
     const self = this;
     if (!self.eventsListeners || self.destroyed) return self;
     if (!self.eventsListeners) return self;
     let events: string | string[];
-    let data: any[];
-    let context: any;
+    let data: unknown[];
+    let context: unknown;
     if (typeof args[0] === 'string' || Array.isArray(args[0])) {
-      events = args[0];
+      events = args[0] as string | string[];
       data = args.slice(1, args.length);
       context = self;
     } else {
-      events = args[0].events;
-      data = args[0].data;
-      context = args[0].context || self;
+      const opts = args[0] as { events: string | string[]; data?: unknown[]; context?: unknown };
+      events = opts.events;
+      data = opts.data ?? [];
+      context = opts.context || self;
     }
     data.unshift(context);
     const eventsArray = Array.isArray(events) ? events : (events as string).split(' ');

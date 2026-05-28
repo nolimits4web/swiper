@@ -1,6 +1,6 @@
 // Migrated module options live in their own .ts module and augment SwiperOptions
 // via `declare module '../../core/core'`. Phase 5 deletes src/types/ entirely.
-import type { CSSSelector, SwiperModule } from './shared.d.ts';
+import type { CSSSelector, SwiperModule } from './swiper-shared.d.ts';
 
 export interface SwiperOptions {
   /**

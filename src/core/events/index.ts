@@ -48,16 +48,17 @@ const events = (swiper: Swiper, method: 'on' | 'off'): void => {
   }
 
   // Resize handler
+  const subscribe = (events: string): void => {
+    swiper[swiperMethod](events, onResize, true);
+  };
   if (params.updateOnWindowResize) {
-    (swiper[swiperMethod] as any)(
+    subscribe(
       device.ios || device.android
         ? 'resize orientationchange observerUpdate'
         : 'resize observerUpdate',
-      onResize,
-      true,
     );
   } else {
-    (swiper[swiperMethod] as any)('observerUpdate', onResize, true);
+    subscribe('observerUpdate');
   }
 
   // Images loader
@@ -68,17 +69,17 @@ function attachEvents(this: Swiper): void {
   const swiper = this;
   const { params } = swiper;
 
-  swiper.onTouchStart = onTouchStart.bind(swiper) as any;
-  swiper.onTouchMove = onTouchMove.bind(swiper) as any;
-  swiper.onTouchEnd = onTouchEnd.bind(swiper) as any;
-  swiper.onDocumentTouchStart = onDocumentTouchStart.bind(swiper) as any;
+  swiper.onTouchStart = onTouchStart.bind(swiper);
+  swiper.onTouchMove = onTouchMove.bind(swiper);
+  swiper.onTouchEnd = onTouchEnd.bind(swiper);
+  swiper.onDocumentTouchStart = onDocumentTouchStart.bind(swiper);
 
   if (params.cssMode) {
-    swiper.onScroll = onScroll.bind(swiper) as any;
+    swiper.onScroll = onScroll.bind(swiper);
   }
 
-  swiper.onClick = onClick.bind(swiper) as any;
-  swiper.onLoad = onLoad.bind(swiper) as any;
+  swiper.onClick = onClick.bind(swiper);
+  swiper.onLoad = onLoad.bind(swiper);
 
   events(swiper, 'on');
 }

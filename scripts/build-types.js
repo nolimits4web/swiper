@@ -25,7 +25,7 @@ export default async function buildTypes() {
   };
   const getCoreEventsContent = async () => {
     let coreEventsContent = await fs.readFile(
-      path.resolve(__dirname, '../src/types/swiper-events.d.ts'),
+      path.resolve(__dirname, '../src/swiper-events.d.ts'),
       'utf-8',
     );
     coreEventsContent = coreEventsContent
@@ -62,7 +62,7 @@ export default async function buildTypes() {
     );
   };
   const getModulesEventsContent = async () => {
-    const eventsFiles = await globby('src/types/modules/*.d.ts');
+    const eventsFiles = await globby('src/modules/*.d.ts');
     await Promise.all(
       eventsFiles.map(async (eventsFile) => {
         if (eventsFile.indexOf('public-api') > -1 || eventsFile.indexOf('index') > -1) {

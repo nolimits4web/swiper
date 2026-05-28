@@ -3,14 +3,17 @@ import type { Swiper } from '../core';
 
 // Modified from https://stackoverflow.com/questions/54520554/custom-element-getrootnode-closest-function-crossing-multiple-parent-shadowd
 function closestElement(selector: string, base: Element): Element | null {
-  function __closestFrom(el: any): Element | null {
+  type WalkableEl = Element & { assignedSlot?: HTMLSlotElement | null };
+  function __closestFrom(el: WalkableEl | Document | Window | null | undefined): Element | null {
     if (!el || el === document || el === window) return null;
-    if (el.assignedSlot) el = el.assignedSlot;
-    const found = el.closest(selector);
-    if (!found && !el.getRootNode) {
+    let cur = el as WalkableEl;
+    if (cur.assignedSlot) cur = cur.assignedSlot as WalkableEl;
+    const found = cur.closest(selector);
+    if (!found && !cur.getRootNode) {
       return null;
     }
-    return found || __closestFrom(el.getRootNode().host);
+    const root = cur.getRootNode() as Node & { host?: Element };
+    return found || __closestFrom(root.host);
   }
   return __closestFrom(base);
 }
@@ -38,26 +41,28 @@ export default function onTouchStart(
 ): void {
   const swiper = this;
   if (swiper.destroyed) return;
-  let e: any = event;
-  if ((e as any).originalEvent) e = (e as any).originalEvent;
+  // Legacy event wrappers (jQuery etc.) nest the native event under .originalEvent.
+  type LegacyWrapped = { originalEvent?: TouchEvent | PointerEvent | MouseEvent };
+  const e: TouchEvent | PointerEvent | MouseEvent = (event as LegacyWrapped).originalEvent ?? event;
   const data = swiper.touchEventsData;
   if (e.type === 'pointerdown') {
-    if (data.pointerId !== null && data.pointerId !== e.pointerId) {
+    const pe = e as PointerEvent;
+    if (data.pointerId !== null && data.pointerId !== pe.pointerId) {
       return;
     }
-    data.pointerId = e.pointerId;
-  } else if (e.type === 'touchstart' && e.targetTouches.length === 1) {
-    data.touchId = e.targetTouches[0].identifier;
+    data.pointerId = pe.pointerId;
+  } else if (e.type === 'touchstart' && (e as TouchEvent).targetTouches.length === 1) {
+    data.touchId = (e as TouchEvent).targetTouches[0]!.identifier;
   }
   if (e.type === 'touchstart') {
     // don't proceed touch event
-    preventEdgeSwipe(swiper, e, e.targetTouches[0].pageX);
+    preventEdgeSwipe(swiper, e, (e as TouchEvent).targetTouches[0]!.pageX);
     return;
   }
 
   const { params, touches, enabled } = swiper;
   if (!enabled) return;
-  if (!params.simulateTouch && e.pointerType === 'mouse') return;
+  if (!params.simulateTouch && (e as PointerEvent).pointerType === 'mouse') return;
 
   if (swiper.animating && params.preventInteractionOnTransition) {
     return;
@@ -66,27 +71,38 @@ export default function onTouchStart(
     swiper.loopFix();
   }
 
-  let targetEl: HTMLElement = e.target;
+  let targetEl = e.target as HTMLElement;
 
   if (params.touchEventsTarget === 'wrapper') {
     if (!elementIsChildOf(targetEl, swiper.wrapperEl)) return;
   }
-  if ('which' in e && (e as any).which === 3) return;
-  if ('button' in e && (e as any).button > 0) return;
+  // Secondary mouse buttons (right-click / middle-click) shouldn't start a swipe.
+  const mouseLike = e as MouseEvent;
+  if (typeof mouseLike.which === 'number' && mouseLike.which === 3) return;
+  if (typeof mouseLike.button === 'number' && mouseLike.button > 0) return;
   if (data.isTouched && data.isMoved) return;
 
   // change target el for shadow root component
   const swipingClassHasValue = !!params.noSwipingClass && params.noSwipingClass !== '';
-  // eslint-disable-next-line
-  const eventPath = e.composedPath ? e.composedPath() : (e as any).path;
-  if (swipingClassHasValue && e.target && (e.target as any).shadowRoot && eventPath) {
-    targetEl = eventPath[0];
+  // `path` is a non-standard Chrome extension; `composedPath()` is the modern API.
+  const eventPath = e.composedPath
+    ? e.composedPath()
+    : (e as Event & { path?: EventTarget[] }).path;
+  if (
+    swipingClassHasValue &&
+    e.target &&
+    (e.target as Element & { shadowRoot?: ShadowRoot | null }).shadowRoot &&
+    eventPath
+  ) {
+    targetEl = eventPath[0] as HTMLElement;
   }
 
   const noSwipingSelector = params.noSwipingSelector
     ? params.noSwipingSelector
     : `.${params.noSwipingClass}`;
-  const isTargetShadow = !!(e.target && (e.target as any).shadowRoot);
+  const isTargetShadow = !!(
+    e.target && (e.target as Element & { shadowRoot?: ShadowRoot | null }).shadowRoot
+  );
 
   // use closestElement for shadow root element to get the actual closest for nested shadow root element
   if (
@@ -100,11 +116,13 @@ export default function onTouchStart(
   }
 
   if (params.swipeHandler) {
-    if (!targetEl.closest(params.swipeHandler as string)) return;
+    if (typeof params.swipeHandler === 'string' && !targetEl.closest(params.swipeHandler)) return;
   }
 
-  touches.currentX = e.pageX;
-  touches.currentY = e.pageY;
+  // At this point `e` is a PointerEvent or MouseEvent (touchstart returned earlier).
+  const pe = e as PointerEvent;
+  touches.currentX = pe.pageX;
+  touches.currentY = pe.pageY;
   const startX = touches.currentX;
   const startY = touches.currentY;
 
@@ -127,7 +145,7 @@ export default function onTouchStart(
   data.touchStartTime = now();
   swiper.allowClick = true;
   swiper.updateSize();
-  swiper.swipeDirection = undefined as any;
+  swiper.swipeDirection = undefined;
   if (params.threshold! > 0) data.allowThresholdMove = false;
   let preventDefault = true;
   if (targetEl.matches(data.focusableElements)) {
@@ -141,8 +159,8 @@ export default function onTouchStart(
     document.activeElement &&
     (document.activeElement as Element).matches(data.focusableElements) &&
     document.activeElement !== targetEl &&
-    (e.pointerType === 'mouse' ||
-      (e.pointerType !== 'mouse' && !targetEl.matches(data.focusableElements)))
+    (pe.pointerType === 'mouse' ||
+      (pe.pointerType !== 'mouse' && !targetEl.matches(data.focusableElements)))
   ) {
     (document.activeElement as HTMLElement).blur();
   }
@@ -157,12 +175,12 @@ export default function onTouchStart(
   }
   if (
     params.freeMode &&
-    (params.freeMode as any).enabled &&
+    params.freeMode.enabled &&
     swiper.freeMode &&
     swiper.animating &&
     !params.cssMode
   ) {
-    (swiper.freeMode as any).onTouchStart();
+    swiper.freeMode.onTouchStart();
   }
   swiper.emit('touchStart', e);
 }

@@ -4,20 +4,21 @@ import type { Swiper } from '../core';
 export default function slideToClickedSlide(this: Swiper): void {
   const swiper = this;
   if (swiper.destroyed) return;
-  const { params, slidesEl } = swiper;
+  const { params, slidesEl, clickedSlide, clickedIndex } = swiper;
+  if (clickedSlide === undefined || clickedIndex === undefined) return;
 
   const slidesPerView =
     params.slidesPerView === 'auto'
       ? swiper.slidesPerViewDynamic()
       : (params.slidesPerView as number);
-  let slideToIndex = swiper.getSlideIndexWhenGrid(swiper.clickedIndex);
+  let slideToIndex = swiper.getSlideIndexWhenGrid(clickedIndex);
 
   let realIndex: number;
   const slideSelector = swiper.isElement ? `swiper-slide` : `.${params.slideClass}`;
   const isGrid = swiper.grid && swiper.params.grid && swiper.params.grid.rows! > 1;
   if (params.loop) {
     if (swiper.animating) return;
-    realIndex = parseInt(swiper.clickedSlide.getAttribute('data-swiper-slide-index')!, 10);
+    realIndex = parseInt(clickedSlide.getAttribute('data-swiper-slide-index')!, 10);
     if (params.centeredSlides) {
       swiper.slideToLoop(realIndex);
     } else if (

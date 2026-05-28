@@ -32,7 +32,7 @@ export default function slidePrev(
   const normalizedTranslate = normalize(translate);
   const normalizedSnapGrid = snapGrid.map((val) => normalize(val));
 
-  const isFreeMode = params.freeMode && (params.freeMode as any).enabled;
+  const isFreeMode = params.freeMode && params.freeMode.enabled;
   let prevSnap: number | undefined = snapGrid[normalizedSnapGrid.indexOf(normalizedTranslate) - 1];
   if (typeof prevSnap === 'undefined' && (params.cssMode || isFreeMode)) {
     let prevSnapIndex: number | undefined;

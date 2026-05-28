@@ -186,7 +186,7 @@ export default function slideTo(
         swiper.onSlideToWrapperTransitionEnd = null;
         delete swiper.onSlideToWrapperTransitionEnd;
         swiper.transitionEnd(runCallbacks, direction);
-      } as any;
+      };
     }
     swiper.wrapperEl.addEventListener(
       'transitionend',

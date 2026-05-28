@@ -1,5 +1,5 @@
 import type { Swiper, SwiperModuleFn } from '../../core/core';
-import type { CSSSelector } from '../../types/shared.d.ts';
+import type { CSSSelector } from '../../swiper-shared.d.ts';
 import { createElement, elementOffset, makeElementsArray, nextTick } from '../../shared/utils';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
 import classesToSelector from '../../shared/classes-to-selector';

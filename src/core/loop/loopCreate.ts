@@ -39,7 +39,7 @@ export default function loopCreate(this: Swiper, slideRealIndex?: number, initia
   const addBlankSlides = (amountOfSlides: number): void => {
     for (let i = 0; i < amountOfSlides; i += 1) {
       const slideEl = swiper.isElement
-        ? createElement('swiper-slide' as any, [params.slideBlankClass!])
+        ? createElement('swiper-slide', [params.slideBlankClass!])
         : createElement('div', [params.slideClass!, params.slideBlankClass!]);
       swiper.slidesEl.append(slideEl);
     }
