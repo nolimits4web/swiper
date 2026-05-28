@@ -160,6 +160,25 @@ Migrate one module at a time. After each, the augmentation should produce correc
 - Update `package.json` `exports` map if anything shifted.
 - Regenerate `CHANGELOG.md`. Note in migration guide: "no source code changes required; types may surface latent issues."
 
+**Phase 6 — tsc declaration emission (close the augmentation gap)**
+
+Phase 5 relocated `src/types/*` to the top level but the per-module `.d.ts` files (`src/modules/<name>.d.ts`) still hand-duplicate the `*Options` / `*Methods` / `*Events` interfaces that the runtime `.ts` already exports. They exist because the current build only *copies* `.d.ts` files; it does not emit them from `.ts` sources.
+
+That hand-duplication also masks a real shipping gap: each runtime module's `declare module '../../core/core' { interface SwiperOptions { navigation?: ... } }` block never reaches consumers. Today users get the augmented `SwiperOptions` only because the hand-maintained `.d.ts` separately declares those fields — exactly the duplication this phase removes.
+
+Work:
+- Add a `tsc --emitDeclarationOnly --declaration` step to the build (likely a new `scripts/emit-types.js` invoked from `scripts/build.js`, OR enable `declaration: true` in `@rollup/plugin-typescript` and post-process). The runtime `.ts` files emit `.d.ts` files into `dist/` at their src-mirrored paths.
+- Repoint the shipped public-surface `.d.ts` files so they import directly from the runtime modules' emitted `.d.ts`:
+  - `src/swiper.d.ts` imports `*Methods` from `./modules/<name>/<name>` (runtime path).
+  - `src/swiper-types.d.ts` re-exports types from the same runtime paths.
+- Delete `src/modules/<name>.d.ts` (the per-module duplicates from Phase 5).
+- Verify that module-augmented `SwiperOptions`/`SwiperEvents`/`Swiper` actually reach consumers by extending `tests/types/` to assert e.g. `new Swiper('.x', { navigation: { nextEl: '.n' } })` type-checks **after only `import { Navigation } from 'swiper/modules'`** — no other type imports.
+- Hand-maintained `.d.ts` files that must stay: `src/swiper.d.ts`, `src/swiper-options.d.ts`, `src/swiper-events.d.ts`, `src/swiper-shared.d.ts`, `src/swiper-types.d.ts`, `src/modules.d.ts`, the framework wrappers (`swiper-element.d.ts`, `swiper-react.d.ts`, `swiper-vue.d.ts` — they use the build-types substitution markers).
+
+Risk: tsc-emitted `.d.ts` files may surface latent type mismatches that the hand-maintained copies hid. Plan to fix them in source, not patch around in emitted output. Likely candidates: `null as unknown as HTMLElement` runtime sentinels that the method interfaces promised as non-null.
+
+Out of scope: switching the *runtime* bundler off Babel — the emit step only generates `.d.ts`, runtime stays as-is.
+
 ## 7. Bundle-size cleanups (locked for v14)
 
 Confidence: H = high (just do it), M = medium (verify with a small spike), L = low (leave a TODO, do in v15).
@@ -214,8 +233,9 @@ The user has flagged that this likely spans multiple sessions. Rough ordering:
 4. Phase 3 (modules) — 1 session per ~5 modules ≈ 5 sessions
 5. Phase 4 (wrappers) — 1 session each = 3 sessions
 6. Phase 5 (cleanup/release) — 1 session
+7. Phase 6 (tsc declaration emission) — 1 session
 
-Realistic total: **~12–15 working sessions.** Keep `v14` branch alive across sessions; never merge to `master` until all phases land.
+Realistic total: **~13–16 working sessions.** Keep `v14` branch alive across sessions; never merge to `master` until all phases land.
 
 ## 11. Decisions log
 
@@ -226,6 +246,7 @@ Captured so future-me doesn't re-litigate. Each entry: date — decision — rea
 - **2026-05-27** — Core decomposition (prototype → composition) is **deferred to v15**. v14 keeps `Object.assign(Swiper.prototype, ...)` intact.
 - **2026-05-27** — Skip v13 ("unlucky number"). Next major is v14.
 - **2026-05-27** — `ssr-window` is removed in v14. SSR support continues via inline `typeof` guards.
+- **2026-05-27** — Phase 6 added. Phase 5's relocated per-module `.d.ts` files duplicate runtime-`.ts` interfaces and silently mask the module-augmentation shipping gap; Phase 6 enables `tsc --emitDeclarationOnly` to make TS sources truly canonical for shipped types.
 
 ## 12. Open questions (resolve before starting Phase 0)
 
