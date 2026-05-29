@@ -11,7 +11,6 @@ export default function onScroll(this: Swiper): void {
   } else {
     swiper.translate = -wrapperEl.scrollTop;
   }
-  // eslint-disable-next-line
   if (swiper.translate === 0) swiper.translate = 0;
 
   swiper.updateActiveIndex();

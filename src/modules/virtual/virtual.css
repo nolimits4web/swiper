@@ -4,7 +4,7 @@
 }
 .swiper-virtual.swiper-css-mode {
   .swiper-wrapper::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0;

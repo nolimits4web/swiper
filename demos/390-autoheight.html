@@ -1,87 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Swiper demo</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+    />
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <title>Swiper demo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-</head>
-
-<body>
-  <!-- Swiper -->
-  <div class="swiper">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">Slide 1</div>
-      <div class="swiper-slide">Slide 2</div>
-      <div class="swiper-slide">Slide 3</div>
-      <div class="swiper-slide">Slide 4</div>
-      <div class="swiper-slide">Slide 5</div>
-      <div class="swiper-slide">Slide 6</div>
-      <div class="swiper-slide">Slide 7</div>
-      <div class="swiper-slide">Slide 8</div>
-      <div class="swiper-slide">Slide 9</div>
-      <div class="swiper-slide">Slide 10</div>
+  <body>
+    <!-- Swiper -->
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">Slide 1</div>
+        <div class="swiper-slide">Slide 2</div>
+        <div class="swiper-slide">Slide 3</div>
+        <div class="swiper-slide">Slide 4</div>
+        <div class="swiper-slide">Slide 5</div>
+        <div class="swiper-slide">Slide 6</div>
+        <div class="swiper-slide">Slide 7</div>
+        <div class="swiper-slide">Slide 8</div>
+        <div class="swiper-slide">Slide 9</div>
+        <div class="swiper-slide">Slide 10</div>
+      </div>
+      <!-- Add Pagination -->
+      <div class="swiper-pagination"></div>
+      <!-- Add Pagination -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
     </div>
-    <!-- Add Pagination -->
-    <div class="swiper-pagination"></div>
-    <!-- Add Pagination -->
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-  </div>
 
+    <!-- Initialize Swiper -->
+    <script type="module">
+      import Swiper from 'swiper/swiper-bundle.mjs';
+      import 'swiper/swiper-bundle.css';
+      var swiper = new Swiper('.swiper', {
+        autoHeight: true, //enable auto height
+        spaceBetween: 20,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
+    </script>
 
+    <!-- Demo styles -->
+    <style>
+      body {
+        background: #eee;
+        font-family:
+          Helvetica Neue,
+          Helvetica,
+          Arial,
+          sans-serif;
+        font-size: 14px;
+        color: #000;
+        margin: 0;
+        padding: 0;
+      }
 
-  <!-- Initialize Swiper -->
-  <script type="module">
-    import Swiper from 'swiper/swiper-bundle.mjs';
-    import 'swiper/swiper-bundle.css';
-    var swiper = new Swiper('.swiper', {
-      autoHeight: true, //enable auto height
-      spaceBetween: 20,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    });
-  </script>
+      .swiper {
+        width: 100%;
+        height: auto;
+      }
 
-  <!-- Demo styles -->
-  <style>
-    body {
-      background: #eee;
-      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-      font-size: 14px;
-      color: #000;
-      margin: 0;
-      padding: 0;
-    }
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+      }
 
-    .swiper {
-      width: 100%;
-      height: auto;
-    }
+      .swiper .swiper-slide {
+        height: 300px;
+        line-height: 300px;
+      }
 
-    .swiper-slide {
-      text-align: center;
-      font-size: 18px;
-      background: #fff;
-
-    }
-
-    .swiper .swiper-slide {
-      height: 300px;
-      line-height: 300px;
-    }
-
-    .swiper .swiper-slide:nth-child(2n) {
-      height: 500px;
-      line-height: 500px;
-    }
-  </style>
-</body>
-
+      .swiper .swiper-slide:nth-child(2n) {
+        height: 500px;
+        line-height: 500px;
+      }
+    </style>
+  </body>
 </html>

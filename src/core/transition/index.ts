@@ -1,6 +1,6 @@
 import setTransition from './setTransition';
-import transitionStart from './transitionStart';
 import transitionEnd from './transitionEnd';
+import transitionStart from './transitionStart';
 
 export default {
   setTransition,

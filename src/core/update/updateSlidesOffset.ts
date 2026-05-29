@@ -3,7 +3,6 @@ import type { Swiper } from '../core';
 export default function updateSlidesOffset(this: Swiper): void {
   const swiper = this;
   const slides = swiper.slides;
-  // eslint-disable-next-line
   const minusOffset = swiper.isElement
     ? swiper.isHorizontal()
       ? swiper.wrapperEl.offsetLeft

@@ -1,4 +1,5 @@
 import { h, type Ref, type VNode } from 'vue';
+
 import type { Swiper as SwiperClass } from '../core/core';
 
 export interface VueVirtualData {

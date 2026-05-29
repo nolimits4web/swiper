@@ -1,4 +1,3 @@
-/* eslint no-unused-vars: "off" */
 import type { Swiper } from '../core';
 
 export default function slideNext(
@@ -22,7 +21,6 @@ export default function slideNext(
   if (params.loop) {
     if (animating && !isVirtual && params.loopPreventsSliding) return false;
     swiper.loopFix({ direction: 'next' });
-    // eslint-disable-next-line
     swiper._clientLeft = swiper.wrapperEl.clientLeft;
     if (swiper.activeIndex === swiper.slides.length - 1 && params.cssMode) {
       requestAnimationFrame(() => {

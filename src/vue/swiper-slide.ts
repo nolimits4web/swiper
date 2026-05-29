@@ -13,6 +13,7 @@ import {
   type SetupContext,
   type VNode,
 } from 'vue';
+
 import { uniqueClasses } from '../components-shared/utils';
 import type { Swiper as SwiperClass } from '../core/core';
 import type { VueSwiperSlideData } from './context';

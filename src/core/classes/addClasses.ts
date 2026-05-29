@@ -21,7 +21,7 @@ function prepareClasses(entries: ClassEntry[], prefix: string): string[] {
 export default function addClasses(this: Swiper): void {
   const swiper = this;
   const { classNames, params, rtl, el, device } = swiper;
-  // prettier-ignore
+  // oxfmt-ignore
   const suffixes = prepareClasses([
     'initialized',
     params.direction!,

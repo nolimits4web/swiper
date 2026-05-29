@@ -9,9 +9,12 @@ import React, {
   type MutableRefObject,
   type ReactNode,
 } from 'react';
-import SwiperCore from '../swiper';
+
+import { getChangedParams } from '../components-shared/get-changed-params';
 import { getParams } from '../components-shared/get-params';
 import { mountSwiper } from '../components-shared/mount-swiper';
+import { updateOnVirtualData } from '../components-shared/update-on-virtual-data';
+import { updateSwiper } from '../components-shared/update-swiper';
 import {
   needsScrollbar,
   needsNavigation,
@@ -20,18 +23,12 @@ import {
   extend,
   wrapperClass,
 } from '../components-shared/utils';
-import { getChangedParams } from '../components-shared/get-changed-params';
-import { getChildren } from './get-children';
-import { updateSwiper } from '../components-shared/update-swiper';
-import { renderVirtual, type VirtualData } from './virtual';
-import { updateOnVirtualData } from '../components-shared/update-on-virtual-data';
-import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect';
+import type { Swiper as SwiperClass, SwiperOptions, SwiperEventHandler } from '../core/core';
+import SwiperCore from '../swiper';
 import { SwiperContext } from './context';
-import type {
-  Swiper as SwiperClass,
-  SwiperOptions,
-  SwiperEventHandler,
-} from '../core/core';
+import { getChildren } from './get-children';
+import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect';
+import { renderVirtual, type VirtualData } from './virtual';
 
 type DropEvents =
   | 'onProgress'
@@ -45,9 +42,7 @@ type DropEvents =
   | 'onScroll'
   | 'onResize';
 
-export interface SwiperProps
-  extends Omit<HTMLAttributes<HTMLElement>, DropEvents>,
-    SwiperOptions {
+export interface SwiperProps extends Omit<HTMLAttributes<HTMLElement>, DropEvents>, SwiperOptions {
   tag?: string;
   wrapperTag?: string;
   onSwiper?: (swiper: SwiperClass) => void;
@@ -249,9 +244,7 @@ const Swiper = forwardRef<HTMLElement, SwiperProps>(function Swiper(propsArg, ex
             <div ref={nextElRef} className="swiper-button-next" />
           </>
         )}
-        {needsScrollbar(swiperParams) && (
-          <div ref={scrollbarElRef} className="swiper-scrollbar" />
-        )}
+        {needsScrollbar(swiperParams) && <div ref={scrollbarElRef} className="swiper-scrollbar" />}
         {needsPagination(swiperParams) && (
           <div ref={paginationElRef} className="swiper-pagination" />
         )}

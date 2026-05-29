@@ -3,7 +3,7 @@ import { Swiper, SwiperOptions } from './types/public';
 
 declare const register: () => void;
 
-// prettier-ignore
+// oxfmt-ignore
 interface SwiperContainerEventMap extends Omit<HTMLElementEventMap, 'click' | 'progress' | 'keypress' | 'resize' | 'touchstart' | 'touchmove' | 'touchend' | 'transitionend' | 'transitionstart'> {
   // CORE_EVENTS
 

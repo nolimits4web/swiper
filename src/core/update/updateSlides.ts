@@ -103,7 +103,7 @@ export default function updateSlides(this: Swiper): void {
       if (gridEnabled) {
         swiper.grid.updateSlide(i, slide, slides);
       }
-      if (elementStyle(slide, 'display') === 'none') continue; // eslint-disable-line
+      if (elementStyle(slide, 'display') === 'none') continue;
     }
 
     if (isVirtual && params.slidesPerView === 'auto') {
@@ -113,9 +113,8 @@ export default function updateSlides(this: Swiper): void {
       if (slideSize && slide) {
         if (params.roundLengths) slideSize = Math.floor(slideSize);
 
-        (slide.style as unknown as Record<string, string>)[
-          swiper.getDirectionLabel('width')
-        ] = `${slideSize}px`;
+        (slide.style as unknown as Record<string, string>)[swiper.getDirectionLabel('width')] =
+          `${slideSize}px`;
       }
     } else if (params.slidesPerView === 'auto') {
       if (shouldResetSlideSize) {
@@ -138,7 +137,6 @@ export default function updateSlides(this: Swiper): void {
           ? elementOuterSize(slide!, 'width', true)
           : elementOuterSize(slide!, 'height', true);
       } else {
-        // eslint-disable-next-line
         const width = getDirectionPropertyValue(slideStyles, 'width');
         const paddingLeft = getDirectionPropertyValue(slideStyles, 'padding-left');
         const paddingRight = getDirectionPropertyValue(slideStyles, 'padding-right');
@@ -173,9 +171,8 @@ export default function updateSlides(this: Swiper): void {
       if (params.roundLengths) slideSize = Math.floor(slideSize);
 
       if (slide) {
-        (slide.style as unknown as Record<string, string>)[
-          swiper.getDirectionLabel('width')
-        ] = `${slideSize}px`;
+        (slide.style as unknown as Record<string, string>)[swiper.getDirectionLabel('width')] =
+          `${slideSize}px`;
       }
     }
     if (slide) {

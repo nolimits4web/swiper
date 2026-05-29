@@ -1,5 +1,4 @@
 import type { Swiper, SwiperModule } from '../../core/core';
-import type { CSSSelector } from '../../types/shared';
 import classesToSelector from '../../shared/classes-to-selector';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
 import {
@@ -9,6 +8,7 @@ import {
   makeElementsArray,
   setInnerHTML,
 } from '../../shared/utils';
+import type { CSSSelector } from '../../types/shared';
 
 export interface PaginationOptions {
   /**
@@ -664,8 +664,8 @@ const Pagination: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     const slidesLength = isVirtualEnabled(swiper)
       ? swiper.virtual.slides.length
       : swiper.grid && gridParams?.rows && gridParams.rows > 1
-      ? swiper.slides.length / Math.ceil(gridParams.rows)
-      : swiper.slides.length;
+        ? swiper.slides.length / Math.ceil(gridParams.rows)
+        : swiper.slides.length;
 
     const els = makeElementsArray(swiper.pagination.el as HTMLElement | HTMLElement[]);
     let paginationHTML = '';
@@ -680,7 +680,7 @@ const Pagination: SwiperModule = ({ swiper, extendParams, on, emit }) => {
         if (params.renderBullet) {
           paginationHTML += params.renderBullet.call(swiper, i, params.bulletClass);
         } else {
-          // prettier-ignore
+          // oxfmt-ignore
           paginationHTML += `<${params.bulletElement} ${swiper.isElement ? 'part="bullet"' : ''} class="${params.bulletClass}"></${params.bulletElement}>`;
         }
       }
@@ -827,7 +827,6 @@ const Pagination: SwiperModule = ({ swiper, extendParams, on, emit }) => {
 
   on('init', () => {
     if (getParams().enabled === false) {
-      // eslint-disable-next-line
       disable();
     } else {
       init();

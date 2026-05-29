@@ -1,16 +1,18 @@
-import fs from 'fs-extra';
 import path from 'path';
-import { globby } from 'globby';
 import * as url from 'url';
+
 import chalk from 'chalk';
 import elapsed from 'elapsed-time-logger';
-import autoprefixer from './utils/autoprefixer.js';
-import minifyCSS from './utils/minify-css.js';
-import { banner } from './utils/banner.js';
+import fs from 'fs-extra';
+import { globby } from 'globby';
+
 import config from './build-config.js';
-import { outputDir } from './utils/output-dir.js';
-import isProd from './utils/isProd.js';
+import autoprefixer from './utils/autoprefixer.js';
+import { banner } from './utils/banner.js';
 import { getSplittedCSS, proceedReplacements } from './utils/get-element-styles.js';
+import isProd from './utils/isProd.js';
+import minifyCSS from './utils/minify-css.js';
+import { outputDir } from './utils/output-dir.js';
 import unwrapCss from './utils/unwrap-css.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -20,7 +22,6 @@ const buildCSS = async ({ isBundle, modules, minified }) => {
   const modulesContent = [];
   for (const mod of modules) {
     modulesContent.push(
-      // eslint-disable-next-line no-await-in-loop
       await fs.readFile(path.resolve(__dirname, `../src/modules/${mod}/${mod}.css`), 'utf8'),
     );
   }
@@ -44,7 +45,6 @@ const buildCSS = async ({ isBundle, modules, minified }) => {
 };
 export default async function buildStyles() {
   elapsed.start('styles');
-  // eslint-disable-next-line import/no-named-as-default-member
   const modules = config.modules.filter((name) => {
     const cssFilePath = `./src/modules/${name}/${name}.css`;
     return fs.existsSync(cssFilePath);

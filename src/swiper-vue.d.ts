@@ -1,3 +1,5 @@
+import { ComponentOptionsMixin, DefineComponent, PropType, Ref } from 'vue';
+
 import type {
   A11yOptions,
   AutoplayOptions,
@@ -22,7 +24,6 @@ import type {
   FreeModeOptions,
   GridOptions,
 } from './types/public';
-import { ComponentOptionsMixin, DefineComponent, PropType, Ref } from 'vue';
 import type { SwiperOptions, Swiper as SwiperClass } from './types/public';
 
 declare const Swiper: DefineComponent<

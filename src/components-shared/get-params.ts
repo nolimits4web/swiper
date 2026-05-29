@@ -1,7 +1,7 @@
-import { isObject, extend } from './utils';
-import { paramsList } from './params-list';
-import defaults from '../core/defaults';
 import type { SwiperOptions, SwiperEvents, SwiperEventHandler } from '../core/core';
+import defaults from '../core/defaults';
+import { paramsList } from './params-list';
+import { isObject, extend } from './utils';
 
 export type SwiperEventsMap = {
   [E in keyof SwiperEvents]?: SwiperEvents[E];

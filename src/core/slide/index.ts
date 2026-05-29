@@ -1,10 +1,10 @@
-import slideTo from './slideTo';
-import slideToLoop from './slideToLoop';
 import slideNext from './slideNext';
 import slidePrev from './slidePrev';
 import slideReset from './slideReset';
-import slideToClosest from './slideToClosest';
+import slideTo from './slideTo';
 import slideToClickedSlide from './slideToClickedSlide';
+import slideToClosest from './slideToClosest';
+import slideToLoop from './slideToLoop';
 
 export default {
   slideTo,

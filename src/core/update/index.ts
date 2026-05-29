@@ -1,12 +1,12 @@
+import updateActiveIndex from './updateActiveIndex';
+import updateAutoHeight from './updateAutoHeight';
+import updateClickedSlide from './updateClickedSlide';
+import updateProgress from './updateProgress';
 import updateSize from './updateSize';
 import updateSlides from './updateSlides';
-import updateAutoHeight from './updateAutoHeight';
+import updateSlidesClasses from './updateSlidesClasses';
 import updateSlidesOffset from './updateSlidesOffset';
 import updateSlidesProgress from './updateSlidesProgress';
-import updateProgress from './updateProgress';
-import updateSlidesClasses from './updateSlidesClasses';
-import updateActiveIndex from './updateActiveIndex';
-import updateClickedSlide from './updateClickedSlide';
 
 export default {
   updateSize,

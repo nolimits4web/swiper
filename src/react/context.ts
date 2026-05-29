@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react';
+
 import type { Swiper as SwiperClass } from '../core/core';
 
 export interface SwiperSlideData {

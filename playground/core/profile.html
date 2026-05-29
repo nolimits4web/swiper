@@ -1,254 +1,347 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <title>Swiper drag-compute profiler</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <style>
-    html, body { margin: 0; padding: 0; height: 100%; }
-    body {
-      background: #eee;
-      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-      font-size: 13px;
-      color: #111;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* control bar */
-    .bar {
-      flex: 0 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 14px;
-      align-items: center;
-      padding: 8px 12px;
-      background: #1d1f23;
-      color: #eee;
-      box-shadow: 0 1px 4px rgba(0,0,0,.3);
-      z-index: 10;
-    }
-    .bar label { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
-    .bar input[type="number"] { width: 64px; }
-    .bar button {
-      background: #4a8cff; color: #fff; border: 0; border-radius: 4px;
-      padding: 5px 12px; cursor: pointer; font-weight: 600;
-    }
-    .bar .hint { opacity: .6; }
-
-    /* swiper fills the rest */
-    .stage { flex: 1 1 auto; position: relative; min-height: 0; }
-    .swiper { width: 100%; height: 100%; }
-    .swiper-slide {
-      text-align: center; font-size: 18px; background: #fff;
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden; position: relative;
-    }
-    .swiper-slide .bg {
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, #6a8cff, #b06aff);
-      opacity: .25;
-      width: 130%; /* parallax needs room to travel */
-    }
-    .swiper-slide .label { position: relative; z-index: 1; font-weight: 700; }
-
-    /* live overlay */
-    .hud {
-      position: absolute; top: 8px; left: 8px; z-index: 5;
-      background: rgba(15,17,20,.86); color: #d6f5d6;
-      font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace;
-      padding: 10px 12px; border-radius: 6px; white-space: pre;
-      pointer-events: none; min-width: 230px;
-    }
-    .hud b { color: #fff; }
-    .hud .warn { color: #ff8a8a; }
-    .hud .ok { color: #8aff9e; }
-  </style>
-</head>
-
-<body>
-  <div class="bar">
-    <strong>worst-case drag profiler</strong>
-    <label>slides <input id="c-count" type="number" min="1" step="10" /></label>
-    <label>slidesPerView <input id="c-spv" type="number" min="1" step="1" /></label>
-    <label><input id="c-watch" type="checkbox" /> watchSlidesProgress</label>
-    <label><input id="c-free" type="checkbox" /> freeMode</label>
-    <label><input id="c-parallax" type="checkbox" /> parallax</label>
-    <button id="apply">Apply &amp; reload</button>
-    <span class="hint">drag the strip (mouse or touch); HUD resets each drag</span>
-  </div>
-
-  <div class="stage">
-    <div class="hud" id="hud">initializing…</div>
-    <div class="swiper">
-      <div class="swiper-wrapper" id="wrapper"></div>
-    </div>
-  </div>
-
-  <script type="module">
-    import 'swiper/swiper-bundle.css';
-    import Swiper from 'swiper/swiper-bundle.mjs';
-
-    // ---- config from query string (with defaults tuned to the worst case) ----
-    const qs = new URLSearchParams(location.search);
-    const num = (k, d) => (qs.has(k) ? parseInt(qs.get(k), 10) : d);
-    const bool = (k, d) => (qs.has(k) ? qs.get(k) === '1' : d);
-
-    const cfg = {
-      count: num('count', 100),
-      spv: num('spv', 3),
-      watch: bool('watch', true),
-      free: bool('free', false),
-      parallax: bool('parallax', false),
-    };
-
-    // reflect config into the control bar
-    document.getElementById('c-count').value = cfg.count;
-    document.getElementById('c-spv').value = cfg.spv;
-    document.getElementById('c-watch').checked = cfg.watch;
-    document.getElementById('c-free').checked = cfg.free;
-    document.getElementById('c-parallax').checked = cfg.parallax;
-    document.getElementById('apply').addEventListener('click', () => {
-      const p = new URLSearchParams({
-        count: document.getElementById('c-count').value,
-        spv: document.getElementById('c-spv').value,
-        watch: document.getElementById('c-watch').checked ? '1' : '0',
-        free: document.getElementById('c-free').checked ? '1' : '0',
-        parallax: document.getElementById('c-parallax').checked ? '1' : '0',
-      });
-      location.search = p.toString();
-    });
-
-    // ---- build slides ----
-    const wrapper = document.getElementById('wrapper');
-    const frag = document.createDocumentFragment();
-    for (let i = 0; i < cfg.count; i += 1) {
-      const slide = document.createElement('div');
-      slide.className = 'swiper-slide';
-      if (cfg.parallax) {
-        const bg = document.createElement('div');
-        bg.className = 'bg';
-        bg.setAttribute('data-swiper-parallax', '-40%');
-        slide.appendChild(bg);
+  <head>
+    <meta charset="UTF-8" />
+    <title>Swiper drag-compute profiler</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
       }
-      const label = document.createElement('div');
-      label.className = 'label';
-      label.textContent = String(i + 1);
-      slide.appendChild(label);
-      frag.appendChild(slide);
-    }
-    wrapper.appendChild(frag);
+      body {
+        background: #eee;
+        font-family:
+          Helvetica Neue,
+          Helvetica,
+          Arial,
+          sans-serif;
+        font-size: 13px;
+        color: #111;
+        display: flex;
+        flex-direction: column;
+      }
 
-    // ---- init swiper ----
-    const swiper = new Swiper('.swiper', {
-      slidesPerView: cfg.spv,
-      spaceBetween: 10,
-      loop: true,
-      watchSlidesProgress: cfg.watch,
-      ...(cfg.free ? { freeMode: { enabled: true } } : {}),
-      ...(cfg.parallax ? { parallax: true } : {}),
-    });
-    window.swiper = swiper;
+      /* control bar */
+      .bar {
+        flex: 0 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 14px;
+        align-items: center;
+        padding: 8px 12px;
+        background: #1d1f23;
+        color: #eee;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        z-index: 10;
+      }
+      .bar label {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+      }
+      .bar input[type='number'] {
+        width: 64px;
+      }
+      .bar button {
+        background: #4a8cff;
+        color: #fff;
+        border: 0;
+        border-radius: 4px;
+        padding: 5px 12px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .bar .hint {
+        opacity: 0.6;
+      }
 
-    // ---- instrument the per-event compute path ----
-    // Wrap the methods onTouchMove drives each frame and record self-time.
-    const METHODS = [
-      'setTranslate',
-      'updateProgress',
-      'updateSlidesProgress',
-      'updateSlidesClasses',
-      'updateActiveIndex',
-      // loop path: only fires on boundary shifts, but heavy (DOM reorder +
-      // forced-layout sweep over all slides). loopFix time is INCLUSIVE of the
-      // four below it (they run inside it).
-      'loopFix',
-      'recalcSlides',
-      'updateSlides',
-      'updateSlidesOffset',
-      'slideTo',
-    ];
-    const stats = {};
-    METHODS.forEach((name) => {
-      if (typeof swiper[name] !== 'function') return;
-      stats[name] = { count: 0, max: 0, last: 0 };
-      const orig = swiper[name].bind(swiper);
-      swiper[name] = function instrumented(...args) {
-        const t = performance.now();
-        const r = orig(...args);
-        const d = performance.now() - t;
-        const s = stats[name];
-        s.count += 1;
-        s.last = d;
-        if (d > s.max) s.max = d;
-        return r;
+      /* swiper fills the rest */
+      .stage {
+        flex: 1 1 auto;
+        position: relative;
+        min-height: 0;
+      }
+      .swiper {
+        width: 100%;
+        height: 100%;
+      }
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+      .swiper-slide .bg {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #6a8cff, #b06aff);
+        opacity: 0.25;
+        width: 130%; /* parallax needs room to travel */
+      }
+      .swiper-slide .label {
+        position: relative;
+        z-index: 1;
+        font-weight: 700;
+      }
+
+      /* live overlay */
+      .hud {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        z-index: 5;
+        background: rgba(15, 17, 20, 0.86);
+        color: #d6f5d6;
+        font:
+          12px/1.45 ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          monospace;
+        padding: 10px 12px;
+        border-radius: 6px;
+        white-space: pre;
+        pointer-events: none;
+        min-width: 230px;
+      }
+      .hud b {
+        color: #fff;
+      }
+      .hud .warn {
+        color: #ff8a8a;
+      }
+      .hud .ok {
+        color: #8aff9e;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="bar">
+      <strong>worst-case drag profiler</strong>
+      <label>slides <input id="c-count" type="number" min="1" step="10" /></label>
+      <label>slidesPerView <input id="c-spv" type="number" min="1" step="1" /></label>
+      <label><input id="c-watch" type="checkbox" /> watchSlidesProgress</label>
+      <label><input id="c-free" type="checkbox" /> freeMode</label>
+      <label><input id="c-parallax" type="checkbox" /> parallax</label>
+      <button id="apply">Apply &amp; reload</button>
+      <span class="hint">drag the strip (mouse or touch); HUD resets each drag</span>
+    </div>
+
+    <div class="stage">
+      <div class="hud" id="hud">initializing…</div>
+      <div class="swiper">
+        <div class="swiper-wrapper" id="wrapper"></div>
+      </div>
+    </div>
+
+    <script type="module">
+      import 'swiper/swiper-bundle.css';
+      import Swiper from 'swiper/swiper-bundle.mjs';
+
+      // ---- config from query string (with defaults tuned to the worst case) ----
+      const qs = new URLSearchParams(location.search);
+      const num = (k, d) => (qs.has(k) ? parseInt(qs.get(k), 10) : d);
+      const bool = (k, d) => (qs.has(k) ? qs.get(k) === '1' : d);
+
+      const cfg = {
+        count: num('count', 100),
+        spv: num('spv', 3),
+        watch: bool('watch', true),
+        free: bool('free', false),
+        parallax: bool('parallax', false),
       };
-    });
 
-    // long tasks (>50ms) during the session
-    let longTasks = 0;
-    let longTaskMs = 0;
-    if ('PerformanceObserver' in window) {
-      try {
-        new PerformanceObserver((list) => {
-          for (const e of list.getEntries()) { longTasks += 1; longTaskMs += e.duration; }
-        }).observe({ entryTypes: ['longtask'] });
-      } catch (e) { /* not supported */ }
-    }
-
-    // ---- frame / drop tracking ----
-    let dragging = false;
-    let lastFrameT = 0;
-    const intervals = [];      // rolling recent frame intervals (ms)
-    const INT_MAX = 180;       // ~1.5-3s of history
-    let dragFrames = 0;
-    let dragDropped = 0;
-    let dragWorst = 0;
-    let dragSum = 0;        // sum of frame intervals during the drag (for avg)
-    let fpsCount = 0;
-    let fps = 0;
-    let fpsWindowStart = 0;
-
-    // Median of recent intervals -> robust display period (immune to the odd
-    // sub-frame or stalled rAF callback that a min/max would latch onto).
-    const displayPeriod = () => {
-      if (intervals.length < 5) return 1000 / 60;
-      const a = intervals.slice().sort((x, y) => x - y);
-      return a[Math.floor(a.length / 2)];
-    };
-
-    const resetDrag = () => {
-      dragFrames = 0; dragDropped = 0; dragWorst = 0; dragSum = 0;
-      METHODS.forEach((n) => { if (stats[n]) { stats[n].count = 0; stats[n].max = 0; stats[n].last = 0; } });
-    };
-
-    const stage = document.querySelector('.stage');
-    stage.addEventListener('pointerdown', () => { resetDrag(); dragging = true; }, true);
-    window.addEventListener('pointerup', () => { dragging = false; render(); }, true);
-    window.addEventListener('pointercancel', () => { dragging = false; render(); }, true);
-
-    const hud = document.getElementById('hud');
-    const f = (n, d = 2) => n.toFixed(d);
-
-    function render() {
-      const period = displayPeriod();
-      const budget = period.toFixed(2);
-      const dropClass = dragDropped > 0 ? 'warn' : 'ok';
-      const ltClass = longTasks > 0 ? 'warn' : 'ok';
-      const avg = dragFrames ? dragSum / dragFrames : 0;
-      // >10% over the display period = not actually holding native refresh
-      const avgClass = avg > period * 1.1 ? 'warn' : 'ok';
-
-      let methodLines = '';
-      METHODS.forEach((n) => {
-        const s = stats[n];
-        if (!s) return;
-        const hot = s.max > period; // a single call that alone blows a frame
-        methodLines += `  ${n.padEnd(20)} x${String(s.count).padStart(4)}  max ${f(s.max).padStart(6)}ms${hot ? '  <<' : ''}\n`;
+      // reflect config into the control bar
+      document.getElementById('c-count').value = cfg.count;
+      document.getElementById('c-spv').value = cfg.spv;
+      document.getElementById('c-watch').checked = cfg.watch;
+      document.getElementById('c-free').checked = cfg.free;
+      document.getElementById('c-parallax').checked = cfg.parallax;
+      document.getElementById('apply').addEventListener('click', () => {
+        const p = new URLSearchParams({
+          count: document.getElementById('c-count').value,
+          spv: document.getElementById('c-spv').value,
+          watch: document.getElementById('c-watch').checked ? '1' : '0',
+          free: document.getElementById('c-free').checked ? '1' : '0',
+          parallax: document.getElementById('c-parallax').checked ? '1' : '0',
+        });
+        location.search = p.toString();
       });
 
-      hud.innerHTML =
-`config: ${cfg.count} slides · spv ${cfg.spv}
+      // ---- build slides ----
+      const wrapper = document.getElementById('wrapper');
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < cfg.count; i += 1) {
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+        if (cfg.parallax) {
+          const bg = document.createElement('div');
+          bg.className = 'bg';
+          bg.setAttribute('data-swiper-parallax', '-40%');
+          slide.appendChild(bg);
+        }
+        const label = document.createElement('div');
+        label.className = 'label';
+        label.textContent = String(i + 1);
+        slide.appendChild(label);
+        frag.appendChild(slide);
+      }
+      wrapper.appendChild(frag);
+
+      // ---- init swiper ----
+      const swiper = new Swiper('.swiper', {
+        slidesPerView: cfg.spv,
+        spaceBetween: 10,
+        loop: true,
+        watchSlidesProgress: cfg.watch,
+        ...(cfg.free ? { freeMode: { enabled: true } } : {}),
+        ...(cfg.parallax ? { parallax: true } : {}),
+      });
+      window.swiper = swiper;
+
+      // ---- instrument the per-event compute path ----
+      // Wrap the methods onTouchMove drives each frame and record self-time.
+      const METHODS = [
+        'setTranslate',
+        'updateProgress',
+        'updateSlidesProgress',
+        'updateSlidesClasses',
+        'updateActiveIndex',
+        // loop path: only fires on boundary shifts, but heavy (DOM reorder +
+        // forced-layout sweep over all slides). loopFix time is INCLUSIVE of the
+        // four below it (they run inside it).
+        'loopFix',
+        'recalcSlides',
+        'updateSlides',
+        'updateSlidesOffset',
+        'slideTo',
+      ];
+      const stats = {};
+      METHODS.forEach((name) => {
+        if (typeof swiper[name] !== 'function') return;
+        stats[name] = { count: 0, max: 0, last: 0 };
+        const orig = swiper[name].bind(swiper);
+        swiper[name] = function instrumented(...args) {
+          const t = performance.now();
+          const r = orig(...args);
+          const d = performance.now() - t;
+          const s = stats[name];
+          s.count += 1;
+          s.last = d;
+          if (d > s.max) s.max = d;
+          return r;
+        };
+      });
+
+      // long tasks (>50ms) during the session
+      let longTasks = 0;
+      let longTaskMs = 0;
+      if ('PerformanceObserver' in window) {
+        try {
+          new PerformanceObserver((list) => {
+            for (const e of list.getEntries()) {
+              longTasks += 1;
+              longTaskMs += e.duration;
+            }
+          }).observe({ entryTypes: ['longtask'] });
+        } catch (e) {
+          /* not supported */
+        }
+      }
+
+      // ---- frame / drop tracking ----
+      let dragging = false;
+      let lastFrameT = 0;
+      const intervals = []; // rolling recent frame intervals (ms)
+      const INT_MAX = 180; // ~1.5-3s of history
+      let dragFrames = 0;
+      let dragDropped = 0;
+      let dragWorst = 0;
+      let dragSum = 0; // sum of frame intervals during the drag (for avg)
+      let fpsCount = 0;
+      let fps = 0;
+      let fpsWindowStart = 0;
+
+      // Median of recent intervals -> robust display period (immune to the odd
+      // sub-frame or stalled rAF callback that a min/max would latch onto).
+      const displayPeriod = () => {
+        if (intervals.length < 5) return 1000 / 60;
+        const a = intervals.slice().sort((x, y) => x - y);
+        return a[Math.floor(a.length / 2)];
+      };
+
+      const resetDrag = () => {
+        dragFrames = 0;
+        dragDropped = 0;
+        dragWorst = 0;
+        dragSum = 0;
+        METHODS.forEach((n) => {
+          if (stats[n]) {
+            stats[n].count = 0;
+            stats[n].max = 0;
+            stats[n].last = 0;
+          }
+        });
+      };
+
+      const stage = document.querySelector('.stage');
+      stage.addEventListener(
+        'pointerdown',
+        () => {
+          resetDrag();
+          dragging = true;
+        },
+        true,
+      );
+      window.addEventListener(
+        'pointerup',
+        () => {
+          dragging = false;
+          render();
+        },
+        true,
+      );
+      window.addEventListener(
+        'pointercancel',
+        () => {
+          dragging = false;
+          render();
+        },
+        true,
+      );
+
+      const hud = document.getElementById('hud');
+      const f = (n, d = 2) => n.toFixed(d);
+
+      function render() {
+        const period = displayPeriod();
+        const budget = period.toFixed(2);
+        const dropClass = dragDropped > 0 ? 'warn' : 'ok';
+        const ltClass = longTasks > 0 ? 'warn' : 'ok';
+        const avg = dragFrames ? dragSum / dragFrames : 0;
+        // >10% over the display period = not actually holding native refresh
+        const avgClass = avg > period * 1.1 ? 'warn' : 'ok';
+
+        let methodLines = '';
+        METHODS.forEach((n) => {
+          const s = stats[n];
+          if (!s) return;
+          const hot = s.max > period; // a single call that alone blows a frame
+          methodLines += `  ${n.padEnd(20)} x${String(s.count).padStart(4)}  max ${f(s.max).padStart(6)}ms${hot ? '  <<' : ''}\n`;
+        });
+
+        hud.innerHTML = `config: ${cfg.count} slides · spv ${cfg.spv}
   watch=${cfg.watch ? 1 : 0} free=${cfg.free ? 1 : 0} parallax=${cfg.parallax ? 1 : 0}
 display: ~${(1000 / period).toFixed(0)}Hz  (frame budget ${budget}ms)
 live fps: <b>${fps}</b>   ${dragging ? '<b>[dragging]</b>' : ''}
@@ -262,42 +355,42 @@ last drag:
 per-event self-time (this drag):
 ${methodLines || '  (no compute ran — try watch/free on)\n'}
 session long tasks: <b class="${ltClass}">${longTasks}</b> (${f(longTaskMs, 0)}ms total)`;
-    }
-
-    function tick(t) {
-      if (lastFrameT) {
-        const dt = t - lastFrameT;
-        // dt > 1s means the tab was suspended (blur / devtools pause) — not a
-        // rendered frame. Excluded everywhere so it can't poison the stats.
-        const sane = dt > 1 && dt < 1000;
-        if (dt > 1 && dt < 100) {            // steady frames -> display-period median
-          intervals.push(dt);
-          if (intervals.length > INT_MAX) intervals.shift();
-        }
-        if (dragging && sane) {
-          const P = displayPeriod();
-          dragFrames += 1;
-          dragSum += dt;
-          if (dt > dragWorst) dragWorst = dt;
-          if (dt > P * 1.5) dragDropped += 1;  // >50% over budget = a real drop
-        }
       }
-      lastFrameT = t;
 
-      // fps over a ~500ms window
-      fpsCount += 1;
-      if (!fpsWindowStart) fpsWindowStart = t;
-      if (t - fpsWindowStart >= 500) {
-        fps = Math.round((fpsCount * 1000) / (t - fpsWindowStart));
-        fpsCount = 0;
-        fpsWindowStart = t;
-        render();
+      function tick(t) {
+        if (lastFrameT) {
+          const dt = t - lastFrameT;
+          // dt > 1s means the tab was suspended (blur / devtools pause) — not a
+          // rendered frame. Excluded everywhere so it can't poison the stats.
+          const sane = dt > 1 && dt < 1000;
+          if (dt > 1 && dt < 100) {
+            // steady frames -> display-period median
+            intervals.push(dt);
+            if (intervals.length > INT_MAX) intervals.shift();
+          }
+          if (dragging && sane) {
+            const P = displayPeriod();
+            dragFrames += 1;
+            dragSum += dt;
+            if (dt > dragWorst) dragWorst = dt;
+            if (dt > P * 1.5) dragDropped += 1; // >50% over budget = a real drop
+          }
+        }
+        lastFrameT = t;
+
+        // fps over a ~500ms window
+        fpsCount += 1;
+        if (!fpsWindowStart) fpsWindowStart = t;
+        if (t - fpsWindowStart >= 500) {
+          fps = Math.round((fpsCount * 1000) / (t - fpsWindowStart));
+          fpsCount = 0;
+          fpsWindowStart = t;
+          render();
+        }
+        requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-    render();
-  </script>
-</body>
-
+      render();
+    </script>
+  </body>
 </html>

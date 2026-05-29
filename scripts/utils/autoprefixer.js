@@ -1,5 +1,5 @@
-import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
+import postcss from 'postcss';
 
 export default async (content, { from = undefined, to = undefined } = {}) =>
   new Promise((resolve, reject) => {

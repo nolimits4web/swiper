@@ -1,16 +1,15 @@
-/* eslint-disable spaced-comment */
-import Swiper from './swiper';
-import { paramsList } from './components-shared/params-list';
 import { getParams } from './components-shared/get-element-params';
+import { paramsList } from './components-shared/params-list';
+import { updateSwiper } from './components-shared/update-swiper';
 import {
   attrToProp,
   needsNavigation,
   needsPagination,
   needsScrollbar,
 } from './components-shared/utils';
-import { updateSwiper } from './components-shared/update-swiper';
-import { setInnerHTML } from './shared/utils';
 import type { Swiper as SwiperClass, SwiperOptions } from './core/core';
+import { setInnerHTML } from './shared/utils';
+import Swiper from './swiper';
 
 // CSS strings injected at build time. The sentinel string literals below are
 // replaced by scripts/build-modules.js after rollup emits the .mjs file.

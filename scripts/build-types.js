@@ -1,9 +1,11 @@
 import path from 'path';
-import { globby } from 'globby';
-import elapsed from 'elapsed-time-logger';
-import chalk from 'chalk';
-import fs from 'fs-extra';
 import * as url from 'url';
+
+import chalk from 'chalk';
+import elapsed from 'elapsed-time-logger';
+import fs from 'fs-extra';
+import { globby } from 'globby';
+
 import { outputDir } from './utils/output-dir.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

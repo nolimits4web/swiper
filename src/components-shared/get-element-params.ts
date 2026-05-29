@@ -1,7 +1,7 @@
-import { attrToProp, extend, isObject } from './utils';
-import { paramsList } from './params-list';
-import defaults from '../core/defaults';
 import type { SwiperOptions } from '../core/core';
+import defaults from '../core/defaults';
+import { paramsList } from './params-list';
+import { attrToProp, extend, isObject } from './utils';
 
 type FormattedValue = string | number | boolean | null | undefined | Record<string, unknown>;
 

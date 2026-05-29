@@ -249,7 +249,7 @@ const Thumb: SwiperModule = ({ swiper, extendParams, on }) => {
     const slidesPerView: number =
       thumbsSlidesPerView === 'auto'
         ? thumbsSwiper.slidesPerViewDynamic()
-        : thumbsSlidesPerView ?? 1;
+        : (thumbsSlidesPerView ?? 1);
 
     const autoScrollOffset = getParams().autoScrollOffset;
     const useOffset = autoScrollOffset && !thumbsSwiper.params.loop;

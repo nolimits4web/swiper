@@ -1,5 +1,5 @@
-import type { SwiperOptions } from './options';
 import type { Swiper } from '../core/core';
+import type { SwiperOptions } from './options';
 
 // Per-module events are contributed by `declare module '../../core/core'`
 // blocks in each module's runtime .ts. The augmentation lands on core/core's

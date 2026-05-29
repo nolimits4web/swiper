@@ -1,5 +1,5 @@
-import postcss from 'postcss';
 import cssnano from 'cssnano';
+import postcss from 'postcss';
 
 export default (content) => {
   return new Promise((resolve, reject) => {

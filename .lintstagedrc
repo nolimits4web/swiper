@@ -1,8 +1,3 @@
 {
-  "*.+(js)": [
-    "eslint"
-  ],
-  "*.+(js|json|scss|css|less|ts)": [
-    "prettier --write"
-  ]
+  "*.{js,jsx,mjs,cjs,ts,tsx,json,css,scss,less,html,md}": ["oxfmt"]
 }

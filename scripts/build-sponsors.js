@@ -1,6 +1,6 @@
 import fs from 'fs';
-import path from 'path';
 import https from 'https';
+import path from 'path';
 import * as url from 'url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -28,7 +28,7 @@ const buildTables = (sponsors) => {
     ...(sponsors['Platinum Sponsor'] || []),
     ...(sponsors['Gold Sponsor'] || []),
     ...(sponsors['Silver Sponsor'] || []),
-    ...(sponsors['Sponsor'] || []), // eslint-disable-line
+    ...(sponsors['Sponsor'] || []),
   ];
   let tableContent = '';
   if (tableSponsors.length > 0) {
@@ -44,7 +44,7 @@ const buildTables = (sponsors) => {
     if (rows.length > 0 && rows[rows.length - 1].length < perRow) {
       rows[rows.length - 1].push(...Array.from({ length: perRow - rows[rows.length - 1].length }));
     }
-    // prettier-ignore
+    // oxfmt-ignore
     tableContent = `\n<table>\n${rows
       .map((items) =>
         [

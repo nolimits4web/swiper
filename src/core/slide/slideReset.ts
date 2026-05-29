@@ -1,4 +1,3 @@
-/* eslint no-unused-vars: "off" */
 import type { Swiper } from '../core';
 
 export default function slideReset(

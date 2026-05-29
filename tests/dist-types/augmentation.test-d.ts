@@ -1,3 +1,5 @@
+import type { SwiperEvents, SwiperOptions } from '../../dist/core/core';
+import { Navigation } from '../../dist/modules';
 /**
  * Phase 6 regression guard: each module's `declare module '../../core/core'`
  * augmentation block must reach consumers through the SHIPPED `dist/` types,
@@ -18,8 +20,6 @@
  * test plus the `exports` map cover the path-resolution side.
  */
 import { Swiper } from '../../dist/swiper';
-import { Navigation } from '../../dist/modules';
-import type { SwiperEvents, SwiperOptions } from '../../dist/core/core';
 
 type Expect<T extends true> = T;
 type HasKey<O, K extends PropertyKey> = K extends keyof O ? true : false;

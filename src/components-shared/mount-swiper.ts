@@ -1,5 +1,5 @@
-import { needsNavigation, needsPagination, needsScrollbar } from './utils';
 import type { Swiper, SwiperOptions } from '../core/core';
+import { needsNavigation, needsPagination, needsScrollbar } from './utils';
 
 export interface MountSwiperRefs {
   el: HTMLElement;

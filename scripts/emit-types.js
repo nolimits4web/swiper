@@ -1,6 +1,7 @@
 import { spawn } from 'child_process';
-import elapsed from 'elapsed-time-logger';
+
 import chalk from 'chalk';
+import elapsed from 'elapsed-time-logger';
 
 export default async function emitTypes() {
   elapsed.start('emit-types');

@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": true,
+  "sortImports": {},
+  "sortPackageJson": true,
+  "overrides": [
+    {
+      "files": ["*.css"],
+      "options": { "singleQuote": false }
+    }
+  ],
+  "ignorePatterns": [
+    "build",
+    "dist",
+    "package.json",
+    "package-lock.json",
+    "CHANGELOG.md",
+    ".all-contributorsrc",
+    ".nova",
+    "**/*.yml",
+    "**/*.yaml"
+  ]
+}

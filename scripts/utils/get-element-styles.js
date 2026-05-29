@@ -1,9 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import * as url from 'url';
+
+import config from '../build-config.js';
 import autoprefixer from './autoprefixer.js';
 import minifyCss from './minify-css.js';
-import config from '../build-config.js';
 import unwrapCss from './unwrap-css.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -38,7 +39,6 @@ export const getSplittedCSS = (content) => {
   };
 };
 export const proceedReplacements = (content = '') => {
-  // eslint-disable-next-line
   const replace = ['invisible-blank', 'visible', 'zoomed', 'active', 'next', 'prev'];
 
   content = content
@@ -109,7 +109,6 @@ const proceedSlideReplacements = (content) => {
 };
 
 export default async function getElementStyles() {
-  // eslint-disable-next-line
   const modules = config.modules.filter((name) => {
     const cssFilePath = `./src/modules/${name}/${name}.css`;
     return fs.existsSync(cssFilePath);
@@ -122,7 +121,6 @@ export default async function getElementStyles() {
   const modulesCSSContent = [];
   for (const mod of modules) {
     modulesCSSContent.push(
-      // eslint-disable-next-line no-await-in-loop
       await fs.readFileSync(path.resolve(__dirname, `../../src/modules/${mod}/${mod}.css`), 'utf8'),
     );
   }
@@ -136,7 +134,6 @@ export default async function getElementStyles() {
     await autoprefixer([cssContentBundle, ...modulesCSSContent].join('\n')),
   );
   let cssStylesCore = await unwrapCss(await autoprefixer(cssContentCore));
-  // eslint-disable-next-line
   let cssStylesSlide = getSplittedCSS(cssStylesBundle).slides;
   cssStylesBundle = getSplittedCSS(cssStylesBundle).container;
   cssStylesCore = getSplittedCSS(cssStylesCore).container;

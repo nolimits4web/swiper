@@ -1,12 +1,12 @@
-import onTouchStart from './onTouchStart';
-import onTouchMove from './onTouchMove';
-import onTouchEnd from './onTouchEnd';
-import onResize from './onResize';
-import onClick from './onClick';
-import onScroll from './onScroll';
-import onLoad from './onLoad';
-import onDocumentTouchStart from './onDocumentTouchStart';
 import type { Swiper } from '../core';
+import onClick from './onClick';
+import onDocumentTouchStart from './onDocumentTouchStart';
+import onLoad from './onLoad';
+import onResize from './onResize';
+import onScroll from './onScroll';
+import onTouchEnd from './onTouchEnd';
+import onTouchMove from './onTouchMove';
+import onTouchStart from './onTouchStart';
 
 const events = (swiper: Swiper, method: 'on' | 'off'): void => {
   const { params, el, wrapperEl, device } = swiper;

@@ -1,4 +1,7 @@
-/* eslint no-param-reassign: "off" */
+import { getBrowser, type SwiperBrowser } from '../shared/get-browser';
+import { getDevice, type SwiperDevice } from '../shared/get-device';
+import { getSupport, type SwiperSupport } from '../shared/get-support';
+import { processLazyPreloader, preload } from '../shared/process-lazy-preloader';
 import {
   extend,
   deleteProps,
@@ -7,33 +10,24 @@ import {
   elementStyle,
   elementIndex,
 } from '../shared/utils';
-import { getSupport, type SwiperSupport } from '../shared/get-support';
-import { getDevice, type SwiperDevice } from '../shared/get-device';
-import { getBrowser, type SwiperBrowser } from '../shared/get-browser';
-
-import Resize from './modules/resize/resize';
-import Observer from './modules/observer/observer';
-
-import eventsEmitter from './events-emitter';
-
-import update from './update/index';
-import translate from './translate/index';
-import transition from './transition/index';
-import slide from './slide/index';
-import loop from './loop/index';
-import grabCursor from './grab-cursor/index';
-import events from './events/index';
-import breakpoints from './breakpoints/index';
-import classes from './classes/index';
-import checkOverflow from './check-overflow/index';
-
-import defaults from './defaults';
-import moduleExtendParams from './moduleExtendParams';
-import { processLazyPreloader, preload } from '../shared/process-lazy-preloader';
-
-import type { SwiperOptions as PublicSwiperOptions } from '../types/options';
 import type { SwiperEvents as PublicSwiperEvents } from '../types/events';
+import type { SwiperOptions as PublicSwiperOptions } from '../types/options';
 import type { CSSSelector, SwiperModule } from '../types/shared';
+import breakpoints from './breakpoints/index';
+import checkOverflow from './check-overflow/index';
+import classes from './classes/index';
+import defaults from './defaults';
+import eventsEmitter from './events-emitter';
+import events from './events/index';
+import grabCursor from './grab-cursor/index';
+import loop from './loop/index';
+import moduleExtendParams from './moduleExtendParams';
+import Observer from './modules/observer/observer';
+import Resize from './modules/resize/resize';
+import slide from './slide/index';
+import transition from './transition/index';
+import translate from './translate/index';
+import update from './update/index';
 
 // Re-export the canonical shared types so they can be imported via
 // '../../core/core' alongside the runtime types augmented in this file.
@@ -690,7 +684,6 @@ export class Swiper {
         const newParams = extend({}, params, { el: containerEl });
         swipers.push(new Swiper(newParams));
       });
-      // eslint-disable-next-line no-constructor-return
       return swipers as unknown as Swiper;
     }
 
@@ -843,7 +836,6 @@ export class Swiper {
     }
 
     // Return app instance
-    // eslint-disable-next-line no-constructor-return
     return swiper;
   }
 
@@ -851,7 +843,7 @@ export class Swiper {
     if (this.isHorizontal()) {
       return property;
     }
-    // prettier-ignore
+    // oxfmt-ignore
     return ({
       'width': 'height',
       'margin-top': 'margin-left',

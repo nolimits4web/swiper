@@ -1,7 +1,7 @@
 import type { Swiper, SwiperModule } from '../../core/core';
-import type { CSSSelector } from '../../types/shared';
 import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
 import { makeElementsArray, setInnerHTML } from '../../shared/utils';
+import type { CSSSelector } from '../../types/shared';
 
 export interface NavigationOptions {
   /**
@@ -303,7 +303,6 @@ const Navigation: SwiperModule = ({ swiper, extendParams, on, emit }) => {
 
   on('init', () => {
     if (getParams().enabled === false) {
-      // eslint-disable-next-line
       disable();
     } else {
       init();

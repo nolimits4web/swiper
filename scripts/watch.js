@@ -1,10 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import chalk from 'chalk';
 import * as url from 'url';
-import buildTypes from './build-types.js';
-import buildStyles from './build-styles.js';
+
+import chalk from 'chalk';
+
 import buildModules from './build-modules.js';
+import buildStyles from './build-styles.js';
+import buildTypes from './build-types.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 console.log(chalk.cyan('Watching file changes ...'));

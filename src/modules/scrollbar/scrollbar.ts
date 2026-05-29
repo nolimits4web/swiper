@@ -1,9 +1,9 @@
 import type { Swiper, SwiperModule } from '../../core/core';
-import type { CSSSelector } from '../../types/shared';
-import { createElement, elementOffset, makeElementsArray, nextTick } from '../../shared/utils';
-import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
 import classesToSelector from '../../shared/classes-to-selector';
 import classesToTokens from '../../shared/classes-to-tokens';
+import createElementIfNotDefined from '../../shared/create-element-if-not-defined';
+import { createElement, elementOffset, makeElementsArray, nextTick } from '../../shared/utils';
+import type { CSSSelector } from '../../types/shared';
 
 /**
  * Object with scrollbar parameters.
@@ -222,7 +222,7 @@ const Scrollbar: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     if (!params.el || !swiper.scrollbar.el) return;
     const { scrollbar, rtlTranslate: rtl } = swiper;
     const { dragEl, el } = scrollbar;
-    const progress = swiper.params.loop ? swiper.progressLoop ?? 0 : swiper.progress;
+    const progress = swiper.params.loop ? (swiper.progressLoop ?? 0) : swiper.progress;
 
     let newSize = dragSize;
     let newPos = (trackSize - dragSize) * progress;
@@ -499,7 +499,6 @@ const Scrollbar: SwiperModule = ({ swiper, extendParams, on, emit }) => {
 
   on('init', () => {
     if (getParams().enabled === false) {
-      // eslint-disable-next-line
       disable();
     } else {
       init();

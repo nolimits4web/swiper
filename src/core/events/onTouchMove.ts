@@ -136,7 +136,6 @@ export default function onTouchMove(
     ) {
       data.isScrolling = false;
     } else {
-      // eslint-disable-next-line
       if (diffX * diffX + diffY * diffY >= 25) {
         touchAngle = (Math.atan2(Math.abs(diffY), Math.abs(diffX)) * 180) / Math.PI;
         data.isScrolling = swiper.isHorizontal()

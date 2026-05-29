@@ -1,4 +1,3 @@
-/* eslint no-param-reassign: "off" */
 import classesToTokens from './classes-to-tokens';
 
 export function deleteProps(obj: Record<string, unknown>): void {

@@ -121,7 +121,7 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
   let slidesAppended = 0;
 
   const activeColIndex = gridEnabled
-    ? (slides[activeSlideIndex] as LoopSlideEl).column ?? 0
+    ? ((slides[activeSlideIndex] as LoopSlideEl).column ?? 0)
     : activeSlideIndex;
   const activeColIndexWithShift =
     activeColIndex +

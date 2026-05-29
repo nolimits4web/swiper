@@ -1,5 +1,4 @@
 {
   "editor.formatOnSave": true,
-  "eslint.enable": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "oxc.oxc-vscode"
 }

@@ -4,7 +4,6 @@ export default function updateProgress(this: Swiper, translate?: number): void {
   const swiper = this;
   if (typeof translate === 'undefined') {
     const multiplier = swiper.rtlTranslate ? -1 : 1;
-    // eslint-disable-next-line
     translate = (swiper && swiper.translate && swiper.translate * multiplier) || 0;
   }
   const params = swiper.params;

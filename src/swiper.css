@@ -133,7 +133,7 @@
   }
   &.swiper-centered {
     > .swiper-wrapper::before {
-      content: '';
+      content: "";
       flex-shrink: 0;
       order: 9999;
     }

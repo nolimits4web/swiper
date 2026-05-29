@@ -14,9 +14,12 @@ import {
   type SetupContext,
   type VNode,
 } from 'vue';
-import SwiperCore from '../swiper';
+
+import { getChangedParams } from '../components-shared/get-changed-params';
 import { getParams } from '../components-shared/get-params';
 import { mountSwiper } from '../components-shared/mount-swiper';
+import { updateOnVirtualData } from '../components-shared/update-on-virtual-data';
+import { updateSwiper } from '../components-shared/update-swiper';
 import {
   extend,
   needsNavigation,
@@ -25,12 +28,10 @@ import {
   uniqueClasses,
   wrapperClass,
 } from '../components-shared/utils';
-import { getChangedParams } from '../components-shared/get-changed-params';
-import { getChildren, type MutableRef } from './get-children';
-import { updateSwiper } from '../components-shared/update-swiper';
-import { renderVirtual, type VueVirtualData } from './virtual';
-import { updateOnVirtualData } from '../components-shared/update-on-virtual-data';
 import type { Swiper as SwiperClass, SwiperEventHandler, SwiperOptions } from '../core/core';
+import SwiperCore from '../swiper';
+import { getChildren, type MutableRef } from './get-children';
+import { renderVirtual, type VueVirtualData } from './virtual';
 
 type VNodeWithLegacy = VNode & { componentOptions?: { tag?: string; Ctor?: unknown } };
 

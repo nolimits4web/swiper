@@ -1,5 +1,3 @@
-/* eslint no-underscore-dangle: "off" */
-/* eslint no-use-before-define: "off" */
 import type { Swiper, SwiperModule } from '../../core/core';
 
 export interface AutoplayOptions {
@@ -315,7 +313,6 @@ const Autoplay: SwiperModule = ({ swiper, extendParams, on, emit, params }) => {
       });
     }
 
-    // eslint-disable-next-line
     return delay;
   };
 

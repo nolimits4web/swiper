@@ -1,4 +1,3 @@
-/* eslint no-bitwise: ["error", { "allow": [">>"] }] */
 import type { Swiper, SwiperModule } from '../../core/core';
 import { elementTransitionEnd, nextTick } from '../../shared/utils';
 

@@ -1,5 +1,7 @@
-import { minify } from 'terser';
 import fs from 'fs';
+
+import { minify } from 'terser';
+
 import { banner } from './banner.js';
 
 export default async (fileName, filePath, bannerName) => {

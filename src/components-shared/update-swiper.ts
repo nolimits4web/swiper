@@ -1,6 +1,6 @@
+import type { Swiper, SwiperOptions } from '../core/core';
 import { setInnerHTML } from '../shared/utils';
 import { isObject } from './utils';
-import type { Swiper, SwiperOptions } from '../core/core';
 
 export interface UpdateSwiperArgs {
   swiper: Swiper;

@@ -1,17 +1,17 @@
 import chalk from 'chalk';
-import fs from 'fs-extra';
 import elapsed from 'elapsed-time-logger';
-import buildTypes from './build-types.js';
-import buildStyles from './build-styles.js';
+import fs from 'fs-extra';
+
 import buildModules from './build-modules.js';
+import buildStyles from './build-styles.js';
+import buildTypes from './build-types.js';
 import emitTypes from './emit-types.js';
-import { outputDir } from './utils/output-dir.js';
 import isProd from './utils/isProd.js';
+import { outputDir } from './utils/output-dir.js';
 
 class Build {
   constructor() {
     this.tasks = [];
-    // eslint-disable-next-line no-constructor-return
     return this;
   }
 
@@ -29,7 +29,7 @@ class Build {
 
     try {
       for (const buildFn of this.tasks) {
-        await buildFn(); // eslint-disable-line
+        await buildFn();
       }
     } catch (err) {
       console.error(err);

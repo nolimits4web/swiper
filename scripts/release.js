@@ -1,9 +1,10 @@
-import exec from 'exec-sh';
-import inquirer from 'inquirer';
 import fs from 'fs';
 import path from 'path';
-import { rimraf } from 'rimraf';
 import * as url from 'url';
+
+import exec from 'exec-sh';
+import inquirer from 'inquirer';
+import { rimraf } from 'rimraf';
 
 const pkg = JSON.parse(fs.readFileSync(new URL('../package.json', import.meta.url)));
 const childPkg = JSON.parse(fs.readFileSync(new URL('../src/copy/package.json', import.meta.url)));

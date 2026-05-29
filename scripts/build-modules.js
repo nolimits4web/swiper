@@ -1,17 +1,18 @@
-/* eslint-disable no-shadow */
 import fs from 'fs';
-import { rollup } from 'rollup';
+
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import typescript from '@rollup/plugin-typescript';
-import elapsed from 'elapsed-time-logger';
 import chalk from 'chalk';
-import getElementStyles from './utils/get-element-styles.js';
+import elapsed from 'elapsed-time-logger';
+import { rollup } from 'rollup';
+
 import { modules as configModules } from './build-config.js';
-import { capitalizeString } from './utils/helper.js';
-import minify from './utils/minify.js';
 import { banner } from './utils/banner.js';
+import getElementStyles from './utils/get-element-styles.js';
+import { capitalizeString } from './utils/helper.js';
 import isProd from './utils/isProd.js';
+import minify from './utils/minify.js';
 
 export default async function buildModules() {
   elapsed.start('modules');
@@ -25,7 +26,6 @@ export default async function buildModules() {
     }
   });
 
-  // eslint-disable-next-line
   const modulesPaths = configModules.map((name) => {
     return `./src/modules/${name}/${name}.ts`;
   });
@@ -158,10 +158,10 @@ export default async function buildModules() {
       const bannerName = f.includes('react')
         ? 'React'
         : f.includes('vue')
-        ? 'Vue'
-        : f.includes('element')
-        ? 'Custom Element'
-        : '';
+          ? 'Vue'
+          : f.includes('element')
+            ? 'Custom Element'
+            : '';
 
       fs.writeFileSync(`./dist/${f}`, `${banner(bannerName)}\n${content}`);
     });
@@ -264,10 +264,10 @@ export default async function buildModules() {
         const bannerName = f.includes('react')
           ? 'React'
           : f.includes('vue')
-          ? 'Vue'
-          : f.includes('element')
-          ? 'Custom Element'
-          : '';
+            ? 'Vue'
+            : f.includes('element')
+              ? 'Custom Element'
+              : '';
         return minify(f, `./dist/${f}`, bannerName);
       }),
     // IIFE

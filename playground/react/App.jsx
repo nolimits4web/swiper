@@ -1,8 +1,5 @@
-/* eslint-disable no-restricted-globals */
 import React from 'react';
-// eslint-disable-next-line
 import { A11y, Navigation, Pagination, Scrollbar, Mousewheel } from 'swiper/modules';
-// eslint-disable-next-line
 import { Swiper, SwiperSlide } from 'swiper/swiper-react';
 
 const App = () => {

@@ -1,4 +1,5 @@
 import React, { type CSSProperties, type ReactElement } from 'react';
+
 import type { Swiper as SwiperClass } from '../core/core';
 import type { ChildWithProps } from './get-children';
 

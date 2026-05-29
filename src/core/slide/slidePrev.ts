@@ -1,4 +1,3 @@
-/* eslint no-unused-vars: "off" */
 import type { Swiper } from '../core';
 
 export default function slidePrev(
@@ -20,7 +19,6 @@ export default function slidePrev(
     if (animating && !isVirtual && params.loopPreventsSliding) return false;
 
     swiper.loopFix({ direction: 'prev' });
-    // eslint-disable-next-line
     swiper._clientLeft = swiper.wrapperEl.clientLeft;
   }
   const translate = rtlTranslate ? swiper.translate : -swiper.translate;

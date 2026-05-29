@@ -70,8 +70,8 @@ export default function slideToLoop(
             ? 'prev'
             : 'next'
           : targetSlideIndex - swiper.activeIndex - 1 < (swiper.params.slidesPerView as number)
-          ? 'next'
-          : 'prev';
+            ? 'next'
+            : 'prev';
         swiper.loopFix({
           direction,
           slideTo: true,

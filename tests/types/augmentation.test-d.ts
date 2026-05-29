@@ -11,7 +11,6 @@
  * against a tiny demo file."
  */
 import type { Swiper, SwiperOptions, SwiperParams, SwiperEvents } from '../../src/core/core';
-
 // Importing a module's runtime export pulls in its `declare module` block,
 // which is the mechanism the plan locked in.
 import '../../src/modules/navigation/navigation';

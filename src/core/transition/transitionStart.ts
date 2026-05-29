@@ -1,5 +1,5 @@
-import transitionEmit from './transitionEmit';
 import type { Swiper } from '../core';
+import transitionEmit from './transitionEmit';
 
 export default function transitionStart(
   this: Swiper,

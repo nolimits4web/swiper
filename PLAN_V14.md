@@ -72,8 +72,12 @@ Decided. Every module declares its own augmentation of the central `Swiper` inte
 // src/modules/navigation/navigation.ts
 import type { Swiper, SwiperOptions, SwiperEvents } from '../../core/swiper';
 
-export interface NavigationOptions { /* ... */ }
-export interface NavigationMethods { /* ... */ }
+export interface NavigationOptions {
+  /* ... */
+}
+export interface NavigationMethods {
+  /* ... */
+}
 export interface NavigationEvents {
   navigationHide: (swiper: Swiper) => void;
   navigationShow: (swiper: Swiper) => void;
@@ -81,12 +85,18 @@ export interface NavigationEvents {
 }
 
 declare module '../../core/swiper' {
-  interface Swiper { navigation: NavigationMethods }
-  interface SwiperOptions { navigation?: NavigationOptions }
+  interface Swiper {
+    navigation: NavigationMethods;
+  }
+  interface SwiperOptions {
+    navigation?: NavigationOptions;
+  }
   interface SwiperEvents extends NavigationEvents {}
 }
 
-export function Navigation(/* ModuleContext */) { /* runtime */ }
+export function Navigation(/* ModuleContext */) {
+  /* runtime */
+}
 ```
 
 User-facing code does not change. As long as a user imports `{ Navigation } from 'swiper/modules'` (which they already must, to register at runtime), the augmentation comes with it. Confirmed trade-off: augmentations are global per-process, not per-instance. Acceptable.
@@ -96,8 +106,12 @@ User-facing code does not change. As long as a user imports `{ Navigation } from
 Decision: `Swiper` is declared as both an `interface` and a `class`, in that order, in `src/core/swiper.ts`:
 
 ```ts
-export interface Swiper { /* properties + method signatures */ }
-export class Swiper { /* runtime — implements the interface */ }
+export interface Swiper {
+  /* properties + method signatures */
+}
+export class Swiper {
+  /* runtime — implements the interface */
+}
 ```
 
 This lets module files target the **interface** with `declare module '../../core/swiper' { interface Swiper { ... } }`, which merges cleanly with the class. Without this split, the class declaration would collide with augmentation.
@@ -127,21 +141,25 @@ Considered and rejected. Trade-off was: precise per-instance types, at the cost 
 Each phase should land as its own PR/commit on a `v14` branch. Build + size snapshot run after each.
 
 **Phase 0 — infra**
+
 - Add `tsconfig.json`, switch build pipeline, set up CI for `tsc --noEmit`.
 - Add a public-API contract test: `tests/dist-contract.test.ts` that imports from `dist/` and exercises every public method/property/event name.
 - Snapshot current minified bundle sizes. Track per-phase deltas.
 
 **Phase 1 — shared utils**
+
 - `src/shared/utils.mjs` → `utils.ts`. Inline the helpers being deleted (see §7).
 - `get-support.ts`, `get-device.ts`, `get-browser.ts` — convert + simplify per §3.
 - Delete `ssr-window` dependency.
 
 **Phase 2 — core**
+
 - `src/core/*.mjs` → `.ts`. Declare `interface Swiper` + `class Swiper`. Re-type `params`, `el`, `wrapperEl`, `slides`, the event emitter, `touchEventsData`, etc.
 - Validate the augmentation pattern by typing one tiny core sub-module first (e.g., `grab-cursor`).
 - Keep `Object.assign(Swiper.prototype, prototypes)` working — just typed.
 
 **Phase 3 — modules (in this order)**
+
 1. Easy state-only modules: `a11y`, `keyboard`, `mousewheel`, `hash-navigation`, `history`.
 2. DOM-heavy stable modules: `navigation`, `pagination`, `scrollbar`.
 3. Behavior modules: `autoplay`, `free-mode`, `controller`, `thumbs`, `parallax`, `zoom`.
@@ -151,24 +169,27 @@ Each phase should land as its own PR/commit on a `v14` branch. Build + size snap
 Migrate one module at a time. After each, the augmentation should produce correct autocomplete and no TS errors against a tiny demo file.
 
 **Phase 4 — framework wrappers**
+
 - `src/react/` → TS + JSX (React types already a devDep).
 - `src/vue/` → TS. Trickiest because of Vue's macros around emits/props — may need `defineComponent` shape audit.
 - `src/element/` (Custom Element) → TS. Should be a clean translation.
 
 **Phase 5 — cleanup + release**
+
 - Delete `src/types/`. Sources are now canonical.
 - Update `package.json` `exports` map if anything shifted.
 - Regenerate `CHANGELOG.md`. Note in migration guide: "no source code changes required; types may surface latent issues."
 
 **Phase 6 — tsc declaration emission (close the augmentation gap) — DONE 2026-05-28**
 
-Phase 5 relocated `src/types/*` to the top level but the per-module `.d.ts` files (`src/modules/<name>.d.ts`) still hand-duplicated the `*Options` / `*Methods` / `*Events` interfaces that the runtime `.ts` already exports. They existed because the build only *copied* `.d.ts` files; it did not emit them from `.ts` sources.
+Phase 5 relocated `src/types/*` to the top level but the per-module `.d.ts` files (`src/modules/<name>.d.ts`) still hand-duplicated the `*Options` / `*Methods` / `*Events` interfaces that the runtime `.ts` already exports. They existed because the build only _copied_ `.d.ts` files; it did not emit them from `.ts` sources.
 
 That hand-duplication also masked a real shipping gap: each runtime module's `declare module '../../core/core' { interface SwiperOptions { navigation?: ... } }` block never reached consumers. The runtime `core/core`'s `SwiperOptions` was a separate interface from the public `swiper-options.d.ts`'s `SwiperOptions`, so augmentations landed on the wrong one. Reproduced before the fix as `error TS2353: 'navigation' does not exist in type 'SwiperOptions'` against shipped `dist/` types.
 
 **Resolution: consolidate canonical types into `core/core`**, keep the locked §4.2 augmentation pattern unchanged, and emit declarations via `tsc --emitDeclarationOnly` so users hit the augmented type. The structural choice was between (A) retargeting `declare module` paths in 23 modules to point at the hand-maintained public `.d.ts`, or (B) consolidating type declarations into `core/core` and re-exporting them through thin shims. Picked (B) — single source of truth, modules unchanged.
 
 Done:
+
 - **`src/types/` folder** holds the four type-only files renamed from `.d.ts` to `.ts` so tsc emits them: `options.ts`, `events.ts`, `shared.ts`, `public.ts` (the `swiper/types` aggregator). Keeps `src/` root limited to entry-point `.ts`/`.tsx` + framework-wrapper `.d.ts` + CSS.
 - **JSDoc migration**: ~500 lines of `Swiper`-interface JSDoc moved from the deleted `src/swiper.d.ts` into `src/core/core.ts`'s existing `interface Swiper` block and class methods. The runtime signatures (which were more accurate than the hand-maintained ones — `getTranslate(): number` vs the old `getTranslate(): any`) stayed; only the docstrings migrated. `core/core.ts` grew from ~1100 → ~1600 lines.
 - **`src/swiper.d.ts` deleted**. tsc emits `dist/swiper.d.ts` from `src/swiper.ts`'s `export { default as Swiper, default } from './core/core'` — a thin re-export that pulls in the canonical (augmented) types.
@@ -181,10 +202,12 @@ Done:
 - **`tests/dist-types/augmentation.test-d.ts`** (+ dedicated `tsconfig.dist-types.json`) asserts that `new Swiper('.x', { navigation: { nextEl: '.n' } })` type-checks against shipped `dist/` types after only `import { Navigation } from 'swiper/modules'`. Wired into `npm test` after `build:prod`. Kept separate from `tests/types/` (which compiles against source) because it depends on the build output existing.
 
 Hand-maintained files that remain in `src/` root:
+
 - Framework wrappers (`swiper-element.d.ts`, `swiper-react.d.ts`, `swiper-vue.d.ts`) — they carry build-time substitution markers that tsc can't template.
 - Their paired `.ts`/`.tsx` runtime files.
 
 Verified:
+
 - Augmentation reaches `dist/` consumers (Phase 6's primary goal). The pre-fix `TS2353` shipping-gap repro now type-checks.
 - `npm test` green: validate + build:prod + contract-test (10/10) + dist-types-test + bundle-size.
 - Bundle size **byte-identical** before vs after Phase 6 (verified by stashing the Phase 6 diff and re-running `bundle-size`; both report `-16985 B (-2.2%) / -2839 B (-1.3%)` vs the Phase 0 baseline). All accumulated savings are from Phases 1–5.
@@ -195,22 +218,23 @@ Verified:
 
 Confidence: H = high (just do it), M = medium (verify with a small spike), L = low (leave a TODO, do in v15).
 
-| # | Cleanup | File(s) | Confidence | Notes |
-|---|---|---|---|---|
-| 1 | Remove `ssr-window` dependency | everywhere | H | Replace with `typeof document !== 'undefined'` guards. Deletes one runtime dep entirely. |
-| 2 | Drop `support.smoothScroll` | `src/shared/get-support.mjs` | H | Universal at baseline. |
-| 3 | Simplify `support.touch` to inline `'ontouchstart' in window` | `src/shared/get-support.mjs` | H | `DocumentTouch` was removed from browsers years ago. May not even need a separate util — inline at the 2–3 call sites. |
-| 4 | Delete `browser.needPerspectiveFix` (Safari < 16.2 workaround) | `src/shared/get-browser.mjs` | H | Below baseline. Also lets the file shrink significantly. |
-| 5 | Keep `browser.need3dFix` for iOS WebView | same | — | Still a real bug on iOS WebView. |
-| 6 | Trim iPad-on-MacIntel screen-size table | `src/shared/get-device.mjs` | M | Verify whether Safari on modern iPadOS reports correctly now. If yes, delete the 12-entry screen-size array. If not, keep but document why. |
-| 7 | Replace custom DOM helpers in `src/shared/utils.mjs` | `utils.mjs` (~408 lines) | H | `elementChildren` → `[...el.children].filter(c => c.matches(sel))`. `elementOffset` → `getBoundingClientRect()`. `elementIndex` → `[...parent.children].indexOf(el)`. `elementStyle` → inline `getComputedStyle(el).getPropertyValue(prop)`. `elementOuterSize` → `getBoundingClientRect()` + computed margins. Likely halves the file. |
-| 8 | Audit `nextTick` / `now` / `extend` / `deleteProps` helpers | `utils.mjs` | M | `Date.now()` is universal. `Object.assign` covers `extend` for shallow cases. `nextTick` is a `setTimeout(fn, delay)` wrapper — keep or inline depending on call-site count. |
-| 9 | Verify `core/modules/resize` and `core/modules/observer` are thin wrappers over `ResizeObserver` / `MutationObserver` | `src/core/modules/{resize,observer}/` | M | Both ~67 lines. Already plausible they're modern; just confirm no dead polyfill paths. |
-| 10 | Collapse dual touch+pointer event registration | `src/core/events/index.mjs` lines 19–30 | L | **Defer to v15.** Currently registers both `touchstart`+`pointerdown` etc. with runtime guards in `onTouchStart`/`onTouchMove`. Pointer-only would shrink three handlers significantly but iOS WebView edge cases need their own investigation cycle. |
-| 11 | `process-lazy-preloader` modernization | `src/shared/process-lazy-preloader.mjs` | M | Check if it can use `loading="lazy"` + `IntersectionObserver` natively. |
-| 12 | Audit `create-shadow.mjs` and `create-element-if-not-defined.mjs` | `src/shared/` | M | Custom element helpers — may have grown legacy branches. |
+| #   | Cleanup                                                                                                               | File(s)                                 | Confidence | Notes                                                                                                                                                                                                                                                                                                                                   |
+| --- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Remove `ssr-window` dependency                                                                                        | everywhere                              | H          | Replace with `typeof document !== 'undefined'` guards. Deletes one runtime dep entirely.                                                                                                                                                                                                                                                |
+| 2   | Drop `support.smoothScroll`                                                                                           | `src/shared/get-support.mjs`            | H          | Universal at baseline.                                                                                                                                                                                                                                                                                                                  |
+| 3   | Simplify `support.touch` to inline `'ontouchstart' in window`                                                         | `src/shared/get-support.mjs`            | H          | `DocumentTouch` was removed from browsers years ago. May not even need a separate util — inline at the 2–3 call sites.                                                                                                                                                                                                                  |
+| 4   | Delete `browser.needPerspectiveFix` (Safari < 16.2 workaround)                                                        | `src/shared/get-browser.mjs`            | H          | Below baseline. Also lets the file shrink significantly.                                                                                                                                                                                                                                                                                |
+| 5   | Keep `browser.need3dFix` for iOS WebView                                                                              | same                                    | —          | Still a real bug on iOS WebView.                                                                                                                                                                                                                                                                                                        |
+| 6   | Trim iPad-on-MacIntel screen-size table                                                                               | `src/shared/get-device.mjs`             | M          | Verify whether Safari on modern iPadOS reports correctly now. If yes, delete the 12-entry screen-size array. If not, keep but document why.                                                                                                                                                                                             |
+| 7   | Replace custom DOM helpers in `src/shared/utils.mjs`                                                                  | `utils.mjs` (~408 lines)                | H          | `elementChildren` → `[...el.children].filter(c => c.matches(sel))`. `elementOffset` → `getBoundingClientRect()`. `elementIndex` → `[...parent.children].indexOf(el)`. `elementStyle` → inline `getComputedStyle(el).getPropertyValue(prop)`. `elementOuterSize` → `getBoundingClientRect()` + computed margins. Likely halves the file. |
+| 8   | Audit `nextTick` / `now` / `extend` / `deleteProps` helpers                                                           | `utils.mjs`                             | M          | `Date.now()` is universal. `Object.assign` covers `extend` for shallow cases. `nextTick` is a `setTimeout(fn, delay)` wrapper — keep or inline depending on call-site count.                                                                                                                                                            |
+| 9   | Verify `core/modules/resize` and `core/modules/observer` are thin wrappers over `ResizeObserver` / `MutationObserver` | `src/core/modules/{resize,observer}/`   | M          | Both ~67 lines. Already plausible they're modern; just confirm no dead polyfill paths.                                                                                                                                                                                                                                                  |
+| 10  | Collapse dual touch+pointer event registration                                                                        | `src/core/events/index.mjs` lines 19–30 | L          | **Defer to v15.** Currently registers both `touchstart`+`pointerdown` etc. with runtime guards in `onTouchStart`/`onTouchMove`. Pointer-only would shrink three handlers significantly but iOS WebView edge cases need their own investigation cycle.                                                                                   |
+| 11  | `process-lazy-preloader` modernization                                                                                | `src/shared/process-lazy-preloader.mjs` | M          | Check if it can use `loading="lazy"` + `IntersectionObserver` natively.                                                                                                                                                                                                                                                                 |
+| 12  | Audit `create-shadow.mjs` and `create-element-if-not-defined.mjs`                                                     | `src/shared/`                           | M          | Custom element helpers — may have grown legacy branches.                                                                                                                                                                                                                                                                                |
 
 **Out-of-scope cleanups** (named so future-me doesn't accidentally drag them in):
+
 - Any refactor of the touch event state machine itself.
 - Any change to CSS class naming or DOM structure.
 - Any change to the public options surface.

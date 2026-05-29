@@ -1,6 +1,6 @@
 import loopCreate from './loopCreate';
-import loopFix from './loopFix';
 import loopDestroy from './loopDestroy';
+import loopFix from './loopFix';
 
 export default {
   loopCreate,

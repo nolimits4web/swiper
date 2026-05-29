@@ -1092,6 +1092,7 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
 ### \$100 Silver Sponsor
 
 <!-- SILVER_SPONSOR -->
+
 - [PunchngNGR Norway](https://punchng.com/casino-online/no/)
 - [Casinos Online Mexico](https://www.cortijolapasion.mx/)
 - [Kasino Ilman Rekisteröintiä](https://kasino-ilman-tilia.net/)
@@ -1120,6 +1121,7 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
 ### \$50+ Sponsor
 
 <!-- SPONSOR -->
+
 - [EzBux - Earn Free Robux](https://ezbux.com)
 - [Podsuite](https://podsuite.io/)
 - [WriteHybrid AI Humanizer](https://www.writehybrid.com)

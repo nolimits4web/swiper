@@ -1,9 +1,9 @@
 import type { SwiperModule } from '../../core/core';
+import addSlide from './methods/addSlide';
 import appendSlide from './methods/appendSlide';
 import prependSlide from './methods/prependSlide';
-import addSlide from './methods/addSlide';
-import removeSlide from './methods/removeSlide';
 import removeAllSlides from './methods/removeAllSlides';
+import removeSlide from './methods/removeSlide';
 
 type SlideInput = HTMLElement | string | Array<HTMLElement | string>;
 
