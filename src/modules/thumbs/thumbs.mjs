@@ -178,7 +178,7 @@ export default function Thumb({ swiper, extendParams, on }) {
           newThumbsIndex > currentThumbsIndex &&
           thumbsSwiper.params.slidesPerGroup === 1
         ) {
-          // newThumbsIndex = newThumbsIndex - slidesPerView + 1;
+          newThumbsIndex = newThumbsIndex - slidesPerView + 1;
         }
         thumbsSwiper.slideTo(newThumbsIndex, slideSpeed);
       }
