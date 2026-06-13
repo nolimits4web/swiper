@@ -866,6 +866,18 @@ export interface SwiperOptions {
   wrapperClass?: string;
 
   /**
+   * When enabled, Swiper attaches `load` listeners to lazy images (`loading="lazy"`),
+   * removes the lazy preloader element once they load, and preloads adjacent slides.
+   *
+   * Set to `false` if you manage lazy loading yourself — Swiper will not attach any
+   * image `load` listeners (including the capture-phase listener on the root element),
+   * avoiding the layout reflows that `swiper.update()` triggers on every image load.
+   *
+   * @default true
+   */
+  lazyPreload?: boolean;
+
+  /**
    * CSS class name of lazy preloader
    *
    * @default 'swiper-lazy-preloader'
