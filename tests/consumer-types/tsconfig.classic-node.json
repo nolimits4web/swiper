@@ -1,0 +1,18 @@
+{
+  "//": "Legacy users on classic `node` resolution (TS calls it node10). This",
+  "//2": "mode IGNORES the `exports` map and resolves via `typings`, the",
+  "//3": "`typesVersions` table, and physical sibling `.d.ts` files. It is the",
+  "//4": "highest-risk path for breakage and the one that caught the v14",
+  "//5": "`swiper/types` regression. `ignoreDeprecations` is required because TS",
+  "//6": "6 deprecates this mode (removed in TS 7); drop this config once the",
+  "//7": "ecosystem has fully moved to node16/bundler. `fixtures-modern/` is",
+  "//8": "excluded: those entries are `exports`-only and never resolved here, in",
+  "//9": "v12 either.",
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0"
+  },
+  "include": ["fixtures/**/*.ts", "fixtures/**/*.tsx"]
+}

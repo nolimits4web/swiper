@@ -1,0 +1,9 @@
+{
+  "//": "Vite / webpack / esbuild users. Reads the package `exports` map.",
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler"
+  },
+  "include": ["fixtures/**/*.ts", "fixtures/**/*.tsx", "fixtures-modern/**/*.ts"]
+}

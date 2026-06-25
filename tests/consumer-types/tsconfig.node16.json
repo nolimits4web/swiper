@@ -1,0 +1,9 @@
+{
+  "//": "Modern Node ESM users (`node16` == `nodenext`). Reads `exports` map.",
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "node16",
+    "moduleResolution": "node16"
+  },
+  "include": ["fixtures/**/*.ts", "fixtures/**/*.tsx", "fixtures-modern/**/*.ts"]
+}

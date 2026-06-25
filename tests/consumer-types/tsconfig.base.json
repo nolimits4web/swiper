@@ -1,0 +1,15 @@
+{
+  "//": "Shared compiler options for the consumer type-resolution tests. Each",
+  "//2": "mode config below sets only `module` / `moduleResolution` and its file",
+  "//3": "set, so the three runs differ ONLY in how `swiper/*` subpaths resolve.",
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "jsx": "react-jsx",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
