@@ -39,11 +39,11 @@ break another — which is why all three are checked.
 ## Fixtures
 
 - `fixtures/` — entries that must resolve under **all** modes:
-  `core.ts`, `types.ts`, `react.tsx`, `vue.ts`, `element.ts`.
-- `fixtures-modern/` — `exports`-map-only entries (`css.ts`, `subpaths.ts` for
-  `swiper/bundle` + `swiper/core`). These never resolved under classic `node`
-  (true in v12 too — bundlers handle CSS, not `tsc`), so they're excluded from
-  the classic-`node` config.
+  `core.ts`, `types.ts`, `react.tsx`, `vue.ts`, `element.ts`, `bundle.ts`.
+- `fixtures-modern/` — `exports`-map-only entries (`css.ts`, and `subpaths.ts`
+  for `swiper/core`). These never resolved under classic `node` (true in v12
+  too — bundlers handle CSS, not `tsc`), so they're excluded from the
+  classic-`node` config.
 
 Fixtures include a few `// @ts-expect-error` lines on genuinely-wrong usage so
 the test also fails if the option/prop types silently degrade to `any`.
@@ -67,3 +67,11 @@ declarations resolve and the composables are shaped correctly.
    (`navigation`, `autoplay`, …) never attached. Fix:
    `scripts/fix-dts-extensions.js`, a post-emit build step that appends `.js`
    (which node16 resolves to the sibling `.d.ts`) to every relative specifier.
+3. **`swiper/bundle` module options** — the bundle registers every module at
+   runtime, but its `exports` `types` pointed at the bare `swiper.d.ts` (same as
+   core), so module options (`navigation`, `pagination`, …) errored even though
+   they work at runtime. v12 didn't hit this because it inlined all module
+   options into one `SwiperOptions`; v14's per-module augmentations only load via
+   `swiper/modules`. Fix: `scripts/build-modules.js` now emits a dedicated
+   `swiper-bundle.d.ts` that side-effect-imports the modules index (pulling in
+   every augmentation), with `exports`/`typesVersions` pointed at it.
