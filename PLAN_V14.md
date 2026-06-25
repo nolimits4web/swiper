@@ -214,6 +214,20 @@ Verified:
 
 **Babel fully removed (follow-up, 2026-05-28).** Initially scoped out of Phase 6 ("emit step only generates `.d.ts`; runtime still uses Babel"). Revisited and dropped entirely: at the v14 baseline `@babel/preset-env` is a no-op (all targets are full ES2022), and `@babel/preset-react`'s only job — the JSX transform in `src/react/*.tsx` — is now handled by `@rollup/plugin-typescript` with `jsx: 'react'`. Removed `babel.config.json` and all 5 Babel deps (`@babel/cli`, `@babel/core`, `@babel/preset-env`, `@babel/preset-react`, `@rollup/plugin-babel`). Verified: runtime bundles byte-identical, React output marginally smaller (TS emits native `{ ...spread }` instead of Babel's `_extends` helper), zero Babel helpers anywhere in `dist/`, `validate` + contract + dist-types all green.
 
+**Phase 7 — pre-release type-compat hardening (DONE 2026-06-25)**
+
+Goal: prove the v14 type rewrite ships **no type-level breaking changes** vs published v12, across every public entry point and every `moduleResolution` mode real users run.
+
+Built **`tests/consumer-types/`** — a consumer simulation that links `node_modules/swiper → dist/` (the publish root; `npm publish` runs from `dist/`) and type-checks fixtures importing by their real public names (`swiper`, `swiper/modules`, `swiper/react`, `swiper/vue`, `swiper/element`, `swiper/types`, `swiper/css`, `swiper/bundle`) under three configs: classic `node` (node10), `node16`/`nodenext`, and `bundler`. Unlike `tests/dist-types/` (bundler-only, raw `../../dist/...` imports), this exercises the real `exports` / `typesVersions` resolution a downstream project hits. Fixtures carry a few `@ts-expect-error` lines so the test also fails if option/prop types silently degrade to `any`. Wired into `npm test` as `consumer-types-test`. (The Web Component **is** fully typed — `register`, `SwiperContainer`/`SwiperSlide`, the `HTMLElementTagNameMap` global augmentation; the harness exercises it.)
+
+The export _surface_ was byte-identical to v12 (no dropped subpaths), but type _resolution_ had two regressions the bundler-only test could never see:
+
+1. **`swiper/types` under classic `node`.** v12 shipped `types/index.d.ts`; Phase 6 renamed the aggregator to `types/public.d.ts` and listed it only in `exports` (classic resolution ignores `exports`). Fix: added a `types` entry to `typesVersions` in `src/copy/package.json` — restores v12 parity.
+
+2. **node16/nodenext, package-wide.** tsc emits declarations carrying the extensionless relative specifiers from the `.ts` sources (`export * from '../core/core'`, `declare module '../../core/core'`). node16/nodenext require explicit extensions, so consumers silently failed to follow internal re-exports and `declare module` augmentation blocks: option/event types collapsed to `any`, `swiper/types` lost its named re-exports, and per-module augmentations (`navigation`, `autoplay`, …) never attached. v12 was immune because its hand-written `.d.ts` carried `.d.ts` extensions; the Phase 6 switch to tsc emit (extensionless source imports) opened the gap. Fix: **`scripts/fix-dts-extensions.js`**, a post-emit build step (runs last in `scripts/build.js`, after every `.d.ts` is written) that appends `.js` to each relative specifier in `import`/`export … from`, inline `import('…')`, and `declare module '…'`. node16 resolves the `.js` to the sibling `.d.ts`; bundler and classic `node` are unaffected.
+
+Verified: all three resolution modes type-check cleanly; runtime bundles byte-identical (only `.d.ts` + `package.json` `typesVersions` changed); full `npm test` green.
+
 ## 7. Bundle-size cleanups (locked for v14)
 
 Confidence: H = high (just do it), M = medium (verify with a small spike), L = low (leave a TODO, do in v15).
@@ -256,6 +270,7 @@ If during migration we discover a runtime bug that requires a behavior change to
 
 - **Contract test** (Phase 0): imports compiled `dist/` and exercises full public API. Should pass on v12 today; should keep passing through every v14 phase.
 - **Type tests**: a `tests/types/` directory with `.ts` files that import Swiper + modules and assert that `swiper.navigation.update()` etc. type-check. Use `tsd` or `expect-type`. Critical for validating the augmentation pattern works at the user surface.
+- **Consumer type-resolution tests** (Phase 7): `tests/consumer-types/` imports the built package by its public subpath names and type-checks fixtures (core, `swiper/types`, React, Vue, Web Component) under classic `node`, `node16`/`nodenext`, and `bundler`. Catches `exports`/`typesVersions` resolution regressions the bundler-only `dist-types` test misses. Part of `npm test`.
 - **Visual regression**: run the existing `demos/` against v12 dist and v14 dist; diff screenshots. Catches subtle CSS/DOM regressions.
 - **No new unit tests required** for the rewrite itself — the goal is no behavior change.
 
@@ -289,6 +304,8 @@ Captured so future-me doesn't re-litigate. Each entry: date — decision — rea
 - **2026-05-28** — `SwiperModuleFn` (internal, in `core/core.ts`) and `SwiperModule` (public, in `swiper-shared.d.ts`) **unified to `SwiperModule`** project-wide. They were structurally identical; the dual naming was historical drift.
 - **2026-05-28** — tsc emit strategy is **emit everything to `dist/`, hand-maintained files overwrite after**. `scripts/build-types.js` writes the framework-wrapper substituted `.d.ts` files at the same `dist/swiper-{react,vue,element}.d.ts` paths AFTER tsc emit; later writes win. Simpler than maintaining a tsconfig `exclude` list of wrapper entry files.
 - **2026-05-28** — `tests/dist-types/` is a **separate test directory** with its own `tsconfig.dist-types.json`, excluded from the main `tsconfig.json`. Reason: it imports from `dist/` so it must run AFTER `build:prod`; including it in the main type-check would fail on a clean tree.
+- **2026-06-25** — Added **Phase 7 consumer type-resolution tests** (`tests/consumer-types/`), checking every public entry point under classic `node` / `node16` / `bundler`. Reason: the existing `dist-types` test only covers `bundler` via raw `dist/` paths and missed two real regressions. Same exclusion rationale as `tests/dist-types/` — its own per-mode tsconfigs, excluded from the main `tsconfig.json`.
+- **2026-06-25** — Ship `.d.ts` with **explicit `.js` extensions on relative specifiers**, applied via a post-emit rewrite (`scripts/fix-dts-extensions.js`) rather than changing source import style. Reason: node16/nodenext require extensions; rewriting at emit avoids churning every source import to `.js` and keeps source ergonomic. Also added `types` to `typesVersions` to restore `swiper/types` resolution under classic `node`. Both restore v12 parity; neither touches runtime bundles.
 
 ## 12. Open questions (resolve before starting Phase 0)
 
