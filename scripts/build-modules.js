@@ -183,6 +183,18 @@ export default async function buildModules() {
       .join('\n')}\n`,
   );
 
+  // SWIPER_BUNDLE types — `swiper/bundle` registers every module at runtime, so
+  // its types must carry all module augmentations (navigation, pagination, …)
+  // without the user importing `swiper/modules`. Overwrite the bare
+  // tsc-emitted swiper-bundle.d.ts (a plain Swiper re-export) with a
+  // side-effect import of the modules index, which pulls in every module's
+  // `declare module` augmentation block. Extensions are already `.js`, so the
+  // later fix-dts-extensions step leaves this file untouched.
+  fs.writeFileSync(
+    './dist/swiper-bundle.d.ts',
+    `import './modules/index.js';\n\nexport { default as Swiper, default } from './core/core.js';\n`,
+  );
+
   // IIFE
   const replaceExports = {};
   ['swiper-bundle.mjs', 'swiper.mjs'].forEach((f) => {

@@ -20,7 +20,7 @@
       "default": "./swiper.mjs"
     },
     "./bundle": {
-      "types": "./swiper.d.ts",
+      "types": "./swiper-bundle.d.ts",
       "default": "./swiper-bundle.mjs"
     },
     "./css": {
@@ -269,6 +269,9 @@
       ],
       "types": [
         "./types/public.d.ts"
+      ],
+      "bundle": [
+        "./swiper-bundle.d.ts"
       ]
     }
   },
