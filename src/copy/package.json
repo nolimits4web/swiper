@@ -266,6 +266,9 @@
       ],
       "vue": [
         "./swiper-vue.d.ts"
+      ],
+      "types": [
+        "./types/public.d.ts"
       ]
     }
   },
