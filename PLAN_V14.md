@@ -230,6 +230,22 @@ The export _surface_ was byte-identical to v12 (no dropped subpaths), but type _
 
 Verified: all three resolution modes type-check cleanly; runtime bundles unaffected (only `.d.ts` + `package.json` `exports`/`typesVersions` changed); full `npm test` green.
 
+**Phase 8 — SSR runtime parity (DONE 2026-06-26)**
+
+Dropping `ssr-window` (§4.5) replaced its mock `window`/`document`/`HTMLElement` objects with inline `typeof` guards — but the guards only landed in the obvious feature-detect spots (`get-support`/`get-device`/`get-browser`, `swiper-element`). The **instantiation path** still carried unguarded global references, so constructing Swiper in a non-DOM env threw where v12 silently no-op'd (the ssr-window mocks had made those references resolve to harmless stubs).
+
+Important scope note: this was **not** a Next.js/React/Vue SSR break. The framework wrappers only call `new Swiper()` inside a mount/layout effect, which never runs server-side — so server rendering just emits static markup and was always fine. The regression only affected _imperatively_ calling `new Swiper(...)` in pure Node (an unusual but previously-safe pattern).
+
+Three unguarded references, all fixed with `typeof` guards (zero runtime cost on the browser path):
+
+1. **`core.ts` constructor** — `document.querySelectorAll(params.el)` in the multi-element branch (hit when `el` is a string). Guarded with `typeof document !== 'undefined' &&`.
+2. **`core.ts` `mount()`** — `initialEl instanceof HTMLElement` (`HTMLElement` is an unguarded global) fired on _every_ instantiation since `init: true` is the default. Fixed with an early `if (typeof document === 'undefined') return false;` at the top of `mount()`, which also covers the sibling `document.querySelector`.
+3. **`virtual.ts`** — `const tempDOM = document.createElement('div')` ran eagerly at module init (so it threw as soon as Virtual was registered, including via the bundle's auto-registration). Made lazy via a `getTempDOM()` helper. Audited all 23 modules — Virtual was the only one with an init-time DOM reference.
+
+New **`tests/ssr/ssr.test.mjs`** (wired into `npm test` as `ssr-test`, between `consumer-types-test` and `bundle-size`) is the regression guard — the rest of the suite is type-level only and can't catch a runtime SSR throw. It runs in pure Node (asserting `window`/`document` are genuinely undefined) and covers: bare imports; every `new Swiper()` form no-ops gracefully; the bundle-with-all-modules constructor; a per-module loop asserting none touch the DOM at init (`init: false`); React + Vue `renderToString`; and web-component `register()` as a server no-op. No new deps (React/Vue are existing devDeps; `@vue/server-renderer` ships as a hard dependency of `vue`). `.mjs` so it's excluded from `tsc` type-check, matching `dist-contract.test.mjs`.
+
+Verified: full `npm test` green (SSR test 8/8); runtime bundles still net smaller (the guards are tiny and `swiper-core` actually shrank).
+
 ## 7. Bundle-size cleanups (locked for v14)
 
 Confidence: H = high (just do it), M = medium (verify with a small spike), L = low (leave a TODO, do in v15).
@@ -273,6 +289,7 @@ If during migration we discover a runtime bug that requires a behavior change to
 - **Contract test** (Phase 0): imports compiled `dist/` and exercises full public API. Should pass on v12 today; should keep passing through every v14 phase.
 - **Type tests**: a `tests/types/` directory with `.ts` files that import Swiper + modules and assert that `swiper.navigation.update()` etc. type-check. Use `tsd` or `expect-type`. Critical for validating the augmentation pattern works at the user surface.
 - **Consumer type-resolution tests** (Phase 7): `tests/consumer-types/` imports the built package by its public subpath names and type-checks fixtures (core, `swiper/types`, React, Vue, Web Component) under classic `node`, `node16`/`nodenext`, and `bundler`. Catches `exports`/`typesVersions` resolution regressions the bundler-only `dist-types` test misses. Part of `npm test`.
+- **SSR runtime test** (Phase 8): `tests/ssr/ssr.test.mjs` runs in pure Node (no DOM) and asserts imports + every `new Swiper()` form + React/Vue `renderToString` + web-component `register()` never throw. The only _runtime_ test in the suite (everything else is type-level); guards the `ssr-window` removal against reintroduced unguarded `document`/`HTMLElement` references. Part of `npm test`.
 - **Visual regression**: run the existing `demos/` against v12 dist and v14 dist; diff screenshots. Catches subtle CSS/DOM regressions.
 - **No new unit tests required** for the rewrite itself — the goal is no behavior change.
 
@@ -309,6 +326,7 @@ Captured so future-me doesn't re-litigate. Each entry: date — decision — rea
 - **2026-06-25** — Added **Phase 7 consumer type-resolution tests** (`tests/consumer-types/`), checking every public entry point under classic `node` / `node16` / `bundler`. Reason: the existing `dist-types` test only covers `bundler` via raw `dist/` paths and missed two real regressions. Same exclusion rationale as `tests/dist-types/` — its own per-mode tsconfigs, excluded from the main `tsconfig.json`.
 - **2026-06-25** — Ship `.d.ts` with **explicit `.js` extensions on relative specifiers**, applied via a post-emit rewrite (`scripts/fix-dts-extensions.js`) rather than changing source import style. Reason: node16/nodenext require extensions; rewriting at emit avoids churning every source import to `.js` and keeps source ergonomic. Also added `types` to `typesVersions` to restore `swiper/types` resolution under classic `node`. Both restore v12 parity; neither touches runtime bundles.
 - **2026-06-25** — `swiper/bundle` gets **dedicated augmentation-loading types** (`dist/swiper-bundle.d.ts`, generated in `scripts/build-modules.js`) instead of reusing the bare `swiper.d.ts`. Reason: the bundle auto-registers every module at runtime, so its types must expose module options/events/methods without a `swiper/modules` import — the v14 augmentation split broke that. `swiper/core` deliberately stays bare (it mirrors the main entry's no-auto-register semantics).
+- **2026-06-26** — Phase 8 restores **SSR runtime parity** lost when `ssr-window` was removed. The instantiation path (`new Swiper(...)` in pure Node) threw on unguarded `document`/`HTMLElement` globals where v12's ssr-window mocks had made it a silent no-op. Fixed with `typeof` guards in `core.ts` (constructor + `mount()`) and lazy DOM creation in `virtual.ts`. **Framework SSR (Next.js/React/Vue) was never affected** — wrappers instantiate only in client mount effects. Added `tests/ssr/ssr.test.mjs` as the suite's only runtime test, since the type-level tests can't catch a runtime throw. Reason: "didn't throw in Node" is part of the implicit v12 contract; restore it and lock it with a test.
 
 ## 12. Open questions (resolve before starting Phase 0)
 
