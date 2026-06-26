@@ -22,8 +22,9 @@
     "contract-test": "node tests/dist-contract.test.mjs",
     "dist-types-test": "tsc --noEmit -p tsconfig.dist-types.json",
     "consumer-types-test": "node tests/consumer-types/run.mjs",
+    "ssr-test": "node tests/ssr/ssr.test.mjs",
     "release": "npm run validate && node ./scripts/release",
-    "test": "npm run validate && npm run build:prod && npm run contract-test && npm run dist-types-test && npm run consumer-types-test && npm run bundle-size",
+    "test": "npm run validate && npm run build:prod && npm run contract-test && npm run dist-types-test && npm run consumer-types-test && npm run ssr-test && npm run bundle-size",
     "changelog": "npx conventional-changelog -p angular -i CHANGELOG.md -u -s",
     "build-sponsors": "node scripts/build-sponsors.js"
   },
