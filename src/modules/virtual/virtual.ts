@@ -236,7 +236,9 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     return swiper.params.virtual as VirtualParamsRuntime;
   }
 
-  const tempDOM = document.createElement('div');
+  // Created lazily so module init does not touch the DOM (SSR / Node safe).
+  let tempDOM: HTMLElement | undefined;
+  const getTempDOM = (): HTMLElement => (tempDOM ??= document.createElement('div'));
 
   function renderSlide(slide: unknown, index: number): HTMLElement {
     const params = getParams();
@@ -247,8 +249,9 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     if (params.renderSlide) {
       const rendered = params.renderSlide.call(swiper, slide, index);
       if (typeof rendered === 'string') {
-        setInnerHTML(tempDOM, rendered);
-        slideEl = tempDOM.children[0] as HTMLElement;
+        const el = getTempDOM();
+        setInnerHTML(el, rendered);
+        slideEl = el.children[0] as HTMLElement;
       } else {
         slideEl = rendered as HTMLElement;
       }

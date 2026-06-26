@@ -677,6 +677,7 @@ export class Swiper {
     if (
       params.el &&
       typeof params.el === 'string' &&
+      typeof document !== 'undefined' &&
       document.querySelectorAll(params.el).length > 1
     ) {
       const swipers: Swiper[] = [];
@@ -1164,6 +1165,9 @@ export class Swiper {
   mount(this: Swiper, element?: HTMLElement | string): boolean {
     const swiper = this;
     if (swiper.mounted) return true;
+
+    // No DOM (SSR / Node) — nothing to mount to.
+    if (typeof document === 'undefined') return false;
 
     // Find el (params.el can be a CSSSelector, HTMLElement, or undefined)
     const initialEl = element ?? (swiper.params.el as CSSSelector | HTMLElement | undefined);
