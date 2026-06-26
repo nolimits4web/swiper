@@ -1,5 +1,30 @@
 # Changelog
 
+# [14.0.0](https://github.com/nolimits4web/Swiper/compare/v12.2.0...v14.0.0) (2026-06-26)
+
+Swiper v14 is a ground-up **TypeScript rewrite** of the entire codebase, focused on smaller bundles, more accurate types, and a modern browser baseline. (We skipped v13.)
+
+**Upgrading from v12 requires no code changes.** Every option, default, event, payload, method signature, and module import (`swiper/modules`, `swiper/react`, `swiper/vue`, `swiper/element`, …) behaves exactly as before. The only differences you may notice are tighter TypeScript types and a narrower set of supported browsers — see **Breaking Changes** below.
+
+### Highlights
+
+- **Single TypeScript source of truth.** `src/` is now `.ts`/`.tsx`. The hand-maintained `.d.ts` tree (`src/types/`, the per-module `.d.ts` files) is gone — declarations are emitted directly from the runtime source with `tsc`, so the shipped types can no longer drift from the implementation. Several signatures that used to be `any` are now correctly typed (e.g. `getTranslate(): number`).
+- **Per-module type augmentation.** Each module augments the central `Swiper` / `SwiperOptions` / `SwiperEvents` interfaces. Importing a module (e.g. `import { Navigation } from 'swiper/modules'`) brings its option, method, and event types along with it — mirroring how the runtime already requires registration.
+- **More reliable type resolution.** Types now resolve correctly under classic `node`, `node16`/`nodenext`, and `bundler` module resolution, and `swiper/bundle` exposes every module's options out of the box. Verified by a consumer-simulation test suite.
+- **Zero runtime dependencies.** The `ssr-window` dependency was removed and replaced with inline environment guards. Swiper now installs with no transitive runtime deps.
+- **Smaller minified bundles.** Legacy DOM-compat helpers and below-baseline feature detection were removed. The shared DOM utils shrank ~28%, and the main builds are ~2–4% smaller minified (`swiper.min.js` −4.1%, `swiper-element.min.js` −2.9%, `swiper-bundle.min.js` −2.3%).
+- **Babel removed from the build.** TypeScript now handles the JSX transform for the React wrapper, and `@babel/preset-env` is a no-op at the v14 baseline. Runtime output is byte-identical (React output is marginally smaller).
+
+### Breaking Changes
+
+- **Browser baseline raised to the last ~2 years of evergreen browsers.** Swiper v14 targets **Chrome / Edge 110+, Safari 16.4+ (iOS 16.4+), and Firefox 110+**. Code paths and feature detection for older browsers were removed (e.g. the `smoothScroll` support flag, the Safari < 16.2 perspective workaround, and the legacy `DocumentTouch` touch check). iOS/Android-specific quirk handling is kept but simplified. If you need to support older browsers, stay on v12.
+- **Node.js >= 20.19.0** is now required to build/develop against the package (`engines` was `>= 4.7.0`). This does not affect the browser runtime.
+- **Type-level changes.** Stricter types may surface latent issues in code that previously relied on `any`-typed access to Swiper internals. These are compile-time only — **there are no runtime behavior changes.**
+
+### SSR
+
+`ssr-window`'s mock `window`/`document` were replaced with inline `typeof` guards. Server rendering with the React / Vue / Element wrappers is unaffected — they only instantiate Swiper in client-side mount effects. Imperatively calling `new Swiper(...)` in a pure Node (non-DOM) environment once again no-ops gracefully, matching v12 behavior, and is now locked down by a dedicated SSR runtime test.
+
 # [12.2.0](https://github.com/nolimits4web/Swiper/compare/v12.1.4...v12.2.0) (2026-05-27)
 
 
