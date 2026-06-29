@@ -42,22 +42,23 @@ type ParamsLike = Partial<Pick<SwiperOptions, 'navigation' | 'pagination' | 'scr
 
 export function needsNavigation(params: ParamsLike = {}): boolean {
   const nav = params.navigation;
-  return (
-    !!nav &&
-    typeof nav !== 'boolean' &&
-    typeof nav.nextEl === 'undefined' &&
-    typeof nav.prevEl === 'undefined'
-  );
+  if (!nav) return false;
+  if (nav === true) return true;
+  return typeof nav.nextEl === 'undefined' && typeof nav.prevEl === 'undefined';
 }
 
 export function needsPagination(params: ParamsLike = {}): boolean {
   const pag = params.pagination;
-  return !!pag && typeof pag !== 'boolean' && typeof pag.el === 'undefined';
+  if (!pag) return false;
+  if (pag === true) return true;
+  return typeof pag.el === 'undefined';
 }
 
 export function needsScrollbar(params: ParamsLike = {}): boolean {
   const sb = params.scrollbar;
-  return !!sb && typeof sb !== 'boolean' && typeof sb.el === 'undefined';
+  if (!sb) return false;
+  if (sb === true) return true;
+  return typeof sb.el === 'undefined';
 }
 
 export function uniqueClasses(classNames = ''): string {
