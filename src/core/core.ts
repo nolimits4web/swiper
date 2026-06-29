@@ -1222,7 +1222,7 @@ export class Swiper {
     Object.assign(swiper, {
       el,
       wrapperEl,
-      slidesEl: swiper.isElement && !host!.slideSlots ? el.parentNode! : wrapperEl,
+      slidesEl: swiper.isElement && !host!.slideSlots ? host! : wrapperEl,
       hostEl: swiper.isElement ? host : el,
       mounted: true,
 
