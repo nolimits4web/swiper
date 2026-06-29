@@ -1,5 +1,15 @@
 # Changelog
 
+# [14.0.1](https://github.com/nolimits4web/Swiper/compare/v14.0.0...v14.0.1) (2026-06-29)
+
+Patch release fixing two web-component (and Vue wrapper) regressions introduced by the v14 rewrite.
+
+### Bug Fixes
+
+* **core:** restore slide detection in web component — the `<swiper-container>` element initialized with zero slides because `slidesEl` was resolved to the shadow root instead of the host element ([b3b822f](https://github.com/nolimits4web/Swiper/commit/b3b822f98edcd4ebfc9816a6b8924225bac3f5dd)), closes [#8196](https://github.com/nolimits4web/swiper/issues/8196)
+* **element:** render navigation/pagination/scrollbar when set as boolean params — bare boolean usage (`<swiper-container navigation>`, Vue `:navigation="true"`) stopped rendering the built-in controls ([253fa39](https://github.com/nolimits4web/Swiper/commit/253fa399f278b0edc9f74cec37f0df5edbe28ea9)), closes [#8196](https://github.com/nolimits4web/swiper/issues/8196)
+
+
 # [14.0.0](https://github.com/nolimits4web/Swiper/compare/v12.2.0...v14.0.0) (2026-06-26)
 
 Swiper v14 is a ground-up **TypeScript rewrite** of the entire codebase, focused on smaller bundles, more accurate types, and a modern browser baseline. (We skipped v13.)
