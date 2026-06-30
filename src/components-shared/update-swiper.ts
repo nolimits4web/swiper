@@ -49,7 +49,7 @@ export function updateSwiper(args: UpdateSwiperArgs): void {
   if (
     changedParams.includes('thumbs') &&
     isObject(passedThumbs) &&
-    isObject(passedThumbs.swiper) &&
+    passedThumbs.swiper &&
     !(passedThumbs.swiper as Swiper).destroyed &&
     isObject(currentThumbs) &&
     (!currentThumbs.swiper || (currentThumbs.swiper as Swiper).destroyed)
