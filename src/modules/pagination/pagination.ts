@@ -491,9 +491,12 @@ const Pagination: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     // Current/Total
     let current: number;
     let previousIndex: number | undefined;
+    const gridParams = swiper.params.grid as { rows?: number } | undefined;
     const slidesLength = isVirtualEnabled(swiper)
       ? swiper.virtual.slides.length
-      : swiper.slides.length;
+      : swiper.grid && gridParams?.rows && gridParams.rows > 1
+        ? swiper.slides.length / Math.ceil(gridParams.rows)
+        : swiper.slides.length;
     const total = swiper.params.loop
       ? Math.ceil(slidesLength / (swiper.params.slidesPerGroup ?? 1))
       : swiper.snapGrid.length;
