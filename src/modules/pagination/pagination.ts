@@ -367,6 +367,17 @@ const isVirtualEnabled = (swiper: Swiper): boolean =>
 const isFreeModeEnabled = (swiper: Swiper): boolean =>
   !!(swiper.params.freeMode as { enabled?: boolean } | undefined)?.enabled;
 
+// Slides count for bullets/fraction/progressbar totals: with grid rows the
+// slides that share a column collapse into one snap position.
+const getSlidesLength = (swiper: Swiper): number => {
+  if (isVirtualEnabled(swiper)) return swiper.virtual.slides.length;
+  const gridRows = (swiper.params.grid as { rows?: number } | undefined)?.rows;
+  if (swiper.grid && gridRows && gridRows > 1) {
+    return swiper.slides.length / Math.ceil(gridRows);
+  }
+  return swiper.slides.length;
+};
+
 const Pagination: SwiperModule = ({ swiper, extendParams, on, emit }) => {
   const pfx = 'swiper-pagination';
   extendParams({
@@ -491,12 +502,7 @@ const Pagination: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     // Current/Total
     let current: number;
     let previousIndex: number | undefined;
-    const gridParams = swiper.params.grid as { rows?: number } | undefined;
-    const slidesLength = isVirtualEnabled(swiper)
-      ? swiper.virtual.slides.length
-      : swiper.grid && gridParams?.rows && gridParams.rows > 1
-        ? swiper.slides.length / Math.ceil(gridParams.rows)
-        : swiper.slides.length;
+    const slidesLength = getSlidesLength(swiper);
     const total = swiper.params.loop
       ? Math.ceil(slidesLength / (swiper.params.slidesPerGroup ?? 1))
       : swiper.snapGrid.length;
@@ -663,12 +669,7 @@ const Pagination: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     // Render Container
     const params = getParams();
     if (isPaginationDisabled()) return;
-    const gridParams = swiper.params.grid as { rows?: number } | undefined;
-    const slidesLength = isVirtualEnabled(swiper)
-      ? swiper.virtual.slides.length
-      : swiper.grid && gridParams?.rows && gridParams.rows > 1
-        ? swiper.slides.length / Math.ceil(gridParams.rows)
-        : swiper.slides.length;
+    const slidesLength = getSlidesLength(swiper);
 
     const els = makeElementsArray(swiper.pagination.el as HTMLElement | HTMLElement[]);
     let paginationHTML = '';
