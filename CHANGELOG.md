@@ -1,5 +1,13 @@
 # Changelog
 
+# [14.0.2](https://github.com/nolimits4web/Swiper/compare/v14.0.1...v14.0.2) (2026-07-07)
+
+### Bug Fixes
+
+* **build:** spawn npx via shell on Windows in emit-types ([494f7b1](https://github.com/nolimits4web/Swiper/commit/494f7b14547ba4c7ce3f2b758d8a5b1bc9724f9f)), closes [#8197](https://github.com/nolimits4web/Swiper/issues/8197)
+* **pagination:** divide fraction/progressbar total by grid rows ([edfbfa5](https://github.com/nolimits4web/Swiper/commit/edfbfa553a8d7188261efe0a57d73b3b71359904))
+* **react:** bind Thumbs tap handler when thumbs swiper is set after init ([4fb72b9](https://github.com/nolimits4web/Swiper/commit/4fb72b92921da24ef11e764025bf05666c814cf3)), closes [#8198](https://github.com/nolimits4web/Swiper/issues/8198)
+
 # [14.0.1](https://github.com/nolimits4web/Swiper/compare/v14.0.0...v14.0.1) (2026-06-29)
 
 Patch release fixing two web-component (and Vue wrapper) regressions introduced by the v14 rewrite.
