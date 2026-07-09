@@ -226,7 +226,10 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
   swiper.virtual = {
     cache: {},
     from: 0,
-    to: 0,
+    // -1 marks "nothing rendered yet": no real update can produce to < from,
+    // so the first update() never mistakes slide 0 for an already-rendered
+    // slide and always appends the full [from, to] window (#8202).
+    to: -1,
     slides: [] as unknown[],
     offset: 0,
     slidesGrid: [],

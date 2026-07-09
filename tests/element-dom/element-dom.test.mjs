@@ -154,5 +154,41 @@ await check('explicit navigation nextEl/prevEl does not render default buttons',
   return container;
 });
 
+// Regression 3 (#8202): virtual mode must render the FIRST slide. The v14 TS migration
+// initialized swiper.virtual.to as 0 instead of undefined, so the first update() treated
+// slide 0 as already rendered and never appended it — every core/element virtual swiper
+// lost its first slide, and a single-slide virtual swiper rendered nothing at all.
+await check('virtual mode renders slide 0 (initial window is complete)', async () => {
+  const container = mountContainer({
+    attrs: { virtual: '', 'slides-per-view': '3' },
+    slideCount: 7,
+  });
+  const swiper = container.swiper;
+  assert.equal(swiper.virtual.slides.length, 7, 'all 7 DOM slides must be collected');
+  const rendered = [...container.querySelectorAll('swiper-slide')].map((el) =>
+    el.getAttribute('data-swiper-slide-index'),
+  );
+  assert.ok(rendered.includes('0'), `slide index 0 must be rendered, got [${rendered}]`);
+  for (let i = swiper.virtual.from; i <= swiper.virtual.to; i += 1) {
+    assert.ok(
+      rendered.includes(String(i)),
+      `slide ${i} within [from, to] = [${swiper.virtual.from}, ${swiper.virtual.to}] must be rendered, got [${rendered}]`,
+    );
+  }
+  const dupes = rendered.filter((v, i) => rendered.indexOf(v) !== i);
+  assert.equal(dupes.length, 0, `no slide may render twice, got dupes [${dupes}]`);
+  return container;
+});
+
+// #8202 worst case: with exactly one slide, from === to === 0 matched the initial
+// state so update() early-returned and the swiper rendered completely empty.
+await check('virtual mode renders a single slide', async () => {
+  const container = mountContainer({ attrs: { virtual: '' }, slideCount: 1 });
+  const rendered = [...container.querySelectorAll('swiper-slide')];
+  assert.equal(rendered.length, 1, 'the single virtual slide must be rendered');
+  assert.equal(rendered[0].getAttribute('data-swiper-slide-index'), '0');
+  return container;
+});
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);
