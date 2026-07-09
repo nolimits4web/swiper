@@ -1,5 +1,12 @@
 # Changelog
 
+# [14.0.5](https://github.com/nolimits4web/Swiper/compare/v14.0.2...v14.0.5) (2026-07-09)
+
+### Bug Fixes
+
+* **virtual:** render first slide on initial update ([ebdb054](https://github.com/nolimits4web/Swiper/commit/ebdb0541374fbd2ee109aa05e87a430161692503)), closes [#8202](https://github.com/nolimits4web/Swiper/issues/8202)
+
+
 # [14.0.2](https://github.com/nolimits4web/Swiper/compare/v14.0.1...v14.0.2) (2026-07-07)
 
 ### Bug Fixes

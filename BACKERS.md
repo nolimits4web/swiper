@@ -902,6 +902,7 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
 ### \$100 Silver Sponsor
 
 <!-- SILVER_SPONSOR -->
+
 - [Hexrate](https://hexrate.io/)
 - [Australian online casino](https://au.trustpilot.com/review/aussieonline.casino)
 - [Australian Online Pokies](https://au.trustpilot.com/review/bestaustraliaonlinepokies.com)
@@ -930,6 +931,7 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
 ### \$50+ Sponsor
 
 <!-- SPONSOR -->
+
 - [Tubidy](https://tubidy.llc)
 - [AI Humanizer](https://cleverhumanizer.ai/)
 - [Movavi](https://movavi.com/)
