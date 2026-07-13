@@ -6,6 +6,11 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
 <table>
   <tr>
     <td align="center" valign="middle">
+      <a href="https://global.fun88.com/" target="_blank">
+        <img src="https://cdn.sponsors.nolimits4web.com/sm02J44cATxUuyBCMATS/QLWPUy4BnhSJzMwwU1Cd/aaf341e68d3ab882.svg" alt="fun88" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
       <a href="https://hexrate.io/" target="_blank">
         <img src="https://cdn.sponsors.nolimits4web.com/5tF4Ze0EY5qSkZYnJM5w/CG3kMm77QHDaNrnTK8pD/c3f251a3494b7ac2.png" alt="Hexrate" width="160">
       </a>
@@ -60,13 +65,13 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/kurko-uudetnettikasinot.png" alt="Kasino Kurko: Uudet nettikasinot" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://fi.parhaatuudetkasinot.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/parhaatuudetkasinotcom.png" alt="Uudet Nettikasinot" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.vanguardngr.com/casino/fr/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/vanguardngr-france.png" alt="VanguardNGR France" width="160">
@@ -113,6 +118,23 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
       </a>
     </td>
     <td align="center" valign="middle">
+      <a href="https://www.fun88vnplay.com/" target="_blank">
+        <img src="https://cdn.sponsors.nolimits4web.com/sm02J44cATxUuyBCMATS/QLWPUy4BnhSJzMwwU1Cd/aaf341e68d3ab882.svg" alt="fun88" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.fun88asiath.com/" target="_blank">
+        <img src="https://cdn.sponsors.nolimits4web.com/sm02J44cATxUuyBCMATS/QLWPUy4BnhSJzMwwU1Cd/aaf341e68d3ab882.svg" alt="fun88" width="160">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle">
+      <a href="https://www.jbo579.com/th/" target="_blank">
+        <img src="https://cdn.sponsors.nolimits4web.com/sm02J44cATxUuyBCMATS/mvoaoFi3V83RO6BdgPp7/ff82cb5d7a05fad7.png" alt="jbo" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
       <a href="https://tubidy.llc" target="_blank">
         <img src="https://cdn.sponsors.nolimits4web.com/CVKHGlVBu5yomuKDioqV/8M7dLSwwSyfccoJvicYr/73050ba518725e72.png" alt="Tubidy" width="160">
       </a>
@@ -122,13 +144,6 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://cdn.sponsors.nolimits4web.com/ax13DbzrBlYi6KxgD4aA/LGwYIYyaNy9addegbe9Q/899ac7659d2581d9.png" alt="AI Humanizer" width="160">
       </a>
     </td>
-    <td align="center" valign="middle">
-      <a href="https://movavi.com/" target="_blank">
-        <img src="https://cdn.sponsors.nolimits4web.com/k026mC5TwwVvOVjNicKK/2tpXrSxdJX8JIZSCA6sO/a6ef0f195ad8ae62.png" alt="Movavi" width="160">
-      </a>
-    </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://superluxuryreps.com/" target="_blank">
         <img src="https://cdn.sponsors.nolimits4web.com/nnSLt8QcSRSkjS1LWWof/EdPDKFipuLJPgCI8ejNE/dc517d591588db7e.png" alt="Superluxuryreps" width="160">
@@ -174,6 +189,8 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://cdn.sponsors.nolimits4web.com/LqXWf2WeW5r8CI9yY6e9/PuZwzlAETLZMt9VrYJLr/779f465da981256f.svg" alt="Socibly Buy Spotify Plays & Followers" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://time.now/developer" target="_blank">
         <img src="https://cdn.sponsors.nolimits4web.com/JlGRn0kkP4bf4P4uSXa0/ymxqzGnDmxMONPAYfO0a/c87e4c5943987199.png" alt="Time Now API" width="160">
@@ -189,8 +206,6 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/legalnekasynoonline.png" alt="Legalne Kasyna Online w Polsce" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.reddit.com/r/LinkedinAds/comments/1r8xhat/what_is_the_best_site_to_buy_linkedin_followers/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/" alt="buy linkedin followers" width="160">
@@ -236,6 +251,8 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/socialdawn.png" alt="SocialDawn" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://www.reddit.com/r/CcnaBooks/comments/1lx2mxc/best_sites_to_pay_someone_to_write_my_essay_my/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/write-my-essay1.png" alt="Write My Essay" width="160">
@@ -251,8 +268,6 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/lorkaai.svg" alt="LorkaAI" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.fun88vnplay.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/fun88-vietnam-en.png" alt="Fun88 Vietnam EN" width="160">
@@ -298,6 +313,8 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/mejorescasinos2.png" alt="MejoresCasinos" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://global.fun88.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/fun88-official.png" alt="Fun88" width="160">
@@ -313,8 +330,6 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/" alt="Buy Instagram Followers" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.reddit.com/r/influencermarketing/comments/1r8b8i6/where_do_people_buy_instagram_followers_that/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/" alt="Buy Instagram Followers" width="160">
@@ -360,6 +375,8 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/buy-youtube-subscribers3.png" alt="buy youtube subscribers" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://ai-text-humanizer.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/ai-text-humanizer-com-icon-2025-small.png" alt="AI-Text-Humanizer.com" width="160">
@@ -375,8 +392,6 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/davemorris.png" alt="สล็อต" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://decontrabas.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/decontrabas.png" alt="DeContrabas" width="160">
@@ -422,6 +437,8 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/slotozilla.png" alt="trusted gaming sites on Slotozilla" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://writehuman.ai/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/writehuman.png" alt="WriteHuman AI Humanizer" width="160">
@@ -437,8 +454,6 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/best-replica-watches.png" alt="best replica watches" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://brecktic.uk/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/brecktic-ltd.png" alt="Brecktic UK" width="160">
@@ -484,6 +499,8 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/casinononaamsit-com.png" alt="Migliori Casino non AAMS in Italia 2025" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://www.hfm.com/int/jp/trading-education/what-is-forex" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/hfmcom.png" alt="fx取引とは" width="160">
@@ -499,8 +516,6 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/nondetected.png" alt="Remove negative information from the Internet | NonDetected.com" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.kasinoranking.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/kasinoranking.png" alt="Luotettavat nettikasinot 2025" width="160">
@@ -546,6 +561,8 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/socialfollowers.png" alt="The Best Social Media Promotion Service Provider" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://casinotreasure.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casinotreasure.jpeg" alt="Trusted Source for Online Casino Info , Games, Guides , Reviews" width="160">
@@ -561,8 +578,6 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/buy-instagram-followers-uk.webp" alt="Buy YouTube Subscribers & Views UK" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://pistolocasino.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/pistolocasino.png" alt="Pistolo Casino" width="160">
@@ -608,6 +623,8 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/casino-online-italia.png" alt="casinò online Italia" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://dashtickets.nz/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/dashtickets-new-zealand-gambling-magazine.png" alt="DashTickets New Zealand gambling magazine" width="160">
@@ -623,8 +640,6 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/top-casino.png" alt="Top online casino's van Nederland" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://polskiesloty.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/onlinekasyno-polis.jpg" alt="Polskie Sloty" width="160">
@@ -670,6 +685,8 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/zondercruksnet.png" alt="ZonderCruks - Online Gokken Zonder CRUKS" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://casinosinlicenciaespana.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/mejores-casinos-sin-licencia-en-espana1.png" alt="Mejores Casinos Sin Licencia en España" width="160">
@@ -685,8 +702,6 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/interpollawfirmcom.png" alt="Interpol Law Firm" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://nongamstopbookiesuk.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/try-bookmakers-not-on-gamstop.png" alt="try bookmakers not on GamStop" width="160">
@@ -732,6 +747,8 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/blastup_com.png" alt="Buy Instagram Likes - Real Likes & Instant Delivery!" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://vedonlyontiyhtiot.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/vedonlyontiyhtiot-com.svg" alt="Vedonlyontiyhtiot.com - Parhaat Vedolyöntiyhtiöt & Bonukset" width="160">
@@ -747,8 +764,6 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/buy-youtube-views-views4you.png" alt="Buy Youtube Views" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.doublethebitcoin.net/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/doublethebitcoin.png" alt="Best Bitcoin Casinos" width="160">
@@ -794,6 +809,8 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/onlinecasinosspelen.png" alt="Onlinecasinosspelen.com site is dé nummer één gids, waardoor je gemakkelijk alle informatie van de top 10 online casino sites." width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://rotativka.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/rotativka.png" alt="Rotativka.com - Най-добрите онлайн казина в България" width="160">
@@ -809,8 +826,6 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/betbetter.png" alt="PA Online Casino - List of Best Casinos in Pennsylvania" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://nieuwe-casinos.net/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/nieuwecasinos.png" alt="Nieuwe Online Casino's December 2022 | Overzicht van de top nieuwe casinos!" width="160">
@@ -856,6 +871,8 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/wizardslots.png" alt="Online Slots - UK Slot Games - 500 FREE Spins at Wizard Slots" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://veepn.com/vpn-apps/vpn-for-chrome/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/veepn.png" alt="VPN for Chrome to Make Web Surfing 100% Safe" width="160">
@@ -871,8 +888,6 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
         <img src="https://swiperjs.com/images/sponsors/casinosters.svg" alt="The Best Online Casinos in the UK » Gambling Sites by Casinosters" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://gamblizard.com/deposit-bonuses/deposit-10-pound/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/gamblizard.png" alt="Deposit £10 Play with 30, 40, 50, 60, 70, or 80 Pounds✔️ GambLizard" width="160">
@@ -890,9 +905,6 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
     <td align="center" valign="middle"></td>
     <td align="center" valign="middle"></td>
     <td align="center" valign="middle"></td>
-    <td align="center" valign="middle"></td>
-    <td align="center" valign="middle"></td>
-    <td align="center" valign="middle"></td>
   </tr>
 </table>
 <!-- SPONSORS_TABLE_WRAP -->
@@ -903,6 +915,7 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
 
 <!-- SILVER_SPONSOR -->
 
+- [fun88](https://global.fun88.com/)
 - [Hexrate](https://hexrate.io/)
 - [Australian online casino](https://au.trustpilot.com/review/aussieonline.casino)
 - [Australian Online Pokies](https://au.trustpilot.com/review/bestaustraliaonlinepokies.com)
@@ -932,9 +945,11 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
 
 <!-- SPONSOR -->
 
+- [fun88](https://www.fun88vnplay.com/)
+- [fun88](https://www.fun88asiath.com/)
+- [jbo](https://www.jbo579.com/th/)
 - [Tubidy](https://tubidy.llc)
 - [AI Humanizer](https://cleverhumanizer.ai/)
-- [Movavi](https://movavi.com/)
 - [Superluxuryreps](https://superluxuryreps.com/)
 - [Meal Planner](https://www.meal-planner.pro/)
 - [EzBux - Earn Free Robux](https://ezbux.com)
