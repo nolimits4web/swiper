@@ -994,6 +994,9 @@ export class Swiper {
     let spv = 1;
     if (typeof params.slidesPerView === 'number') return params.slidesPerView;
 
+    // container not measured yet — centered branch below would never break and return ~slides.length (#7586)
+    if (!swiperSize) return spv;
+
     if (params.centeredSlides) {
       let slideSize = slides[activeIndex] ? Math.ceil(slides[activeIndex].swiperSlideSize ?? 0) : 0;
       let breakLoop = false;
