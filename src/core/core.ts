@@ -994,6 +994,16 @@ export class Swiper {
     let spv = 1;
     if (typeof params.slidesPerView === 'number') return params.slidesPerView;
 
+    // swiperSize is only known once updateSize() has measured a non-zero container (see
+    // updateSize.ts, which bails out and leaves `size` unset when clientWidth/clientHeight is 0 -
+    // e.g. the container is hidden or not yet laid out). Without this guard the centered branch
+    // below never finds a slide size that "overflows" an unknown size, so it keeps counting past
+    // the last slide and reports spv ~= slides.length. That inflated count then made loopFix()
+    // think there weren't enough slides for loop mode even when there clearly were
+    // (https://github.com/nolimits4web/swiper/issues/7586). Falling back to 1 here matches what
+    // the non-centered branches below already do implicitly when swiperSize is falsy.
+    if (!swiperSize) return spv;
+
     if (params.centeredSlides) {
       let slideSize = slides[activeIndex] ? Math.ceil(slides[activeIndex].swiperSlideSize ?? 0) : 0;
       let breakLoop = false;
