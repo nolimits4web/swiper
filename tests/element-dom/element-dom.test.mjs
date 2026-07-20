@@ -190,5 +190,46 @@ await check('virtual mode renders a single slide', async () => {
   return container;
 });
 
+// Regression (v14 TS migration, 4a3929c0): core (non-element) swiper with a STRING
+// scrollbar.el selector. The migration added an `else { el = params.el }` to the
+// isElement branch, so the selector string itself became `el`, `el[0]` picked the
+// character '.', and init crashed with "Cannot read properties of undefined
+// (reading 'add')". The web-component tests above can't catch this — the bug only
+// bites when isElement is false. The scrollbar sits OUTSIDE the swiper el — with it
+// inside, the uniqueNavElements fallback happens to re-resolve the selector and masks
+// the bug.
+await check('core swiper resolves a string scrollbar.el selector', async () => {
+  const host = doc.createElement('div');
+  host.innerHTML = `
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">1</div>
+        <div class="swiper-slide">2</div>
+        <div class="swiper-slide">3</div>
+      </div>
+    </div>
+    <div class="swiper-scrollbar"></div>`;
+  doc.body.appendChild(host);
+  const { default: Swiper } = await import(dist('swiper.mjs'));
+  const { default: Scrollbar } = await import(dist('modules/scrollbar.mjs'));
+  const swiper = new Swiper(host.querySelector('.swiper'), {
+    modules: [Scrollbar],
+    scrollbar: { el: '.swiper-scrollbar', draggable: true },
+  });
+  try {
+    const el = swiper.scrollbar.el;
+    assert.ok(el && typeof el !== 'string', 'scrollbar.el must be an element, not a string');
+    assert.equal(el.tagName, 'DIV', 'scrollbar.el must be the .swiper-scrollbar div');
+    assert.ok(
+      el.classList.contains('swiper-scrollbar-horizontal'),
+      'direction class must be applied',
+    );
+    assert.ok(swiper.scrollbar.dragEl, 'drag element must be created');
+  } finally {
+    swiper.destroy(true, false);
+    host.remove();
+  }
+});
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);

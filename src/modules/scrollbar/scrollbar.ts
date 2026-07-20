@@ -425,11 +425,9 @@ const Scrollbar: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     const params = getParams();
     if (!params.el) return;
 
-    let el: HTMLElement | NodeListOf<HTMLElement> | HTMLElement[];
+    let el: HTMLElement | NodeListOf<HTMLElement> | HTMLElement[] | null | undefined;
     if (typeof params.el === 'string' && swiper.isElement) {
       el = swiper.el.querySelector(params.el) as HTMLElement;
-    } else {
-      el = params.el as HTMLElement;
     }
     if (!el && typeof params.el === 'string') {
       el = document.querySelectorAll<HTMLElement>(params.el);
