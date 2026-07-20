@@ -1,5 +1,14 @@
 # Changelog
 
+# [14.0.6](https://github.com/nolimits4web/Swiper/compare/v14.0.5...v14.0.6) (2026-07-20)
+
+
+### Bug Fixes
+
+* **loop:** stop false "not enough slides" warning with auto + centeredSlides ([ec9a170](https://github.com/nolimits4web/Swiper/commit/ec9a1709f1c8cd8216ffafd2d474e5ec6268f252)), closes [#7586](https://github.com/nolimits4web/Swiper/issues/7586)
+* **scrollbar:** resolve string el selector on non-element swiper ([c75a7f9](https://github.com/nolimits4web/Swiper/commit/c75a7f9874416ada2aa52c9db3965f3840914adb))
+
+
 # [14.0.5](https://github.com/nolimits4web/Swiper/compare/v14.0.2...v14.0.5) (2026-07-09)
 
 ### Bug Fixes
