@@ -127,11 +127,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://hexrate.io/" target="_blank">
-        <img src="https://cdn.sponsors.nolimits4web.com/5tF4Ze0EY5qSkZYnJM5w/CG3kMm77QHDaNrnTK8pD/c3f251a3494b7ac2.png" alt="Hexrate" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
       <a href="https://au.trustpilot.com/review/aussieonline.casino" target="_blank">
         <img src="https://cdn.sponsors.nolimits4web.com/2rTMYwPAgcrYBt3Cz1W6/zERPDgEN8nSLThdqEZMy/024a52d7da2e97f5.png" alt="Australian online casino" width="160">
       </a>
@@ -181,13 +176,13 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/kurko-uudetnettikasinot.png" alt="Kasino Kurko: Uudet nettikasinot" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://fi.parhaatuudetkasinot.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/parhaatuudetkasinotcom.png" alt="Uudet Nettikasinot" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://www.vanguardngr.com/casino/fr/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/vanguardngr-france.png" alt="VanguardNGR France" width="160">
@@ -234,25 +229,30 @@ All changes should be committed to `src/` files only. Before you open an issue p
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://www.fun88vnplay.com/" target="_blank">
-        <img src="https://cdn.sponsors.nolimits4web.com/sm02J44cATxUuyBCMATS/QLWPUy4BnhSJzMwwU1Cd/aaf341e68d3ab882.svg" alt="fun88" width="160">
+      <a href="https://headshot.ltd" target="_blank">
+        <img src="https://cdn.sponsors.nolimits4web.com/JnLwciPllpHMcuYenhhG/mCthn2gwm65EEoMd9yZS/e3afa0f9c25ebc79.png" alt="headshot.ltd" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://www.fun88asiath.com/" target="_blank">
+      <a href="https://www.duel-blackjack.com/" target="_blank">
+        <img src="https://cdn.sponsors.nolimits4web.com/QvrwhMJMDAcPtNNrEQbg/n2dQYr94c1untqJ98HKz/a2f51d30b4cf5c17.png" alt="Duel BlackJack" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.fun88vnplay.com/" target="_blank">
         <img src="https://cdn.sponsors.nolimits4web.com/sm02J44cATxUuyBCMATS/QLWPUy4BnhSJzMwwU1Cd/aaf341e68d3ab882.svg" alt="fun88" width="160">
       </a>
     </td>
   </tr>
   <tr>
     <td align="center" valign="middle">
-      <a href="https://www.jbo579.com/th/" target="_blank">
-        <img src="https://cdn.sponsors.nolimits4web.com/sm02J44cATxUuyBCMATS/mvoaoFi3V83RO6BdgPp7/ff82cb5d7a05fad7.png" alt="jbo" width="160">
+      <a href="https://www.fun88asiath.com/" target="_blank">
+        <img src="https://cdn.sponsors.nolimits4web.com/sm02J44cATxUuyBCMATS/QLWPUy4BnhSJzMwwU1Cd/aaf341e68d3ab882.svg" alt="fun88" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://tubidy.llc" target="_blank">
-        <img src="https://cdn.sponsors.nolimits4web.com/CVKHGlVBu5yomuKDioqV/8M7dLSwwSyfccoJvicYr/73050ba518725e72.png" alt="Tubidy" width="160">
+      <a href="https://www.jbo579.com/th/" target="_blank">
+        <img src="https://cdn.sponsors.nolimits4web.com/sm02J44cATxUuyBCMATS/mvoaoFi3V83RO6BdgPp7/ff82cb5d7a05fad7.png" alt="jbo" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
