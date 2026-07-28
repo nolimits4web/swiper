@@ -432,13 +432,14 @@ const Zoom: SwiperModule = ({ swiper, extendParams, on, emit }) => {
   }
   function onTouchStart(e: PointerEvent): void {
     const device = swiper.device;
-    if (!gesture.imageEl) return;
     if (image.isTouched) return;
-    if (device.android && e.cancelable) e.preventDefault();
-    image.isTouched = true;
+    // Record the position before the imageEl guard, it is unset until the first pinch or zoom
     const event = evCache.length > 0 ? evCache[0]! : e;
     image.touchesStart.x = event.pageX;
     image.touchesStart.y = event.pageY;
+    if (!gesture.imageEl) return;
+    if (device.android && e.cancelable) e.preventDefault();
+    image.isTouched = true;
   }
   function onTouchMove(e: PointerEvent): void {
     const isMouseEvent = e.pointerType === 'mouse';
