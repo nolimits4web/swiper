@@ -914,6 +914,7 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
 ### \$100 Silver Sponsor
 
 <!-- SILVER_SPONSOR -->
+
 - [fun88](https://global.fun88.com/)
 - [Australian online casino](https://au.trustpilot.com/review/aussieonline.casino)
 - [Australian Online Pokies](https://au.trustpilot.com/review/bestaustraliaonlinepokies.com)
@@ -942,6 +943,7 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
 ### \$50+ Sponsor
 
 <!-- SPONSOR -->
+
 - [headshot.ltd](https://headshot.ltd)
 - [Duel BlackJack](https://www.duel-blackjack.com/)
 - [fun88](https://www.fun88vnplay.com/)

@@ -1,5 +1,14 @@
 # Changelog
 
+# [14.0.7](https://github.com/nolimits4web/Swiper/compare/v14.0.6...v14.0.7) (2026-07-28)
+
+
+### Bug Fixes
+
+* **zoom:** zoom to the tapped point on the first double-tap ([e0d4ed5](https://github.com/nolimits4web/Swiper/commit/e0d4ed5214c267f26650ff4029b3eb6131978865))
+
+
+
 # [14.0.6](https://github.com/nolimits4web/Swiper/compare/v14.0.5...v14.0.6) (2026-07-20)
 
 
