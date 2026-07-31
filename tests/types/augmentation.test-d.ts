@@ -138,8 +138,13 @@ const _o18: SwiperOptions = {
   },
 };
 const _o19: SwiperOptions = { effect: 'cards', cardsEffect: { perSlideOffset: 6 } };
+const _o20: SwiperOptions = {
+  breakpoints: {
+    640: { grid: { rows: 2, fill: 'row' } },
+  },
+};
 void [_o1, _o2, _o3, _o4, _o5, _o6, _o7, _o8, _o9, _o10, _o11, _o12, _o13];
-void [_o14, _o15, _o16, _o17, _o18, _o19];
+void [_o14, _o15, _o16, _o17, _o18, _o19, _o20];
 
 // --- SwiperParams.<module> is the normalized object form (internal) ---
 // `swiper.params.navigation` is `NavigationOptions | undefined` — never the

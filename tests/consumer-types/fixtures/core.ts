@@ -7,10 +7,10 @@
  */
 import Swiper from 'swiper';
 import { Swiper as SwiperNamed } from 'swiper';
-import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay, EffectFade, Grid } from 'swiper/modules';
 
 const swiper = new Swiper('.swiper', {
-  modules: [Navigation, Pagination, Autoplay, EffectFade],
+  modules: [Navigation, Pagination, Autoplay, EffectFade, Grid],
   slidesPerView: 3,
   spaceBetween: 20,
   // Module-augmented options must be accepted on SwiperOptions.
@@ -19,6 +19,9 @@ const swiper = new Swiper('.swiper', {
   autoplay: { delay: 3000, disableOnInteraction: false },
   effect: 'fade',
   fadeEffect: { crossFade: true },
+  breakpoints: {
+    640: { grid: { rows: 2, fill: 'row' } },
+  },
   on: {
     // Core event handler is typed.
     slideChange: (s) => void s.activeIndex,
