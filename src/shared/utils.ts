@@ -160,16 +160,8 @@ export function createElement(tag: string, classes: string | string[] = []): HTM
   return el;
 }
 
-/**
- * Offset of an element relative to the viewport.
- *
- * Viewport-relative, not document-absolute: every caller either compares the
- * result against viewport quantities (`window.innerHeight` in the keyboard
- * module, `clientX`/`clientY` in the scrollbar) or adds the scroll offset
- * itself (the zoom module, which matches it against `pageX`/`pageY`). Adding
- * `window.scrollX`/`scrollY` here breaks the first two and double-counts for
- * the third.
- */
+// Viewport-relative on purpose: every caller either compares against viewport quantities
+// or adds window.scrollX/Y itself, so folding the scroll offset in here double-counts.
 export function elementOffset(el: Element): { top: number; left: number } {
   const box = el.getBoundingClientRect();
   return {
