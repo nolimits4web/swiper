@@ -36,10 +36,13 @@ export function getTranslate(el: Element, axis: 'x' | 'y' = 'x'): number {
 }
 
 export function isObject(o: unknown): o is Record<string, unknown> {
+  // `constructor === Object` would be false for a plain object created in another realm
+  // (params built in the parent page, Swiper running inside an iframe), which makes extend()
+  // replace a nested defaults object instead of merging into it.
   return (
     typeof o === 'object' &&
     o !== null &&
-    (o as object).constructor === Object &&
+    !!(o as object).constructor &&
     Object.prototype.toString.call(o).slice(8, -1) === 'Object'
   );
 }
