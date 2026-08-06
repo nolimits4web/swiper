@@ -42,6 +42,12 @@ export type { CSSSelector, SwiperModule };
 // extend the public type surface at src/types/options.ts /
 // src/types/events.ts.
 export interface SwiperOptions extends PublicSwiperOptions {
+  // Redeclared from PublicSwiperOptions so breakpoint values get the module-augmented
+  // SwiperOptions — the public interface's self-reference never sees augmentations.
+  breakpoints?: {
+    [width: number]: SwiperOptions;
+    [ratio: string]: SwiperOptions;
+  };
   on?: {
     [event in keyof SwiperEvents]?: SwiperEvents[event];
   };

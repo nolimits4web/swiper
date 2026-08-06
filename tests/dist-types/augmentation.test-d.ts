@@ -1,5 +1,5 @@
 import type { SwiperEvents, SwiperOptions } from '../../dist/core/core';
-import { Navigation } from '../../dist/modules';
+import { Grid, Navigation } from '../../dist/modules';
 /**
  * Phase 6 regression guard: each module's `declare module '../../core/core'`
  * augmentation block must reach consumers through the SHIPPED `dist/` types,
@@ -42,6 +42,13 @@ type _Evt_autoplayStart = Expect<HasKey<SwiperEvents, 'autoplayStart'>>;
 new Swiper('.x', {
   modules: [Navigation],
   navigation: { nextEl: '.n', prevEl: '.p' },
+});
+
+new Swiper('.grid', {
+  modules: [Grid],
+  breakpoints: {
+    640: { grid: { rows: 2, fill: 'row' } },
+  },
 });
 
 // Swiper instance gains the module method bag.
