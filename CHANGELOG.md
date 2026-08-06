@@ -1,29 +1,31 @@
 # Changelog
 
-# [14.0.7](https://github.com/nolimits4web/Swiper/compare/v14.0.6...v14.0.7) (2026-07-28)
+# [14.1.0](https://github.com/nolimits4web/Swiper/compare/v14.0.7...v14.1.0) (2026-08-06)
 
+### Bug Fixes
+
+* **core:** keep module defaults when params come from another realm ([4bb6caf](https://github.com/nolimits4web/Swiper/commit/4bb6cafebcfdeb736695b49b6f2d94d4265a4ecf))
+* **core:** make elementOffset viewport-relative again ([1115f9e](https://github.com/nolimits4web/Swiper/commit/1115f9e73b65e87c30fcc8e005929fb41c86efc0)), closes [#8209](https://github.com/nolimits4web/Swiper/issues/8209)
+* **types:** preserve module options in breakpoints ([d598495](https://github.com/nolimits4web/Swiper/commit/d598495ede2a0dc7aad3f44b7bf7afdbdc98a48b)), closes [#8207](https://github.com/nolimits4web/Swiper/issues/8207)
+
+# [14.0.7](https://github.com/nolimits4web/Swiper/compare/v14.0.6...v14.0.7) (2026-07-28)
 
 ### Bug Fixes
 
 * **zoom:** zoom to the tapped point on the first double-tap ([e0d4ed5](https://github.com/nolimits4web/Swiper/commit/e0d4ed5214c267f26650ff4029b3eb6131978865))
 
-
-
 # [14.0.6](https://github.com/nolimits4web/Swiper/compare/v14.0.5...v14.0.6) (2026-07-20)
-
 
 ### Bug Fixes
 
 * **loop:** stop false "not enough slides" warning with auto + centeredSlides ([ec9a170](https://github.com/nolimits4web/Swiper/commit/ec9a1709f1c8cd8216ffafd2d474e5ec6268f252)), closes [#7586](https://github.com/nolimits4web/Swiper/issues/7586)
 * **scrollbar:** resolve string el selector on non-element swiper ([c75a7f9](https://github.com/nolimits4web/Swiper/commit/c75a7f9874416ada2aa52c9db3965f3840914adb))
 
-
 # [14.0.5](https://github.com/nolimits4web/Swiper/compare/v14.0.2...v14.0.5) (2026-07-09)
 
 ### Bug Fixes
 
 * **virtual:** render first slide on initial update ([ebdb054](https://github.com/nolimits4web/Swiper/commit/ebdb0541374fbd2ee109aa05e87a430161692503)), closes [#8202](https://github.com/nolimits4web/Swiper/issues/8202)
-
 
 # [14.0.2](https://github.com/nolimits4web/Swiper/compare/v14.0.1...v14.0.2) (2026-07-07)
 
