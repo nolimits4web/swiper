@@ -160,11 +160,13 @@ export function createElement(tag: string, classes: string | string[] = []): HTM
   return el;
 }
 
+// Viewport-relative on purpose: every caller either compares against viewport quantities
+// or adds window.scrollX/Y itself, so folding the scroll offset in here double-counts.
 export function elementOffset(el: Element): { top: number; left: number } {
   const box = el.getBoundingClientRect();
   return {
-    top: box.top + window.scrollY - (el.clientTop || 0),
-    left: box.left + window.scrollX - (el.clientLeft || 0),
+    top: box.top - (el.clientTop || 0),
+    left: box.left - (el.clientLeft || 0),
   };
 }
 
