@@ -1136,6 +1136,9 @@ export class Swiper {
     swiper.emitContainerClasses();
 
     swiper.params.direction = newDirection;
+    // RTL only inverts the translate axis while horizontal, so recompute the flag here —
+    // a stale `true` flips the sign of every translate read on a vertical slider.
+    swiper.rtlTranslate = newDirection === 'horizontal' && swiper.rtl;
 
     swiper.slides.forEach((slideEl) => {
       if (newDirection === 'vertical') {
