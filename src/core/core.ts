@@ -579,7 +579,7 @@ export interface Swiper {
    */
   updateSlidesClasses(): void;
 
-  updateActiveIndex(newActiveIndex?: number): void;
+  updateActiveIndex(newActiveIndex?: number, runCallbacks?: boolean): void;
   updateClickedSlide(el: HTMLElement, path?: EventTarget[]): void;
 
   // Breakpoints methods (prototype mixin: src/core/breakpoints)

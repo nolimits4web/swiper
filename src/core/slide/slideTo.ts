@@ -109,7 +109,7 @@ export default function slideTo(
     !isInitialVirtual &&
     ((rtl && -translate === swiper.translate) || (!rtl && translate === swiper.translate))
   ) {
-    swiper.updateActiveIndex(slideIndex);
+    swiper.updateActiveIndex(slideIndex, runCallbacks);
     // Update Height
     if (params.autoHeight) {
       swiper.updateAutoHeight();
@@ -163,7 +163,7 @@ export default function slideTo(
   }
   swiper.setTransition(speed!);
   swiper.setTranslate(translate);
-  swiper.updateActiveIndex(slideIndex);
+  swiper.updateActiveIndex(slideIndex, runCallbacks);
   swiper.updateSlidesClasses();
   swiper.emit('beforeTransitionStart', speed, internal);
   swiper.transitionStart(runCallbacks, direction);

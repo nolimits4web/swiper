@@ -32,7 +32,11 @@ export function getActiveIndexByTranslate(swiper: Swiper): number {
   return activeIndex as number;
 }
 
-export default function updateActiveIndex(this: Swiper, newActiveIndex?: number): void {
+export default function updateActiveIndex(
+  this: Swiper,
+  newActiveIndex?: number,
+  runCallbacks = true,
+): void {
   const swiper = this;
   const translate = swiper.rtlTranslate ? swiper.translate : -swiper.translate;
   const {
@@ -69,7 +73,7 @@ export default function updateActiveIndex(this: Swiper, newActiveIndex?: number)
   if (activeIndex === previousIndex && !swiper.params.loop) {
     if (snapIndex !== previousSnapIndex) {
       swiper.snapIndex = snapIndex;
-      swiper.emit('snapIndexChange');
+      if (runCallbacks) swiper.emit('snapIndexChange');
     }
     return;
   }
@@ -135,13 +139,15 @@ export default function updateActiveIndex(this: Swiper, newActiveIndex?: number)
   if (swiper.initialized) {
     preload(swiper);
   }
-  swiper.emit('activeIndexChange');
-  swiper.emit('snapIndexChange');
+  if (runCallbacks) {
+    swiper.emit('activeIndexChange');
+    swiper.emit('snapIndexChange');
 
-  if (swiper.initialized || swiper.params.runCallbacksOnInit) {
-    if (previousRealIndex !== realIndex) {
-      swiper.emit('realIndexChange');
+    if (swiper.initialized || swiper.params.runCallbacksOnInit) {
+      if (previousRealIndex !== realIndex) {
+        swiper.emit('realIndexChange');
+      }
+      swiper.emit('slideChange');
     }
-    swiper.emit('slideChange');
   }
 }
