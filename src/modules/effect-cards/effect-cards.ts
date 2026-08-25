@@ -135,7 +135,9 @@ const EffectCards: SwiperModule = ({ swiper, extendParams, on }) => {
         tX = `calc(${tX}px ${rtl ? '-' : '+'} (${tXAdd * Math.abs(progress)}%))`;
       } else if (progress > 0) {
         // prev
-        tX = `calc(${tX}px ${rtl ? '-' : '+'} (-${tXAdd * Math.abs(progress)}%))`;
+        // wrap the value in parentheses instead of prepending `-` to the string,
+        // as a negative tXAdd would otherwise produce an invalid `--` in calc()
+        tX = `calc(${tX}px ${rtl ? '-' : '+'} (${-tXAdd * Math.abs(progress)}%))`;
       } else {
         tX = `${tX}px`;
       }
