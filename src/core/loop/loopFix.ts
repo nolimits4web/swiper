@@ -79,8 +79,29 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
   const slidesPerGroup: number = params.slidesPerGroupAuto
     ? slidesPerView
     : (params.slidesPerGroup as number);
+  // How many slides the before/after offsets are worth. Unlike centeredSlides
+  // (which hides ~slidesPerView / 2 slides on each side), an offset hides only
+  // offset / slideSize slides, so sizing the loop buffer from slidesPerView / 2
+  // would teleport further than the snapGrid allows with few slides (#8203).
+  // Offsets accept a legacy function form at runtime (see updateSlides), so
+  // narrow before doing math on them.
+  const resolveOffset = (value: number | ((this: Swiper) => number) | undefined): number =>
+    (typeof value === 'function' ? value.call(swiper) : value) || 0;
+  const slidesGridStep =
+    swiper.slidesGrid.length > 1
+      ? (swiper.slidesGrid[swiper.slidesGrid.length - 1]! - swiper.slidesGrid[0]!) /
+        (swiper.slidesGrid.length - 1)
+      : swiper.size;
+  const offsetSlidesBefore =
+    slidesGridStep > 0 ? resolveOffset(slidesOffsetBefore) / slidesGridStep : 0;
+  const offsetSlidesAfter =
+    slidesGridStep > 0 ? resolveOffset(slidesOffsetAfter) / slidesGridStep : 0;
   let loopedSlides = bothDirections
-    ? Math.max(slidesPerGroup, Math.ceil(slidesPerView / 2))
+    ? Math.max(
+        slidesPerGroup,
+        (centeredSlides ? Math.ceil(slidesPerView / 2) : 0) +
+          Math.ceil(Math.max(offsetSlidesBefore, offsetSlidesAfter)),
+      )
     : slidesPerGroup;
 
   if (loopedSlides % slidesPerGroup !== 0) {
@@ -130,7 +151,9 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
     : activeSlideIndex;
   const activeColIndexWithShift =
     activeColIndex +
-    (bothDirections && typeof setTranslate === 'undefined' ? -slidesPerView / 2 + 0.5 : 0);
+    (bothDirections && typeof setTranslate === 'undefined'
+      ? (centeredSlides ? -slidesPerView / 2 + 0.5 : 0) - offsetSlidesBefore
+      : 0);
   // prepend last slides before start
   if (activeColIndexWithShift < loopedSlides) {
     slidesPrepended = Math.max(loopedSlides - activeColIndexWithShift, slidesPerGroup);
