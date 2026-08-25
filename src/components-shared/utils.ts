@@ -15,26 +15,28 @@ export function isObject(o: unknown): o is Record<string, unknown> {
 }
 
 export function extend<T extends object, S extends object>(target: T, src: S): T & S {
-  const noExtend = ['__proto__', 'constructor', 'prototype'];
   const t = target as Record<string, unknown>;
   const s = src as Record<string, unknown>;
-  Object.keys(s)
-    .filter((key) => noExtend.indexOf(key) < 0)
-    .forEach((key) => {
-      const srcVal = s[key];
-      const targetVal = t[key];
-      if (typeof targetVal === 'undefined') {
+  const keys = Object.keys(s);
+  for (let i = 0, len = keys.length; i < len; i += 1) {
+    const key = keys[i]!;
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+      continue;
+    }
+    const srcVal = s[key];
+    const targetVal = t[key];
+    if (typeof targetVal === 'undefined') {
+      t[key] = srcVal;
+    } else if (isObject(srcVal) && isObject(targetVal) && Object.keys(srcVal).length > 0) {
+      if ((srcVal as SwiperLikeFlag).__swiper__) {
         t[key] = srcVal;
-      } else if (isObject(srcVal) && isObject(targetVal) && Object.keys(srcVal).length > 0) {
-        if ((srcVal as SwiperLikeFlag).__swiper__) {
-          t[key] = srcVal;
-        } else {
-          extend(targetVal, srcVal);
-        }
       } else {
-        t[key] = srcVal;
+        extend(targetVal, srcVal);
       }
-    });
+    } else {
+      t[key] = srcVal;
+    }
+  }
   return target as T & S;
 }
 

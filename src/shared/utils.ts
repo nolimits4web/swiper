@@ -64,10 +64,12 @@ export function extend<T extends object>(target: T, ...sources: unknown[]): T {
     const nextSource = sources[i];
     if (nextSource === undefined || nextSource === null || isNode(nextSource)) continue;
     const sourceObj = nextSource as Record<string, unknown>;
-    const keysArray = Object.keys(Object(sourceObj)).filter(
-      (key) => key !== '__proto__' && key !== 'constructor' && key !== 'prototype',
-    );
-    for (const nextKey of keysArray) {
+    const keysArray = Object.keys(Object(sourceObj));
+    for (let nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex += 1) {
+      const nextKey = keysArray[nextIndex]!;
+      if (nextKey === '__proto__' || nextKey === 'constructor' || nextKey === 'prototype') {
+        continue;
+      }
       const desc = Object.getOwnPropertyDescriptor(sourceObj, nextKey);
       if (!desc || !desc.enumerable) continue;
       const sourceVal = sourceObj[nextKey];
