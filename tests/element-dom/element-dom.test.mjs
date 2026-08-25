@@ -231,5 +231,51 @@ await check('core swiper resolves a string scrollbar.el selector', async () => {
   }
 });
 
+// Regression: https://github.com/nolimits4web/swiper/issues/8053 — `rtlTranslate` was only
+// recomputed by mount() and changeLanguageDirection(), never by changeDirection(). An RTL
+// slider switched to vertical therefore kept `rtlTranslate: true`, and every `rtlTranslate
+// ? translate : -translate` read (slidePrev, slideToClosest, updateActiveIndex, ...) got the
+// wrong sign — slidePrev() found no matching snap and fell back to slide 0.
+// `width`/`height` are passed so `swiper.size` is set without real layout, which happy-dom
+// doesn't do; with slidesPerView as a number the slide sizes are derived from it.
+await check('changeDirection() recomputes rtlTranslate', async () => {
+  const host = doc.createElement('div');
+  host.innerHTML = `
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">1</div>
+        <div class="swiper-slide">2</div>
+        <div class="swiper-slide">3</div>
+        <div class="swiper-slide">4</div>
+      </div>
+    </div>`;
+  doc.body.appendChild(host);
+  const { default: Swiper } = await import(dist('swiper.mjs'));
+  const swiper = new Swiper(host.querySelector('.swiper'), {
+    slidesPerView: 1,
+    width: 300,
+    height: 300,
+    speed: 0,
+  });
+  try {
+    swiper.changeLanguageDirection('rtl');
+    assert.equal(swiper.rtlTranslate, true, 'horizontal + rtl must translate RTL');
+
+    swiper.changeDirection('vertical');
+    assert.equal(swiper.rtlTranslate, false, 'vertical is never translated RTL');
+
+    swiper.slideTo(2, 0);
+    assert.equal(swiper.activeIndex, 2, 'slideTo(2) must land on slide 2');
+    swiper.slidePrev(0);
+    assert.equal(swiper.activeIndex, 1, 'slidePrev() must step back one slide, not jump to 0');
+
+    swiper.changeDirection('horizontal');
+    assert.equal(swiper.rtlTranslate, true, 'back to horizontal restores the RTL translate');
+  } finally {
+    swiper.destroy(true, false);
+    host.remove();
+  }
+});
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);
