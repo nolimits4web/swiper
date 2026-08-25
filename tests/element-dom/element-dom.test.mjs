@@ -277,5 +277,80 @@ await check('changeDirection() recomputes rtlTranslate', async () => {
   }
 });
 
+// Regression: https://github.com/nolimits4web/swiper/issues/8015 — loopFix()'s compensating
+// slideTo() teleports changed indexes with no observable slide change, yet updateActiveIndex()
+// emitted activeIndexChange/snapIndexChange/slideChange/realIndexChange for them, so pagination
+// (driven by snapIndexChange) flickered mid-gesture and listeners saw transient wrong indexes.
+// Emissions are now suppressed while `__loopFixInProgress__` is set; realIndexChange compares
+// against the last *emitted* realIndex so a silent teleport can't swallow or duplicate it.
+// The second half pins the public contract that suppression must NOT extend to: slideTo's
+// `runCallbacks: false` only silences transition events, never index-change events.
+// `width`/`height` are passed so `swiper.size` is set without real layout (happy-dom doesn't
+// lay out); with a numeric slidesPerView the slide sizes derive from it.
+await check('loopFix teleports do not emit index-change events', async () => {
+  const host = doc.createElement('div');
+  host.innerHTML = `
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">1</div>
+        <div class="swiper-slide">2</div>
+        <div class="swiper-slide">3</div>
+        <div class="swiper-slide">4</div>
+        <div class="swiper-slide">5</div>
+      </div>
+    </div>`;
+  doc.body.appendChild(host);
+  const { default: Swiper } = await import(dist('swiper.mjs'));
+  const swiper = new Swiper(host.querySelector('.swiper'), {
+    slidesPerView: 1,
+    loop: true,
+    width: 300,
+    height: 300,
+    speed: 0,
+  });
+  const counts = { activeIndexChange: 0, snapIndexChange: 0, slideChange: 0, realIndexChange: 0 };
+  const reset = () => {
+    for (const key of Object.keys(counts)) counts[key] = 0;
+  };
+  try {
+    for (const key of Object.keys(counts)) swiper.on(key, () => (counts[key] += 1));
+
+    // slidePrev from realIndex 0 wraps backwards through a loopFix teleport — listeners
+    // must see exactly one change of each kind, not the teleport's extra emissions
+    reset();
+    swiper.slidePrev(0);
+    assert.equal(swiper.realIndex, 4, 'slidePrev from 0 must wrap to the last slide');
+    assert.equal(counts.activeIndexChange, 1, 'one activeIndexChange per wrap, teleport silent');
+    assert.equal(counts.snapIndexChange, 1, 'one snapIndexChange per wrap, teleport silent');
+    assert.equal(counts.slideChange, 1, 'one slideChange per wrap, teleport silent');
+    assert.equal(counts.realIndexChange, 1, 'one realIndexChange per wrap, teleport silent');
+
+    // a silent teleport between emitted events must not swallow the next realIndexChange
+    reset();
+    swiper.slideNext(0);
+    assert.equal(swiper.realIndex, 0, 'slideNext must wrap back to the first slide');
+    assert.equal(counts.realIndexChange, 1, 'realIndexChange must fire when realIndex changes');
+
+    // public contract: runCallbacks=false silences transition events only — index-change
+    // events must still fire (pagination relies on snapIndexChange to stay in sync)
+    reset();
+    swiper.slideToLoop(2, 0, false);
+    // slideToLoop defers its slideTo into requestAnimationFrame — flush it
+    await new Promise((resolve) => win.requestAnimationFrame(resolve));
+    assert.equal(swiper.realIndex, 2, 'slideToLoop(2) must land on realIndex 2');
+    assert.equal(
+      counts.activeIndexChange,
+      1,
+      'runCallbacks:false must not silence activeIndexChange',
+    );
+    assert.equal(counts.snapIndexChange, 1, 'runCallbacks:false must not silence snapIndexChange');
+    assert.equal(counts.slideChange, 1, 'runCallbacks:false must not silence slideChange');
+    assert.equal(counts.realIndexChange, 1, 'runCallbacks:false must not silence realIndexChange');
+  } finally {
+    swiper.destroy(true, false);
+    host.remove();
+  }
+});
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);

@@ -135,13 +135,22 @@ export default function updateActiveIndex(this: Swiper, newActiveIndex?: number)
   if (swiper.initialized) {
     preload(swiper);
   }
+  // Loop-fix teleports change indexes without any observable slide change —
+  // emitting here would make pagination and other listeners react to transient
+  // wrong indexes (#8015). The enclosing slide action emits the final events.
+  if (swiper.__loopFixInProgress__) return;
+
   swiper.emit('activeIndexChange');
   swiper.emit('snapIndexChange');
 
   if (swiper.initialized || swiper.params.runCallbacksOnInit) {
-    if (previousRealIndex !== realIndex) {
+    // Compare to the realIndex listeners last heard, not to the previous call's
+    // value — a suppressed loop-fix call in between would otherwise advance the
+    // baseline and swallow (or duplicate) a realIndexChange
+    if ((swiper.__lastEmittedRealIndex__ ?? previousRealIndex) !== realIndex) {
       swiper.emit('realIndexChange');
     }
     swiper.emit('slideChange');
   }
+  swiper.__lastEmittedRealIndex__ = realIndex;
 }

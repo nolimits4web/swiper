@@ -136,6 +136,8 @@ export interface Swiper {
   __swiper__: true;
   __modules__?: SwiperModule[];
   __preventObserver__?: boolean;
+  __loopFixInProgress__?: boolean;
+  __lastEmittedRealIndex__?: number;
   /**
    * !INTERNAL
    */

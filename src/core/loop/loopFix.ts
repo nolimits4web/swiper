@@ -37,6 +37,10 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
 
   if (!swiper.params.loop) return;
   swiper.emit('beforeLoopFix');
+  // The compensating slideTo() teleports below change indexes/translate without any
+  // observable slide change, so updateActiveIndex() must not emit index-change events
+  // while this flag is set (otherwise pagination flickers mid-drag, see #8015)
+  swiper.__loopFixInProgress__ = true;
   const { slides, allowSlidePrev, allowSlideNext, slidesEl, params } = swiper;
   const { centeredSlides, slidesOffsetBefore, slidesOffsetAfter, initialSlide } = params;
   const bothDirections = centeredSlides || !!slidesOffsetBefore || !!slidesOffsetAfter;
@@ -58,6 +62,7 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
     }
     swiper.allowSlidePrev = allowSlidePrev;
     swiper.allowSlideNext = allowSlideNext;
+    swiper.__loopFixInProgress__ = false;
     swiper.emit('loopFix');
     return;
   }
@@ -286,5 +291,6 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
     }
   }
 
+  swiper.__loopFixInProgress__ = false;
   swiper.emit('loopFix');
 }
