@@ -134,6 +134,7 @@ const defaults = {
   slideNextClass: 'swiper-slide-next',
   slidePrevClass: 'swiper-slide-prev',
   wrapperClass: 'swiper-wrapper',
+  lazyPreload: true,
   lazyPreloaderClass: 'swiper-lazy-preloader',
   lazyPreloadPrevNext: 0,
 

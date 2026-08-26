@@ -1,7 +1,7 @@
 type AnySwiper = any;
 
 export const processLazyPreloader = (swiper: AnySwiper, imageEl: HTMLElement): void => {
-  if (!swiper || swiper.destroyed || !swiper.params) return;
+  if (!swiper || swiper.destroyed || !swiper.params || !swiper.params.lazyPreload) return;
   const slideSelector = () => (swiper.isElement ? 'swiper-slide' : `.${swiper.params.slideClass}`);
   const slideEl = imageEl.closest(slideSelector()) as HTMLElement | null;
   if (slideEl) {
@@ -35,7 +35,7 @@ const unlazy = (swiper: AnySwiper, index: number): void => {
 };
 
 export const preload = (swiper: AnySwiper): void => {
-  if (!swiper || swiper.destroyed || !swiper.params) return;
+  if (!swiper || swiper.destroyed || !swiper.params || !swiper.params.lazyPreload) return;
   let amount = swiper.params.lazyPreloadPrevNext;
   const len = swiper.slides.length;
   if (!len || !amount || amount < 0) return;

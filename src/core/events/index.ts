@@ -62,7 +62,9 @@ const events = (swiper: Swiper, method: 'on' | 'off'): void => {
   }
 
   // Images loader
-  el[domMethod]('load', swiper.onLoad as EventListener, { capture: true });
+  if (params.lazyPreload) {
+    el[domMethod]('load', swiper.onLoad as EventListener, { capture: true });
+  }
 };
 
 function attachEvents(this: Swiper): void {
