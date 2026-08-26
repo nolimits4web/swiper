@@ -2,6 +2,7 @@ import type { Swiper } from '../core';
 
 export default function updateSlidesOffset(this: Swiper): void {
   const swiper = this;
+  if (!swiper || swiper.destroyed) return;
   const slides = swiper.slides;
   const minusOffset = swiper.isElement
     ? swiper.isHorizontal()

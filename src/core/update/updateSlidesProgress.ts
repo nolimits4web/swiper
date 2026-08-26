@@ -13,6 +13,7 @@ export default function updateSlidesProgress(
   translate: number = (this && this.translate) || 0,
 ): void {
   const swiper = this;
+  if (!swiper || swiper.destroyed) return;
   const params = swiper.params;
 
   const { slides, rtlTranslate: rtl, snapGrid } = swiper;

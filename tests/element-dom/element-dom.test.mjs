@@ -231,6 +231,51 @@ await check('core swiper resolves a string scrollbar.el selector', async () => {
   }
 });
 
+// Regression: calling an `update*` method on an already-destroyed instance must no-op,
+// not throw. destroy()'s deleteProps() wipes every own property with `delete obj[key]`, so
+// `swiper.slides` becomes undefined (not null) once destroyed. Every other core method that
+// touches instance state guards with `if (!swiper || swiper.destroyed) return;` (see
+// update(), slideTo(), translateTo(), resize handlers, ...) but the update/* group lacked
+// that guard, so e.g. `swiper.updateSlides()` crashed with "Cannot read properties of
+// undefined (reading 'length')" reading `swiper.slides.length`.
+await check('update* methods no-op after destroy() instead of throwing', async () => {
+  const host = doc.createElement('div');
+  host.innerHTML = `
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">1</div>
+        <div class="swiper-slide">2</div>
+        <div class="swiper-slide">3</div>
+      </div>
+    </div>`;
+  doc.body.appendChild(host);
+  const { default: Swiper } = await import(dist('swiper.mjs'));
+  const swiper = new Swiper(host.querySelector('.swiper'), {
+    slidesPerView: 1,
+    width: 300,
+    height: 300,
+    speed: 0,
+  });
+  swiper.destroy();
+  assert.equal(swiper.destroyed, true, 'destroy() must set destroyed = true');
+  assert.equal(swiper.slides, undefined, 'deleteProps() wipes slides to undefined, not null');
+
+  assert.doesNotThrow(() => swiper.updateSlides(), 'updateSlides() must no-op after destroy');
+  assert.doesNotThrow(
+    () => swiper.updateSlidesOffset(),
+    'updateSlidesOffset() must no-op after destroy',
+  );
+  assert.doesNotThrow(
+    () => swiper.updateSlidesProgress(),
+    'updateSlidesProgress() must no-op after destroy',
+  );
+  assert.doesNotThrow(
+    () => swiper.updateSlidesClasses(),
+    'updateSlidesClasses() must no-op after destroy',
+  );
+  return host;
+});
+
 // Regression: https://github.com/nolimits4web/swiper/issues/8053 — `rtlTranslate` was only
 // recomputed by mount() and changeLanguageDirection(), never by changeDirection(). An RTL
 // slider switched to vertical therefore kept `rtlTranslate: true`, and every `rtlTranslate

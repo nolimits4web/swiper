@@ -8,6 +8,7 @@ import type { Swiper, SwiperSlideElement } from '../core';
 
 export default function updateSlides(this: Swiper): void {
   const swiper = this;
+  if (!swiper || swiper.destroyed) return;
 
   function getDirectionPropertyValue(node: CSSStyleDeclaration, label: string): number {
     return parseFloat(node.getPropertyValue(swiper.getDirectionLabel(label)) || '0');

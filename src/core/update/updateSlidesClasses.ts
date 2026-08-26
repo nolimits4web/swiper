@@ -17,6 +17,7 @@ const toggleSlideClasses = (slideEl: HTMLElement, condition: boolean, className:
 
 export default function updateSlidesClasses(this: Swiper): void {
   const swiper = this;
+  if (!swiper || swiper.destroyed) return;
 
   const { slides, params, slidesEl, activeIndex } = swiper;
   const isVirtual = !!(swiper.virtual && params.virtual?.enabled);
