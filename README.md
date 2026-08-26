@@ -107,6 +107,63 @@ $ npm run build:prod
 
 Production version will available in `dist/` folder.
 
+### Web Components (`swiper/element/bundle`)
+
+Swiper also ships as native custom elements (`<swiper-container>` / `<swiper-slide>`) for
+use without any framework:
+
+```js
+import { register } from 'swiper/element/bundle';
+
+register();
+```
+
+`register()` defines the `swiper-container` and `swiper-slide` custom elements on
+`window.customElements`. There are two entry points:
+
+- **`swiper/element`** — bare custom elements. You choose and register only the modules
+  you need, keeping the bundle small.
+- **`swiper/element/bundle`** — the same custom elements, but with every core module
+  (Navigation, Pagination, Autoplay, Zoom, etc.) already registered, so HTML attributes
+  like `navigation` or `pagination` work immediately with no extra imports. Larger bundle,
+  zero setup.
+
+**SSR-safe by default.** `register()` checks `typeof window === 'undefined'` and no-ops on
+the server — it will not throw during server-side rendering (Next.js, Nuxt, etc.), it
+simply does nothing until the page hydrates in the browser. That said, `register()` still
+touches `window.customElements`, which only exists in a browser: call it from
+client-only/hydration code (e.g. inside `useEffect`, `onMounted`, or a `'use client'`
+component), not at server-rendered module scope.
+
+There's no `swiper/angular` wrapper, so in Angular this custom-elements API is the
+integration path. `<swiper-container>`/`<swiper-slide>` aren't Angular components, so add
+`CUSTOM_ELEMENTS_SCHEMA`, and register from `afterNextRender` (browser-only, so it's safe
+under SSR too):
+
+```ts
+import { Component, afterNextRender, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+@Component({
+  selector: 'app-slider',
+  template: `
+    <swiper-container navigation pagination>
+      <swiper-slide>Slide 1</swiper-slide>
+      <swiper-slide>Slide 2</swiper-slide>
+      <swiper-slide>Slide 3</swiper-slide>
+    </swiper-container>
+  `,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+export class Slider {
+  constructor() {
+    afterNextRender(async () => {
+      const { register } = await import('swiper/element/bundle');
+      register();
+    });
+  }
+}
+```
+
 ## Contributing
 
 All changes should be committed to `src/` files only. Before you open an issue please review the [contributing](https://github.com/nolimits4web/swiper/blob/master/CONTRIBUTING.md) guideline.
