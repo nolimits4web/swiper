@@ -107,6 +107,59 @@ $ npm run build:prod
 
 Production version will available in `dist/` folder.
 
+### Stripping Dev-Only Warnings
+
+Swiper emits a handful of `console.warn` diagnostics for loop mode misconfiguration
+(e.g. not enough slides, `slidesPerGroup` mismatch). These are gated behind a global
+`swiperDevMode` flag, following the same convention other frameworks use to let
+minifiers dead-code-eliminate dev-only code — Angular's `ngDevMode`, Vue's `__DEV__`,
+and similar:
+
+```js
+if (typeof swiperDevMode === 'undefined' || swiperDevMode) {
+  showWarning('...');
+}
+```
+
+By default the flag is undefined, so the warnings run in every build — nothing changes
+for existing consumers. To strip them (and their string literals) from a production
+bundle, use your bundler/minifier to replace `swiperDevMode` with the literal
+`false` at build time; this lets the minifier dead-code-eliminate the branch entirely.
+
+Why a plain global instead of the common `process.env.NODE_ENV === 'production'` check?
+That convention only works because webpack's `DefinePlugin` replaces `process.env.NODE_ENV`
+for you by default — it's a webpack-ism, not a standard. Bundlers that don't polyfill
+`process` (esbuild, Rollup, Vite-as-a-library) would leave that check as a runtime
+`typeof process` reference (or throw), so consumers on those tools would have no way to
+strip the warnings without shimming `process` themselves. A plain global identifier avoids
+that dependency and works the same way across every bundler listed below.
+
+**Terser**
+
+```js
+new TerserPlugin({
+  terserOptions: { compress: { global_defs: { swiperDevMode: false } } },
+});
+```
+
+**esbuild**
+
+```js
+build({ define: { swiperDevMode: 'false' } });
+```
+
+**webpack (`DefinePlugin`)**
+
+```js
+new webpack.DefinePlugin({ swiperDevMode: JSON.stringify(false) });
+```
+
+**Rollup (`@rollup/plugin-replace`)**
+
+```js
+replace({ preventAssignment: true, values: { swiperDevMode: 'false' } });
+```
+
 ## Contributing
 
 All changes should be committed to `src/` files only. Before you open an issue please review the [contributing](https://github.com/nolimits4web/swiper/blob/master/CONTRIBUTING.md) guideline.

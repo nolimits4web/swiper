@@ -51,7 +51,7 @@ export default function loopCreate(this: Swiper, slideRealIndex?: number, initia
       addBlankSlides(slidesToAdd);
       swiper.recalcSlides();
       swiper.updateSlides();
-    } else {
+    } else if (typeof swiperDevMode === 'undefined' || swiperDevMode) {
       showWarning(
         'Swiper Loop Warning: The number of slides is not even to slidesPerGroup, loop mode may not function properly. You need to add more slides (or make duplicates, or empty slides)',
       );
@@ -64,7 +64,7 @@ export default function loopCreate(this: Swiper, slideRealIndex?: number, initia
       addBlankSlides(slidesToAdd);
       swiper.recalcSlides();
       swiper.updateSlides();
-    } else {
+    } else if (typeof swiperDevMode === 'undefined' || swiperDevMode) {
       showWarning(
         'Swiper Loop Warning: The number of slides is not even to grid.rows, loop mode may not function properly. You need to add more slides (or make duplicates, or empty slides)',
       );

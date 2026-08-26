@@ -26,8 +26,9 @@
     "element-dom-test": "node tests/element-dom/element-dom.test.mjs",
     "loop-warning-test": "node tests/element-dom/loop-warning.test.mjs",
     "cross-realm-params-test": "node tests/params/cross-realm-params.test.mjs",
+    "esbuild-dce-test": "node tests/dce/esbuild-swiperDevMode.test.mjs",
     "release": "npm run validate && node ./scripts/release",
-    "test": "npm run validate && npm run build:prod && npm run contract-test && npm run dist-types-test && npm run consumer-types-test && npm run ssr-test && npm run element-dom-test && npm run loop-warning-test && npm run cross-realm-params-test && npm run bundle-size",
+    "test": "npm run validate && npm run build:prod && npm run contract-test && npm run dist-types-test && npm run consumer-types-test && npm run ssr-test && npm run element-dom-test && npm run loop-warning-test && npm run cross-realm-params-test && npm run esbuild-dce-test && npm run bundle-size",
     "changelog": "npx conventional-changelog -p angular -i CHANGELOG.md -u -s",
     "build-sponsors": "node scripts/build-sponsors.js"
   },
@@ -87,6 +88,7 @@
     "cross-env": "^7.0.3",
     "cssnano": "^7.1.1",
     "elapsed-time-logger": "^1.1.7",
+    "esbuild": "^0.18.20",
     "exec-sh": "^0.4.0",
     "fs-extra": "^11.1.1",
     "globby": "^13.2.2",

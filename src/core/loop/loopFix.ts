@@ -111,15 +111,17 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
   swiper.loopedSlides = loopedSlides;
   const gridEnabled = swiper.grid && params.grid && params.grid.rows! > 1;
 
-  if (
-    slides.length < slidesPerView + loopedSlides ||
-    (swiper.params.effect === 'cards' && slides.length < slidesPerView + loopedSlides * 2)
-  ) {
-    showWarning(
-      'Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled or not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters',
-    );
-  } else if (gridEnabled && params.grid!.fill === 'row') {
-    showWarning('Swiper Loop Warning: Loop mode is not compatible with grid.fill = `row`');
+  if (typeof swiperDevMode === 'undefined' || swiperDevMode) {
+    if (
+      slides.length < slidesPerView + loopedSlides ||
+      (swiper.params.effect === 'cards' && slides.length < slidesPerView + loopedSlides * 2)
+    ) {
+      showWarning(
+        'Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled or not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters',
+      );
+    } else if (gridEnabled && params.grid!.fill === 'row') {
+      showWarning('Swiper Loop Warning: Loop mode is not compatible with grid.fill = `row`');
+    }
   }
 
   const prependSlidesIndexes: number[] = [];

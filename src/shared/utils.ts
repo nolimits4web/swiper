@@ -1,5 +1,22 @@
 import classesToTokens from './classes-to-tokens';
 
+// Compile-time flag, undefined by default so existing behavior is unchanged.
+// Bundlers can statically replace it with `false` (e.g. via webpack
+// DefinePlugin, esbuild `define`, Terser `global_defs`, or
+// @rollup/plugin-replace) to let minifiers dead-code-eliminate dev-only
+// diagnostics (see `showWarning` call sites) from production builds.
+//
+// Deliberately not gated behind `process.env.NODE_ENV === 'production'`: that convention
+// is a webpack/DefinePlugin-ism
+// (it works there because webpack replaces `process.env.NODE_ENV` for you) and doesn't
+// hold for bundlers that don't polyfill `process`, so relying on it would leave
+// esbuild/Rollup/Vite-library consumers unable to strip these warnings without a shim. A
+// plain global identifier works the same way everywhere, and lets us keep the guard as a
+// simple `typeof` check without pulling in a `process` polyfill.
+declare global {
+  const swiperDevMode: boolean | undefined;
+}
+
 export function deleteProps(obj: Record<string, unknown>): void {
   Object.keys(obj).forEach((key) => {
     try {
