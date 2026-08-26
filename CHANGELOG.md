@@ -1,5 +1,21 @@
 # Changelog
 
+# [14.2.0](https://github.com/nolimits4web/Swiper/compare/v14.1.0...v14.2.0) (2026-08-26)
+
+### Bug Fixes
+
+* **cards:** prevent invalid calc() transform with low perSlideOffset ([d8ff235](https://github.com/nolimits4web/Swiper/commit/d8ff2350d215580da052e3fd1fc39b55e0af9a99)), closes [#8211](https://github.com/nolimits4web/Swiper/issues/8211)
+* **core:** do not emit index-change events from loopFix teleports ([#8015](https://github.com/nolimits4web/Swiper/issues/8015)) ([9b78f71](https://github.com/nolimits4web/Swiper/commit/9b78f71ac271d71a8811011dbb86d058d7ac5e2a))
+* **core:** harden extend() against prototype-method override in key filtering ([93154fc](https://github.com/nolimits4web/Swiper/commit/93154fc3d793f9f44c7c987a53091fe36fc82e74)), closes [#8189](https://github.com/nolimits4web/Swiper/issues/8189)
+* **core:** recompute rtlTranslate in changeDirection ([#8053](https://github.com/nolimits4web/Swiper/issues/8053)) ([b4b49bf](https://github.com/nolimits4web/Swiper/commit/b4b49bf33717b021ffdf63c45caa24cd351699f9))
+* **core:** size loop buffer from actual offset width, not centeredSlides geometry ([#8203](https://github.com/nolimits4web/Swiper/issues/8203)) ([bc4a658](https://github.com/nolimits4web/Swiper/commit/bc4a6588a81d3c5c2ea9ae345eba35fc3f1ed3d9))
+
+### Features
+
+* **core:** add lazyPreload param to disable built-in lazy image handling ([#7570](https://github.com/nolimits4web/Swiper/issues/7570)) ([81345db](https://github.com/nolimits4web/Swiper/commit/81345db82559f3dda08da1e3bcb575026e913e24))
+* **fade:** add fadeEffect "mode" param with new "out-in" transition mode ([#8051](https://github.com/nolimits4web/Swiper/issues/8051)) ([b907702](https://github.com/nolimits4web/Swiper/commit/b9077025f6ce2a6c78d43f4969d990ffd9868de6))
+
+
 # [14.1.0](https://github.com/nolimits4web/Swiper/compare/v14.0.7...v14.1.0) (2026-08-06)
 
 ### Bug Fixes
