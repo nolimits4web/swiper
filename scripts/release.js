@@ -92,11 +92,16 @@ async function release() {
   rimraf.sync(path.resolve(__dirname, 'dir'));
   fs.mkdirSync(path.resolve(__dirname, 'dir'));
   await exec.promise(`npm run build:prod`);
-  await exec.promise('git add .');
-  await exec.promise(`git commit -m ${pkg.version} --no-verify`);
-  await exec.promise('git push');
-  await exec.promise(`git tag v${pkg.version}`);
-  await exec.promise('git push origin --tags');
+  try {
+    await exec.promise('git add .');
+    await exec.promise(`git commit -m ${pkg.version} --no-verify`);
+    await exec.promise('git push');
+    await exec.promise(`git tag v${pkg.version}`);
+    await exec.promise('git push origin --tags');
+  } catch (err) {
+    // error
+  }
+
   if (options.beta) {
     await exec.promise('cd ./dist && npm publish --tag beta');
   } else if (options.alpha || options.next) {
