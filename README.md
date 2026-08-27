@@ -219,7 +219,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://parimatch.in/en/football/live" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/parimatch.png" alt="Online sports betting and casino at Parimatch India" width="160">
       </a>
     </td>
@@ -261,7 +260,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://superluxuryreps.com/" target="_blank">
         <img src="https://cdn.sponsors.nolimits4web.com/nnSLt8QcSRSkjS1LWWof/EdPDKFipuLJPgCI8ejNE/dc517d591588db7e.png" alt="Superluxuryreps" width="160">
       </a>
     </td>
@@ -328,7 +326,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://www.casino.escritoscientificos.es/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casinos-online-fuera-de-espana.png" alt="casinos online fuera de España" width="160">
       </a>
     </td>
@@ -472,7 +469,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://newcasinobonuses.gb.net/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/new-casino-bonuses-uk.png" alt="New Casino Bonuses" width="160">
       </a>
     </td>
