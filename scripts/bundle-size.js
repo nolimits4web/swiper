@@ -30,7 +30,7 @@ function gzipSize(buf) {
 
 function measure() {
   if (!fs.existsSync(distDir)) {
-    console.error(`dist/ not found at ${distDir}. Run \`npm run build:prod\` first.`);
+    console.error(`dist/ not found at ${distDir}. Run \`pnpm build:prod\` first.`);
     process.exit(1);
   }
   const sizes = {};
@@ -127,5 +127,5 @@ console.log(
 );
 
 if (!fs.existsSync(baselineFile)) {
-  console.log('\nNo baseline found. Run `npm run bundle-size:update` to write one.');
+  console.log('\nNo baseline found. Run `pnpm bundle-size:update` to write one.');
 }

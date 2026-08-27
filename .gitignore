@@ -7,6 +7,12 @@ custom
 .idea
 dist
 
+# This repo uses pnpm (pnpm-lock.yaml) - ignore other package managers' lockfiles
+# so an accidental `npm install`/`yarn` doesn't get committed.
+package-lock.json
+npm-shrinkwrap.json
+yarn.lock
+
 
 # local env files
 .env.local

@@ -88,10 +88,10 @@ async function release() {
   );
 
   await exec.promise('git pull');
-  await exec.promise('npm i');
+  await exec.promise('pnpm install');
   rimraf.sync(path.resolve(__dirname, 'dir'));
   fs.mkdirSync(path.resolve(__dirname, 'dir'));
-  await exec.promise(`npm run build:prod`);
+  await exec.promise(`pnpm build:prod`);
   try {
     await exec.promise('git add .');
     await exec.promise(`git commit -m ${pkg.version} --no-verify`);

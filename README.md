@@ -70,11 +70,11 @@ On production use files (JS and CSS) only from `dist/` folder, there will be the
 
 ### Development Build
 
-Install all dependencies, in repo's root:
+Install all dependencies, in repo's root (this repo uses [pnpm](https://pnpm.io)):
 
 ```
 
-$ npm install
+$ pnpm install
 
 ```
 
@@ -82,7 +82,7 @@ And build development version of Swiper:
 
 ```
 
-$ npm run build
+$ pnpm build
 
 ```
 
@@ -93,15 +93,15 @@ The result is available in `dist/` folder.
 All demos located in `./playground` folder. There you will find Core (HTML, JS), React, Vue versions.
 To open demo, run:
 
-- **Core**: `npm run core`
-- **React**: `npm run react`
-- **Vue**: `npm run vue`
+- **Core**: `pnpm core`
+- **React**: `pnpm react`
+- **Vue**: `pnpm vue`
 
 ### Production Build
 
 ```
 
-$ npm run build:prod
+$ pnpm build:prod
 
 ```
 
