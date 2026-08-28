@@ -417,6 +417,35 @@ const A11y: SwiperModule = ({ swiper, extendParams, on }) => {
     visibilityChangedTimestamp = new Date().getTime();
   };
 
+  // Loop keyboard trap (#8181): on Tab out of the last/first real slide, make other slides `inert` for the keypress so focus leaves the wrapper
+  let inertSlides: HTMLElement[] = [];
+  const releaseInertSlides = (): void => {
+    inertSlides.forEach((slideEl) => slideEl.removeAttribute('inert'));
+    inertSlides = [];
+  };
+  const handleTabKey = (e: KeyboardEvent): void => {
+    if (e.key !== 'Tab' || !swiper.params.loop || swiper.destroyed) return;
+    const target = e.target as HTMLElement | null;
+    const slideEl = target?.closest?.(
+      `.${swiper.params.slideClass}, swiper-slide`,
+    ) as HTMLElement | null;
+    if (!slideEl || !swiper.slides.includes(slideEl)) return;
+    const realIndex = parseInt(slideEl.getAttribute('data-swiper-slide-index') || '', 10);
+    if (Number.isNaN(realIndex)) return;
+    const slidesLength = isVirtualEnabled(swiper)
+      ? swiper.virtual.slides.length
+      : swiper.slides.length;
+    const isEdge = e.shiftKey ? realIndex === 0 : realIndex === slidesLength - 1;
+    if (!isEdge) return;
+    releaseInertSlides();
+    swiper.slides.forEach((el: HTMLElement) => {
+      if (el === slideEl || el.hasAttribute('inert')) return;
+      el.setAttribute('inert', '');
+      inertSlides.push(el);
+    });
+    setTimeout(releaseInertSlides, 0);
+  };
+
   const handleFocus = (e: FocusEvent): void => {
     const params = getParams();
     if (swiper.a11y.clicked || !params.scrollOnFocus) return;
@@ -556,6 +585,7 @@ const A11y: SwiperModule = ({ swiper, extendParams, on }) => {
     // Tab focus
     document.addEventListener('visibilitychange', onVisibilityChange);
     swiper.el.addEventListener('focus', handleFocus as EventListener, true);
+    swiper.el.addEventListener('keydown', handleTabKey as EventListener, true);
     swiper.el.addEventListener('pointerdown', handlePointerDown as EventListener, true);
     swiper.el.addEventListener('pointerup', handlePointerUp, true);
   };
@@ -588,9 +618,11 @@ const A11y: SwiperModule = ({ swiper, extendParams, on }) => {
     // Tab focus
     if (swiper.el && typeof swiper.el !== 'string') {
       swiper.el.removeEventListener('focus', handleFocus as EventListener, true);
+      swiper.el.removeEventListener('keydown', handleTabKey as EventListener, true);
       swiper.el.removeEventListener('pointerdown', handlePointerDown as EventListener, true);
       swiper.el.removeEventListener('pointerup', handlePointerUp, true);
     }
+    releaseInertSlides();
   }
 
   on('beforeInit', () => {
