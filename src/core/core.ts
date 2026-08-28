@@ -1318,13 +1318,8 @@ export class Swiper {
         );
       }
       lazyElements.forEach((imageEl) => {
-        if (imageEl.complete) {
-          processLazyPreloader(swiper, imageEl);
-        } else {
-          imageEl.addEventListener('load', (e) => {
-            processLazyPreloader(swiper, e.target as HTMLImageElement);
-          });
-        }
+        // Not-yet-complete images are handled by the delegated `load`/`error` listener in attachEvents()
+        if (imageEl.complete) processLazyPreloader(swiper, imageEl);
       });
     }
 

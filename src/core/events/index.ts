@@ -64,6 +64,7 @@ const events = (swiper: Swiper, method: 'on' | 'off'): void => {
   // Images loader
   if (params.lazyPreload) {
     el[domMethod]('load', swiper.onLoad as EventListener, { capture: true });
+    el[domMethod]('error', swiper.onLoad as EventListener, { capture: true });
   }
 };
 
