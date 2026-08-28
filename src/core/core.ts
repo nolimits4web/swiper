@@ -639,6 +639,16 @@ export interface Swiper {
   onScroll: () => void;
   onLoad: (event: Event) => void;
 
+  /**
+   * !INTERNAL
+   * Images with a pending `load`/`error` listener registered by init()'s lazyPreload block,
+   * so destroy() can remove them even if the image never settles before then. Both events
+   * share the single onLazyImageSettled handler below, so a Set of images is enough - no
+   * need to store a handler per entry.
+   */
+  lazyPreloadListeners: Set<HTMLImageElement>;
+  onLazyImageSettled: (event: Event) => void;
+
   // Module-injected methods are contributed via `declare module
   // '../../core/core'` from each module's own .ts file.
 }
@@ -705,6 +715,14 @@ export class Swiper {
 
     swiper.eventsListeners = {};
     swiper.eventsAnyListeners = [];
+    swiper.lazyPreloadListeners = new Set();
+    swiper.onLazyImageSettled = (e: Event): void => {
+      const imageEl = e.currentTarget as HTMLImageElement;
+      imageEl.removeEventListener('load', swiper.onLazyImageSettled);
+      imageEl.removeEventListener('error', swiper.onLazyImageSettled);
+      swiper.lazyPreloadListeners.delete(imageEl);
+      processLazyPreloader(swiper, imageEl);
+    };
     swiper.modules = [...(swiper.__modules__ || [])];
     if (params.modules && Array.isArray(params.modules)) {
       params.modules.forEach((mod) => {
@@ -1321,9 +1339,18 @@ export class Swiper {
         if (imageEl.complete) {
           processLazyPreloader(swiper, imageEl);
         } else {
-          imageEl.addEventListener('load', (e) => {
-            processLazyPreloader(swiper, e.target as HTMLImageElement);
-          });
+          // An image never settles with just `load`: a broken/404'd src fires `error`
+          // instead, so a `load`-only listener would sit here forever unfired. Listening
+          // for both and removing them as soon as either fires (rather than relying only
+          // on `once`, which would still leave the other one attached) avoids keeping
+          // swiper - which the shared handler above closes over - alive indefinitely via
+          // the img's listener list if the slide DOM outlives the instance (still loading
+          // at destroy(), or reused/retained by a framework wrapper). Also tracked on the
+          // instance so destroy() can remove listeners still pending for images that never
+          // settle before then.
+          imageEl.addEventListener('load', swiper.onLazyImageSettled);
+          imageEl.addEventListener('error', swiper.onLazyImageSettled);
+          swiper.lazyPreloadListeners.add(imageEl);
         }
       });
     }
@@ -1362,6 +1389,14 @@ export class Swiper {
 
     // Detach events
     swiper.detachEvents();
+
+    // Remove any lazyPreload load/error listeners still pending on images that never
+    // settled - the slide DOM (and these listeners with it) can outlive the instance.
+    swiper.lazyPreloadListeners.forEach((imageEl) => {
+      imageEl.removeEventListener('load', swiper.onLazyImageSettled);
+      imageEl.removeEventListener('error', swiper.onLazyImageSettled);
+    });
+    swiper.lazyPreloadListeners.clear();
 
     // Destroy loop
     if (params.loop) {
