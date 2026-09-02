@@ -373,7 +373,7 @@ const Swiper = defineComponent({
     }
 
     onUpdated(() => {
-      if (!initializedRef.value && swiperRef.value) {
+      if (!initializedRef.value && swiperRef.value && !swiperRef.value.destroyed) {
         swiperRef.value.emitSlidesClasses();
         initializedRef.value = true;
       }

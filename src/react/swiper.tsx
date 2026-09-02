@@ -142,7 +142,7 @@ const Swiper = forwardRef<HTMLElement, SwiperProps>(function Swiper(propsArg, ex
   });
 
   useEffect(() => {
-    if (!initializedRef.current && swiperRef.current) {
+    if (!initializedRef.current && swiperRef.current && !swiperRef.current.destroyed) {
       swiperRef.current.emitSlidesClasses();
       initializedRef.current = true;
     }
