@@ -26,7 +26,8 @@ export default async function buildTypes() {
     return content
       .replace(/this: Swiper, /g, '')
       .replace(/this: Swiper/g, '')
-      .replace(/swiper: Swiper/g, 'swiper: SwiperClass');
+      .replace(/swiper: Swiper/g, 'swiper: SwiperClass')
+      .replace(/\| Swiper\b/g, '| SwiperClass');
   };
   const getCoreEventsContent = async () => {
     // Core events live in src/types/events.ts (Phase 6 relocated this file
