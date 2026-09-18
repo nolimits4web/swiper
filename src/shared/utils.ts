@@ -216,14 +216,12 @@ export function elementParents(el: Element, selector?: string): Element[] {
 
 export function elementTransitionEnd(el: Element, callback?: (e: TransitionEvent) => void): void {
   if (!callback) return;
-  el.addEventListener(
-    'transitionend',
-    function fireCallBack(this: Element, e: Event) {
-      if (e.target !== el) return;
-      callback.call(el, e as TransitionEvent);
-    },
-    { once: true },
-  );
+  function fireCallBack(this: Element, e: Event) {
+    if (e.target !== el) return;
+    el.removeEventListener('transitionend', fireCallBack);
+    callback.call(el, e as TransitionEvent);
+  }
+  el.addEventListener('transitionend', fireCallBack);
 }
 
 export function elementOuterSize(
