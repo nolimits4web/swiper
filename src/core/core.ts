@@ -79,6 +79,7 @@ export interface SwiperParams extends SwiperOptions {
   el?: CSSSelector | HTMLElement;
 }
 export interface SwiperTouchEventsData {
+  startEventPath?: EventTarget[];
   isTouched?: boolean;
   isMoved?: boolean;
   allowTouchCallbacks?: boolean;

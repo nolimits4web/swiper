@@ -35,6 +35,7 @@ export default function onTouchEnd(
     }
   }
 
+  data.startEventPath = undefined;
   data.pointerId = null;
   data.touchId = null;
   const { params, touches, rtlTranslate: rtl, slidesGrid, enabled } = swiper;

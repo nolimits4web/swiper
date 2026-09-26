@@ -49,6 +49,40 @@ export default function onTouchMove(
   const pageX = targetTouch.pageX;
   const pageY = targetTouch.pageY;
 
+  // Nested capture listeners share the document, so registration order may
+  // run a parent first. Let any active descendant consume its own direction
+  // before this instance, including when the closest child is at an edge.
+  // Use the start path so leaving a child does not transfer an active gesture.
+  for (const node of data.startEventPath ?? []) {
+    if (node === swiper.el) break;
+    const child = (node as HTMLElement & { swiper?: Swiper }).swiper;
+    if (
+      !child ||
+      child === swiper ||
+      child.destroyed ||
+      !child.params.nested ||
+      !child.enabled ||
+      !child.allowTouchMove ||
+      !child.touchEventsData.isTouched ||
+      child.isHorizontal() !== swiper.isHorizontal()
+    ) {
+      continue;
+    }
+    const delta = child.isHorizontal()
+      ? pageX - child.touches.startX
+      : pageY - child.touches.startY;
+    const logicalDelta = child.rtlTranslate ? -delta : delta;
+    if (
+      child.params.loop ||
+      (logicalDelta > 0 && child.allowSlidePrev && !child.isBeginning) ||
+      (logicalDelta < 0 && child.allowSlideNext && !child.isEnd)
+    ) {
+      touches.startX = pageX;
+      touches.startY = pageY;
+      return;
+    }
+  }
+
   if (e.preventedByNestedSwiper) {
     touches.startX = pageX;
     touches.startY = pageY;
