@@ -352,5 +352,50 @@ await check('loopFix teleports do not emit index-change events', async () => {
   }
 });
 
+// Regression: https://github.com/nolimits4web/swiper/issues/8229 — elementTransitionEnd()
+// registered its listener with `{ once: true }` behind an `e.target !== el` guard. transitionend
+// bubbles, so a descendant's event consumed the listener and the element's own end was never
+// seen. With virtualTranslate effects (creative forces it) that synthetic end is the only
+// producer of transitionEnd, so the swiper stayed `animating` forever. happy-dom runs no CSS
+// transitions, so the transitionend events are dispatched by hand.
+await check('descendant transitionend does not swallow the effect transition end', async () => {
+  const host = doc.createElement('div');
+  host.innerHTML = `
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><span>1</span></div>
+        <div class="swiper-slide"><span>2</span></div>
+        <div class="swiper-slide"><span>3</span></div>
+      </div>
+    </div>`;
+  doc.body.appendChild(host);
+  const { default: Swiper } = await import(dist('swiper.mjs'));
+  const { default: EffectCreative } = await import(dist('modules/effect-creative.mjs'));
+  const swiper = new Swiper(host.querySelector('.swiper'), {
+    modules: [EffectCreative],
+    effect: 'creative',
+    width: 300,
+    height: 300,
+    speed: 300,
+  });
+  let transitionEndCount = 0;
+  swiper.on('transitionEnd', () => (transitionEndCount += 1));
+  try {
+    swiper.slideTo(1);
+    assert.equal(swiper.animating, true, 'slideTo() with speed must start animating');
+
+    const slide = swiper.slides[1];
+    slide.querySelector('span').dispatchEvent(new Event('transitionend', { bubbles: true }));
+    assert.equal(transitionEndCount, 0, 'descendant transitionend must not end the transition');
+
+    slide.dispatchEvent(new Event('transitionend', { bubbles: true }));
+    assert.equal(transitionEndCount, 1, "slide's own transitionend must emit transitionEnd");
+    assert.equal(swiper.animating, false, 'swiper must stop animating');
+  } finally {
+    swiper.destroy(true, false);
+    host.remove();
+  }
+});
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);
