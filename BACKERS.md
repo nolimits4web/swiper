@@ -1000,6 +1000,7 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
 ### \$100 Silver Sponsor
 
 <!-- SILVER_SPONSOR -->
+
 - [UpMyViews](https://www.upmyviews.com/)
 - [KaufenFollower](https://kaufenfollower.com/)
 - [BuztGrowth](https://buztgrowth.com/)
@@ -1029,6 +1030,7 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
 ### \$50+ Sponsor
 
 <!-- SPONSOR -->
+
 - [казино онлайн](https://beton.ua/casino)
 - [CouponLab](https://www.couponlab.com)
 - [JavaScript SEO WatchThis](https://watchthis.dev)

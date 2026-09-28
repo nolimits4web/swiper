@@ -1,5 +1,22 @@
 # Changelog
 
+# [14.3.0](https://github.com/nolimits4web/Swiper/compare/v14.2.0...v14.3.0) (2026-09-28)
+
+### Bug Fixes
+
+* **a11y:** let Tab leave the carousel in loop mode ([944ba56](https://github.com/nolimits4web/Swiper/commit/944ba567503653ceca914170e3a281d97ad993cc)), closes [#8181](https://github.com/nolimits4web/Swiper/issues/8181)
+* **core:** drop per-image lazyPreload listeners, handle image `error` in delegated loader ([eb02f3c](https://github.com/nolimits4web/Swiper/commit/eb02f3ce28aec376a055ac7ca9490f6c3788d0c2)), closes [#8223](https://github.com/nolimits4web/Swiper/issues/8223)
+* **core:** handle every ResizeObserver frame during continuous resize ([6818fea](https://github.com/nolimits4web/Swiper/commit/6818feae4b52c62fbabbcb6c2605ee6734cfdb7b)), closes [#5441](https://github.com/nolimits4web/Swiper/issues/5441) [#8230](https://github.com/nolimits4web/Swiper/issues/8230)
+* **core:** keep elementTransitionEnd until the element's own event ([#8232](https://github.com/nolimits4web/Swiper/issues/8232)) ([95696d0](https://github.com/nolimits4web/Swiper/commit/95696d00811c042410609746296e9fc99bcce8d3)), closes [#8229](https://github.com/nolimits4web/Swiper/issues/8229)
+* **core:** run nested swipers innermost-first regardless of init order ([0d100d4](https://github.com/nolimits4web/Swiper/commit/0d100d43003eb4b88392969a5bfe2921aad9e839)), closes [#8233](https://github.com/nolimits4web/Swiper/issues/8233) [#7702](https://github.com/nolimits4web/Swiper/issues/7702) [#8233](https://github.com/nolimits4web/Swiper/issues/8233)
+* **core:** skip loop fix and its warning when watchOverflow locks the slider ([fefcc9c](https://github.com/nolimits4web/Swiper/commit/fefcc9c90235cda4f74d3f5d32b7f464cb771bee)), closes [#8228](https://github.com/nolimits4web/Swiper/issues/8228)
+* **element:** keep element class fields type-only so init="false" works in Vue/React 19 ([827b8fb](https://github.com/nolimits4web/Swiper/commit/827b8fb3510fb7736dad0f99b67253c71094893a)), closes [#8224](https://github.com/nolimits4web/Swiper/issues/8224)
+* **react:** skip emitSlidesClasses() on a destroyed instance ([3bf7421](https://github.com/nolimits4web/Swiper/commit/3bf7421a11bd51279eeb45ac2776b194a65225a6))
+* **types:** use SwiperClass for byController in React and Vue wrappers ([bdedc7b](https://github.com/nolimits4web/Swiper/commit/bdedc7b6a4325dd73a64f6fc65b4c3f0651782ae))
+* **vue:** guard params.loop access in SwiperSlide on a destroyed instance. ([d3c325a](https://github.com/nolimits4web/Swiper/commit/d3c325aa1b39d8504bd90c6c9c64fae02b02f6d3))
+* **vue:** only invoke slots in render to avoid "slot invoked outside render" warning ([eac8a35](https://github.com/nolimits4web/Swiper/commit/eac8a350147fd63726691fa6e2612763dc33e2e3)), closes [#8227](https://github.com/nolimits4web/Swiper/issues/8227)
+* **vue:** skip emitSlidesClasses() on a destroyed instance ([7f8c4cc](https://github.com/nolimits4web/Swiper/commit/7f8c4cc9d76f8b781498f487dcd845ff5103e960))
+
 # [14.2.0](https://github.com/nolimits4web/Swiper/compare/v14.1.0...v14.2.0) (2026-08-26)
 
 ### Bug Fixes
