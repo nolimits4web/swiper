@@ -178,7 +178,9 @@ await check('genuinely too few slides still warns (no false negative introduced)
   let swiper;
   const warnings = withCapturedWarnings(() => {
     ({ swiper } = mountSwiper({
-      params: { loop: true, slidesPerView: 3, slidesPerGroup: 3 },
+      // watchOverflow off: with it on, 2 slides that fit in view lock the slider and loop is
+      // skipped without a warning (#8228)
+      params: { loop: true, slidesPerView: 3, slidesPerGroup: 3, watchOverflow: false },
       slideCount: 2,
     }));
   });
@@ -212,6 +214,62 @@ await check(
     return swiper.el;
   },
 );
+
+// Regression: https://github.com/nolimits4web/swiper/issues/8228 — a breakpoint switching
+// slidesPerView to the total slide count warned "not enough for loop mode" although the slider
+// is simply locked by watchOverflow (all slides fit, nothing to loop). loopCreate() ran before
+// the layout reflected the new slidesPerView, and loopFix() warned and reordered slides anyway.
+// Locked sliders now skip loopFix(), so there is no warning and the source order is kept.
+// breakpointsBase 'window' because happy-dom has no layout for the container.
+await check('breakpoint that fits all slides locks without loop warning or reorder', () => {
+  const order = (swiper) =>
+    [...swiper.slidesEl.children].map((el) => el.textContent.replace('Slide ', '')).join(',');
+  win.happyDOM.setWindowSize({ width: 1200, height: 800 });
+  let swiper;
+  try {
+    let warnings = withCapturedWarnings(() => {
+      ({ swiper } = mountSwiper({
+        params: {
+          loop: true,
+          slidesPerView: 1,
+          spaceBetween: 50,
+          width: 900,
+          speed: 0,
+          breakpoints: { 700: { slidesPerView: 3 } },
+          breakpointsBase: 'window',
+        },
+        slideCount: 3,
+      }));
+    });
+    assert.equal(warnings.length, 0, `no warning on locked init, got [${warnings}]`);
+    assert.equal(swiper.isLocked, true, 'all 3 slides fit, slider must be locked');
+    assert.equal(order(swiper), '1,2,3', 'locked slider keeps the source order');
+
+    // below the breakpoint: slidesPerView 1 unlocks, loop works
+    warnings = withCapturedWarnings(() => {
+      win.happyDOM.setWindowSize({ width: 600, height: 800 });
+      swiper.setBreakpoint();
+      swiper.slideNext(0);
+      swiper.slideNext(0);
+      swiper.slideNext(0);
+    });
+    assert.equal(warnings.length, 0, `no warning below the breakpoint, got [${warnings}]`);
+    assert.equal(swiper.isLocked, false, 'slidesPerView 1 must unlock');
+    assert.equal(swiper.realIndex, 0, 'three slideNext() must loop back to the first slide');
+
+    // back above the breakpoint: locked again, no warning, source order restored
+    warnings = withCapturedWarnings(() => {
+      win.happyDOM.setWindowSize({ width: 1200, height: 800 });
+      swiper.setBreakpoint();
+    });
+    assert.equal(warnings.length, 0, `no warning when re-locking, got [${warnings}]`);
+    assert.equal(swiper.isLocked, true, 'slider must lock again');
+    assert.equal(order(swiper), '1,2,3', 'source order must be restored');
+  } finally {
+    win.happyDOM.setWindowSize({ width: 1024, height: 768 });
+  }
+  return swiper.el;
+});
 
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);

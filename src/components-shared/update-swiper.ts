@@ -291,6 +291,8 @@ export function updateSwiper(args: UpdateSwiperArgs): void {
     swiper.loopDestroy();
   }
   if (loopNeedEnable || loopNeedReloop) {
+    // refresh isLocked for the new params: loopFix() skips a slider locked by watchOverflow
+    if (swiper.params.watchOverflow) swiper.updateSlides();
     swiper.loopCreate();
   }
   swiper.update();

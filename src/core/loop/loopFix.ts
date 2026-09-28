@@ -36,6 +36,9 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
   const swiper = this;
 
   if (!swiper.params.loop) return;
+  // A locked slider (watchOverflow, all slides fit) can't move, so there is nothing to loop:
+  // keep the original slide order and don't warn about too few slides (#8228)
+  if (swiper.params.watchOverflow && swiper.isLocked) return;
   swiper.emit('beforeLoopFix');
   // The compensating slideTo() teleports below change indexes/translate without any
   // observable slide change, so updateActiveIndex() must not emit index-change events

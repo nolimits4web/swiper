@@ -112,13 +112,15 @@ export default function setBreakpoint(this: Swiper): void {
   swiper.emit('_beforeBreakpoint', breakpointParams);
 
   if (initialized) {
+    // Lay out with the new params before loopCreate(), so loopFix() sees current sizes and
+    // isLocked state (a slider locked by watchOverflow skips loop entirely, #8228)
     if (needsReLoop) {
       swiper.loopDestroy();
-      swiper.loopCreate(realIndex);
       swiper.updateSlides();
+      swiper.loopCreate(realIndex);
     } else if (!wasLoop && hasLoop) {
-      swiper.loopCreate(realIndex);
       swiper.updateSlides();
+      swiper.loopCreate(realIndex);
     } else if (wasLoop && !hasLoop) {
       swiper.loopDestroy();
     }
