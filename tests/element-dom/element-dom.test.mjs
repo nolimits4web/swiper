@@ -571,5 +571,67 @@ await check('Vue wrapper reads slots only in render (no warning, virtual works)'
   }
 });
 
+// Regression: https://github.com/nolimits4web/swiper/issues/8230 — the ResizeObserver callback
+// defers to requestAnimationFrame (#5441), so its entry sizes lag one layout behind, while
+// onResize() reads the live size into swiper.width. The rAF compared entries against
+// swiper.width and skipped every other frame of a continuous resize, painting those frames
+// with a stale translate (visible tremor). Entries are now compared against the last handled
+// entry size. happy-dom has no layout, so the observer is faked and onResize()'s live read is
+// simulated by setting swiper.width one step ahead of the entries.
+await check('continuous ResizeObserver resize is handled on every frame', async () => {
+  let observerCallback;
+  const OriginalResizeObserver = win.ResizeObserver;
+  const originalRaf = win.requestAnimationFrame;
+  // the module checks window.ResizeObserver but constructs the global one
+  const FakeResizeObserver = class {
+    constructor(callback) {
+      observerCallback = callback;
+    }
+    observe() {}
+    unobserve() {}
+  };
+  win.ResizeObserver = FakeResizeObserver;
+  globalThis.ResizeObserver = FakeResizeObserver;
+  win.requestAnimationFrame = (callback) => {
+    callback();
+    return 1;
+  };
+  const host = doc.createElement('div');
+  host.innerHTML = `
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">1</div>
+        <div class="swiper-slide">2</div>
+      </div>
+    </div>`;
+  doc.body.appendChild(host);
+  const { default: Swiper } = await import(dist('swiper.mjs'));
+  const swiper = new Swiper(host.querySelector('.swiper'), { width: 800, height: 300 });
+  try {
+    let resizes = 0;
+    swiper.on('resize', () => (resizes += 1));
+    const notify = (width) =>
+      observerCallback([{ target: swiper.el, contentRect: { width, height: 300 } }]);
+    // each frame: the observer reports this frame's size, onResize() already read the next one
+    for (const [entryWidth, liveWidth] of [
+      [790, 780],
+      [780, 770],
+      [770, 760],
+    ]) {
+      notify(entryWidth);
+      swiper.width = liveWidth;
+    }
+    assert.equal(resizes, 3, `every observed size change must resize, got ${resizes}`);
+    notify(770);
+    assert.equal(resizes, 3, 'an unchanged entry size must not resize again');
+  } finally {
+    swiper.destroy(true, false);
+    host.remove();
+    win.ResizeObserver = OriginalResizeObserver;
+    globalThis.ResizeObserver = OriginalResizeObserver;
+    win.requestAnimationFrame = originalRaf;
+  }
+});
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);
