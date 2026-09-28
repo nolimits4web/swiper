@@ -143,6 +143,7 @@ export default function onTouchStart(
   touches.startX = startX;
   touches.startY = startY;
   data.touchStartTime = now();
+  data.startEventPath = eventPath;
   swiper.allowClick = true;
   swiper.updateSize();
   swiper.swipeDirection = undefined;

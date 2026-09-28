@@ -46,6 +46,25 @@ export default function onTouchMove(
     return;
   }
 
+  // Nested swipers listen on document in capture phase, so they run in registration order and
+  // an ancestor initialized first would move before its descendant can set
+  // preventedByNestedSwiper. Run touched nested descendants first, innermost to outermost.
+  if (data.lastMoveEvent === e) return;
+  data.lastMoveEvent = e;
+  for (const node of data.startEventPath ?? []) {
+    if (node === swiper.el) break;
+    const child = (node as HTMLElement & { swiper?: Swiper | null }).swiper;
+    if (
+      child &&
+      child !== swiper &&
+      !child.destroyed &&
+      child.params.nested &&
+      child.touchEventsData.isTouched
+    ) {
+      child.onTouchMove(event);
+    }
+  }
+
   const pageX = targetTouch.pageX;
   const pageY = targetTouch.pageY;
 

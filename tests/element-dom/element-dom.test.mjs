@@ -397,5 +397,83 @@ await check('descendant transitionend does not swallow the effect transition end
   }
 });
 
+// Regression: https://github.com/nolimits4web/swiper/issues/7702 — `nested` swipers listen for
+// moves on document in capture phase, so they run in registration order. With three levels
+// initialized outer-to-inner, the middle swiper ran before the inner one could set
+// preventedByNestedSwiper and took over the inner's drag. Touched nested descendants now run
+// first regardless of init order; at the inner's edge the drag still hands off to the parent.
+// Moves are also dispatched on body to cover a drag that leaves the inner swiper.
+await check('nested swipers keep drag order regardless of init order', async () => {
+  const { default: Swiper } = await import(dist('swiper.mjs'));
+  const ids = ['outer', 'middle', 'inner'];
+  const mount = (id) => {
+    const el = doc.createElement('div');
+    el.id = id;
+    el.className = 'swiper';
+    el.innerHTML = `
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">1</div>
+        <div class="swiper-slide"></div>
+        <div class="swiper-slide">3</div>
+      </div>`;
+    return el;
+  };
+  // happy-dom leaves pageX/pageY undefined on synthetic PointerEvents
+  const pointer = (target, type, x) => {
+    const event = new win.PointerEvent(type, {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+      pointerId: 1,
+      pointerType: 'mouse',
+      button: 0,
+      buttons: type === 'pointerup' ? 0 : 1,
+      clientX: x,
+      clientY: 50,
+    });
+    Object.defineProperties(event, { pageX: { value: x }, pageY: { value: 50 } });
+    target.dispatchEvent(event);
+  };
+  for (const order of [ids, [...ids].reverse()]) {
+    for (const outside of [false, true]) {
+      const [outerEl, middleEl, innerEl] = ids.map(mount);
+      outerEl.querySelector('.swiper-slide:nth-child(2)').appendChild(middleEl);
+      middleEl.querySelector('.swiper-slide:nth-child(2)').appendChild(innerEl);
+      doc.body.appendChild(outerEl);
+      const instances = {};
+      for (const id of order) {
+        instances[id] = new Swiper(doc.getElementById(id), {
+          nested: id !== 'outer',
+          initialSlide: 1,
+          width: 600,
+          height: 300,
+          threshold: 0,
+          speed: 0,
+        });
+      }
+      const label = `${order.join(' > ')} init${outside ? ', moving outside' : ''}`;
+      try {
+        // drag right three times: inner goes to its first slide, then middle, then outer
+        for (const expected of ['1,1,0', '1,0,0', '0,0,0']) {
+          const target = innerEl.querySelector('.swiper-slide');
+          const moveTarget = outside ? doc.body : target;
+          pointer(target, 'pointerdown', 100);
+          pointer(moveTarget, 'pointermove', 150);
+          pointer(moveTarget, 'pointermove', 550);
+          pointer(moveTarget, 'pointerup', 550);
+          assert.equal(
+            ids.map((id) => instances[id].activeIndex).join(','),
+            expected,
+            `${label}: active indexes (outer,middle,inner)`,
+          );
+        }
+      } finally {
+        Object.values(instances).forEach((swiper) => swiper.destroy(true, false));
+        outerEl.remove();
+      }
+    }
+  }
+});
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);

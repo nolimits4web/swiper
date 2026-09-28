@@ -99,6 +99,10 @@ export interface SwiperTouchEventsData {
   preventTouchMoveFromPointerMove?: boolean;
   /** Set in onTouchMove when crossing the loop-swap boundary; consumed in onTouchEnd. */
   loopSwapReset?: boolean;
+  /** composedPath() of the gesture's start event; lets nested swipers find touched descendants. */
+  startEventPath?: EventTarget[];
+  /** Last move event handled, so a nested swiper run early by its parent skips its own listener. */
+  lastMoveEvent?: Event;
 }
 
 export interface SwiperTouches {

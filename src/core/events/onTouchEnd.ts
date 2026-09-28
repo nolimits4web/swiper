@@ -37,6 +37,8 @@ export default function onTouchEnd(
 
   data.pointerId = null;
   data.touchId = null;
+  data.startEventPath = undefined;
+  data.lastMoveEvent = undefined;
   const { params, touches, rtlTranslate: rtl, slidesGrid, enabled } = swiper;
   if (!enabled) return;
   if (!params.simulateTouch && (e as PointerEvent).pointerType === 'mouse') return;
