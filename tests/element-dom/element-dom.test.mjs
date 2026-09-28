@@ -516,5 +516,60 @@ await check('init="false" set the framework way defers init until initialize()',
   return container;
 });
 
+// Regression: https://github.com/nolimits4web/swiper/issues/8227 — the Vue wrapper invoked the
+// default slot in setup() and in the breakpoint callback. Slots compiled without withCtx (JSX,
+// plain h() calls) then logged "Slot invoked outside of the render function" on every mount.
+// Slots are now only read in render; virtual slides are wired up in onMounted, after the first
+// render filled slidesRef, so this also checks that virtual mode still renders the right slides.
+await check('Vue wrapper reads slots only in render (no warning, virtual works)', async () => {
+  const { createApp, h, nextTick } = await import('vue');
+  const { Swiper, SwiperSlide } = await import(dist('swiper-vue.mjs'));
+  const { default: Virtual } = await import(dist('modules/virtual.mjs'));
+  const flush = async () => {
+    await nextTick();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await nextTick();
+  };
+  const warnings = [];
+  const originalWarn = console.warn;
+  console.warn = (...args) => warnings.push(args.map(String).join(' '));
+  const host = doc.createElement('div');
+  doc.body.appendChild(host);
+  let swiper;
+  const app = createApp({
+    render: () =>
+      h(
+        Swiper,
+        {
+          modules: [Virtual],
+          virtual: true,
+          width: 300,
+          slidesPerView: 1,
+          onSwiper: (s) => (swiper = s),
+        },
+        // plain function slot, as @vue/babel-plugin-jsx emits it
+        {
+          default: () =>
+            Array.from({ length: 20 }, (_, i) => h(SwiperSlide, { key: i }, () => `Slide ${i}`)),
+        },
+      ),
+  });
+  try {
+    app.mount(host);
+    await flush();
+    const slotWarnings = warnings.filter((w) => w.includes('invoked outside of the render'));
+    assert.equal(slotWarnings.length, 0, `no slot warning expected, got ${slotWarnings.length}`);
+    assert.equal(swiper.virtual.slides.length, 20, 'virtual must receive all 20 slides');
+    swiper.slideTo(10, 0);
+    await flush();
+    const rendered = [...host.querySelectorAll('.swiper-slide')].map((el) => el.textContent);
+    assert.ok(rendered.includes('Slide 10'), `slide 10 must be rendered, got [${rendered}]`);
+  } finally {
+    console.warn = originalWarn;
+    app.unmount();
+    host.remove();
+  }
+});
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);

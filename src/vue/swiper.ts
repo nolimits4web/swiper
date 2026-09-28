@@ -332,13 +332,12 @@ const Swiper = defineComponent({
       false,
     );
 
-    getChildren(originalSlots, slidesRef, oldSlidesRef);
-
+    // Slots are only invoked in the render function: calling them anywhere else (setup,
+    // breakpoint callback) makes Vue warn for slots compiled without withCtx, e.g. JSX. The
+    // re-render triggered by breakpointChanged refreshes slidesRef before onUpdated reads it.
     oldPassedParamsRef.value = passedParams;
-    oldSlidesRef.value = slidesRef.value;
 
     const onBeforeBreakpoint = (): void => {
-      getChildren(originalSlots, slidesRef, oldSlidesRef);
       breakpointChanged.value = true;
     };
 
@@ -357,20 +356,6 @@ const Swiper = defineComponent({
     const passParams = { ...swiperParams } as SwiperOptions & { wrapperClass?: string };
     delete passParams.wrapperClass;
     swiperRef.value = new SwiperCore(passParams);
-    const instance = swiperRef.value;
-    if (instance && instance.virtual && instance.params.virtual?.enabled) {
-      instance.virtual.slides = slidesRef.value;
-      const extendWith = {
-        cache: false,
-        slides: slidesRef.value,
-        renderExternal: (data: VueVirtualData) => {
-          virtualData.value = data;
-        },
-        renderExternalUpdate: false,
-      };
-      extend(instance.params.virtual, extendWith);
-      if (instance.originalParams.virtual) extend(instance.originalParams.virtual, extendWith);
-    }
 
     onUpdated(() => {
       if (!initializedRef.value && swiperRef.value && !swiperRef.value.destroyed) {
@@ -420,6 +405,21 @@ const Swiper = defineComponent({
 
     onMounted(() => {
       if (!swiperElRef.value || !swiperRef.value) return;
+      // slidesRef is filled by the first render, so virtual slides are wired up here
+      const instance = swiperRef.value;
+      if (instance.virtual && instance.params.virtual?.enabled) {
+        instance.virtual.slides = slidesRef.value;
+        const extendWith = {
+          cache: false,
+          slides: slidesRef.value,
+          renderExternal: (data: VueVirtualData) => {
+            virtualData.value = data;
+          },
+          renderExternalUpdate: false,
+        };
+        extend(instance.params.virtual, extendWith);
+        if (instance.originalParams.virtual) extend(instance.originalParams.virtual, extendWith);
+      }
       mountSwiper(
         {
           el: swiperElRef.value,
