@@ -112,7 +112,7 @@ const SwiperSlide = defineComponent({
             typeof props.virtualIndex === 'undefined' &&
             swiperRef &&
             swiperRef.value &&
-            swiperRef.value.params.loop
+            swiperRef.value.params?.loop
               ? props.swiperSlideIndex
               : props.virtualIndex,
           onLoadCapture: onLoad,
