@@ -52,15 +52,18 @@ const addStyle = (shadowRoot: ShadowRoot, styles: string): void => {
 };
 
 class SwiperContainer extends ClassToExtend {
-  swiper?: SwiperClass;
+  // `declare` keeps these type-only: emitted class fields become own instance properties, which
+  // shadow the param accessors defined on the prototype below and make `'init' in el` true, so
+  // frameworks (Vue, React 19) set `init="false"` as a string property instead of an attribute.
+  declare swiper?: SwiperClass;
   swiperParams: SwiperOptions = {};
   passedParams: Record<string, unknown> = {};
-  injectStyles?: string[];
-  injectStylesUrls?: string[];
+  declare injectStyles?: string[];
+  declare injectStylesUrls?: string[];
   slideSlots: number = 0;
-  rendered?: boolean;
-  nested?: boolean;
-  init?: boolean;
+  declare rendered?: boolean;
+  declare nested?: boolean;
+  declare init?: boolean;
 
   constructor() {
     super();
@@ -307,8 +310,9 @@ paramsList.forEach((rawName) => {
 });
 
 class SwiperSlide extends ClassToExtend {
-  lazy?: boolean;
-  swiperLoopMoveDOM?: boolean;
+  // type-only for the same reason as in SwiperContainer (`lazy="false"` must stay an attribute)
+  declare lazy?: boolean;
+  declare swiperLoopMoveDOM?: boolean;
 
   constructor() {
     super();

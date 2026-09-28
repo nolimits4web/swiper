@@ -475,5 +475,46 @@ await check('nested swipers keep drag order regardless of init order', async () 
   }
 });
 
+// Regression: https://github.com/nolimits4web/swiper/issues/8224 — the v14 TS migration emitted
+// SwiperContainer's `init`/`nested`/`injectStyles`/... declarations as class fields, i.e. own
+// instance properties. Vue and React 19 set a prop on a custom element as a DOM property when
+// `key in el`, so on an already-defined element `init="false"` became `el.init = 'false'` (a
+// string, no attribute) and connectedCallback initialized immediately with defaults; params
+// assigned later were ignored by the no-op initialize(). `setProp` mimics that framework rule.
+await check('init="false" set the framework way defers init until initialize()', async () => {
+  const setProp = (el, key, value) => {
+    if (key in el) el[key] = value;
+    else el.setAttribute(key, value);
+  };
+  const probe = doc.createElement('swiper-slide');
+  assert.equal('lazy' in probe, false, "'lazy' in swiper-slide must be false");
+
+  const container = doc.createElement('swiper-container');
+  assert.equal('init' in container, false, "'init' in swiper-container must be false");
+  setProp(container, 'init', 'false');
+  for (let i = 1; i <= 3; i += 1) {
+    const slide = doc.createElement('swiper-slide');
+    slide.textContent = `Slide ${i}`;
+    container.appendChild(slide);
+  }
+  doc.body.appendChild(container);
+  assert.ok(!container.swiper, 'init="false" must not initialize on connect');
+
+  Object.assign(container, {
+    navigation: { prevEl: '.my-prev', nextEl: '.my-next' },
+    injectStyles: ['.swiper { --injected-8224: 1; }'],
+  });
+  container.initialize();
+  const sr = container.shadowRoot;
+  assert.equal(container.swiper.params.navigation.prevEl, '.my-prev', 'custom prevEl must apply');
+  assert.equal(sr.querySelector('.swiper-button-prev'), null, 'default buttons must not render');
+  const css = [
+    ...[...(sr.adoptedStyleSheets || [])].flatMap((s) => [...s.cssRules].map((r) => r.cssText)),
+    ...[...sr.querySelectorAll('style')].map((s) => s.textContent),
+  ].join('\n');
+  assert.ok(css.includes('--injected-8224'), 'injectStyles must be applied');
+  return container;
+});
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);
