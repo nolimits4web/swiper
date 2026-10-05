@@ -8,6 +8,10 @@ interface SwiperContainerEventMap extends Omit<HTMLElementEventMap, 'click' | 'p
   // CORE_EVENTS
 
   // MODULES_EVENTS
+
+   // TODO: With custom eventsPrefix can't listen to events
+  // Using that as fallback
+  [key: string]: CustomEvent<[swiper: Swiper, ...additionalData: any[]]>;
 }
 
 interface SwiperContainer extends HTMLElement {}
