@@ -633,5 +633,46 @@ await check('continuous ResizeObserver resize is handled on every frame', async 
   }
 });
 
+
+// Regression (#8235): with slidesPerView:'auto' + slidesPerGroupAuto, slidePrev must
+// step from activeIndex (slidesPerViewDynamic already measures from there). Basing the
+// step on the previous snap index double-counts and overshoots by one slide.
+await check('slidePrev with slidesPerView auto + slidesPerGroupAuto does not overshoot', async () => {
+  const host = doc.createElement('div');
+  host.innerHTML = `
+    <div class="swiper" style="width:300px;height:100px">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" style="width:150px">1</div>
+        <div class="swiper-slide" style="width:150px">2</div>
+        <div class="swiper-slide" style="width:150px">3</div>
+        <div class="swiper-slide" style="width:150px">4</div>
+        <div class="swiper-slide" style="width:150px">5</div>
+      </div>
+    </div>`;
+  doc.body.appendChild(host);
+  const { default: Swiper } = await import(dist('swiper.mjs'));
+  const swiper = new Swiper(host.querySelector('.swiper'), {
+    slidesPerView: 'auto',
+    slidesPerGroup: 1,
+    slidesPerGroupAuto: true,
+    width: 300,
+    height: 100,
+    speed: 0,
+  });
+  try {
+    swiper.slideTo(2, 0);
+    assert.equal(swiper.activeIndex, 2, 'setup: activeIndex must be 2');
+    swiper.slidePrev(0);
+    assert.equal(
+      swiper.activeIndex,
+      1,
+      `slidePrev must land on the previous slide (1), got ${swiper.activeIndex}`,
+    );
+  } finally {
+    swiper.destroy(true, false);
+    host.remove();
+  }
+});
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);

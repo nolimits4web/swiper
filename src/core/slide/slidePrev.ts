@@ -54,7 +54,10 @@ export default function slidePrev(
       params.slidesPerGroup === 1 &&
       params.slidesPerGroupAuto
     ) {
-      prevIndex = prevIndex - swiper.slidesPerViewDynamic('previous', true) + 1;
+      // slidesPerViewDynamic('previous') already measures from activeIndex;
+      // basing the step on prevSnap's index double-counts and overshoots by ~1.
+      prevIndex =
+        swiper.activeIndex - swiper.slidesPerViewDynamic('previous', true) + 1;
       prevIndex = Math.max(prevIndex, 0);
     }
   }
