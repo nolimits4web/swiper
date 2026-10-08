@@ -38,8 +38,18 @@ globalThis.window = win;
 global.requestAnimationFrame = (fn) => setTimeout(fn, 0);
 win.requestAnimationFrame = global.requestAnimationFrame;
 
+// Filter out expected loop shortage warnings from the cards effect so test output remains clean
+const originalWarn = console.warn;
+console.warn = (...args) => {
+  if (typeof args[0] === 'string' && args[0].includes('Swiper Loop Warning')) return;
+  originalWarn(...args);
+};
+
 const { default: Swiper } = await import(dist('swiper-bundle.mjs'));
 const doc = win.document;
+
+let activeSwiper;
+let activeContainer;
 
 function mountSwiper({ slideCount = 3, params = {} } = {}) {
   const container = doc.createElement('div');
@@ -47,7 +57,6 @@ function mountSwiper({ slideCount = 3, params = {} } = {}) {
 
   const wrapper = doc.createElement('div');
   wrapper.className = 'swiper-wrapper';
-
   for (let i = 1; i <= slideCount; i += 1) {
     const slide = doc.createElement('div');
     slide.className = 'swiper-slide';
@@ -65,13 +74,15 @@ function mountSwiper({ slideCount = 3, params = {} } = {}) {
 
   doc.body.appendChild(container);
 
-  const swiper = new Swiper(container, {
+  activeContainer = container;
+  activeSwiper = new Swiper(container, {
     width: 300,
     height: 300,
     effect: 'cards',
     loop: true,
     slidesPerView: 1,
     speed: 0,
+    threshold: 0,
     navigation: {
       prevEl: prevBtn,
       nextEl: nextBtn,
@@ -79,7 +90,7 @@ function mountSwiper({ slideCount = 3, params = {} } = {}) {
     ...params,
   });
 
-  return { container, wrapper, prevBtn, nextBtn, swiper };
+  return { container, prevBtn, nextBtn, swiper: activeSwiper };
 }
 
 const pointer = (target, type, x, y = 50) => {
@@ -98,17 +109,20 @@ const pointer = (target, type, x, y = 50) => {
   target.dispatchEvent(event);
 };
 
+const swipe = (target, fromX, toX) => {
+  pointer(target, 'pointerdown', fromX);
+  pointer(target, 'pointermove', Math.round((fromX + toX) / 2));
+  pointer(target, 'pointermove', toX);
+  pointer(target, 'pointerup', toX);
+};
+
 let failed = 0;
 let passed = 0;
 async function check(label, fn) {
-  let swiperInstance;
-  let containerEl;
+  activeSwiper = null;
+  activeContainer = null;
   try {
-    const res = await fn();
-    if (res?.swiper) {
-      swiperInstance = res.swiper;
-      containerEl = res.container;
-    }
+    await fn();
     passed += 1;
     console.log(`  ok  ${label}`);
   } catch (err) {
@@ -116,89 +130,69 @@ async function check(label, fn) {
     console.log(`  FAIL  ${label}`);
     console.log(`        ${err.message}`);
   } finally {
-    if (swiperInstance && !swiperInstance.destroyed) swiperInstance.destroy(true, false);
-    if (containerEl && containerEl.remove) containerEl.remove();
+    if (activeSwiper && !activeSwiper.destroyed) activeSwiper.destroy(true, false);
+    if (activeContainer && activeContainer.remove) activeContainer.remove();
+    activeSwiper = null;
+    activeContainer = null;
   }
 }
 
 console.log('\nCards effect + loop mode navigation test (issue #8008)\n');
 
 for (const count of [2, 3, 4, 5]) {
-  await check(
-    `slideNext() and slidePrev() loop forward and backward with ${count} slides`,
-    async () => {
-      const { swiper, container } = mountSwiper({ slideCount: count });
-      assert.equal(swiper.realIndex, 0, 'initial realIndex must be 0');
-
-      // Loop forward through two full cycles
-      for (let step = 1; step <= count * 2; step += 1) {
-        const moved = swiper.slideNext(0);
-        assert.equal(moved, true, `slideNext() at step ${step} must succeed`);
-        assert.equal(swiper.realIndex, step % count, `realIndex after forward step ${step}`);
-      }
-
-      // Loop backward through two full cycles
-      for (let step = 1; step <= count * 2; step += 1) {
-        const moved = swiper.slidePrev(0);
-        assert.equal(moved, true, `slidePrev() at step ${step} must succeed`);
-        const expected = (count * 2 - step) % count;
-        assert.equal(swiper.realIndex, expected, `realIndex after backward step ${step}`);
-      }
-
-      return { swiper, container };
-    },
-  );
-
-  await check(`navigation next button advances forward with ${count} slides`, async () => {
-    const { swiper, container, nextBtn, prevBtn } = mountSwiper({ slideCount: count });
+  await check(`slideNext() and slidePrev() loop forward and backward with ${count} slides`, () => {
+    const { swiper } = mountSwiper({ slideCount: count });
     assert.equal(swiper.realIndex, 0, 'initial realIndex must be 0');
 
-    // Click next button through full cycle
-    for (let step = 1; step <= count; step += 1) {
+    // Loop forward through two full cycles
+    for (let step = 1; step <= count * 2; step += 1) {
+      assert.equal(swiper.slideNext(0), true, `slideNext() at step ${step} must succeed`);
+      assert.equal(swiper.realIndex, step % count, `realIndex after forward step ${step}`);
+    }
+
+    // Loop backward through two full cycles
+    for (let step = 1; step <= count * 2; step += 1) {
+      assert.equal(swiper.slidePrev(0), true, `slidePrev() at step ${step} must succeed`);
+      assert.equal(
+        swiper.realIndex,
+        (count * 2 - step) % count,
+        `realIndex after backward step ${step}`,
+      );
+    }
+  });
+
+  await check(`navigation next/prev buttons loop forward and backward with ${count} slides`, () => {
+    const { swiper, nextBtn, prevBtn } = mountSwiper({ slideCount: count });
+    assert.equal(swiper.realIndex, 0, 'initial realIndex must be 0');
+
+    // Click next button through two full cycles
+    for (let step = 1; step <= count * 2; step += 1) {
       nextBtn.click();
       assert.equal(swiper.realIndex, step % count, `realIndex after next click ${step}`);
     }
 
-    // Click prev button back
-    for (let step = 1; step <= count; step += 1) {
+    // Click prev button backward through two full cycles
+    for (let step = 1; step <= count * 2; step += 1) {
       prevBtn.click();
-      const expected = (count - step) % count;
-      assert.equal(swiper.realIndex, expected, `realIndex after prev click ${step}`);
+      assert.equal(
+        swiper.realIndex,
+        (count * 2 - step) % count,
+        `realIndex after prev click ${step}`,
+      );
     }
-
-    return { swiper, container };
   });
 
-  await check(`touch / swipe forward and backward with ${count} slides`, async () => {
-    const { swiper, container } = mountSwiper({
-      slideCount: count,
-      params: {
-        width: 300,
-        height: 300,
-        threshold: 0,
-      },
-    });
+  await check(`touch / swipe forward and backward with ${count} slides`, () => {
+    const { swiper, container } = mountSwiper({ slideCount: count });
     assert.equal(swiper.realIndex, 0, 'initial realIndex must be 0');
 
     // Swipe left (forward navigation): drag from x=250 to x=50
-    const slide = container.querySelector('.swiper-slide-active');
-    pointer(slide, 'pointerdown', 250);
-    pointer(slide, 'pointermove', 150);
-    pointer(slide, 'pointermove', 50);
-    pointer(slide, 'pointerup', 50);
-
-    assert.equal(swiper.realIndex, 1, `swipe forward must advance to realIndex 1`);
+    swipe(container.querySelector('.swiper-slide-active'), 250, 50);
+    assert.equal(swiper.realIndex, 1, 'swipe forward must advance to realIndex 1');
 
     // Swipe right (backward navigation): drag from x=50 to x=250
-    const currentSlide = container.querySelector('.swiper-slide-active');
-    pointer(currentSlide, 'pointerdown', 50);
-    pointer(currentSlide, 'pointermove', 150);
-    pointer(currentSlide, 'pointermove', 250);
-    pointer(currentSlide, 'pointerup', 250);
-
-    assert.equal(swiper.realIndex, 0, `swipe backward must return to realIndex 0`);
-
-    return { swiper, container };
+    swipe(container.querySelector('.swiper-slide-active'), 50, 250);
+    assert.equal(swiper.realIndex, 0, 'swipe backward must return to realIndex 0');
   });
 }
 
