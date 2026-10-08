@@ -15,13 +15,13 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { Window } from 'happy-dom';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distDir = path.resolve(__dirname, '..', '..', 'dist');
-const dist = (p) => path.join(distDir, p);
+const dist = (p) => pathToFileURL(path.join(distDir, p)).href;
 
 if (!fs.existsSync(distDir)) {
   console.error('dist/ missing — run `npm run build:prod` first.');
@@ -631,6 +631,61 @@ await check('continuous ResizeObserver resize is handled on every frame', async 
     globalThis.ResizeObserver = OriginalResizeObserver;
     win.requestAnimationFrame = originalRaf;
   }
+});
+
+// Regression: https://github.com/nolimits4web/swiper/issues/8173 — the host <swiper-container>
+// does not expose isBeginning/isEnd state, so CSS-only styling (e.g. edge gradients, navigation
+// hints) based on swiper position is impossible. The host element should reflect these states
+// as classes (consistent with Swiper's existing class-based approach) so that consumers can
+// write selectors like `swiper-container.swiper-beginning` or `swiper-container.swiper-end`.
+await check('host element reflects isBeginning/isEnd as classes (#8173)', async () => {
+  const container = mountContainer({
+    attrs: { 'slides-per-view': '1', speed: '0', width: '300', height: '300' },
+    slideCount: 3,
+  });
+  const swiper = container.swiper;
+  assert.ok(swiper, 'swiper instance must exist');
+  assert.equal(swiper.initialized, true, 'swiper must be initialized');
+
+  // Initial state: at the beginning, not at the end
+  assert.equal(swiper.isBeginning, true, 'swiper.isBeginning must be true initially');
+  assert.equal(swiper.isEnd, false, 'swiper.isEnd must be false initially');
+  assert.ok(
+    container.classList.contains('swiper-beginning'),
+    'host must have swiper-beginning class at init',
+  );
+  assert.ok(
+    !container.classList.contains('swiper-end'),
+    'host must not have swiper-end class at init',
+  );
+
+  // Slide to the last slide
+  swiper.slideTo(2, 0);
+  assert.equal(swiper.isBeginning, false, 'swiper.isBeginning must be false at end');
+  assert.equal(swiper.isEnd, true, 'swiper.isEnd must be true at end');
+  assert.ok(
+    !container.classList.contains('swiper-beginning'),
+    'host must not have swiper-beginning class at end',
+  );
+  assert.ok(
+    container.classList.contains('swiper-end'),
+    'host must have swiper-end class at end',
+  );
+
+  // Slide back to the first slide
+  swiper.slideTo(0, 0);
+  assert.equal(swiper.isBeginning, true, 'swiper.isBeginning must be true after sliding back');
+  assert.equal(swiper.isEnd, false, 'swiper.isEnd must be false after sliding back');
+  assert.ok(
+    container.classList.contains('swiper-beginning'),
+    'host must have swiper-beginning class after sliding back',
+  );
+  assert.ok(
+    !container.classList.contains('swiper-end'),
+    'host must not have swiper-end class after sliding back',
+  );
+
+  return container;
 });
 
 console.log(`\n${passed} passed, ${failed} failed\n`);
