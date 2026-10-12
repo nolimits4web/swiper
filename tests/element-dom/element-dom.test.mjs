@@ -667,10 +667,7 @@ await check('host element reflects isBeginning/isEnd as classes (#8173)', async 
     !container.classList.contains('swiper-beginning'),
     'host must not have swiper-beginning class at end',
   );
-  assert.ok(
-    container.classList.contains('swiper-end'),
-    'host must have swiper-end class at end',
-  );
+  assert.ok(container.classList.contains('swiper-end'), 'host must have swiper-end class at end');
 
   // Slide back to the first slide
   swiper.slideTo(0, 0);
@@ -687,6 +684,185 @@ await check('host element reflects isBeginning/isEnd as classes (#8173)', async 
 
   return container;
 });
+
+await check('host element reflects middle position between edges (#8173)', async () => {
+  const container = mountContainer({
+    attrs: { 'slides-per-view': '1', speed: '0', width: '300', height: '300' },
+    slideCount: 4,
+  });
+  const swiper = container.swiper;
+  assert.ok(swiper, 'swiper instance must exist');
+
+  // Initial state (slide 0): beginning, not end
+  assert.equal(swiper.isBeginning, true);
+  assert.equal(swiper.isEnd, false);
+  assert.ok(container.classList.contains('swiper-beginning'));
+  assert.ok(!container.classList.contains('swiper-end'));
+
+  // Move to middle slide 1: neither beginning nor end
+  swiper.slideTo(1, 0);
+  assert.equal(swiper.isBeginning, false);
+  assert.equal(swiper.isEnd, false);
+  assert.ok(
+    !container.classList.contains('swiper-beginning'),
+    'host must not have swiper-beginning at middle slide',
+  );
+  assert.ok(
+    !container.classList.contains('swiper-end'),
+    'host must not have swiper-end at middle slide',
+  );
+
+  // Move to middle slide 2: still neither beginning nor end
+  swiper.slideTo(2, 0);
+  assert.equal(swiper.isBeginning, false);
+  assert.equal(swiper.isEnd, false);
+  assert.ok(!container.classList.contains('swiper-beginning'));
+  assert.ok(!container.classList.contains('swiper-end'));
+
+  // Move to end slide 3: at end, not beginning
+  swiper.slideTo(3, 0);
+  assert.equal(swiper.isBeginning, false);
+  assert.equal(swiper.isEnd, true);
+  assert.ok(!container.classList.contains('swiper-beginning'));
+  assert.ok(container.classList.contains('swiper-end'));
+
+  // Move back to middle slide 1: neither class stuck
+  swiper.slideTo(1, 0);
+  assert.equal(swiper.isBeginning, false);
+  assert.equal(swiper.isEnd, false);
+  assert.ok(
+    !container.classList.contains('swiper-beginning'),
+    'host must clear swiper-beginning when returning to middle',
+  );
+  assert.ok(
+    !container.classList.contains('swiper-end'),
+    'host must clear swiper-end when returning to middle from end',
+  );
+
+  // Move back to beginning slide 0
+  swiper.slideTo(0, 0);
+  assert.equal(swiper.isBeginning, true);
+  assert.equal(swiper.isEnd, false);
+  assert.ok(container.classList.contains('swiper-beginning'));
+  assert.ok(!container.classList.contains('swiper-end'));
+
+  return container;
+});
+
+await check('host element reflects state when slider does not overflow (#8173)', async () => {
+  const container = mountContainer({
+    attrs: { 'slides-per-view': '1', speed: '0', width: '300', height: '300' },
+    slideCount: 1,
+  });
+  const swiper = container.swiper;
+  assert.ok(swiper, 'swiper instance must exist');
+
+  // Single slide: Swiper core sets both isBeginning and isEnd to true
+  assert.equal(
+    swiper.isBeginning,
+    true,
+    'swiper.isBeginning must be true for non-overflowing slider',
+  );
+  assert.equal(swiper.isEnd, true, 'swiper.isEnd must be true for non-overflowing slider');
+  assert.ok(
+    container.classList.contains('swiper-beginning'),
+    'host must have swiper-beginning for non-overflowing slider',
+  );
+  assert.ok(
+    container.classList.contains('swiper-end'),
+    'host must have swiper-end for non-overflowing slider',
+  );
+
+  return container;
+});
+
+await check('host element updates state when slides change dynamically (#8173)', async () => {
+  const container = mountContainer({
+    attrs: { 'slides-per-view': '1', speed: '0', width: '300', height: '300' },
+    slideCount: 2,
+  });
+  const swiper = container.swiper;
+  assert.ok(swiper, 'swiper instance must exist');
+
+  // Slide to last slide (index 1 of 2 slides)
+  swiper.slideTo(1, 0);
+  assert.equal(swiper.isBeginning, false);
+  assert.equal(swiper.isEnd, true);
+  assert.ok(!container.classList.contains('swiper-beginning'));
+  assert.ok(container.classList.contains('swiper-end'));
+
+  // Dynamically append a 3rd slide
+  const slide3 = doc.createElement('swiper-slide');
+  slide3.textContent = 'Slide 3';
+  container.appendChild(slide3);
+  swiper.update();
+
+  // Swiper is now at index 1 of 3 slides: no longer at end
+  assert.equal(swiper.isBeginning, false);
+  assert.equal(swiper.isEnd, false);
+  assert.ok(
+    !container.classList.contains('swiper-beginning'),
+    'host must not have swiper-beginning when positioned at middle after update',
+  );
+  assert.ok(
+    !container.classList.contains('swiper-end'),
+    'host must remove swiper-end when appended slide moves end boundary',
+  );
+
+  // Slide to new end (index 2)
+  swiper.slideTo(2, 0);
+  assert.equal(swiper.isBeginning, false);
+  assert.equal(swiper.isEnd, true);
+  assert.ok(!container.classList.contains('swiper-beginning'));
+  assert.ok(
+    container.classList.contains('swiper-end'),
+    'host must have swiper-end after sliding to newly added end slide',
+  );
+
+  return container;
+});
+
+await check(
+  'host element preserves correct state on recalculation and direction change (#8173)',
+  async () => {
+    const container = mountContainer({
+      attrs: { 'slides-per-view': '1', speed: '0', width: '300', height: '300' },
+      slideCount: 3,
+    });
+    const swiper = container.swiper;
+    assert.ok(swiper, 'swiper instance must exist');
+
+    // Slide to end in horizontal direction
+    swiper.slideTo(2, 0);
+    assert.equal(swiper.isBeginning, false);
+    assert.equal(swiper.isEnd, true);
+    assert.ok(!container.classList.contains('swiper-beginning'));
+    assert.ok(container.classList.contains('swiper-end'));
+
+    // changeDirection triggers swiper.update()
+    swiper.changeDirection('vertical');
+    assert.equal(swiper.isBeginning, false);
+    assert.equal(swiper.isEnd, true);
+    assert.ok(!container.classList.contains('swiper-beginning'));
+    assert.ok(container.classList.contains('swiper-end'));
+
+    // Slide back to beginning in vertical direction
+    swiper.slideTo(0, 0);
+    assert.equal(swiper.isBeginning, true);
+    assert.equal(swiper.isEnd, false);
+    assert.ok(container.classList.contains('swiper-beginning'));
+    assert.ok(!container.classList.contains('swiper-end'));
+
+    // Change direction back to horizontal
+    swiper.changeDirection('horizontal');
+    assert.equal(swiper.isBeginning, true);
+    assert.equal(swiper.isEnd, false);
+    assert.ok(container.classList.contains('swiper-beginning'));
+    assert.ok(!container.classList.contains('swiper-end'));
+
+    return container;
+  },
+);
 
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);
