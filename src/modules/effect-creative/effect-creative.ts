@@ -24,38 +24,38 @@ export interface CreativeEffectOptions {
   /**
    * Previous slide transformations.
    */
-  prev?: CreativeEffectTransform;
+  prev?: CreativeEffectTransform | undefined;
   /**
    * Next slide transformations.
    */
-  next?: CreativeEffectTransform;
+  next?: CreativeEffectTransform | undefined;
   /**
    * Limit progress/offset to amount of side slides. If `1`, then all slides
    * after prev/next will share the same state.
    *
    * @default 1
    */
-  limitProgress?: number;
+  limitProgress?: number | undefined;
   /**
    * Splits shadow "opacity" per slide based on `limitProgress` (only if
    * transformation shadows enabled).
    *
    * @default false
    */
-  shadowPerProgress?: boolean;
+  shadowPerProgress?: boolean | undefined;
   /**
    * Allows to multiply slides transformations and opacity.
    *
    * @default 1
    */
-  progressMultiplier?: number;
+  progressMultiplier?: number | undefined;
   /**
    * Enable this parameter if your custom transforms require 3D
    * transformations (`translateZ`, `rotateX`, `rotateY`).
    *
    * @default true
    */
-  perspective?: boolean;
+  perspective?: boolean | undefined;
 }
 
 export interface CreativeEffectMethods {}
@@ -89,10 +89,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    creativeEffect?: CreativeEffectOptions;
+    creativeEffect?: CreativeEffectOptions | undefined;
   }
   interface SwiperParams {
-    creativeEffect?: CreativeEffectOptions;
+    creativeEffect?: CreativeEffectOptions | undefined;
   }
   interface SwiperEvents extends CreativeEffectEvents {}
 }

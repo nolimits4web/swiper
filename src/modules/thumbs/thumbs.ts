@@ -7,31 +7,31 @@ export interface ThumbsOptions {
    *
    * @default null
    */
-  swiper?: Swiper | string | HTMLElement | null;
+  swiper?: (Swiper | string | HTMLElement | null) | undefined;
   /**
    * Additional class that will be added to activated thumbs swiper slide
    *
    * @default 'swiper-slide-thumb-active'
    */
-  slideThumbActiveClass?: string;
+  slideThumbActiveClass?: string | undefined;
   /**
    * Additional class that will be added to thumbs swiper
    *
    * @default 'swiper-thumbs'
    */
-  thumbsContainerClass?: string;
+  thumbsContainerClass?: string | undefined;
   /**
    * When enabled multiple thumbnail slides may get activated
    *
    * @default true
    */
-  multipleActiveThumbs?: boolean;
+  multipleActiveThumbs?: boolean | undefined;
   /**
    * Allows to set on which thumbs active slide from edge it should automatically move scroll thumbs. For example, if set to 1 and last visible thumb will be activated (1 from edge) it will auto scroll thumbs
    *
    * @default 0
    */
-  autoScrollOffset?: number;
+  autoScrollOffset?: number | undefined;
 }
 
 export interface ThumbsMethods {
@@ -85,10 +85,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    thumbs?: ThumbsOptions;
+    thumbs?: ThumbsOptions | undefined;
   }
   interface SwiperParams {
-    thumbs?: ThumbsOptions;
+    thumbs?: ThumbsOptions | undefined;
   }
   interface SwiperEvents extends ThumbsEvents {}
 }

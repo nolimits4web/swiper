@@ -6,7 +6,7 @@ export interface GridOptions {
    *
    * @default 1
    */
-  rows?: number;
+  rows?: number | undefined;
 
   /**
    * Can be `'column'` or `'row'`. Defines how slides should fill rows, by column or by row
@@ -15,7 +15,7 @@ export interface GridOptions {
    *
    * @default 'column'
    */
-  fill?: 'row' | 'column';
+  fill?: ('row' | 'column') | undefined;
 }
 
 export interface GridMethods {
@@ -65,10 +65,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    grid?: GridOptions;
+    grid?: GridOptions | undefined;
   }
   interface SwiperParams {
-    grid?: GridOptions;
+    grid?: GridOptions | undefined;
   }
   interface SwiperEvents extends GridEvents {}
 }

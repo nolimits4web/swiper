@@ -11,13 +11,13 @@ export interface FlipEffectOptions {
    *
    * @default true
    */
-  slideShadows?: boolean;
+  slideShadows?: boolean | undefined;
   /**
    * Limit edge slides rotation
    *
    * @default true
    */
-  limitRotation?: boolean;
+  limitRotation?: boolean | undefined;
 }
 
 export interface FlipEffectMethods {}
@@ -44,10 +44,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    flipEffect?: FlipEffectOptions;
+    flipEffect?: FlipEffectOptions | undefined;
   }
   interface SwiperParams {
-    flipEffect?: FlipEffectOptions;
+    flipEffect?: FlipEffectOptions | undefined;
   }
   interface SwiperEvents extends FlipEffectEvents {}
 }

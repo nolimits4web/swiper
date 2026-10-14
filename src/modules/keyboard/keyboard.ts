@@ -7,25 +7,25 @@ export interface KeyboardOptions {
    *
    * @default false
    */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /**
    * When enabled it will control sliders that are currently in viewport
    *
    * @default true
    */
-  onlyInViewport?: boolean;
+  onlyInViewport?: boolean | undefined;
   /**
    * When enabled it will enable keyboard navigation by Page Up and Page Down keys
    *
    * @default true
    */
-  pageUpDown?: boolean;
+  pageUpDown?: boolean | undefined;
   /**
    * Set the speed of keyboard navigation transitions (in ms)
    *
    * @default undefined
    */
-  speed?: number;
+  speed?: number | undefined;
 }
 
 export interface KeyboardMethods {
@@ -76,10 +76,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    keyboard?: KeyboardOptions | boolean;
+    keyboard?: (KeyboardOptions | boolean) | undefined;
   }
   interface SwiperParams {
-    keyboard?: KeyboardOptions;
+    keyboard?: KeyboardOptions | undefined;
   }
   interface SwiperEvents extends KeyboardEvents {}
 }

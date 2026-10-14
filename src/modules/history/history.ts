@@ -6,7 +6,7 @@ export interface HistoryOptions {
    *
    * @default false
    */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 
   /**
    * Swiper page root, useful to specify when you use Swiper history mode not on root website page.
@@ -15,7 +15,7 @@ export interface HistoryOptions {
    *
    * @default ''
    */
-  root?: string;
+  root?: string | undefined;
 
   /**
    * Works in addition to hashnav or history to replace current url state with the
@@ -23,21 +23,21 @@ export interface HistoryOptions {
    *
    * @default false
    */
-  replaceState?: boolean;
+  replaceState?: boolean | undefined;
 
   /**
    * Url key for slides
    *
    * @default 'slides'
    */
-  key?: string;
+  key?: string | undefined;
 
   /**
    * Keep query parameters when changing browser url.
    *
    * @default false
    */
-  keepQuery?: boolean;
+  keepQuery?: boolean | undefined;
 }
 
 export interface HistoryMethods {}
@@ -74,10 +74,10 @@ declare module '../../core/core' {
      * <div class="swiper-slide" data-history="slide1"></div>
      * ```
      */
-    history?: HistoryOptions | boolean;
+    history?: (HistoryOptions | boolean) | undefined;
   }
   interface SwiperParams {
-    history?: HistoryOptions;
+    history?: HistoryOptions | undefined;
   }
   interface SwiperEvents extends HistoryEvents {}
 }

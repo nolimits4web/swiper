@@ -8,58 +8,58 @@ export interface MousewheelOptions {
    *
    * @default false
    */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /**
    * Set to `true` to force mousewheel swipes to axis. So in horizontal mode mousewheel will work only with horizontal mousewheel scrolling, and only with vertical scrolling in vertical mode.
    *
    * @default false
    */
-  forceToAxis?: boolean;
+  forceToAxis?: boolean | undefined;
   /**
    * Set to `true` and swiper will release mousewheel event and allow page scrolling when swiper is on edge positions (in the beginning or in the end)
    *
    * @default false
    */
-  releaseOnEdges?: boolean;
+  releaseOnEdges?: boolean | undefined;
   /**
    * Set to `true` to invert sliding direction
    *
    * @default false
    */
-  invert?: boolean;
+  invert?: boolean | undefined;
   /**
    * Multiplier of mousewheel data, allows to tweak mouse wheel sensitivity
    *
    * @default 1
    */
-  sensitivity?: number;
+  sensitivity?: number | undefined;
   /**
    * String with CSS selector or HTML element of the container accepting mousewheel events. By default it is swiper
    *
    * @default 'container'
    */
-  eventsTarget?: 'container' | 'wrapper' | CSSSelector | HTMLElement;
+  eventsTarget?: ('container' | 'wrapper' | CSSSelector | HTMLElement) | undefined;
 
   /**
    * Minimum mousewheel scroll delta to trigger swiper slide change
    *
    * @default null
    */
-  thresholdDelta?: number | null;
+  thresholdDelta?: (number | null) | undefined;
 
   /**
    * Minimum mousewheel scroll time delta (in ms) to trigger swiper slide change
    *
    * @default null
    */
-  thresholdTime?: number | null;
+  thresholdTime?: (number | null) | undefined;
 
   /**
    * Scrolling on elements with this class will be ignored
    *
    * @default 'swiper-no-mousewheel'
    */
-  noMousewheelClass?: string;
+  noMousewheelClass?: string | undefined;
 }
 
 export interface MousewheelMethods {
@@ -117,10 +117,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    mousewheel?: MousewheelOptions | boolean;
+    mousewheel?: (MousewheelOptions | boolean) | undefined;
   }
   interface SwiperParams {
-    mousewheel?: MousewheelOptions;
+    mousewheel?: MousewheelOptions | undefined;
   }
   interface SwiperEvents extends MousewheelEvents {}
 }

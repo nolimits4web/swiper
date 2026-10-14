@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "exactOptionalPropertyTypes": true
+  },
+  "include": ["fixtures/exact-optional-properties.ts"]
+}

@@ -15,14 +15,14 @@ export interface AutoplayOptions {
    *
    * @default 3000
    */
-  delay?: number;
+  delay?: number | undefined;
 
   /**
    * Enable this parameter and autoplay will be stopped when it reaches last slide (has no effect in loop mode)
    *
    * @default false
    */
-  stopOnLastSlide?: boolean;
+  stopOnLastSlide?: boolean | undefined;
 
   /**
    * Set to `false` and autoplay will not be disabled after user interactions (swipes),
@@ -30,14 +30,14 @@ export interface AutoplayOptions {
    *
    * @default true
    */
-  disableOnInteraction?: boolean;
+  disableOnInteraction?: boolean | undefined;
 
   /**
    * Enables autoplay in reverse direction
    *
    * @default false
    */
-  reverseDirection?: boolean;
+  reverseDirection?: boolean | undefined;
 
   /**
    * When enabled autoplay will wait for wrapper transition to continue.
@@ -46,20 +46,20 @@ export interface AutoplayOptions {
    *
    * @default true
    */
-  waitForTransition?: boolean;
+  waitForTransition?: boolean | undefined;
 
   /**
    * When enabled autoplay will be paused on pointer (mouse) enter over Swiper container.
    *
    * @default false
    */
-  pauseOnMouseEnter?: boolean;
+  pauseOnMouseEnter?: boolean | undefined;
 
   /**
    * !INTERNAL Toggled by the runtime so other modules can read whether autoplay
    * is registered without re-deriving from the boolean/object union.
    */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 
 export interface AutoplayMethods {
@@ -148,10 +148,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    autoplay?: AutoplayOptions | boolean;
+    autoplay?: (AutoplayOptions | boolean) | undefined;
   }
   interface SwiperParams {
-    autoplay?: AutoplayOptions;
+    autoplay?: AutoplayOptions | undefined;
   }
   interface SwiperEvents extends AutoplayEvents {}
 }

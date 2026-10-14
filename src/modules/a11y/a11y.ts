@@ -8,112 +8,112 @@ export interface A11yOptions {
    *
    * @default true
    */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 
   /**
    * Message for screen readers for previous button
    *
    * @default 'Previous slide'
    */
-  prevSlideMessage?: string;
+  prevSlideMessage?: string | undefined;
 
   /**
    * Message for screen readers for next button
    *
    * @default 'Next slide'
    */
-  nextSlideMessage?: string;
+  nextSlideMessage?: string | undefined;
 
   /**
    * Message for screen readers for previous button when swiper is on first slide
    *
    * @default 'This is the first slide'
    */
-  firstSlideMessage?: string;
+  firstSlideMessage?: string | undefined;
 
   /**
    * Message for screen readers for next button when swiper is on last slide
    *
    * @default 'This is the last slide'
    */
-  lastSlideMessage?: string;
+  lastSlideMessage?: string | undefined;
 
   /**
    * Message for screen readers for single pagination bullet
    *
    * @default 'Go to slide {{index}}'
    */
-  paginationBulletMessage?: string;
+  paginationBulletMessage?: string | undefined;
 
   /**
    * CSS class name of A11y notification
    *
    * @default 'swiper-notification'
    */
-  notificationClass?: string;
+  notificationClass?: string | undefined;
 
   /**
    * Message for screen readers for outer swiper container
    *
    * @default null
    */
-  containerMessage?: string | null;
+  containerMessage?: (string | null) | undefined;
 
   /**
    * Message for screen readers describing the role of outer swiper container
    *
    * @default null
    */
-  containerRoleDescriptionMessage?: string | null;
+  containerRoleDescriptionMessage?: (string | null) | undefined;
 
   /**
    * Value of the "role" attribute to be set on the swiper container
    *
    * @default null
    */
-  containerRole?: string | null;
+  containerRole?: (string | null) | undefined;
 
   /**
    * Message for screen readers describing the role of slide element
    *
    * @default null
    */
-  itemRoleDescriptionMessage?: string | null;
+  itemRoleDescriptionMessage?: (string | null) | undefined;
 
   /**
    * Message for screen readers describing the label of slide element
    *
    * @default '{{index}} / {{slidesLength}}'
    */
-  slideLabelMessage?: string;
+  slideLabelMessage?: string | undefined;
 
   /**
    * Value of swiper slide `role` attribute
    *
    * @default 'group'
    */
-  slideRole?: string;
+  slideRole?: string | undefined;
 
   /**
    * Value of `id` attribute to be set on swiper-wrapper. If `null` will be generated automatically
    *
    * @default null
    */
-  id?: string | number | null;
+  id?: (string | number | null) | undefined;
 
   /**
    * Enables scrolling to the slide that has been focused
    *
    * @default true
    */
-  scrollOnFocus?: boolean;
+  scrollOnFocus?: boolean | undefined;
   /**
    * Whether or not the swiper-wrapper should have the `aria-live` attribute applied to it.
    * If true, the value will be `off` when autoplay is enabled, otherwise it will be `polite`
    *
    * @default true
    */
-  wrapperLiveRegion?: boolean;
+  wrapperLiveRegion?: boolean | undefined;
 }
 
 export interface A11yMethods {}
@@ -165,10 +165,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    a11y?: A11yOptions | boolean;
+    a11y?: (A11yOptions | boolean) | undefined;
   }
   interface SwiperParams {
-    a11y?: A11yOptions;
+    a11y?: A11yOptions | undefined;
   }
   interface SwiperEvents extends A11yEvents {}
 }

@@ -7,7 +7,7 @@ export interface ParallaxOptions {
    *
    * @default false
    */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 
 export interface ParallaxMethods {
@@ -36,10 +36,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    parallax?: ParallaxOptions | boolean;
+    parallax?: (ParallaxOptions | boolean) | undefined;
   }
   interface SwiperParams {
-    parallax?: ParallaxOptions;
+    parallax?: ParallaxOptions | undefined;
   }
   interface SwiperEvents extends ParallaxEvents {}
 }

@@ -7,14 +7,14 @@ export interface NavigationOptions {
   /**
    * Boolean property to use with breakpoints to enable/disable navigation on certain breakpoints
    */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /**
    * String with CSS selector or HTML element of the element that will work
    * like "next" button after click on it
    *
    * @default null
    */
-  nextEl?: CSSSelector | HTMLElement | null;
+  nextEl?: (CSSSelector | HTMLElement | null) | undefined;
 
   /**
    * String with CSS selector or HTML element of the element that will work
@@ -22,49 +22,49 @@ export interface NavigationOptions {
    *
    * @default null
    */
-  prevEl?: CSSSelector | HTMLElement | null;
+  prevEl?: (CSSSelector | HTMLElement | null) | undefined;
 
   /**
    * Boolean property to add SVG icons to navigation buttons
    *
    * @default true
    */
-  addIcons?: boolean;
+  addIcons?: boolean | undefined;
 
   /**
    * Toggle navigation buttons visibility after click on Slider's container
    *
    * @default false
    */
-  hideOnClick?: boolean;
+  hideOnClick?: boolean | undefined;
 
   /**
    * CSS class name added to navigation button when it becomes disabled
    *
    * @default 'swiper-button-disabled'
    */
-  disabledClass?: string;
+  disabledClass?: string | undefined;
 
   /**
    * CSS class name added to navigation button when it becomes hidden
    *
    * @default 'swiper-button-hidden'
    */
-  hiddenClass?: string;
+  hiddenClass?: string | undefined;
 
   /**
    * CSS class name added to navigation button when it is disabled
    *
    * @default 'swiper-button-lock'
    */
-  lockClass?: string;
+  lockClass?: string | undefined;
 
   /**
    * CSS class name added on swiper container when navigation is disabled by breakpoint
    *
    * @default 'swiper-navigation-disabled'
    */
-  navigationDisabledClass?: string;
+  navigationDisabledClass?: string | undefined;
 }
 
 export interface NavigationMethods {
@@ -144,10 +144,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    navigation?: NavigationOptions | boolean;
+    navigation?: (NavigationOptions | boolean) | undefined;
   }
   interface SwiperParams {
-    navigation?: NavigationOptions;
+    navigation?: NavigationOptions | undefined;
   }
   interface SwiperEvents extends NavigationEvents {}
 }

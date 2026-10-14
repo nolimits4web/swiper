@@ -90,11 +90,31 @@ for (const mode of MODES) {
   }
 }
 
+const exactOptionalConfig = path.join(here, 'tsconfig.exact-optional.json');
+const exactOptionalProc = spawnSync(tscBin, ['--noEmit', '-p', exactOptionalConfig], {
+  cwd: here,
+  encoding: 'utf8',
+});
+const exactOptionalOutput = `${exactOptionalProc.stdout || ''}${
+  exactOptionalProc.stderr || ''
+}`.trim();
+const exactOptionalPassed = exactOptionalProc.status === 0 && exactOptionalOutput === '';
+
+results.push({
+  mode: 'exact optional properties',
+  passed: exactOptionalPassed,
+  output: exactOptionalOutput,
+});
+console.log(`  ${exactOptionalPassed ? '✓ PASS' : '✗ FAIL'}  exact optional properties`);
+if (!exactOptionalPassed && exactOptionalOutput) {
+  console.log(exactOptionalOutput);
+}
+
 const failed = results.filter((r) => !r.passed);
 if (failed.length) {
   fail(
-    `${failed.length}/${results.length} resolution mode(s) failed: ` +
+    `${failed.length}/${results.length} test mode(s) failed: ` +
       failed.map((r) => r.mode).join(', '),
   );
 }
-console.log(`\n✓ All ${results.length} resolution modes type-check cleanly.\n`);
+console.log(`\n✓ All ${results.length} test modes type-check cleanly.\n`);

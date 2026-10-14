@@ -6,14 +6,14 @@ export interface ControllerOptions {
    * Pass here another Swiper instance or array with Swiper instances that should be controlled
    * by this Swiper. Also accepts string with CSS selector of Swiper element, or HTMLElement of Swiper element
    */
-  control?: Swiper | Swiper[] | string | HTMLElement | null;
+  control?: (Swiper | Swiper[] | string | HTMLElement | null) | undefined;
 
   /**
    * Set to `true` and controlling will be in inverse direction
    *
    * @default false
    */
-  inverse?: boolean;
+  inverse?: boolean | undefined;
 
   /**
    * Defines a way how to control another slider: slide by slide
@@ -22,7 +22,7 @@ export interface ControllerOptions {
    *
    * @default 'slide'
    */
-  by?: 'slide' | 'container';
+  by?: ('slide' | 'container') | undefined;
 }
 
 export interface ControllerMethods {
@@ -107,10 +107,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    controller?: ControllerOptions | boolean;
+    controller?: (ControllerOptions | boolean) | undefined;
   }
   interface SwiperParams {
-    controller?: ControllerOptions;
+    controller?: ControllerOptions | undefined;
   }
   interface SwiperEvents extends ControllerEvents {}
 }

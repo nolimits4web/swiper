@@ -7,7 +7,7 @@ export interface HashNavigationOptions {
    *
    * @default false
    */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 
   /**
    * Set to `true` to enable also navigation through slides (when hashnav
@@ -15,7 +15,7 @@ export interface HashNavigationOptions {
    *
    * @default false
    */
-  watchState?: boolean;
+  watchState?: boolean | undefined;
 
   /**
    * Works in addition to hashnav to replace current url state with the
@@ -23,13 +23,13 @@ export interface HashNavigationOptions {
    *
    * @default     false
    */
-  replaceState?: boolean;
+  replaceState?: boolean | undefined;
 
   /**
    * Designed to be used with Virtual slides when it is impossible to find slide in DOM by hash (e.g. not yet rendered)
    *
    */
-  getSlideIndex?: (swiper: Swiper, hash: string) => number;
+  getSlideIndex?: ((swiper: Swiper, hash: string) => number) | undefined;
 }
 
 export interface HashNavigationMethods {}
@@ -68,10 +68,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    hashNavigation?: HashNavigationOptions | boolean;
+    hashNavigation?: (HashNavigationOptions | boolean) | undefined;
   }
   interface SwiperParams {
-    hashNavigation?: HashNavigationOptions;
+    hashNavigation?: HashNavigationOptions | undefined;
   }
   interface SwiperEvents extends HashNavigationEvents {}
 }

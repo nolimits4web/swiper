@@ -11,28 +11,28 @@ export interface CardsEffectOptions {
    *
    * @default true
    */
-  slideShadows?: boolean;
+  slideShadows?: boolean | undefined;
 
   /**
    * Enables cards rotation
    *
    * @default true
    */
-  rotate?: boolean;
+  rotate?: boolean | undefined;
 
   /**
    * Rotate angle per slide (in degrees)
    *
    * @default 2
    */
-  perSlideRotate?: number;
+  perSlideRotate?: number | undefined;
 
   /**
    * Offset distance per slide (in px)
    *
    * @default 8
    */
-  perSlideOffset?: number;
+  perSlideOffset?: number | undefined;
 }
 
 export interface CardsEffectMethods {}
@@ -59,10 +59,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    cardsEffect?: CardsEffectOptions;
+    cardsEffect?: CardsEffectOptions | undefined;
   }
   interface SwiperParams {
-    cardsEffect?: CardsEffectOptions;
+    cardsEffect?: CardsEffectOptions | undefined;
   }
   interface SwiperEvents extends CardsEffectEvents {}
 }

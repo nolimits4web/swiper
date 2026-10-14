@@ -10,13 +10,13 @@ export interface CoverflowEffectOptions {
    *
    * @default true
    */
-  slideShadows?: boolean;
+  slideShadows?: boolean | undefined;
   /**
    * Slide rotate in degrees
    *
    * @default 50
    */
-  rotate?: number;
+  rotate?: number | undefined;
   /**
    * Stretch space between slides
    *
@@ -25,19 +25,19 @@ export interface CoverflowEffectOptions {
    *
    * @default 0
    */
-  stretch?: number | `${number}%`;
+  stretch?: (number | `${number}%`) | undefined;
   /**
    * Depth offset in px (slides translate in Z axis)
    *
    * @default 100
    */
-  depth?: number;
+  depth?: number | undefined;
   /**
    * Slide scale effect
    *
    * @default 1
    */
-  scale?: number;
+  scale?: number | undefined;
   /**
    * Effect multiplier. A number is multiplied with the slide's normalized
    * offset from center; a function receives that offset and returns the
@@ -45,7 +45,7 @@ export interface CoverflowEffectOptions {
    *
    * @default 1
    */
-  modifier?: number | ((centerOffset: number) => number);
+  modifier?: (number | ((centerOffset: number) => number)) | undefined;
 }
 
 export interface CoverflowEffectMethods {}
@@ -73,10 +73,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    coverflowEffect?: CoverflowEffectOptions;
+    coverflowEffect?: CoverflowEffectOptions | undefined;
   }
   interface SwiperParams {
-    coverflowEffect?: CoverflowEffectOptions;
+    coverflowEffect?: CoverflowEffectOptions | undefined;
   }
   interface SwiperEvents extends CoverflowEffectEvents {}
 }

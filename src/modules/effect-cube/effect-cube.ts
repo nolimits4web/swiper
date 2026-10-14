@@ -8,25 +8,25 @@ export interface CubeEffectOptions {
    *
    * @default true
    */
-  slideShadows?: boolean;
+  slideShadows?: boolean | undefined;
   /**
    * Enables main slider shadow
    *
    * @default true
    */
-  shadow?: boolean;
+  shadow?: boolean | undefined;
   /**
    * Main shadow offset in px
    *
    * @default 20
    */
-  shadowOffset?: number;
+  shadowOffset?: number | undefined;
   /**
    * Main shadow scale ratio
    *
    * @default 0.94
    */
-  shadowScale?: number;
+  shadowScale?: number | undefined;
 }
 
 export interface CubeEffectMethods {}
@@ -53,10 +53,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    cubeEffect?: CubeEffectOptions;
+    cubeEffect?: CubeEffectOptions | undefined;
   }
   interface SwiperParams {
-    cubeEffect?: CubeEffectOptions;
+    cubeEffect?: CubeEffectOptions | undefined;
   }
   interface SwiperEvents extends CubeEffectEvents {}
 }

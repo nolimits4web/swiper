@@ -26,57 +26,57 @@ export interface VirtualOptions<T = unknown> {
    *
    * @default false
    */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /**
    * Array with slides
    *
    * @default []
    */
-  slides?: T[];
+  slides?: T[] | undefined;
 
   /**
    * Slide size for slidesPerView: `auto` (in px)
    *
    * @default 320
    */
-  slidesPerViewAutoSlideSize?: number;
+  slidesPerViewAutoSlideSize?: number | undefined;
 
   /**
    * Enables DOM cache of rendering slides html elements. Once they are rendered they will be saved to cache and reused from it.
    *
    * @default true
    */
-  cache?: boolean;
+  cache?: boolean | undefined;
   /**
    * Increases amount of pre-rendered slides before active slide
    *
    * @default 0
    */
-  addSlidesBefore?: number;
+  addSlidesBefore?: number | undefined;
   /**
    * Increases amount of pre-rendered slides after active slide
    *
    * @default 0
    */
-  addSlidesAfter?: number;
+  addSlidesAfter?: number | undefined;
   /**
    * Function to render slide. As an argument it accepts current slide item for `slides` array and index number of the current slide. Function must return an outer HTML of the swiper slide or slide HTML element.
    *
    * @default null
    */
-  renderSlide?: ((slide: T, index: number) => HTMLElement | string) | null;
+  renderSlide?: (((slide: T, index: number) => HTMLElement | string) | null) | undefined;
   /**
    * Function for external rendering (e.g. using some other library to handle DOM manipulations and state like React.js or Vue.js).
    *
    * @default null
    */
-  renderExternal?: ((data: VirtualData<T>) => void) | null;
+  renderExternal?: (((data: VirtualData<T>) => void) | null) | undefined;
   /**
    * When enabled (by default) it will update Swiper layout right after renderExternal called. Useful to disable and update swiper manually when used with render libraries that renders asynchronously
    *
    * @default true
    */
-  renderExternalUpdate?: boolean;
+  renderExternalUpdate?: boolean | undefined;
 }
 
 export interface VirtualMethods<T = unknown> {
@@ -189,10 +189,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    virtual?: VirtualOptions | boolean;
+    virtual?: (VirtualOptions | boolean) | undefined;
   }
   interface SwiperParams {
-    virtual?: VirtualOptions;
+    virtual?: VirtualOptions | undefined;
   }
   interface SwiperEvents extends VirtualEvents {}
 }

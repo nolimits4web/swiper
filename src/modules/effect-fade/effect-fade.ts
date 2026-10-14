@@ -15,14 +15,14 @@ export interface FadeEffectOptions {
    *
    * @default 'default'
    */
-  mode?: FadeEffectMode;
+  mode?: FadeEffectMode | undefined;
   /**
    * Enables slides cross fade
    *
    * @deprecated Use `mode: 'cross-fade'` instead
    * @default false
    */
-  crossFade?: boolean;
+  crossFade?: boolean | undefined;
 }
 
 export interface FadeEffectMethods {}
@@ -49,10 +49,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    fadeEffect?: FadeEffectOptions;
+    fadeEffect?: FadeEffectOptions | undefined;
   }
   interface SwiperParams {
-    fadeEffect?: FadeEffectOptions;
+    fadeEffect?: FadeEffectOptions | undefined;
   }
   interface SwiperEvents extends FadeEffectEvents {}
 }

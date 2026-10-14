@@ -14,55 +14,55 @@ export interface PaginationOptions {
   /**
    * Boolean property to use with breakpoints to enable/disable pagination on certain breakpoints
    */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /**
    * String with CSS selector or HTML element of the container with pagination
    *
    * @default null
    */
-  el?: CSSSelector | HTMLElement | null;
+  el?: (CSSSelector | HTMLElement | null) | undefined;
 
   /**
    * String with type of pagination. Can be `'bullets'`, `'fraction'`, `'progressbar'` or `'custom'`
    *
    * @default 'bullets'
    */
-  type?: 'bullets' | 'fraction' | 'progressbar' | 'custom';
+  type?: ('bullets' | 'fraction' | 'progressbar' | 'custom') | undefined;
 
   /**
    * Defines which HTML tag will be used to represent single pagination bullet. Only for `'bullets'` pagination type.
    *
    * @default 'span'
    */
-  bulletElement?: string;
+  bulletElement?: string | undefined;
 
   /**
    * Good to enable if you use bullets pagination with a lot of slides. So it will keep only few bullets visible at the same time.
    *
    * @default false
    */
-  dynamicBullets?: boolean;
+  dynamicBullets?: boolean | undefined;
 
   /**
    * The number of main bullets visible when `dynamicBullets` enabled.
    *
    * @default 1
    */
-  dynamicMainBullets?: number;
+  dynamicMainBullets?: number | undefined;
 
   /**
    * Toggle (hide/show) pagination container visibility after click on Slider's container
    *
    * @default true
    */
-  hideOnClick?: boolean;
+  hideOnClick?: boolean | undefined;
 
   /**
    * If `true` then clicking on pagination button will cause transition to appropriate slide. Only for bullets pagination type
    *
    * @default false
    */
-  clickable?: boolean;
+  clickable?: boolean | undefined;
 
   /**
    * Makes pagination progressbar opposite to Swiper's `direction` parameter, means vertical progressbar for horizontal swiper
@@ -70,19 +70,19 @@ export interface PaginationOptions {
    *
    * @default false
    */
-  progressbarOpposite?: boolean;
+  progressbarOpposite?: boolean | undefined;
 
   /**
    * format fraction pagination current number. Function receives current number,
    * and you need to return formatted value
    */
-  formatFractionCurrent?: (number: number) => number | string;
+  formatFractionCurrent?: ((number: number) => number | string) | undefined;
 
   /**
    * format fraction pagination total number. Function receives total number, and you
    * need to return formatted value
    */
-  formatFractionTotal?: (number: number) => number | string;
+  formatFractionTotal?: ((number: number) => number | string) | undefined;
 
   /**
    * This parameter allows totally customize pagination bullets, you need to pass here a function that accepts `index` number of
@@ -103,7 +103,7 @@ export interface PaginationOptions {
    * });
    * ```
    */
-  renderBullet?: (index: number, className: string) => string;
+  renderBullet?: ((index: number, className: string) => string) | undefined;
 
   /**
    * This parameter allows to customize "fraction" pagination html. Only for `'fraction'` pagination type
@@ -125,7 +125,7 @@ export interface PaginationOptions {
    * });
    * ```
    */
-  renderFraction?: (currentClass: string, totalClass: string) => string;
+  renderFraction?: ((currentClass: string, totalClass: string) => string) | undefined;
 
   /**
    * This parameter allows to customize "progress" pagination. Only for `'progress'` pagination type
@@ -145,7 +145,7 @@ export interface PaginationOptions {
    * });
    * ```
    */
-  renderProgressbar?: (progressbarFillClass: string) => string;
+  renderProgressbar?: ((progressbarFillClass: string) => string) | undefined;
 
   /**
    * This parameter is required for `'custom'` pagination type where you have to specify
@@ -166,97 +166,97 @@ export interface PaginationOptions {
    * });
    * ```
    */
-  renderCustom?: (swiper: Swiper, current: number, total: number) => string;
+  renderCustom?: ((swiper: Swiper, current: number, total: number) => string) | undefined;
 
   /**
    * CSS class name of single pagination bullet
    *
    * @default 'swiper-pagination-bullet'
    */
-  bulletClass?: string;
+  bulletClass?: string | undefined;
 
   /**
    * CSS class name of currently active pagination bullet
    *
    * @default 'swiper-pagination-bullet-active'
    */
-  bulletActiveClass?: string;
+  bulletActiveClass?: string | undefined;
 
   /**
    * The beginning of the modifier CSS class name that will be added to pagination depending on parameters
    *
    * @default 'swiper-pagination-'
    */
-  modifierClass?: string;
+  modifierClass?: string | undefined;
 
   /**
    * CSS class name of the element with currently active index in "fraction" pagination
    *
    * @default 'swiper-pagination-current'
    */
-  currentClass?: string;
+  currentClass?: string | undefined;
 
   /**
    * CSS class name of the element with total number of "snaps" in "fraction" pagination
    *
    * @default 'swiper-pagination-total'
    */
-  totalClass?: string;
+  totalClass?: string | undefined;
 
   /**
    * CSS class name of pagination when it becomes inactive
    *
    * @default 'swiper-pagination-hidden'
    */
-  hiddenClass?: string;
+  hiddenClass?: string | undefined;
 
   /**
    * CSS class name of pagination progressbar fill element
    *
    * @default 'swiper-pagination-progressbar-fill'
    */
-  progressbarFillClass?: string;
+  progressbarFillClass?: string | undefined;
 
   /**
    * CSS class name of pagination progressbar opposite
    *
    * @default 'swiper-pagination-progressbar-opposite'
    */
-  progressbarOppositeClass?: string;
+  progressbarOppositeClass?: string | undefined;
   /**
    * CSS class name set to pagination when it is clickable
    *
    * @default 'swiper-pagination-clickable'
    */
-  clickableClass?: string;
+  clickableClass?: string | undefined;
 
   /**
    * CSS class name set to pagination when it is disabled
    *
    * @default 'swiper-pagination-lock'
    */
-  lockClass?: string;
+  lockClass?: string | undefined;
 
   /**
    * CSS class name set to pagination in horizontal Swiper
    *
    * @default 'swiper-pagination-horizontal'
    */
-  horizontalClass?: string;
+  horizontalClass?: string | undefined;
 
   /**
    * CSS class name set to pagination in vertical Swiper
    *
    * @default 'swiper-pagination-vertical'
    */
-  verticalClass?: string;
+  verticalClass?: string | undefined;
 
   /**
    * CSS class name added on swiper container and pagination element when pagination is disabled by breakpoint
    *
    * @default 'swiper-pagination-disabled'
    */
-  paginationDisabledClass?: string;
+  paginationDisabledClass?: string | undefined;
 }
 
 export interface PaginationMethods {
@@ -353,10 +353,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    pagination?: PaginationOptions | boolean;
+    pagination?: (PaginationOptions | boolean) | undefined;
   }
   interface SwiperParams {
-    pagination?: PaginationOptions;
+    pagination?: PaginationOptions | undefined;
   }
   interface SwiperEvents extends PaginationEvents {}
 }

@@ -22,76 +22,76 @@ export interface ScrollbarOptions {
   /**
    * Boolean property to use with breakpoints to enable/disable scrollbar on certain breakpoints
    */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /**
    * String with CSS selector or HTML element of the container with scrollbar.
    *
    * @default null
    */
-  el?: CSSSelector | HTMLElement | null;
+  el?: (CSSSelector | HTMLElement | null) | undefined;
 
   /**
    * Hide scrollbar automatically after user interaction
    *
    * @default true
    */
-  hide?: boolean;
+  hide?: boolean | undefined;
 
   /**
    * Set to `true` to enable make scrollbar draggable that allows you to control slider position
    *
    * @default false
    */
-  draggable?: boolean;
+  draggable?: boolean | undefined;
 
   /**
    * Set to `true` to snap slider position to slides when you release scrollbar
    *
    * @default false
    */
-  snapOnRelease?: boolean;
+  snapOnRelease?: boolean | undefined;
 
   /**
    * Size of scrollbar draggable element in px
    *
    * @default 'auto'
    */
-  dragSize?: 'auto' | number;
+  dragSize?: ('auto' | number) | undefined;
 
   /**
    * Scrollbar element additional CSS class when it is disabled
    *
    * @default 'swiper-scrollbar-lock'
    */
-  lockClass?: string;
+  lockClass?: string | undefined;
 
   /**
    * Scrollbar draggable element CSS class
    *
    * @default 'swiper-scrollbar-drag'
    */
-  dragClass?: string;
+  dragClass?: string | undefined;
 
   /**
    * CSS class name added on swiper container and scrollbar element when scrollbar is disabled by breakpoint
    *
    * @default 'swiper-scrollbar-disabled'
    */
-  scrollbarDisabledClass?: string;
+  scrollbarDisabledClass?: string | undefined;
 
   /**
    * CSS class name set to scrollbar in horizontal Swiper
    *
    * @default 'swiper-scrollbar-horizontal'
    */
-  horizontalClass?: string;
+  horizontalClass?: string | undefined;
 
   /**
    * CSS class name set to scrollbar in vertical Swiper
    *
    * @default 'swiper-scrollbar-vertical'
    */
-  verticalClass?: string;
+  verticalClass?: string | undefined;
 }
 
 export interface ScrollbarMethods {
@@ -172,10 +172,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    scrollbar?: ScrollbarOptions | boolean;
+    scrollbar?: (ScrollbarOptions | boolean) | undefined;
   }
   interface SwiperParams {
-    scrollbar?: ScrollbarOptions;
+    scrollbar?: ScrollbarOptions | undefined;
   }
   interface SwiperEvents extends ScrollbarEvents {}
 }

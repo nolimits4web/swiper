@@ -7,49 +7,49 @@ export interface ZoomOptions {
    * through extendParams; consumers should pass `zoom: true` or
    * `zoom: { ... }` rather than reading this flag.
    */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /**
    * When set to true, the image will not be scaled past 100% of its original size
    *
    * @default false
    */
-  limitToOriginalSize?: boolean;
+  limitToOriginalSize?: boolean | undefined;
   /**
    * Maximum image zoom multiplier
    *
    * @default 3
    */
-  maxRatio?: number;
+  maxRatio?: number | undefined;
   /**
    * Minimal image zoom multiplier
    *
    * @default 1
    */
-  minRatio?: number;
+  minRatio?: number | undefined;
   /**
    * When set to true, a zoomed in image will automatically pan while moving the mouse over the image
    *
    * @default false
    */
-  panOnMouseMove?: boolean;
+  panOnMouseMove?: boolean | undefined;
   /**
    * Enable/disable zoom-in by slide's double tap
    *
    * @default true
    */
-  toggle?: boolean;
+  toggle?: boolean | undefined;
   /**
    * CSS class name of zoom container
    *
    * @default 'swiper-zoom-container'
    */
-  containerClass?: string;
+  containerClass?: string | undefined;
   /**
    * CSS class name of zoomed in container
    *
    * @default 'swiper-slide-zoomed'
    */
-  zoomedSlideClass?: string;
+  zoomedSlideClass?: string | undefined;
 }
 
 export interface ZoomMethods {
@@ -118,10 +118,10 @@ declare module '../../core/core' {
      * });
      * ```
      */
-    zoom?: ZoomOptions | boolean;
+    zoom?: (ZoomOptions | boolean) | undefined;
   }
   interface SwiperParams {
-    zoom?: ZoomOptions;
+    zoom?: ZoomOptions | undefined;
   }
   interface SwiperEvents extends ZoomEvents {}
 }
