@@ -80,6 +80,12 @@ class SwiperContainer extends ClassToExtend {
   cssLinks(): string[] {
     return this.injectStylesUrls || [];
   }
+  updateStateAttributes(): void {
+    if (!this.swiper) return;
+
+    this.toggleAttribute('is-beginning', this.swiper.isBeginning);
+    this.toggleAttribute('is-end', this.swiper.isEnd);
+  }
 
   calcSlideSlots(): void {
     const currentSideSlots = this.slideSlots || 0;
@@ -194,6 +200,7 @@ class SwiperContainer extends ClassToExtend {
       ...swiperParams,
       touchEventsTarget: 'container',
       onAny: (name: string, ...args: unknown[]) => {
+        this.updateStateAttributes();
         if (name === 'observerUpdate') {
           this.calcSlideSlots();
         }
@@ -208,6 +215,7 @@ class SwiperContainer extends ClassToExtend {
         this.dispatchEvent(event);
       },
     });
+    this.updateStateAttributes();
   }
 
   connectedCallback(): void {
