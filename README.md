@@ -220,7 +220,7 @@ All changes should be committed to `src/` files only. Before you open an issue p
     </td>
     <td align="center" valign="middle">
       <a href="https://www.freakforluxury.in/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/watchindiaa.svg" alt="super clone watches" width="160">
+        <img src="https://swiperjs.com/images/sponsors/watchindiaa.png" alt="super clone watches" width="160">
       </a>
     </td>
     <td align="center" valign="middle">

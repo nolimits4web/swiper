@@ -104,7 +104,7 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
     </td>
     <td align="center" valign="middle">
       <a href="https://www.freakforluxury.in/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/watchindiaa.svg" alt="super clone watches" width="160">
+        <img src="https://swiperjs.com/images/sponsors/watchindiaa.png" alt="super clone watches" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -1054,6 +1054,7 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
 ### \$100 Silver Sponsor
 
 <!-- SILVER_SPONSOR -->
+
 - [fun88](https://global.fun88.com/)
 - [JBO](https://global.jbo.com/)
 - [Australian online casino](https://au.trustpilot.com/review/aussieonline.casino)
@@ -1080,6 +1081,7 @@ Support Swiper development by [Becoming a Sponsor](https://sponsors.nolimits4web
 ### \$50+ Sponsor
 
 <!-- SPONSOR -->
+
 - [super clone watches](https://www.freakforluxury.in/)
 - [Vlad vs Golf](https://vladvsgolf.com/)
 - [AI girlfriend](https://www.reddit.com/r/AIHotspot/comments/1wguzej/what_is_the_best_ai_girlfriend_site_or_app/)
