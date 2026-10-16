@@ -197,6 +197,17 @@ class SwiperContainer extends ClassToExtend {
         if (name === 'observerUpdate') {
           this.calcSlideSlots();
         }
+        if (
+          name === 'progress' ||
+          name === 'setTranslate' ||
+          name === 'update' ||
+          name === 'slideChange'
+        ) {
+          if (this.swiper) {
+            this.classList.toggle('swiper-beginning', this.swiper.isBeginning);
+            this.classList.toggle('swiper-end', this.swiper.isEnd);
+          }
+        }
         const eventName = swiperParams.eventsPrefix
           ? `${swiperParams.eventsPrefix}${name.toLowerCase()}`
           : name.toLowerCase();
@@ -208,6 +219,9 @@ class SwiperContainer extends ClassToExtend {
         this.dispatchEvent(event);
       },
     });
+
+    this.classList.toggle('swiper-beginning', this.swiper.isBeginning);
+    this.classList.toggle('swiper-end', this.swiper.isEnd);
   }
 
   connectedCallback(): void {
