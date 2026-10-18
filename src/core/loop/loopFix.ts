@@ -130,6 +130,14 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
 
   const cols = gridEnabled ? Math.ceil(slides.length / params.grid!.rows!) : slides.length;
 
+  if (swiper.params.effect === 'cards') {
+    loopedSlides = Math.min(
+      loopedSlides,
+      Math.max(slidesPerGroup, Math.floor((cols - slidesPerView) / 2)),
+    );
+    swiper.loopedSlides = loopedSlides;
+  }
+
   const isInitialOverflow =
     initial && cols - (initialSlide as number) < slidesPerView && !bothDirections;
 
