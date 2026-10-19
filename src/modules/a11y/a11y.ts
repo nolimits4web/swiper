@@ -1,6 +1,6 @@
 import type { Swiper, SwiperModule } from '../../core/core';
 import classesToSelector from '../../shared/classes-to-selector';
-import { createElement, elementIndex, makeElementsArray, setInnerHTML } from '../../shared/utils';
+import { createElement, elementIndex, makeElementsArray } from '../../shared/utils';
 
 export interface A11yOptions {
   /**
@@ -216,7 +216,7 @@ const A11y: SwiperModule = ({ swiper, extendParams, on }) => {
   function notify(message: string | undefined): void {
     const notification = liveRegion;
     if (!notification || !message) return;
-    setInnerHTML(notification, message);
+    notification.textContent = message;
   }
 
   function getRandomNumber(size = 16): string {
