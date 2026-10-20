@@ -24,6 +24,23 @@ export default function onResize(this: Swiper): void {
   swiper.updateSize();
   swiper.updateSlides();
 
+  // In cssMode the scroll position is the slider's state. Slides sized by CSS take their new size
+  // before this handler runs, and the browser re-snaps the wrapper onto the same slide at its new
+  // offset; the scroll event of that re-snap is read against the slide grid from before the
+  // resize, so activeIndex and isEnd can name another slide by now. Read the position again against
+  // the grid just computed. Slides Swiper sizes itself have not moved yet, and free mode does not
+  // snap, so both keep the index they had.
+  if (
+    params.cssMode &&
+    params.slidesPerView === 'auto' &&
+    !(params.freeMode && params.freeMode.enabled)
+  ) {
+    const { wrapperEl, rtlTranslate } = swiper;
+    swiper.translate = -(swiper.isHorizontal() ? wrapperEl.scrollLeft : wrapperEl.scrollTop) || 0;
+    swiper.updateProgress(rtlTranslate ? -swiper.translate : swiper.translate);
+    swiper.updateActiveIndex();
+  }
+
   swiper.updateSlidesClasses();
   const isVirtualLoop = isVirtual && params.loop;
   if (

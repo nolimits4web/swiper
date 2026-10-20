@@ -691,5 +691,120 @@ await check('slidesPerGroupAuto: slidePrev pages evenly in loop mode', async () 
   assert.deepEqual(sequence, [4, 2, 0, 6, 4]);
 });
 
+// Regression: https://github.com/nolimits4web/swiper/issues/8246 — in cssMode the scroll
+// position is the slider's state. Slides sized by CSS (slidesPerView: 'auto') take their new size
+// before the ResizeObserver-driven onResize() runs, and the browser re-snaps the wrapper onto the
+// same slide at its new offset. The scroll event of that re-snap reached onScroll() first and was
+// read against the slide grid from before the resize, so activeIndex (and isEnd) named another
+// slide, and onResize() re-seated the slider onto it. Shrinking takes the activeIndex branch,
+// growing the isEnd one. happy-dom has no layout or scroll snapping, so the container size, the
+// CSS-driven slide sizes and the browser's re-snap are simulated.
+async function resizeCssModeSlider({ params, slidesSizedByCss, browserResnaps, fromSize, toSize }) {
+  let observerCallback;
+  const OriginalResizeObserver = win.ResizeObserver;
+  const originalRaf = win.requestAnimationFrame;
+  const FakeResizeObserver = class {
+    constructor(callback) {
+      observerCallback = callback;
+    }
+    observe() {}
+    unobserve() {}
+  };
+  win.ResizeObserver = FakeResizeObserver;
+  globalThis.ResizeObserver = FakeResizeObserver;
+  win.requestAnimationFrame = (callback) => {
+    callback();
+    return 1;
+  };
+  const host = doc.createElement('div');
+  host.innerHTML = `
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        ${Array.from({ length: 10 }, (_, i) => `<div class="swiper-slide">${i + 1}</div>`).join('')}
+      </div>
+    </div>`;
+  doc.body.appendChild(host);
+  const el = host.querySelector('.swiper');
+  const slides = [...el.querySelectorAll('.swiper-slide')];
+  let containerSize = fromSize;
+  const layOut = (size) => {
+    containerSize = size;
+    // each slide is as wide as the container: through CSS here, through Swiper otherwise
+    if (slidesSizedByCss) slides.forEach((slide) => (slide.style.width = `${size}px`));
+  };
+  for (const prop of ['clientWidth', 'offsetWidth']) {
+    Object.defineProperty(el, prop, { configurable: true, get: () => containerSize });
+  }
+  Object.defineProperty(el, 'clientHeight', { configurable: true, get: () => 300 });
+  layOut(fromSize);
+  const { default: Swiper } = await import(dist('swiper.mjs'));
+  const swiper = new Swiper(el, { cssMode: true, ...params });
+  try {
+    const { wrapperEl } = swiper;
+    // the browser moves the wrapper and tells Swiper only through a scroll event
+    const scrollWrapperTo = (offset) => {
+      wrapperEl.scrollLeft = offset;
+      wrapperEl.dispatchEvent(new Event('scroll'));
+    };
+    swiper.slideTo(5, 0);
+    scrollWrapperTo(wrapperEl.scrollLeft);
+    assert.equal(swiper.activeIndex, 5, 'precondition: resting on the sixth slide');
+
+    layOut(toSize);
+    if (browserResnaps) scrollWrapperTo(5 * toSize);
+    observerCallback([{ target: el, contentRect: { width: toSize, height: 300 } }]);
+
+    assert.equal(
+      swiper.activeIndex,
+      5,
+      `resize moved the slider onto slide ${swiper.activeIndex + 1}`,
+    );
+    assert.equal(wrapperEl.scrollLeft, 5 * toSize, 'resize moved the wrapper off the sixth slide');
+  } finally {
+    swiper.destroy(true, false);
+    host.remove();
+    win.ResizeObserver = OriginalResizeObserver;
+    globalThis.ResizeObserver = OriginalResizeObserver;
+    win.requestAnimationFrame = originalRaf;
+  }
+}
+
+for (const [change, fromSize, toSize] of [
+  ['shrinks', 400, 200],
+  ['grows', 400, 800],
+]) {
+  await check(`cssMode slidesPerView 'auto' stays on its slide when the container ${change}`, () =>
+    resizeCssModeSlider({
+      params: { slidesPerView: 'auto' },
+      slidesSizedByCss: true,
+      browserResnaps: true,
+      fromSize,
+      toSize,
+    }),
+  );
+}
+
+// Neither of these moves the scroller before onResize(): Swiper-sized slides keep their old size
+// until onResize() sizes them, and free mode does not snap. Reading the stale scroll position
+// against the new slide grid would land them on the wrong slide, so they keep their index.
+await check('cssMode slides sized by Swiper stay on their slide across a resize', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 1 },
+    slidesSizedByCss: false,
+    browserResnaps: false,
+    fromSize: 400,
+    toSize: 800,
+  }),
+);
+await check('cssMode free mode stays on its slide across a resize', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 'auto', freeMode: { enabled: true } },
+    slidesSizedByCss: true,
+    browserResnaps: false,
+    fromSize: 400,
+    toSize: 800,
+  }),
+);
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);
