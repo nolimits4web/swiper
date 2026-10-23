@@ -633,5 +633,63 @@ await check('continuous ResizeObserver resize is handled on every frame', async 
   }
 });
 
+// slidesPerView: 'auto' + slidesPerGroupAuto: slidePrev pages back so the slide right before the
+// active one ends up fully in view, without overshooting it (#8235) and without getting stuck
+// when that slide is wider than the viewport. 300px viewport throughout.
+async function slidePrevSequence({ widths, start, steps, loop = false }) {
+  const host = doc.createElement('div');
+  host.innerHTML = `
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        ${widths.map((w, i) => `<div class="swiper-slide" style="width:${w}px">${i}</div>`).join('')}
+      </div>
+    </div>`;
+  doc.body.appendChild(host);
+  const { default: Swiper } = await import(dist('swiper.mjs'));
+  const swiper = new Swiper(host.querySelector('.swiper'), {
+    slidesPerView: 'auto',
+    slidesPerGroupAuto: true,
+    loop,
+    width: 300,
+    height: 100,
+    speed: 0,
+  });
+  const index = () => (loop ? swiper.realIndex : swiper.activeIndex);
+  try {
+    swiper.slideTo(start, 0);
+    const sequence = [index()];
+    for (let i = 0; i < steps; i += 1) {
+      swiper.slidePrev(0);
+      sequence.push(index());
+    }
+    return sequence;
+  } finally {
+    swiper.destroy(true, false);
+    host.remove();
+  }
+}
+
+await check('slidesPerGroupAuto: slidePrev does not skip the previous slide', async () => {
+  // 120px slides: two fit fully before slide 4, so prev lands on 2 (not 1, which cuts off 3)
+  const sequence = await slidePrevSequence({ widths: Array(6).fill(120), start: 4, steps: 2 });
+  assert.deepEqual(sequence, [4, 2, 0]);
+});
+
+await check('slidesPerGroupAuto: slidePrev moves past slides wider than the view', async () => {
+  const sequence = await slidePrevSequence({ widths: Array(5).fill(400), start: 3, steps: 3 });
+  assert.deepEqual(sequence, [3, 2, 1, 0]);
+});
+
+await check('slidesPerGroupAuto: slidePrev pages evenly in loop mode', async () => {
+  // loopFix must reposition by exactly the number of slides it prepended
+  const sequence = await slidePrevSequence({
+    widths: Array(8).fill(120),
+    start: 4,
+    steps: 4,
+    loop: true,
+  });
+  assert.deepEqual(sequence, [4, 2, 0, 6, 4]);
+});
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);

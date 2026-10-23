@@ -160,7 +160,8 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
   // prepend last slides before start
   if (activeColIndexWithShift < loopedSlides) {
     slidesPrepended = Math.max(loopedSlides - activeColIndexWithShift, slidesPerGroup);
-    for (let i = 0; i < loopedSlides - activeColIndexWithShift; i += 1) {
+    // prepend exactly what the compensating slideTo() below shifts by (like the append branch)
+    for (let i = 0; i < slidesPrepended; i += 1) {
       const index = i - Math.floor(i / cols) * cols;
       if (gridEnabled) {
         const colIndexToPrepend = cols - index - 1;
