@@ -1,5 +1,5 @@
 import type { Swiper, SwiperModule } from '../../core/core';
-import { elementChildren, isObject } from '../../shared/utils';
+import { elementChildren, isHTMLElement, isObject } from '../../shared/utils';
 
 export interface ThumbsOptions {
   /**
@@ -296,7 +296,7 @@ const Thumb: SwiperModule = ({ swiper, extendParams, on }) => {
   on('beforeInit', () => {
     const thumbs = swiper.params.thumbs;
     if (!thumbs || !thumbs.swiper) return;
-    if (typeof thumbs.swiper === 'string' || thumbs.swiper instanceof HTMLElement) {
+    if (typeof thumbs.swiper === 'string' || isHTMLElement(thumbs.swiper)) {
       const getThumbsElementAndInit = (): SwiperHostElement | null => {
         const thumbsElement: SwiperHostElement | null =
           typeof thumbs.swiper === 'string'

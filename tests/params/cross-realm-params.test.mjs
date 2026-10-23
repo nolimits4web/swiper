@@ -238,5 +238,87 @@ await check('a Swiper instance passed as a param is not deep-merged', () => {
   return el;
 });
 
+// Elements from another window (same-origin iframe, e.g. the WordPress block editor canvas).
+// v14 core mount() narrowed `el` with a bare `instanceof HTMLElement`, which is false for a
+// foreign-realm element, so init() bailed out silently and slideTo() then threw
+// (https://github.com/nolimits4web/swiper/issues/8245). happy-dom windows share their element
+// classes, so instead swap the global HTMLElement Swiper sees for a different constructor:
+// elements then belong to their own window (ownerDocument.defaultView) but not to Swiper's.
+async function inForeignRealm(label, fn) {
+  const OwnHTMLElement = globalThis.HTMLElement;
+  await check(label, async () => {
+    globalThis.HTMLElement = class ForeignRealmHTMLElement {};
+    try {
+      return await fn();
+    } finally {
+      globalThis.HTMLElement = OwnHTMLElement;
+    }
+  });
+}
+
+function buildSwiperEl(slideCount = 3) {
+  const el = doc.createElement('div');
+  el.className = 'swiper';
+  const wrapper = doc.createElement('div');
+  wrapper.className = 'swiper-wrapper';
+  for (let i = 1; i <= slideCount; i += 1) {
+    const slide = doc.createElement('div');
+    slide.className = 'swiper-slide';
+    wrapper.appendChild(slide);
+  }
+  el.appendChild(wrapper);
+  doc.body.appendChild(el);
+  return el;
+}
+
+await inForeignRealm('elements fail a realm-bound instanceof check', () => {
+  const el = buildSwiperEl();
+  assert.equal(el instanceof HTMLElement, false, 'must not share Swiper’s HTMLElement');
+  return el;
+});
+
+await inForeignRealm('an element from another window is mounted', () => {
+  const el = buildSwiperEl();
+  const swiper = new Swiper(el, {});
+  assert.equal(swiper.initialized, true, 'swiper must initialize');
+  assert.ok(swiper.wrapperEl, 'wrapperEl must be resolved');
+  assert.equal(swiper.slides.length, 3, 'slides must be collected');
+  swiper.slideTo(1, 0);
+  assert.equal(swiper.activeIndex, 1, 'slideTo() must work');
+  swiper.destroy(true, false);
+  return el;
+});
+
+await inForeignRealm('thumbs.swiper may be an element from another window', async () => {
+  const thumbsEl = buildSwiperEl();
+  const thumbsSwiper = new Swiper(thumbsEl, {});
+  const el = buildSwiperEl();
+  const swiper = new Swiper(el, { thumbs: { swiper: thumbsEl } });
+  // Element thumbs are resolved on the next animation frame.
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  // Compare by identity: a failing assert.equal would try to diff two whole Swiper instances.
+  assert.ok(swiper.thumbs.swiper === thumbsSwiper, 'thumbs must resolve the element’s instance');
+  swiper.destroy(true, false);
+  thumbsSwiper.destroy(true, false);
+  thumbsEl.remove();
+  return el;
+});
+
+await inForeignRealm('controller.control may be an element from another window', () => {
+  const controlEl = buildSwiperEl();
+  const controlSwiper = new Swiper(controlEl, {});
+  const el = buildSwiperEl();
+  const swiper = new Swiper(el, { controller: { control: controlEl } });
+  const control = swiper.controller.control;
+  assert.ok(
+    Array.isArray(control) && control.length === 1 && control[0] === controlSwiper,
+    'controller must resolve the element’s instance',
+  );
+  swiper.destroy(true, false);
+  controlSwiper.destroy(true, false);
+  controlEl.remove();
+  return el;
+});
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);
