@@ -120,6 +120,74 @@ await check('detects slotted slides (slidesEl = host, not shadow root)', async (
 });
 
 // Regression 2: bare boolean attributes must render the built-in controls (rendered none in 14.0.0).
+// Regression: reflect Swiper's edge state onto the host element for CSS styling.
+await check('reflects beginning and end state on the host element', async () => {
+  const container = mountContainer({
+    attrs: {
+      width: '300',
+      height: '200',
+      'slides-per-view': '1',
+    },
+    slideCount: 3,
+  });
+
+  const swiper = container.swiper;
+
+  assert.ok(swiper, 'swiper instance must exist');
+
+  assert.equal(
+    container.hasAttribute('is-beginning'),
+    true,
+    'initial: is-beginning should be present',
+  );
+  assert.equal(
+    container.hasAttribute('is-end'),
+    false,
+    'initial: is-end should be absent',
+  );
+
+  swiper.slideTo(2, 0);
+
+  assert.equal(
+    container.hasAttribute('is-beginning'),
+    false,
+    'slideTo(2): is-beginning should be absent',
+  );
+  assert.equal(
+    container.hasAttribute('is-end'),
+    true,
+    'slideTo(2): is-end should be present',
+  );
+
+  swiper.slideTo(1, 0);
+
+  assert.equal(
+    container.hasAttribute('is-beginning'),
+    false,
+    'slideTo(1): is-beginning should be absent',
+  );
+  assert.equal(
+    container.hasAttribute('is-end'),
+    false,
+    'slideTo(1): is-end should be absent',
+  );
+
+  swiper.slideTo(0, 0);
+
+  assert.equal(
+    container.hasAttribute('is-beginning'),
+    true,
+    'slideTo(0): is-beginning should be present',
+  );
+  assert.equal(
+    container.hasAttribute('is-end'),
+    false,
+    'slideTo(0): is-end should be absent',
+  );
+
+  return container;
+});
+
 await check('boolean navigation/pagination/scrollbar render their controls', async () => {
   const container = mountContainer({
     attrs: { navigation: '', pagination: '', scrollbar: '' },
