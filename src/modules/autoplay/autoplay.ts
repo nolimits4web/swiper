@@ -317,6 +317,7 @@ const Autoplay: SwiperModule = ({ swiper, extendParams, on, emit, params }) => {
   };
 
   const start = (): boolean => {
+    if (swiper.destroyed) return false;
     autoplayStartTime = new Date().getTime();
     swiper.autoplay.running = true;
     run();
@@ -325,6 +326,7 @@ const Autoplay: SwiperModule = ({ swiper, extendParams, on, emit, params }) => {
   };
 
   const stop = (): boolean => {
+    if (swiper.destroyed) return false;
     swiper.autoplay.running = false;
     if (timeout !== undefined) clearTimeout(timeout);
     if (raf !== undefined) cancelAnimationFrame(raf);

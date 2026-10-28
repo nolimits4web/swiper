@@ -691,5 +691,46 @@ await check('slidesPerGroupAuto: slidePrev pages evenly in loop mode', async () 
   assert.deepEqual(sequence, [4, 2, 0, 6, 4]);
 });
 
+// Regression: https://github.com/nolimits4web/swiper/issues/8036 - autoplay start() and stop()
+// did not check `swiper.destroyed`, unlike pause(), resume() and run(). Called after destroy()
+// (e.g. from a timer that outlives the slider) they threw "Cannot set properties of undefined
+// (setting 'running')", and with destroy(false) start() marked the destroyed instance as running.
+async function destroyedAutoplay(deleteInstance) {
+  const host = doc.createElement('div');
+  host.innerHTML = `
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">1</div>
+        <div class="swiper-slide">2</div>
+      </div>
+    </div>`;
+  doc.body.appendChild(host);
+  const { default: Swiper } = await import(dist('swiper.mjs'));
+  const { default: Autoplay } = await import(dist('modules/autoplay.mjs'));
+  const swiper = new Swiper(host.querySelector('.swiper'), {
+    modules: [Autoplay],
+    autoplay: { delay: 1000 },
+  });
+  const autoplay = swiper.autoplay;
+  assert.equal(autoplay.running, true, 'autoplay must be running before destroy');
+  swiper.destroy(deleteInstance, false);
+  host.remove();
+  assert.equal(autoplay.running, false, 'destroy() must still stop a running autoplay');
+  return autoplay;
+}
+
+await check('autoplay start()/stop() do not throw after destroy()', async () => {
+  const { start, stop } = await destroyedAutoplay(true);
+  assert.equal(start(), false);
+  assert.equal(stop(), false);
+});
+
+await check('autoplay start() does not restart a destroyed instance', async () => {
+  const autoplay = await destroyedAutoplay(false);
+  assert.equal(autoplay.start(), false);
+  assert.equal(autoplay.running, false);
+  assert.equal(autoplay.stop(), false);
+});
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);
