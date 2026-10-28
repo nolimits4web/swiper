@@ -219,6 +219,63 @@ All changes should be committed to `src/` files only. Before you open an issue p
       </a>
     </td>
     <td align="center" valign="middle">
+      <a href="https://www.reddit.com/r/tiktokRise/comments/1wcgwin/whatre_the_best_sites_to_buy_tiktok_followers_and" target="_blank">
+        <img src="https://cdn.sponsors.nolimits4web.com/MM0LnXAjGGa8gRDJE1iz/MvYsThQbmLI1rz0NExDW/19e47c5d94ab3d5d.jpg" alt="Purchase TikTok Followers and Likes" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://youviews.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/youviews.png" alt="YouViews: Buy YouTube Views, Subscribers & Likes" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.reddit.com/r/GoogleMyBusiness/comments/1wuxr8y/how_do_i_remove_negative_google_reviews/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/remove-negative-google-reviews.png" alt="Remove Negative Google Reviews" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.socialboosting.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/socialboosting.png" alt="SocialBoosting: Buy Instagram & TikTok Followers, Likes, Views" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.freakforluxury.in/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/watchindiaa.png" alt="super clone watches" width="160">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle">
+      <a href="https://vladvsgolf.com/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/vladvsgolf.svg" alt="Vlad vs Golf" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.reddit.com/r/AIHotspot/comments/1wguzej/what_is_the_best_ai_girlfriend_site_or_app/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/" alt="AI girlfriend" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.reddit.com/r/MrMarketing/comments/1ux9tai/can_you_recommend_a_good_google_ads_agency/" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/" alt="Google Ads Agency" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://www.globenewswire.com/news-release/2026/08/11/3343112/0/en/superluxuryreps-is-expands-super-clone-watches-collection-with-greater-focus-on-qc-and-precision.html" target="_blank">
+        <img src="https://cdn.sponsors.nolimits4web.com/P1Tg6ajiQn8sjDgRkeff/Woi1uDn5rgXvUrj8mjRd/e63dddbcdb0c3936.png" alt="Best sites for super clone watches" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://richmond.com/exclusive/article_69d3e2f5-85fa-5e1d-a124-1e1a2a710a92.html" target="_blank">
+        <img src="https://swiperjs.com/images/sponsors/" alt="Buy YouTube Views and likes" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <a href="https://marie-weber.medium.com/instagram-marketing-in-the-ai-era-buying-followers-d576b98168be" target="_blank">
+        <img src="https://cdn.sponsors.nolimits4web.com/fVJu058AGUoKgQMaqHT5/FibYRrWVrDIsBnr1RsEN/e4a3cb11fab7dad4.webp" alt="AI marketing buying followers" width="160">
+      </a>
+    </td>
+    <td align="center" valign="middle">
       <a href="https://viewtikstories.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/incognito-223fa987.png" alt="TikTok Story Viewer & Downloader" width="160">
       </a>
@@ -243,13 +300,13 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/ruleta-online-con-dinero-real-en-espana.png" alt="ruleta online con dinero real en España" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://opencollective.com/sweepico-promo-code" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/sweepico-promo-code.png" alt="Sweepico Promo Code" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://viljokasinot.bet" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/viljokasinot.png" alt="ViljoKasinot.bet" width="160">
@@ -268,16 +325,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
     <td align="center" valign="middle">
       <a href="https://hypesy.io/buy-tiktok-likes" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/buy-tiktok-likes-hypesy.png" alt="Buy TikTok Likes" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
-      <a href="https://www.reddit.com/r/tiktokRise/comments/1wcgwin/whatre_the_best_sites_to_buy_tiktok_followers_and" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/" alt="buy TikTok followers" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
-      <a href="https://sealedrose.com/verify-video" target="_blank">
-        <img src="https://cdn.sponsors.nolimits4web.com/G2oxga8KUuhzfjFMq7B0/r62tQUCMM7S5zhMlcbSp/3bbaca90f1fff9a9.png" alt="Sealed Rose" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -305,16 +352,9 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://cdn.sponsors.nolimits4web.com/AOtukRJjnjUWelCb4n3I/MY36wXRWZZFOddbUwUxV/e4ed15d4343efb5b.png" alt="JavaScript SEO WatchThis" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://riverslot.net/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/sweepstakes-software.png" alt="#1 Sweepstakes Software for Internet Cafes" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
-      <a href="https://www.reddit.com/r/Streamers/comments/1vqt514/where_can_i_buy_twitch_viewers_safely_without/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/" alt="Buy Twitch Viewers" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -323,15 +363,12 @@ All changes should be committed to `src/` files only. Before you open an issue p
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://www.healdsburgtribune.com/buy-youtube-views-likes-subscribers/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/" alt="Buy YouTube Views, Likes, Subscribers" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
       <a href="https://billingsgazette.com/exclusive/article_3e5c7645-1a28-54a0-b4c6-8a5d786c182a.html" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/" alt="Buy YouTube Subscribers" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://bulkoid.com/buy-tiktok-likes" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/buy-tiktok-likes-from-bulkoid.png" alt="Buy TikTok Likes from Bulkoid" width="160">
@@ -358,17 +395,10 @@ All changes should be committed to `src/` files only. Before you open an issue p
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://viewtikstories.com/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/view-tiktok-stories.png" alt="View TikTok Stories" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
       <a href="https://www.globalsoftwarecompanies.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/global-software-companies-gsc.png" alt="software-development-companies" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.socialwick.com/twitter/followers" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/socialwick-twitter-followers.png" alt="Buy Twitter Followers from SocialWick" width="160">
@@ -382,11 +412,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
     <td align="center" valign="middle">
       <a href="https://www.reddit.com/r/TikTokLounge/comments/1v9xhjk/where_can_i_buy_tiktok_likes/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/" alt="Buy TikTok Likes" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
-      <a href="https://prime-digital.ca" target="_blank">
-        <img src="https://cdn.sponsors.nolimits4web.com/1E9ELxtpPRvHQHUMUXqW/344WbcksDQNHn5jJxozF/7b24bec557d3dd9a.png" alt="Calgary SEO" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -404,6 +429,8 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/" alt="siti non aams" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://viet.fun88.com/" target="_blank">
         <img src="https://cdn.sponsors.nolimits4web.com/sm02J44cATxUuyBCMATS/QLWPUy4BnhSJzMwwU1Cd/aaf341e68d3ab882.svg" alt="fun88" width="160">
@@ -420,17 +447,10 @@ All changes should be committed to `src/` files only. Before you open an issue p
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://losgatan.com/buy-tiktok-likes-safe/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/" alt="Buy TikTok Likes" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
       <a href="https://tucson.com/exclusive/article_1add462a-16f6-5510-a486-505b26f7be78.html" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/" alt="Buy TikTok Followers" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.reddit.com/r/ArtOfPresence/comments/1twj42q/where_can_i_buy_instagram_likes_and_views_right/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/" alt="Buy Instagram Likes and Views" width="160">
@@ -462,16 +482,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://richmond.com/exclusive/article_9412c54e-bb62-50ea-9c9e-1eeef6641b02.html" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/" alt="Buy TikTok Followers" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
-      <a href="https://au.trustpilot.com/review/bestaustraliaonlinepokies.com" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/australian-online-pokies-d0f5e625.png" alt="Australian Online Pokies" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
       <a href="https://crazy-tower.casino/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/crazy-tower-casino.png" alt="Crazy Tower casino" width="160">
       </a>
@@ -481,6 +491,8 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/casinos-online-portugal.png" alt="casinos online portugal" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://cluc.cat/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casinos-sin-licencia-21e8e699.webp" alt="casinos sin licencia" width="160">
@@ -491,8 +503,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/slotsjudge-plcom.png" alt="Slotsjudge polskie kasyna" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.instant-famous.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/" alt="Instant Famous - The Best Place for Instant Likes and Followers" width="160">
@@ -543,6 +553,8 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://cdn.sponsors.nolimits4web.com/JlGRn0kkP4bf4P4uSXa0/ymxqzGnDmxMONPAYfO0a/c87e4c5943987199.png" alt="Time Now API" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://www.reddit.com/r/branding/comments/1rar7q0/whats_the_best_smm_panel_right_now/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/" alt="smm panel" width="160">
@@ -553,8 +565,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/" alt="buy google reviews" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.kaidonno1.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/" alt="สล็อตเว็บตรง" width="160">
@@ -578,11 +588,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
     <td align="center" valign="middle">
       <a href="https://legalnekasynoonline.org/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/legalnekasynoonline.png" alt="Legalne Kasyna Online w Polsce" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
-      <a href="https://mostbets-polska.com/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/mostbet-7c3562f3.png" alt="MostBet" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -610,13 +615,13 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/socialdawn.png" alt="SocialDawn" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://www.facefinder.id/en" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/facefinder.webp" alt="FaceFinder" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.lorka.ai/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/lorkaai.svg" alt="LorkaAI" width="160">
@@ -672,13 +677,13 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/new-casino-bonuses-uk.png" alt="New Casino Bonuses" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://billingsgazette.com/exclusive/article_979d2b0d-6f14-5c8a-8a0e-7e87442d4637.html" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/buy-tiktok-followers-cheap.png" alt="Buy TikTok Followers" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://ai-text-humanizer.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/ai-text-humanizer-com-icon-2025-small.png" alt="AI-Text-Humanizer.com" width="160">
@@ -690,11 +695,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://koten.app/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/davemorris.png" alt="สล็อตเว็บตรง" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
       <a href="https://decontrabas.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/decontrabas.png" alt="DeContrabas" width="160">
       </a>
@@ -702,11 +702,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
     <td align="center" valign="middle">
       <a href="https://de.trustpilot.com/review/onlinecasinoohneoasis.me" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/onlinecasinoohneoasisme.png" alt="Online casino ohne OASIS" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
-      <a href="https://au.trustpilot.com/review/aussiepokies.net" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/online-pokies-au.png" alt="Best Online Pokies in Australia" width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -739,13 +734,13 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/slotozilla.png" alt="trusted gaming sites on Slotozilla" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://writehuman.ai/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/writehuman.png" alt="WriteHuman AI Humanizer" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://nl.trustpilot.com/review/scandicasinos.com" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/best-online-casino-gambling.png" alt="Best Online Casino" width="160">
@@ -801,13 +796,13 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/newcasinosvip.png" alt="Best New Online Casinos in 2025" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://buytiktokfollowers.co/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/buy-tiktok-followers-co.png" alt="Buy TikTok Followers" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://www.reddit.com/r/MarketingMentor/comments/1cut7x5/where_to_buy_instagram_followers_likes/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/givemeboost.png" alt="Buy Instagram Followers " width="160">
@@ -863,13 +858,13 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/bonus-bez-depozytu.png" alt="Kasyno online w Polsce" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://casinosinternacionalesonline.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casinosinternacionalesonline.png" alt="Mejores Casinos Internacionales Online de España 2025" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://www.casinokennis.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casinokennis.png" alt="CasinoKennis" width="160">
@@ -925,13 +920,13 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/betting-site.png" alt="Betting Site" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.onlinecasinolegends.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/online-casino-legends.png" alt="Online Casino Nederland" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://nongamstopcasinos.net/gb/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/nongamstopcasinosnet.png" alt="UK Casinos not on GamStop 2025 - nongamstopcasinos.net" width="160">
@@ -987,13 +982,13 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/casino-bonussen-nederland.png" alt="Casino Bonussen Nederland" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://www.ownedcore.com/casino/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/casino-usa.png" alt="Casino No deposit Bonus 2024" width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://blastup.com/buy-instagram-likes" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/blastup_com.png" alt="Buy Instagram Likes - Real Likes & Instant Delivery!" width="160">
@@ -1045,13 +1040,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
       </a>
     </td>
     <td align="center" valign="middle">
-      <a href="https://philippinescasinos.ph/gcash/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/philippinescasinosph.png" alt="Best Online Casino in Philippines using GCash | 2023 Rank" width="160">
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" valign="middle">
       <a href="https://buycheapestfollowers.com/buy-instagram-reels-views" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/thebestsolution.png" alt="Buy Instagram Reels Views" width="160">
       </a>
@@ -1061,6 +1049,8 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/onlinecasinosspelen.png" alt="Onlinecasinosspelen.com site is dé nummer één gids, waardoor je gemakkelijk alle informatie van de top 10 online casino sites." width="160">
       </a>
     </td>
+  </tr>
+  <tr>
     <td align="center" valign="middle">
       <a href="https://rotativka.com/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/rotativka.png" alt="Rotativka.com - Най-добрите онлайн казина в България" width="160">
@@ -1111,16 +1101,9 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/wizardslots.png" alt="Online Slots - UK Slot Games - 500 FREE Spins at Wizard Slots" width="160">
       </a>
     </td>
-  </tr>
-  <tr>
     <td align="center" valign="middle">
       <a href="https://veepn.com/vpn-apps/vpn-for-chrome/" target="_blank">
         <img src="https://swiperjs.com/images/sponsors/veepn.png" alt="VPN for Chrome to Make Web Surfing 100% Safe" width="160">
-      </a>
-    </td>
-    <td align="center" valign="middle">
-      <a href="https://najlepsibukmacherzy.pl/ranking-legalnych-bukmacherow/" target="_blank">
-        <img src="https://swiperjs.com/images/sponsors/netpositive.png" alt="Ranking Bukmacherów Legalnych 2020. Bukmacher nr 1 to..." width="160">
       </a>
     </td>
     <td align="center" valign="middle">
@@ -1128,15 +1111,6 @@ All changes should be committed to `src/` files only. Before you open an issue p
         <img src="https://swiperjs.com/images/sponsors/gamblizard.png" alt="Deposit £10 Play with 30, 40, 50, 60, 70, or 80 Pounds✔️ GambLizard" width="160">
       </a>
     </td>
-    <td align="center" valign="middle"></td>
-    <td align="center" valign="middle"></td>
-    <td align="center" valign="middle"></td>
-    <td align="center" valign="middle"></td>
-    <td align="center" valign="middle"></td>
-    <td align="center" valign="middle"></td>
-    <td align="center" valign="middle"></td>
-    <td align="center" valign="middle"></td>
-    <td align="center" valign="middle"></td>
   </tr>
 </table>
 <!-- SPONSORS_TABLE_WRAP -->

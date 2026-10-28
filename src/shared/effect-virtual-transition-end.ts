@@ -1,5 +1,5 @@
 import type { Swiper } from '../core/core';
-import { elementTransitionEnd } from './utils';
+import { elementTransitionEnd, isHTMLElement } from './utils';
 
 interface EffectVirtualTransitionEndParams {
   swiper: Swiper;
@@ -22,7 +22,7 @@ export default function effectVirtualTransitionEnd({
         (slideEl) => slideEl.shadowRoot && slideEl.shadowRoot === el.parentNode,
       );
     }
-    if (el.parentElement instanceof HTMLElement) return el.parentElement;
+    if (isHTMLElement(el.parentElement)) return el.parentElement;
     return undefined;
   };
   if (swiper.params.virtualTranslate && duration !== 0) {

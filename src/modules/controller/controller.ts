@@ -1,5 +1,5 @@
 import type { Swiper, SwiperModule } from '../../core/core';
-import { elementTransitionEnd, nextTick } from '../../shared/utils';
+import { elementTransitionEnd, isHTMLElement, nextTick } from '../../shared/utils';
 
 export interface ControllerOptions {
   /**
@@ -238,7 +238,7 @@ const Controller: SwiperModule = ({ swiper, extendParams, on }) => {
     const controllerParam = getParams().control;
     if (
       typeof window !== 'undefined' &&
-      (typeof controllerParam === 'string' || controllerParam instanceof HTMLElement)
+      (typeof controllerParam === 'string' || isHTMLElement(controllerParam))
     ) {
       const controlElements: SwiperHostElement[] =
         typeof controllerParam === 'string'
