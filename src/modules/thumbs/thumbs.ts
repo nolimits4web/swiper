@@ -266,10 +266,22 @@ const Thumb: SwiperModule = ({ swiper, extendParams, on }) => {
         direction = swiper.activeIndex > swiper.previousIndex ? 'next' : 'prev';
       } else {
         newThumbsIndex = swiper.realIndex;
-        direction = newThumbsIndex > swiper.previousIndex ? 'next' : 'prev';
+        if (typeof swiper.previousRealIndex !== 'undefined' && swiper.params.loop) {
+          direction =
+            swiper.realIndex > swiper.previousRealIndex
+              ? 'next'
+              : swiper.realIndex < swiper.previousRealIndex
+                ? 'prev'
+                : swiper.activeIndex > swiper.previousIndex
+                  ? 'next'
+                  : 'prev';
+        } else {
+          direction = swiper.activeIndex > swiper.previousIndex ? 'next' : 'prev';
+        }
       }
       if (useOffset) {
         newThumbsIndex += direction === 'next' ? autoScrollOffset : -1 * autoScrollOffset;
+        if (newThumbsIndex < 0) newThumbsIndex = 0;
       }
 
       if (
@@ -286,7 +298,9 @@ const Thumb: SwiperModule = ({ swiper, extendParams, on }) => {
           newThumbsIndex > currentThumbsIndex &&
           thumbsSwiper.params.slidesPerGroup === 1
         ) {
-          // newThumbsIndex = newThumbsIndex - slidesPerView + 1;
+          if (useOffset) {
+            newThumbsIndex = newThumbsIndex - slidesPerView + 1;
+          }
         }
         thumbsSwiper.slideTo(newThumbsIndex, slideSpeed);
       }
