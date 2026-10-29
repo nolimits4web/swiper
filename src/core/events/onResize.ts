@@ -7,6 +7,18 @@ export default function onResize(this: Swiper): void {
 
   if (el && el.offsetWidth === 0) return;
 
+  // updateSlides() measures slides with their margins reset, and WebKit re-snaps the wrapper after
+  // that layout - applying it after the re-seat below, short of the slide by the margins before it.
+  // Keep snapping off until the next frame, as slideTo() does for virtual slides.
+  const { wrapperEl } = swiper;
+  const snapType = params.cssMode && wrapperEl ? wrapperEl.style.scrollSnapType : 'none';
+  if (snapType !== 'none') {
+    wrapperEl.style.scrollSnapType = 'none';
+    requestAnimationFrame(() => {
+      if (!swiper.destroyed) wrapperEl.style.scrollSnapType = snapType;
+    });
+  }
+
   // Breakpoints
   if (params.breakpoints) {
     swiper.setBreakpoint();
@@ -23,23 +35,6 @@ export default function onResize(this: Swiper): void {
 
   swiper.updateSize();
   swiper.updateSlides();
-
-  // In cssMode the scroll position is the slider's state. Slides sized by CSS take their new size
-  // before this handler runs, and the browser re-snaps the wrapper onto the same slide at its new
-  // offset; the scroll event of that re-snap is read against the slide grid from before the
-  // resize, so activeIndex and isEnd can name another slide by now. Read the position again against
-  // the grid just computed. Slides Swiper sizes itself have not moved yet, and free mode does not
-  // snap, so both keep the index they had.
-  if (
-    params.cssMode &&
-    params.slidesPerView === 'auto' &&
-    !(params.freeMode && params.freeMode.enabled)
-  ) {
-    const { wrapperEl, rtlTranslate } = swiper;
-    swiper.translate = -(swiper.isHorizontal() ? wrapperEl.scrollLeft : wrapperEl.scrollTop) || 0;
-    swiper.updateProgress(rtlTranslate ? -swiper.translate : swiper.translate);
-    swiper.updateActiveIndex();
-  }
 
   swiper.updateSlidesClasses();
   const isVirtualLoop = isVirtual && params.loop;
@@ -59,6 +54,10 @@ export default function onResize(this: Swiper): void {
       swiper.slideTo(swiper.activeIndex, 0, false, true);
     }
   }
+
+  // In cssMode the re-seat only writes the scroll position, and where the browser had already put
+  // the wrapper there no scroll event follows to bring translate and progress up to date.
+  if (params.cssMode && swiper.onScroll) swiper.onScroll();
 
   if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {
     type AutoplayResize = { resizeTimeout?: ReturnType<typeof setTimeout> };

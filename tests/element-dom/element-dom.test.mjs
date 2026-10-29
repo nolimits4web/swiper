@@ -691,15 +691,27 @@ await check('slidesPerGroupAuto: slidePrev pages evenly in loop mode', async () 
   assert.deepEqual(sequence, [4, 2, 0, 6, 4]);
 });
 
-// Regression: https://github.com/nolimits4web/swiper/issues/8246 — in cssMode the scroll
-// position is the slider's state. Slides sized by CSS (slidesPerView: 'auto') take their new size
-// before the ResizeObserver-driven onResize() runs, and the browser re-snaps the wrapper onto the
-// same slide at its new offset. The scroll event of that re-snap reached onScroll() first and was
-// read against the slide grid from before the resize, so activeIndex (and isEnd) named another
-// slide, and onResize() re-seated the slider onto it. Shrinking takes the activeIndex branch,
-// growing the isEnd one. happy-dom has no layout or scroll snapping, so the container size, the
-// CSS-driven slide sizes and the browser's re-snap are simulated.
-async function resizeCssModeSlider({ params, slidesSizedByCss, browserResnaps, fromSize, toSize }) {
+// Regression: https://github.com/nolimits4web/swiper/issues/8246 and
+// https://github.com/nolimits4web/swiper/issues/8254 — in cssMode the scroll position is the
+// slider's state, and a layout change moves it before the ResizeObserver-driven onResize() runs:
+// the browser re-snaps the wrapper onto a slide's new offset (slides sized by CSS, centered slides),
+// or clamps it when the track can no longer scroll as far (a slider at the end of its track that
+// grows, e.g. a phone turned to landscape). That scroll reached onScroll() first and was read
+// against the slide grid from before the change, so activeIndex - or isEnd - named another slide,
+// and onResize() re-seated the slider onto it. happy-dom has no layout, scroll snapping or
+// clamping, so the container size, the CSS-driven slide sizes and the browser's scroll are
+// simulated; `browserScroll` returns where the browser puts the wrapper before onResize() runs.
+async function resizeCssModeSlider({
+  params,
+  slidesSizedByCss = false,
+  startIndex = 5,
+  fromSize,
+  toSize,
+  browserScroll,
+  observeResize = true,
+  meanwhile,
+  expect,
+}) {
   let observerCallback;
   const OriginalResizeObserver = win.ResizeObserver;
   const originalRaf = win.requestAnimationFrame;
@@ -741,25 +753,32 @@ async function resizeCssModeSlider({ params, slidesSizedByCss, browserResnaps, f
   const swiper = new Swiper(el, { cssMode: true, ...params });
   try {
     const { wrapperEl } = swiper;
-    // the browser moves the wrapper and tells Swiper only through a scroll event
+    // a browser reports every change of the scroll position, and only a change, with a scroll event
+    let scrollLeft = wrapperEl.scrollLeft;
+    Object.defineProperty(wrapperEl, 'scrollLeft', {
+      configurable: true,
+      get: () => scrollLeft,
+      set: (value) => {
+        if (value === scrollLeft) return;
+        scrollLeft = value;
+        wrapperEl.dispatchEvent(new Event('scroll'));
+      },
+    });
     const scrollWrapperTo = (offset) => {
       wrapperEl.scrollLeft = offset;
-      wrapperEl.dispatchEvent(new Event('scroll'));
     };
-    swiper.slideTo(5, 0);
-    scrollWrapperTo(wrapperEl.scrollLeft);
-    assert.equal(swiper.activeIndex, 5, 'precondition: resting on the sixth slide');
+    swiper.slideTo(startIndex, 0);
 
     layOut(toSize);
-    if (browserResnaps) scrollWrapperTo(5 * toSize);
-    observerCallback([{ target: el, contentRect: { width: toSize, height: 300 } }]);
+    const offset = browserScroll && browserScroll({ swiper, fromSize, toSize });
+    if (offset !== undefined) scrollWrapperTo(offset);
+    // anything the user or the app does in the frame before onResize() runs
+    if (meanwhile) meanwhile({ swiper });
+    if (observeResize) {
+      observerCallback([{ target: el, contentRect: { width: toSize, height: 300 } }]);
+    }
 
-    assert.equal(
-      swiper.activeIndex,
-      5,
-      `resize moved the slider onto slide ${swiper.activeIndex + 1}`,
-    );
-    assert.equal(wrapperEl.scrollLeft, 5 * toSize, 'resize moved the wrapper off the sixth slide');
+    expect({ swiper, wrapperEl, scrollWrapperTo });
   } finally {
     swiper.destroy(true, false);
     host.remove();
@@ -769,6 +788,24 @@ async function resizeCssModeSlider({ params, slidesSizedByCss, browserResnaps, f
   }
 }
 
+const staysOn =
+  (index, scrollLeft) =>
+  ({ swiper, wrapperEl }) => {
+    assert.equal(
+      swiper.activeIndex,
+      index,
+      `resize moved the slider onto slide ${swiper.activeIndex + 1}`,
+    );
+    assert.ok(
+      Math.abs(wrapperEl.scrollLeft - scrollLeft) < 1,
+      `resize left the wrapper at ${wrapperEl.scrollLeft}, not on slide ${index + 1} at ${scrollLeft}`,
+    );
+    assert.ok(
+      Math.abs(swiper.translate + wrapperEl.scrollLeft) < 1,
+      `translate ${swiper.translate} does not match the wrapper at ${wrapperEl.scrollLeft}`,
+    );
+  };
+
 for (const [change, fromSize, toSize] of [
   ['shrinks', 400, 200],
   ['grows', 400, 800],
@@ -777,32 +814,140 @@ for (const [change, fromSize, toSize] of [
     resizeCssModeSlider({
       params: { slidesPerView: 'auto' },
       slidesSizedByCss: true,
-      browserResnaps: true,
       fromSize,
       toSize,
+      // slides sized by CSS take their new size at once, and the browser re-snaps onto the sixth
+      browserScroll: () => 5 * toSize,
+      expect: staysOn(5, 5 * toSize),
     }),
   );
 }
 
-// Neither of these moves the scroller before onResize(): Swiper-sized slides keep their old size
-// until onResize() sizes them, and free mode does not snap. Reading the stale scroll position
-// against the new slide grid would land them on the wrong slide, so they keep their index.
+// Slides Swiper sizes itself keep their old size until onResize() sizes them, so a slider on its
+// last slide that grows can no longer scroll as far: the browser clamps the wrapper, which reads as
+// an earlier slide against the old grid.
+await check('cssMode stays on its last slide when the container grows', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 1 },
+    startIndex: 9,
+    fromSize: 400,
+    toSize: 800,
+    browserScroll: ({ fromSize, toSize }) => 10 * fromSize - toSize,
+    expect: staysOn(9, 9 * 800),
+  }),
+);
+
+// With more than one slide in view the clamp also clears isEnd, which is what keeps onResize()
+// at the end of the track.
+await check('cssMode with partial slides stays at the end when the container grows', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 1.5 },
+    startIndex: 9,
+    fromSize: 400,
+    toSize: 800,
+    browserScroll: ({ fromSize, toSize }) => (10 * fromSize) / 1.5 - toSize,
+    expect: ({ swiper, wrapperEl }) => {
+      assert.equal(swiper.isEnd, true, 'resize moved the slider off the end of its track');
+      assert.ok(
+        Math.abs(wrapperEl.scrollLeft + swiper.maxTranslate()) < 1,
+        `resize left the wrapper at ${wrapperEl.scrollLeft}, not at the end ${-swiper.maxTranslate()}`,
+      );
+    },
+  }),
+);
+
+// Centered slides snap by their center, so the browser re-snaps the sixth slide into the middle of
+// the wider container while its old width still stands.
+await check('cssMode centered slides stay on their slide when the container grows', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 1.5, centeredSlides: true },
+    fromSize: 400,
+    toSize: 800,
+    browserScroll: ({ fromSize, toSize }) => 5.5 * (fromSize / 1.5) - toSize / 2,
+    expect: ({ swiper, wrapperEl }) => staysOn(5, swiper.snapGrid[5])({ swiper, wrapperEl }),
+  }),
+);
+
+// Nothing moves the scroller before onResize() here: Swiper-sized slides away from the end keep
+// their offsets until onResize() sizes them, and free mode does not snap.
 await check('cssMode slides sized by Swiper stay on their slide across a resize', () =>
   resizeCssModeSlider({
     params: { slidesPerView: 1 },
-    slidesSizedByCss: false,
-    browserResnaps: false,
     fromSize: 400,
     toSize: 800,
+    expect: staysOn(5, 5 * 800),
   }),
 );
 await check('cssMode free mode stays on its slide across a resize', () =>
   resizeCssModeSlider({
     params: { slidesPerView: 'auto', freeMode: { enabled: true } },
     slidesSizedByCss: true,
-    browserResnaps: false,
     fromSize: 400,
     toSize: 800,
+    expect: staysOn(5, 5 * 800),
+  }),
+);
+
+// A navigation in that frame - a pagination bullet, an arrow, the app's own slideTo() - is not the
+// browser adapting to the layout: onResize() must re-seat the slider onto the slide it asked for.
+await check('cssMode keeps a slideTo() made before onResize() runs', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 1 },
+    fromSize: 400,
+    toSize: 800,
+    meanwhile: ({ swiper }) => swiper.slideTo(2, 0),
+    expect: staysOn(2, 2 * 800),
+  }),
+);
+await check('cssMode keeps a slideNext() made before onResize() runs', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 1 },
+    fromSize: 400,
+    toSize: 800,
+    meanwhile: ({ swiper }) => swiper.slideNext(0),
+    expect: staysOn(6, 6 * 800),
+  }),
+);
+await check('cssMode keeps a slideTo() made after a clamp, before onResize() runs', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 1 },
+    startIndex: 9,
+    fromSize: 400,
+    toSize: 800,
+    browserScroll: ({ fromSize, toSize }) => 10 * fromSize - toSize,
+    meanwhile: ({ swiper }) => swiper.slideTo(7, 0),
+    expect: staysOn(7, 7 * 800),
+  }),
+);
+
+// A change across the slider - autoHeight fitting the container to the active slide, say - leaves
+// the slide grid as it was, so a scroll meanwhile is the user's and is followed at once.
+await check('cssMode follows a scroll while the container changes height', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 1 },
+    fromSize: 400,
+    toSize: 400,
+    observeResize: false,
+    expect: ({ swiper, scrollWrapperTo }) => {
+      Object.defineProperty(swiper.el, 'clientHeight', { configurable: true, get: () => 500 });
+      scrollWrapperTo(3 * 400);
+      assert.equal(swiper.activeIndex, 3, 'the scroll was ignored during a height change');
+    },
+  }),
+);
+
+// Without the ResizeObserver no onResize() follows a container resize, so a scroll after one is
+// read as before rather than waiting for a resize that never comes.
+await check('cssMode without a ResizeObserver still follows a scroll after a resize', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 1, resizeObserver: false },
+    fromSize: 400,
+    toSize: 800,
+    observeResize: false,
+    expect: ({ swiper, scrollWrapperTo }) => {
+      scrollWrapperTo(3 * 400);
+      assert.equal(swiper.activeIndex, 3, 'the scroll was ignored while no resize was coming');
+    },
   }),
 );
 

@@ -1,5 +1,6 @@
 import { getBrowser } from '../../shared/get-browser';
 import type { Swiper } from '../core';
+import { isResizePending } from '../events/onScroll';
 
 export default function slideTo(
   this: Swiper,
@@ -125,6 +126,9 @@ export default function slideTo(
     return false;
   }
   if (params.cssMode) {
+    // onScroll() leaves the scroll this causes to onResize() while a resize is pending, and
+    // onResize() re-seats the slider onto activeIndex - so it has to name this slide already.
+    if (isResizePending(swiper)) swiper.updateActiveIndex(slideIndex);
     const isH = swiper.isHorizontal();
     const t = rtl ? translate : -translate;
     if (speed === 0) {

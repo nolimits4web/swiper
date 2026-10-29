@@ -37,5 +37,6 @@ export default function updateSize(this: Swiper): void {
     width,
     height,
     size: swiper.isHorizontal() ? width : height,
+    _clientSize: swiper.isHorizontal() ? el.clientWidth : el.clientHeight,
   });
 }
