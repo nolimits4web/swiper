@@ -1075,6 +1075,12 @@ export class Swiper {
     }
 
     swiper.updateSize();
+    // A hidden container may not have a size yet. Defer layout and index updates
+    // until it can be measured (or an explicit width/height is supplied).
+    if (typeof swiper.size === 'undefined') {
+      swiper.emit('update');
+      return;
+    }
     swiper.updateSlides();
     swiper.updateProgress();
     swiper.updateSlidesClasses();

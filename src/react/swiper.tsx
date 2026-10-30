@@ -174,9 +174,18 @@ const Swiper = forwardRef<HTMLElement, SwiperProps>(function Swiper(propsArg, ex
     );
 
     if (onSwiper && swiperRef.current && !swiperRef.current.destroyed) onSwiper(swiperRef.current);
+    const el = swiperElRef.current;
     return () => {
       if (swiperRef.current && !swiperRef.current.destroyed) {
         swiperRef.current.destroy(true, false);
+      }
+      // The external ref is assigned manually above, so React won't reset it on unmount
+      if (externalElRef) {
+        if (typeof externalElRef === 'function') {
+          externalElRef(null);
+        } else if ((externalElRef as MutableRefObject<HTMLElement | null>).current === el) {
+          (externalElRef as MutableRefObject<HTMLElement | null>).current = null;
+        }
       }
     };
   }, []);
