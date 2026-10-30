@@ -231,6 +231,71 @@ await check('core swiper resolves a string scrollbar.el selector', async () => {
   }
 });
 
+// Regression: https://github.com/nolimits4web/swiper/issues/8248 - the size handler for
+// update/resize/observerUpdate/lock/unlock/changeDirection recomputed the track and drag sizes
+// but kept the drag at the position computed for the old sizes, so after a resize away from
+// the first slide the drag no longer matched the progress (and could overflow the track).
+// happy-dom has no layout, so the track width is stubbed and the slider size set via `width`.
+async function resizedScrollbar({ hide = false, event }) {
+  const host = doc.createElement('div');
+  host.innerHTML = `
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">1</div>
+        <div class="swiper-slide">2</div>
+        <div class="swiper-slide">3</div>
+        <div class="swiper-slide">4</div>
+      </div>
+    </div>
+    <div class="swiper-scrollbar"></div>`;
+  doc.body.appendChild(host);
+  let trackWidth = 300;
+  Object.defineProperty(host.querySelector('.swiper-scrollbar'), 'offsetWidth', {
+    configurable: true,
+    get: () => trackWidth,
+  });
+  const { default: Swiper } = await import(dist('swiper.mjs'));
+  const { default: Scrollbar } = await import(dist('modules/scrollbar.mjs'));
+  const swiper = new Swiper(host.querySelector('.swiper'), {
+    modules: [Scrollbar],
+    scrollbar: { el: '.swiper-scrollbar', hide },
+    slidesPerView: 1,
+    width: 300,
+    height: 300,
+    speed: 0,
+  });
+  try {
+    swiper.slideTo(3, 0);
+    const { dragEl, el } = swiper.scrollbar;
+    assert.equal(dragEl.style.transform, 'translate3d(225px, 0, 0)');
+    trackWidth = 200;
+    if (event === 'update') swiper.update();
+    else swiper.emit(event);
+    return {
+      transform: dragEl.style.transform,
+      width: dragEl.style.width,
+      opacity: el.style.opacity,
+    };
+  } finally {
+    swiper.destroy(true, false);
+    host.remove();
+  }
+}
+
+for (const event of ['update', 'resize']) {
+  await check(`scrollbar drag is repositioned for the new track size on ${event}`, async () => {
+    const { transform, width } = await resizedScrollbar({ event });
+    assert.equal(transform, 'translate3d(150px, 0, 0)');
+    assert.equal(width, '50px');
+  });
+}
+
+await check('scrollbar with hide: true stays hidden when its size is updated', async () => {
+  const { transform, opacity } = await resizedScrollbar({ hide: true, event: 'update' });
+  assert.equal(transform, 'translate3d(150px, 0, 0)');
+  assert.equal(opacity, '0');
+});
+
 // Regression: https://github.com/nolimits4web/swiper/issues/8053 — `rtlTranslate` was only
 // recomputed by mount() and changeLanguageDirection(), never by changeDirection(). An RTL
 // slider switched to vertical therefore kept `rtlTranslate: true`, and every `rtlTranslate

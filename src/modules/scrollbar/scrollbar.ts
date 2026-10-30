@@ -217,11 +217,10 @@ const Scrollbar: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     return swiper.params.scrollbar as ScrollbarParamsRuntime;
   }
 
-  function setTranslate(): void {
-    const params = getParams();
-    if (!params.el || !swiper.scrollbar.el) return;
-    const { scrollbar, rtlTranslate: rtl } = swiper;
-    const { dragEl, el } = scrollbar;
+  // Positions the drag element from the current progress and track/drag sizes.
+  function updateDragPosition(): void {
+    const { rtlTranslate: rtl } = swiper;
+    const { dragEl } = swiper.scrollbar;
     const progress = swiper.params.loop ? (swiper.progressLoop ?? 0) : swiper.progress;
 
     let newSize = dragSize;
@@ -247,6 +246,12 @@ const Scrollbar: SwiperModule = ({ swiper, extendParams, on, emit }) => {
       dragEl.style.transform = `translate3d(0px, ${newPos}px, 0)`;
       dragEl.style.height = `${newSize}px`;
     }
+  }
+  function setTranslate(): void {
+    const params = getParams();
+    if (!params.el || !swiper.scrollbar.el) return;
+    const { el } = swiper.scrollbar;
+    updateDragPosition();
     if (params.hide) {
       if (timeout) clearTimeout(timeout);
       el.style.opacity = '1';
@@ -282,11 +287,8 @@ const Scrollbar: SwiperModule = ({ swiper, extendParams, on, emit }) => {
       dragSize = parseInt(String(params.dragSize), 10);
     }
 
-    if (swiper.isHorizontal()) {
-      dragEl.style.width = `${dragSize}px`;
-    } else {
-      dragEl.style.height = `${dragSize}px`;
-    }
+    // Size and position the drag for the new sizes without the show/hide side effects of setTranslate().
+    updateDragPosition();
 
     if (divider >= 1) {
       el.style.display = 'none';
