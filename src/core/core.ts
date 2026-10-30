@@ -9,6 +9,7 @@ import {
   elementChildren,
   elementStyle,
   elementIndex,
+  isHTMLElement,
 } from '../shared/utils';
 import type { SwiperEvents as PublicSwiperEvents } from '../types/events';
 import type { SwiperOptions as PublicSwiperOptions } from '../types/options';
@@ -1200,7 +1201,7 @@ export class Swiper {
     let el: HTMLElement | null = null;
     if (typeof initialEl === 'string') {
       el = document.querySelector<HTMLElement>(initialEl);
-    } else if (initialEl instanceof HTMLElement) {
+    } else if (isHTMLElement(initialEl)) {
       el = initialEl;
     }
     if (!el) {

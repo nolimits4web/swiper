@@ -130,6 +130,20 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
 
   const cols = gridEnabled ? Math.ceil(slides.length / params.grid!.rows!) : slides.length;
 
+  // The active slide must be able to sit between loopedSlides on each side; when there are
+  // too few slides for that (e.g. loopAdditionalSlides, which the cards effect sets to 2-3),
+  // every index falls into the prepend branch and nothing is ever appended, so forward
+  // navigation gets stuck (#8008). Shrink the buffer to what the slides can hold, keeping
+  // it a whole number of groups and leaving one slide to spare: with none, the forward
+  // loopFix in onTouchMove fires right at drag start and appends the active slide itself.
+  if (loopedSlides > (cols - slidesPerView) / 2) {
+    loopedSlides = Math.max(
+      slidesPerGroup,
+      Math.floor((cols - slidesPerView - 1) / 2 / slidesPerGroup) * slidesPerGroup,
+    );
+    swiper.loopedSlides = loopedSlides;
+  }
+
   const isInitialOverflow =
     initial && cols - (initialSlide as number) < slidesPerView && !bothDirections;
 
@@ -160,7 +174,8 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
   // prepend last slides before start
   if (activeColIndexWithShift < loopedSlides) {
     slidesPrepended = Math.max(loopedSlides - activeColIndexWithShift, slidesPerGroup);
-    for (let i = 0; i < loopedSlides - activeColIndexWithShift; i += 1) {
+    // prepend exactly what the compensating slideTo() below shifts by (like the append branch)
+    for (let i = 0; i < slidesPrepended; i += 1) {
       const index = i - Math.floor(i / cols) * cols;
       if (gridEnabled) {
         const colIndexToPrepend = cols - index - 1;

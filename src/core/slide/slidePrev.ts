@@ -54,8 +54,10 @@ export default function slidePrev(
       params.slidesPerGroup === 1 &&
       params.slidesPerGroupAuto
     ) {
-      prevIndex = prevIndex - swiper.slidesPerViewDynamic('previous', true) + 1;
-      prevIndex = Math.max(prevIndex, 0);
+      // slidesPerViewDynamic('previous') counts from activeIndex, so step from there (stepping
+      // from prevSnap's index overshoots by one); always move back at least one slide (#8235)
+      const prevSlidesInView = swiper.slidesPerViewDynamic('previous', true) - 1;
+      prevIndex = Math.max(swiper.activeIndex - Math.max(prevSlidesInView, 1), 0);
     }
   }
   if (params.rewind && swiper.isBeginning) {

@@ -47,6 +47,15 @@ export function isObject(o: unknown): o is Record<string, unknown> {
   );
 }
 
+export function isHTMLElement(el: unknown): el is HTMLElement {
+  // A bare `instanceof HTMLElement` is false for an element from another window (same-origin
+  // iframe, e.g. the WordPress block editor canvas), so check against the element's own realm.
+  if (!el || typeof el !== 'object') return false;
+  const view = (el as Node).ownerDocument?.defaultView as (Window & typeof globalThis) | null;
+  const Ctor = view?.HTMLElement ?? (typeof HTMLElement !== 'undefined' ? HTMLElement : undefined);
+  return !!Ctor && el instanceof Ctor;
+}
+
 function isNode(node: unknown): boolean {
   if (typeof HTMLElement !== 'undefined' && node instanceof HTMLElement) return true;
   return (
