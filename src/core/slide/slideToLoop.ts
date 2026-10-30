@@ -57,7 +57,13 @@ export default function slideToLoop(
         }
       }
       let needLoopFix = cols - targetSlideIndex < slidesPerView;
-      if (bothDirections) {
+      if (centeredSlides) {
+        // A centered target only needs half a view of slides on each side. Asking for a whole
+        // view after it makes loopFix rearrange slides that already fit, which with only one
+        // slide to spare moves a slide away from the target's side and leaves a gap (#8253)
+        const halfView = Math.floor(slidesPerView / 2);
+        needLoopFix = targetSlideIndex < halfView || cols - 1 - targetSlideIndex < halfView;
+      } else if (bothDirections) {
         needLoopFix = needLoopFix || targetSlideIndex < Math.ceil(slidesPerView / 2);
       }
       if (internal && bothDirections && swiper.params.slidesPerView !== 'auto' && !gridEnabled) {

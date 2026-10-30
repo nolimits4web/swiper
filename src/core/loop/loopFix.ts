@@ -194,6 +194,13 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
         slidesPerView - cols + (initialSlide as number) + 1,
       );
     }
+    // The view must still fit inside the slides afterwards. With a forced activeSlideIndex far
+    // to the right (slideToLoop) and a buffer shrunk by the cap above, the formula above can
+    // come up short and leave the end of the view empty (#8253)
+    slidesAppended = Math.max(
+      slidesAppended,
+      Math.ceil(activeColIndexWithShift + slidesPerView - cols),
+    );
 
     for (let i = 0; i < slidesAppended; i += 1) {
       const index = i - Math.floor(i / cols) * cols;

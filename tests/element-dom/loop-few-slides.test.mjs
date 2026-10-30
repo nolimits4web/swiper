@@ -1,4 +1,5 @@
-// Real-DOM regression test for https://github.com/nolimits4web/swiper/issues/8008
+// Real-DOM regression test for https://github.com/nolimits4web/swiper/issues/8008 and
+// https://github.com/nolimits4web/swiper/issues/8253 (second part, see below)
 //
 // With loop mode and only a few slides, forward navigation (slideNext(), the next button,
 // swiping forward) got stuck while backward navigation kept working. The cards effect hit it
@@ -216,6 +217,72 @@ for (const { name, params, counts, step = 1 } of configs) {
       return el;
     });
   }
+}
+
+// https://github.com/nolimits4web/swiper/issues/8253: centeredSlides with slidesPerView > 1 and
+// few slides left part of the view empty (a slide missing on one side). The view is
+// [-translate, -translate + size] in wrapper coordinates and must stay within the slides,
+// after init, slideNext()/slidePrev() and slideToLoop() between any two slides (slideToLoop
+// used to rearrange slides that already fit, and to append too few for far jumps).
+const viewFits = (swiper) => {
+  const slideSize = swiper.slidesSizesGrid[0];
+  const space = swiper.params.spaceBetween;
+  const slidesEnd = swiper.slides.length * (slideSize + space) - space;
+  return -swiper.translate >= -1 && -swiper.translate + swiper.size <= slidesEnd + 1;
+};
+const order = (swiper) => swiper.slides.map((slide) => slide.textContent).join(' ');
+const nextFrames = () => new Promise((resolve) => setTimeout(resolve, 20));
+
+console.log('\nCentered loop with few slides keeps the view filled (happy-dom, #8253)\n');
+
+for (const [count, slidesPerView] of [
+  [6, 4],
+  [7, 4],
+  [8, 4],
+  [6, 3.5],
+  [5, 3],
+]) {
+  const params = { centeredSlides: true, slidesPerView, spaceBetween: 30, width: 720 };
+
+  await check(
+    `slidesPerView ${slidesPerView}, ${count} slides: navigation keeps the view filled`,
+    () => {
+      const { el, swiper } = mountSwiper({ params, slideCount: count });
+      assert.ok(viewFits(swiper), `gap after init (${order(swiper)})`);
+      for (const [label, go] of [
+        ['slideNext', () => swiper.slideNext(0)],
+        ['slidePrev', () => swiper.slidePrev(0)],
+      ]) {
+        for (let i = 1; i <= count * 2; i += 1) {
+          go();
+          assert.ok(viewFits(swiper), `gap after ${label} #${i} (${order(swiper)})`);
+        }
+      }
+      return el;
+    },
+  );
+
+  await check(
+    `slidesPerView ${slidesPerView}, ${count} slides: slideToLoop between any slides`,
+    async () => {
+      const { el, swiper } = mountSwiper({ params, slideCount: count });
+      for (let from = 0; from < count; from += 1) {
+        for (let to = 0; to < count; to += 1) {
+          swiper.slideToLoop(from, 0);
+          await nextFrames();
+          swiper.slideToLoop(to, 0);
+          await nextFrames();
+          assert.equal(
+            swiper.realIndex,
+            to,
+            `slideToLoop ${from} -> ${to} landed on ${swiper.realIndex}`,
+          );
+          assert.ok(viewFits(swiper), `gap after slideToLoop ${from} -> ${to} (${order(swiper)})`);
+        }
+      }
+      return el;
+    },
+  );
 }
 
 console.log(`\nTests: ${passed} passed, ${failed} failed\n`);
