@@ -1,6 +1,6 @@
 import { getBrowser } from '../../shared/get-browser';
 import type { Swiper } from '../core';
-import { isResizePending } from '../events/onScroll';
+import { isResizePending } from '../update/updateSize';
 
 export default function slideTo(
   this: Swiper,

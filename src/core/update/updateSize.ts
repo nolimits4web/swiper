@@ -1,8 +1,7 @@
 import { elementStyle } from '../../shared/utils';
 import type { Swiper } from '../core';
 
-export default function updateSize(this: Swiper): void {
-  const swiper = this;
+function measureSize(swiper: Swiper): { width: number; height: number } | null {
   let width: number;
   let height: number;
   const el = swiper.el;
@@ -17,7 +16,7 @@ export default function updateSize(this: Swiper): void {
     height = el.clientHeight;
   }
   if ((width === 0 && swiper.isHorizontal()) || (height === 0 && swiper.isVertical())) {
-    return;
+    return null;
   }
 
   // Subtract paddings
@@ -32,6 +31,38 @@ export default function updateSize(this: Swiper): void {
 
   if (Number.isNaN(width)) width = 0;
   if (Number.isNaN(height)) height = 0;
+
+  return { width, height };
+}
+
+// Whether the container changed size along the slider since updateSize(), with the ResizeObserver
+// still to hand the change to onResize() on the next animation frame.
+export function isResizePending(swiper: Swiper): boolean {
+  const { params, el } = swiper;
+  if (
+    !params.updateOnWindowResize ||
+    !params.resizeObserver ||
+    typeof window.ResizeObserver === 'undefined'
+  ) {
+    return false;
+  }
+  const isH = swiper.isHorizontal();
+  const clientSize = isH ? el.clientWidth : el.clientHeight;
+  if (clientSize === swiper._clientSize) return false;
+  // clientWidth includes the padding, the ResizeObserver only sees the content box: a padding
+  // change alone leaves the slide grid as it was, and no onResize() follows to measure it.
+  const measured = measureSize(swiper);
+  if (!measured || (isH ? measured.width : measured.height) !== swiper.size) return true;
+  swiper._clientSize = clientSize;
+  return false;
+}
+
+export default function updateSize(this: Swiper): void {
+  const swiper = this;
+  const el = swiper.el;
+  const measured = measureSize(swiper);
+  if (!measured) return;
+  const { width, height } = measured;
 
   Object.assign(swiper, {
     width,

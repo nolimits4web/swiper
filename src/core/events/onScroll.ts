@@ -1,30 +1,14 @@
 import type { Swiper } from '../core';
-
-// Whether the container changed size along the slider since Swiper last measured it, with
-// onResize() still to come: the ResizeObserver hands every change to onResize() on the next
-// animation frame.
-export function isResizePending(swiper: Swiper): boolean {
-  const { params, el } = swiper;
-  return (
-    !!params.updateOnWindowResize &&
-    !!params.resizeObserver &&
-    typeof window.ResizeObserver !== 'undefined' &&
-    (swiper.isHorizontal() ? el.clientWidth : el.clientHeight) !== swiper._clientSize
-  );
-}
+import { isResizePending } from '../update/updateSize';
 
 export default function onScroll(this: Swiper): void {
   const swiper = this;
   if (swiper.destroyed) return;
   const { wrapperEl, rtlTranslate, enabled } = swiper;
   if (!enabled) return;
-  // In cssMode the scroll position is the slider's state, and a layout change moves it before
-  // onResize() has measured the new layout: the browser re-snaps the wrapper onto a slide's new
-  // offset, or clamps it when the track can no longer scroll as far. Read against the slide grid
-  // from before the change, that position names another slide - and another isEnd - which
-  // onResize() would then re-seat the slider onto. Browsers deliver this scroll before or after the
-  // ResizeObserver callback, so it is told apart by the size alone and left to onResize(), which
-  // re-seats the slider onto the slide it was on.
+  // A resize moves the scroll position (re-snap, clamp) before onResize() measures the new layout;
+  // read against the old slide grid it names another slide. Leave it to onResize(), which keeps
+  // the slider on its slide. Browsers fire it before or after the ResizeObserver, so check the size.
   if (isResizePending(swiper)) return;
   swiper.previousTranslate = swiper.translate;
   if (swiper.isHorizontal()) {

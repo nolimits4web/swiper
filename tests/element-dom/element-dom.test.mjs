@@ -951,5 +951,24 @@ await check('cssMode without a ResizeObserver still follows a scroll after a res
   }),
 );
 
+// A padding change alone changes clientWidth but not the content box the ResizeObserver watches,
+// so no onResize() follows: the slide grid still stands and a scroll must be read as before.
+await check('cssMode follows a scroll after a padding change of a fixed-width container', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 1 },
+    fromSize: 400,
+    toSize: 400,
+    observeResize: false,
+    expect: ({ swiper, scrollWrapperTo }) => {
+      swiper.el.style.padding = '0 20px';
+      Object.defineProperty(swiper.el, 'clientWidth', { configurable: true, get: () => 440 });
+      scrollWrapperTo(3 * 400);
+      assert.equal(swiper.activeIndex, 3, 'the scroll was ignored after a padding change');
+      scrollWrapperTo(4 * 400);
+      assert.equal(swiper.activeIndex, 4, 'the scroll was ignored after a padding change');
+    },
+  }),
+);
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 process.exit(failed === 0 ? 0 : 1);
