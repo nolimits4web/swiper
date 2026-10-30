@@ -1,10 +1,15 @@
 import type { Swiper } from '../core';
+import { isResizePending } from '../update/updateSize';
 
 export default function onScroll(this: Swiper): void {
   const swiper = this;
   if (swiper.destroyed) return;
   const { wrapperEl, rtlTranslate, enabled } = swiper;
   if (!enabled) return;
+  // A resize moves the scroll position (re-snap, clamp) before onResize() measures the new layout;
+  // read against the old slide grid it names another slide. Leave it to onResize(), which keeps
+  // the slider on its slide. Browsers fire it before or after the ResizeObserver, so check the size.
+  if (isResizePending(swiper)) return;
   swiper.previousTranslate = swiper.translate;
   if (swiper.isHorizontal()) {
     swiper.translate = -wrapperEl.scrollLeft;

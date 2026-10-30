@@ -372,6 +372,8 @@ export interface Swiper {
   onSlideToWrapperTransitionEnd?: ((this: HTMLElement, e: TransitionEvent) => void) | null;
   onTranslateToWrapperTransitionEnd?: ((this: HTMLElement, e: TransitionEvent) => void) | null;
   _clientLeft?: number;
+  // The container's clientWidth - clientHeight when vertical - when updateSize() last measured it.
+  _clientSize?: number;
   _cssModeVirtualInitialSet?: boolean;
   _immediateVirtual?: boolean;
 
