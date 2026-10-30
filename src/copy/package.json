@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "14.3.0",
+  "version": "14.4.0",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "typings": "swiper.d.ts",
   "type": "module",
@@ -317,5 +317,5 @@
   "engines": {
     "node": ">= 4.7.0"
   },
-  "releaseDate": "September 28, 2026"
+  "releaseDate": "October 30, 2026"
 }

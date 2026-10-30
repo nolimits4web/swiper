@@ -1,5 +1,22 @@
 # Changelog
 
+# [14.4.0](https://github.com/nolimits4web/Swiper/compare/v14.3.0...v14.4.0) (2026-10-30)
+
+### Bug Fixes
+
+* **autoplay:** ignore start() and stop() on a destroyed instance ([#8251](https://github.com/nolimits4web/Swiper/issues/8251)) ([ef055a6](https://github.com/nolimits4web/Swiper/commit/ef055a6dbfe175fd13590eef7bcf384fee20a133)), closes [#8036](https://github.com/nolimits4web/Swiper/issues/8036)
+* **core:** defer layout updates until a hidden container has a size ([#8243](https://github.com/nolimits4web/Swiper/issues/8243)) ([58b4c85](https://github.com/nolimits4web/Swiper/commit/58b4c8595ae8e34a708bbdcdb387ca7ad164e82b)), closes [#8240](https://github.com/nolimits4web/Swiper/issues/8240)
+* **core:** keep cssMode sliders on their slide when a resize moves the scroll ([#8250](https://github.com/nolimits4web/Swiper/issues/8250)) ([e7d7bdc](https://github.com/nolimits4web/Swiper/commit/e7d7bdc94c8c38c74eeec8f27abc45e4297cfd33)), closes [#8246](https://github.com/nolimits4web/Swiper/issues/8246) [#8246](https://github.com/nolimits4web/Swiper/issues/8246) [#8254](https://github.com/nolimits4web/Swiper/issues/8254) [#8246](https://github.com/nolimits4web/Swiper/issues/8246) [#8254](https://github.com/nolimits4web/Swiper/issues/8254)
+* **core:** loop forward navigation with few slides (cards effect, loopAdditionalSlides) ([e17098c](https://github.com/nolimits4web/Swiper/commit/e17098c56de19b50ff628f072265d080305c27e5)), closes [#8008](https://github.com/nolimits4web/Swiper/issues/8008)
+* **core:** mount elements from another window (iframe) ([947ed58](https://github.com/nolimits4web/Swiper/commit/947ed585b1a48534220291ad5b76df69e4336161)), closes [#8245](https://github.com/nolimits4web/Swiper/issues/8245)
+* **core:** slidePrev overshoot with slidesPerView auto + slidesPerGroupAuto ([602988e](https://github.com/nolimits4web/Swiper/commit/602988e7f3b9714717f7eaed5d3c338479ca89b1)), closes [#8235](https://github.com/nolimits4web/Swiper/issues/8235)
+* **core:** slideToLoop leaves part of the view empty in centered loop with few slides ([f5f9adc](https://github.com/nolimits4web/Swiper/commit/f5f9adc9947da3d99b781dcb6246cee943673a9f)), closes [#8253](https://github.com/nolimits4web/Swiper/issues/8253)
+* **navigation:** prevent navigation button icon clipping and vertical disalignment ([8e1723c](https://github.com/nolimits4web/Swiper/commit/8e1723c70d47e4eae4ede8fea3a1b505be70e85d)), closes [#8161](https://github.com/nolimits4web/Swiper/issues/8161)
+* **react:** reset forwarded ref on unmount ([c458f3d](https://github.com/nolimits4web/Swiper/commit/c458f3d560feb87e3d8c0de87573262ece426c9a)), closes [#8255](https://github.com/nolimits4web/Swiper/issues/8255)
+* **scrollbar:** reposition the drag when the scrollbar size is updated ([#8252](https://github.com/nolimits4web/Swiper/issues/8252)) ([fd71137](https://github.com/nolimits4web/Swiper/commit/fd7113743a634aaf50d44f6264783163826b631d)), closes [#8248](https://github.com/nolimits4web/Swiper/issues/8248)
+* **thumbs:** scroll thumbs the right way when the main swiper loops ([#8249](https://github.com/nolimits4web/Swiper/issues/8249)) ([88560f8](https://github.com/nolimits4web/Swiper/commit/88560f839e1b24fcea69c7317a08f82160b8b632)), closes [#8238](https://github.com/nolimits4web/Swiper/issues/8238)
+
+
 # [14.3.0](https://github.com/nolimits4web/Swiper/compare/v14.2.0...v14.3.0) (2026-09-28)
 
 ### Bug Fixes
