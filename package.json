@@ -25,12 +25,12 @@
     "ssr-test": "node tests/ssr/ssr.test.mjs",
     "element-dom-test": "node tests/element-dom/element-dom.test.mjs",
     "loop-warning-test": "node tests/element-dom/loop-warning.test.mjs",
+    "grid-hidden-test": "node tests/grid/hidden-update.test.mjs",
     "cross-realm-params-test": "node tests/params/cross-realm-params.test.mjs",
     "release": "npm run validate && node ./scripts/release",
     "test": "npm run validate && npm run build:prod && npm run contract-test && npm run dist-types-test && npm run consumer-types-test && npm run ssr-test && npm run element-dom-test && npm run loop-warning-test && npm run grid-hidden-test && npm run cross-realm-params-test && npm run bundle-size",
     "changelog": "npx conventional-changelog -p angular -i CHANGELOG.md -u -s",
-    "build-sponsors": "node scripts/build-sponsors.js",
-    "grid-hidden-test": "node tests/grid/hidden-update.test.mjs"
+    "build-sponsors": "node scripts/build-sponsors.js"
   },
   "repository": {
     "type": "git",
