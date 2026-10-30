@@ -266,7 +266,8 @@ const Thumb: SwiperModule = ({ swiper, extendParams, on }) => {
         direction = swiper.activeIndex > swiper.previousIndex ? 'next' : 'prev';
       } else {
         newThumbsIndex = swiper.realIndex;
-        direction = newThumbsIndex > swiper.previousIndex ? 'next' : 'prev';
+        // previousIndex is a DOM index that loopFix shifts when main swiper is looped
+        direction = newThumbsIndex > (swiper.previousRealIndex ?? 0) ? 'next' : 'prev';
       }
       if (useOffset) {
         newThumbsIndex += direction === 'next' ? autoScrollOffset : -1 * autoScrollOffset;
