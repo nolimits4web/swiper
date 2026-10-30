@@ -97,10 +97,10 @@ const buildSponsorsList = async (sponsors) => {
   );
   let backersContent = fs.readFileSync(path.resolve(__dirname, '../BACKERS.md'), 'utf-8');
   backersContent = backersContent.split('<!-- SILVER_SPONSOR -->');
-  backersContent[1] = `\n${silverSponsorsContent.join('\n')}\n`;
+  backersContent[1] = `\n\n${silverSponsorsContent.join('\n')}\n`;
   backersContent = backersContent.join('<!-- SILVER_SPONSOR -->');
   backersContent = backersContent.split('<!-- SPONSOR -->');
-  backersContent[1] = `\n${sponsorsContent.join('\n')}\n`;
+  backersContent[1] = `\n\n${sponsorsContent.join('\n')}\n`;
   backersContent = backersContent.join('<!-- SPONSOR -->');
   fs.writeFileSync(path.resolve(__dirname, '../BACKERS.md'), backersContent);
 };
