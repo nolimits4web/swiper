@@ -287,12 +287,7 @@ const Scrollbar: SwiperModule = ({ swiper, extendParams, on, emit }) => {
       dragSize = parseInt(String(params.dragSize), 10);
     }
 
-    if (swiper.isHorizontal()) {
-      dragEl.style.width = `${dragSize}px`;
-    } else {
-      dragEl.style.height = `${dragSize}px`;
-    }
-    // Reposition the drag for the new sizes without the show/hide side effects of setTranslate().
+    // Size and position the drag for the new sizes without the show/hide side effects of setTranslate().
     updateDragPosition();
 
     if (divider >= 1) {
