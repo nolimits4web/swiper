@@ -805,14 +805,17 @@ await check('autoplay start() does not restart a destroyed instance', async () =
 // grows, e.g. a phone turned to landscape). That scroll reached onScroll() first and was read
 // against the slide grid from before the change, so activeIndex - or isEnd - named another slide,
 // and onResize() re-seated the slider onto it. happy-dom has no layout, scroll snapping or
-// clamping, so the container size, the CSS-driven slide sizes and the browser's scroll are
-// simulated; `browserScroll` returns where the browser puts the wrapper before onResize() runs.
+// clamping, so the container size and padding, the CSS-driven slide sizes and the browser's scroll
+// are simulated; `browserScroll` returns where the browser puts the wrapper before onResize() runs.
 async function resizeCssModeSlider({
   params,
   slidesSizedByCss = false,
+  borderBox = false,
   startIndex = 5,
   fromSize,
   toSize,
+  fromPadding = 0,
+  toPadding = fromPadding,
   browserScroll,
   observeResize = true,
   meanwhile,
@@ -844,9 +847,13 @@ async function resizeCssModeSlider({
   doc.body.appendChild(host);
   const el = host.querySelector('.swiper');
   const slides = [...el.querySelectorAll('.swiper-slide')];
-  let containerSize = fromSize;
-  const layOut = (size) => {
-    containerSize = size;
+  let containerSize;
+  // size is the content box - the box the ResizeObserver watches; clientWidth adds the padding and
+  // rounds to a whole pixel, as browsers do
+  const layOut = (size, padding) => {
+    containerSize = Math.round(size + 2 * padding);
+    el.style.width = `${borderBox ? size + 2 * padding : size}px`;
+    el.style.padding = `0 ${padding}px`;
     // each slide is as wide as the container: through CSS here, through Swiper otherwise
     if (slidesSizedByCss) slides.forEach((slide) => (slide.style.width = `${size}px`));
   };
@@ -854,7 +861,8 @@ async function resizeCssModeSlider({
     Object.defineProperty(el, prop, { configurable: true, get: () => containerSize });
   }
   Object.defineProperty(el, 'clientHeight', { configurable: true, get: () => 300 });
-  layOut(fromSize);
+  if (borderBox) el.style.boxSizing = 'border-box';
+  layOut(fromSize, fromPadding);
   const { default: Swiper } = await import(dist('swiper.mjs'));
   const swiper = new Swiper(el, { cssMode: true, ...params });
   try {
@@ -875,7 +883,7 @@ async function resizeCssModeSlider({
     };
     swiper.slideTo(startIndex, 0);
 
-    layOut(toSize);
+    layOut(toSize, toPadding);
     const offset = browserScroll && browserScroll({ swiper, fromSize, toSize });
     if (offset !== undefined) scrollWrapperTo(offset);
     // anything the user or the app does in the frame before onResize() runs
@@ -1074,6 +1082,58 @@ await check('cssMode follows a scroll after a padding change of a fixed-width co
       assert.equal(swiper.activeIndex, 4, 'the scroll was ignored after a padding change');
     },
   }),
+);
+
+// A padding in %, vw or em can come to a fraction of a pixel, which clientWidth rounds and Swiper's
+// measuring drops, while the content box stays as it was.
+await check('cssMode follows a scroll after a padding change to a fraction of a pixel', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 1 },
+    fromSize: 400,
+    toSize: 400,
+    fromPadding: 50,
+    toPadding: 50.75,
+    observeResize: false,
+    expect: ({ swiper, scrollWrapperTo }) => {
+      scrollWrapperTo(3 * 400);
+      assert.equal(swiper.activeIndex, 3, 'the scroll was ignored after a padding change');
+    },
+  }),
+);
+
+// With box-sizing: border-box the width includes the padding, so a container that grows by its
+// padding alone keeps its content box too.
+await check('cssMode follows a scroll after a border-box container grows by its padding', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 1 },
+    borderBox: true,
+    fromSize: 400,
+    toSize: 400,
+    toPadding: 20,
+    observeResize: false,
+    expect: ({ swiper, scrollWrapperTo }) => {
+      scrollWrapperTo(3 * 400);
+      assert.equal(swiper.activeIndex, 3, 'the scroll was ignored after a padding change');
+    },
+  }),
+);
+
+// While a padding change inside a border-box container of the same width resizes the content box -
+// and the slides sized by CSS - with clientWidth unchanged, so the browser re-snaps the wrapper as
+// it does for any resize.
+await check(
+  "cssMode slidesPerView 'auto' stays on its slide when a border-box container's padding grows",
+  () =>
+    resizeCssModeSlider({
+      params: { slidesPerView: 'auto' },
+      slidesSizedByCss: true,
+      borderBox: true,
+      fromSize: 600,
+      toSize: 400,
+      toPadding: 100,
+      browserScroll: ({ toSize }) => 5 * toSize,
+      expect: staysOn(5, 5 * 400),
+    }),
 );
 
 console.log(`\n${passed} passed, ${failed} failed\n`);
