@@ -635,7 +635,8 @@ const A11y: SwiperModule = ({ swiper, extendParams, on }) => {
     if (!getParams().enabled) return;
     init();
   });
-  on('slidesLengthChange snapGridLengthChange slidesGridLengthChange', () => {
+  // `update` covers slides replaced in the DOM without changing their count
+  on('slidesLengthChange snapGridLengthChange slidesGridLengthChange update', () => {
     if (!getParams().enabled) return;
     initSlides();
   });
