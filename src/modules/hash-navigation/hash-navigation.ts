@@ -79,6 +79,17 @@ declare module '../../core/core' {
 const isVirtualEnabled = (swiper: Swiper): boolean =>
   !!swiper.virtual && !!(swiper.params.virtual as { enabled?: boolean } | undefined)?.enabled;
 
+// location.hash percent-encodes spaces and non-ASCII characters, while data-hash holds them as is
+const decodeHash = (hash: string): string => {
+  try {
+    return decodeURIComponent(hash);
+  } catch {
+    return hash; // e.g. a "%" that isn't an escape sequence
+  }
+};
+
+const getLocationHash = (): string => decodeHash(document.location.hash.replace('#', ''));
+
 const HashNavigation: SwiperModule = ({ swiper, extendParams, emit, on }) => {
   let initialized = false;
   extendParams({
@@ -87,18 +98,20 @@ const HashNavigation: SwiperModule = ({ swiper, extendParams, emit, on }) => {
       replaceState: false,
       watchState: false,
       getSlideIndex(_s: Swiper, hash: string): number {
+        const hasHash = (slideEl: Element): boolean => {
+          const slideHash = slideEl.getAttribute('data-hash');
+          return slideHash !== null && decodeHash(slideHash) === hash;
+        };
         if (isVirtualEnabled(swiper)) {
-          const slideWithHash = swiper.slides.find(
-            (slideEl) => slideEl.getAttribute('data-hash') === hash,
-          );
+          const slideWithHash = swiper.slides.find(hasHash);
           if (!slideWithHash) return 0;
           const index = parseInt(slideWithHash.getAttribute('data-swiper-slide-index') || '0', 10);
           return index;
         }
         const matched = elementChildren(
           swiper.slidesEl,
-          `.${swiper.params.slideClass}[data-hash="${hash}"], swiper-slide[data-hash="${hash}"]`,
-        )[0];
+          `.${swiper.params.slideClass}, swiper-slide`,
+        ).find(hasHash);
         return matched ? swiper.getSlideIndex(matched as HTMLElement) : 0;
       },
     },
@@ -110,12 +123,12 @@ const HashNavigation: SwiperModule = ({ swiper, extendParams, emit, on }) => {
 
   const onHashChange = (): void => {
     emit('hashChange');
-    const newHash = document.location.hash.replace('#', '');
+    const newHash = getLocationHash();
     const activeSlideEl = isVirtualEnabled(swiper)
       ? swiper.slidesEl.querySelector(`[data-swiper-slide-index="${swiper.activeIndex}"]`)
       : swiper.slides[swiper.activeIndex];
     const activeSlideHash = activeSlideEl ? activeSlideEl.getAttribute('data-hash') : '';
-    if (newHash !== activeSlideHash) {
+    if (activeSlideHash === null || newHash !== decodeHash(activeSlideHash)) {
       const newIndex = getParams().getSlideIndex(swiper, newHash);
       if (typeof newIndex === 'undefined' || Number.isNaN(newIndex)) return;
       swiper.slideTo(newIndex);
@@ -143,7 +156,7 @@ const HashNavigation: SwiperModule = ({ swiper, extendParams, emit, on }) => {
     const historyParams = swiper.params.history as { enabled?: boolean } | undefined;
     if (!params.enabled || (historyParams && historyParams.enabled)) return;
     initialized = true;
-    const hash = document.location.hash.replace('#', '');
+    const hash = getLocationHash();
     if (hash) {
       const speed = 0;
       const index = params.getSlideIndex(swiper, hash);

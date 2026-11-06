@@ -109,10 +109,19 @@ const History: SwiperModule = ({ swiper, extendParams, on }) => {
     return text
       .toString()
       .replace(/\s+/g, '-')
-      .replace(/[^\w-]+/g, '')
+      .replace(/[^\p{L}\p{M}\p{N}_-]+/gu, '')
       .replace(/--+/g, '-')
       .replace(/^-+/, '')
       .replace(/-+$/, '');
+  };
+
+  // location.pathname percent-encodes non-ASCII characters, while slugify() keeps them as is
+  const decodePath = (path: string): string => {
+    try {
+      return decodeURIComponent(path);
+    } catch {
+      return path; // e.g. a "%" that isn't an escape sequence
+    }
   };
 
   const getPathValues = (urlOverride?: string | null): PathValues => {
@@ -125,7 +134,8 @@ const History: SwiperModule = ({ swiper, extendParams, on }) => {
     const pathArray = location.pathname
       .slice(1)
       .split('/')
-      .filter((part) => part !== '');
+      .filter((part) => part !== '')
+      .map(decodePath);
     const total = pathArray.length;
     const key = pathArray[total - 2];
     const value = pathArray[total - 1];
@@ -152,7 +162,7 @@ const History: SwiperModule = ({ swiper, extendParams, on }) => {
     if (root.length > 0) {
       const trimmedRoot = root[root.length - 1] === '/' ? root.slice(0, root.length - 1) : root;
       value = `${trimmedRoot}/${key ? `${key}/` : ''}${value}`;
-    } else if (!location.pathname.includes(key || '')) {
+    } else if (!decodePath(location.pathname).includes(key || '')) {
       value = `${key ? `${key}/` : ''}${value}`;
     }
     if (params.keepQuery) {
