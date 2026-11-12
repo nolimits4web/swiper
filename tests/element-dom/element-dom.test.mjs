@@ -342,6 +342,113 @@ await check('changeDirection() recomputes rtlTranslate', async () => {
   }
 });
 
+// Regression: #8037. Direction changes must move the virtual offset to the new axis,
+// including when equal width/height leave the rendered range and offset unchanged.
+for (const rtl of [false, true]) {
+  for (const height of [300, 200]) {
+    for (const cache of [false, true]) {
+      await check(
+        `virtual direction changes (rtl=${rtl}, height=${height}, cache=${cache})`,
+        async () => {
+          const host = doc.createElement('div');
+          host.innerHTML = '<div class="swiper"><div class="swiper-wrapper"></div></div>';
+          if (rtl) host.firstElementChild.dir = 'rtl';
+          doc.body.appendChild(host);
+          const { default: Swiper } = await import(dist('swiper-bundle.mjs'));
+          const swiper = new Swiper(host.firstElementChild, {
+            width: 300,
+            height,
+            speed: 0,
+            slidesPerView: 3,
+            centeredSlides: true,
+            spaceBetween: 30,
+            virtual: { slides: Array.from({ length: 600 }, (_, i) => `Slide ${i}`), cache },
+          });
+          const assertOffset = (axis) => {
+            assert.ok(swiper.virtual.offset > 0, 'test must exercise a nonzero offset');
+            for (const slide of swiper.slides) {
+              for (const prop of ['left', 'right', 'top']) {
+                const message = `slide ${slide.dataset.swiperSlideIndex}: ${prop} after changing direction`;
+                if (prop === axis) {
+                  assert.ok(
+                    Math.abs(parseFloat(slide.style[prop]) - swiper.virtual.offset) < 0.001,
+                    message,
+                  );
+                } else {
+                  assert.equal(slide.style[prop], '', message);
+                }
+              }
+            }
+          };
+          try {
+            swiper.slideTo(3, 0);
+            assertOffset(rtl ? 'right' : 'left');
+            // Leave some cached slides off DOM when the direction changes.
+            swiper.slideTo(7, 0);
+            swiper.changeDirection('vertical');
+            assert.equal(swiper.activeIndex, 7);
+            assertOffset('top');
+            swiper.slideTo(3, 0);
+            assertOffset('top');
+            swiper.changeDirection('horizontal');
+            assert.equal(swiper.activeIndex, 3);
+            assertOffset(rtl ? 'right' : 'left');
+            swiper.slideNext(0);
+            assert.equal(swiper.activeIndex, 4);
+            assertOffset(rtl ? 'right' : 'left');
+          } finally {
+            swiper.destroy(true, false);
+            host.remove();
+          }
+        },
+      );
+    }
+  }
+}
+
+await check('virtual direction changes leave external rendering styles alone', async () => {
+  const host = doc.createElement('div');
+  host.innerHTML = '<div class="swiper"><div class="swiper-wrapper"></div></div>';
+  doc.body.appendChild(host);
+  const { default: Swiper } = await import(dist('swiper-bundle.mjs'));
+  const swiper = new Swiper(host.firstElementChild, {
+    width: 300,
+    height: 300,
+    speed: 0,
+    virtual: {
+      slides: Array.from({ length: 10 }, (_, i) => `Slide ${i}`),
+      renderExternal({ from, offset, slides }) {
+        this.slidesEl.replaceChildren(
+          ...slides.map((content, i) => {
+            const slide = doc.createElement('div');
+            slide.className = 'swiper-slide';
+            slide.dataset.swiperSlideIndex = String(from + i);
+            slide.textContent = content;
+            slide.style.transform = `translateX(${offset}px)`;
+            slide.style.top = '13px';
+            return slide;
+          }),
+        );
+      },
+    },
+  });
+  try {
+    swiper.slideTo(7, 0);
+    const offsets = swiper.slides.map((slide) => slide.style.transform);
+    swiper.changeDirection('vertical');
+    assert.deepEqual(
+      swiper.slides.map((slide) => slide.style.transform),
+      offsets,
+    );
+    for (const slide of swiper.slides) {
+      assert.equal(slide.style.top, '13px', 'the external renderer owns the top inset');
+    }
+  } finally {
+    swiper.destroy(true, false);
+    host.remove();
+  }
+});
+
 // Regression: https://github.com/nolimits4web/swiper/issues/8015 — loopFix()'s compensating
 // slideTo() teleports changed indexes with no observable slide change, yet updateActiveIndex()
 // emitted activeIndexChange/snapIndexChange/slideChange/realIndexChange for them, so pagination
