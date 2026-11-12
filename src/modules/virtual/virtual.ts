@@ -218,6 +218,8 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
   });
 
   let cssModeTimeout: ReturnType<typeof setTimeout> | undefined;
+  let previousOffsetProp: 'left' | 'right' | 'top' | undefined;
+  const slideOffsetProps = new WeakMap<HTMLElement, 'left' | 'right' | 'top'>();
 
   // Methods (appendSlide/prependSlide/removeSlide/removeAllSlides/update) are
   // attached via Object.assign below once they're defined. Cast through
@@ -303,6 +305,8 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     let offsetProp: 'left' | 'right' | 'top';
     if (swiper.rtlTranslate) offsetProp = 'right';
     else offsetProp = swiper.isHorizontal() ? 'left' : 'top';
+    const offsetPropChanged = offsetProp !== previousOffsetProp;
+    previousOffsetProp = offsetProp;
 
     let slidesPerViewNumeric: number;
     if (slidesPerView === 'auto') {
@@ -355,6 +359,21 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
       slidesAfter,
     });
 
+    const virtualParams = getParams();
+    function setSlideOffset(slideEl: HTMLElement): void {
+      if (!virtualParams.renderExternal) {
+        const previousProp = slideOffsetProps.get(slideEl);
+        if (previousProp && previousProp !== offsetProp) {
+          slideEl.style.removeProperty(previousProp);
+        }
+        slideOffsetProps.set(slideEl, offsetProp);
+      }
+      slideEl.style.setProperty(
+        offsetProp,
+        `${offset - Math.abs(swiper.cssOverflowAdjustment())}px`,
+      );
+    }
+
     function onRendered(): void {
       swiper.updateSlides();
       swiper.updateProgress();
@@ -363,19 +382,16 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     }
 
     if (previousFrom === from && previousTo === to && !force) {
-      if (swiper.slidesGrid !== previousSlidesGrid && offset !== previousOffset) {
-        swiper.slides.forEach((slideEl) => {
-          slideEl.style.setProperty(
-            offsetProp,
-            `${offset - Math.abs(swiper.cssOverflowAdjustment())}px`,
-          );
-        });
+      if (
+        (offsetPropChanged && !virtualParams.renderExternal) ||
+        (swiper.slidesGrid !== previousSlidesGrid && offset !== previousOffset)
+      ) {
+        swiper.slides.forEach(setSlideOffset);
       }
       swiper.updateProgress();
       emit('virtualUpdate');
       return;
     }
-    const virtualParams = getParams();
     if (virtualParams.renderExternal) {
       const slidesToRender: unknown[] = [];
       for (let i = from; i <= to; i += 1) {
@@ -458,10 +474,7 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
       });
     }
     elementChildren(swiper.slidesEl, '.swiper-slide, swiper-slide').forEach((slideEl) => {
-      (slideEl as HTMLElement).style.setProperty(
-        offsetProp,
-        `${offset - Math.abs(swiper.cssOverflowAdjustment())}px`,
-      );
+      setSlideOffset(slideEl as HTMLElement);
     });
     onRendered();
   }
