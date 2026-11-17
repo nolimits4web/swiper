@@ -529,6 +529,8 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
       });
     };
     if (Array.isArray(slidesIndexes)) {
+      // Remove higher indexes first so splicing does not shift pending removals.
+      slidesIndexes = [...slidesIndexes].sort((a, b) => a - b);
       for (let i = slidesIndexes.length - 1; i >= 0; i -= 1) {
         if (getParams().cache) {
           delete swiper.virtual.cache[slidesIndexes[i]!];

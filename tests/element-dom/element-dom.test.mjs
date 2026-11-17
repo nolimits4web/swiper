@@ -190,6 +190,80 @@ await check('virtual mode renders a single slide', async () => {
   return container;
 });
 
+// #8262: indexes refer to the original virtual slides, regardless of their order.
+for (const cache of [true, false]) {
+  for (const { indexes, slides, initialSlide, expected, active } of [
+    { indexes: [1, 3], expected: ['A', 'C', 'E', 'F'], active: 'E' },
+    { indexes: [3, 1], expected: ['A', 'C', 'E', 'F'], active: 'E' },
+    {
+      indexes: [10, 1, 3],
+      slides: 'ABCDEFGHIJKL',
+      initialSlide: 11,
+      expected: ['A', 'C', 'E', 'F', 'G', 'H', 'I', 'J', 'L'],
+      active: 'L',
+    },
+    { indexes: [3, 1], initialSlide: 3, expected: ['A', 'C', 'E', 'F'], active: 'E' },
+    { indexes: 1, expected: ['A', 'C', 'D', 'E', 'F'], active: 'E' },
+    { indexes: [], expected: ['A', 'B', 'C', 'D', 'E', 'F'], active: 'E' },
+  ]) {
+    await check(
+      `virtual removeSlide(${JSON.stringify(indexes)}), cache: ${cache}, initialSlide: ${initialSlide ?? 4}`,
+      async () => {
+        const host = doc.createElement('div');
+        host.className = 'swiper';
+        host.innerHTML = '<div class="swiper-wrapper"></div>';
+        doc.body.appendChild(host);
+        const { default: Swiper } = await import(dist('swiper.mjs'));
+        const { default: Virtual } = await import(dist('modules/virtual.mjs'));
+        const swiper = new Swiper(host, {
+          modules: [Virtual],
+          width: 300,
+          height: 300,
+          speed: 0,
+          virtual: { enabled: true, cache, slides: [...(slides ?? 'ABCDEF')] },
+        });
+        try {
+          // Visit every slide so cache assertions cover entries outside the rendered window.
+          for (let i = 0; i < swiper.virtual.slides.length; i += 1) swiper.slideTo(i, 0);
+          swiper.slideTo(initialSlide ?? 4, 0);
+          const cachedElements = new Map(
+            Object.values(swiper.virtual.cache).map((el) => [el.textContent, el]),
+          );
+          const originalIndexes = Array.isArray(indexes) ? [...indexes] : indexes;
+
+          swiper.virtual.removeSlide(indexes);
+
+          assert.deepEqual(indexes, originalIndexes, "the caller's indexes must not be reordered");
+          assert.deepEqual(swiper.virtual.slides, expected, 'only requested slides are removed');
+          assert.equal(
+            swiper.activeIndex,
+            expected.indexOf(active),
+            'active index follows content',
+          );
+          assert.equal(host.querySelector('.swiper-slide-active')?.textContent, active);
+          if (cache) {
+            assert.equal(Object.keys(swiper.virtual.cache).length, expected.length);
+            expected.forEach((content, index) => {
+              const el = swiper.virtual.cache[index];
+              assert.equal(el, cachedElements.get(content), 'remaining cached elements are reused');
+              assert.equal(el.getAttribute('data-swiper-slide-index'), String(index));
+            });
+          } else {
+            assert.deepEqual(swiper.virtual.cache, {});
+          }
+          for (let i = 0; i < expected.length; i += 1) {
+            swiper.slideTo(i, 0);
+            assert.equal(host.querySelector('.swiper-slide-active')?.textContent, expected[i]);
+          }
+        } finally {
+          swiper.destroy(true, false);
+          host.remove();
+        }
+      },
+    );
+  }
+}
+
 // Regression (v14 TS migration, 4a3929c0): core (non-element) swiper with a STRING
 // scrollbar.el selector. The migration added an `else { el = params.el }` to the
 // isElement branch, so the selector string itself became `el`, `el[0]` picked the
