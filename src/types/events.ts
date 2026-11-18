@@ -8,6 +8,17 @@ import type { SwiperOptions } from './options';
 
 export interface SwiperEvents {
   // CORE_EVENTS_START
+  
+  /**
+   * Event will be fired when Swiper is enabled.
+   */
+  enable: (swiper: Swiper) => void;
+
+  /**
+   * Event will be fired when Swiper is disabled.
+   */
+  disable: (swiper: Swiper) => void;
+
   /**
    * Fired right after Swiper initialization.
    * @note Note that with `swiper.on('init')` syntax it will
