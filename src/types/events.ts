@@ -6,7 +6,10 @@ import type { SwiperOptions } from './options';
 // SwiperEvents, which re-exports this interface — so the augmentation reaches
 // consumers transparently.
 
-export interface SwiperEvents {  /**
+export interface SwiperEvents {
+  // CORE_EVENTS_START
+  
+  /**
    * Event will be fired when Swiper is enabled.
    */
   enable: (swiper: Swiper) => void;
@@ -15,7 +18,7 @@ export interface SwiperEvents {  /**
    * Event will be fired when Swiper is disabled.
    */
   disable: (swiper: Swiper) => void;
-  // CORE_EVENTS_START
+
   /**
    * Fired right after Swiper initialization.
    * @note Note that with `swiper.on('init')` syntax it will
