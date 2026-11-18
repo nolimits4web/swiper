@@ -9,12 +9,17 @@ export default function slideTo(
   runCallbacks = true,
   internal?: boolean,
   initial?: boolean,
+  directTransition?: boolean,
 ): boolean {
   if (typeof index === 'string') {
     index = parseInt(index, 10);
   }
 
   const swiper = this;
+
+  if (swiper._directTransitionCleanup) {
+    swiper._directTransitionCleanup();
+  }
 
   let slideIndex: number = index as number;
   if (slideIndex < 0) slideIndex = 0;
@@ -165,6 +170,107 @@ export default function slideTo(
   if (isVirtual && !initial && isSafari && swiper.isElement) {
     swiper.virtual.update(false, false, slideIndex);
   }
+
+  const isDirect =
+    typeof directTransition === 'undefined' ? params.directTransition : directTransition;
+  const currentActiveIndex = activeIndex;
+  const useDirectTransition =
+    Boolean(isDirect) &&
+    speed! > 0 &&
+    !params.cssMode &&
+    params.effect === 'slide' &&
+    direction !== 'reset' &&
+    Math.abs(slideIndex - currentActiveIndex) > 1 &&
+    !isVirtual &&
+    Boolean(swiper.slides[currentActiveIndex]) &&
+    Boolean(swiper.slides[slideIndex]);
+
+  if (useDirectTransition) {
+    const currentSlide = swiper.slides[currentActiveIndex]!;
+    const targetSlide = swiper.slides[slideIndex]!;
+
+    const originalCurrentTransform = currentSlide.style.transform;
+    const originalCurrentTransitionDuration = currentSlide.style.transitionDuration;
+    const originalCurrentZIndex = currentSlide.style.zIndex;
+
+    const originalTargetTransform = targetSlide.style.transform;
+    const originalTargetTransitionDuration = targetSlide.style.transitionDuration;
+    const originalTargetZIndex = targetSlide.style.zIndex;
+
+    const isH = swiper.isHorizontal();
+    const currentTranslate = swiper.translate;
+    const targetTranslate = translate;
+
+    const currentCoord = isH ? (rtl ? -currentTranslate : currentTranslate) : currentTranslate;
+    const targetCoord = isH ? (rtl ? -targetTranslate : targetTranslate) : targetTranslate;
+    const wrapperShift = targetCoord - currentCoord;
+
+    const step = (direction === 'next' ? -1 : 1) * (rtl && isH ? -1 : 1) * swiper.size;
+
+    const getTransform = (val: number) => {
+      return isH ? `translate3d(${val}px, 0px, 0px)` : `translate3d(0px, ${val}px, 0px)`;
+    };
+
+    swiper.setTransition(0);
+    swiper.setTranslate(translate);
+
+    currentSlide.style.transitionDuration = '0ms';
+    currentSlide.style.transform = getTransform(-wrapperShift);
+    currentSlide.style.zIndex = '1';
+
+    targetSlide.style.transitionDuration = '0ms';
+    targetSlide.style.transform = getTransform(-step);
+    targetSlide.style.zIndex = '2';
+
+    // Force reflow
+    void targetSlide.offsetHeight;
+
+    currentSlide.style.transitionDuration = `${speed}ms`;
+    currentSlide.style.transform = getTransform(-wrapperShift + step);
+
+    targetSlide.style.transitionDuration = `${speed}ms`;
+    targetSlide.style.transform = getTransform(0);
+
+    swiper.updateActiveIndex(slideIndex);
+    swiper.updateSlidesClasses();
+    swiper.emit('beforeTransitionStart', speed, internal);
+    swiper.transitionStart(runCallbacks, direction);
+
+    swiper.animating = true;
+
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+    const cleanup = () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = undefined;
+      }
+      targetSlide.removeEventListener('transitionend', onTransitionEnd);
+      currentSlide.style.transform = originalCurrentTransform;
+      currentSlide.style.transitionDuration = originalCurrentTransitionDuration;
+      currentSlide.style.zIndex = originalCurrentZIndex;
+      targetSlide.style.transform = originalTargetTransform;
+      targetSlide.style.transitionDuration = originalTargetTransitionDuration;
+      targetSlide.style.zIndex = originalTargetZIndex;
+      if (swiper._directTransitionCleanup === cleanup) {
+        swiper._directTransitionCleanup = null;
+      }
+    };
+
+    const onTransitionEnd = (e?: Event) => {
+      if (e && e.target !== targetSlide) return;
+      if (!swiper || swiper.destroyed) return;
+      cleanup();
+      swiper.transitionEnd(runCallbacks, direction);
+    };
+
+    targetSlide.addEventListener('transitionend', onTransitionEnd);
+    timeoutId = setTimeout(onTransitionEnd, speed! + 50);
+
+    swiper._directTransitionCleanup = cleanup;
+    return true;
+  }
+
   swiper.setTransition(speed!);
   swiper.setTranslate(translate);
   swiper.updateActiveIndex(slideIndex);

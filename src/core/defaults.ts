@@ -101,6 +101,7 @@ const defaults = {
   preventClicks: true,
   preventClicksPropagation: true,
   slideToClickedSlide: false,
+  directTransition: false,
 
   // loop
   loop: false,

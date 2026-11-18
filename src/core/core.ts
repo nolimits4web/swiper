@@ -371,6 +371,7 @@ export interface Swiper {
   // when these fire as 'transitionend' listeners on swiper.wrapperEl.
   onSlideToWrapperTransitionEnd?: ((this: HTMLElement, e: TransitionEvent) => void) | null;
   onTranslateToWrapperTransitionEnd?: ((this: HTMLElement, e: TransitionEvent) => void) | null;
+  _directTransitionCleanup?: (() => void) | null;
   _clientLeft?: number;
   // The container's clientWidth - clientHeight when vertical - when updateSize() last measured it.
   _clientSize?: number;
@@ -465,6 +466,7 @@ export interface Swiper {
     runCallbacks?: boolean,
     internal?: boolean,
     initial?: boolean,
+    directTransition?: boolean,
   ): boolean;
 
   /**
@@ -481,6 +483,7 @@ export interface Swiper {
     speed?: number,
     runCallbacks?: boolean,
     internal?: boolean,
+    directTransition?: boolean,
   ): boolean | Swiper;
 
   /**
@@ -1364,6 +1367,10 @@ export class Swiper {
     }
 
     swiper.emit('beforeDestroy');
+
+    if (swiper._directTransitionCleanup) {
+      swiper._directTransitionCleanup();
+    }
 
     // Init Flag
     swiper.initialized = false;

@@ -12,6 +12,7 @@ export default function slideToLoop(
   speed?: number,
   runCallbacks = true,
   internal?: boolean,
+  directTransition?: boolean,
 ): Swiper | undefined {
   if (typeof index === 'string') {
     const indexAsNumber = parseInt(index, 10);
@@ -100,7 +101,7 @@ export default function slideToLoop(
   }
 
   requestAnimationFrame(() => {
-    swiper.slideTo(newIndex, speed, runCallbacks, internal);
+    swiper.slideTo(newIndex, speed, runCallbacks, internal, undefined, directTransition);
   });
   return swiper;
 }

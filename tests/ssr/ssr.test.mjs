@@ -8,7 +8,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { renderToString as renderVue } from '@vue/server-renderer';
 import React from 'react';
@@ -17,7 +17,7 @@ import { createSSRApp, h } from 'vue';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distDir = path.resolve(__dirname, '..', '..', 'dist');
-const dist = (p) => path.join(distDir, p);
+const dist = (p) => pathToFileURL(path.join(distDir, p)).href;
 
 if (!fs.existsSync(distDir)) {
   console.error('dist/ missing — run `npm run build:prod` first.');
