@@ -3,13 +3,26 @@ import { now, nextTick } from '../../shared/utils.js';
 export default function onTouchEnd(event) {
   const swiper = this;
   const data = swiper.touchEventsData;
-  const pointerIndex = data.evCache.findIndex((cachedEv) => cachedEv.pointerId === event.pointerId);
-  if (pointerIndex >= 0) {
-    data.evCache.splice(pointerIndex, 1);
+
+  let e = event;
+  if (e.originalEvent) e = e.originalEvent;
+  let targetTouch;
+  const isTouchEvent = e.type === 'touchend' || e.type === 'touchcancel';
+  if (!isTouchEvent) {
+    if (data.touchId !== null) return; // return from pointer if we use touch
+    if (e.pointerId !== data.pointerId) return;
+    targetTouch = e;
+  } else {
+    targetTouch = [...e.changedTouches].filter((t) => t.identifier === data.touchId)[0];
+    if (!targetTouch || targetTouch.identifier !== data.touchId) return;
   }
-  if (['pointercancel', 'pointerout', 'pointerleave'].includes(event.type)) {
+
+  data.pointerId = null;
+  data.touchId = null;
+  if (['pointercancel', 'pointerout', 'pointerleave', 'contextmenu'].includes(e.type)) {
     const proceed =
-      event.type === 'pointercancel' && (swiper.browser.isSafari || swiper.browser.isWebView);
+      ['pointercancel', 'contextmenu'].includes(e.type) &&
+      (swiper.browser.isSafari || swiper.browser.isWebView);
     if (!proceed) {
       return;
     }
@@ -17,10 +30,7 @@ export default function onTouchEnd(event) {
 
   const { params, touches, rtlTranslate: rtl, slidesGrid, enabled } = swiper;
   if (!enabled) return;
-  if (!params.simulateTouch && event.pointerType === 'mouse') return;
-
-  let e = event;
-  if (e.originalEvent) e = e.originalEvent;
+  if (!params.simulateTouch && e.pointerType === 'mouse') return;
   if (data.allowTouchCallbacks) {
     swiper.emit('touchEnd', e);
   }

@@ -31,8 +31,9 @@
     "check-format": "npm run prettier -- --list-different",
     "lint": "eslint --ext .js,.jsx .",
     "validate": "npm-run-all --parallel check-format lint",
+    "test:touch": "node tests/touch-events.test.mjs",
+    "test": "npm run validate && npm run test:touch && npm run build:prod",
     "release": "npm run validate && node ./scripts/release",
-    "test": "npm run validate && npm run build:prod",
     "changelog": "npx conventional-changelog -p angular -i CHANGELOG.md -u -s",
     "build-sponsors": "node scripts/build-sponsors.js"
   },
