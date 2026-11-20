@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distDir = path.resolve(__dirname, '..', 'dist');
+const importDist = (p) => import(pathToFileURL(path.join(distDir, p)).href);
 
 if (!fs.existsSync(distDir)) {
   console.error('dist/ missing — run `npm run build:prod` first.');
@@ -120,20 +121,20 @@ const REQUIRED_EXPORT_KEYS = [
 console.log('\nSwiper dist contract test\n');
 
 await check('swiper.mjs loads and exports default Swiper class', async () => {
-  const mod = await import(path.join(distDir, 'swiper.mjs'));
+  const mod = await importDist('swiper.mjs');
   assert.equal(typeof mod.default, 'function', 'default export must be a function/class');
   assert.equal(typeof mod.Swiper, 'function', 'named Swiper export must be a function/class');
   assert.equal(mod.default, mod.Swiper, 'default and named must be the same reference');
 });
 
 await check('swiper-bundle.mjs loads and exports default Swiper class', async () => {
-  const mod = await import(path.join(distDir, 'swiper-bundle.mjs'));
+  const mod = await importDist('swiper-bundle.mjs');
   assert.equal(typeof mod.default, 'function');
   assert.equal(typeof mod.Swiper, 'function');
 });
 
 await check('Swiper.prototype carries every documented public method', async () => {
-  const { default: Swiper } = await import(path.join(distDir, 'swiper.mjs'));
+  const { default: Swiper } = await importDist('swiper.mjs');
   const missing = REQUIRED_SWIPER_METHODS.filter(
     (name) => typeof Swiper.prototype[name] !== 'function',
   );
@@ -141,13 +142,13 @@ await check('Swiper.prototype carries every documented public method', async () 
 });
 
 await check('Swiper class exposes required static methods', async () => {
-  const { default: Swiper } = await import(path.join(distDir, 'swiper.mjs'));
+  const { default: Swiper } = await importDist('swiper.mjs');
   const missing = REQUIRED_SWIPER_STATICS.filter((name) => typeof Swiper[name] !== 'function');
   assert.equal(missing.length, 0, `Missing statics: ${missing.join(', ')}`);
 });
 
 await check('swiper/modules entry exports every documented module', async () => {
-  const mod = await import(path.join(distDir, 'modules', 'index.mjs'));
+  const mod = await importDist(path.join('modules', 'index.mjs'));
   const missing = REQUIRED_MODULES.filter((name) => typeof mod[name] !== 'function');
   assert.equal(missing.length, 0, `Missing module exports: ${missing.join(', ')}`);
 });
@@ -185,7 +186,7 @@ await check('Each module ships as its own .mjs file', async () => {
 });
 
 await check('swiper-effect-utils.mjs is reachable', async () => {
-  const mod = await import(path.join(distDir, 'swiper-effect-utils.mjs'));
+  const mod = await importDist('swiper-effect-utils.mjs');
   assert.ok(mod, 'effect-utils must load');
 });
 

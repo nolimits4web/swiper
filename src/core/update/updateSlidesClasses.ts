@@ -1,4 +1,4 @@
-import { elementChildren, elementNextAll, elementPrevAll } from '../../shared/utils';
+import { elementChildren, elementNextAll, elementPrevAll, elementStyle } from '../../shared/utils';
 import type { Swiper } from '../core';
 
 // Grid module tags slide elements with their column index at layout time
@@ -43,9 +43,21 @@ export default function updateSlidesClasses(this: Swiper): void {
       activeSlide = getFilteredSlide(`[data-swiper-slide-index="${activeIndex}"]`);
     }
   } else if (gridEnabled) {
-    activeSlide = slides.find((slideEl) => (slideEl as GridSlideEl).column === activeIndex);
-    nextSlide = slides.find((slideEl) => (slideEl as GridSlideEl).column === activeIndex + 1);
-    prevSlide = slides.find((slideEl) => (slideEl as GridSlideEl).column === activeIndex - 1);
+    activeSlide = slides.find(
+      (slideEl) =>
+        elementStyle(slideEl, 'display') !== 'none' &&
+        (slideEl as GridSlideEl).column === activeIndex,
+    );
+    nextSlide = slides.find(
+      (slideEl) =>
+        elementStyle(slideEl, 'display') !== 'none' &&
+        (slideEl as GridSlideEl).column === activeIndex + 1,
+    );
+    prevSlide = slides.find(
+      (slideEl) =>
+        elementStyle(slideEl, 'display') !== 'none' &&
+        (slideEl as GridSlideEl).column === activeIndex - 1,
+    );
   } else {
     activeSlide = slides[activeIndex];
   }

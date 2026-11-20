@@ -904,6 +904,10 @@ export class Swiper {
 
   getSlideIndexWhenGrid(this: Swiper, index: number): number {
     if (this.grid && this.params.grid && this.params.grid.rows! > 1) {
+      const slide = this.slides[index] as HTMLElement & { column?: number };
+      if (slide && typeof slide.column !== 'undefined') {
+        return slide.column;
+      }
       if (this.params.grid.fill === 'column') {
         index = Math.floor(index / this.params.grid.rows!);
       } else if (this.params.grid.fill === 'row') {
