@@ -131,7 +131,12 @@ const Keyboard: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) {
       return undefined;
     }
-    const activeElement = document.activeElement as HTMLElement | null;
+    // document.activeElement is the shadow host when focus is inside a shadow root
+    // (e.g. a text field web component), so look for the focused element inside it
+    let activeElement = document.activeElement as HTMLElement | null;
+    while (activeElement && activeElement.shadowRoot && activeElement.shadowRoot.activeElement) {
+      activeElement = activeElement.shadowRoot.activeElement as HTMLElement;
+    }
     if (
       activeElement &&
       (activeElement.isContentEditable ||
