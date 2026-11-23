@@ -17,6 +17,7 @@
     "format": "npm run prettier -- --write",
     "check-format": "npm run prettier -- --list-different",
     "lint": "eslint --ext .js,.jsx .",
+    "test:unit": "node --test tests/unit/*.test.mjs",
     "validate": "npm-run-all --parallel check-format lint",
     "release": "npm run validate && node ./scripts/release",
     "test": "npm run validate && npm run build:prod",

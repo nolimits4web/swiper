@@ -13,7 +13,7 @@ export default {
   createElements: false,
   eventsPrefix: 'swiper',
   enabled: true,
-  focusableElements: 'input, select, option, textarea, button, video, label',
+  focusableElements: 'a, input, select, option, textarea, button, video, label',
 
   // Overrides
   width: null,
