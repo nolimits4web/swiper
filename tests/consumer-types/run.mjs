@@ -27,7 +27,12 @@ import url from 'node:url';
 const here = path.dirname(url.fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, '..', '..');
 const distDir = path.join(repoRoot, 'dist');
-const tscBin = path.join(repoRoot, 'node_modules', '.bin', 'tsc');
+const tscBin = path.join(
+  repoRoot,
+  'node_modules',
+  '.bin',
+  process.platform === 'win32' ? 'tsc.cmd' : 'tsc',
+);
 
 const MODES = [
   { name: 'classic node', config: 'tsconfig.classic-node.json' },
@@ -50,19 +55,21 @@ if (!fs.existsSync(path.join(distDir, 'package.json'))) {
 const localModules = path.join(here, 'node_modules');
 const link = path.join(localModules, 'swiper');
 const relTarget = path.relative(localModules, distDir); // ../../../dist
+const target = process.platform === 'win32' ? distDir : relTarget;
+const symlinkType = process.platform === 'win32' ? 'junction' : 'dir';
 fs.mkdirSync(localModules, { recursive: true });
 try {
   if (fs.lstatSync(link).isSymbolicLink()) {
-    if (fs.readlinkSync(link) !== relTarget) {
+    if (fs.readlinkSync(link) !== target) {
       fs.unlinkSync(link);
-      fs.symlinkSync(relTarget, link, 'dir');
+      fs.symlinkSync(target, link, symlinkType);
     }
   } else {
     fs.rmSync(link, { recursive: true, force: true });
-    fs.symlinkSync(relTarget, link, 'dir');
+    fs.symlinkSync(target, link, symlinkType);
   }
 } catch {
-  fs.symlinkSync(relTarget, link, 'dir');
+  fs.symlinkSync(target, link, symlinkType);
 }
 
 // 3. Type-check the fixtures under each resolution mode.
@@ -75,6 +82,7 @@ for (const mode of MODES) {
   const proc = spawnSync(tscBin, ['--noEmit', '-p', configPath], {
     cwd: here,
     encoding: 'utf8',
+    shell: process.platform === 'win32',
   });
   const output = `${proc.stdout || ''}${proc.stderr || ''}`.trim();
   const passed = proc.status === 0 && output === '';

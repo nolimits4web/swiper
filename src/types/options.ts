@@ -595,6 +595,13 @@ export interface SwiperOptions {
    */
   slideToClickedSlide?: boolean;
 
+  /**
+   * When enabled, transitioning between non-adjacent slides animates directly without loading or scrolling through intermediate slides
+   *
+   * @default false
+   */
+  directTransition?: boolean;
+
   // Progress
   /**
    * Enable this feature to calculate each slides progress and visibility (slides in viewport will have additional visible class)

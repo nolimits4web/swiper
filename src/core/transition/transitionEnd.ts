@@ -8,6 +8,9 @@ export default function transitionEnd(
 ): void {
   const swiper = this;
   const { params } = swiper;
+  if (swiper._directTransitionCleanup) {
+    swiper._directTransitionCleanup();
+  }
   swiper.animating = false;
   if (params.cssMode) return;
   swiper.setTransition(0);

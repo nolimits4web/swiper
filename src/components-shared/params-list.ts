@@ -69,6 +69,7 @@ const paramsList: string[] = [
   'preventClicks',
   'preventClicksPropagation',
   '_slideToClickedSlide',
+  '_directTransition',
   '_loop',
   'loopAdditionalSlides',
   'loopAddBlankSlides',
