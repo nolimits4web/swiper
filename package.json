@@ -25,7 +25,7 @@
     "ssr-test": "node tests/ssr/ssr.test.mjs",
     "element-dom-test": "node tests/element-dom/element-dom.test.mjs",
     "loop-warning-test": "node tests/element-dom/loop-warning.test.mjs",
-    "grid-hidden-test": "node tests/grid/hidden-update.test.mjs",
+    "grid-hidden-test": "node tests/grid/hidden-update.test.mjs && node tests/grid/hidden-slides.test.mjs",
     "loop-few-slides-test": "node tests/element-dom/loop-few-slides.test.mjs",
     "cross-realm-params-test": "node tests/params/cross-realm-params.test.mjs",
     "release": "npm run validate && node ./scripts/release",

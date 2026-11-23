@@ -100,10 +100,15 @@ export default function updateSlides(this: Swiper): void {
     slideSize = 0;
     const slide = slides[i];
     if (slide) {
-      if (gridEnabled) {
-        swiper.grid.updateSlide(i, slide, slides);
+      if (elementStyle(slide, 'display') === 'none') {
+        if (gridEnabled) {
+          swiper.grid.unsetSlide(slide);
+        }
+        continue;
       }
-      if (elementStyle(slide, 'display') === 'none') continue;
+      if (gridEnabled) {
+        swiper.grid.updateSlide(index, slide, slides);
+      }
     }
 
     if (isVirtual && params.slidesPerView === 'auto') {

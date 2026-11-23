@@ -1,4 +1,5 @@
 import type { SwiperModule } from '../../core/core';
+import { elementStyle } from '../../shared/utils';
 
 export interface GridOptions {
   /**
@@ -29,6 +30,10 @@ export interface GridMethods {
    * slider can switch back to single-row mode without leftover height.
    */
   unsetSlides(): void;
+  /**
+   * Reverts inline styles previously applied by `updateSlide` on a single slide.
+   */
+  unsetSlide(slide: HTMLElement): void;
   /**
    * Assigns `row`/`column` indices and the row-spanning inline styles to
    * a slide, based on its position in the source list.
@@ -119,17 +124,23 @@ const Grid: SwiperModule = ({ swiper, extendParams, on }) => {
     );
   };
 
+  const getVisibleSlides = (slides: HTMLElement[]): HTMLElement[] => {
+    return (slides || []).filter((slide) => slide && elementStyle(slide, 'display') !== 'none');
+  };
+
   const initSlides = (slides: HTMLElement[]): void => {
     const { slidesPerView } = swiper.params;
     const { rows, fill } = getParams();
-    const slidesLength = isVirtualEnabled() ? swiper.virtual.slides.length : slides.length;
+    const slidesLength = isVirtualEnabled()
+      ? swiper.virtual.slides.length
+      : getVisibleSlides(slides).length;
     numFullColumns = Math.floor(slidesLength / rows);
     if (Math.floor(slidesLength / rows) === slidesLength / rows) {
       slidesNumberEvenToRows = slidesLength;
     } else {
       slidesNumberEvenToRows = Math.ceil(slidesLength / rows) * rows;
     }
-    if (slidesPerView !== 'auto' && fill === 'row') {
+    if (slidesLength > 0 && slidesPerView !== 'auto' && fill === 'row') {
       slidesNumberEvenToRows = Math.max(
         slidesNumberEvenToRows,
         Math.floor(slidesPerView ?? 1) * rows,
@@ -138,14 +149,22 @@ const Grid: SwiperModule = ({ swiper, extendParams, on }) => {
     slidesPerRow = slidesNumberEvenToRows / rows;
   };
 
+  const unsetSlide = (slide: HTMLElement): void => {
+    const gridSlide = slide as GridSlide;
+    if (gridSlide.swiperSlideGridSet) {
+      slide.style.height = '';
+      slide.style.order = '';
+      slide.style.removeProperty(swiper.getDirectionLabel('margin-top'));
+      delete gridSlide.row;
+      delete gridSlide.column;
+      delete gridSlide.swiperSlideGridSet;
+    }
+  };
+
   const unsetSlides = (): void => {
     if (swiper.slides) {
       swiper.slides.forEach((slide) => {
-        const gridSlide = slide as GridSlide;
-        if (gridSlide.swiperSlideGridSet) {
-          slide.style.height = '';
-          slide.style.setProperty(swiper.getDirectionLabel('margin-top'), '');
-        }
+        unsetSlide(slide);
       });
     }
   };
@@ -154,7 +173,9 @@ const Grid: SwiperModule = ({ swiper, extendParams, on }) => {
     const { slidesPerGroup } = swiper.params;
     const spaceBetween = getSpaceBetween();
     const { rows, fill } = getParams();
-    const slidesLength = isVirtualEnabled() ? swiper.virtual.slides.length : slides.length;
+    const slidesLength = isVirtualEnabled()
+      ? swiper.virtual.slides.length
+      : getVisibleSlides(slides).length;
     // Set slides order
     let newSlideOrderIndex: number;
     let column: number;
@@ -172,19 +193,22 @@ const Grid: SwiperModule = ({ swiper, extendParams, on }) => {
 
       newSlideOrderIndex = column + (row * slidesNumberEvenToRows) / rows;
       slide.style.order = String(newSlideOrderIndex);
-    } else if (fill === 'column') {
-      column = Math.floor(i / rows);
-      row = i - column * rows;
-      if (column > numFullColumns || (column === numFullColumns && row === rows - 1)) {
-        row += 1;
-        if (row >= rows) {
-          row = 0;
-          column += 1;
-        }
-      }
     } else {
-      row = Math.floor(i / slidesPerRow);
-      column = i - row * slidesPerRow;
+      slide.style.order = '';
+      if (fill === 'column') {
+        column = Math.floor(i / rows);
+        row = i - column * rows;
+        if (column > numFullColumns || (column === numFullColumns && row === rows - 1)) {
+          row += 1;
+          if (row >= rows) {
+            row = 0;
+            column += 1;
+          }
+        }
+      } else {
+        row = Math.floor(i / slidesPerRow);
+        column = i - row * slidesPerRow;
+      }
     }
     const gridSlide = slide as GridSlide;
     gridSlide.row = row;
@@ -202,7 +226,7 @@ const Grid: SwiperModule = ({ swiper, extendParams, on }) => {
     const spaceBetween = getSpaceBetween();
     const { rows } = getParams();
     swiper.virtualSize = (slideSize + spaceBetween) * slidesNumberEvenToRows;
-    swiper.virtualSize = Math.ceil(swiper.virtualSize / rows) - spaceBetween;
+    swiper.virtualSize = Math.max(Math.ceil(swiper.virtualSize / rows) - spaceBetween, 0);
     if (!swiper.params.cssMode) {
       swiper.wrapperEl.style.setProperty(
         swiper.getDirectionLabel('width'),
@@ -253,6 +277,7 @@ const Grid: SwiperModule = ({ swiper, extendParams, on }) => {
   swiper.grid = {
     initSlides,
     unsetSlides,
+    unsetSlide,
     updateSlide,
     updateWrapperSize,
   };

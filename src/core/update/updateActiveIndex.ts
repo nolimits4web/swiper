@@ -1,4 +1,5 @@
 import { preload } from '../../shared/process-lazy-preloader';
+import { elementStyle } from '../../shared/utils';
 import type { Swiper } from '../core';
 
 // Grid module tags slide elements with their column index at layout time
@@ -102,16 +103,22 @@ export default function updateActiveIndex(this: Swiper, newActiveIndex?: number)
     }
   } else if (gridEnabled) {
     const firstSlideInColumn = swiper.slides.find(
-      (slideEl) => (slideEl as GridSlideEl).column === activeIndex,
-    )!;
-    let activeSlideIndex = parseInt(
-      firstSlideInColumn.getAttribute('data-swiper-slide-index')!,
-      10,
+      (slideEl) =>
+        elementStyle(slideEl, 'display') !== 'none' &&
+        (slideEl as GridSlideEl).column === activeIndex,
     );
-    if (Number.isNaN(activeSlideIndex)) {
-      activeSlideIndex = Math.max(swiper.slides.indexOf(firstSlideInColumn), 0);
+    if (firstSlideInColumn) {
+      let activeSlideIndex = parseInt(
+        firstSlideInColumn.getAttribute('data-swiper-slide-index')!,
+        10,
+      );
+      if (Number.isNaN(activeSlideIndex)) {
+        activeSlideIndex = Math.max(swiper.slides.indexOf(firstSlideInColumn), 0);
+      }
+      realIndex = Math.floor(activeSlideIndex / params.grid!.rows!);
+    } else {
+      realIndex = activeIndex;
     }
-    realIndex = Math.floor(activeSlideIndex / params.grid!.rows!);
   } else if (swiper.slides[activeIndex]) {
     const slideIndex = swiper.slides[activeIndex]!.getAttribute('data-swiper-slide-index');
     if (slideIndex) {
