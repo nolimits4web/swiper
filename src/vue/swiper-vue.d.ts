@@ -111,7 +111,7 @@ declare const Swiper: DefineComponent<
       default: undefined;
     };
     spaceBetween: {
-      type: NumberConstructor;
+      type: PropType<SwiperOptions['spaceBetween']>;
       default: undefined;
     };
     slidesPerView: {
@@ -256,6 +256,7 @@ declare const Swiper: DefineComponent<
       type: NumberConstructor;
       default: undefined;
     };
+    loopPreventsSliding: { type: BooleanConstructor; default: undefined };
     rewind: { type: BooleanConstructor; default: undefined };
     allowSlidePrev: {
       type: BooleanConstructor;
@@ -315,6 +316,10 @@ declare const Swiper: DefineComponent<
     };
     lazyPreloaderClass: {
       type: StringConstructor;
+      default: undefined;
+    };
+    lazyPreloadPrevNext: {
+      type: NumberConstructor;
       default: undefined;
     };
     runCallbacksOnInit: {

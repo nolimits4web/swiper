@@ -1,10 +1,13 @@
 /* eslint no-unused-vars: "off" */
 export default function slidePrev(speed = this.params.speed, runCallbacks = true, internal) {
   const swiper = this;
-  const { params, snapGrid, slidesGrid, rtlTranslate, enabled } = swiper;
+  const { params, snapGrid, slidesGrid, rtlTranslate, enabled, animating } = swiper;
   if (!enabled) return swiper;
+  const isVirtual = swiper.virtual && params.virtual.enabled;
 
   if (params.loop) {
+    if (animating && !isVirtual && params.loopPreventsSliding) return false;
+
     swiper.loopFix({ direction: 'prev' });
     // eslint-disable-next-line
     swiper._clientLeft = swiper.wrapperEl.clientLeft;

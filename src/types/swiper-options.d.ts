@@ -195,7 +195,7 @@ export interface SwiperOptions {
    *
    * @default 'slide'
    */
-  effect?: 'slide' | 'fade' | 'cube' | 'coverflow' | 'flip' | 'creative' | 'cards';
+  effect?: 'slide' | 'fade' | 'cube' | 'coverflow' | 'flip' | 'creative' | 'cards' | string;
 
   /**
    * Fire Transition/SlideChange/Start/End events on swiper initialization.
@@ -263,7 +263,6 @@ export interface SwiperOptions {
    * - `resistance` doesn't have any effect
    * - `allowSlidePrev/Next`
    * - `swipeHandler`
-   * - `freeMode` and all relevant features
    *
    * In case if you use it with other effects, especially 3D effects, it is required to wrap slide's content with `<div class="swiper-slide-transform">` element. And if you use any custom styles on slides (like background colors, border radius, border, etc.), they should be set on `swiper-slide-transform` element instead.
    *
@@ -301,7 +300,7 @@ export interface SwiperOptions {
    *
    * @note If you use "margin" css property to the elements which go into Swiper in which you pass "spaceBetween" into, navigation might not work properly.
    */
-  spaceBetween?: number;
+  spaceBetween?: number | string;
 
   /**
    * Number of slides per view (slides visible at the same time on slider's container).
@@ -621,7 +620,7 @@ export interface SwiperOptions {
   /**
    * Set to `true` to enable continuous loop mode
    *
-   * Because of nature of how the loop mode works, it will add rearrange slides
+   * Because of nature of how the loop mode works (it will rearrange slides), total number of slides must be >= slidesPerView * 2
    *
    * @default false
    *
@@ -634,6 +633,13 @@ export interface SwiperOptions {
    * @default null
    */
   loopedSlides?: number | null;
+
+  /**
+   * If enabled then slideNext/Prev will do nothing while slider is animating in loop mode
+   *
+   * @default true
+   */
+  loopPreventsSliding?: boolean;
 
   /**
    * Set to `true` to enable "rewind" mode. When enabled, clicking "next" navigation button (or calling `.slideNext()`) when on last slide will slide back to the first slide. Clicking "prev" navigation button (or calling `.slidePrev()`) when on first slide will slide forward to the last slide.
@@ -812,6 +818,13 @@ export interface SwiperOptions {
    * @default 'swiper-lazy-preloader'
    */
   lazyPreloaderClass?: string;
+
+  /**
+   * Number of next and previous slides to preload. Only applicable if using lazy loading.
+   *
+   * @default 0
+   */
+  lazyPreloadPrevNext?: number;
 
   /**
    * Object with a11y parameters or boolean `true` to enable with default settings.

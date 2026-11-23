@@ -100,6 +100,7 @@ export default {
   // loop
   loop: false,
   loopedSlides: null,
+  loopPreventsSliding: true,
 
   // rewind
   rewind: false,
@@ -126,6 +127,7 @@ export default {
   slidePrevClass: 'swiper-slide-prev',
   wrapperClass: 'swiper-wrapper',
   lazyPreloaderClass: 'swiper-lazy-preloader',
+  lazyPreloadPrevNext: 0,
 
   // Callbacks
   runCallbacksOnInit: true,

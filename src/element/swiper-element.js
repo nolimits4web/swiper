@@ -61,6 +61,7 @@ class SwiperContainer extends ClassToExtend {
   }
 
   render() {
+    if (this.rendered) return;
     if (globalInjectStyles) {
       // global styles
       addGlobalStyles(false, this);
@@ -75,7 +76,7 @@ class SwiperContainer extends ClassToExtend {
     }
 
     this.cssLinks().forEach((url) => {
-      const linkExists = document.querySelector(`link[href="${url}"]`);
+      const linkExists = this.shadowEl.querySelector(`link[href="${url}"]`);
       if (linkExists) return;
       const linkEl = document.createElement('link');
       linkEl.rel = 'stylesheet';
@@ -90,19 +91,20 @@ class SwiperContainer extends ClassToExtend {
       </div>
       <slot name="container-end"></slot>
       ${needsNavigation(this.passedParams) ? `
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+        <div part="button-prev" class="swiper-button-prev"></div>
+        <div part="button-next" class="swiper-button-next"></div>
       ` : ''}
       ${needsPagination(this.passedParams) ? `
-        <div class="swiper-pagination"></div>
+        <div part="pagination" class="swiper-pagination"></div>
       ` : '' }
       ${needsScrollbar(this.passedParams) ? `
-        <div class="swiper-scrollbar"></div>
+        <div part="scrollbar" class="swiper-scrollbar"></div>
       ` : '' }
     `;
     [...this.tempDiv.children].forEach((el) => {
       this.shadowEl.appendChild(el);
     });
+    this.rendered = true;
   }
 
   initialize() {
@@ -120,7 +122,10 @@ class SwiperContainer extends ClassToExtend {
       touchEventsTarget: 'container',
       ...(swiperParams.virtual ? {} : { observer: true }),
       onAny: (name, ...args) => {
-        const event = new CustomEvent(name.toLowerCase(), {
+        const eventName = swiperParams.eventsPrefix
+          ? `${swiperParams.eventsPrefix}${name.toLowerCase()}`
+          : name.toLowerCase();
+        const event = new CustomEvent(eventName, {
           detail: args,
           bubbles: true,
           cancelable: true,
@@ -131,6 +136,14 @@ class SwiperContainer extends ClassToExtend {
   }
 
   connectedCallback() {
+    if (
+      this.initialized &&
+      this.nested &&
+      this.closest('swiper-slide') &&
+      this.closest('swiper-slide').swiperLoopMoveDOM
+    ) {
+      return;
+    }
     if (this.init === false || this.getAttribute('init') === 'false') {
       addGlobalStyles(true, this);
       return;
@@ -139,13 +152,21 @@ class SwiperContainer extends ClassToExtend {
   }
 
   disconnectedCallback() {
+    if (
+      this.nested &&
+      this.closest('swiper-slide') &&
+      this.closest('swiper-slide').swiperLoopMoveDOM
+    ) {
+      return;
+    }
     if (this.swiper && this.swiper.destroy) {
       this.swiper.destroy();
     }
+    this.initialized = false;
   }
 
-  updateSwiperOnPropChange(propName) {
-    const { params: swiperParams, passedParams } = getParams(this);
+  updateSwiperOnPropChange(propName, propValue) {
+    const { params: swiperParams, passedParams } = getParams(this, propName, propValue);
     this.passedParams = passedParams;
     this.swiperParams = swiperParams;
 
@@ -174,6 +195,9 @@ class SwiperContainer extends ClassToExtend {
 
   attributeChangedCallback(attr, prevValue, newValue) {
     if (!this.initialized) return;
+    if (prevValue === 'true' && newValue === null) {
+      newValue = false;
+    }
     this.updateSwiperOnPropChange(attr, newValue);
   }
 
@@ -194,6 +218,7 @@ paramsList.forEach((paramName) => {
   if (paramName === 'init') return;
   paramName = paramName.replace('_', '');
   Object.defineProperty(SwiperContainer.prototype, paramName, {
+    configurable: true,
     get() {
       return (this.passedParams || {})[paramName];
     },
@@ -201,7 +226,7 @@ paramsList.forEach((paramName) => {
       if (!this.passedParams) this.passedParams = {};
       this.passedParams[paramName] = value;
       if (!this.initialized) return;
-      this.updateSwiperOnPropChange(paramName, value);
+      this.updateSwiperOnPropChange(paramName);
     },
   });
 });
@@ -254,6 +279,12 @@ const register = (injectStyles = true) => {
   if (!window.customElements.get('swiper-slide'))
     window.customElements.define('swiper-slide', SwiperSlide);
 };
+
+if (typeof window !== 'undefined') {
+  window.SwiperElementRegisterParams = (params) => {
+    paramsList.push(...params);
+  };
+}
 
 //BROWSER_REGISTER
 

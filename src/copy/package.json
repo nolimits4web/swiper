@@ -1,6 +1,6 @@
 {
   "name": "swiper",
-  "version": "9.0.0-beta.41",
+  "version": "9.4.1",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "typings": "swiper.d.ts",
   "type": "module",
@@ -92,11 +92,11 @@
     "./element": "./element/swiper-element.js",
     "./element/bundle": "./element/swiper-element-bundle.js",
     "./element-bundle": "./element/swiper-element-bundle.js",
-    "./element/css": "./swiper-element.css.min",
-    "./swiper-element.css.min": "./swiper-element.css.min",
-    "./element/css/bundle": "./swiper-element-bundle.css.min",
-    "./element/css-bundle": "./swiper-element-bundle.css.min",
-    "./swiper-element-bundle.css.min": "./swiper-element-bundle.css.min",
+    "./element/css": "./swiper-element.min.css",
+    "./swiper-element.min.css": "./swiper-element.min.css",
+    "./element/css/bundle": "./swiper-element-bundle.min.css",
+    "./element/css-bundle": "./swiper-element-bundle.min.css",
+    "./swiper-element-bundle.min.css": "./swiper-element-bundle.min.css",
     "./element/css/a11y": "./modules/a11y/a11y.min.css",
     "./element/css/autoplay": "./modules/autoplay/autoplay-element.min.css",
     "./element/css/controller": "./modules/controller/controller-element.min.css",
@@ -186,5 +186,5 @@
   "dependencies": {
     "ssr-window": "^4.0.2"
   },
-  "releaseDate": "January 24, 2023"
+  "releaseDate": "June 13, 2023"
 }

@@ -1,18 +1,18 @@
 export default function loopDestroy() {
   const swiper = this;
-  const { slides, params, slidesEl } = swiper;
+  const { params, slidesEl } = swiper;
   if (!params.loop || (swiper.virtual && swiper.params.virtual.enabled)) return;
   swiper.recalcSlides();
 
   const newSlidesOrder = [];
-  slides.forEach((slideEl) => {
+  swiper.slides.forEach((slideEl) => {
     const index =
       typeof slideEl.swiperSlideIndex === 'undefined'
         ? slideEl.getAttribute('data-swiper-slide-index') * 1
         : slideEl.swiperSlideIndex;
     newSlidesOrder[index] = slideEl;
   });
-  slides.forEach((slideEl) => {
+  swiper.slides.forEach((slideEl) => {
     slideEl.removeAttribute('data-swiper-slide-index');
   });
   newSlidesOrder.forEach((slideEl) => {

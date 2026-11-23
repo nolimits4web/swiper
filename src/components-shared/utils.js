@@ -51,6 +51,12 @@ function attrToProp(attrName = '') {
   return attrName.replace(/-[a-z]/g, (l) => l.toUpperCase().replace('-', ''));
 }
 
+function wrapperClass(className = '') {
+  if (!className) return 'swiper-wrapper';
+  if (!className.includes('swiper-wrapper')) return `swiper-wrapper ${className}`;
+  return className;
+}
+
 export {
   isObject,
   extend,
@@ -59,4 +65,5 @@ export {
   needsScrollbar,
   uniqueClasses,
   attrToProp,
+  wrapperClass,
 };

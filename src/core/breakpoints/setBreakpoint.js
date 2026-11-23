@@ -24,7 +24,8 @@ export default function setBreakpoint() {
 
   if (wasMultiRow && !isMultiRow) {
     el.classList.remove(
-      `${params.containerModifierClass}grid ${params.containerModifierClass}grid-column`,
+      `${params.containerModifierClass}grid`,
+      `${params.containerModifierClass}grid-column`,
     );
     swiper.emitContainerClasses();
   } else if (!wasMultiRow && isMultiRow) {
@@ -40,6 +41,7 @@ export default function setBreakpoint() {
 
   // Toggle navigation, pagination, scrollbar
   ['navigation', 'pagination', 'scrollbar'].forEach((prop) => {
+    if (typeof breakpointParams[prop] === 'undefined') return;
     const wasModuleEnabled = params[prop] && params[prop].enabled;
     const isModuleEnabled = breakpointParams[prop] && breakpointParams[prop].enabled;
     if (wasModuleEnabled && !isModuleEnabled) {

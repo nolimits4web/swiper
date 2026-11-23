@@ -15,6 +15,7 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
       eventsTarget: 'container',
       thresholdDelta: null,
       thresholdTime: null,
+      noMousewheelClass: 'swiper-no-mousewheel',
     },
   });
 
@@ -176,6 +177,10 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
     let e = event;
     let disableParentSwiper = true;
     if (!swiper.enabled) return;
+
+    // Ignore event if the target or its parents have the swiper-no-mousewheel class
+    if (event.target.closest(`.${swiper.params.mousewheel.noMousewheelClass}`)) return;
+
     const params = swiper.params.mousewheel;
 
     if (swiper.params.cssMode) {
@@ -282,6 +287,7 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
         delta: Math.abs(delta),
         direction: Math.sign(delta),
       };
+
       const ignoreWheelEvents =
         lastEventBeforeSnap &&
         newEvent.time < lastEventBeforeSnap.time + 500 &&
@@ -290,9 +296,6 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
       if (!ignoreWheelEvents) {
         lastEventBeforeSnap = undefined;
 
-        if (swiper.params.loop) {
-          swiper.loopFix();
-        }
         let position = swiper.getTranslate() + delta * params.sensitivity;
         const wasBeginning = swiper.isBeginning;
         const wasEnd = swiper.isEnd;
@@ -308,6 +311,12 @@ export default function Mousewheel({ swiper, extendParams, on, emit }) {
 
         if ((!wasBeginning && swiper.isBeginning) || (!wasEnd && swiper.isEnd)) {
           swiper.updateSlidesClasses();
+        }
+        if (swiper.params.loop) {
+          swiper.loopFix({
+            direction: newEvent.direction < 0 ? 'next' : 'prev',
+            byMousewheel: true,
+          });
         }
 
         if (swiper.params.freeMode.sticky) {

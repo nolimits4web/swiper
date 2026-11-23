@@ -96,4 +96,13 @@ declare const SwiperSlide: React.FunctionComponent<SwiperSlideProps>;
 declare const useSwiper: () => SwiperClass;
 declare const useSwiperSlide: () => SlideData;
 
-export { Swiper, SwiperSlide, SwiperProps, SwiperSlideProps, SwiperRef, useSwiper, useSwiperSlide };
+export {
+  Swiper,
+  SwiperSlide,
+  SwiperProps,
+  SwiperSlideProps,
+  SwiperRef,
+  useSwiper,
+  useSwiperSlide,
+  SwiperClass,
+};

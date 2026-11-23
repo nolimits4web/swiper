@@ -1,5 +1,3 @@
-import { elementIndex } from '../../shared/utils.js';
-
 export default function loopFix({
   slideRealIndex,
   slideTo = true,
@@ -7,6 +5,7 @@ export default function loopFix({
   setTranslate,
   activeSlideIndex,
   byController,
+  byMousewheel,
 } = {}) {
   const swiper = this;
   if (!swiper.params.loop) return;
@@ -49,8 +48,8 @@ export default function loopFix({
   let activeIndex = swiper.activeIndex;
 
   if (typeof activeSlideIndex === 'undefined') {
-    activeSlideIndex = elementIndex(
-      swiper.slides.filter((el) => el.classList.contains('swiper-slide-active'))[0],
+    activeSlideIndex = swiper.getSlideIndex(
+      swiper.slides.filter((el) => el.classList.contains(params.slideActiveClass))[0],
     );
   } else {
     activeIndex = activeSlideIndex;
@@ -63,13 +62,16 @@ export default function loopFix({
   let slidesAppended = 0;
   // prepend last slides before start
   if (activeSlideIndex < loopedSlides) {
-    slidesPrepended = loopedSlides - activeSlideIndex;
+    slidesPrepended = Math.max(loopedSlides - activeSlideIndex, params.slidesPerGroup);
     for (let i = 0; i < loopedSlides - activeSlideIndex; i += 1) {
       const index = i - Math.floor(i / slides.length) * slides.length;
       prependSlidesIndexes.push(slides.length - index - 1);
     }
   } else if (activeSlideIndex /* + slidesPerView */ > swiper.slides.length - loopedSlides * 2) {
-    slidesAppended = activeSlideIndex - (swiper.slides.length - loopedSlides * 2);
+    slidesAppended = Math.max(
+      activeSlideIndex - (swiper.slides.length - loopedSlides * 2),
+      params.slidesPerGroup,
+    );
     for (let i = 0; i < slidesAppended; i += 1) {
       const index = i - Math.floor(i / slides.length) * slides.length;
       appendSlidesIndexes.push(index);
@@ -78,15 +80,23 @@ export default function loopFix({
 
   if (isPrev) {
     prependSlidesIndexes.forEach((index) => {
+      swiper.slides[index].swiperLoopMoveDOM = true;
       slidesEl.prepend(swiper.slides[index]);
+      swiper.slides[index].swiperLoopMoveDOM = false;
     });
   }
   if (isNext) {
     appendSlidesIndexes.forEach((index) => {
+      swiper.slides[index].swiperLoopMoveDOM = true;
       slidesEl.append(swiper.slides[index]);
+      swiper.slides[index].swiperLoopMoveDOM = false;
     });
   }
+
   swiper.recalcSlides();
+  if (params.slidesPerView === 'auto') {
+    swiper.updateSlides();
+  }
   if (params.watchSlidesProgress) {
     swiper.updateSlidesOffset();
   }
@@ -97,10 +107,13 @@ export default function loopFix({
         const currentSlideTranslate = swiper.slidesGrid[activeIndex];
         const newSlideTranslate = swiper.slidesGrid[activeIndex + slidesPrepended];
         const diff = newSlideTranslate - currentSlideTranslate;
-
-        swiper.slideTo(activeIndex + slidesPrepended, 0, false, true);
-        if (setTranslate) {
-          swiper.touches[swiper.isHorizontal() ? 'startX' : 'startY'] += diff;
+        if (byMousewheel) {
+          swiper.setTranslate(swiper.translate - diff);
+        } else {
+          swiper.slideTo(activeIndex + slidesPrepended, 0, false, true);
+          if (setTranslate) {
+            swiper.touches[swiper.isHorizontal() ? 'startX' : 'startY'] += diff;
+          }
         }
       } else {
         if (setTranslate) {
@@ -112,10 +125,13 @@ export default function loopFix({
         const currentSlideTranslate = swiper.slidesGrid[activeIndex];
         const newSlideTranslate = swiper.slidesGrid[activeIndex - slidesAppended];
         const diff = newSlideTranslate - currentSlideTranslate;
-
-        swiper.slideTo(activeIndex - slidesAppended, 0, false, true);
-        if (setTranslate) {
-          swiper.touches[swiper.isHorizontal() ? 'startX' : 'startY'] += diff;
+        if (byMousewheel) {
+          swiper.setTranslate(swiper.translate - diff);
+        } else {
+          swiper.slideTo(activeIndex - slidesAppended, 0, false, true);
+          if (setTranslate) {
+            swiper.touches[swiper.isHorizontal() ? 'startX' : 'startY'] += diff;
+          }
         }
       } else {
         swiper.slideToLoop(slideRealIndex, 0, false, true);
@@ -137,7 +153,7 @@ export default function loopFix({
     };
     if (Array.isArray(swiper.controller.control)) {
       swiper.controller.control.forEach((c) => {
-        if (c.params.loop) c.loopFix(loopParams);
+        if (!c.destroyed && c.params.loop) c.loopFix(loopParams);
       });
     } else if (
       swiper.controller.control instanceof swiper.constructor &&

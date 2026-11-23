@@ -15,6 +15,7 @@ export default function freeMode({ swiper, extendParams, emit, once }) {
   });
 
   function onTouchStart() {
+    if (swiper.params.cssMode) return;
     const translate = swiper.getTranslate();
     swiper.setTranslate(translate);
     swiper.setTransition(0);
@@ -23,6 +24,7 @@ export default function freeMode({ swiper, extendParams, emit, once }) {
   }
 
   function onTouchMove() {
+    if (swiper.params.cssMode) return;
     const { touchEventsData: data, touches } = swiper;
     // Velocity
     if (data.velocities.length === 0) {
@@ -38,6 +40,7 @@ export default function freeMode({ swiper, extendParams, emit, once }) {
   }
 
   function onTouchEnd({ currentPos }) {
+    if (swiper.params.cssMode) return;
     const { params, wrapperEl, rtlTranslate: rtl, snapGrid, touchEventsData: data } = swiper;
     // Time diff
     const touchEndTime = now();

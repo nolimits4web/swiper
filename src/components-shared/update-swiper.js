@@ -10,7 +10,9 @@ function updateSwiper({
   scrollbarEl,
   paginationEl,
 }) {
-  const updateParams = changedParams.filter((key) => key !== 'children' && key !== 'direction');
+  const updateParams = changedParams.filter(
+    (key) => key !== 'children' && key !== 'direction' && key !== 'wrapperClass',
+  );
   const { params: currentParams, pagination, navigation, scrollbar, virtual, thumbs } = swiper;
   let needThumbsInit;
   let needControllerInit;
@@ -20,7 +22,6 @@ function updateSwiper({
   let loopNeedDestroy;
   let loopNeedEnable;
   let loopNeedReloop;
-
   if (
     changedParams.includes('thumbs') &&
     passedParams.thumbs &&
@@ -107,6 +108,13 @@ function updateSwiper({
   updateParams.forEach((key) => {
     if (isObject(currentParams[key]) && isObject(passedParams[key])) {
       extend(currentParams[key], passedParams[key]);
+      if (
+        (key === 'navigation' || key === 'pagination' || key === 'scrollbar') &&
+        'enabled' in passedParams[key] &&
+        !passedParams[key].enabled
+      ) {
+        destroyModule(key);
+      }
     } else {
       const newValue = passedParams[key];
       if (

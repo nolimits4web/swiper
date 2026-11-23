@@ -112,7 +112,9 @@ export default function Thumb({ swiper, extendParams, on }) {
       }
     } else {
       for (let i = 0; i < thumbsToActivate; i += 1) {
-        thumbsSwiper.slides[swiper.realIndex + i].classList.add(thumbActiveClass);
+        if (thumbsSwiper.slides[swiper.realIndex + i]) {
+          thumbsSwiper.slides[swiper.realIndex + i].classList.add(thumbActiveClass);
+        }
       }
     }
 

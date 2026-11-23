@@ -37,15 +37,17 @@ const modulesParamsList = [
   'zoom',
 ];
 
-function getParams(element) {
+function getParams(element, propName, propValue) {
   const params = {};
   const passedParams = {};
   extend(params, defaults);
 
-  const allowedParams = paramsList.map((key) => key.replace(/_/, ''));
+  const localParamsList = [...paramsList, 'on'];
+
+  const allowedParams = localParamsList.map((key) => key.replace(/_/, ''));
 
   // First check props
-  paramsList.forEach((paramName) => {
+  localParamsList.forEach((paramName) => {
     paramName = paramName.replace('_', '');
     if (typeof element[paramName] !== 'undefined') {
       passedParams[paramName] = element[paramName];
@@ -53,14 +55,18 @@ function getParams(element) {
   });
 
   // Attributes
-  [...element.attributes].forEach((attr) => {
+  const attrsList = [...element.attributes];
+  if (typeof propName === 'string' && typeof propValue !== 'undefined') {
+    attrsList.push({ name: propName, value: propValue });
+  }
+  attrsList.forEach((attr) => {
     const moduleParam = modulesParamsList.filter(
       (mParam) => attr.name.indexOf(`${mParam}-`) === 0,
     )[0];
     if (moduleParam) {
       const parentObjName = attrToProp(moduleParam);
       const subObjName = attrToProp(attr.name.split(`${moduleParam}-`)[1]);
-      if (!passedParams[parentObjName]) passedParams[parentObjName] = {};
+      if (typeof passedParams[parentObjName] === 'undefined') passedParams[parentObjName] = {};
       if (passedParams[parentObjName] === true) {
         passedParams[parentObjName] = { enabled: true };
       }
@@ -70,6 +76,9 @@ function getParams(element) {
       if (!allowedParams.includes(name)) return;
       const value = formatValue(attr.value);
       if (passedParams[name] && modulesParamsList.includes(attr.name)) {
+        if (passedParams[name].constructor !== Object) {
+          passedParams[name] = {};
+        }
         passedParams[name].enabled = value;
       } else {
         passedParams[name] = value;
@@ -106,7 +115,6 @@ function getParams(element) {
   } else if (params.pagination === false) {
     delete params.pagination;
   }
-
   return { params, passedParams };
 }
 

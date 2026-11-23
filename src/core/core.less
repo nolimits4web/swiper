@@ -136,6 +136,14 @@ swiper-slide {
     scroll-snap-type: y mandatory;
   }
 }
+.swiper-css-mode.swiper-free-mode {
+  > .swiper-wrapper {
+    scroll-snap-type: none;
+  }
+  > .swiper-wrapper > .swiper-slide {
+    scroll-snap-align: none;
+  }
+}
 .swiper-centered {
   > .swiper-wrapper::before {
     content: '';

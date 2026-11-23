@@ -51,7 +51,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     el = makeElementsArray(el);
     el.forEach((subEl) => {
       if (subEl) {
-        subEl.classList[disabled ? 'add' : 'remove'](params.disabledClass);
+        subEl.classList[disabled ? 'add' : 'remove'](...params.disabledClass.split(' '));
         if (subEl.tagName === 'BUTTON') subEl.disabled = disabled;
         if (swiper.params.watchOverflow && swiper.enabled) {
           subEl.classList[swiper.isLocked ? 'add' : 'remove'](params.lockClass);
@@ -112,7 +112,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
         el.addEventListener('click', dir === 'next' ? onNextClick : onPrevClick);
       }
       if (!swiper.enabled && el) {
-        el.classList.add(params.lockClass);
+        el.classList.add(...params.lockClass.split(' '));
       }
     };
 
@@ -125,7 +125,7 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
     prevEl = makeElementsArray(prevEl);
     const destroyButton = (el, dir) => {
       el.removeEventListener('click', dir === 'next' ? onNextClick : onPrevClick);
-      el.classList.remove(swiper.params.navigation.disabledClass);
+      el.classList.remove(...swiper.params.navigation.disabledClass.split(' '));
     };
     nextEl.forEach((el) => destroyButton(el, 'next'));
     prevEl.forEach((el) => destroyButton(el, 'prev'));
@@ -191,13 +191,13 @@ export default function Navigation({ swiper, extendParams, on, emit }) {
   });
 
   const enable = () => {
-    swiper.el.classList.remove(swiper.params.navigation.navigationDisabledClass);
+    swiper.el.classList.remove(...swiper.params.navigation.navigationDisabledClass.split(' '));
     init();
     update();
   };
 
   const disable = () => {
-    swiper.el.classList.add(swiper.params.navigation.navigationDisabledClass);
+    swiper.el.classList.add(...swiper.params.navigation.navigationDisabledClass.split(' '));
     destroy();
   };
 

@@ -147,7 +147,8 @@ export default function EffectCube({ swiper, extendParams, on }) {
         }px, ${-swiperHeight / 2 / scale2}px) rotateX(-90deg)`;
       }
     }
-    const zFactor = browser.isSafari || browser.isWebView ? -swiperSize / 2 : 0;
+    const zFactor =
+      (browser.isSafari || browser.isWebView) && browser.needPerspectiveFix ? -swiperSize / 2 : 0;
     wrapperEl.style.transform = `translate3d(0px,0,${zFactor}px) rotateX(${
       swiper.isHorizontal() ? 0 : wrapperRotate
     }deg) rotateY(${swiper.isHorizontal() ? -wrapperRotate : 0}deg)`;

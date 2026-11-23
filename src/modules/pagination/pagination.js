@@ -71,11 +71,24 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
   }
 
   function onBulletClick(e) {
-    const isBullet = e.target.matches(classesToSelector(swiper.params.pagination.bulletClass));
-    if (!isBullet) return;
+    const bulletEl = e.target.closest(classesToSelector(swiper.params.pagination.bulletClass));
+    if (!bulletEl) {
+      return;
+    }
     e.preventDefault();
-    const index = elementIndex(e.target) * swiper.params.slidesPerGroup;
+    const index = elementIndex(bulletEl) * swiper.params.slidesPerGroup;
     if (swiper.params.loop) {
+      if (swiper.realIndex === index) return;
+      const newSlideIndex = swiper.getSlideIndexByData(index);
+      const currentSlideIndex = swiper.getSlideIndexByData(swiper.realIndex);
+      if (newSlideIndex > swiper.slides.length - swiper.loopedSlides) {
+        swiper.loopFix({
+          direction: newSlideIndex > currentSlideIndex ? 'next' : 'prev',
+          activeSlideIndex: newSlideIndex,
+          slideTo: false,
+        });
+      }
+
       swiper.slideToLoop(index);
     } else {
       swiper.slideTo(index);
@@ -92,6 +105,7 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
     el = makeElementsArray(el);
     // Current/Total
     let current;
+    let previousIndex;
     const slidesLength =
       swiper.virtual && swiper.params.virtual.enabled
         ? swiper.virtual.slides.length
@@ -100,13 +114,16 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       ? Math.ceil(slidesLength / swiper.params.slidesPerGroup)
       : swiper.snapGrid.length;
     if (swiper.params.loop) {
+      previousIndex = swiper.previousRealIndex || 0;
       current =
         swiper.params.slidesPerGroup > 1
           ? Math.floor(swiper.realIndex / swiper.params.slidesPerGroup)
           : swiper.realIndex;
     } else if (typeof swiper.snapIndex !== 'undefined') {
       current = swiper.snapIndex;
+      previousIndex = swiper.previousSnapIndex;
     } else {
+      previousIndex = swiper.previousIndex || 0;
       current = swiper.activeIndex || 0;
     }
     // Types
@@ -126,9 +143,8 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
             bulletSize * (params.dynamicMainBullets + 4)
           }px`;
         });
-
-        if (params.dynamicMainBullets > 1 && swiper.previousIndex !== undefined) {
-          dynamicBulletIndex += current - (swiper.previousIndex || 0);
+        if (params.dynamicMainBullets > 1 && previousIndex !== undefined) {
+          dynamicBulletIndex += current - (previousIndex || 0);
           if (dynamicBulletIndex > params.dynamicMainBullets - 1) {
             dynamicBulletIndex = params.dynamicMainBullets - 1;
           } else if (dynamicBulletIndex < 0) {
@@ -140,22 +156,27 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
         midIndex = (lastIndex + firstIndex) / 2;
       }
       bullets.forEach((bulletEl) => {
-        bulletEl.classList.remove(
+        const classesToRemove = [
           ...['', '-next', '-next-next', '-prev', '-prev-prev', '-main'].map(
             (suffix) => `${params.bulletActiveClass}${suffix}`,
           ),
-        );
+        ]
+          .map((s) => (typeof s === 'string' && s.includes(' ') ? s.split(' ') : s))
+          .flat();
+        bulletEl.classList.remove(...classesToRemove);
       });
 
       if (el.length > 1) {
         bullets.forEach((bullet) => {
           const bulletIndex = elementIndex(bullet);
           if (bulletIndex === current) {
-            bullet.classList.add(params.bulletActiveClass);
+            bullet.classList.add(...params.bulletActiveClass.split(' '));
+          } else if (swiper.isElement) {
+            bullet.setAttribute('part', 'bullet');
           }
           if (params.dynamicBullets) {
             if (bulletIndex >= firstIndex && bulletIndex <= lastIndex) {
-              bullet.classList.add(`${params.bulletActiveClass}-main`);
+              bullet.classList.add(...`${params.bulletActiveClass}-main`.split(' '));
             }
             if (bulletIndex === firstIndex) {
               setSideBullets(bullet, 'prev');
@@ -168,14 +189,20 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
       } else {
         const bullet = bullets[current];
         if (bullet) {
-          bullet.classList.add(params.bulletActiveClass);
+          bullet.classList.add(...params.bulletActiveClass.split(' '));
         }
-
+        if (swiper.isElement) {
+          bullets.forEach((bulletEl, bulletIndex) => {
+            bulletEl.setAttribute('part', bulletIndex === current ? 'bullet-active' : 'bullet');
+          });
+        }
         if (params.dynamicBullets) {
           const firstDisplayedBullet = bullets[firstIndex];
           const lastDisplayedBullet = bullets[lastIndex];
           for (let i = firstIndex; i <= lastIndex; i += 1) {
-            bullets[i].classList.add(`${params.bulletActiveClass}-main`);
+            if (bullets[i]) {
+              bullets[i].classList.add(...`${params.bulletActiveClass}-main`.split(' '));
+            }
           }
 
           setSideBullets(firstDisplayedBullet, 'prev');
@@ -262,7 +289,8 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
         if (params.renderBullet) {
           paginationHTML += params.renderBullet.call(swiper, i, params.bulletClass);
         } else {
-          paginationHTML += `<${params.bulletElement} class="${params.bulletClass}"></${params.bulletElement}>`;
+          // prettier-ignore
+          paginationHTML += `<${params.bulletElement} ${swiper.isElement ? 'part="bullet"' : ''} class="${params.bulletClass}"></${params.bulletElement}>`;
         }
       }
     }
@@ -283,15 +311,15 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
         paginationHTML = `<span class="${params.progressbarFillClass}"></span>`;
       }
     }
-
+    swiper.pagination.bullets = [];
     el.forEach((subEl) => {
       if (params.type !== 'custom') {
         subEl.innerHTML = paginationHTML || '';
       }
       if (params.type === 'bullets') {
-        swiper.pagination.bullets = [
+        swiper.pagination.bullets.push(
           ...subEl.querySelectorAll(classesToSelector(params.bulletClass)),
-        ];
+        );
       }
     });
     if (params.type !== 'custom') {
@@ -390,9 +418,20 @@ export default function Pagination({ swiper, extendParams, on, emit }) {
 
     if (swiper.pagination.bullets)
       swiper.pagination.bullets.forEach((subEl) =>
-        subEl.classList.remove(params.bulletActiveClass),
+        subEl.classList.remove(...params.bulletActiveClass.split(' ')),
       );
   }
+
+  on('changeDirection', () => {
+    if (!swiper.pagination || !swiper.pagination.el) return;
+    const params = swiper.params.pagination;
+    let { el } = swiper.pagination;
+    el = makeElementsArray(el);
+    el.forEach((subEl) => {
+      subEl.classList.remove(params.horizontalClass, params.verticalClass);
+      subEl.classList.add(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
+    });
+  });
 
   on('init', () => {
     if (swiper.params.pagination.enabled === false) {

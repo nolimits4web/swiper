@@ -1,5 +1,8 @@
 /* underscore in name -> watch for changes */
 const paramsList = [
+  'eventsPrefix',
+  'injectStyles',
+  'injectStylesUrls',
   'modules',
   'init',
   '_direction',
@@ -64,6 +67,8 @@ const paramsList = [
   'preventClicksPropagation',
   '_slideToClickedSlide',
   '_loop',
+  'loopedSlides',
+  'loopPreventsSliding',
   '_rewind',
   '_allowSlidePrev',
   '_allowSlideNext',
@@ -80,6 +85,7 @@ const paramsList = [
   'slidePrevClass',
   'wrapperClass',
   'lazyPreloaderClass',
+  'lazyPreloadPrevNext',
   'runCallbacksOnInit',
   'observer',
   'observeParents',
@@ -107,7 +113,5 @@ const paramsList = [
   'virtual',
   'zoom',
   'control',
-  'injectStyles',
-  'injectStylesUrls',
 ];
 export { paramsList };

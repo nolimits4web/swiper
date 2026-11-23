@@ -29,4 +29,10 @@ export interface HashNavigationOptions {
    * @default     false
    */
   replaceState?: boolean;
+
+  /**
+   * Designed to be used with Virtual slides when it is impossible to find slide in DOM by hash (e.g. not yet rendered)
+   *
+   */
+  getSlideIndex?: (swiper: Swiper, hash: string) => number;
 }

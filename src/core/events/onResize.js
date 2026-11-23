@@ -1,4 +1,3 @@
-let timeout;
 export default function onResize() {
   const swiper = this;
 
@@ -42,9 +41,11 @@ export default function onResize() {
   }
 
   if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      swiper.autoplay.resume();
+    clearTimeout(swiper.autoplay.resizeTimeout);
+    swiper.autoplay.resizeTimeout = setTimeout(() => {
+      if (swiper.autoplay && swiper.autoplay.running && swiper.autoplay.paused) {
+        swiper.autoplay.resume();
+      }
     }, 500);
   }
   // Return locks after resize

@@ -33,7 +33,7 @@ const buildTables = (sponsors) => {
   let tableContent = '';
   if (tableSponsors.length > 0) {
     const rows = [];
-    const perRow = 8;
+    const perRow = 12;
     let rowIndex = 0;
     tableSponsors.forEach((item, index) => {
       const colIndex = index - perRow * rowIndex;

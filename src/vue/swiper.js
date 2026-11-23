@@ -8,6 +8,7 @@ import {
   needsPagination,
   uniqueClasses,
   extend,
+  wrapperClass,
 } from '../components-shared/utils.js';
 import { getChangedParams } from '../components-shared/get-changed-params.js';
 import { getChildren } from './get-children.js';
@@ -50,7 +51,7 @@ const Swiper = {
     virtualTranslate: { type: Boolean, default: undefined },
     effect: { type: String, default: undefined },
     breakpoints: { type: Object, default: undefined },
-    spaceBetween: { type: Number, default: undefined },
+    spaceBetween: { type: [Number, String], default: undefined },
     slidesPerView: { type: [Number, String], default: undefined },
     maxBackfaceHiddenSlides: { type: Number, default: undefined },
     slidesPerGroup: { type: Number, default: undefined },
@@ -88,6 +89,7 @@ const Swiper = {
     slideToClickedSlide: { type: Boolean, default: undefined },
     loop: { type: Boolean, default: undefined },
     loopedSlides: { type: Number, default: undefined },
+    loopPreventsSliding: { type: Boolean, default: undefined },
     rewind: { type: Boolean, default: undefined },
     allowSlidePrev: { type: Boolean, default: undefined },
     allowSlideNext: { type: Boolean, default: undefined },
@@ -104,6 +106,7 @@ const Swiper = {
     slidePrevClass: { type: String, default: undefined },
     wrapperClass: { type: String, default: undefined },
     lazyPreloaderClass: { type: String, default: undefined },
+    lazyPreloadPrevNext: { type: Number, default: undefined },
     runCallbacksOnInit: { type: Boolean, default: undefined },
     observer: { type: Boolean, default: undefined },
     observeParents: { type: Boolean, default: undefined },
@@ -146,6 +149,7 @@ const Swiper = {
     'autoplayStop',
     'autoplayPause',
     'autoplayResume',
+    'autoplayTimeLeft',
     'beforeDestroy',
     'beforeInit',
     'beforeLoopFix',
@@ -260,7 +264,9 @@ const Swiper = {
     });
 
     // init Swiper
-    swiperRef.value = new SwiperCore(swiperParams);
+    const passParams = { ...swiperParams };
+    delete passParams.wrapperClass;
+    swiperRef.value = new SwiperCore(passParams);
     if (swiperRef.value.virtual && swiperRef.value.params.virtual.enabled) {
       swiperRef.value.virtual.slides = slidesRef.value;
       const extendWith = {
@@ -367,7 +373,7 @@ const Swiper = {
         },
         [
           slots['container-start'],
-          h(WrapperTag, { class: 'swiper-wrapper' }, [
+          h(WrapperTag, { class: wrapperClass(swiperParams.wrapperClass) }, [
             slots['wrapper-start'],
             renderSlides(slides),
             slots['wrapper-end'],

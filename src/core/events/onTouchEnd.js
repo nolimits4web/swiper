@@ -3,18 +3,34 @@ import { now, nextTick } from '../../shared/utils.js';
 export default function onTouchEnd(event) {
   const swiper = this;
   const data = swiper.touchEventsData;
-  const pointerIndex = data.evCache.findIndex((cachedEv) => cachedEv.pointerId === event.pointerId);
-  if (pointerIndex >= 0) {
-    data.evCache.splice(pointerIndex, 1);
-  }
-  if (['pointercancel', 'pointerout', 'pointerleave'].includes(event.type)) return;
-
-  const { params, touches, rtlTranslate: rtl, slidesGrid, enabled } = swiper;
-  if (!enabled) return;
-  if (!params.simulateTouch && event.pointerType === 'mouse') return;
 
   let e = event;
   if (e.originalEvent) e = e.originalEvent;
+  let targetTouch;
+  const isTouchEvent = e.type === 'touchend' || e.type === 'touchcancel';
+  if (!isTouchEvent) {
+    if (data.touchId !== null) return; // return from pointer if we use touch
+    if (e.pointerId !== data.pointerId) return;
+    targetTouch = e;
+  } else {
+    targetTouch = [...e.changedTouches].filter((t) => t.identifier === data.touchId)[0];
+    if (!targetTouch || targetTouch.identifier !== data.touchId) return;
+  }
+
+  data.pointerId = null;
+  data.touchId = null;
+  if (['pointercancel', 'pointerout', 'pointerleave', 'contextmenu'].includes(e.type)) {
+    const proceed =
+      ['pointercancel', 'contextmenu'].includes(e.type) &&
+      (swiper.browser.isSafari || swiper.browser.isWebView);
+    if (!proceed) {
+      return;
+    }
+  }
+
+  const { params, touches, rtlTranslate: rtl, slidesGrid, enabled } = swiper;
+  if (!enabled) return;
+  if (!params.simulateTouch && e.pointerType === 'mouse') return;
   if (data.allowTouchCallbacks) {
     swiper.emit('touchEnd', e);
   }
@@ -83,7 +99,7 @@ export default function onTouchEnd(event) {
     return;
   }
 
-  if (swiper.params.freeMode && params.freeMode.enabled) {
+  if (params.freeMode && params.freeMode.enabled) {
     swiper.freeMode.onTouchEnd({ currentPos });
     return;
   }
@@ -113,7 +129,7 @@ export default function onTouchEnd(event) {
   if (params.rewind) {
     if (swiper.isBeginning) {
       rewindLastIndex =
-        swiper.params.virtual && swiper.params.virtual.enabled && swiper.virtual
+        params.virtual && params.virtual.enabled && swiper.virtual
           ? swiper.virtual.slides.length - 1
           : swiper.slides.length - 1;
     } else if (swiper.isEnd) {
