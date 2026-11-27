@@ -1,5 +1,19 @@
 # Changelog
 
+# [14.5.0](https://github.com/nolimits4web/Swiper/compare/v14.4.0...v14.5.0) (2026-11-27)
+
+
+### Bug Fixes
+
+* **autoplay:** keep advancing when speed is 0 ([#8275](https://github.com/nolimits4web/Swiper/issues/8275)) ([a98ce0c](https://github.com/nolimits4web/Swiper/commit/a98ce0cc872b48fc462df42bb1cdc102b8364af1)), closes [#7773](https://github.com/nolimits4web/Swiper/issues/7773)
+* **controller:** prevent infinite recursion when controller links form a cycle ([#8268](https://github.com/nolimits4web/Swiper/issues/8268)) ([8a0ddd0](https://github.com/nolimits4web/Swiper/commit/8a0ddd00228bccbac3f82a6ca5a455ab198a2b98))
+* **core:** don't move every slide when slideToLoop() goes back in a loop ([261d7cc](https://github.com/nolimits4web/Swiper/commit/261d7cc851dba74cfed44df7b489a8da289a31b6)), closes [#8095](https://github.com/nolimits4web/Swiper/issues/8095)
+* **core:** keep following cssMode scroll after any padding change ([#8257](https://github.com/nolimits4web/Swiper/issues/8257)) ([c00fc6c](https://github.com/nolimits4web/Swiper/commit/c00fc6c656d5e133c77aa1439b07b556c4209c56))
+* **hash-navigation,history:** support slide names with non-ASCII characters ([#8258](https://github.com/nolimits4web/Swiper/issues/8258)) ([f9de845](https://github.com/nolimits4web/Swiper/commit/f9de845e9f8106c34284eb6553eea8d692f2445b))
+* **types:** add the enable and disable events ([#8265](https://github.com/nolimits4web/Swiper/issues/8265)) ([a4bd43b](https://github.com/nolimits4web/Swiper/commit/a4bd43bc1d9230ee7e43d36c572887af4da13a9a))
+* **virtual:** remove the requested slides regardless of index order ([#8264](https://github.com/nolimits4web/Swiper/issues/8264)) ([f3eb95d](https://github.com/nolimits4web/Swiper/commit/f3eb95d2e5b12ec1ab3f7cdb875bbce297c39ff5))
+* **virtual:** update slide offsets when direction changes ([#8260](https://github.com/nolimits4web/Swiper/issues/8260)) ([412cfc3](https://github.com/nolimits4web/Swiper/commit/412cfc3aeaabcf145edb0752a450b8020eb20d48))
+
 # [14.4.0](https://github.com/nolimits4web/Swiper/compare/v14.3.0...v14.4.0) (2026-10-30)
 
 ### Bug Fixes
