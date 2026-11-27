@@ -822,10 +822,16 @@ await check('autoplay keeps advancing with speed: 0', async () => {
     autoplay: { delay: 10 },
   });
   try {
-    await new Promise((resolve) => {
-      setTimeout(resolve, 200);
+    // wait for the last slide rather than a fixed time: without loop, autoplay then goes back to
+    // the first one, so the index at a given moment depends on the timers
+    const reachedEnd = await new Promise((resolve) => {
+      const timer = setTimeout(() => resolve(false), 1000);
+      swiper.on('reachEnd', () => {
+        clearTimeout(timer);
+        resolve(true);
+      });
     });
-    assert.equal(swiper.activeIndex, 3, 'autoplay stalled before the last slide');
+    assert.ok(reachedEnd, `autoplay stalled on slide ${swiper.activeIndex + 1}`);
   } finally {
     swiper.destroy(true, false);
     host.remove();
