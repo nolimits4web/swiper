@@ -40,12 +40,19 @@ interface PartAware extends HTMLElement {
 }
 
 const addStyle = (shadowRoot: ShadowRoot, styles: string): void => {
-  if (typeof CSSStyleSheet !== 'undefined' && shadowRoot.adoptedStyleSheets) {
-    const styleSheet = new CSSStyleSheet();
+  // The element can be created in one document and inserted into another one (a same-origin
+  // iframe, a popup window), which adopts the element together with its shadow root. A
+  // constructed stylesheet belongs to the document of the realm that constructed it, and
+  // assigning it to a shadow root in a different document throws NotAllowedError, so construct
+  // it from the shadow root's own realm instead of from this module's.
+  const ownerDocument = shadowRoot.ownerDocument;
+  const ownerView = ownerDocument.defaultView;
+  if (ownerView && ownerView.CSSStyleSheet && shadowRoot.adoptedStyleSheets) {
+    const styleSheet = new ownerView.CSSStyleSheet();
     styleSheet.replaceSync(styles);
     shadowRoot.adoptedStyleSheets = [styleSheet];
   } else {
-    const style = document.createElement('style');
+    const style = ownerDocument.createElement('style');
     style.textContent = styles;
     shadowRoot.appendChild(style);
   }
