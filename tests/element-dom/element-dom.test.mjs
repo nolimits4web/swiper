@@ -952,6 +952,47 @@ await check('autoplay start() does not restart a destroyed instance', async () =
   assert.equal(autoplay.stop(), false);
 });
 
+// Regression: https://github.com/nolimits4web/swiper/issues/7773 - with speed: 0 autoplay paused
+// after the first slide to wait for a transitionend that a 0ms transition never fires, so it
+// stopped on the second slide.
+await check('autoplay keeps advancing with speed: 0', async () => {
+  const host = doc.createElement('div');
+  host.innerHTML = `
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">1</div>
+        <div class="swiper-slide">2</div>
+        <div class="swiper-slide">3</div>
+        <div class="swiper-slide">4</div>
+      </div>
+    </div>`;
+  doc.body.appendChild(host);
+  const { default: Swiper } = await import(dist('swiper.mjs'));
+  const { default: Autoplay } = await import(dist('modules/autoplay.mjs'));
+  const swiper = new Swiper(host.querySelector('.swiper'), {
+    modules: [Autoplay],
+    width: 300,
+    height: 100,
+    speed: 0,
+    autoplay: { delay: 10 },
+  });
+  try {
+    // wait for the last slide rather than a fixed time: without loop, autoplay then goes back to
+    // the first one, so the index at a given moment depends on the timers
+    const reachedEnd = await new Promise((resolve) => {
+      const timer = setTimeout(() => resolve(false), 1000);
+      swiper.on('reachEnd', () => {
+        clearTimeout(timer);
+        resolve(true);
+      });
+    });
+    assert.ok(reachedEnd, `autoplay stalled on slide ${swiper.activeIndex + 1}`);
+  } finally {
+    swiper.destroy(true, false);
+    host.remove();
+  }
+});
+
 // Regression: https://github.com/nolimits4web/swiper/issues/8246 and
 // https://github.com/nolimits4web/swiper/issues/8254 — in cssMode the scroll position is the
 // slider's state, and a layout change moves it before the ResizeObserver-driven onResize() runs:

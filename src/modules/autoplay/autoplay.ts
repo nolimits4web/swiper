@@ -334,7 +334,7 @@ const Autoplay: SwiperModule = ({ swiper, extendParams, on, emit, params }) => {
     return true;
   };
 
-  const pause = (internal?: boolean, reset?: boolean): void => {
+  const pause = (internal?: boolean, reset?: boolean, instant?: boolean): void => {
     if (swiper.destroyed || !swiper.autoplay.running) return;
 
     if (timeout !== undefined) clearTimeout(timeout);
@@ -344,7 +344,8 @@ const Autoplay: SwiperModule = ({ swiper, extendParams, on, emit, params }) => {
 
     const proceed = (): void => {
       emit('autoplayPause');
-      if (getParams().waitForTransition) {
+      // A 0ms transition never fires transitionend, so waiting for one would stall autoplay.
+      if (getParams().waitForTransition && !instant) {
         swiper.wrapperEl.addEventListener('transitionend', onTransitionEnd);
       } else {
         resume();
@@ -460,10 +461,10 @@ const Autoplay: SwiperModule = ({ swiper, extendParams, on, emit, params }) => {
       stop();
     }
   });
-  on('beforeTransitionStart', (_s, _speed, internal) => {
+  on('beforeTransitionStart', (_s, speed, internal) => {
     if (swiper.destroyed || !swiper.autoplay.running) return;
     if (internal || !getParams().disableOnInteraction) {
-      pause(true, true);
+      pause(true, true, speed === 0);
     } else {
       stop();
     }
