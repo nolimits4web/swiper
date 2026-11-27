@@ -7,7 +7,7 @@ import { Grid, Navigation } from '../../dist/modules';
  *
  * This file deliberately imports from `dist/`. It will only type-check after
  * `npm run build` produces `dist/swiper.d.ts`, `dist/core/core.d.ts`, and the
- * per-module emitted `.d.ts` files. The runtime `npm run contract-test` makes
+ * per-module emitted `.d.ts` files. The runtime `tests/dist-contract.test.mjs` makes
  * sure those files exist; this static test asserts that the augmentation
  * payload (e.g. `navigation?` on `SwiperOptions`, `swiper.navigation` on
  * `Swiper`, `'navigationShow'` on `SwiperEvents`) actually lands on the

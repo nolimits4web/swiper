@@ -9,14 +9,14 @@ Run it:
 
 ```sh
 npm run build            # produces dist/ (the package under test)
-npm run consumer-types-test
+node scripts/test.js consumer-types
 ```
 
 It is also part of `npm test`.
 
 ## How it works
 
-`run.mjs` links `tests/consumer-types/node_modules/swiper → ../../../dist` (which
+`consumer-types.test.mjs` links `tests/consumer-types/node_modules/swiper → ../../../dist` (which
 **is** the published package root — `npm publish` runs from `dist/`), so the
 fixtures import the package by its real public names (`swiper`, `swiper/modules`,
 `swiper/react`, `swiper/vue`, `swiper/element`, `swiper/types`, `swiper/css`, …)
