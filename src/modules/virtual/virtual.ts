@@ -219,7 +219,6 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
 
   let cssModeTimeout: ReturnType<typeof setTimeout> | undefined;
   let previousOffsetProp: 'left' | 'right' | 'top' | undefined;
-  const slideOffsetProps = new WeakMap<HTMLElement, 'left' | 'right' | 'top'>();
 
   // Methods (appendSlide/prependSlide/removeSlide/removeAllSlides/update) are
   // attached via Object.assign below once they're defined. Cast through
@@ -305,7 +304,8 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     let offsetProp: 'left' | 'right' | 'top';
     if (swiper.rtlTranslate) offsetProp = 'right';
     else offsetProp = swiper.isHorizontal() ? 'left' : 'top';
-    const offsetPropChanged = offsetProp !== previousOffsetProp;
+    // the offset property the slides still carry from before a direction change
+    const staleOffsetProp = previousOffsetProp !== offsetProp ? previousOffsetProp : undefined;
     previousOffsetProp = offsetProp;
 
     let slidesPerViewNumeric: number;
@@ -360,14 +360,14 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     });
 
     const virtualParams = getParams();
+    const clearStaleOffset = !!staleOffsetProp && !virtualParams.renderExternal;
+    if (clearStaleOffset) {
+      // cached slides too: one out of the DOM now would come back with the old offset
+      [...swiper.slides, ...Object.values(swiper.virtual.cache)].forEach((slideEl) => {
+        slideEl.style.removeProperty(staleOffsetProp!);
+      });
+    }
     function setSlideOffset(slideEl: HTMLElement): void {
-      if (!virtualParams.renderExternal) {
-        const previousProp = slideOffsetProps.get(slideEl);
-        if (previousProp && previousProp !== offsetProp) {
-          slideEl.style.removeProperty(previousProp);
-        }
-        slideOffsetProps.set(slideEl, offsetProp);
-      }
       slideEl.style.setProperty(
         offsetProp,
         `${offset - Math.abs(swiper.cssOverflowAdjustment())}px`,
@@ -383,7 +383,7 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
 
     if (previousFrom === from && previousTo === to && !force) {
       if (
-        (offsetPropChanged && !virtualParams.renderExternal) ||
+        clearStaleOffset ||
         (swiper.slidesGrid !== previousSlidesGrid && offset !== previousOffset)
       ) {
         swiper.slides.forEach(setSlideOffset);
