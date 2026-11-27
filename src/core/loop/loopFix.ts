@@ -217,7 +217,9 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
   requestAnimationFrame(() => {
     swiper.__preventObserver__ = false;
   });
-  if (swiper.params.effect === 'cards' && slides.length < slidesPerView + loopedSlides * 2) {
+  const isCardsWithFewSlides =
+    swiper.params.effect === 'cards' && slides.length < slidesPerView + loopedSlides * 2;
+  if (isCardsWithFewSlides) {
     if (appendSlidesIndexes.includes(activeSlideIndex)) {
       appendSlidesIndexes.splice(appendSlidesIndexes.indexOf(activeSlideIndex), 1);
     }
@@ -226,8 +228,11 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
     }
   }
 
+  // A whole round of moves leaves the order as it was: skip it, so the clicked slide stays put (#8095)
+  const wholeRounds = (indexes: number[]): number =>
+    gridEnabled || isCardsWithFewSlides ? 0 : Math.floor(indexes.length / cols) * cols;
   if (isPrev) {
-    prependSlidesIndexes.forEach((index) => {
+    prependSlidesIndexes.slice(wholeRounds(prependSlidesIndexes)).forEach((index) => {
       const slideEl = slides[index] as LoopSlideEl;
       slideEl.swiperLoopMoveDOM = true;
       slidesEl.prepend(slideEl);
@@ -235,7 +240,7 @@ export default function loopFix(this: Swiper, options: LoopFixOptions = {}): voi
     });
   }
   if (isNext) {
-    appendSlidesIndexes.forEach((index) => {
+    appendSlidesIndexes.slice(wholeRounds(appendSlidesIndexes)).forEach((index) => {
       const slideEl = slides[index] as LoopSlideEl;
       slideEl.swiperLoopMoveDOM = true;
       slidesEl.append(slideEl);

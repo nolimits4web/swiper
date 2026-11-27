@@ -524,6 +524,54 @@ await check('loopFix teleports do not emit index-change events', async () => {
   }
 });
 
+// Regression: https://github.com/nolimits4web/swiper/issues/8095 - going back in a centered loop,
+// slideToLoop() asks loopFix() for a whole round of slides more than it needs, which leaves them in
+// the same order but moved every slide. With slideToClickedSlide the target is the slide being
+// clicked, and moving it out of the DOM and back made the browser cancel the click on its link.
+await check('slideToLoop() back in a centered loop moves only the slides it needs to', async () => {
+  const host = doc.createElement('div');
+  host.innerHTML = `<div class="swiper"><div class="swiper-wrapper">${Array.from(
+    { length: 9 },
+    (_, i) => `<div class="swiper-slide">${i + 1}</div>`,
+  ).join('')}</div></div>`;
+  doc.body.appendChild(host);
+  const { default: Swiper } = await import(dist('swiper.mjs'));
+  const swiper = new Swiper(host.querySelector('.swiper'), {
+    slidesPerView: 3,
+    centeredSlides: true,
+    loop: true,
+    width: 900,
+    height: 300,
+    speed: 0,
+  });
+  const flush = () => new Promise((resolve) => win.requestAnimationFrame(resolve));
+  const order = () => swiper.slides.map((el) => el.textContent).join(',');
+  try {
+    // step back until the previous slide is the first one, so going to it needs a loopFix()
+    while (swiper.slides.indexOf(swiper.slides[swiper.activeIndex - 1]) !== 0) {
+      swiper.slideToLoop(swiper.slides[swiper.activeIndex - 1].dataset.swiperSlideIndex, 0);
+      await flush();
+    }
+    const target = swiper.slides[0];
+    const moved = [];
+    const { prepend, append } = swiper.slidesEl;
+    swiper.slidesEl.prepend = (el) => (
+      moved.push(el.textContent),
+      prepend.call(swiper.slidesEl, el)
+    );
+    swiper.slidesEl.append = (el) => (moved.push(el.textContent), append.call(swiper.slidesEl, el));
+    swiper.slideToLoop(Number(target.dataset.swiperSlideIndex), 0);
+    await flush();
+    assert.equal(swiper.slides[swiper.activeIndex], target, 'the target slide is active');
+    assert.ok(!moved.includes(target.textContent), `the target slide was moved (${moved})`);
+    assert.deepEqual(moved, ['6', '5'], 'only the slides that change places are moved');
+    assert.equal(order(), '5,6,7,8,9,1,2,3,4');
+  } finally {
+    swiper.destroy(true, false);
+    host.remove();
+  }
+});
+
 // Regression: https://github.com/nolimits4web/swiper/issues/8229 — elementTransitionEnd()
 // registered its listener with `{ once: true }` behind an `e.target !== el` guard. transitionend
 // bubbles, so a descendant's event consumed the listener and the element's own end was never
