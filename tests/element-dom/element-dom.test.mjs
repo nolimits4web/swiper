@@ -342,6 +342,113 @@ await check('changeDirection() recomputes rtlTranslate', async () => {
   }
 });
 
+// Regression: #8037. Direction changes must move the virtual offset to the new axis,
+// including when equal width/height leave the rendered range and offset unchanged.
+for (const rtl of [false, true]) {
+  for (const height of [300, 200]) {
+    for (const cache of [false, true]) {
+      await check(
+        `virtual direction changes (rtl=${rtl}, height=${height}, cache=${cache})`,
+        async () => {
+          const host = doc.createElement('div');
+          host.innerHTML = '<div class="swiper"><div class="swiper-wrapper"></div></div>';
+          if (rtl) host.firstElementChild.dir = 'rtl';
+          doc.body.appendChild(host);
+          const { default: Swiper } = await import(dist('swiper-bundle.mjs'));
+          const swiper = new Swiper(host.firstElementChild, {
+            width: 300,
+            height,
+            speed: 0,
+            slidesPerView: 3,
+            centeredSlides: true,
+            spaceBetween: 30,
+            virtual: { slides: Array.from({ length: 600 }, (_, i) => `Slide ${i}`), cache },
+          });
+          const assertOffset = (axis) => {
+            assert.ok(swiper.virtual.offset > 0, 'test must exercise a nonzero offset');
+            for (const slide of swiper.slides) {
+              for (const prop of ['left', 'right', 'top']) {
+                const message = `slide ${slide.dataset.swiperSlideIndex}: ${prop} after changing direction`;
+                if (prop === axis) {
+                  assert.ok(
+                    Math.abs(parseFloat(slide.style[prop]) - swiper.virtual.offset) < 0.001,
+                    message,
+                  );
+                } else {
+                  assert.equal(slide.style[prop], '', message);
+                }
+              }
+            }
+          };
+          try {
+            swiper.slideTo(3, 0);
+            assertOffset(rtl ? 'right' : 'left');
+            // Leave some cached slides off DOM when the direction changes.
+            swiper.slideTo(7, 0);
+            swiper.changeDirection('vertical');
+            assert.equal(swiper.activeIndex, 7);
+            assertOffset('top');
+            swiper.slideTo(3, 0);
+            assertOffset('top');
+            swiper.changeDirection('horizontal');
+            assert.equal(swiper.activeIndex, 3);
+            assertOffset(rtl ? 'right' : 'left');
+            swiper.slideNext(0);
+            assert.equal(swiper.activeIndex, 4);
+            assertOffset(rtl ? 'right' : 'left');
+          } finally {
+            swiper.destroy(true, false);
+            host.remove();
+          }
+        },
+      );
+    }
+  }
+}
+
+await check('virtual direction changes leave external rendering styles alone', async () => {
+  const host = doc.createElement('div');
+  host.innerHTML = '<div class="swiper"><div class="swiper-wrapper"></div></div>';
+  doc.body.appendChild(host);
+  const { default: Swiper } = await import(dist('swiper-bundle.mjs'));
+  const swiper = new Swiper(host.firstElementChild, {
+    width: 300,
+    height: 300,
+    speed: 0,
+    virtual: {
+      slides: Array.from({ length: 10 }, (_, i) => `Slide ${i}`),
+      renderExternal({ from, offset, slides }) {
+        this.slidesEl.replaceChildren(
+          ...slides.map((content, i) => {
+            const slide = doc.createElement('div');
+            slide.className = 'swiper-slide';
+            slide.dataset.swiperSlideIndex = String(from + i);
+            slide.textContent = content;
+            slide.style.transform = `translateX(${offset}px)`;
+            slide.style.top = '13px';
+            return slide;
+          }),
+        );
+      },
+    },
+  });
+  try {
+    swiper.slideTo(7, 0);
+    const offsets = swiper.slides.map((slide) => slide.style.transform);
+    swiper.changeDirection('vertical');
+    assert.deepEqual(
+      swiper.slides.map((slide) => slide.style.transform),
+      offsets,
+    );
+    for (const slide of swiper.slides) {
+      assert.equal(slide.style.top, '13px', 'the external renderer owns the top inset');
+    }
+  } finally {
+    swiper.destroy(true, false);
+    host.remove();
+  }
+});
+
 // Regression: https://github.com/nolimits4web/swiper/issues/8015 — loopFix()'s compensating
 // slideTo() teleports changed indexes with no observable slide change, yet updateActiveIndex()
 // emitted activeIndexChange/snapIndexChange/slideChange/realIndexChange for them, so pagination
@@ -805,14 +912,17 @@ await check('autoplay start() does not restart a destroyed instance', async () =
 // grows, e.g. a phone turned to landscape). That scroll reached onScroll() first and was read
 // against the slide grid from before the change, so activeIndex - or isEnd - named another slide,
 // and onResize() re-seated the slider onto it. happy-dom has no layout, scroll snapping or
-// clamping, so the container size, the CSS-driven slide sizes and the browser's scroll are
-// simulated; `browserScroll` returns where the browser puts the wrapper before onResize() runs.
+// clamping, so the container size and padding, the CSS-driven slide sizes and the browser's scroll
+// are simulated; `browserScroll` returns where the browser puts the wrapper before onResize() runs.
 async function resizeCssModeSlider({
   params,
   slidesSizedByCss = false,
+  borderBox = false,
   startIndex = 5,
   fromSize,
   toSize,
+  fromPadding = 0,
+  toPadding = fromPadding,
   browserScroll,
   observeResize = true,
   meanwhile,
@@ -844,9 +954,13 @@ async function resizeCssModeSlider({
   doc.body.appendChild(host);
   const el = host.querySelector('.swiper');
   const slides = [...el.querySelectorAll('.swiper-slide')];
-  let containerSize = fromSize;
-  const layOut = (size) => {
-    containerSize = size;
+  let containerSize;
+  // size is the content box - the box the ResizeObserver watches; clientWidth adds the padding and
+  // rounds to a whole pixel, as browsers do
+  const layOut = (size, padding) => {
+    containerSize = Math.round(size + 2 * padding);
+    el.style.width = `${borderBox ? size + 2 * padding : size}px`;
+    el.style.padding = `0 ${padding}px`;
     // each slide is as wide as the container: through CSS here, through Swiper otherwise
     if (slidesSizedByCss) slides.forEach((slide) => (slide.style.width = `${size}px`));
   };
@@ -854,7 +968,8 @@ async function resizeCssModeSlider({
     Object.defineProperty(el, prop, { configurable: true, get: () => containerSize });
   }
   Object.defineProperty(el, 'clientHeight', { configurable: true, get: () => 300 });
-  layOut(fromSize);
+  if (borderBox) el.style.boxSizing = 'border-box';
+  layOut(fromSize, fromPadding);
   const { default: Swiper } = await import(dist('swiper.mjs'));
   const swiper = new Swiper(el, { cssMode: true, ...params });
   try {
@@ -875,7 +990,7 @@ async function resizeCssModeSlider({
     };
     swiper.slideTo(startIndex, 0);
 
-    layOut(toSize);
+    layOut(toSize, toPadding);
     const offset = browserScroll && browserScroll({ swiper, fromSize, toSize });
     if (offset !== undefined) scrollWrapperTo(offset);
     // anything the user or the app does in the frame before onResize() runs
@@ -1074,6 +1189,77 @@ await check('cssMode follows a scroll after a padding change of a fixed-width co
       assert.equal(swiper.activeIndex, 4, 'the scroll was ignored after a padding change');
     },
   }),
+);
+
+// A padding in %, vw or em can come to a fraction of a pixel, which clientWidth rounds and Swiper's
+// measuring drops, while the content box stays as it was.
+await check('cssMode follows a scroll after a padding change to a fraction of a pixel', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 1 },
+    fromSize: 400,
+    toSize: 400,
+    fromPadding: 50,
+    toPadding: 50.75,
+    observeResize: false,
+    expect: ({ swiper, scrollWrapperTo }) => {
+      scrollWrapperTo(3 * 400);
+      assert.equal(swiper.activeIndex, 3, 'the scroll was ignored after a padding change');
+    },
+  }),
+);
+
+// With box-sizing: border-box the width includes the padding, so a container that grows by its
+// padding alone keeps its content box too.
+await check('cssMode follows a scroll after a border-box container grows by its padding', () =>
+  resizeCssModeSlider({
+    params: { slidesPerView: 1 },
+    borderBox: true,
+    fromSize: 400,
+    toSize: 400,
+    toPadding: 20,
+    observeResize: false,
+    expect: ({ swiper, scrollWrapperTo }) => {
+      scrollWrapperTo(3 * 400);
+      assert.equal(swiper.activeIndex, 3, 'the scroll was ignored after a padding change');
+    },
+  }),
+);
+
+// The same with a width of a fraction of a pixel: the content box is worked out in floats, and
+// 1055.36 - 20 - 20 comes to 1015.3599999999999, not 1015.36.
+await check(
+  'cssMode follows a scroll after a border-box container of a fractional width grows by its padding',
+  () =>
+    resizeCssModeSlider({
+      params: { slidesPerView: 1 },
+      borderBox: true,
+      fromSize: 1015.36,
+      toSize: 1015.36,
+      toPadding: 20,
+      observeResize: false,
+      expect: ({ swiper, scrollWrapperTo }) => {
+        scrollWrapperTo(3 * 1015.36);
+        assert.equal(swiper.activeIndex, 3, 'the scroll was ignored after a padding change');
+      },
+    }),
+);
+
+// While a padding change inside a border-box container of the same width resizes the content box -
+// and the slides sized by CSS - with clientWidth unchanged, so the browser re-snaps the wrapper as
+// it does for any resize.
+await check(
+  "cssMode slidesPerView 'auto' stays on its slide when a border-box container's padding grows",
+  () =>
+    resizeCssModeSlider({
+      params: { slidesPerView: 'auto' },
+      slidesSizedByCss: true,
+      borderBox: true,
+      fromSize: 600,
+      toSize: 400,
+      toPadding: 100,
+      browserScroll: ({ toSize }) => 5 * toSize,
+      expect: staysOn(5, 5 * 400),
+    }),
 );
 
 console.log(`\n${passed} passed, ${failed} failed\n`);
