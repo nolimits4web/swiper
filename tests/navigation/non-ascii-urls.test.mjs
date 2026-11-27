@@ -101,7 +101,9 @@ test('hashNavigation.watchState follows a change to a non-ASCII hash', async () 
   assert.equal(swiper.activeIndex, 1);
 });
 
-test('hashNavigation.getSlideIndex gets the decoded hash', () => {
+// A custom getSlideIndex gets the hash as the browser has it, so one that decodes it itself keeps
+// working - decoding "100%" again would throw
+test('hashNavigation.getSlideIndex gets the hash as the browser has it', () => {
   const hashes = [];
   win.location.hash = '第二頁';
   createSwiper('data-hash', ['first', 'second'], {
@@ -112,7 +114,19 @@ test('hashNavigation.getSlideIndex gets the decoded hash', () => {
       },
     },
   });
-  assert.deepEqual(hashes, ['第二頁']);
+  assert.deepEqual(hashes, ['%E7%AC%AC%E4%BA%8C%E9%A0%81']);
+  assert.equal(swiper.activeIndex, 1);
+});
+
+test('a custom hashNavigation.getSlideIndex that decodes the hash itself still works', () => {
+  win.location.hash = '100%25';
+  createSwiper('data-hash', ['first', '100%'], {
+    hashNavigation: {
+      getSlideIndex(_swiper, hash) {
+        return decodeURIComponent(hash) === '100%' ? 1 : 0;
+      },
+    },
+  });
   assert.equal(swiper.activeIndex, 1);
 });
 
@@ -153,12 +167,22 @@ for (const [index, url] of [
   [1, 'http://localhost/slides/%E7%AC%AC%E4%BA%8C%E9%A0%81'],
   [2, 'http://localhost/slides/caf%C3%A9-au-lait'],
   [4, 'http://localhost/slides/Slide-One'],
+  // links made before non-ASCII letters were kept in the slug
+  [2, 'http://localhost/slides/caf-au-lait'],
 ]) {
   test(`history opens the slide of a deep link to ${url}`, () => {
     createSwiper('data-history', HISTORY_NAMES, { history: { key: 'slides' }, url });
     assert.equal(swiper.activeIndex, index);
   });
 }
+
+test('history prefers a slide with the current slug over one with the same legacy slug', () => {
+  createSwiper('data-history', ['first', 'café', 'caf'], {
+    history: { key: 'slides' },
+    url: 'http://localhost/slides/caf',
+  });
+  assert.equal(swiper.activeIndex, 2);
+});
 
 test('history does not repeat a non-ASCII key that is already in the url', () => {
   const pushed = recordPushState();

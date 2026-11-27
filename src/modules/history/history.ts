@@ -105,11 +105,13 @@ const History: SwiperModule = ({ swiper, extendParams, on }) => {
     return swiper.params.history as HistoryParamsRuntime;
   }
 
-  const slugify = (text: string): string => {
+  // legacy keeps only [A-Za-z0-9_-], as slugs were made before non-ASCII letters were kept: "café"
+  // was "caf", and links to those URLs still open their slide
+  const slugify = (text: string, legacy = false): string => {
     return text
       .toString()
       .replace(/\s+/g, '-')
-      .replace(/[^\p{L}\p{M}\p{N}_-]+/gu, '')
+      .replace(legacy ? /[^\w-]+/g : /[^\p{L}\p{M}\p{N}_-]+/gu, '')
       .replace(/--+/g, '-')
       .replace(/^-+/, '')
       .replace(/-+$/, '');
@@ -185,13 +187,19 @@ const History: SwiperModule = ({ swiper, extendParams, on }) => {
     runCallbacks?: boolean,
   ): void => {
     if (value) {
-      for (let i = 0, length = swiper.slides.length; i < length; i += 1) {
-        const slide = swiper.slides[i]!;
-        const slideHistory = slugify(slide.getAttribute('data-history') || '');
-        if (slideHistory === value) {
-          const index = swiper.getSlideIndex(slide);
-          swiper.slideTo(index, speed, runCallbacks);
+      // the legacy slug only when no slide has the current one, which "caf" may also be
+      for (const legacy of [false, true]) {
+        let matched = false;
+        for (let i = 0, length = swiper.slides.length; i < length; i += 1) {
+          const slide = swiper.slides[i]!;
+          const slideHistory = slugify(slide.getAttribute('data-history') || '', legacy);
+          if (slideHistory === value) {
+            matched = true;
+            const index = swiper.getSlideIndex(slide);
+            swiper.slideTo(index, speed, runCallbacks);
+          }
         }
+        if (matched) break;
       }
     } else {
       swiper.slideTo(0, speed, runCallbacks);

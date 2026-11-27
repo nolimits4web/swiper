@@ -88,7 +88,9 @@ const decodeHash = (hash: string): string => {
   }
 };
 
-const getLocationHash = (): string => decodeHash(document.location.hash.replace('#', ''));
+// Handed to getSlideIndex as the browser has it, percent-encoded: a custom getSlideIndex may decode
+// it itself, and decoding it twice would throw on a "%" of the slide name
+const getLocationHash = (): string => document.location.hash.replace('#', '');
 
 const HashNavigation: SwiperModule = ({ swiper, extendParams, emit, on }) => {
   let initialized = false;
@@ -98,9 +100,10 @@ const HashNavigation: SwiperModule = ({ swiper, extendParams, emit, on }) => {
       replaceState: false,
       watchState: false,
       getSlideIndex(_s: Swiper, hash: string): number {
+        const decodedHash = decodeHash(hash);
         const hasHash = (slideEl: Element): boolean => {
           const slideHash = slideEl.getAttribute('data-hash');
-          return slideHash !== null && decodeHash(slideHash) === hash;
+          return slideHash !== null && decodeHash(slideHash) === decodedHash;
         };
         if (isVirtualEnabled(swiper)) {
           const slideWithHash = swiper.slides.find(hasHash);
@@ -128,7 +131,7 @@ const HashNavigation: SwiperModule = ({ swiper, extendParams, emit, on }) => {
       ? swiper.slidesEl.querySelector(`[data-swiper-slide-index="${swiper.activeIndex}"]`)
       : swiper.slides[swiper.activeIndex];
     const activeSlideHash = activeSlideEl ? activeSlideEl.getAttribute('data-hash') : '';
-    if (activeSlideHash === null || newHash !== decodeHash(activeSlideHash)) {
+    if (activeSlideHash === null || decodeHash(newHash) !== decodeHash(activeSlideHash)) {
       const newIndex = getParams().getSlideIndex(swiper, newHash);
       if (typeof newIndex === 'undefined' || Number.isNaN(newIndex)) return;
       swiper.slideTo(newIndex);
