@@ -122,6 +122,42 @@ interface SwiperHostElement extends HTMLElement {
   swiper?: Swiper;
 }
 
+// The sliders one update has reached so far, from the slider it started on. Each is updated once:
+// controllers that link in a circle or a mesh would otherwise send it around forever (#7955).
+interface Cascade {
+  reached?: Set<Swiper>;
+}
+const translateCascade: Cascade = {};
+const transitionCascade: Cascade = {};
+
+function propagate(
+  cascade: Cascade,
+  swiper: Swiper,
+  byController: boolean | Swiper | undefined,
+  deliver: (c: Swiper) => void,
+): void {
+  const SwiperCtor = swiper.constructor as typeof Swiper;
+  const controlled = swiper.controller.control;
+  const targets = (Array.isArray(controlled) ? controlled : [controlled]).filter(
+    (c): c is Swiper => c instanceof SwiperCtor && c !== byController,
+  );
+  // Only a controller continues the update in progress; a call from anywhere else (the user,
+  // slideTo(), a listener) starts a new one.
+  const previous = cascade.reached;
+  const isStart = !previous || !(byController instanceof SwiperCtor);
+  if (isStart) cascade.reached = new Set([swiper]);
+  const reached = cascade.reached!;
+  // All targets are claimed before any is updated, so each gets the update straight from this
+  // slider rather than through a longer path back from another target.
+  const own = targets.filter((c) => !reached.has(c));
+  own.forEach((c) => reached.add(c));
+  try {
+    own.forEach(deliver);
+  } finally {
+    if (isStart) cascade.reached = previous;
+  }
+}
+
 const Controller: SwiperModule = ({ swiper, extendParams, on }) => {
   extendParams({
     controller: {
@@ -145,10 +181,8 @@ const Controller: SwiperModule = ({ swiper, extendParams, on }) => {
       : new LinearSpline(swiper.snapGrid, c.snapGrid);
   }
   function setTranslate(_t: number, byController?: boolean | Swiper): void {
-    const controlled = swiper.controller.control;
     let multiplier: number;
     let controlledTranslate: number;
-    const SwiperCtor = swiper.constructor as typeof Swiper;
     function setControlledTranslate(c: Swiper): void {
       if (c.destroyed) return;
 
@@ -184,19 +218,9 @@ const Controller: SwiperModule = ({ swiper, extendParams, on }) => {
       c.updateActiveIndex();
       c.updateSlidesClasses();
     }
-    if (Array.isArray(controlled)) {
-      for (let i = 0; i < controlled.length; i += 1) {
-        const target = controlled[i];
-        if (target && target !== byController && target instanceof SwiperCtor) {
-          setControlledTranslate(target);
-        }
-      }
-    } else if (controlled instanceof SwiperCtor && byController !== controlled) {
-      setControlledTranslate(controlled);
-    }
+    propagate(translateCascade, swiper, byController, setControlledTranslate);
   }
   function setTransition(duration: number, byController?: boolean | Swiper): void {
-    const SwiperCtor = swiper.constructor as typeof Swiper;
     const controlled = swiper.controller.control;
     function setControlledTransition(c: Swiper): void {
       if (c.destroyed) return;
@@ -215,16 +239,7 @@ const Controller: SwiperModule = ({ swiper, extendParams, on }) => {
         });
       }
     }
-    if (Array.isArray(controlled)) {
-      for (let i = 0; i < controlled.length; i += 1) {
-        const target = controlled[i];
-        if (target && target !== byController && target instanceof SwiperCtor) {
-          setControlledTransition(target);
-        }
-      }
-    } else if (controlled instanceof SwiperCtor && byController !== controlled) {
-      setControlledTransition(controlled);
-    }
+    propagate(transitionCascade, swiper, byController, setControlledTransition);
   }
 
   function removeSpline(): void {
