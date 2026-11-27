@@ -57,13 +57,16 @@ function contentBoxSize(swiper: Swiper): number {
 // Whether the container changed size along the slider since updateSize(), with the ResizeObserver
 // still to hand the change to onResize() on the next animation frame. Only a change of the content
 // box is handed on, so that is what is compared: a padding change alone is followed by no onResize().
+// With a tolerance: the width less the paddings is float arithmetic (1055.36 - 20 - 20 is not
+// 1015.36), and a mismatch while the content box stays would ignore every scroll until a touch.
+// Still pending when nothing was stored yet: the difference is NaN.
 export function isResizePending(swiper: Swiper): boolean {
   const { params } = swiper;
   return (
     !!params.updateOnWindowResize &&
     !!params.resizeObserver &&
     typeof window.ResizeObserver !== 'undefined' &&
-    contentBoxSize(swiper) !== swiper._contentBoxSize
+    !(Math.abs(contentBoxSize(swiper) - (swiper._contentBoxSize as number)) < 0.01)
   );
 }
 

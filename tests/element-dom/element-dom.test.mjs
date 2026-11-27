@@ -1118,6 +1118,25 @@ await check('cssMode follows a scroll after a border-box container grows by its 
   }),
 );
 
+// The same with a width of a fraction of a pixel: the content box is worked out in floats, and
+// 1055.36 - 20 - 20 comes to 1015.3599999999999, not 1015.36.
+await check(
+  'cssMode follows a scroll after a border-box container of a fractional width grows by its padding',
+  () =>
+    resizeCssModeSlider({
+      params: { slidesPerView: 1 },
+      borderBox: true,
+      fromSize: 1015.36,
+      toSize: 1015.36,
+      toPadding: 20,
+      observeResize: false,
+      expect: ({ swiper, scrollWrapperTo }) => {
+        scrollWrapperTo(3 * 1015.36);
+        assert.equal(swiper.activeIndex, 3, 'the scroll was ignored after a padding change');
+      },
+    }),
+);
+
 // While a padding change inside a border-box container of the same width resizes the content box -
 // and the slides sized by CSS - with clientWidth unchanged, so the browser re-snaps the wrapper as
 // it does for any resize.
