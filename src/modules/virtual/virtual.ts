@@ -218,6 +218,7 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
   });
 
   let cssModeTimeout: ReturnType<typeof setTimeout> | undefined;
+  let previousOffsetProp: 'left' | 'right' | 'top' | undefined;
 
   // Methods (appendSlide/prependSlide/removeSlide/removeAllSlides/update) are
   // attached via Object.assign below once they're defined. Cast through
@@ -303,6 +304,9 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     let offsetProp: 'left' | 'right' | 'top';
     if (swiper.rtlTranslate) offsetProp = 'right';
     else offsetProp = swiper.isHorizontal() ? 'left' : 'top';
+    // the offset property the slides still carry from before a direction change
+    const staleOffsetProp = previousOffsetProp !== offsetProp ? previousOffsetProp : undefined;
+    previousOffsetProp = offsetProp;
 
     let slidesPerViewNumeric: number;
     if (slidesPerView === 'auto') {
@@ -355,6 +359,21 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
       slidesAfter,
     });
 
+    const virtualParams = getParams();
+    const clearStaleOffset = !!staleOffsetProp && !virtualParams.renderExternal;
+    if (clearStaleOffset) {
+      // cached slides too: one out of the DOM now would come back with the old offset
+      [...swiper.slides, ...Object.values(swiper.virtual.cache)].forEach((slideEl) => {
+        slideEl.style.removeProperty(staleOffsetProp!);
+      });
+    }
+    function setSlideOffset(slideEl: HTMLElement): void {
+      slideEl.style.setProperty(
+        offsetProp,
+        `${offset - Math.abs(swiper.cssOverflowAdjustment())}px`,
+      );
+    }
+
     function onRendered(): void {
       swiper.updateSlides();
       swiper.updateProgress();
@@ -363,19 +382,16 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
     }
 
     if (previousFrom === from && previousTo === to && !force) {
-      if (swiper.slidesGrid !== previousSlidesGrid && offset !== previousOffset) {
-        swiper.slides.forEach((slideEl) => {
-          slideEl.style.setProperty(
-            offsetProp,
-            `${offset - Math.abs(swiper.cssOverflowAdjustment())}px`,
-          );
-        });
+      if (
+        clearStaleOffset ||
+        (swiper.slidesGrid !== previousSlidesGrid && offset !== previousOffset)
+      ) {
+        swiper.slides.forEach(setSlideOffset);
       }
       swiper.updateProgress();
       emit('virtualUpdate');
       return;
     }
-    const virtualParams = getParams();
     if (virtualParams.renderExternal) {
       const slidesToRender: unknown[] = [];
       for (let i = from; i <= to; i += 1) {
@@ -458,10 +474,7 @@ const Virtual: SwiperModule = ({ swiper, extendParams, on, emit }) => {
       });
     }
     elementChildren(swiper.slidesEl, '.swiper-slide, swiper-slide').forEach((slideEl) => {
-      (slideEl as HTMLElement).style.setProperty(
-        offsetProp,
-        `${offset - Math.abs(swiper.cssOverflowAdjustment())}px`,
-      );
+      setSlideOffset(slideEl as HTMLElement);
     });
     onRendered();
   }
