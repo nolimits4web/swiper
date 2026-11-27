@@ -122,9 +122,41 @@ interface SwiperHostElement extends HTMLElement {
   swiper?: Swiper;
 }
 
-// Sliders currently propagating an update within one cascade; sending it to one of them again would close a cycle.
-let translating: WeakSet<Swiper> | undefined;
-let transitioning: WeakSet<Swiper> | undefined;
+// The sliders one update has reached so far, from the slider it started on. Each is updated once:
+// controllers that link in a circle or a mesh would otherwise send it around forever (#7955).
+interface Cascade {
+  reached?: Set<Swiper>;
+}
+const translateCascade: Cascade = {};
+const transitionCascade: Cascade = {};
+
+function propagate(
+  cascade: Cascade,
+  swiper: Swiper,
+  byController: boolean | Swiper | undefined,
+  deliver: (c: Swiper) => void,
+): void {
+  const SwiperCtor = swiper.constructor as typeof Swiper;
+  const controlled = swiper.controller.control;
+  const targets = (Array.isArray(controlled) ? controlled : [controlled]).filter(
+    (c): c is Swiper => c instanceof SwiperCtor && c !== byController,
+  );
+  // Only a controller continues the update in progress; a call from anywhere else (the user,
+  // slideTo(), a listener) starts a new one.
+  const previous = cascade.reached;
+  const isStart = !previous || !(byController instanceof SwiperCtor);
+  if (isStart) cascade.reached = new Set([swiper]);
+  const reached = cascade.reached!;
+  // All targets are claimed before any is updated, so each gets the update straight from this
+  // slider rather than through a longer path back from another target.
+  const own = targets.filter((c) => !reached.has(c));
+  own.forEach((c) => reached.add(c));
+  try {
+    own.forEach(deliver);
+  } finally {
+    if (isStart) cascade.reached = previous;
+  }
+}
 
 const Controller: SwiperModule = ({ swiper, extendParams, on }) => {
   extendParams({
@@ -149,108 +181,65 @@ const Controller: SwiperModule = ({ swiper, extendParams, on }) => {
       : new LinearSpline(swiper.snapGrid, c.snapGrid);
   }
   function setTranslate(_t: number, byController?: boolean | Swiper): void {
-    // A call from another controller continues the current cascade; any other call
-    // (a user, a listener, slideTo) starts a fresh cascade with its own active set.
-    const isRoot = !(byController instanceof (swiper.constructor as typeof Swiper));
-    const previous = translating;
-    if (isRoot || !translating) translating = new WeakSet();
-    const added = !translating.has(swiper);
-    if (added) translating.add(swiper);
-    try {
-      const controlled = swiper.controller.control;
-      let multiplier: number;
-      let controlledTranslate: number;
-      const SwiperCtor = swiper.constructor as typeof Swiper;
-      function setControlledTranslate(c: Swiper): void {
-        if (c.destroyed || translating!.has(c)) return;
-        // this will create an Interpolate function based on the snapGrids
-        // x is the Grid of the scrolled scroller and y will be the controlled scroller
-        // it makes sense to create this only once and recall it for the interpolation
-        // the function does a lot of value caching for performance
-        const translate = swiper.rtlTranslate ? -swiper.translate : swiper.translate;
-        const controllerParams = getParams();
-        if (controllerParams.by === 'slide') {
-          getInterpolateFunction(c);
-          // i am not sure why the values have to be multiplicated this way, tried to invert the snapGrid
-          // but it did not work out
-          controlledTranslate = -swiper.controller.spline!.interpolate(-translate);
-        } else {
-          controlledTranslate = 0;
-        }
+    let multiplier: number;
+    let controlledTranslate: number;
+    function setControlledTranslate(c: Swiper): void {
+      if (c.destroyed) return;
 
-        if (!controlledTranslate || controllerParams.by === 'container') {
-          multiplier =
-            (c.maxTranslate() - c.minTranslate()) / (swiper.maxTranslate() - swiper.minTranslate());
-          if (Number.isNaN(multiplier) || !Number.isFinite(multiplier)) {
-            multiplier = 1;
-          }
-          controlledTranslate = (translate - swiper.minTranslate()) * multiplier + c.minTranslate();
-        }
+      // this will create an Interpolate function based on the snapGrids
+      // x is the Grid of the scrolled scroller and y will be the controlled scroller
+      // it makes sense to create this only once and recall it for the interpolation
+      // the function does a lot of value caching for performance
+      const translate = swiper.rtlTranslate ? -swiper.translate : swiper.translate;
+      const controllerParams = getParams();
+      if (controllerParams.by === 'slide') {
+        getInterpolateFunction(c);
+        // i am not sure why the values have to be multiplicated this way, tried to invert the snapGrid
+        // but it did not work out
+        controlledTranslate = -swiper.controller.spline!.interpolate(-translate);
+      } else {
+        controlledTranslate = 0;
+      }
 
-        if (controllerParams.inverse) {
-          controlledTranslate = c.maxTranslate() - controlledTranslate;
+      if (!controlledTranslate || controllerParams.by === 'container') {
+        multiplier =
+          (c.maxTranslate() - c.minTranslate()) / (swiper.maxTranslate() - swiper.minTranslate());
+        if (Number.isNaN(multiplier) || !Number.isFinite(multiplier)) {
+          multiplier = 1;
         }
-        c.updateProgress(controlledTranslate);
-        c.setTranslate(controlledTranslate, swiper);
-        c.updateActiveIndex();
-        c.updateSlidesClasses();
+        controlledTranslate = (translate - swiper.minTranslate()) * multiplier + c.minTranslate();
       }
-      if (Array.isArray(controlled)) {
-        for (let i = 0; i < controlled.length; i += 1) {
-          const target = controlled[i];
-          if (target && target !== byController && target instanceof SwiperCtor) {
-            setControlledTranslate(target);
-          }
-        }
-      } else if (controlled instanceof SwiperCtor && byController !== controlled) {
-        setControlledTranslate(controlled);
+
+      if (controllerParams.inverse) {
+        controlledTranslate = c.maxTranslate() - controlledTranslate;
       }
-    } finally {
-      if (added) translating!.delete(swiper);
-      if (isRoot) translating = previous;
+      c.updateProgress(controlledTranslate);
+      c.setTranslate(controlledTranslate, swiper);
+      c.updateActiveIndex();
+      c.updateSlidesClasses();
     }
+    propagate(translateCascade, swiper, byController, setControlledTranslate);
   }
-
   function setTransition(duration: number, byController?: boolean | Swiper): void {
-    const isRoot = !(byController instanceof (swiper.constructor as typeof Swiper));
-    const previous = transitioning;
-    if (isRoot || !transitioning) transitioning = new WeakSet();
-    const added = !transitioning.has(swiper);
-    if (added) transitioning.add(swiper);
-    try {
-      const SwiperCtor = swiper.constructor as typeof Swiper;
-      const controlled = swiper.controller.control;
-      function setControlledTransition(c: Swiper): void {
-        if (c.destroyed || transitioning!.has(c)) return;
+    const controlled = swiper.controller.control;
+    function setControlledTransition(c: Swiper): void {
+      if (c.destroyed) return;
 
-        c.setTransition(duration, swiper);
-        if (duration !== 0) {
-          c.transitionStart();
-          if (c.params.autoHeight) {
-            nextTick(() => {
-              c.updateAutoHeight();
-            });
-          }
-          elementTransitionEnd(c.wrapperEl, () => {
-            if (!controlled) return;
-            c.transitionEnd();
+      c.setTransition(duration, swiper);
+      if (duration !== 0) {
+        c.transitionStart();
+        if (c.params.autoHeight) {
+          nextTick(() => {
+            c.updateAutoHeight();
           });
         }
+        elementTransitionEnd(c.wrapperEl, () => {
+          if (!controlled) return;
+          c.transitionEnd();
+        });
       }
-      if (Array.isArray(controlled)) {
-        for (let i = 0; i < controlled.length; i += 1) {
-          const target = controlled[i];
-          if (target && target !== byController && target instanceof SwiperCtor) {
-            setControlledTransition(target);
-          }
-        }
-      } else if (controlled instanceof SwiperCtor && byController !== controlled) {
-        setControlledTransition(controlled);
-      }
-    } finally {
-      if (added) transitioning!.delete(swiper);
-      if (isRoot) transitioning = previous;
     }
+    propagate(transitionCascade, swiper, byController, setControlledTransition);
   }
 
   function removeSpline(): void {

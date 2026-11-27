@@ -120,7 +120,7 @@ for (const method of ['setTranslate', 'setTransition']) {
 }
 
 for (const method of ['setTranslate', 'setTransition']) {
-  check(`${method}: a dense cyclic group terminates with bounded repeated delivery`, () => {
+  check(`${method}: a fully connected group updates every slider once`, () => {
     const swipers = Array.from({ length: 6 }, () => mount());
     connect(swipers, 'mesh');
     const calls = swipers.map(() => 0);
@@ -130,8 +130,8 @@ for (const method of ['setTranslate', 'setTransition']) {
       }),
     );
     swipers[0][method](method === 'setTranslate' ? -300 : 0);
-    // One delivery per simple path from the root: 1 + 4 + 12 + 24 + 24 = 65.
-    assert.deepEqual(calls, [1, 65, 65, 65, 65, 65]);
+    // Once per slider, not once per path from the first one (65 each for six sliders)
+    assert.deepEqual(calls, [1, 1, 1, 1, 1, 1]);
   });
 }
 
@@ -154,7 +154,7 @@ for (const method of ['setTranslate', 'setTransition']) {
     );
     swipers[0][method](method === 'setTranslate' ? -300 : 0);
     assert.equal(nested, true);
-    assert.deepEqual(calls, [1, 2, 2, 1, 2, 2]);
+    assert.deepEqual(calls, [1, 1, 1, 1, 1, 1]);
     swipers.slice(3).forEach((swiper) => {
       if (method === 'setTranslate') assert.equal(swiper.translate, -600);
       else assert.equal(swiper.wrapperEl.style.transitionDuration, '150ms');
@@ -189,10 +189,10 @@ check('translation and transition propagation have separate guards', () => {
   });
 });
 
-// Behavior contract tests for the visited-set policy, added after independent review.
+// Groups without a cycle: a slider reached through two paths is still updated once.
 
 check(
-  'diamond with consistent mapping: duplicate delivery per path is preserved, with correct active index and classes',
+  'diamond: a slider reached through two paths is updated once, with correct active index and classes',
   () => {
     const [a, b, c, d] = [mount(), mount(), mount(), mount()];
     a.controller.control = [b, c];
@@ -201,7 +201,7 @@ check(
     const events = [];
     d.on('setTranslate', () => events.push('setTranslate'));
     a.slideTo(2, 0);
-    assert.equal(events.length, 2);
+    assert.equal(events.length, 1);
     assert.equal(d.activeIndex, 2);
     assert.ok(d.slides[2].classList.contains('swiper-slide-active'));
   },
@@ -242,20 +242,20 @@ check(
   },
 );
 
-check('conflicting paths: the last path to reach a slider wins, as on master', () => {
+check('conflicting paths: the first path to reach a slider wins', () => {
   const [a, b, c, d] = [mount(), mount({ controller: { inverse: true } }), mount(), mount()];
   a.controller.control = [b, c];
   b.controller.control = d;
   c.controller.control = d;
   a.setTranslate(-150);
-  assert.equal(d.translate, -150);
+  assert.equal(d.translate, -450);
 
   const [a2, b2, c2, d2] = [mount(), mount({ controller: { inverse: true } }), mount(), mount()];
   a2.controller.control = [c2, b2];
   b2.controller.control = d2;
   c2.controller.control = d2;
   a2.setTranslate(-150);
-  assert.equal(d2.translate, -450);
+  assert.equal(d2.translate, -150);
 });
 
 check('a controller destroyed mid-cascade is skipped and the rest stay usable', () => {
