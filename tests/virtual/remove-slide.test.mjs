@@ -36,6 +36,9 @@ const selections = [
   [4, 0, 2],
   [5, 0],
   [5, 3, 1, 4, 0, 2],
+  // a repeated index removes its slide once, as the core removeSlide() does
+  [1, 1],
+  [3, 1, 3],
 ];
 function runCase(Swiper, Virtual, cache, indices, initialSlide) {
   const el = document.createElement('div');
